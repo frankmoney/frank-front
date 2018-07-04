@@ -1,0 +1,48 @@
+{
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./src"]
+    }],
+    ["transform-object-rest-spread", { "useBuiltIns": true }],
+    ["@babel/plugin-proposal-export-default-from"],
+    ["@babel/plugin-proposal-class-properties"],
+    ["@babel/plugin-syntax-optional-chaining"],
+    ["transform-react-remove-prop-types"]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        ["@babel/preset-react"],
+        ["@babel/preset-flow"],
+        ["@babel/preset-env", {
+          "targets": {
+            "node": "9.4.0"
+          }
+        }]
+      ]
+    },
+    "server": {
+      "presets": [
+        ["@babel/preset-react"],
+        ["@babel/preset-flow"],
+        ["@babel/preset-env", {
+          "targets": {
+            "node": "current"
+          }
+        }]
+      ]
+    },
+    "browser": {
+      "presets": [
+        ["@babel/preset-react"],
+        ["@babel/preset-flow"],
+        ["@babel/preset-env", {
+          "targets": {
+            "browsers": "last 2 Chrome versions"
+          }
+        }]
+      ]
+    }
+  }
+}
+
