@@ -9,6 +9,16 @@ export const ROUTES = {
   },
   demo: {
     root: '/demo',
+    components: '/demo/components',
+    cards: '/demo/cards',
+    drawers: {
+      root: '/demo/drawers',
+      parameterized: '/demo/drawers/:type?',
+      type1: '/demo/drawers/type-1',
+      type2: '/demo/drawers/type-2',
+      type3: '/demo/drawers/type-3',
+      type4: '/demo/drawers/type-4',
+    },
   },
 }
 

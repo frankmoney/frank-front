@@ -4,7 +4,9 @@ import { withProps } from 'recompose'
 import { Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import Layout from 'components/Layout'
-import DemoPage from 'containers/DemoPage'
+import CardsDemo from 'containers/CardsDemo'
+import ComponentsDemo from 'containers/ComponentsDemo'
+import DrawersDemo from 'containers/DrawersDemo'
 import { DEFAULT_TITLE, ROUTES } from './const'
 
 const withLayout = Component => props => (
@@ -25,8 +27,18 @@ export default [
     exact: true,
   },
   {
-    component: withLayout(DemoPage),
-    path: ROUTES.demo.root,
+    component: withLayout(ComponentsDemo),
+    path: ROUTES.demo.components,
+    exact: true,
+  },
+  {
+    component: withLayout(CardsDemo),
+    path: ROUTES.demo.cards,
+    exact: true,
+  },
+  {
+    component: withLayout(DrawersDemo),
+    path: ROUTES.demo.drawers.parameterized,
     exact: true,
   },
   {
