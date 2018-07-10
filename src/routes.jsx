@@ -4,9 +4,7 @@ import { withProps } from 'recompose'
 import { Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import Layout from 'components/Layout'
-import CardsDemo from 'containers/CardsDemo'
 import ComponentsDemo from 'containers/ComponentsDemo'
-import DrawersDemo from 'containers/DrawersDemo'
 import { DEFAULT_TITLE, ROUTES } from './const'
 
 const withLayout = Component => props => (
@@ -16,29 +14,20 @@ const withLayout = Component => props => (
   </Layout>
 )
 
-const AppLevelRedirect = withProps({
-  to: ROUTES.demo.root,
-})(Redirect)
-
 export default [
   {
-    component: AppLevelRedirect,
+    component: withProps({ to: ROUTES.demo.root })(Redirect),
     path: ROUTES.root,
+    exact: true,
+  },
+  {
+    component: withProps({ to: ROUTES.demo.components })(Redirect),
+    path: ROUTES.demo.root,
     exact: true,
   },
   {
     component: withLayout(ComponentsDemo),
     path: ROUTES.demo.components,
-    exact: true,
-  },
-  {
-    component: withLayout(CardsDemo),
-    path: ROUTES.demo.cards,
-    exact: true,
-  },
-  {
-    component: withLayout(DrawersDemo),
-    path: ROUTES.demo.drawers.parameterized,
     exact: true,
   },
   {

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Currency, Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
-import CurrencyAndSign from 'components/CurrencyAndSign'
 
 const Item = injectStyles({
   root: {
@@ -21,23 +20,8 @@ const Item = injectStyles({
 const ComponentsDemo = () => (
   <div>
     <Item>
-      <CurrencyAndSign value={1} />
-    </Item>
-    <Item>
       <Currency value={1625.4} />
     </Item>
-
-    <div style={{ background: '#fff', color: '#ccc', padding: 5 }}>
-      <div>
-        <CurrencyAndSign value={1} />
-      </div>
-      <div>
-        <CurrencyAndSign value={-1} />
-      </div>
-      <div>
-        <CurrencyAndSign value={0} />
-      </div>
-    </div>
   </div>
 )
 
