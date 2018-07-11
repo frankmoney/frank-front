@@ -11,7 +11,7 @@ export default (Render, props, options: RenderPropOptions) => {
     return <Render {...props} />
   }
 
-  if (props && options && options.closeElement !== false) {
+  if (props && (!options || options.closeElement !== false)) {
     if (React.isValidElement(Render)) {
       return React.cloneElement(Render, props)
     }

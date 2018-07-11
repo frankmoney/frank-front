@@ -18,23 +18,24 @@ const Field = ({
   title,
   hint,
   focus,
-  handleFocus,
-  handleBlur,
+  setFocus,
+  onFocus,
+  onBlur,
   children,
   ...otherProps
 }) => (
   <div className={cx(className, classes.root)} {...otherProps}>
     {label && renderProp(label, { focus })}
     {!label && title && <FieldLabel title={title} hint={hint} focus={focus} />}
-    {renderProp(children)}
+    {renderProp(children, { onFocus, onBlur })}
   </div>
 )
 
 export default compose(
   withState('focus', 'setFocus', false),
   withPropsOnChange(['setFocus'], ({ setFocus }) => ({
-    handleFocus: () => setFocus(true),
-    handleBlur: () => setFocus(false),
+    onFocus: () => setFocus(true),
+    onBlur: () => setFocus(false),
   })),
   injectStyles(styles)
 )(Field)
