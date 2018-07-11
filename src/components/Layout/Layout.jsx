@@ -19,6 +19,11 @@ export default withProps({
             navLinkComponent={ReduxNavLink}
             primaryText="Components"
           />
+          <SidebarMenuItem
+            href={createRouteUrl(ROUTES.ledger.root)}
+            navLinkComponent={ReduxNavLink}
+            primaryText="Ledger"
+          />
         </>
       ),
     }),

@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 
 const styles = {
@@ -20,8 +21,8 @@ const styles = {
   },
 }
 
-const CategoryLabel = ({ classes, name }) => (
-  <div className={classes.root}>
+const CategoryLabel = ({ className, classes, name }) => (
+  <div className={cx(classes.root, className)}>
     <span className={classes.icon} />
     <span className={classes.name}>{name}</span>
   </div>
