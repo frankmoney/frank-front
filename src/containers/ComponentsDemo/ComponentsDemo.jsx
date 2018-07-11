@@ -3,6 +3,9 @@ import { Currency, Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
+import Field from 'components/Field'
+import FieldLabel from 'components/FieldLabel'
+import TextField from 'components/TextField'
 
 const Item = injectStyles({
   root: {
@@ -19,8 +22,14 @@ const Item = injectStyles({
   </Paper>
 ))
 
-const ComponentsDemo = () => (
-  <div>
+const styles = theme => ({
+  root: {
+    ...theme.fontRegular(14),
+  },
+})
+
+const ComponentsDemo = ({ classes }) => (
+  <div className={classes.root}>
     <Item>
       <Currency value={1625.4} />
     </Item>
@@ -32,7 +41,35 @@ const ComponentsDemo = () => (
         <CurrencyDelta value={123456.789} />
       </CurrencyProvider>
     </Item>
+    <Item>
+      <FieldLabel title="Recipient" hint="Had been reviewed previously" />
+    </Item>
+    <Item>
+      <TextField style={{ width: 200 }} />
+    </Item>
+    <Item>
+      <TextField style={{ width: 200 }} expand="vertically" />
+    </Item>
+    <Item>
+      <Field
+        style={{ width: 400, background: '#fff' }}
+        label={
+          <FieldLabel title="Recipient" hint="Had been reviewed previously" />
+        }
+      >
+        <TextField />
+      </Field>
+    </Item>
+    <Item>
+      <Field
+        style={{ width: 400, background: '#fff' }}
+        title="Description"
+        hint="Added from similar payment"
+      >
+        <TextField expand="vertically" />
+      </Field>
+    </Item>
   </div>
 )
 
-export default ComponentsDemo
+export default injectStyles(styles)(ComponentsDemo)
