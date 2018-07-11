@@ -25,7 +25,7 @@ const Field = ({
 }) => (
   <div className={cx(className, classes.root)} {...otherProps}>
     {label && renderProp(label, { focus })}
-    {!label && title && <FieldLabel title={title} hint={hint} />}
+    {!label && title && <FieldLabel title={title} hint={hint} focus={focus} />}
     {renderProp(children)}
   </div>
 )
