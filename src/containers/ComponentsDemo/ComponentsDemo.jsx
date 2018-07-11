@@ -5,7 +5,7 @@ import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Field from 'components/Field'
 import FieldLabel from 'components/FieldLabel'
-import TextField from 'components/TextField'
+import TextField from 'components/TextBox'
 
 const Item = injectStyles({
   root: {
