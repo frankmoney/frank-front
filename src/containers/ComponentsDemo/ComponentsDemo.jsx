@@ -10,8 +10,7 @@ import Field from 'components/Field'
 import FieldLabel from 'components/FieldLabel'
 import InboxCard from 'components/InboxCard'
 import TextBox from 'components/TextBox'
-import TextField from 'components/TextBox'
-import Title from 'components/Title'
+import Title from 'containers/Ledger/GraphOverviewCard/Title'
 
 const styles = theme => ({
   root: {
@@ -65,10 +64,10 @@ const ComponentsDemo = ({ classes }) => (
         <FieldLabel title="Recipient" hint="Had been reviewed previously" />
       </Item>
       <Item>
-        <TextField style={{ width: 200 }} />
+        <TextBox style={{ width: 200 }} />
       </Item>
       <Item>
-        <TextField style={{ width: 200 }} expand="vertically" />
+        <TextBox style={{ width: 200 }} expand="vertically" />
       </Item>
     </DemoCard>
 
@@ -81,7 +80,7 @@ const ComponentsDemo = ({ classes }) => (
             <FieldLabel title="Recipient" hint="Had been reviewed previously" />
           }
         >
-          <TextField />
+          <TextBox />
         </Field>
       </Item>
       <Item>
@@ -90,9 +89,14 @@ const ComponentsDemo = ({ classes }) => (
           title="Description"
           hint="Added from similar payment"
         >
-          <TextField expand="vertically" />
+          <TextBox expand="vertically" />
         </Field>
       </Item>
+    </DemoCard>
+
+    <DemoCard>
+      <Title>CategorySelect</Title>
+      <CategorySelect />
     </DemoCard>
 
     <CurrencyProvider code="USD">

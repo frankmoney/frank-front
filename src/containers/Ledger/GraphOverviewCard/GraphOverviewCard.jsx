@@ -3,9 +3,9 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import Card from 'containers/Card'
-import Title from 'components/Title'
 import ExpandRow from './ExpandRow'
 import GraphPie from './GraphPie'
+import Title from './Title'
 import styles from './GraphOverviewCard.jss'
 
 const DEMO_CATEGORIES = [
