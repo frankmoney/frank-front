@@ -91,18 +91,14 @@ export default theme => ({
     ...theme.fontRegular(16, 22),
   },
   buttons: {
-    flex: 0,
+    display: 'flex',
     whiteSpace: 'nowrap',
   },
   moreButton: {
-    height: 50,
     marginLeft: 10,
-    verticalAlign: 'bottom',
   },
   discussButton: {
-    height: 50,
     marginLeft: 10,
-    verticalAlign: 'bottom',
     color: '#000',
     backgroundColor: 'rgba(37, 43, 67, 0.04)',
     boxShadow: 'none',
@@ -113,14 +109,12 @@ export default theme => ({
     },
   },
   doneButton: {
-    height: 50,
     marginLeft: 10,
-    verticalAlign: 'bottom',
-    color: '#fff',
     backgroundColor: '#21CB61',
-    boxShadow: 'none',
+    boxShadow: 'none', // TODO: remove in the kit
     '&:hover': {
-      backgroundColor: '#21CB61',
+      backgroundColor: '#EFFBF4',
+      color: '#21CB61',
       boxShadow: 'none',
     },
   },
