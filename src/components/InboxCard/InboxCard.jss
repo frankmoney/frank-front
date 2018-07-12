@@ -7,7 +7,7 @@ export default theme => ({
     display: 'flex',
     position: 'relative',
     marginBottom: 43,
-    ...theme.fontRegular(22, 20),
+    ...theme.fontRegular(22),
   },
   createdAt: {
     flex: 1,
@@ -15,18 +15,16 @@ export default theme => ({
     opacity: 0.3,
   },
   info: {
+    display: 'inline-flex',
     textAlign: 'right',
     whiteSpace: 'nowrap',
-    position: 'absolute',
-    right: -3,
-    top: -1,
   },
   infoButton: {
-    width: 22,
+    color: 'rgba(37, 43, 67, 0.3)',
+    display: 'inline-flex',
     height: 22,
     marginLeft: 12,
-    verticalAlign: 'bottom',
-    color: 'rgba(37, 43, 67, 0.3)',
+    width: 22,
   },
   body: {},
   field: {

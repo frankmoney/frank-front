@@ -1,3 +1,4 @@
+// spellchecker:ignore mmaa
 import React from 'react'
 import { Button, IconButton, Paper, Switch } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
