@@ -3,8 +3,9 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import Card from 'containers/Card'
-import GraphPie from './GraphPie'
+import Title from 'components/Title'
 import ExpandRow from './ExpandRow'
+import GraphPie from './GraphPie'
 import styles from './GraphOverviewCard.jss'
 
 const DEMO_CATEGORIES = [
@@ -30,8 +31,14 @@ class GraphOverviewCard extends React.PureComponent {
     const { expanded } = this.state
 
     return (
-      <Card className={cx(expanded && classes.cardExpanded, className)}>
-        <div className={classes.timeRange}>All time</div>
+      <Card
+        className={cx(
+          classes.card,
+          expanded && classes.cardExpanded,
+          className
+        )}
+      >
+        <Title className={classes.timeRange}>All time</Title>
         <GraphPie
           className={classes.graphPieChart}
           categories={DEMO_CATEGORIES}

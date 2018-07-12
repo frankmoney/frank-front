@@ -2,6 +2,7 @@ export default {
   card: {
     height: 60,
     display: 'flex',
+    padding: [0, 11],
   },
   field: {
     flex: [2, 1],
