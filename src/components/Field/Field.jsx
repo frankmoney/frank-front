@@ -73,7 +73,9 @@ class Field extends React.Component {
       onBlur,
       ...otherProps
     } = this.props
+
     const { fieldFocused, controlFocused } = this.state
+
     const focus = fieldFocused || controlFocused
 
     let labelNode

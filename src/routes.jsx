@@ -1,10 +1,12 @@
 import React from 'react'
 import { Page404 as NotFound } from '@frankmoney/components'
-import { withProps } from 'recompose'
+import { compose, withProps } from 'recompose'
 import { Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import Layout from 'components/Layout'
 import ComponentsDemo from 'containers/ComponentsDemo'
+import DrawerDemo from 'containers/DrawerDemo'
+import Inbox from 'containers/Inbox'
 import Ledger from 'containers/Ledger'
 import { DEFAULT_TITLE, ROUTES } from './const'
 
@@ -27,6 +29,11 @@ export default [
     exact: true,
   },
   {
+    component: withLayout(Inbox),
+    path: ROUTES.inbox.root,
+    exact: true,
+  },
+  {
     component: withLayout(Ledger),
     path: ROUTES.ledger.root,
     exact: true,
@@ -34,6 +41,43 @@ export default [
   {
     component: withLayout(ComponentsDemo),
     path: ROUTES.demo.components,
+    exact: true,
+  },
+  {
+    component: withLayout(DrawerDemo),
+    path: ROUTES.demo.drawers.root,
+    exact: true,
+  },
+  {
+    component: compose(
+      withLayout,
+      withProps({ type: 'type-1' })
+    )(DrawerDemo),
+    path: ROUTES.demo.drawers.type1,
+    exact: true,
+  },
+  {
+    component: compose(
+      withLayout,
+      withProps({ type: 'type-2' })
+    )(DrawerDemo),
+    path: ROUTES.demo.drawers.type2,
+    exact: true,
+  },
+  {
+    component: compose(
+      withLayout,
+      withProps({ type: 'type-3' })
+    )(DrawerDemo),
+    path: ROUTES.demo.drawers.type3,
+    exact: true,
+  },
+  {
+    component: compose(
+      withLayout,
+      withProps({ type: 'type-4' })
+    )(DrawerDemo),
+    path: ROUTES.demo.drawers.type4,
     exact: true,
   },
   {

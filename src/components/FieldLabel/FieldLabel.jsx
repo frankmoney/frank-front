@@ -5,7 +5,7 @@ import cx from 'classnames'
 const styles = {
   root: {
     display: 'block',
-    marginBottom: 20,
+    marginBottom: 14,
   },
   title: {
     fontWeight: 500,

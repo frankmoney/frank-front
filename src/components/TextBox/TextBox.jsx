@@ -8,7 +8,7 @@ const styles = {
   root: {
     width: '100%',
     font: 'inherit',
-    paddingBottom: 14,
+    padding: [0, 0, 14, 0],
     background: 'transparent',
     resize: 'none',
     outline: 'none',
@@ -30,14 +30,12 @@ const TextBox = ({
   switch (expand) {
     case 'vertically':
       return (
-        <div
+        <textarea
           ref={controlRef}
           className={cx(className, classes.root)}
-          contentEditable
+          value={value || ''}
           {...otherProps}
-        >
-          {value}
-        </div>
+        />
       )
 
     default:
@@ -46,11 +44,28 @@ const TextBox = ({
           ref={controlRef}
           className={cx(className, classes.root)}
           type="text"
-          value={value}
+          value={value || ''}
           {...otherProps}
         />
       )
   }
+}
+
+const adjustTextareaSize = element => {
+  /* eslint-disable no-param-reassign */
+  const scrollTop = element.scrollTop
+  try {
+    element.style.height = '0px'
+    element.style.height = `${element.scrollHeight}px`
+
+    // fix the "border adding pixels" issue
+    element.scrollTop = 100000
+    element.style.height = `${element.scrollHeight +
+      element.scrollTop}px`
+  } finally {
+    element.scrollTop = scrollTop
+  }
+  /* eslint-enable no-param-reassign */
 }
 
 const DecoratedTextBox = compose(
@@ -58,21 +73,7 @@ const DecoratedTextBox = compose(
     onChange:
       expand === 'vertically'
         ? (event, ...args) => {
-            const element = event.target
-            const scrollTop = element.scrollTop
-
-            try {
-              element.style.height = '0px'
-              element.style.height = `${element.scrollHeight}px`
-
-              // fix the "border adding pixels" issue
-              element.scrollTop = 100000
-              element.style.height = `${element.scrollHeight +
-                element.scrollTop}px`
-            } finally {
-              element.scrollTop = scrollTop
-            }
-
+            adjustTextareaSize(event.target)
             return onChange && onChange(event, ...args)
           }
         : onChange,
@@ -106,6 +107,10 @@ export default class TextBoxWrap extends React.Component {
         if (typeof control.addEventListener === 'function') {
           control.addEventListener('focusin', this.handleFocus)
           control.addEventListener('focusout', this.handleBlur)
+        }
+
+        if (this.props.expand === 'vertically') {
+          adjustTextareaSize(control)
         }
       }
     }

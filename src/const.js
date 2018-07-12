@@ -7,6 +7,9 @@ export const ROUTES = {
     recoverPassword: '/recover-password',
     logout: '/sign-out',
   },
+  inbox: {
+    root: '/inbox',
+  },
   ledger: {
     root: '/ledger',
   },
