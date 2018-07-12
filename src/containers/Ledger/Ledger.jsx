@@ -7,9 +7,11 @@ import {
   Breadcrumbs,
   BreadcrumbsItem,
 } from '@frankmoney/components'
+import CurrencyProvider from 'components/CurrencyProvider'
 import SearchCard from './SearchCard'
 import GraphOverviewCard from './GraphOverviewCard'
 import styles from './Ledger.jss'
+import LedgerTable from './LedgerTable'
 
 class Ledger extends React.PureComponent {
   state = {
@@ -26,23 +28,27 @@ class Ledger extends React.PureComponent {
     const { searchValue } = this.state
 
     return (
-      <div className={cx(classes.ledgerPage, className)}>
-        <FixedHeader>
-          <Breadcrumbs>
-            <BreadcrumbsItem>Ledger</BreadcrumbsItem>
-          </Breadcrumbs>
-        </FixedHeader>
-        <div className={classes.contrainer}>
-          <SearchCard
-            className={classes.searchCard}
-            value={searchValue}
-            onChange={this.handleChangeSearch}
-          />
-          {searchValue === '' && (
-            <GraphOverviewCard className={classes.overviewCard} />
-          )}
+      <CurrencyProvider code="USD">
+        <div className={cx(classes.ledgerPage, className)}>
+          <FixedHeader>
+            <Breadcrumbs>
+              <BreadcrumbsItem>Ledger</BreadcrumbsItem>
+            </Breadcrumbs>
+          </FixedHeader>
+          <div className={classes.contrainer}>
+            <SearchCard
+              className={classes.searchCard}
+              value={searchValue}
+              onChange={this.handleChangeSearch}
+            />
+            {searchValue === '' && (
+              <GraphOverviewCard className={classes.overviewCard} />
+            )}
+
+            <LedgerTable />
+          </div>
         </div>
-      </div>
+      </CurrencyProvider>
     )
   }
 }
