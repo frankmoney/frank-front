@@ -2,6 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
+import Card from 'containers/Card'
 import GraphPie from './GraphPie'
 import ExpandRow from './ExpandRow'
 import styles from './GraphOverviewCard.jss'
@@ -29,13 +30,7 @@ class GraphOverviewCard extends React.PureComponent {
     const { expanded } = this.state
 
     return (
-      <div
-        className={cx(
-          classes.card,
-          expanded && classes.cardExpanded,
-          className
-        )}
-      >
+      <Card className={cx(expanded && classes.cardExpanded, className)}>
         <div className={classes.timeRange}>All time</div>
         <GraphPie
           className={classes.graphPieChart}
@@ -53,7 +48,7 @@ class GraphOverviewCard extends React.PureComponent {
             className={classes.graphBarChart}
           />
         </ExpandRow>
-      </div>
+      </Card>
     )
   }
 }

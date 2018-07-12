@@ -2,12 +2,7 @@ const CARD_PADDING = 30
 
 export default theme => ({
   card: {
-    position: 'relative',
-    width: 850,
     height: 580,
-    backgroundColor: 'white',
-    boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',
-    borderRadius: 8,
   },
   cardExpanded: {
     height: 934,
