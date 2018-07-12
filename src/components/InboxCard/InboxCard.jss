@@ -1,12 +1,12 @@
 export default theme => ({
   root: {
-    background: '#fff',
-    boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',
-    borderRadius: 8,
+    paddingTop: 40,
+    paddingBottom: 40,
   },
   header: {
     display: 'flex',
-    padding: [40, 37, 42, 40],
+    position: 'relative',
+    marginBottom: 43,
     ...theme.fontRegular(22, 20),
   },
   createdAt: {
@@ -17,6 +17,9 @@ export default theme => ({
   info: {
     textAlign: 'right',
     whiteSpace: 'nowrap',
+    position: 'absolute',
+    right: -3,
+    top: -1,
   },
   infoButton: {
     width: 22,
@@ -25,10 +28,7 @@ export default theme => ({
     verticalAlign: 'bottom',
     color: 'rgba(37, 43, 67, 0.3)',
   },
-  body: {
-    marginLeft: 40,
-    marginRight: 40,
-  },
+  body: {},
   field: {
     display: 'block',
     ...theme.fontRegular(14, 16),
@@ -71,7 +71,7 @@ export default theme => ({
     ...theme.fontRegular(22),
   },
   footer: {
-    padding: [60, 40, 40, 40],
+    paddingTop: 56,
     display: 'flex',
     '&:after': {
       content: '" "',
