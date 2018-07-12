@@ -3,8 +3,7 @@ import cx from 'classnames'
 import { InputAdornment } from 'material-ui'
 import { Search as SearchIcon } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
-import { TextField } from '@frankmoney/components'
-import Paper from 'containers/Paper'
+import { Paper, TextField } from '@frankmoney/components'
 import styles from './SearchCard.jss'
 
 const AdornmentIcon = ({ className }) => (

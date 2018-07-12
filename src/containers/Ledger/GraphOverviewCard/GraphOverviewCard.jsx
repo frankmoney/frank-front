@@ -2,7 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
-import Paper from 'containers/Paper'
+import { Paper } from '@frankmoney/components'
 import ExpandRow from './ExpandRow'
 import GraphPie from './GraphPie'
 import Title from './Title'
