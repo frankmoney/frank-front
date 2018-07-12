@@ -22,11 +22,6 @@ export default withProps({
       renderMainMenuItems: () => (
         <>
           <SidebarMenuItem
-            href={createRouteUrl(ROUTES.demo.components)}
-            navLinkComponent={ReduxNavLink}
-            primaryText="Components"
-          />
-          <SidebarMenuItem
             href={createRouteUrl(ROUTES.inbox.root)}
             navLinkComponent={ReduxNavLink}
             primaryText="Inbox"
@@ -35,6 +30,31 @@ export default withProps({
             href={createRouteUrl(ROUTES.ledger.root)}
             navLinkComponent={ReduxNavLink}
             primaryText="Ledger"
+          />
+          <SidebarMenuItem
+            href={createRouteUrl(ROUTES.demo.components)}
+            navLinkComponent={ReduxNavLink}
+            primaryText="Demo :: Components"
+          />
+          <SidebarMenuItem
+            href={createRouteUrl(ROUTES.demo.drawers.type1)}
+            navLinkComponent={ReduxNavLink}
+            primaryText="Demo :: Drawer 1"
+          />
+          <SidebarMenuItem
+            href={createRouteUrl(ROUTES.demo.drawers.type2)}
+            navLinkComponent={ReduxNavLink}
+            primaryText="Demo :: Drawer 2"
+          />
+          <SidebarMenuItem
+            href={createRouteUrl(ROUTES.demo.drawers.type3)}
+            navLinkComponent={ReduxNavLink}
+            primaryText="Demo :: Drawer 3"
+          />
+          <SidebarMenuItem
+            href={createRouteUrl(ROUTES.demo.drawers.type4)}
+            navLinkComponent={ReduxNavLink}
+            primaryText="Demo :: Drawer 4"
           />
         </>
       ),
