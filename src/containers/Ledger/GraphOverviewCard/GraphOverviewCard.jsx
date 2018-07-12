@@ -2,7 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
-import Card from 'containers/Card'
+import Paper from 'containers/Paper'
 import ExpandRow from './ExpandRow'
 import GraphPie from './GraphPie'
 import Title from './Title'
@@ -31,7 +31,7 @@ class GraphOverviewCard extends React.PureComponent {
     const { expanded } = this.state
 
     return (
-      <Card
+      <Paper
         className={cx(
           classes.card,
           expanded && classes.cardExpanded,
@@ -55,7 +55,7 @@ class GraphOverviewCard extends React.PureComponent {
             className={classes.graphBarChart}
           />
         </ExpandRow>
-      </Card>
+      </Paper>
     )
   }
 }

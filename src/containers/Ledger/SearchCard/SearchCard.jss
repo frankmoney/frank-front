@@ -1,7 +1,8 @@
 export default {
   card: {
-    height: 60,
+    alignItems: 'center',
     display: 'flex',
+    height: 60,
     padding: [0, 11],
   },
   field: {
