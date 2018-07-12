@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import Layout from 'components/Layout'
 import ComponentsDemo from 'containers/ComponentsDemo'
+import Inbox from 'containers/Inbox'
 import Ledger from 'containers/Ledger'
 import { DEFAULT_TITLE, ROUTES } from './const'
 
@@ -24,6 +25,11 @@ export default [
   {
     component: withProps({ to: ROUTES.demo.components })(Redirect),
     path: ROUTES.demo.root,
+    exact: true,
+  },
+  {
+    component: withLayout(Inbox),
+    path: ROUTES.inbox.root,
     exact: true,
   },
   {

@@ -35,7 +35,8 @@ const InboxCard = ({
       </div>
       <div className={classes.info}>
         <CurrencyDelta value={delta} />
-        <InfoIcon className={classes.infoIcon} />
+        <IconButton className={classes.infoButton} icon={InfoIcon} />
+        {/*<InfoIcon className={classes.infoIcon} />*/}
       </div>
     </div>
     <div className={classes.body}>

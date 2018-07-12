@@ -18,7 +18,7 @@ export default theme => ({
     textAlign: 'right',
     whiteSpace: 'nowrap',
   },
-  infoIcon: {
+  infoButton: {
     width: 22,
     height: 22,
     marginLeft: 12,
@@ -31,11 +31,12 @@ export default theme => ({
   },
   field: {
     display: 'block',
+    ...theme.fontRegular(14, 16),
   },
   recipient: {
     display: 'table-cell',
     width: '50%',
-    minWidth: 390,
+    minWidth: 400,
     paddingRight: 20,
   },
   recipientName: {
