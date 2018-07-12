@@ -8,6 +8,7 @@ import CheckIcon from 'material-ui-icons/Check'
 import InfoIcon from 'material-ui-icons/InfoOutline'
 import ModeCommentIcon from 'material-ui-icons/ModeComment'
 import MoreHoriz from 'material-ui-icons/MoreHoriz'
+import { compose, withState } from 'recompose'
 import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
 import Field from 'components/Field'
@@ -26,6 +27,8 @@ const InboxCard = ({
   descriptionAddedFromSimilar,
   description,
   useForSimilar,
+  setRecipientName,
+  setDescription,
   ...otherProps
 }) => (
   <div className={cx(className, classes.root)} {...otherProps}>
@@ -36,7 +39,6 @@ const InboxCard = ({
       <div className={classes.info}>
         <CurrencyDelta value={delta} />
         <IconButton className={classes.infoButton} icon={InfoIcon} />
-        {/*<InfoIcon className={classes.infoIcon} />*/}
       </div>
     </div>
     <div className={classes.body}>
@@ -59,6 +61,7 @@ const InboxCard = ({
             <TextBox
               className={classes.recipientTextBox}
               value={recipientName || ''}
+              onChange={event => setRecipientName(event.target.value)}
             />
           )}
         </Field>
@@ -86,6 +89,7 @@ const InboxCard = ({
             className={classes.descriptionTextBox}
             expand="vertically"
             value={description}
+            onChange={event => setDescription(event.target.value)}
           />
         </Field>
       </div>
@@ -115,4 +119,12 @@ const InboxCard = ({
   </div>
 )
 
-export default injectStyles(styles)(InboxCard)
+export default compose(
+  withState(
+    'recipientName',
+    'setRecipientName',
+    ({ recipientName }) => recipientName || ''
+  ),
+  withState('description', 'setDescription', ({ description }) => description),
+  injectStyles(styles)
+)(InboxCard)
