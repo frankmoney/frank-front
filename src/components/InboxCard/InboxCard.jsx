@@ -106,12 +106,20 @@ const InboxCard = ({
       </div>
       <div className={classes.buttons}>
         <IconButton className={classes.moreButton} round icon={MoreHoriz} />
-        <Button className={classes.discussButton} type="primary">
-          <ModeCommentIcon className={classes.buttonIcon} />
+        <Button
+          className={classes.discussButton}
+          fat
+          type="primary"
+          icon={ModeCommentIcon}
+        >
           Discuss
         </Button>
-        <Button className={classes.doneButton} type="primary">
-          <CheckIcon className={classes.buttonIcon} />
+        <Button
+          className={classes.doneButton}
+          fat
+          icon={CheckIcon}
+          type="primary"
+        >
           Done
         </Button>
       </div>
