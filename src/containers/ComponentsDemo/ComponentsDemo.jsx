@@ -3,10 +3,13 @@ import cx from 'classnames'
 import { Currency } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import Card from 'containers/Card'
+import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Field from 'components/Field'
 import FieldLabel from 'components/FieldLabel'
+import InboxCard from 'components/InboxCard'
+import TextBox from 'components/TextBox'
 import TextField from 'components/TextBox'
 import Title from 'components/Title'
 
@@ -24,6 +27,7 @@ const styles = theme => ({
   },
   card: {
     marginTop: 35,
+    width: 850,
     '&:last-child': {
       marginBottom: 180,
     },
@@ -90,6 +94,39 @@ const ComponentsDemo = ({ classes }) => (
         </Field>
       </Item>
     </DemoCard>
+
+    <CurrencyProvider code="USD">
+      <InboxCard
+        className={classes.card}
+        createdAt="2018-01-01 19:05"
+        delta={1392.32}
+      />
+
+      <InboxCard
+        className={classes.card}
+        createdAt="2018-01-01 05:00"
+        delta={-124}
+        recipientName="Adidas Group"
+        categoryAddedFromSimilar
+        categoryId="marketing"
+        description="Something cool"
+        descriptionAddedFromSimilar
+        useForSimilar
+      />
+
+      <InboxCard
+        className={classes.card}
+        createdAt="2018-02-25 00:00"
+        delta={-1244.548}
+        recipientReviewed
+        recipientName="Readymag"
+        categoryAddedFromSimilar
+        categoryId="marketing"
+        description={'Something\r\nvery\r\nCOOL'}
+        descriptionAddedFromSimilar
+        useForSimilar
+      />
+    </CurrencyProvider>
   </div>
 )
 
