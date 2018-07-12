@@ -2,13 +2,13 @@ import React from 'react'
 import cx from 'classnames'
 import { Currency } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
-import Card from 'containers/Card'
 import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Field from 'components/Field'
 import FieldLabel from 'components/FieldLabel'
 import InboxCard from 'components/InboxCard'
+import Paper from 'containers/Paper'
 import TextBox from 'components/TextBox'
 import Title from 'containers/Ledger/GraphOverviewCard/Title'
 
@@ -38,7 +38,7 @@ const Item = injectStyles(styles)(({ classes, children }) => (
 ))
 
 const DemoCard = injectStyles(styles)(({ children, classes, className }) => (
-  <Card className={cx(classes.card, className)}>{children}</Card>
+  <Paper className={cx(classes.card, className)}>{children}</Paper>
 ))
 
 const ComponentsDemo = ({ classes }) => (

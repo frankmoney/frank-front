@@ -9,7 +9,7 @@ import CheckIcon from 'material-ui-icons/Check'
 import InfoIcon from 'material-ui-icons/InfoOutline'
 import ModeCommentIcon from 'material-ui-icons/ModeComment'
 import MoreHoriz from 'material-ui-icons/MoreHoriz'
-import Card from 'containers/Card'
+import Paper from 'containers/Paper'
 import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
 import Field from 'components/Field'
@@ -32,7 +32,7 @@ const InboxCard = ({
   setDescription,
   ...otherProps
 }) => (
-  <Card className={cx(classes.root, className)} {...otherProps}>
+  <Paper className={cx(classes.root, className)} {...otherProps}>
     <div className={classes.header}>
       <div className={classes.createdAt}>
         {format(createdAt, 'MMMM d, h:mmaa')}
@@ -125,7 +125,7 @@ const InboxCard = ({
         </Button>
       </div>
     </div>
-  </Card>
+  </Paper>
 )
 
 export default compose(
