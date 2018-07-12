@@ -3,6 +3,7 @@ import cx from 'classnames'
 import { Currency, Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import CategorySelect from 'components/CategorySelect'
+import Comments from 'containers/Comments'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Field from 'components/Field'
@@ -30,7 +31,15 @@ const styles = theme => ({
       marginBottom: 180,
     },
   },
+  inboxCard: {
+    paddingTop: 40,
+    paddingBottom: 40,
+  },
 })
+
+const Demo = injectStyles(styles)(({ classes, children }) => (
+  <div className={classes.root}>{children}</div>
+))
 
 const Item = injectStyles(styles)(({ classes, children }) => (
   <div className={classes.item}>{children}</div>
@@ -41,7 +50,7 @@ const DemoCard = injectStyles(styles)(({ children, classes, className }) => (
 ))
 
 const ComponentsDemo = ({ classes }) => (
-  <div className={classes.root}>
+  <Demo>
     <DemoCard>
       <Title>Currency formatter</Title>
       <Item>
@@ -130,7 +139,13 @@ const ComponentsDemo = ({ classes }) => (
         useForSimilar
       />
     </CurrencyProvider>
-  </div>
+
+    <DemoCard className={classes.inboxCard}>
+      <Title>Comments</Title>
+      Some content
+      <Comments />
+    </DemoCard>
+  </Demo>
 )
 
 export default injectStyles(styles)(ComponentsDemo)
