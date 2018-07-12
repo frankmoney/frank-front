@@ -53,7 +53,7 @@ export default theme => ({
     color: '#21cb61',
   },
   recipientTextBox: {
-    ...theme.fontMedium(22),
+    ...theme.fontMedium(22, 30),
   },
   category: {
     display: 'table-cell',
@@ -68,7 +68,7 @@ export default theme => ({
     marginTop: 42,
   },
   descriptionTextBox: {
-    ...theme.fontRegular(22),
+    ...theme.fontRegular(22, 30),
   },
   footer: {
     padding: [60, 40, 40, 40],
