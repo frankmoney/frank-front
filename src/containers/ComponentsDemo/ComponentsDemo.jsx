@@ -3,7 +3,6 @@ import cx from 'classnames'
 import { Currency, Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import CategorySelect from 'components/CategorySelect'
-import Comments from 'containers/Comments'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Field from 'components/Field'
@@ -30,10 +29,6 @@ const styles = theme => ({
     '&:last-child': {
       marginBottom: 180,
     },
-  },
-  inboxCard: {
-    paddingTop: 40,
-    paddingBottom: 40,
   },
 })
 
@@ -139,12 +134,6 @@ const ComponentsDemo = ({ classes }) => (
         useForSimilar
       />
     </CurrencyProvider>
-
-    <DemoCard className={classes.inboxCard}>
-      <Title>Comments</Title>
-      Some content
-      <Comments />
-    </DemoCard>
   </Demo>
 )
 

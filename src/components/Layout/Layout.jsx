@@ -56,6 +56,11 @@ export default withProps({
             navLinkComponent={ReduxNavLink}
             primaryText="Demo :: Drawer 4"
           />
+          <SidebarMenuItem
+            href={createRouteUrl(ROUTES.demo.comments)}
+            navLinkComponent={ReduxNavLink}
+            primaryText="Demo :: Comments"
+          />
         </>
       ),
     }),

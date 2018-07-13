@@ -4,6 +4,7 @@ import { compose, withProps } from 'recompose'
 import { Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import Layout from 'components/Layout'
+import CommentsDemo from 'containers/Comments/CommentsDemo'
 import ComponentsDemo from 'containers/ComponentsDemo'
 import DrawerDemo from 'containers/DrawerDemo'
 import Inbox from 'containers/Inbox'
@@ -78,6 +79,11 @@ export default [
       withProps({ type: 'type-4' })
     )(DrawerDemo),
     path: ROUTES.demo.drawers.type4,
+    exact: true,
+  },
+  {
+    component: withLayout(CommentsDemo),
+    path: ROUTES.demo.comments,
     exact: true,
   },
   {
