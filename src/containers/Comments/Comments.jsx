@@ -5,6 +5,7 @@ import { compose, branch, renderNothing } from 'recompose'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import Comment from './Comment'
+import NewComment from './NewComment'
 
 const INBOX_CARD_PADDING = 40
 const BORDER_RADIUS = 8
@@ -23,6 +24,27 @@ class Comments extends React.Component {
     comments: this.props.comments,
   }
 
+  handleNewComment = text => {
+    let comments = this.state.comments
+    const newComment = {
+      id:
+        R.reduce(
+          R.compose(
+            R.max,
+            R.prop('id')
+          ),
+          comments
+        ) + 1,
+      user: this.props.user,
+      comment: {
+        date: 'Just now',
+        text,
+      },
+    }
+    comments = R.append(newComment, comments)
+    this.setState({ comments })
+  }
+
   render() {
     const { canPost, classes, className, user } = this.props
     const comments = R.map(
@@ -32,7 +54,7 @@ class Comments extends React.Component {
     return (
       <div className={cx(classes.root, className)}>
         {comments}
-        {canPost && <Comment user={user} isNewPost />}
+        {canPost && <NewComment user={user} onSend={this.handleNewComment} />}
       </div>
     )
   }

@@ -9,11 +9,11 @@ import {
   TextField,
   Tooltip,
 } from '@frankmoney/components'
+import CommentBase from './CommentBase'
 import IconAt from './IconAt.svg'
 
 const styles = theme => ({
   root: {
-    ...theme.fontRegular(18, 26),
     alignItems: 'center',
     display: 'flex',
     left: 3,
@@ -24,8 +24,8 @@ const styles = theme => ({
     flex: 1,
   },
   input: {
+    ...theme.fontRegular(18, 26),
     color: '#646879',
-    fontSize: 'inherit',
     '&::placeholder': {
       color: '#B7BAC2',
     },
@@ -57,7 +57,7 @@ const styles = theme => ({
 
 class NewComment extends React.Component {
   propTypes = {
-    onSend: PropTypes.func,
+    onSend: PropTypes.func.isRequired,
   }
 
   state = {
@@ -73,43 +73,52 @@ class NewComment extends React.Component {
 
   handleCancel = () => this.setState({ value: '' })
 
+  handleSend = () => {
+    this.props.onSend(this.state.value)
+    this.setState({ value: '' })
+  }
+
   render() {
-    const { classes, className, onSend } = this.props
+    const { classes, className, key, user } = this.props
     const buttonsVisible = this.state.focus || this.state.value
     return (
-      <div className={cx(classes.root, className)}>
-        <TextField
-          className={cx(classes.textField, classes.input)}
-          placeholder="Leave a comment…"
-          value={this.state.value}
-          InputProps={{
-            disableUnderline: true,
-            classes: { root: classes.input },
-          }}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          onChange={this.handleChange}
-        />
-        <div
-          className={cx(classes.buttons, { [classes.visible]: buttonsVisible })}
-        >
-          <TextButton
-            label="Send"
-            onClick={onSend}
-            className={classes.buttonSend}
+      <CommentBase className={className} key={key} picture={user.picture}>
+        <div className={classes.root}>
+          <TextField
+            className={cx(classes.textField, classes.input)}
+            placeholder="Leave a comment…"
+            value={this.state.value}
+            InputProps={{
+              disableUnderline: true,
+              classes: { root: classes.input },
+            }}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            onChange={this.handleChange}
           />
-          <Tooltip text="Mention" placement="top">
-            <IconButton icon={IconAt} className={classes.buttonMention} />
-          </Tooltip>
-          <Tooltip text="Cancel" placement="top">
-            <IconButton
-              icon={IconCancel}
-              className={classes.buttonCancel}
-              onClick={this.handleCancel}
+          <div
+            className={cx(classes.buttons, {
+              [classes.visible]: buttonsVisible,
+            })}
+          >
+            <TextButton
+              label="Send"
+              onClick={this.handleSend}
+              className={classes.buttonSend}
             />
-          </Tooltip>
+            <Tooltip text="Mention" placement="top">
+              <IconButton icon={IconAt} className={classes.buttonMention} />
+            </Tooltip>
+            <Tooltip text="Cancel" placement="top">
+              <IconButton
+                icon={IconCancel}
+                className={classes.buttonCancel}
+                onClick={this.handleCancel}
+              />
+            </Tooltip>
+          </div>
         </div>
-      </div>
+      </CommentBase>
     )
   }
 }
