@@ -1,13 +1,13 @@
 import React from 'react'
 import cx from 'classnames'
-import { Paper } from '@frankmoney/components'
+import { Button, Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import Comments from 'containers/Comments'
 import Title from 'containers/Ledger/GraphOverviewCard/Title'
 
 const styles = theme => ({
   root: {
-    ...theme.fontRegular(14),
+    ...theme.fontRegular(16, 22),
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
@@ -22,6 +22,11 @@ const styles = theme => ({
   inboxCard: {
     paddingTop: 40,
     paddingBottom: 40,
+  },
+  cardBody: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 })
 
@@ -66,37 +71,56 @@ const currentUser = {
   picture: 'https://loremflickr.com/100/100/grumpy%20cat',
 }
 
-const CommentsDemo = () => (
-  <Demo>
-    <DemoCard>
-      <Title>Comments</Title>
-      Closed
-      <Comments comments={testComments} user={currentUser} />
-    </DemoCard>
+class CommentsDemo extends React.Component {
+  state = {
+    firstBlockOpen: false,
+  }
 
-    <DemoCard>
-      <Title>Comments</Title>
-      Some comments
-      <Comments comments={testComments} user={currentUser} open />
-    </DemoCard>
+  toggleFirstBlockComments = () =>
+    this.setState({ firstBlockOpen: !this.state.firstBlockOpen })
 
-    <DemoCard>
-      <Title>Comments</Title>
-      No comments
-      <Comments user={currentUser} open />
-    </DemoCard>
+  render() {
+    const { classes } = this.props
+    return (
+      <Demo>
+        <DemoCard>
+          <Title>Comments</Title>
+          <div className={classes.cardBody}>
+            {this.state.firstBlockOpen ? 'Open' : 'Closed'}
+            <Button label="Discuss" onClick={this.toggleFirstBlockComments} />
+          </div>
+          <Comments
+            comments={testComments}
+            user={currentUser}
+            open={this.state.firstBlockOpen}
+          />
+        </DemoCard>
 
-    <DemoCard>
-      <Title>Comments</Title>
-      Can not post
-      <Comments
-        comments={testComments}
-        user={currentUser}
-        open
-        canPost={false}
-      />
-    </DemoCard>
-  </Demo>
-)
+        <DemoCard>
+          <Title>Comments</Title>
+          Some comments
+          <Comments comments={testComments} user={currentUser} open />
+        </DemoCard>
+
+        <DemoCard>
+          <Title>Comments</Title>
+          No comments
+          <Comments user={currentUser} open />
+        </DemoCard>
+
+        <DemoCard>
+          <Title>Comments</Title>
+          Can not post
+          <Comments
+            comments={testComments}
+            user={currentUser}
+            open
+            canPost={false}
+          />
+        </DemoCard>
+      </Demo>
+    )
+  }
+}
 
 export default injectStyles(styles)(CommentsDemo)
