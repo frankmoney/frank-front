@@ -24,22 +24,28 @@ class Comments extends React.Component {
   }
 
   render() {
-    const {
-      classes,
-      className,
-      open, // eslint-disable-line no-unused-vars
-    } = this.props
-    const comments = R.map(c => <Comment comment={c} />, this.state.comments)
-    return <div className={cx(classes.root, className)}>{comments}</div>
+    const { canPost, classes, className, user } = this.props
+    const comments = R.map(
+      c => <Comment user={c.user} comment={c.comment} />,
+      this.state.comments
+    )
+    return (
+      <div className={cx(classes.root, className)}>
+        {comments}
+        {canPost && <Comment user={user} isNewPost />}
+      </div>
+    )
   }
 }
 
 Comments.propTypes = {
+  canPost: PropTypes.bool,
   comments: PropTypes.arrayOf(Comment.propTypes),
-  open: PropTypes.bool,
+  open: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
 }
 
 Comments.defaultProps = {
+  canPost: true,
   comments: [],
 }
 

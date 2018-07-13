@@ -16,6 +16,8 @@ const styles = theme => ({
     width: USERPIC_SIZE,
     minHeight: USERPIC_SIZE,
     minWidth: USERPIC_SIZE,
+    maxHeight: USERPIC_SIZE,
+    maxWidth: USERPIC_SIZE,
     background: 'gray',
     borderRadius: '50%',
     position: 'relative',
@@ -34,29 +36,47 @@ const styles = theme => ({
     flexDirection: 'column',
   },
   header: {},
+  newPost: {
+    ...theme.fontRegular(18, 26),
+    color: '#B7BAC2',
+    position: 'relative',
+    top: 10,
+    left: 2,
+    cursor: 'pointer',
+  },
 })
 
-const Comment = ({ classes, className, comment }) => (
+const Comment = ({ classes, className, comment, isNewPost, user }) => (
   <div className={cx(classes.root, className)}>
-    <div className={classes.userpic} />
+    <img
+      src={user.picture}
+      className={classes.userpic}
+      alt={`${user.pic}'s avatar`}
+    />
     <div className={classes.container}>
-      <div className={classes.header}>
-        <div className={classes.username}>{comment.user.name}</div>
-        <div className={classes.date}>{comment.date}</div>
-      </div>
-      <div className={classes.text}>{comment.text}</div>
+      {isNewPost && <div className={classes.newPost}>Leave a comment…</div>}
+      {!isNewPost && (
+        <>
+          <div className={classes.header}>
+            <div className={classes.username}>{user.name}</div>
+            <div className={classes.date}>{comment.date}</div>
+          </div>
+          <div className={classes.text}>{comment.text}</div>
+        </>
+      )}
     </div>
   </div>
 )
 
 Comment.propTypes = {
   comment: PropTypes.exact({
-    user: PropTypes.shape({
-      userpic: PropTypes.string,
-      name: PropTypes.string,
-    }),
     date: PropTypes.any, // TODO: settle on type
     text: PropTypes.string,
+  }),
+  isNewPost: PropTypes.new,
+  user: PropTypes.exact({
+    picture: PropTypes.string,
+    name: PropTypes.string,
   }),
 }
 
