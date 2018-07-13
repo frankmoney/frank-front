@@ -1,6 +1,8 @@
 import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
+import { compose, branch, renderNothing } from 'recompose'
+import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import Comment from './Comment'
 
@@ -16,31 +18,38 @@ const styles = {
   },
 }
 
-const testComments = [
-  {
-    user: { name: 'David Liberman' },
-    date: '2 days ago', // TODO: calculate from real date
-    text:
-      '@Suzie Alexander Ask me to name the best laptops on the market, and my answer would be some ordering of Apple’s MacBook Pro, Microsoft’s Surface Laptop and Surface Book',
-  },
-  {
-    user: { name: 'Suzie Alexander' },
-    date: '7 days ago',
-    text:
-      'Whether Facebook, Twitter, and Google have intentionally censored conservative users.',
-  },
-]
-
 class Comments extends React.Component {
   state = {
-    comments: testComments,
+    comments: this.props.comments,
   }
 
   render() {
-    const { classes, className } = this.props
+    const {
+      classes,
+      className,
+      open, // eslint-disable-line no-unused-vars
+    } = this.props
     const comments = R.map(c => <Comment comment={c} />, this.state.comments)
     return <div className={cx(classes.root, className)}>{comments}</div>
   }
 }
 
-export default injectStyles(styles)(Comments)
+Comments.propTypes = {
+  comments: PropTypes.arrayOf(Comment.propTypes),
+  open: PropTypes.bool,
+}
+
+Comments.defaultProps = {
+  comments: [],
+}
+
+export default compose(
+  branch(
+    R.compose(
+      R.not,
+      R.prop('open')
+    ),
+    renderNothing
+  ),
+  injectStyles(styles)
+)(Comments)

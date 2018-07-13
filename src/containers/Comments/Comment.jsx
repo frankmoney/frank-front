@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 
 const USERPIC_SIZE = 40
@@ -47,5 +48,16 @@ const Comment = ({ classes, className, comment }) => (
     </div>
   </div>
 )
+
+Comment.propTypes = {
+  comment: PropTypes.exact({
+    user: PropTypes.shape({
+      userpic: PropTypes.string,
+      name: PropTypes.string,
+    }),
+    date: PropTypes.any, // TODO: settle on type
+    text: PropTypes.string,
+  }),
+}
 
 export default injectStyles(styles)(Comment)
