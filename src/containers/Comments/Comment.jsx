@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
+import NewComment from './NewComment'
 
 const USERPIC_SIZE = 40
 
@@ -34,27 +35,20 @@ const styles = theme => ({
     display: 'flex',
     marginLeft: 25,
     flexDirection: 'column',
+    width: '100%',
   },
   header: {},
-  newPost: {
-    ...theme.fontRegular(18, 26),
-    color: '#B7BAC2',
-    position: 'relative',
-    top: 10,
-    left: 2,
-    cursor: 'pointer',
-  },
 })
 
-const Comment = ({ classes, className, comment, isNewPost, user }) => (
-  <div className={cx(classes.root, className)}>
+const Comment = ({ classes, className, comment, isNewPost, key, user }) => (
+  <div className={cx(classes.root, className)} key={key}>
     <img
       src={user.picture}
       className={classes.userpic}
       alt={`${user.pic}'s avatar`}
     />
     <div className={classes.container}>
-      {isNewPost && <div className={classes.newPost}>Leave a comment…</div>}
+      {isNewPost && <NewComment />}
       {!isNewPost && (
         <>
           <div className={classes.header}>

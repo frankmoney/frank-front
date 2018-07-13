@@ -42,6 +42,7 @@ const DemoCard = injectStyles(styles)(({ children, classes, className }) => (
 
 const testComments = [
   {
+    id: 0,
     user: {
       name: 'David Liberman',
       picture: 'https://loremflickr.com/80/80/cat',
@@ -53,6 +54,7 @@ const testComments = [
     },
   },
   {
+    id: 1,
     user: {
       name: 'Suzie Alexander',
       picture: 'https://loremflickr.com/80/80/kitten',

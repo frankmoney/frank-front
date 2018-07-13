@@ -26,7 +26,7 @@ class Comments extends React.Component {
   render() {
     const { canPost, classes, className, user } = this.props
     const comments = R.map(
-      c => <Comment user={c.user} comment={c.comment} />,
+      c => <Comment user={c.user} comment={c.comment} key={c.id} />,
       this.state.comments
     )
     return (
