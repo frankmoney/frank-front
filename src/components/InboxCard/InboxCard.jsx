@@ -110,7 +110,7 @@ const InboxCard = ({
         <Button
           className={classes.discussButton}
           fat
-          type="primary"
+          type="secondary"
           icon={ModeCommentIcon}
         >
           Discuss
