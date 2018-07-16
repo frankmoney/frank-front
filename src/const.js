@@ -15,8 +15,9 @@ export const ROUTES = {
   },
   demo: {
     root: '/demo',
-    components: '/demo/components',
     cards: '/demo/cards',
+    comments: '/demo/comments',
+    components: '/demo/components',
     drawers: {
       root: '/demo/drawers',
       parameterized: '/demo/drawers/:type?',

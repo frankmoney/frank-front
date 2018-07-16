@@ -32,6 +32,10 @@ const styles = theme => ({
   },
 })
 
+const Demo = injectStyles(styles)(({ classes, children }) => (
+  <div className={classes.root}>{children}</div>
+))
+
 const Item = injectStyles(styles)(({ classes, children }) => (
   <div className={classes.item}>{children}</div>
 ))
@@ -41,7 +45,7 @@ const DemoCard = injectStyles(styles)(({ children, classes, className }) => (
 ))
 
 const ComponentsDemo = ({ classes }) => (
-  <div className={classes.root}>
+  <Demo>
     <DemoCard>
       <Title>Currency formatter</Title>
       <Item>
@@ -130,7 +134,7 @@ const ComponentsDemo = ({ classes }) => (
         useForSimilar
       />
     </CurrencyProvider>
-  </div>
+  </Demo>
 )
 
 export default injectStyles(styles)(ComponentsDemo)
