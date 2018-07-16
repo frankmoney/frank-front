@@ -1,6 +1,8 @@
+import colors from './colors'
+
 const DISABLED_BUTTON_COLORS = {
   backgroundColor: '#F6F7F8',
-  color: '#CCCED4',
+  color: colors.buttonDisabledGrey,
 }
 
 export default {
@@ -12,28 +14,28 @@ export default {
       color: '#fff',
       border: 'none',
       boxShadow: 'none',
-      backgroundColor: '#21CB61',
+      backgroundColor: colors.green,
       // TODO: wait for the finished design
       '&:hover, &:active': {
         border: 'none',
         boxShadow: 'none',
-        backgroundColor: '#EFFBF4',
-        color: '#21CB61',
+        backgroundColor: colors.lightGreen,
+        color: colors.green,
       },
       '&$disabled': {
         ...DISABLED_BUTTON_COLORS,
       },
     },
     secondary: {
-      color: '#252B43',
+      color: colors.black,
       border: 'none',
       boxShadow: 'none',
-      backgroundColor: '#F6F7F7',
+      backgroundColor: colors.buttonGrey,
       '&:hover, &:active': {
-        backgroundColor: '#F6F7F7',
+        backgroundColor: colors.buttonGrey,
         border: 'none',
         boxShadow: 'none',
-        color: '#484DE7',
+        color: colors.blue,
       },
       '&$disabled': {
         ...DISABLED_BUTTON_COLORS,
@@ -42,7 +44,7 @@ export default {
   },
   IconButton: {
     round: {
-      color: '#252B43',
+      color: colors.black,
     },
   },
   Paper: {

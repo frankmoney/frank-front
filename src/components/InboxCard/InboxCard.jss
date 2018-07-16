@@ -48,7 +48,7 @@ export default theme => ({
     top: 0,
     width: 22,
     height: 22,
-    color: '#21cb61',
+    color: theme.colors.blue,
   },
   recipientTextBox: {
     ...theme.fontMedium(22, 30),
