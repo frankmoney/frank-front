@@ -14,14 +14,11 @@ const styles = theme => ({
   },
   card: {
     marginTop: 35,
+    padding: [30, 30, 40],
     width: 850,
     '&:last-child': {
       marginBottom: 180,
     },
-  },
-  inboxCard: {
-    paddingTop: 40,
-    paddingBottom: 40,
   },
   cardBody: {
     display: 'flex',
@@ -35,18 +32,27 @@ const Demo = injectStyles(styles)(({ classes, children }) => (
 ))
 
 const DemoCard = injectStyles(styles)(({ children, classes, className }) => (
-  <Paper className={cx(classes.card, classes.inboxCard, className)}>
-    {children}
-  </Paper>
+  <Paper className={cx(classes.card, className)}>{children}</Paper>
 ))
 
-// const testData = []
+const testData = [
+  { key: 'Jan', value: 135 },
+  { key: 'Feb', value: 170 },
+  { key: 'Mar', value: 135 },
+  { key: 'Apr', value: 75 },
+  { key: 'May', value: 100 },
+  { key: 'Jun', value: 75 },
+  { key: 'Jul', value: 60 },
+  { key: 'Aug', value: 0 },
+  { key: 'Sep', value: 190 },
+  { key: 'Oct', value: 60 },
+]
 
 const ChartsDemo = () => (
   <Demo>
     <DemoCard>
       <Title>BarChart</Title>
-      <BarChart />
+      <BarChart data={testData} width={790} height={260} barColor="#484DE7" />
     </DemoCard>
   </Demo>
 )
