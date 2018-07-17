@@ -1,58 +1,62 @@
 import React from 'react'
-import cx from 'classnames'
-import {
-  BarChart as Chart,
-  Bar,
-  Tooltip,
-  XAxis,
-  CartesianGrid,
-  Rectangle,
-  Label,
-} from 'recharts'
-// import PropTypes from 'prop-types'
-import { injectStyles } from '@frankmoney/ui'
+import { Bar, BarChart as Chart, Rectangle, Tooltip, XAxis } from 'recharts'
 
 const BAR_WIDTH = 34
 const BAR_COLOR = '#484DE7'
 const WIDTH = 790
 const HEIGHT = 260
-const GRID_COLOR = '#EBEBEB'
 
-const styles = theme => ({
-  axisLabel: {
-    ...theme.fontRegular(12, 20),
-  },
-})
-
-// const BarShape = props => <rect rx="3" ry="3" {...props} />
-
-const BarChart = ({ classes, className, data, barColor, width, height }) => {
-  const gridValues = [50, 100, 150, 200]
+const Grid = ({ step, height, width, skipZero = true }) => {
+  const baseLine = height - 60
+  const dashedLines = []
+  const firstY = baseLine - (skipZero ? step : 0)
+  for (let y = firstY; y >= 0; y -= step) {
+    dashedLines.push(
+      <line
+        x1="0"
+        x2={width}
+        y1={y}
+        y2={y}
+        stroke="#EBEBEB"
+        strokeDasharray="2"
+      />
+    )
+  }
   return (
-    <div className={cx(classes.root, className)}>
+    <svg width={width} height={height} style={{ position: 'absolute' }}>
+      {dashedLines}
+      <line x1="0" x2={width} y1={baseLine} y2={baseLine} stroke="#E5E5E5" />
+    </svg>
+  )
+}
+
+const BarChart = ({ className, data, barColor, width, height }) => {
+  const fullWidth = width || WIDTH
+  const w = fullWidth - 48 // TODO: why 48?
+  const h = height || HEIGHT
+  const barSize = BAR_WIDTH
+  return (
+    <div className={className}>
+      <Grid width={fullWidth} step={50} height={h} />
       <Chart
+        style={{ margin: '0 auto' }}
         data={data}
-        width={width || WIDTH}
-        height={height || HEIGHT}
+        width={w}
+        height={h}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-        barSize={BAR_WIDTH}
+        barSize={barSize}
       >
-        <CartesianGrid
-          vertical={false}
-          // verticalPoints={gridValues}
-          stroke={GRID_COLOR}
-          strokeDasharray="2"
-        />
         <XAxis
           dataKey="key"
+          axisLine={false}
           tickLine={false}
-          tickMargin={40}
-          height={40 + 20}
-          className={classes.axisLabel}
+          tickMargin={35}
+          height={60 + 3}
+          tick={{ fontSize: 12, fill: '#808080' }}
+          style={{ transform: 'translateY(3px)' }}
         />
         <Tooltip isAnimationActive={false} cursor={false} />
         <Bar
-          x={44}
           shape={<Rectangle radius={3} />}
           type="monotone"
           dataKey="value"
@@ -62,6 +66,7 @@ const BarChart = ({ classes, className, data, barColor, width, height }) => {
     </div>
   )
 }
+
 BarChart.propTypes = {}
 
-export default injectStyles(styles)(BarChart)
+export default BarChart
