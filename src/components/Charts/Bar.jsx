@@ -13,17 +13,18 @@ import { injectStyles } from '@frankmoney/ui'
 import { formatCurrency, Paper } from '@frankmoney/components'
 import Circle from './Circle.svg'
 
-const PRIMARY_BAR_COLOR = '#484DE7'
-const POSITIVE_BAR_COLOR = '#21CB61'
 const BAR_CORNER_RADIUS = 3
 const BAR_WIDTH = 34
-const BASE_LINE_OFFSET = 3
-const DASH_LINE_COLOR = '#EBEBEB'
 const BASE_LINE_COLOR = '#E5E5E5'
-const LEGEND_COLOR = '#808080'
-
+const BASE_LINE_OFFSET = 3
+const CLIPPING_FIX = 1
+const DASH_LINE_COLOR = '#EBEBEB'
 const DEFAULT_VALUE_PROP = 'value'
+const FOOTER_HEIGHT = 60
+const LEGEND_COLOR = '#808080'
 const NEGATIVE_VALUE_PROP = 'negativeValue'
+const POSITIVE_BAR_COLOR = '#21CB61'
+const PRIMARY_BAR_COLOR = '#484DE7'
 
 const WIDTH = 790
 const HEIGHT = 260
@@ -37,6 +38,7 @@ const styles = theme => ({
   },
   grid: {
     position: 'absolute',
+    top: -CLIPPING_FIX,
   },
   tooltip: {
     padding: [14, 19, 9],
@@ -61,30 +63,45 @@ const styles = theme => ({
   tooltipItemText: {
     margin: [0, 16, 0, 10],
   },
+  positiveBars: {
+    transform: `translateY(-${BASE_LINE_OFFSET}px)`,
+  },
 })
 
+const DashedLine = ({ y, width }) => (
+  <line
+    x1="0"
+    x2={width}
+    y1={y}
+    y2={y}
+    stroke={DASH_LINE_COLOR}
+    strokeWidth={1}
+    strokeDasharray="2"
+  />
+)
+
 const Grid = injectStyles(styles)(
-  ({ classes, className, step, height, width, skipZero = true }) => {
-    const baseLine = height - 60
+  ({ className, dual, steps = 4, height, width }) => {
+    const baseLine = dual ? Math.floor(height / 2) : height
     const dashedLines = []
-    const firstY = baseLine - (skipZero ? step : 0)
-    for (let y = firstY; y >= 0; y -= step) {
+    const step = Math.floor(baseLine / steps)
+    // eslint-disable-next-line no-plusplus
+    for (let i = 1; i <= steps; i++) {
       dashedLines.push(
-        <line
-          x1="0"
-          x2={width}
-          y1={y}
-          y2={y}
-          stroke={DASH_LINE_COLOR}
-          strokeDasharray="2"
-        />
+        <DashedLine y={baseLine - i * step + CLIPPING_FIX} width={width} />
       )
+      if (dual) {
+        dashedLines.push(
+          <DashedLine y={baseLine + i * step + CLIPPING_FIX} width={width} />
+        )
+      }
     }
+
     return (
       <svg
         width={width}
-        height={height}
-        className={cx(classes.grid, className)}
+        height={height + 2 * CLIPPING_FIX}
+        className={className}
       >
         {dashedLines}
         <line
@@ -92,6 +109,7 @@ const Grid = injectStyles(styles)(
           x2={width}
           y1={baseLine}
           y2={baseLine}
+          strokeWidth={1}
           stroke={BASE_LINE_COLOR}
         />
       </svg>
@@ -115,7 +133,6 @@ const TooltipLine = injectStyles(styles)(
           {caption || (dataKey === NEGATIVE_VALUE_PROP ? 'Spending' : 'Income')}
         </span>
       </div>
-      {/* <Currency value={value} precision={2} /> */}
       {formatMoney(value)}
     </div>
   )
@@ -125,10 +142,7 @@ export const Tooltip = injectStyles(styles)(
   ({ caption, classes, label, payload, ...otherProps }) => (
     <Paper className={classes.tooltip} {...otherProps}>
       <div className={classes.tooltipHeader}>{label}</div>
-      {R.map(x => {
-        console.log(x)
-        return <TooltipLine caption={caption} {...x} />
-      })(payload)}
+      {R.map(x => <TooltipLine caption={caption} {...x} />)(payload)}
     </Paper>
   )
 )
@@ -151,7 +165,13 @@ const BarChart = ({
   const signedData = dual ? R.map(fixNegative, data) : data
   return (
     <div className={cx(classes.root, className)} style={{ width, height }}>
-      <Grid width={width} step={50} height={height} />
+      <Grid
+        className={classes.grid}
+        dual={dual}
+        width={width}
+        steps={dual ? 2 : 4}
+        height={height - FOOTER_HEIGHT}
+      />
       <Chart
         className={classes.chart}
         stackOffset={dual ? 'sign' : 'none'}
@@ -166,7 +186,7 @@ const BarChart = ({
           axisLine={false}
           tickLine={false}
           tickMargin={35 + BASE_LINE_OFFSET}
-          height={60 + BASE_LINE_OFFSET}
+          height={FOOTER_HEIGHT + BASE_LINE_OFFSET}
           tick={{ fontSize: 12, fill: LEGEND_COLOR }}
         />
         <TooltipRoot
@@ -175,6 +195,7 @@ const BarChart = ({
           cursor={false}
         />
         <Bar
+          className={{ [classes.positiveBars]: dual }}
           shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
           type="monotone"
           dataKey={DEFAULT_VALUE_PROP}
