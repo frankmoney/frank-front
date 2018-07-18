@@ -1,6 +1,8 @@
+// spellchecker:ignore mmaa
 import React from 'react'
-import { Button, IconButton, Switch } from '@frankmoney/components'
+import { Button, IconButton, Paper, Switch } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
+import { compose, withState } from 'recompose'
 import cx from 'classnames'
 import format from 'date-fns/format'
 import CheckCircleIcon from 'material-ui-icons/CheckCircle'
@@ -8,7 +10,6 @@ import CheckIcon from 'material-ui-icons/Check'
 import InfoIcon from 'material-ui-icons/InfoOutline'
 import ModeCommentIcon from 'material-ui-icons/ModeComment'
 import MoreHoriz from 'material-ui-icons/MoreHoriz'
-import { compose, withState } from 'recompose'
 import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
 import Field from 'components/Field'
@@ -31,7 +32,7 @@ const InboxCard = ({
   setDescription,
   ...otherProps
 }) => (
-  <div className={cx(className, classes.root)} {...otherProps}>
+  <Paper className={cx(classes.root, className)} {...otherProps}>
     <div className={classes.header}>
       <div className={classes.createdAt}>
         {format(createdAt, 'MMMM d, h:mmaa')}
@@ -106,17 +107,25 @@ const InboxCard = ({
       </div>
       <div className={classes.buttons}>
         <IconButton className={classes.moreButton} round icon={MoreHoriz} />
-        <Button className={classes.discussButton} type="primary">
-          <ModeCommentIcon className={classes.buttonIcon} />
+        <Button
+          className={classes.discussButton}
+          fat
+          type="primary"
+          icon={ModeCommentIcon}
+        >
           Discuss
         </Button>
-        <Button className={classes.doneButton} type="primary">
-          <CheckIcon className={classes.buttonIcon} />
+        <Button
+          className={classes.doneButton}
+          fat
+          icon={CheckIcon}
+          type="primary"
+        >
           Done
         </Button>
       </div>
     </div>
-  </div>
+  </Paper>
 )
 
 export default compose(

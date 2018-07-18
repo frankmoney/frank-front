@@ -1,24 +1,19 @@
 const CARD_PADDING = 30
 
-export default theme => ({
+export default {
   card: {
-    position: 'relative',
-    width: 850,
     height: 580,
-    backgroundColor: 'white',
-    boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',
-    borderRadius: 8,
+    padding: [30, 0],
   },
   cardExpanded: {
     height: 934,
   },
   timeRange: {
-    ...theme.fontRegular(22, 22),
-    padding: CARD_PADDING,
+    marginLeft: CARD_PADDING,
   },
   graphPieChart: {
     height: 366,
-    padding: [10, CARD_PADDING],
+    padding: [0, CARD_PADDING],
     marginBottom: 52,
   },
   bottomRow: {
@@ -31,4 +26,4 @@ export default theme => ({
     width: 790,
     height: 341,
   },
-})
+}

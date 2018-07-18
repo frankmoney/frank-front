@@ -1,13 +1,13 @@
 export default theme => ({
   root: {
-    background: '#fff',
-    boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',
-    borderRadius: 8,
+    paddingTop: 40,
+    paddingBottom: 40,
   },
   header: {
     display: 'flex',
-    padding: [40, 37, 42, 40],
-    ...theme.fontRegular(22, 20),
+    position: 'relative',
+    marginBottom: 43,
+    ...theme.fontRegular(22),
   },
   createdAt: {
     flex: 1,
@@ -15,20 +15,18 @@ export default theme => ({
     opacity: 0.3,
   },
   info: {
+    display: 'inline-flex',
     textAlign: 'right',
     whiteSpace: 'nowrap',
   },
   infoButton: {
-    width: 22,
+    color: 'rgba(37, 43, 67, 0.3)',
+    display: 'inline-flex',
     height: 22,
     marginLeft: 12,
-    verticalAlign: 'bottom',
-    color: 'rgba(37, 43, 67, 0.3)',
+    width: 22,
   },
-  body: {
-    marginLeft: 40,
-    marginRight: 40,
-  },
+  body: {},
   field: {
     display: 'block',
     ...theme.fontRegular(14, 16),
@@ -53,7 +51,7 @@ export default theme => ({
     color: '#21cb61',
   },
   recipientTextBox: {
-    ...theme.fontMedium(22),
+    ...theme.fontMedium(22, 30),
   },
   category: {
     display: 'table-cell',
@@ -68,10 +66,10 @@ export default theme => ({
     marginTop: 42,
   },
   descriptionTextBox: {
-    ...theme.fontRegular(22),
+    ...theme.fontRegular(22, 30),
   },
   footer: {
-    padding: [60, 40, 40, 40],
+    paddingTop: 56,
     display: 'flex',
     '&:after': {
       content: '" "',
@@ -91,18 +89,14 @@ export default theme => ({
     ...theme.fontRegular(16, 22),
   },
   buttons: {
-    flex: 0,
+    display: 'flex',
     whiteSpace: 'nowrap',
   },
   moreButton: {
-    height: 50,
     marginLeft: 10,
-    verticalAlign: 'bottom',
   },
   discussButton: {
-    height: 50,
     marginLeft: 10,
-    verticalAlign: 'bottom',
     color: '#000',
     backgroundColor: 'rgba(37, 43, 67, 0.04)',
     boxShadow: 'none',
@@ -113,14 +107,12 @@ export default theme => ({
     },
   },
   doneButton: {
-    height: 50,
     marginLeft: 10,
-    verticalAlign: 'bottom',
-    color: '#fff',
     backgroundColor: '#21CB61',
-    boxShadow: 'none',
+    boxShadow: 'none', // TODO: remove in the kit
     '&:hover': {
-      backgroundColor: '#21CB61',
+      backgroundColor: '#EFFBF4',
+      color: '#21CB61',
       boxShadow: 'none',
     },
   },

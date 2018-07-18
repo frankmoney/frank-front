@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { InputAdornment } from 'material-ui'
 import { Search as SearchIcon } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
-import { TextField } from '@frankmoney/components'
+import { Paper, TextField } from '@frankmoney/components'
 import styles from './SearchCard.jss'
 
 const AdornmentIcon = ({ className }) => (
@@ -12,8 +12,8 @@ const AdornmentIcon = ({ className }) => (
   </InputAdornment>
 )
 
-const SearchCard = ({ className, classes, value, onChange }) => (
-  <div className={cx(classes.card, className)}>
+const SearchCard = ({ classes, className, onChange, value }) => (
+  <Paper className={cx(classes.card, className)}>
     <TextField
       className={classes.field}
       value={value}
@@ -26,7 +26,7 @@ const SearchCard = ({ className, classes, value, onChange }) => (
       placeholder="Start typing a category, recipient or part of a description..."
       fontBig
     />
-  </div>
+  </Paper>
 )
 
 export default injectStyles(styles)(SearchCard)
