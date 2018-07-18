@@ -1,4 +1,3 @@
-import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
 import { Paper } from '@frankmoney/components'
@@ -32,7 +31,7 @@ const DemoCard = injectStyles(styles)(({ children, classes, className }) => (
   <Paper className={cx(classes.card, className)}>{children}</Paper>
 ))
 
-const testData = [
+const singularData = [
   { key: 'Jan', value: 135 },
   { key: 'Feb', value: 170 },
   { key: 'Mar', value: 135 },
@@ -45,7 +44,7 @@ const testData = [
   { key: 'Oct', value: 60 },
 ]
 
-const dualTestData = [
+const dualData = [
   { key: 'Jan', value: 39, negativeValue: 67 },
   { key: 'Feb', value: 49, negativeValue: 84 },
   { key: 'Mar', value: 0, negativeValue: 67 },
@@ -58,29 +57,44 @@ const dualTestData = [
   { key: 'Oct', value: 0, negativeValue: 29 },
 ]
 
+const tooltipPayload = [
+  { value: 481, fill: '#21CB61', caption: 'Income' },
+  { value: -14899, fill: '#484DE7', caption: 'Spending' },
+]
+
 const ChartsDemo = ({ classes }) => (
   <div className={classes.root}>
     <DemoCard>
       <Title>BarChart</Title>
-      <BarChart data={testData} width={790} height={260} barColor="#484DE7" />
+      <BarChart
+        data={singularData}
+        width={790}
+        height={260}
+        barColor="#484DE7"
+      />
     </DemoCard>
 
     <DemoCard>
       <Title>Double BarChart</Title>
-      <BarChart dual data={dualTestData} />
+      <BarChart dual data={dualData} />
     </DemoCard>
 
     <DemoCard>
       <Title>Custom BarChart</Title>
-      <BarChart data={testData} width={400} height={260} barColor="#FC1891" />
+      <BarChart
+        data={singularData}
+        width={400}
+        height={260}
+        barColor="#FC1891"
+      />
     </DemoCard>
 
     <DemoCard>
       <Title>Tooltip</Title>
       <ChartTooltip
-        style={{ maxWidth: 300 }}
+        style={{ display: 'inline-block' }}
         label="May"
-        payload={[{ value: '481' }, { value: '14899' }]}
+        payload={tooltipPayload}
       />
     </DemoCard>
   </div>

@@ -10,7 +10,8 @@ import {
   XAxis,
 } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
-import { Currency, Paper } from '@frankmoney/components'
+import { formatCurrency, Paper } from '@frankmoney/components'
+import Circle from './Circle.svg'
 
 const PRIMARY_BAR_COLOR = '#484DE7'
 const POSITIVE_BAR_COLOR = '#21CB61'
@@ -20,6 +21,9 @@ const BASE_LINE_OFFSET = 3
 const DASH_LINE_COLOR = '#EBEBEB'
 const BASE_LINE_COLOR = '#E5E5E5'
 const LEGEND_COLOR = '#808080'
+
+const DEFAULT_VALUE_PROP = 'value'
+const NEGATIVE_VALUE_PROP = 'negativeValue'
 
 const WIDTH = 790
 const HEIGHT = 260
@@ -46,7 +50,16 @@ const styles = theme => ({
   },
   tooltipItem: {
     ...theme.fontMedium(14, 16),
+    display: 'flex',
+    justifyContent: 'space-between',
     marginBottom: 10,
+  },
+  circle: {
+    position: 'relative',
+    top: 1,
+  },
+  tooltipItemText: {
+    margin: [0, 16, 0, 10],
   },
 })
 
@@ -86,16 +99,36 @@ const Grid = injectStyles(styles)(
   }
 )
 
+const formatMoney = R.pipe(
+  x => ({ value: x, precision: 2 }),
+  formatCurrency,
+  R.replace('$', '$ '),
+  R.replace('– ', '−')
+)
+
+const TooltipLine = injectStyles(styles)(
+  ({ caption, classes, dataKey, fill, value }) => (
+    <div className={classes.tooltipItem} style={{ color: fill }}>
+      <div>
+        <Circle className={classes.circle} />
+        <span className={classes.tooltipItemText}>
+          {caption || (dataKey === NEGATIVE_VALUE_PROP ? 'Spending' : 'Income')}
+        </span>
+      </div>
+      {/* <Currency value={value} precision={2} /> */}
+      {formatMoney(value)}
+    </div>
+  )
+)
+
 export const Tooltip = injectStyles(styles)(
-  ({ color = PRIMARY_BAR_COLOR, classes, label, payload, ...otherProps }) => (
+  ({ caption, classes, label, payload, ...otherProps }) => (
     <Paper className={classes.tooltip} {...otherProps}>
       <div className={classes.tooltipHeader}>{label}</div>
-      {R.map(item => (
-        // TODO: dot, label, style number formatter
-        <div className={classes.tooltipItem} style={{ color }}>
-          <Currency value={item.value} precision={2} />
-        </div>
-      ))(payload)}
+      {R.map(x => {
+        console.log(x)
+        return <TooltipLine caption={caption} {...x} />
+      })(payload)}
     </Paper>
   )
 )
@@ -105,6 +138,7 @@ const fixNegative = R.over(R.lensProp('negativeValue'), R.negate)
 const BarChart = ({
   barColor,
   barWidth,
+  caption,
   classes,
   className,
   data,
@@ -136,14 +170,14 @@ const BarChart = ({
           tick={{ fontSize: 12, fill: LEGEND_COLOR }}
         />
         <TooltipRoot
-          content={<Tooltip color={barColor} />}
+          content={<Tooltip caption={caption} />}
           isAnimationActive={false}
           cursor={false}
         />
         <Bar
           shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
           type="monotone"
-          dataKey="value"
+          dataKey={DEFAULT_VALUE_PROP}
           stackId="posNeg"
           fill={dual ? positiveBarColor : barColor}
         />
@@ -151,7 +185,7 @@ const BarChart = ({
           <Bar
             shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
             type="monotone"
-            dataKey="negativeValue"
+            dataKey={NEGATIVE_VALUE_PROP}
             stackId="posNeg"
             fill={barColor}
           />
@@ -164,12 +198,13 @@ const BarChart = ({
 BarChart.propTypes = {
   barColor: PropTypes.string,
   barWidth: PropTypes.number,
+  caption: PropTypes.string,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string,
       value: PropTypes.number,
     })
-  ),
+  ).isRequired,
   dual: PropTypes.bool,
   height: PropTypes.number,
   positiveBarColor: PropTypes.string,
