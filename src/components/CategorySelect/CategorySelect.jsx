@@ -3,6 +3,7 @@ import { CheckedMenuList, HeaderFilter } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import * as R from 'ramda'
 import CategoryLabel from 'components/CategoryLabel'
+import colors from 'styles/colors'
 import CategorySelectItem from './CategorySelectItem'
 
 const styles = {
@@ -15,7 +16,7 @@ const items = [
     name: 'Uncategorized',
     color: 'rgba(37, 43, 67, 0.2)',
   },
-  { value: 'marketing', name: 'Marketing', color: '#8725fb' },
+  { value: 'marketing', name: 'Marketing', color: colors.purple },
 ]
 
 const CategorySelect = ({ classes, size = 16, value, ...otherProps }) => {

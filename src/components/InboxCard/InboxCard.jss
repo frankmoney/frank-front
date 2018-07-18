@@ -20,7 +20,7 @@ export default theme => ({
     whiteSpace: 'nowrap',
   },
   infoButton: {
-    color: 'rgba(37, 43, 67, 0.3)',
+    color: '#D3D5D9',
     display: 'inline-flex',
     height: 22,
     marginLeft: 12,
@@ -48,7 +48,7 @@ export default theme => ({
     top: 0,
     width: 22,
     height: 22,
-    color: '#21cb61',
+    color: theme.colors.blue,
   },
   recipientTextBox: {
     ...theme.fontMedium(22, 30),
@@ -97,27 +97,11 @@ export default theme => ({
   },
   discussButton: {
     marginLeft: 10,
-    color: '#000',
-    backgroundColor: 'rgba(37, 43, 67, 0.04)',
-    boxShadow: 'none',
-    '&:hover': {
-      color: '#484DE7',
-      backgroundColor: 'rgba(37, 43, 67, 0.04)',
-      boxShadow: 'none',
-    },
   },
   doneButton: {
     marginLeft: 10,
-    backgroundColor: '#21CB61',
-    boxShadow: 'none', // TODO: remove in the kit
-    '&:hover': {
-      backgroundColor: '#EFFBF4',
-      color: '#21CB61',
-      boxShadow: 'none',
-    },
   },
   buttonIcon: {
     marginRight: 15,
-    verticalAlign: 'bottom',
   },
 })

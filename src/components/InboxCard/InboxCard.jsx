@@ -14,6 +14,7 @@ import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
 import Field from 'components/Field'
 import TextBox from 'components/TextBox'
+import colors from 'styles/colors'
 import styles from './InboxCard.jss'
 
 const InboxCard = ({
@@ -98,7 +99,7 @@ const InboxCard = ({
     <div className={classes.footer}>
       <div className={classes.useForSimilar}>
         <div>
-          <Switch color="#21CB61" checked={useForSimilar} />
+          <Switch color={colors.green} checked={useForSimilar} />
         </div>
         <div className={classes.useForSimilarHint}>
           Add same recipient, category and description for similar payments
@@ -110,7 +111,7 @@ const InboxCard = ({
         <Button
           className={classes.discussButton}
           fat
-          type="primary"
+          type="secondary"
           icon={ModeCommentIcon}
         >
           Discuss

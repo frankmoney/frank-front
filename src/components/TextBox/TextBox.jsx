@@ -4,7 +4,7 @@ import cx from 'classnames'
 import * as R from 'ramda'
 import { compose, withPropsOnChange } from 'recompose'
 
-const styles = {
+const styles = theme => ({
   root: {
     width: '100%',
     font: 'inherit',
@@ -13,9 +13,10 @@ const styles = {
     resize: 'none',
     outline: 'none',
     border: 'none',
-    borderBottom: ({ focus }) => `1px solid ${focus ? '#484DE7' : '#E4E5E9'}`,
+    borderBottom: ({ focus }) =>
+      `1px solid ${focus ? theme.colors.blue : '#E4E5E9'}`,
   },
-}
+})
 
 const TextBox = ({
   classes,
@@ -60,8 +61,7 @@ const adjustTextareaSize = element => {
 
     // fix the "border adding pixels" issue
     element.scrollTop = 100000
-    element.style.height = `${element.scrollHeight +
-      element.scrollTop}px`
+    element.style.height = `${element.scrollHeight + element.scrollTop}px`
   } finally {
     element.scrollTop = scrollTop
   }
