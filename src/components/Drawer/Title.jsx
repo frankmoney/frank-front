@@ -2,11 +2,13 @@ import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import Clamp from 'shiitake'
 
-const styles = {
-  root: {},
-}
+const styles = theme => ({
+  root: {
+    ...theme.fontSemibold(40, 46),
+  },
+})
 
-const Title = ({ classes, clamp, children, ...otherProps }) =>
+const Title = ({ theme, classes, clamp, children, ...otherProps }) =>
   clamp ? (
     <Clamp className={classes.root} lines={clamp} {...otherProps}>
       {children}

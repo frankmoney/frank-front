@@ -13,6 +13,10 @@ export const ROUTES = {
   ledger: {
     root: '/ledger',
   },
+  team: {
+    root: '/team',
+    match: '/team/:action?/:id?',
+  },
   demo: {
     root: '/demo',
     cards: '/demo/cards',

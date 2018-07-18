@@ -9,6 +9,7 @@ import ComponentsDemo from 'containers/ComponentsDemo'
 import DrawerDemo from 'containers/DrawerDemo'
 import Inbox from 'containers/Inbox'
 import Ledger from 'containers/Ledger'
+import Team from 'containers/Team'
 import { DEFAULT_TITLE, ROUTES } from './const'
 
 const withLayout = Component => props => (
@@ -37,6 +38,11 @@ export default [
   {
     component: withLayout(Ledger),
     path: ROUTES.ledger.root,
+    exact: true,
+  },
+  {
+    component: withLayout(Team),
+    path: ROUTES.team.match,
     exact: true,
   },
   {
