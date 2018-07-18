@@ -4,7 +4,7 @@ import cx from 'classnames'
 import { Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import Title from 'containers/Ledger/GraphOverviewCard/Title'
-import BarChart, { Tooltip as ChartTooltip } from './BarChart'
+import BarChart, { Tooltip as ChartTooltip } from './Bar'
 
 const styles = theme => ({
   root: {
@@ -28,10 +28,6 @@ const styles = theme => ({
   },
 })
 
-const Demo = injectStyles(styles)(({ classes, children }) => (
-  <div className={classes.root}>{children}</div>
-))
-
 const DemoCard = injectStyles(styles)(({ children, classes, className }) => (
   <Paper className={cx(classes.card, className)}>{children}</Paper>
 ))
@@ -49,13 +45,12 @@ const testData = [
   { key: 'Oct', value: 60 },
 ]
 
-const ChartsDemo = () => (
-  <Demo>
+const ChartsDemo = ({ classes }) => (
+  <div className={classes.root}>
     <DemoCard>
       <Title>BarChart</Title>
       <BarChart data={testData} width={790} height={260} barColor="#484DE7" />
     </DemoCard>
-
     <DemoCard>
       <Title>BarChart (less data)</Title>
       <BarChart
@@ -65,7 +60,6 @@ const ChartsDemo = () => (
         barColor="#484DE7"
       />
     </DemoCard>
-
     <DemoCard>
       <Title>Tooltip</Title>
       <ChartTooltip
@@ -74,7 +68,7 @@ const ChartsDemo = () => (
         payload={[{ value: '481' }, { value: '14899' }]}
       />
     </DemoCard>
-  </Demo>
+  </div>
 )
 
 export default injectStyles(styles)(ChartsDemo)
