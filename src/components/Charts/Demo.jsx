@@ -45,21 +45,36 @@ const testData = [
   { key: 'Oct', value: 60 },
 ]
 
+const dualTestData = [
+  { key: 'Jan', value: 39, negativeValue: 67 },
+  { key: 'Feb', value: 49, negativeValue: 84 },
+  { key: 'Mar', value: 0, negativeValue: 67 },
+  { key: 'Apr', value: 0, negativeValue: 36 },
+  { key: 'May', value: 13, negativeValue: 50 },
+  { key: 'Jun', value: 29, negativeValue: 35 },
+  { key: 'Jul', value: 0, negativeValue: 29 },
+  { key: 'Aug', value: 0, negativeValue: 0 },
+  { key: 'Sep', value: 24, negativeValue: 94 },
+  { key: 'Oct', value: 0, negativeValue: 29 },
+]
+
 const ChartsDemo = ({ classes }) => (
   <div className={classes.root}>
     <DemoCard>
       <Title>BarChart</Title>
       <BarChart data={testData} width={790} height={260} barColor="#484DE7" />
     </DemoCard>
+
     <DemoCard>
-      <Title>BarChart (less data)</Title>
-      <BarChart
-        data={R.take(8, testData)}
-        width={790}
-        height={260}
-        barColor="#484DE7"
-      />
+      <Title>Double BarChart</Title>
+      <BarChart dual data={dualTestData} />
     </DemoCard>
+
+    <DemoCard>
+      <Title>Custom BarChart</Title>
+      <BarChart data={testData} width={400} height={260} barColor="#FC1891" />
+    </DemoCard>
+
     <DemoCard>
       <Title>Tooltip</Title>
       <ChartTooltip

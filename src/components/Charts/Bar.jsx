@@ -12,7 +12,8 @@ import {
 import { injectStyles } from '@frankmoney/ui'
 import { Currency, Paper } from '@frankmoney/components'
 
-const BAR_COLOR = '#484DE7'
+const PRIMARY_BAR_COLOR = '#484DE7'
+const POSITIVE_BAR_COLOR = '#21CB61'
 const BAR_CORNER_RADIUS = 3
 const BAR_WIDTH = 34
 const BASE_LINE_OFFSET = 3
@@ -86,7 +87,7 @@ const Grid = injectStyles(styles)(
 )
 
 export const Tooltip = injectStyles(styles)(
-  ({ color = BAR_COLOR, classes, label, payload, ...otherProps }) => (
+  ({ color = PRIMARY_BAR_COLOR, classes, label, payload, ...otherProps }) => (
     <Paper className={classes.tooltip} {...otherProps}>
       <div className={classes.tooltipHeader}>{label}</div>
       {R.map(item => (
@@ -99,22 +100,28 @@ export const Tooltip = injectStyles(styles)(
   )
 )
 
+const fixNegative = R.over(R.lensProp('negativeValue'), R.negate)
+
 const BarChart = ({
   barColor,
   barWidth,
   classes,
   className,
   data,
+  dual,
   height,
+  positiveBarColor,
   width,
 }) => {
   const w = width - 48 // Bar padding adjusted for bar spacing. Needs testing on different bar counts
+  const signedData = dual ? R.map(fixNegative, data) : data
   return (
-    <div className={cx(classes.root, className)}>
+    <div className={cx(classes.root, className)} style={{ width, height }}>
       <Grid width={width} step={50} height={height} />
       <Chart
         className={classes.chart}
-        data={data}
+        stackOffset={dual ? 'sign' : 'none'}
+        data={signedData}
         width={w}
         height={height}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
@@ -137,8 +144,18 @@ const BarChart = ({
           shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
           type="monotone"
           dataKey="value"
-          fill={barColor}
+          stackId="posNeg"
+          fill={dual ? positiveBarColor : barColor}
         />
+        {dual && (
+          <Bar
+            shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
+            type="monotone"
+            dataKey="negativeValue"
+            stackId="posNeg"
+            fill={barColor}
+          />
+        )}
       </Chart>
     </div>
   )
@@ -153,14 +170,17 @@ BarChart.propTypes = {
       value: PropTypes.number,
     })
   ),
+  dual: PropTypes.bool,
   height: PropTypes.number,
+  positiveBarColor: PropTypes.string,
   width: PropTypes.number,
 }
 
 BarChart.defaultProps = {
-  barColor: BAR_COLOR,
+  barColor: PRIMARY_BAR_COLOR,
   barWidth: BAR_WIDTH,
   height: HEIGHT,
+  positiveBarColor: POSITIVE_BAR_COLOR,
   width: WIDTH,
 }
 
