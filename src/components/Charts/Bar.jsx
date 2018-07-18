@@ -19,7 +19,8 @@ const BASE_LINE_OFFSET = 3
 const CLIPPING_FIX = 1
 const DASH_LINE_COLOR = '#EBEBEB'
 const DEFAULT_VALUE_PROP = 'value'
-const FOOTER_HEIGHT = 60
+const FOOTER_PADDING = 35
+const FOOTER_TEXT_HEIGHT = 20
 const LEGEND_COLOR = '#808080'
 const NEGATIVE_VALUE_PROP = 'negativeValue'
 const PADDING = 20
@@ -156,6 +157,7 @@ const BarChart = ({
   className,
   data,
   dual,
+  footerPadding,
   height,
   positiveBarColor,
   width,
@@ -164,6 +166,7 @@ const BarChart = ({
   const barCount = R.length(data)
   const barWidth = (width - 2 * PADDING) / (2 * barCount - 1)
   const w = barWidth * (2 * barCount)
+  const footerHeight = footerPadding + FOOTER_TEXT_HEIGHT
   return (
     <div className={cx(classes.root, className)} style={{ width, height }}>
       <Grid
@@ -171,7 +174,7 @@ const BarChart = ({
         dual={dual}
         width={width}
         steps={dual ? 2 : 4}
-        height={height - FOOTER_HEIGHT}
+        height={height - footerHeight}
       />
       <Chart
         className={classes.chart}
@@ -186,8 +189,10 @@ const BarChart = ({
           dataKey="key"
           axisLine={false}
           tickLine={false}
-          tickMargin={35 + BASE_LINE_OFFSET}
-          height={FOOTER_HEIGHT + BASE_LINE_OFFSET}
+          tickMargin={footerPadding + BASE_LINE_OFFSET}
+          height={footerHeight + BASE_LINE_OFFSET}
+          padding={{ left: 0, right: 0 }}
+          minTickGap={0}
           tick={{ fontSize: 12, fill: LEGEND_COLOR }}
         />
         <TooltipRoot
@@ -227,6 +232,7 @@ BarChart.propTypes = {
     })
   ).isRequired,
   dual: PropTypes.bool,
+  footerPadding: PropTypes.number,
   height: PropTypes.number,
   positiveBarColor: PropTypes.string,
   width: PropTypes.number,
@@ -235,6 +241,7 @@ BarChart.propTypes = {
 BarChart.defaultProps = {
   barColor: PRIMARY_BAR_COLOR,
   height: HEIGHT,
+  footerPadding: FOOTER_PADDING,
   positiveBarColor: POSITIVE_BAR_COLOR,
   width: WIDTH,
 }
