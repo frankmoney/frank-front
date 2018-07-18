@@ -1,8 +1,16 @@
+import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import { Bar, BarChart as Chart, Rectangle, Tooltip, XAxis } from 'recharts'
+import {
+  Bar,
+  BarChart as Chart,
+  Rectangle,
+  Tooltip as TooltipRoot,
+  XAxis,
+} from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
+import { Currency, Paper } from '@frankmoney/components'
 
 const BAR_COLOR = '#484DE7'
 const BAR_CORNER_RADIUS = 3
@@ -15,7 +23,7 @@ const LEGEND_COLOR = '#808080'
 const WIDTH = 790
 const HEIGHT = 260
 
-const styles = {
+const styles = theme => ({
   root: {
     position: 'relative',
   },
@@ -25,7 +33,21 @@ const styles = {
   grid: {
     position: 'absolute',
   },
-}
+  tooltip: {
+    padding: [14, 19, 9],
+    border: '1px solid rgba(0, 0, 0, 0.02)',
+    boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)',
+  },
+  tooltipHeader: {
+    ...theme.fontRegular(14, 22),
+    color: '#999999',
+    marginBottom: 12,
+  },
+  tooltipItem: {
+    ...theme.fontMedium(14, 16),
+    marginBottom: 10,
+  },
+})
 
 const Grid = injectStyles(styles)(
   ({ classes, className, step, height, width, skipZero = true }) => {
@@ -63,6 +85,20 @@ const Grid = injectStyles(styles)(
   }
 )
 
+export const Tooltip = injectStyles(styles)(
+  ({ color = BAR_COLOR, classes, label, payload, ...otherProps }) => (
+    <Paper className={classes.tooltip} {...otherProps}>
+      <div className={classes.tooltipHeader}>{label}</div>
+      {R.map(item => (
+        // TODO: dot, label, style number formatter
+        <div className={classes.tooltipItem} style={{ color }}>
+          <Currency value={item.value} precision={2} />
+        </div>
+      ))(payload)}
+    </Paper>
+  )
+)
+
 const BarChart = ({
   barColor,
   barWidth,
@@ -92,7 +128,11 @@ const BarChart = ({
           height={60 + BASE_LINE_OFFSET}
           tick={{ fontSize: 12, fill: LEGEND_COLOR }}
         />
-        <Tooltip isAnimationActive={false} cursor={false} />
+        <TooltipRoot
+          content={<Tooltip color={barColor} />}
+          isAnimationActive={false}
+          cursor={false}
+        />
         <Bar
           shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
           type="monotone"

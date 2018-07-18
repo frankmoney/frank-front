@@ -4,7 +4,7 @@ import cx from 'classnames'
 import { Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import Title from 'containers/Ledger/GraphOverviewCard/Title'
-import BarChart from './BarChart'
+import BarChart, { Tooltip as ChartTooltip } from './BarChart'
 
 const styles = theme => ({
   root: {
@@ -63,6 +63,15 @@ const ChartsDemo = () => (
         width={790}
         height={260}
         barColor="#484DE7"
+      />
+    </DemoCard>
+
+    <DemoCard>
+      <Title>Tooltip</Title>
+      <ChartTooltip
+        style={{ maxWidth: 300 }}
+        label="May"
+        payload={[{ value: '481' }, { value: '14899' }]}
       />
     </DemoCard>
   </Demo>
