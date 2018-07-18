@@ -118,7 +118,13 @@ const Grid = injectStyles(styles)(
   }
 )
 
+const epsilon = 2 ** -42
+const negateWithEpsilon = x => (x === 0 ? -epsilon : -x)
+const fixNegative = R.over(R.lensProp('negativeValue'), negateWithEpsilon)
+const fixMinusZero = x => (x === -epsilon ? 0 : x)
+
 const formatMoney = R.pipe(
+  fixMinusZero,
   x => ({ value: x, precision: 2 }),
   formatCurrency,
   R.replace('$', '$ '),
@@ -147,8 +153,6 @@ export const Tooltip = injectStyles(styles)(
     </Paper>
   )
 )
-
-const fixNegative = R.over(R.lensProp('negativeValue'), R.negate)
 
 const BarChart = ({
   barColor,
@@ -202,19 +206,21 @@ const BarChart = ({
         />
         <Bar
           className={{ [classes.positiveBars]: dual }}
-          shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
-          type="monotone"
           dataKey={DEFAULT_VALUE_PROP}
-          stackId="posNeg"
           fill={dual ? positiveBarColor : barColor}
+          minPointSize={5}
+          shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
+          stackId="posNeg"
+          type="monotone"
         />
         {dual && (
           <Bar
-            shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
-            type="monotone"
             dataKey={NEGATIVE_VALUE_PROP}
-            stackId="posNeg"
             fill={barColor}
+            minPointSize={5}
+            shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
+            stackId="posNeg"
+            type="monotone"
           />
         )}
       </Chart>

@@ -87,6 +87,7 @@ const ChartsDemo = ({ classes }) => (
         height={220}
         barColor="#FC1891"
         footerPadding={15}
+        caption="Expenses"
       />
     </DemoCard>
 
