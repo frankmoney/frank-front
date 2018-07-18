@@ -3,16 +3,17 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
+import colors from 'styles/colors'
 import ExpandRow from './ExpandRow'
 import GraphPie from './GraphPie'
 import Title from './Title'
 import styles from './GraphOverviewCard.jss'
 
 const DEMO_CATEGORIES = [
-  { color: '#8725FB', name: 'Operational expenses' },
-  { color: '#21CB61', name: 'Marketing' },
-  { color: '#0624FB', name: 'Program expenses' },
-  { color: '#FC1891', name: 'Street outreach' },
+  { color: colors.purple, name: 'Operational expenses' },
+  { color: colors.green, name: 'Marketing' },
+  { color: colors.brightBlue, name: 'Program expenses' },
+  { color: colors.magenta, name: 'Street outreach' },
   { color: '#B3B3B3', name: 'Other categories' },
 ]
 

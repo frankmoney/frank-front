@@ -2,10 +2,11 @@ import React from 'react'
 import { withProps } from 'recompose'
 import CategoryLabel from 'components/CategoryLabel'
 import RecipientCategoryDrawer from 'components/RecipientCategoryDrawer'
+import colors from 'styles/colors'
 
 export default withProps({
   mode: 'title',
-  title: <CategoryLabel size={26} name="Marketing" color="#8725fb" />,
+  title: <CategoryLabel size={26} name="Marketing" color={colors.purple} />,
   items: [
     {
       value: '-99.00',

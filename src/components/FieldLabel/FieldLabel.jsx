@@ -2,21 +2,21 @@ import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
 
-const styles = {
+const styles = theme => ({
   root: {
     display: 'block',
     marginBottom: 14,
   },
   title: {
     fontWeight: 500,
-    color: ({ focus }) => (focus ? '#484DE7' : '#9094A5'),
+    color: ({ focus }) => (focus ? theme.colors.blue : '#9094A5'),
   },
   hint: {
     fontWeight: 400,
     paddingLeft: 8,
     color: ({ focus }) => (focus ? '#A4A6F3' : '#D5D7DD'),
   },
-}
+})
 
 const FieldLabel = ({
   classes,
