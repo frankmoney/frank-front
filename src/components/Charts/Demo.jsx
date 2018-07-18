@@ -83,8 +83,8 @@ const ChartsDemo = ({ classes }) => (
       <Title>Custom BarChart</Title>
       <BarChart
         data={singularData}
-        width={400}
-        height={260}
+        width={334}
+        height={220}
         barColor="#FC1891"
       />
     </DemoCard>

@@ -14,7 +14,6 @@ import { formatCurrency, Paper } from '@frankmoney/components'
 import Circle from './Circle.svg'
 
 const BAR_CORNER_RADIUS = 3
-const BAR_WIDTH = 34
 const BASE_LINE_COLOR = '#E5E5E5'
 const BASE_LINE_OFFSET = 3
 const CLIPPING_FIX = 1
@@ -23,6 +22,7 @@ const DEFAULT_VALUE_PROP = 'value'
 const FOOTER_HEIGHT = 60
 const LEGEND_COLOR = '#808080'
 const NEGATIVE_VALUE_PROP = 'negativeValue'
+const PADDING = 20
 const POSITIVE_BAR_COLOR = '#21CB61'
 const PRIMARY_BAR_COLOR = '#484DE7'
 
@@ -151,7 +151,6 @@ const fixNegative = R.over(R.lensProp('negativeValue'), R.negate)
 
 const BarChart = ({
   barColor,
-  barWidth,
   caption,
   classes,
   className,
@@ -161,8 +160,10 @@ const BarChart = ({
   positiveBarColor,
   width,
 }) => {
-  const w = width - 48 // Bar padding adjusted for bar spacing. Needs testing on different bar counts
   const signedData = dual ? R.map(fixNegative, data) : data
+  const barCount = R.length(data)
+  const barWidth = (width - 2 * PADDING) / (2 * barCount - 1)
+  const w = barWidth * (2 * barCount)
   return (
     <div className={cx(classes.root, className)} style={{ width, height }}>
       <Grid
@@ -218,7 +219,6 @@ const BarChart = ({
 
 BarChart.propTypes = {
   barColor: PropTypes.string,
-  barWidth: PropTypes.number,
   caption: PropTypes.string,
   data: PropTypes.arrayOf(
     PropTypes.shape({
@@ -234,7 +234,6 @@ BarChart.propTypes = {
 
 BarChart.defaultProps = {
   barColor: PRIMARY_BAR_COLOR,
-  barWidth: BAR_WIDTH,
   height: HEIGHT,
   positiveBarColor: POSITIVE_BAR_COLOR,
   width: WIDTH,
