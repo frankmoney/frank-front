@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
 import { Paper } from '@frankmoney/components'
@@ -53,6 +54,16 @@ const ChartsDemo = () => (
     <DemoCard>
       <Title>BarChart</Title>
       <BarChart data={testData} width={790} height={260} barColor="#484DE7" />
+    </DemoCard>
+
+    <DemoCard>
+      <Title>BarChart (less data)</Title>
+      <BarChart
+        data={R.take(8, testData)}
+        width={790}
+        height={260}
+        barColor="#484DE7"
+      />
     </DemoCard>
   </Demo>
 )
