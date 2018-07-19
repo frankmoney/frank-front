@@ -14,6 +14,7 @@ import ListLayoutContent from 'components/ListLayoutContent'
 import { ROUTES } from 'const'
 import EditRoleDrawer from './EditRoleDrawer'
 import InviteButton from './InviteButton'
+import InviteDrawer from './InviteDrawer'
 import OwnProfile from './OwnProfile'
 import ProfileList from './ProfileList'
 import { canInviteSelector } from './selectors'
@@ -46,6 +47,10 @@ const Team = ({
       <OwnProfile />
       <ProfileList />
     </ListLayoutContent>
+    <InviteDrawer
+      open={action === 'invite'}
+      onClose={handleDrawerClose}
+    />
     <EditRoleDrawer
       open={action === 'edit-role' && id}
       id={id}

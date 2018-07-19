@@ -16,6 +16,7 @@ export const ROUTES = {
   team: {
     root: '/team',
     match: '/team/:action?/:id?',
+    invite: '/team/invite',
   },
   demo: {
     root: '/demo',

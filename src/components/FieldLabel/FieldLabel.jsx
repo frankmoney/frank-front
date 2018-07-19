@@ -9,26 +9,28 @@ const styles = theme => ({
   },
   title: {
     fontWeight: 500,
-    color: ({ focus }) => (focus ? theme.colors.blue : '#9094A5'),
+    color: ({ focus }) => (focus ? theme.colors.blue : '#9094a5'),
   },
   hint: {
     fontWeight: 400,
     paddingLeft: 8,
-    color: ({ focus }) => (focus ? '#A4A6F3' : '#D5D7DD'),
+    color: ({ focus }) => (focus ? '#a4a6f3' : '#d5d7dd'),
   },
 })
 
 const FieldLabel = ({
   classes,
   className,
+  titleClassName,
+  hintClassName,
   title,
   hint,
   focus,
   ...otherProps
 }) => (
   <div className={cx(className, classes.root)} {...otherProps}>
-    <span className={classes.title}>{title}</span>
-    {hint && <span className={classes.hint}>{hint}</span>}
+    <span className={cx(titleClassName, classes.title)}>{title}</span>
+    {hint && <span className={cx(hintClassName, classes.hint)}>{hint}</span>}
   </div>
 )
 
