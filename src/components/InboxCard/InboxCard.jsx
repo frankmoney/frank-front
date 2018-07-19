@@ -31,6 +31,7 @@ const InboxCard = ({
   useForSimilar,
   setRecipientName,
   setDescription,
+  searchText,
   ...otherProps
 }) => (
   <Paper className={cx(classes.root, className)} {...otherProps}>
