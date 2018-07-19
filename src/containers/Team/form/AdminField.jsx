@@ -16,7 +16,7 @@ const styles = {
   },
 }
 
-const AdminField = ({ classes, checked }) => (
+const AdminField = ({ classes, checked, onChange }) => (
   <Field
     title={
       <>
@@ -25,7 +25,11 @@ const AdminField = ({ classes, checked }) => (
       </>
     }
   >
-    <Switch color={colors.green} checked={checked} />
+    <Switch
+      color={colors.green}
+      checked={checked}
+      onChange={({ target }) => onChange(target.checked)}
+    />
   </Field>
 )
 
