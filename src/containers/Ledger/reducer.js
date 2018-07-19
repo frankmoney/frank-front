@@ -16,7 +16,7 @@ const mapTransaction = ({
   title,
   ...otherProps
 }) => ({
-  id,
+  id: id.toString(), // TODO stupid Table component hack
   createdAt: '2018-01-01 05:00',
   delta: parseFloat(sum),
   recipientName: peerclient.firstName,
