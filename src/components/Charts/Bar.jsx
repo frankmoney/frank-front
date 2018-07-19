@@ -6,7 +6,7 @@ import {
   Bar,
   BarChart as Chart,
   Rectangle,
-  Tooltip as TooltipRoot,
+  Tooltip as ReTooltip,
   XAxis,
 } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
@@ -146,8 +146,8 @@ const TooltipLine = injectStyles(styles)(
 )
 
 export const Tooltip = injectStyles(styles)(
-  ({ caption, classes, label, payload, ...otherProps }) => (
-    <Paper className={classes.tooltip} {...otherProps}>
+  ({ caption, classes, label, payload, style }) => (
+    <Paper className={classes.tooltip} style={style}>
       <div className={classes.tooltipHeader}>{label}</div>
       {R.map(x => <TooltipLine caption={caption} {...x} />)(payload)}
     </Paper>
@@ -199,7 +199,7 @@ const BarChart = ({
           minTickGap={0}
           tick={{ fontSize: 12, fill: LEGEND_COLOR }}
         />
-        <TooltipRoot
+        <ReTooltip
           content={<Tooltip caption={caption} />}
           isAnimationActive={false}
           cursor={false}
