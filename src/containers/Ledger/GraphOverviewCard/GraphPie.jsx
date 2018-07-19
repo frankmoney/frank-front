@@ -3,14 +3,14 @@ import cx from 'classnames'
 import { MenuItem, Input } from 'material-ui'
 import { injectStyles } from '@frankmoney/ui'
 import { SelectField } from '@frankmoney/components'
-import CategoryLabel from 'components/CategoryLabel'
+import CategoryList from 'components/CategoryList'
 
 const styles = theme => ({
   pie: {
     display: 'flex',
     alignItems: 'center',
   },
-  pieChart: {
+  chart: {
     marginLeft: 30,
     width: 350,
     height: 350,
@@ -26,67 +26,112 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  pieLegend: {
-    marginLeft: 60,
+  switcher: {
+    alignItems: 'baseline',
+  },
+  input: {
+    ...theme.fontMedium(18, 18),
+    margin: 0,
+    padding: [0, 20, 0, 0],
+    minHeight: 'auto',
   },
   legend: {
-    ...theme.fontMedium(22, 26),
+    marginLeft: 60,
+  },
+  legendItem: {
     '&:not(:first-child)': {
       marginTop: 10,
     },
   },
+  legendItemName: {
+    ...theme.fontMedium(22, 26),
+  },
+  legendItemCounter: {
+    ...theme.fontRegular(22, 26),
+  },
+  legendTooltipItem: {
+    display: 'flex',
+    '&:not(:first-child)': {
+      marginTop: 12,
+    },
+  },
+  legendTooltipItemName: {
+    flex: [1, 1],
+    paddingRight: 40,
+    ...theme.fontMedium(14, 16),
+  },
+  legendTooltipItemCounter: {
+    flex: [1, 1],
+    textAlign: 'right',
+    ...theme.fontMedium(14, 16),
+    color: 'black !important',
+  },
 })
 
-const renderSelectInput = data => `% of total ${data.key}`
+const renderSelectInput = ({ key }) => key
+
+const renderMenuItem = ({ key }) => (
+  <MenuItem key={key} value={key}>
+    {key}
+  </MenuItem>
+)
 
 const pieCategoryTypes = [{ key: 'income' }, { key: 'spending' }]
 
 class GraphPie extends React.PureComponent {
-  state = {}
+  state = {
+    categoryType: 'spending',
+  }
+
+  handleChangeCategoryType = event => {
+    this.setState({ categoryType: event.target.value })
+  }
 
   render() {
     const { classes, className, categories } = this.props
 
+    const { categoryType } = this.state
+
     return (
       <div className={cx(classes.pie, className)}>
-        <div className={classes.pieChart}>
-          <SelectField
-            name="type"
-            value="spending"
-            values={pieCategoryTypes}
-            valueKey="key"
-            MenuProps={{ MenuListProps: { className: classes.list } }}
-            inputComponent={
-              <Input
-                classes={{
-                  root: classes.inputContainer,
-                  input: classes.input,
-                }}
-                disableUnderline
-              />
-            }
-            renderValue={renderSelectInput}
-          >
-            <MenuItem key="spending" value="spending">
-              spending
-            </MenuItem>
-            <MenuItem key="income" value="income">
-              income
-            </MenuItem>
-          </SelectField>
+        <div className={classes.chart}>
+          <div className={classes.switcher}>
+            {'% of total '}
+            <SelectField
+              name="type"
+              value={categoryType}
+              values={pieCategoryTypes}
+              valueKey="key"
+              MenuProps={{ MenuListProps: { className: classes.list } }}
+              inputComponent={
+                <Input
+                  classes={{
+                    root: classes.inputContainer,
+                    input: classes.input,
+                  }}
+                  disableUnderline
+                />
+              }
+              renderValue={renderSelectInput}
+              onChange={this.handleChangeCategoryType}
+            >
+              {pieCategoryTypes.map(type => renderMenuItem(type))}
+            </SelectField>
+          </div>
         </div>
-        <div className={classes.pieLegend}>
-          {categories.map(({ name, color }) => (
-            <CategoryLabel
-              key={name}
-              className={classes.legend}
-              color={color}
-              name={name}
-              size={16}
-              fontSize={26}
-            />
-          ))}
-        </div>
+        <CategoryList
+          className={classes.legend}
+          classes={{
+            item: classes.legendItem,
+            itemName: classes.legendItemName,
+            itemCounter: classes.legendItemCounter,
+            tooltipItem: classes.legendTooltipItem,
+            tooltipItemName: classes.legendTooltipItemName,
+            tooltipItemCounter: classes.legendTooltipItemCounter,
+          }}
+          categories={categories}
+          counterUnit="%"
+        />
       </div>
     )
   }

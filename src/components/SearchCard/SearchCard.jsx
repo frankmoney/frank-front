@@ -12,7 +12,7 @@ const AdornmentIcon = ({ className }) => (
   </InputAdornment>
 )
 
-const SearchCard = ({ classes, className, onChange, value }) => (
+const SearchCard = ({ classes, className, onChange, value, placeholder }) => (
   <Paper className={cx(classes.card, className)}>
     <TextField
       className={classes.field}
@@ -23,7 +23,7 @@ const SearchCard = ({ classes, className, onChange, value }) => (
         disableUnderline: true,
         startAdornment: <AdornmentIcon className={classes.adornmentIcon} />,
       }}
-      placeholder="Start typing a category, recipient or part of a description..."
+      placeholder={placeholder}
       fontBig
     />
   </Paper>

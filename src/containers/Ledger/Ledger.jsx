@@ -8,7 +8,7 @@ import {
   BreadcrumbsItem,
 } from '@frankmoney/components'
 import CurrencyProvider from 'components/CurrencyProvider'
-import SearchCard from './SearchCard'
+import SearchCard from 'components/SearchCard'
 import GraphOverviewCard from './GraphOverviewCard'
 import styles from './Ledger.jss'
 import LedgerTable from './LedgerTable'
@@ -35,8 +35,9 @@ class Ledger extends React.PureComponent {
               <BreadcrumbsItem>Ledger</BreadcrumbsItem>
             </Breadcrumbs>
           </FixedHeader>
-          <div className={classes.contrainer}>
+          <div className={classes.container}>
             <SearchCard
+              placeholder="Start typing a category, recipient or part of a description..."
               className={classes.searchCard}
               value={searchValue}
               onChange={this.handleChangeSearch}
@@ -44,7 +45,6 @@ class Ledger extends React.PureComponent {
             {searchValue === '' && (
               <GraphOverviewCard className={classes.overviewCard} />
             )}
-
             <LedgerTable />
           </div>
         </div>

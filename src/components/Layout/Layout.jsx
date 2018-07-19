@@ -32,6 +32,16 @@ export default withProps({
             primaryText="Ledger"
           />
           <SidebarMenuItem
+            href={createRouteUrl(ROUTES.directory.root)}
+            navLinkComponent={ReduxNavLink}
+            primaryText="Directory"
+          />
+          <SidebarMenuItem
+            href={createRouteUrl(ROUTES.directory.recipient)}
+            navLinkComponent={ReduxNavLink}
+            primaryText="Directory :: Recipient"
+          />
+          <SidebarMenuItem
             href={createRouteUrl(ROUTES.demo.components)}
             navLinkComponent={ReduxNavLink}
             primaryText="Demo :: Components"
