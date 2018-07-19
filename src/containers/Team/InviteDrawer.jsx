@@ -34,10 +34,6 @@ const styles = theme => ({
     ...theme.fontRegular(14, 20),
     color: 'rgba(37, 43, 67, .5)',
   },
-  sendButton: {
-    marginLeft: 100,
-    whiteSpace: 'nowrap',
-  },
 })
 
 const InviteDrawer = ({
@@ -68,14 +64,10 @@ const InviteDrawer = ({
     </Drawer.Body>
     <Drawer.Footer className={classes.footer}>
       <div className={classes.sendHint}>
-        We will notify you via email when your teammate accepts your invitation
+        We will notify you via email when<br />
+        your teammate accepts your invitation
       </div>
-      <Button
-        className={classes.sendButton}
-        primary
-        label="Send invitation"
-        icon={SendIcon}
-      />
+      <Button fat type="primary" label="Send invitation" icon={SendIcon} />
     </Drawer.Footer>
   </Drawer>
 )

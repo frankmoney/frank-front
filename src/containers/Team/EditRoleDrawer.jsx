@@ -61,7 +61,7 @@ const EditRoleDrawer = ({
     </Drawer.Body>
     <Drawer.Footer className={classes.footer}>
       Editing {firstName} {lastName}
-      <Button primary label="Done" />
+      <Button className={classes.doneButton} fat type="primary" label="Done" />
     </Drawer.Footer>
   </Drawer>
 )
