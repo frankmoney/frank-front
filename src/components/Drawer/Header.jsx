@@ -1,6 +1,8 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
+import { compose, defaultProps } from 'recompose'
 import renderProp from 'utils/renderProp'
+import CloseButton from './CloseButton'
 
 const styles = {
   root: {
@@ -23,4 +25,9 @@ const DrawerHeader = ({ classes, buttons, children }) => (
   </div>
 )
 
-export default injectStyles(styles)(DrawerHeader)
+export default compose(
+  defaultProps({
+    buttons: CloseButton,
+  }),
+  injectStyles(styles)
+)(DrawerHeader)

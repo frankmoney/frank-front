@@ -17,6 +17,11 @@ export const ROUTES = {
     root: '/directory',
     recipient: '/directory/recipient',
   },
+  team: {
+    root: '/team',
+    match: '/team/:action?/:id?',
+    invite: '/team/invite',
+  },
   demo: {
     root: '/demo',
     cards: '/demo/cards',
