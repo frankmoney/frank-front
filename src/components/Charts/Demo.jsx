@@ -89,25 +89,38 @@ const tooltipPayload = [
 class PieDemo extends React.Component {
   state = {
     activeIndex: null,
+    hoveredPieIndex: null,
   }
 
   handleLegendOver = index => () => this.setState({ activeIndex: index })
 
   handleLegendOut = () => this.setState({ activeIndex: null })
 
+  handlePieOver = index => this.setState({ hoveredPieIndex: index })
+
+  handlePieOut = () => this.setState({ hoveredPieIndex: null })
+
   render() {
     const { classes } = this.props
     const data = injectIndex(pieData)
     return (
       <div className={classes.pieContainer}>
-        <PieChart data={pieData} activeIndex={this.state.activeIndex} />
+        <PieChart
+          data={pieData}
+          activeIndex={this.state.activeIndex}
+          onMouseEnter={this.handlePieOver}
+          onMouseLeave={this.handlePieOut}
+        />
         <ul className={classes.pieLegend}>
           {R.map(
             ({ fill, key, index }) => (
               <li
                 onMouseOver={this.handleLegendOver(index)}
                 onMouseOut={this.handleLegendOut}
-                style={{ color: fill }}
+                style={{
+                  color: fill,
+                  fontWeight: this.state.hoveredPieIndex === index ? 500 : 400,
+                }}
               >
                 {key}
               </li>

@@ -2,9 +2,9 @@ import React from 'react'
 import TextBox from 'components/TextBox'
 import Field from './Field'
 
-const EmailField = ({ value }) => (
+const EmailField = ({ value, onChange }) => (
   <Field title="Email">
-    <TextBox value={value} />
+    <TextBox value={value} onChange={({ target }) => onChange(target.value)} />
   </Field>
 )
 
