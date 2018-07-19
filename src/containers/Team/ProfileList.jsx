@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { createRouteUrl } from '@frankmoney/utils'
 import * as R from 'ramda'
@@ -39,10 +39,10 @@ const ProfileList = ({ classes, profiles, handleEditProfile }) => (
   <Paper className={classes.root}>
     {profiles &&
       profiles.map((profile, index) => (
-        <>
+        <Fragment key={profile.id}>
           {!index || <hr className={classes.separator} />}
           <Profile {...profile} onEditProfile={handleEditProfile} />
-        </>
+        </Fragment>
       ))}
   </Paper>
 )
