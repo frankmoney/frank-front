@@ -5,9 +5,11 @@ import PropTypes from 'prop-types'
 import { Cell, PieChart as ReChart, Pie } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
 
-const SIZE = 350
-const THICCNESS = 5
 const DEFAULT_COLOR = '#B3B3B3'
+const INNER_RING_THICCNESS = 15
+const RING_THICCNESS = 5
+const SEGMENTS_PADDING_ANGLE = 0.25
+const SIZE = 350
 
 const styles = {
   root: {
@@ -52,7 +54,7 @@ class PieChart extends React.Component {
   render() {
     const { activeIndex, classes, className, data, size, onClick } = this.props
     const outerRadius = size / 2
-    const innerRadius = outerRadius - THICCNESS
+    const innerRadius = outerRadius - RING_THICCNESS
 
     const indexedData = injectIndex(data)
     const currentIndex =
@@ -74,7 +76,7 @@ class PieChart extends React.Component {
             isAnimationActive={false}
             nameKey="key"
             outerRadius={outerRadius}
-            paddingAngle={0.25}
+            paddingAngle={SEGMENTS_PADDING_ANGLE}
             startAngle={-270}
           >
             {R.map(PieSlice, data)}
@@ -84,14 +86,14 @@ class PieChart extends React.Component {
             data={data}
             dataKey="value"
             endAngle={-630}
-            innerRadius={innerRadius - 15}
+            innerRadius={innerRadius - INNER_RING_THICCNESS}
             isAnimationActive={false}
             nameKey="key"
             onMouseEnter={this.handlePieEnter}
             onMouseLeave={this.handlePieLeave}
             opacity={0.1}
             outerRadius={outerRadius}
-            paddingAngle={0.25}
+            paddingAngle={SEGMENTS_PADDING_ANGLE}
             startAngle={-270}
           >
             {R.map(
