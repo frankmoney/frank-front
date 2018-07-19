@@ -18,6 +18,12 @@ const styles = {
   ring: {
     cursor: 'pointer',
   },
+  innerRing: {
+    opacity: 0.1,
+  },
+  pizzaSlice: {
+    // opacity: 0, // not really needed
+  },
 }
 
 const PieSlice = ({ fill = DEFAULT_COLOR }) => <Cell fill={fill} />
@@ -82,16 +88,13 @@ class PieChart extends React.Component {
             {R.map(PieSlice, data)}
           </Pie>
           <Pie
-            className={classes.ring}
+            className={cx(classes.ring, classes.innerRing)}
             data={data}
             dataKey="value"
             endAngle={-630}
             innerRadius={innerRadius - INNER_RING_THICCNESS}
             isAnimationActive={false}
             nameKey="key"
-            onMouseEnter={this.handlePieEnter}
-            onMouseLeave={this.handlePieLeave}
-            opacity={0.1}
             outerRadius={outerRadius}
             paddingAngle={SEGMENTS_PADDING_ANGLE}
             startAngle={-270}
@@ -104,6 +107,19 @@ class PieChart extends React.Component {
               indexedData
             )}
           </Pie>
+          <Pie
+            className={classes.pizzaSlice}
+            data={data}
+            dataKey="value"
+            endAngle={-630}
+            innerRadius={0}
+            onMouseEnter={this.handlePieEnter}
+            onMouseLeave={this.handlePieLeave}
+            opacity={0}
+            outerRadius={outerRadius}
+            paddingAngle={SEGMENTS_PADDING_ANGLE}
+            startAngle={-270}
+          />
         </ReChart>
       </div>
     )
