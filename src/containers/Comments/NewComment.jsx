@@ -48,7 +48,7 @@ const styles = theme => ({
     color: '#7A7DE7',
     textTransform: 'none',
     '&:hover, &:active': {
-      color: '#484DE7',
+      color: theme.colors.blue,
     },
   },
   buttonMention: {},

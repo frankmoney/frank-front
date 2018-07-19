@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import IconComment from 'material-ui-icons/ModeComment'
 import { Button, Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import Comments from 'containers/Comments'
@@ -89,7 +90,12 @@ class CommentsDemo extends React.Component {
           <Title>Comments</Title>
           <div className={classes.cardBody}>
             {this.state.firstBlockOpen ? 'Open' : 'Closed'}
-            <Button label="Discuss" onClick={this.toggleFirstBlockComments} />
+            <Button
+              fat
+              icon={IconComment}
+              label="Discuss"
+              onClick={this.toggleFirstBlockComments}
+            />
           </div>
           <Comments
             comments={testComments}

@@ -16,7 +16,12 @@ const styles = theme => ({
     height: 350,
     borderRadius: '100%',
     border: '3px dashed',
-    borderColor: 'red green blue yellow',
+    borderColor: [
+      theme.colors.purple,
+      theme.colors.green,
+      theme.colors.brightBlue,
+      theme.colors.magenta,
+    ],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
