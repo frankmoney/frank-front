@@ -15,16 +15,31 @@ const styles = {
     background: ({ color }) => color,
     stroke: ({ color }) => color,
     fill: ({ color }) => color,
+    marginRight: 10,
   },
-  name: {
-    paddingLeft: 10,
-  },
+  name: {},
+  counter: {},
 }
 
-const CategoryLabel = ({ className, classes, name }) => (
-  <div className={cx(classes.root, className)}>
+const CategoryLabel = ({
+  className,
+  classes,
+  name,
+  color,
+  size,
+  counter,
+  counterUnit,
+  ...otherProps
+}) => (
+  <div className={cx(classes.root, className)} {...otherProps}>
     <span className={classes.icon} />
     <span className={classes.name}>{name}</span>
+    {counter && (
+      <span className={classes.counter}>
+        {` ${counter}`}
+        {counterUnit && counterUnit}
+      </span>
+    )}
   </div>
 )
 

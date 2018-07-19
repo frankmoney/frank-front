@@ -8,10 +8,10 @@ import {
   BreadcrumbsItem,
 } from '@frankmoney/components'
 import SearchCard from 'components/SearchCard'
-import GraphOverviewCard from './GraphOverviewCard'
-import styles from './Ledger.jss'
+import RecipientsTable from './RecipientsTable/RecipientsTable'
+import styles from './Directory.jss'
 
-class Ledger extends React.PureComponent {
+class Directory extends React.PureComponent {
   state = {
     searchValue: '',
   }
@@ -26,26 +26,24 @@ class Ledger extends React.PureComponent {
     const { searchValue } = this.state
 
     return (
-      <div className={cx(classes.ledgerPage, className)}>
+      <div className={cx(classes.directoryPage, className)}>
         <FixedHeader>
           <Breadcrumbs>
-            <BreadcrumbsItem>Ledger</BreadcrumbsItem>
+            <BreadcrumbsItem>Directory</BreadcrumbsItem>
           </Breadcrumbs>
         </FixedHeader>
         <div className={classes.container}>
           <SearchCard
-            placeholder="Start typing a category, recipient or part of a description..."
+            placeholder="Start typing recipient or donor name…"
             className={classes.searchCard}
             value={searchValue}
             onChange={this.handleChangeSearch}
           />
-          {searchValue === '' && (
-            <GraphOverviewCard className={classes.overviewCard} />
-          )}
+          <RecipientsTable />
         </div>
       </div>
     )
   }
 }
 
-export default compose(injectStyles(styles, { fixedGrid: true }))(Ledger)
+export default compose(injectStyles(styles, { fixedGrid: true }))(Directory)

@@ -29,8 +29,8 @@ const styles = {
   },
 }
 
-const render = ({ classes, symbol, value, formatter }) => (
-  <div className={classes.root}>
+const render = ({ classes, className, symbol, value, formatter }) => (
+  <div className={cx(classes.root, className)}>
     <div
       className={classes.sign}
       dangerouslySetInnerHTML={{
@@ -49,10 +49,11 @@ const render = ({ classes, symbol, value, formatter }) => (
   </div>
 )
 
-const CurrencyDelta = ({ classes, symbol, value, formatter }) => (
+const CurrencyDelta = ({ classes, className, symbol, value, formatter }) => (
   <CurrencyContext.Consumer>
     {(context = {}) =>
       render({
+        className,
         classes,
         symbol: symbol || context.symbol,
         value,

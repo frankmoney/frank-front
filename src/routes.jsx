@@ -10,6 +10,8 @@ import ComponentsDemo from 'containers/ComponentsDemo'
 import DrawerDemo from 'containers/DrawerDemo'
 import Inbox from 'containers/Inbox'
 import Ledger from 'containers/Ledger'
+import Directory from 'containers/Directory'
+import Recipient from 'containers/Recipient'
 import { DEFAULT_TITLE, ROUTES } from './const'
 
 const withLayout = Component => props => (
@@ -38,6 +40,16 @@ export default [
   {
     component: withLayout(Ledger),
     path: ROUTES.ledger.root,
+    exact: true,
+  },
+  {
+    component: withLayout(Directory),
+    path: ROUTES.directory.root,
+    exact: true,
+  },
+  {
+    component: withLayout(Recipient),
+    path: ROUTES.directory.recipient,
     exact: true,
   },
   {
