@@ -115,7 +115,7 @@ const Profile = ({
   avatar,
   large,
   acl: { remove, editRole, editProfile, changeAvatar, changePassword },
-  onEditProfile,
+  onEditRole,
 }) => (
   <div className={classes.root}>
     <div className={classes.body}>
@@ -147,7 +147,7 @@ const Profile = ({
             className={classes.editRoleButton}
             label="Edit role"
             icon={EditIcon}
-            onClick={() => onEditProfile && onEditProfile({ id })}
+            onClick={() => onEditRole && onEditRole({ id })}
           />
           {remove && (
             <IconButton
