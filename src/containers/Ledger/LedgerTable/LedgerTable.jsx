@@ -1,12 +1,15 @@
 import { injectStyles } from '@frankmoney/ui'
+import { connect } from 'react-redux'
 import { Table } from '@frankmoney/components'
 import { compose, mapProps } from 'recompose'
-import * as R from 'ramda'
-import DATA from '../data.json'
+import {
+  dataSourceSelector,
+  rowDataSelector,
+  searchTextSelector,
+} from '../selectors'
 import LedgerRow from './LedgerTableRow'
 import LedgerDetailRow from './LedgerTableDetailRow'
 
-const ids = DATA.transactions.map(x => x.id.toString())
 const styles = {
   header: {
     paddingBottom: 19,
@@ -17,6 +20,10 @@ const styles = {
   },
 }
 
+const ConnectedLedgerRow = connect(state => ({
+  searchText: searchTextSelector(state),
+}))(LedgerRow)
+
 export default compose(
   injectStyles(styles, { grid: true }),
   mapProps(({ classes, ...props }) => ({
@@ -24,11 +31,10 @@ export default compose(
     canSelectRows: true,
     tableHeaderClassName: classes.header,
     tableDetailRowClassName: classes.detailRow,
-    rowComponent: LedgerRow,
+    rowComponent: ConnectedLedgerRow,
     rowDetailViewComponent: LedgerDetailRow,
-    dataSourceSelector: R.memoize(() => [{ title: 'April', rows: ids }]),
-    rowDataSelector: id => () =>
-      DATA.transactions.find(x => x.id.toString() === id.toString()),
+    dataSourceSelector,
+    rowDataSelector,
     ...props,
   }))
 )(Table)

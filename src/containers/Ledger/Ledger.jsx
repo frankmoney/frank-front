@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
-import { compose } from 'recompose'
+import { compose, branch, renderNothing } from 'recompose'
+import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import {
   FixedHeader,
@@ -9,48 +10,48 @@ import {
 } from '@frankmoney/components'
 import CurrencyProvider from 'components/CurrencyProvider'
 import SearchCard from 'components/SearchCard'
+import { searchTyping } from './actions'
 import GraphOverviewCard from './GraphOverviewCard'
 import styles from './Ledger.jss'
 import LedgerTable from './LedgerTable'
+import { searchTextSelector } from './selectors'
 
-class Ledger extends React.PureComponent {
-  state = {
-    searchValue: '',
-  }
+const ConnectedSearchCard = connect(
+  state => ({
+    value: searchTextSelector(state),
+  }),
+  dispatch => ({
+    onChange: event => {
+      dispatch(searchTyping(event.currentTarget.value))
+    },
+  })
+)(SearchCard)
 
-  handleChangeSearch = event => {
-    this.setState({ searchValue: event.currentTarget.value })
-  }
+const ConnectedGraphOverviewCard = compose(
+  connect(state => ({
+    search: searchTextSelector(state),
+  })),
+  branch(props => props.search, renderNothing)
+)(GraphOverviewCard)
 
-  render() {
-    const { classes, className } = this.props
-
-    const { searchValue } = this.state
-
-    return (
-      <CurrencyProvider code="USD">
-        <div className={cx(classes.ledgerPage, className)}>
-          <FixedHeader>
-            <Breadcrumbs>
-              <BreadcrumbsItem>Ledger</BreadcrumbsItem>
-            </Breadcrumbs>
-          </FixedHeader>
-          <div className={classes.container}>
-            <SearchCard
-              placeholder="Start typing a category, recipient or part of a description..."
-              className={classes.searchCard}
-              value={searchValue}
-              onChange={this.handleChangeSearch}
-            />
-            {searchValue === '' && (
-              <GraphOverviewCard className={classes.overviewCard} />
-            )}
-            <LedgerTable />
-          </div>
-        </div>
-      </CurrencyProvider>
-    )
-  }
-}
+const Ledger = ({ classes, className }) => (
+  <CurrencyProvider code="USD">
+    <div className={cx(classes.ledgerPage, className)}>
+      <FixedHeader>
+        <Breadcrumbs>
+          <BreadcrumbsItem>Ledger</BreadcrumbsItem>
+        </Breadcrumbs>
+      </FixedHeader>
+      <div className={classes.container}>
+        <ConnectedSearchCard
+          placeholder="Start typing a category, recipient or part of a description..."
+          className={classes.searchCard}
+        />
+        <ConnectedGraphOverviewCard className={classes.overviewCard} />
+        <LedgerTable />
+      </div>
+    </div>
+  </CurrencyProvider>
+)
 
 export default compose(injectStyles(styles, { fixedGrid: true }))(Ledger)

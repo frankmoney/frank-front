@@ -5,6 +5,7 @@ import { TableCell, TableRow } from '@frankmoney/components'
 import { CheckCircle } from 'material-ui-icons'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
+import HighlightText from 'components/HighlightText'
 
 const CELL_HEIGHT = 110
 
@@ -76,12 +77,8 @@ const styles = theme => ({
 const LedgerTableRow = ({
   classes,
   className,
-  data: {
-    frnk_description: title,
-    peerclient,
-    sum,
-    categories: [category],
-  },
+  data: { description: title, recipientName, delta, category },
+  searchText,
   // omit
   grid,
   theme,
@@ -90,10 +87,14 @@ const LedgerTableRow = ({
   <TableRow className={cx(classes.root, className)} {...rowProps}>
     <TableCell name="description" className={classes.cellLeft}>
       <div className={cx(classes.title, !title && classes.emptyTitle)}>
-        {title || 'Add description...'}
+        {title ? (
+          <HighlightText text={title} textPattern={searchText} />
+        ) : (
+          'Add description...'
+        )}
       </div>
       <div className={classes.description}>
-        <div className={classes.client}>{peerclient.firstname}</div>
+        <div className={classes.client}>{recipientName}</div>
         {category && (
           <CategoryLabel
             className={classes.category}
@@ -105,7 +106,7 @@ const LedgerTableRow = ({
       </div>
     </TableCell>
     <TableCell name="sum" className={classes.cellRight}>
-      <CurrencyDelta className={classes.sum} value={parseFloat(sum, 10)} />
+      <CurrencyDelta className={classes.sum} value={delta} />
       <div className={classes.rightDescription}>
         <div className={classes.date}>April 12, 12:42PM</div>
         <CheckCircle className={classes.checkIcon} />
