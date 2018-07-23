@@ -11,7 +11,7 @@ import {
 } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
 import { formatCurrency, Paper } from '@frankmoney/components'
-import Circle from './Circle.svg'
+import IconCircle from 'components/IconCircle'
 
 const BAR_CORNER_RADIUS = 3
 const BASE_LINE_COLOR = '#E5E5E5'
@@ -135,7 +135,7 @@ const TooltipLine = injectStyles(styles)(
   ({ caption, classes, dataKey, fill, value }) => (
     <div className={classes.tooltipItem} style={{ color: fill }}>
       <div>
-        <Circle className={classes.circle} />
+        <IconCircle className={classes.circle} />
         <span className={classes.tooltipItemText}>
           {caption || (dataKey === NEGATIVE_VALUE_PROP ? 'Spending' : 'Income')}
         </span>

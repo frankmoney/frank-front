@@ -4,7 +4,7 @@ import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
 import ExpandRow from './ExpandRow'
-import GraphPie from './GraphPie'
+import PieChart from './PieChart'
 import Title from './Title'
 import styles from './GraphOverviewCard.jss'
 
@@ -34,16 +34,13 @@ class GraphOverviewCard extends React.PureComponent {
     return (
       <Paper
         className={cx(
-          classes.card,
+          classes.root,
           expanded && classes.cardExpanded,
           className
         )}
       >
-        <Title className={classes.timeRange}>All time</Title>
-        <GraphPie
-          className={classes.graphPieChart}
-          categories={DEMO_CATEGORIES}
-        />
+        <Title className={classes.header}>All time</Title>
+        <PieChart categories={DEMO_CATEGORIES} />
         <ExpandRow
           className={classes.bottomRow}
           expanded={expanded}
@@ -53,7 +50,7 @@ class GraphOverviewCard extends React.PureComponent {
           <img
             alt="demo example"
             src={require('./demo_blurry_double_barchart.png')}
-            className={classes.graphBarChart}
+            className={classes.barChart}
           />
         </ExpandRow>
       </Paper>

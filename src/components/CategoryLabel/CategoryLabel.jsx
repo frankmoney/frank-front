@@ -1,20 +1,16 @@
 import React from 'react'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
+import IconCircle from 'components/IconCircle'
 
 const styles = {
   root: {
     color: ({ color }) => color,
   },
   icon: {
-    display: 'inline-block',
-    content: '" "',
-    width: ({ size }) => size,
-    height: ({ size }) => size,
-    borderRadius: '50%',
-    background: ({ color }) => color,
-    stroke: ({ color }) => color,
-    fill: ({ color }) => color,
+    height: 16,
+    width: 16,
     marginRight: 10,
   },
   name: {},
@@ -22,25 +18,41 @@ const styles = {
 }
 
 const CategoryLabel = ({
-  className,
   classes,
-  name,
+  className,
   color,
-  size,
   counter,
+  counterClassName,
   counterUnit,
+  iconClassName,
+  name,
+  nameClassName,
   ...otherProps
 }) => (
   <div className={cx(classes.root, className)} {...otherProps}>
-    <span className={classes.icon} />
-    <span className={classes.name}>{name}</span>
+    <IconCircle className={cx(classes.icon, iconClassName)} />
+    <span className={cx(classes.name, nameClassName)}>{name}</span>
     {counter && (
-      <span className={classes.counter}>
+      <span className={cx(classes.counter, counterClassName)}>
         {` ${counter}`}
         {counterUnit && counterUnit}
       </span>
     )}
   </div>
 )
+
+export const categoryPropTypes = {
+  color: PropTypes.string,
+  counter: PropTypes.number,
+  name: PropTypes.string.isRequired,
+}
+
+CategoryLabel.propTypes = {
+  ...categoryPropTypes,
+  counterClassName: PropTypes.string,
+  counterUnit: PropTypes.string,
+  iconClassName: PropTypes.string,
+  nameClassName: PropTypes.string,
+}
 
 export default injectStyles(styles)(CategoryLabel)
