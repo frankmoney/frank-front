@@ -12,6 +12,7 @@ import Inbox from 'containers/Inbox'
 import Ledger from 'containers/Ledger'
 import Directory from 'containers/Directory'
 import Recipient from 'containers/Recipient'
+import Team from 'containers/Team'
 import { DEFAULT_TITLE, ROUTES } from './const'
 
 const withLayout = Component => props => (
@@ -50,6 +51,11 @@ export default [
   {
     component: withLayout(Recipient),
     path: ROUTES.directory.recipient,
+    exact: true,
+  },
+  {
+    component: withLayout(Team),
+    path: ROUTES.team.match,
     exact: true,
   },
   {
