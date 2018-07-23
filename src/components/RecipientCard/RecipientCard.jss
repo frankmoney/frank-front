@@ -38,29 +38,16 @@ export default theme => ({
   list: {
     paddingTop: 8,
   },
-  listItem: {},
+  listItemIcon: {
+    height: 12,
+    width: 12,
+  },
   listItemName: {
     ...theme.fontMedium(18, 28),
   },
   listItemCounter: {
     ...theme.fontRegular(18, 28),
-  },
-  listTooltipItem: {
-    display: 'flex',
-    '&:not(:first-child)': {
-      marginTop: 12,
-    },
-  },
-  listTooltipItemName: {
-    flex: [1, 1],
-    paddingRight: 40,
-    ...theme.fontMedium(14, 16),
-  },
-  listTooltipItemCounter: {
-    flex: [1, 1],
-    textAlign: 'right',
-    ...theme.fontMedium(14, 16),
-    color: 'black !important',
+    color: '#BEBFC7',
   },
   lastDate: {
     ...theme.fontRegular(18, 26),
