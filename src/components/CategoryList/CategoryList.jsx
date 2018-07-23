@@ -1,11 +1,13 @@
 import React from 'react'
 import * as R from 'ramda'
+import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import renderProp from 'utils/renderProp'
 import CategoryLabel from 'components/CategoryLabel'
 import OtherCategories from './OtherCategories'
 
 const MAX_LEGEND_ITEMS = 5
+const DEFAULT_CATEGORY_COLOR = '#B3B3B3'
 
 const styles = {
   item: {},
@@ -19,12 +21,12 @@ const getCounterSum = R.pipe(
 )
 
 const CategoryList = ({
-  className,
-  classes,
-  itemIconSize = 16,
-  tooltipItemIconSize = 12,
-  counterUnit,
   categories,
+  classes,
+  className,
+  counterUnit,
+  itemIconSize,
+  tooltipItemIconSize,
 }) => {
   const renderItem = ({ ...otherProps }) =>
     renderProp(CategoryLabel, {
@@ -60,7 +62,7 @@ const CategoryList = ({
           >
             {renderItem({
               name: 'Other categories',
-              color: '#B3B3B3',
+              color: DEFAULT_CATEGORY_COLOR,
               counter: getCounterSum(otherCategories),
             })}
           </OtherCategories>
@@ -74,6 +76,18 @@ const CategoryList = ({
   )
 
   return <div className={className}>{mapList(categories)}</div>
+}
+
+CategoryList.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.shape(CategoryLabel.propTypes)),
+  counterUnit: PropTypes.string,
+  itemIconSize: PropTypes.number,
+  tooltipItemIconSize: PropTypes.number,
+}
+
+CategoryList.defaultProps = {
+  itemIconSize: 16,
+  tooltipItemIconSize: 12,
 }
 
 export default injectStyles(styles)(CategoryList)

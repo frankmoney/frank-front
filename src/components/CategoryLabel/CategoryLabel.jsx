@@ -1,20 +1,16 @@
 import React from 'react'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
+import IconCircle from 'components/IconCircle'
 
 const styles = {
   root: {
     color: ({ color }) => color,
   },
   icon: {
-    display: 'inline-block',
-    content: '" "',
     width: ({ size }) => size,
     height: ({ size }) => size,
-    borderRadius: '50%',
-    background: ({ color }) => color,
-    stroke: ({ color }) => color,
-    fill: ({ color }) => color,
     marginRight: 10,
   },
   name: {},
@@ -22,17 +18,17 @@ const styles = {
 }
 
 const CategoryLabel = ({
-  className,
   classes,
-  name,
+  className,
   color,
-  size,
   counter,
   counterUnit,
+  name,
+  size,
   ...otherProps
 }) => (
   <div className={cx(classes.root, className)} {...otherProps}>
-    <span className={classes.icon} />
+    <IconCircle className={classes.icon} />
     <span className={classes.name}>{name}</span>
     {counter && (
       <span className={classes.counter}>
@@ -42,5 +38,13 @@ const CategoryLabel = ({
     )}
   </div>
 )
+
+CategoryLabel.propTypes = {
+  color: PropTypes.string,
+  counter: PropTypes.number,
+  counterUnit: PropTypes.string,
+  name: PropTypes.string,
+  size: PropTypes.number,
+}
 
 export default injectStyles(styles)(CategoryLabel)
