@@ -11,7 +11,7 @@ gulp.task('azure', () =>
         serviceOptions: [
           'DefaultEndpointsProtocol=https;AccountName=frankassets;AccountKey=5Etp5UdlquiJPi7+6AuW9qlWGUCIcpX2iy0rYp47J/av7/Ynl3/J4aPzPkN8aA0J1I0Kige0oz/qjtrUqT1HnQ==',
         ], // custom arguments to azure.createBlobService
-        folder: 'csr', // path within container
+        folder: 'frank', // path within container
         zip: true, // gzip files if they become smaller after zipping, content-encoding header will change if file is zipped
         deleteExistingBlobs: false, // true means recursively deleting anything under folder
         concurrentUploadThreads: 10, // number of concurrent uploads, choose best for your network condition
