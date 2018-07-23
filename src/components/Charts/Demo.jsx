@@ -1,12 +1,14 @@
+import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
 import { Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import Title from 'containers/Ledger/GraphOverviewCard/Title'
 import BarChart, { Tooltip as ChartTooltip } from './Bar'
+import PieChart, { injectIndex } from './Pie'
 
 const styles = theme => ({
-  root: {
+  demo: {
     ...theme.fontRegular(16, 22),
     alignItems: 'center',
     display: 'flex',
@@ -24,6 +26,20 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  ledgerCard: {
+    marginLeft: 60,
+  },
+  pieContainer: {
+    display: 'flex',
+  },
+  pieLegend: {
+    display: 'inline-flex',
+    cursor: 'pointer',
+    flexDirection: 'column',
+    marginLeft: 50,
+    justifyContent: 'space-between',
+    height: '8em',
   },
 })
 
@@ -57,13 +73,73 @@ const dualData = [
   { key: 'Oct', value: 0, negativeValue: 29 },
 ]
 
+const pieData = [
+  { key: 'Operational expenses', value: 36, fill: '#8725FB' },
+  { key: 'Marketing', value: 25, fill: '#21CB61' },
+  { key: 'Program expenses', value: 12, fill: '#0624FB' },
+  { key: 'Street outreach', value: 7, fill: '#FC1891' },
+  { key: 'Other categories', value: 14 },
+]
+
 const tooltipPayload = [
   { value: 481, fill: '#21CB61', caption: 'Income' },
   { value: -14899, fill: '#484DE7', caption: 'Spending' },
 ]
 
+class PieDemo extends React.Component {
+  state = {
+    activeIndex: null,
+    hoveredPieIndex: null,
+  }
+
+  handleLegendOver = index => () => this.setState({ activeIndex: index })
+
+  handleLegendOut = () => this.setState({ activeIndex: null })
+
+  handlePieOver = index => this.setState({ hoveredPieIndex: index })
+
+  handlePieOut = () => this.setState({ hoveredPieIndex: null })
+
+  render() {
+    const { classes } = this.props
+    const data = injectIndex(pieData)
+    return (
+      <div className={classes.pieContainer}>
+        <PieChart
+          data={pieData}
+          activeIndex={this.state.activeIndex}
+          onMouseEnter={this.handlePieOver}
+          onMouseLeave={this.handlePieOut}
+        />
+        <ul className={classes.pieLegend}>
+          {R.map(
+            ({ fill, key, index }) => (
+              <li
+                onMouseOver={this.handleLegendOver(index)}
+                onMouseOut={this.handleLegendOut}
+                style={{
+                  color: fill,
+                  fontWeight: this.state.hoveredPieIndex === index ? 500 : 400,
+                }}
+              >
+                {key}
+              </li>
+            ),
+            data
+          )}
+        </ul>
+      </div>
+    )
+  }
+}
+
 const ChartsDemo = ({ classes }) => (
-  <div className={classes.root}>
+  <div className={classes.demo}>
+    <DemoCard className={classes.ledgerCard}>
+      <Title>PieChart</Title>
+      <PieDemo classes={classes} />
+    </DemoCard>
+
     <DemoCard>
       <Title>BarChart</Title>
       <BarChart
