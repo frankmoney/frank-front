@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 
-const DEFAULT_LIMIT = 4
+const DEFAULT_LIMIT = 5
 const VALUE_PROP = 'counter'
 const OTHER_TEMPLATE = {
   name: 'Other categories',
