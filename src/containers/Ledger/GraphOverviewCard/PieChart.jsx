@@ -6,6 +6,7 @@ import { injectStyles } from '@frankmoney/ui'
 import { SelectField } from '@frankmoney/components'
 import CategoryList from 'components/CategoryList'
 import Pie from 'components/Charts/Pie'
+import limitCategories from 'utils/limitCategories'
 import styles from './PieChart.jss'
 
 const renderSelectInput = ({ key }) => key
@@ -17,6 +18,12 @@ const renderMenuItem = ({ key }) => (
 )
 
 const pieCategoryTypes = [{ key: 'income' }, { key: 'spending' }]
+
+const tmpRenameProps = ({ counter, name, color }) => ({
+  fill: color,
+  key: name,
+  value: counter,
+})
 
 class PieChart extends React.PureComponent {
   state = {
@@ -32,13 +39,10 @@ class PieChart extends React.PureComponent {
 
     const { categoryType } = this.state
 
+    const { items, other } = limitCategories(categories)
     const pieData = R.map(
-      ({ color, counter, name }) => ({
-        fill: color,
-        key: name,
-        value: counter,
-      }),
-      categories
+      tmpRenameProps,
+      other ? R.append(other, items) : items
     )
 
     return (
