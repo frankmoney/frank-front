@@ -53,9 +53,14 @@ const styles = theme => ({
 
 const formatDate = date => format(date, 'MMM d')
 
-const categoriesListComponent = category => (
-  <CategoryLabel size={12} {...category} />
-)
+const categoriesListComponent = injectStyles({
+  icon: {
+    height: 12,
+    width: 12,
+  },
+})(({ category, classes }) => (
+  <CategoryLabel iconClassName={classes.icon} {...category} />
+))
 
 const RecipientRow = ({
   classes,
