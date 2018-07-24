@@ -26,7 +26,7 @@ const doLimit = (otherTemplate, valueProp, maxEntries) =>
     }
   )
 
-export const customLimitCategories = (otherTemplate, valueProp, maxEntries) =>
+export const customLimitCategories = (otherTemplate, valueProp) => maxEntries =>
   R.ifElse(
     R.pipe(
       R.length,
@@ -36,4 +36,9 @@ export const customLimitCategories = (otherTemplate, valueProp, maxEntries) =>
     doLimit(otherTemplate, valueProp, maxEntries)
   )
 
-export default customLimitCategories(OTHER_TEMPLATE, VALUE_PROP, DEFAULT_LIMIT)
+export const limitCategoriesTo = customLimitCategories(
+  OTHER_TEMPLATE,
+  VALUE_PROP
+)
+
+export default limitCategoriesTo(DEFAULT_LIMIT)
