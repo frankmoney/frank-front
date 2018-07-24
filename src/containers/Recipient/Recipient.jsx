@@ -18,12 +18,12 @@ const recipientCard = {
   totalSpending: -25499.0,
   // totalIncome: 1490.0,
   categories: [
-    { color: '#8725FB', name: 'Operational expenses', counter: 34 },
-    { color: '#21CB61', name: 'Marketing', counter: 12 },
-    { color: '#0624FB', name: 'Program expenses', counter: 6 },
-    { color: '#FC1891', name: 'Street outreach', counter: 2 },
-    { color: '#FF9C28', name: 'Advertising', counter: 2 },
-    { color: '#00DCEA', name: 'Sales', counter: 2 },
+    { color: '#8725FB', name: 'Operational expenses', value: 34 },
+    { color: '#21CB61', name: 'Marketing', value: 12 },
+    { color: '#0624FB', name: 'Program expenses', value: 6 },
+    { color: '#FC1891', name: 'Street outreach', value: 2 },
+    { color: '#FF9C28', name: 'Advertising', value: 2 },
+    { color: '#00DCEA', name: 'Sales', value: 2 },
   ],
 }
 

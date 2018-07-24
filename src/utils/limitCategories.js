@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 
 const DEFAULT_LIMIT = 5
-const VALUE_PROP = 'counter'
+const VALUE_PROP = 'value'
 const OTHER_TEMPLATE = {
   name: 'Other categories',
   color: '#B3B3B3',

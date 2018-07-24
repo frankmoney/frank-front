@@ -132,8 +132,8 @@ const formatMoney = R.pipe(
 )
 
 const TooltipLine = injectStyles(styles)(
-  ({ caption, classes, dataKey, fill, value }) => (
-    <div className={classes.tooltipItem} style={{ color: fill }}>
+  ({ caption, classes, dataKey, color, value }) => (
+    <div className={classes.tooltipItem} style={{ color }}>
       <div>
         <IconCircle className={classes.circle} />
         <span className={classes.tooltipItemText}>
@@ -190,7 +190,7 @@ const BarChart = ({
         barSize={barWidth}
       >
         <XAxis
-          dataKey="key"
+          dataKey="name"
           axisLine={false}
           tickLine={false}
           tickMargin={footerPadding + BASE_LINE_OFFSET}
@@ -233,8 +233,8 @@ BarChart.propTypes = {
   caption: PropTypes.string,
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.string,
-      value: PropTypes.number,
+      name: PropTypes.string,
+      value: PropTypes.number.isRequired,
     })
   ).isRequired,
   dual: PropTypes.bool,

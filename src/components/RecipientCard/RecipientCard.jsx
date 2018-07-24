@@ -52,10 +52,10 @@ const RecipientCard = ({
       <CategoryList
         categories={categories}
         className={classes.list}
-        counterClassName={classes.listItemCounter}
         itemClassName={classes.listItem}
         itemIconClassName={classes.listItemIcon}
         nameClassName={classes.listItemName}
+        valueClassName={classes.listItemValue}
       />
       <div className={classes.lastDate}>
         <span className={classes.lastDateLabel}>Last payment</span>{' '}

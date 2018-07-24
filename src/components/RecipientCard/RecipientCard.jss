@@ -45,7 +45,7 @@ export default theme => ({
   listItemName: {
     ...theme.fontMedium(18, 28),
   },
-  listItemCounter: {
+  listItemValue: {
     ...theme.fontRegular(18, 28),
     color: '#BEBFC7',
   },

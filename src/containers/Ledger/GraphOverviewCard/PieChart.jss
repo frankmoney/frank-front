@@ -39,7 +39,7 @@ export default theme => ({
   legendItemName: {
     ...theme.fontMedium(22, 26),
   },
-  legendItemCounter: {
+  legendItemValue: {
     ...theme.fontRegular(22, 26),
   },
 })

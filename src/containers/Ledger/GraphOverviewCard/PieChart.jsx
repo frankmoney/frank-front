@@ -19,12 +19,6 @@ const renderMenuItem = ({ key }) => (
 
 const pieCategoryTypes = [{ key: 'income' }, { key: 'spending' }]
 
-const tmpRenameProps = ({ counter, name, color }) => ({
-  fill: color,
-  key: name,
-  value: counter,
-})
-
 class PieChart extends React.PureComponent {
   state = {
     categoryType: 'spending',
@@ -40,10 +34,7 @@ class PieChart extends React.PureComponent {
     const { categoryType } = this.state
 
     const { items, other } = limitCategories(categories)
-    const pieData = R.map(
-      tmpRenameProps,
-      other ? R.append(other, items) : items
-    )
+    const pieData = other ? R.append(other, items) : items
 
     return (
       <div className={cx(classes.root, className)}>
@@ -76,12 +67,12 @@ class PieChart extends React.PureComponent {
         <CategoryList
           categories={categories}
           className={classes.legend}
-          counterClassName={classes.legendItemCounter}
-          counterUnit="%"
           iconClassName={classes.legendIcon}
           itemClassName={classes.legendItem}
           nameClassName={classes.legendItemName}
           tooltip
+          valueClassName={classes.legendItemValue}
+          valueUnit="%"
         />
       </div>
     )

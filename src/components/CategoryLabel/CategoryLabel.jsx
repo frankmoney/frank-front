@@ -14,28 +14,28 @@ const styles = {
     marginRight: 10,
   },
   name: {},
-  counter: {},
+  value: {},
 }
 
 const CategoryLabel = ({
   classes,
   className,
   color,
-  counter,
-  counterClassName,
-  counterUnit,
   iconClassName,
   name,
   nameClassName,
+  value,
+  valueClassName,
+  valueUnit,
   ...otherProps
 }) => (
   <div className={cx(classes.root, className)} {...otherProps}>
     <IconCircle className={cx(classes.icon, iconClassName)} />
     <span className={cx(classes.name, nameClassName)}>{name}</span>
-    {counter && (
-      <span className={cx(classes.counter, counterClassName)}>
-        {` ${counter}`}
-        {counterUnit && counterUnit}
+    {value && (
+      <span className={cx(classes.value, valueClassName)}>
+        {` ${value}`}
+        {valueUnit && valueUnit}
       </span>
     )}
   </div>
@@ -43,16 +43,16 @@ const CategoryLabel = ({
 
 export const categoryPropTypes = {
   color: PropTypes.string,
-  counter: PropTypes.number,
   name: PropTypes.string.isRequired,
+  value: PropTypes.number,
 }
 
 CategoryLabel.propTypes = {
   ...categoryPropTypes,
-  counterClassName: PropTypes.string,
-  counterUnit: PropTypes.string,
   iconClassName: PropTypes.string,
   nameClassName: PropTypes.string,
+  valueClassName: PropTypes.string,
+  valueUnit: PropTypes.string,
 }
 
 export default injectStyles(styles)(CategoryLabel)

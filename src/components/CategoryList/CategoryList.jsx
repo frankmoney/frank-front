@@ -25,7 +25,7 @@ const styles = theme => ({
     ...theme.fontMedium(14, 16),
     whiteSpace: 'nowrap',
   },
-  tooltipCounter: {
+  tooltipValue: {
     flex: [1, 1],
     textAlign: 'right',
     ...theme.fontMedium(14, 16),
@@ -37,37 +37,37 @@ const CategoryList = ({
   categories,
   classes,
   className,
-  counterClassName,
-  counterUnit,
   iconClassName,
   itemClassName,
   itemIconSize,
   nameClassName,
-  tooltipCounterClassName,
   tooltipIconClassName,
   tooltipItemClassName,
   tooltipItemIconSize,
   tooltipNameClassName,
+  tooltipValueClassName,
+  valueClassName,
+  valueUnit,
 }) => {
   const renderItem = ({ ...otherProps }) =>
     renderProp(CategoryLabel, {
       className: cx(classes.item, itemClassName),
-      counterClassName,
-      counterUnit,
       iconClassName,
       nameClassName,
       size: itemIconSize,
+      valueClassName,
+      valueUnit,
       ...otherProps,
     })
 
   const renderTooltipItem = ({ ...otherProps }) =>
     renderProp(CategoryLabel, {
       className: cx(classes.tooltipItem, tooltipItemClassName),
-      counterClassName: cx(classes.tooltipCounter, tooltipCounterClassName),
-      counterUnit,
       iconClassName: cx(classes.tooltipIcon, tooltipIconClassName),
       nameClassName: cx(classes.tooltipName, tooltipNameClassName),
       size: tooltipItemIconSize,
+      valueClassName: cx(classes.tooltipValue, tooltipValueClassName),
+      valueUnit,
       ...otherProps,
     })
 
@@ -90,15 +90,15 @@ const CategoryList = ({
 
 CategoryList.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape(categoryPropTypes)),
-  counterClassName: PropTypes.string,
-  counterUnit: PropTypes.string,
   iconClassName: PropTypes.string,
   itemClassName: PropTypes.string,
   nameClassName: PropTypes.string,
-  tooltipCounterClassName: PropTypes.string,
-  tooltipItemClassName: PropTypes.string,
   tooltipIconClassName: PropTypes.string,
+  tooltipItemClassName: PropTypes.string,
   tooltipNameClassName: PropTypes.string,
+  tooltipValueClassName: PropTypes.string,
+  valueClassName: PropTypes.string,
+  valueUnit: PropTypes.string,
 }
 
 export default injectStyles(styles)(CategoryList)

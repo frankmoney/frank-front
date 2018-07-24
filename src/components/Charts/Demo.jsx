@@ -48,42 +48,42 @@ const DemoCard = injectStyles(styles)(({ children, classes, className }) => (
 ))
 
 const singularData = [
-  { key: 'Jan', value: 135 },
-  { key: 'Feb', value: 170 },
-  { key: 'Mar', value: 135 },
-  { key: 'Apr', value: 75 },
-  { key: 'May', value: 100 },
-  { key: 'Jun', value: 75 },
-  { key: 'Jul', value: 60 },
-  { key: 'Aug', value: 0 },
-  { key: 'Sep', value: 190 },
-  { key: 'Oct', value: 60 },
+  { name: 'Jan', value: 135 },
+  { name: 'Feb', value: 170 },
+  { name: 'Mar', value: 135 },
+  { name: 'Apr', value: 75 },
+  { name: 'May', value: 100 },
+  { name: 'Jun', value: 75 },
+  { name: 'Jul', value: 60 },
+  { name: 'Aug', value: 0 },
+  { name: 'Sep', value: 190 },
+  { name: 'Oct', value: 60 },
 ]
 
 const dualData = [
-  { key: 'Jan', value: 39, negativeValue: 67 },
-  { key: 'Feb', value: 49, negativeValue: 84 },
-  { key: 'Mar', value: 0, negativeValue: 67 },
-  { key: 'Apr', value: 0, negativeValue: 36 },
-  { key: 'May', value: 13, negativeValue: 50 },
-  { key: 'Jun', value: 29, negativeValue: 35 },
-  { key: 'Jul', value: 0, negativeValue: 29 },
-  { key: 'Aug', value: 0, negativeValue: 0 },
-  { key: 'Sep', value: 24, negativeValue: 94 },
-  { key: 'Oct', value: 0, negativeValue: 29 },
+  { name: 'Jan', value: 39, negativeValue: 67 },
+  { name: 'Feb', value: 49, negativeValue: 84 },
+  { name: 'Mar', value: 0, negativeValue: 67 },
+  { name: 'Apr', value: 0, negativeValue: 36 },
+  { name: 'May', value: 13, negativeValue: 50 },
+  { name: 'Jun', value: 29, negativeValue: 35 },
+  { name: 'Jul', value: 0, negativeValue: 29 },
+  { name: 'Aug', value: 0, negativeValue: 0 },
+  { name: 'Sep', value: 24, negativeValue: 94 },
+  { name: 'Oct', value: 0, negativeValue: 29 },
 ]
 
 const pieData = [
-  { key: 'Operational expenses', value: 36, fill: '#8725FB' },
-  { key: 'Marketing', value: 25, fill: '#21CB61' },
-  { key: 'Program expenses', value: 12, fill: '#0624FB' },
-  { key: 'Street outreach', value: 7, fill: '#FC1891' },
-  { key: 'Other categories', value: 14 },
+  { name: 'Operational expenses', value: 36, color: '#8725FB' },
+  { name: 'Marketing', value: 25, color: '#21CB61' },
+  { name: 'Program expenses', value: 12, color: '#0624FB' },
+  { name: 'Street outreach', value: 7, color: '#FC1891' },
+  { name: 'Other categories', value: 14 },
 ]
 
 const tooltipPayload = [
-  { value: 481, fill: '#21CB61', caption: 'Income' },
-  { value: -14899, fill: '#484DE7', caption: 'Spending' },
+  { value: 481, color: '#21CB61', caption: 'Income' },
+  { value: -14899, color: '#484DE7', caption: 'Spending' },
 ]
 
 class PieDemo extends React.Component {
@@ -113,16 +113,16 @@ class PieDemo extends React.Component {
         />
         <ul className={classes.pieLegend}>
           {R.map(
-            ({ fill, key, index }) => (
+            ({ color, name, value, index }) => (
               <li
                 onMouseOver={this.handleLegendOver(index)}
                 onMouseOut={this.handleLegendOut}
                 style={{
-                  color: fill,
+                  color,
                   fontWeight: this.state.hoveredPieIndex === index ? 500 : 400,
                 }}
               >
-                {key}
+                {name} {value}
               </li>
             ),
             data

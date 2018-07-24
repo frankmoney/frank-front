@@ -26,10 +26,10 @@ const styles = {
   },
 }
 
-const PieSlice = ({ fill = DEFAULT_COLOR }) => <Cell fill={fill} />
+const PieSlice = ({ color = DEFAULT_COLOR }) => <Cell fill={color} />
 
-const FatPieSlice = ({ fill = DEFAULT_COLOR, active }) => (
-  <Cell fill={active ? fill : 'none'} />
+const FatPieSlice = ({ color = DEFAULT_COLOR, active }) => (
+  <Cell fill={active ? color : 'none'} />
 )
 
 export const injectIndex = R.addIndex(R.map)(R.flip(R.assoc('index')))
@@ -80,7 +80,7 @@ class PieChart extends React.Component {
             endAngle={-630}
             innerRadius={innerRadius}
             isAnimationActive={false}
-            nameKey="key"
+            nameKey="name"
             outerRadius={outerRadius}
             paddingAngle={SEGMENTS_PADDING_ANGLE}
             startAngle={-270}
@@ -94,7 +94,7 @@ class PieChart extends React.Component {
             endAngle={-630}
             innerRadius={innerRadius - INNER_RING_THICCNESS}
             isAnimationActive={false}
-            nameKey="key"
+            nameKey="name"
             outerRadius={outerRadius}
             paddingAngle={SEGMENTS_PADDING_ANGLE}
             startAngle={-270}
@@ -130,8 +130,9 @@ PieChart.propTypes = {
   activeIndex: PropTypes.number,
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.string,
-      value: PropTypes.number,
+      color: PropTypes.string,
+      name: PropTypes.string,
+      value: PropTypes.number.isRequired,
     })
   ).isRequired,
   onClick: PropTypes.func,
