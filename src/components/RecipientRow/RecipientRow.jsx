@@ -58,7 +58,7 @@ const categoriesListComponent = injectStyles({
     height: 12,
     width: 12,
   },
-})(({ category, classes }) => (
+})(({ classes, ...category }) => (
   <CategoryLabel iconClassName={classes.icon} {...category} />
 ))
 
