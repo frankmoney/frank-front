@@ -3,19 +3,12 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
+import BarChart from 'components/Charts/Bar'
 import ExpandRow from './ExpandRow'
 import PieChart from './PieChart'
 import Title from './Title'
 import styles from './GraphOverviewCard.jss'
-
-const DEMO_CATEGORIES = [
-  { color: '#8725FB', name: 'Operational expenses', value: 36 },
-  { color: '#21CB61', name: 'Marketing', value: 25 },
-  { color: '#0624FB', name: 'Program expenses', value: 12 },
-  { color: '#FC1891', name: 'Street outreach', value: 7 },
-  { color: '#FF9C28', name: 'Advertising', value: 2 },
-  { color: '#00DCEA', name: 'Sales', value: 2 },
-]
+import { categoricalData, dualData } from './demoData'
 
 class GraphOverviewCard extends React.PureComponent {
   state = {
@@ -40,18 +33,14 @@ class GraphOverviewCard extends React.PureComponent {
         )}
       >
         <Title className={classes.header}>All time</Title>
-        <PieChart categories={DEMO_CATEGORIES} />
+        <PieChart categories={categoricalData} />
         <ExpandRow
           className={classes.bottomRow}
           expanded={expanded}
           title="Timeline"
           onToggle={this.handleToggleExpand}
         >
-          <img
-            alt="demo example"
-            src={require('./demo_blurry_double_barchart.png')}
-            className={classes.barChart}
-          />
+          <BarChart className={classes.barChart} dual data={dualData} />
         </ExpandRow>
       </Paper>
     )

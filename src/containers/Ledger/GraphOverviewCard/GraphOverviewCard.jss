@@ -8,9 +8,11 @@ export default {
     marginBottom: 39,
   },
   bottomRow: {
-    margin: [64, -CARD_PADDING, 0],
+    margin: [60, -CARD_PADDING, 0],
     borderTop: '1px solid rgba(0,0,0,0.1)',
     padding: [0, CARD_PADDING, CARD_PADDING],
   },
-  barChart: {},
+  barChart: {
+    margin: [36, 0, 10],
+  },
 }
