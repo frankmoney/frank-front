@@ -38,7 +38,8 @@ class PieChart extends React.PureComponent {
 
     const { categoryType } = this.state
 
-    const limitedCategories = limitCategories(categories)
+    const data = categories[categoryType]
+    const limitedCategories = limitCategories(data)
     const { items, other } = limitedCategories
     const pieData = other ? R.append(other, items) : items
 
