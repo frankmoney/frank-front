@@ -37,6 +37,8 @@ const styles = theme => ({
 })
 
 const CategoryList = ({
+  activeKey,
+  activeLabelClassName,
   categories,
   classes,
   className,
@@ -44,6 +46,8 @@ const CategoryList = ({
   itemClassName,
   limitedCategories,
   nameClassName,
+  onLabelMouseEnter,
+  onLabelMouseLeave,
   tooltipIconClassName,
   tooltipItemClassName,
   tooltipNameClassName,
@@ -51,13 +55,17 @@ const CategoryList = ({
   valueClassName,
   valueUnit,
 }) => {
-  const renderItem = ({ ...otherProps }) =>
+  const renderItem = ({ key, ...otherProps }) =>
     renderProp(CategoryLabel, {
+      active: key === activeKey,
+      activeClassName: activeLabelClassName,
       className: cx(classes.item, itemClassName),
       iconClassName,
       nameClassName,
       valueClassName,
       valueUnit,
+      onMouseEnter: onLabelMouseEnter && (() => onLabelMouseEnter(key)),
+      onMouseLeave: onLabelMouseLeave && (() => onLabelMouseLeave(key)),
       ...otherProps,
     })
 
@@ -90,11 +98,15 @@ const CategoryList = ({
 }
 
 CategoryList.propTypes = {
+  activeKey: PropTypes.number,
+  activeLabelClassName: PropTypes.string,
   categories: PropTypes.arrayOf(categoryShape),
   iconClassName: PropTypes.string,
   itemClassName: PropTypes.string,
   limitedCategories: PropTypes.arrayOf(PropTypes.shape(limitedCategoriesProps)),
   nameClassName: PropTypes.string,
+  onLabelMouseEnter: PropTypes.func,
+  onLabelMouseLeave: PropTypes.func,
   tooltipIconClassName: PropTypes.string,
   tooltipItemClassName: PropTypes.string,
   tooltipNameClassName: PropTypes.string,

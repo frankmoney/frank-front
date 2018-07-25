@@ -8,6 +8,8 @@ const OTHER_TEMPLATE = {
   color: '#B3B3B3',
 }
 
+const injectKey = R.addIndex(R.map)(R.flip(R.assoc('key')))
+
 const sumProps = prop =>
   R.pipe(
     R.pluck(prop),
@@ -19,9 +21,10 @@ const doLimit = (otherTemplate, valueProp, maxEntries) =>
     R.splitAt(maxEntries - 1),
     ([primary, rest]) => {
       const other = R.assoc(valueProp, sumProps(valueProp)(rest), otherTemplate)
+      const allItems = injectKey([...primary, other])
       return {
-        items: primary,
-        other,
+        items: R.init(allItems),
+        other: R.last(allItems),
         tooltipItems: rest,
       }
     }
@@ -33,7 +36,7 @@ export const customLimitCategories = (otherTemplate, valueProp) => maxEntries =>
       R.length,
       R.gte(maxEntries)
     ),
-    items => ({ items, other: null, tooltipItems: [] }),
+    items => ({ items: injectKey(items), other: null, tooltipItems: [] }),
     doLimit(otherTemplate, valueProp, maxEntries)
   )
 
@@ -44,6 +47,7 @@ export const limitCategoriesTo = customLimitCategories(
 
 export const categoryProps = {
   color: PropTypes.string,
+  key: PropTypes.number,
   name: PropTypes.string.isRequired,
   value: PropTypes.number,
 }

@@ -32,39 +32,35 @@ const FatPieSlice = ({ color = DEFAULT_COLOR, active }) => (
   <Cell fill={active ? color : 'none'} />
 )
 
-export const injectIndex = R.addIndex(R.map)(R.flip(R.assoc('index')))
-
 const injectActive = current => item =>
-  R.assoc('active', current === null || R.propEq('index', current, item), item)
+  R.assoc('active', current === null || R.propEq('key', current, item), item)
 
 class PieChart extends React.Component {
   state = {
-    activeIndex: null,
+    activeKey: null,
     showTooltip: false,
   }
 
-  handlePieEnter = (data, index) => {
-    this.setState({ activeIndex: index, showTooltip: true })
+  handlePieEnter = (data, key) => {
+    this.setState({ activeKey: key, showTooltip: true })
     if (this.props.onMouseEnter) {
-      this.props.onMouseEnter(index)
+      this.props.onMouseEnter(key)
     }
   }
 
   handlePieLeave = () => {
-    this.setState({ activeIndex: null, showTooltip: false })
+    this.setState({ activeKey: null, showTooltip: false })
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave()
     }
   }
 
   render() {
-    const { activeIndex, classes, className, data, size, onClick } = this.props
+    const { activeKey, classes, className, data, size, onClick } = this.props
     const outerRadius = size / 2
     const innerRadius = outerRadius - RING_THICCNESS
 
-    const indexedData = injectIndex(data)
-    const currentIndex =
-      activeIndex === null ? this.state.activeIndex : activeIndex
+    const currentKey = activeKey === null ? this.state.activeKey : activeKey
     return (
       <div className={cx(classes.root, className)}>
         <ReChart
@@ -101,10 +97,10 @@ class PieChart extends React.Component {
           >
             {R.map(
               R.pipe(
-                injectActive(currentIndex),
+                injectActive(currentKey),
                 FatPieSlice
               ),
-              indexedData
+              data
             )}
           </Pie>
           <Pie
@@ -127,7 +123,7 @@ class PieChart extends React.Component {
 }
 
 PieChart.propTypes = {
-  activeIndex: PropTypes.number,
+  activeKey: PropTypes.number,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       color: PropTypes.string,

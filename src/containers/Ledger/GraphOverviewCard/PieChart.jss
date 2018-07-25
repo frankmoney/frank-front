@@ -27,6 +27,7 @@ export default theme => ({
   },
   legend: {
     margin: [-4, 0, 0, 60],
+    cursor: 'default',
   },
   legendItem: {
     '&:not(:first-child)': {
@@ -42,4 +43,13 @@ export default theme => ({
   legendItemValue: {
     ...theme.fontRegular(22, 26),
   },
+  highlightedLegend: {
+    '& > $legendItem': {
+      opacity: 0.4,
+    },
+    '&:hover > $legendItem, & > $activeLegendItem': {
+      opacity: 1,
+    },
+  },
+  activeLegendItem: {},
 })

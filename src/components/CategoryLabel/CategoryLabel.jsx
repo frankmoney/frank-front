@@ -19,6 +19,8 @@ const styles = {
 }
 
 const CategoryLabel = ({
+  active,
+  activeClassName,
   classes,
   className,
   color,
@@ -30,7 +32,10 @@ const CategoryLabel = ({
   valueUnit,
   ...otherProps
 }) => (
-  <div className={cx(classes.root, className)} {...otherProps}>
+  <div
+    className={cx(classes.root, active && activeClassName, className)}
+    {...otherProps}
+  >
     <IconCircle className={cx(classes.icon, iconClassName)} />
     <span className={cx(classes.name, nameClassName)}>{name}</span>
     {value && (
@@ -44,6 +49,8 @@ const CategoryLabel = ({
 
 CategoryLabel.propTypes = {
   ...categoryProps,
+  active: PropTypes.bool,
+  activeClassName: PropTypes.string,
   iconClassName: PropTypes.string,
   nameClassName: PropTypes.string,
   valueClassName: PropTypes.string,

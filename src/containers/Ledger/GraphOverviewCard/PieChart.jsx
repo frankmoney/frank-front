@@ -21,12 +21,17 @@ const pieCategoryTypes = [{ key: 'income' }, { key: 'spending' }]
 
 class PieChart extends React.PureComponent {
   state = {
+    activeKey: null,
     categoryType: 'spending',
   }
 
   handleChangeCategoryType = event => {
     this.setState({ categoryType: event.target.value })
   }
+
+  handleMouseOver = key => this.setState({ activeKey: key })
+
+  handleMouseOut = () => this.setState({ activeKey: null })
 
   render() {
     const { classes, className, categories } = this.props
@@ -39,7 +44,13 @@ class PieChart extends React.PureComponent {
 
     return (
       <div className={cx(classes.root, className)}>
-        <Pie className={classes.chart} data={pieData} activeIndex={null} />
+        <Pie
+          activeKey={this.state.activeKey}
+          className={classes.chart}
+          data={pieData}
+          onMouseEnter={this.handleMouseOver}
+          onMouseLeave={this.handleMouseOut}
+        />
         <div className={classes.switcherRoot}>
           <div className={classes.switcher}>
             {'% of total '}
@@ -66,11 +77,17 @@ class PieChart extends React.PureComponent {
           </div>
         </div>
         <CategoryList
-          className={classes.legend}
+          activeKey={this.state.activeKey}
+          activeLabelClassName={classes.activeLegendItem}
+          className={cx(classes.legend, {
+            [classes.highlightedLegend]: this.state.activeKey !== null,
+          })}
           iconClassName={classes.legendIcon}
           itemClassName={classes.legendItem}
           limitedCategories={limitedCategories}
           nameClassName={classes.legendItemName}
+          onLabelMouseEnter={this.handleMouseOver}
+          onLabelMouseLeave={this.handleMouseOut}
           tooltip
           valueClassName={classes.legendItemValue}
           valueUnit="%"

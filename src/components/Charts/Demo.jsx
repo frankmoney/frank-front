@@ -4,8 +4,10 @@ import cx from 'classnames'
 import { Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import Title from 'containers/Ledger/GraphOverviewCard/Title'
+import CategoryList from 'components/CategoryList'
+import limitCategories from 'utils/limitCategories'
 import BarChart, { Tooltip as ChartTooltip } from './Bar'
-import PieChart, { injectIndex } from './Pie'
+import PieChart from './Pie'
 
 const styles = theme => ({
   demo: {
@@ -27,11 +29,9 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  ledgerCard: {
-    marginLeft: 60,
-  },
   pieContainer: {
     display: 'flex',
+    paddingLeft: 30,
   },
   pieLegend: {
     display: 'inline-flex',
@@ -40,6 +40,17 @@ const styles = theme => ({
     marginLeft: 50,
     justifyContent: 'space-between',
     height: '8em',
+  },
+  pieLegendActive: {
+    '& > *': {
+      opacity: 0.4,
+    },
+    '&:hover > *': {
+      opacity: 'unset',
+    },
+  },
+  activeLegendItem: {
+    opacity: 1,
   },
 })
 
@@ -78,7 +89,8 @@ const pieData = [
   { name: 'Marketing', value: 25, color: '#21CB61' },
   { name: 'Program expenses', value: 12, color: '#0624FB' },
   { name: 'Street outreach', value: 7, color: '#FC1891' },
-  { name: 'Other categories', value: 14 },
+  { color: '#FF9C28', name: 'Advertising', value: 2 },
+  { color: '#00DCEA', name: 'Sales', value: 2 },
 ]
 
 const tooltipPayload = [
@@ -88,46 +100,38 @@ const tooltipPayload = [
 
 class PieDemo extends React.Component {
   state = {
-    activeIndex: null,
-    hoveredPieIndex: null,
+    activeKey: null,
   }
 
-  handleLegendOver = index => () => this.setState({ activeIndex: index })
+  handleMouseOver = key => this.setState({ activeKey: key })
 
-  handleLegendOut = () => this.setState({ activeIndex: null })
-
-  handlePieOver = index => this.setState({ hoveredPieIndex: index })
-
-  handlePieOut = () => this.setState({ hoveredPieIndex: null })
+  handleMouseOut = () => this.setState({ activeKey: null })
 
   render() {
     const { classes } = this.props
-    const data = injectIndex(pieData)
+    const limitedCategories = limitCategories(pieData)
+    const { other, items } = limitedCategories
+    const pieItems = R.append(other, items)
     return (
       <div className={classes.pieContainer}>
         <PieChart
-          data={pieData}
-          activeIndex={this.state.activeIndex}
-          onMouseEnter={this.handlePieOver}
-          onMouseLeave={this.handlePieOut}
+          data={pieItems}
+          activeKey={this.state.activeKey}
+          onMouseEnter={this.handleMouseOver}
+          onMouseLeave={this.handleMouseOut}
         />
-        <ul className={classes.pieLegend}>
-          {R.map(
-            ({ color, name, value, index }) => (
-              <li
-                onMouseOver={this.handleLegendOver(index)}
-                onMouseOut={this.handleLegendOut}
-                style={{
-                  color,
-                  fontWeight: this.state.hoveredPieIndex === index ? 500 : 400,
-                }}
-              >
-                {name} {value}
-              </li>
-            ),
-            data
-          )}
-        </ul>
+        <CategoryList
+          activeKey={this.state.activeKey}
+          activeLabelClassName={classes.activeLegendItem}
+          className={cx(classes.pieLegend, {
+            [classes.pieLegendActive]: this.state.activeKey !== null,
+          })}
+          limitedCategories={limitedCategories}
+          onLabelMouseEnter={this.handleMouseOver}
+          onLabelMouseLeave={this.handleMouseOut}
+          tooltip
+          valueUnit="%"
+        />
       </div>
     )
   }
@@ -135,7 +139,7 @@ class PieDemo extends React.Component {
 
 const ChartsDemo = ({ classes }) => (
   <div className={classes.demo}>
-    <DemoCard className={classes.ledgerCard}>
+    <DemoCard>
       <Title>PieChart</Title>
       <PieDemo classes={classes} />
     </DemoCard>
