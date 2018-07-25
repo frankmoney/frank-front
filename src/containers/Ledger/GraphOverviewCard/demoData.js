@@ -75,15 +75,18 @@ export const categoricalData = R.pipe(
   R.map(mergeByCategory)
 )(rawData)
 
-export const dualData = [
-  { name: 'Jan', value: 39, negativeValue: 67 },
-  { name: 'Feb', value: 49, negativeValue: 84 },
-  { name: 'Mar', value: 0, negativeValue: 67 },
-  { name: 'Apr', value: 0, negativeValue: 36 },
-  { name: 'May', value: 13, negativeValue: 50 },
-  { name: 'Jun', value: 29, negativeValue: 35 },
-  { name: 'Jul', value: 0, negativeValue: 29 },
-  { name: 'Aug', value: 0, negativeValue: 0 },
-  { name: 'Sep', value: 24, negativeValue: 94 },
-  { name: 'Oct', value: 0, negativeValue: 29 },
-]
+const signedValue = ({ date, type, value }) => ({
+  date,
+  [type === 'income' ? 'value' : 'negativeValue']: value,
+})
+
+const mergeDate = R.pipe(
+  R.map(signedValue),
+  R.mergeAll
+)
+
+export const dualData = R.pipe(
+  R.groupBy(R.prop('date')),
+  R.map(mergeDate),
+  R.values
+)(rawData)
