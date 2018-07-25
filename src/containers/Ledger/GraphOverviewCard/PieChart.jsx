@@ -33,7 +33,8 @@ class PieChart extends React.PureComponent {
 
     const { categoryType } = this.state
 
-    const { items, other } = limitCategories(categories)
+    const limitedCategories = limitCategories(categories)
+    const { items, other } = limitedCategories
     const pieData = other ? R.append(other, items) : items
 
     return (
@@ -65,10 +66,10 @@ class PieChart extends React.PureComponent {
           </div>
         </div>
         <CategoryList
-          categories={categories}
           className={classes.legend}
           iconClassName={classes.legendIcon}
           itemClassName={classes.legendItem}
+          limitedCategories={limitedCategories}
           nameClassName={classes.legendItemName}
           tooltip
           valueClassName={classes.legendItemValue}

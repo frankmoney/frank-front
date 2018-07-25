@@ -4,8 +4,11 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import renderProp from 'utils/renderProp'
-import CategoryLabel, { categoryPropTypes } from 'components/CategoryLabel'
-import limitCategories from 'utils/limitCategories'
+import CategoryLabel from 'components/CategoryLabel'
+import limitCategories, {
+  categoryShape,
+  limitedCategoriesProps,
+} from 'utils/limitCategories'
 import OtherCategories from './OtherCategories'
 
 const styles = theme => ({
@@ -39,6 +42,7 @@ const CategoryList = ({
   className,
   iconClassName,
   itemClassName,
+  limitedCategories,
   nameClassName,
   tooltipIconClassName,
   tooltipItemClassName,
@@ -67,7 +71,8 @@ const CategoryList = ({
       ...otherProps,
     })
 
-  const { items, other, tooltipItems } = limitCategories(categories)
+  const { items, other, tooltipItems } =
+    limitedCategories || limitCategories(categories)
 
   return (
     <div className={className}>
@@ -85,9 +90,10 @@ const CategoryList = ({
 }
 
 CategoryList.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.shape(categoryPropTypes)),
+  categories: PropTypes.arrayOf(categoryShape),
   iconClassName: PropTypes.string,
   itemClassName: PropTypes.string,
+  limitedCategories: PropTypes.arrayOf(PropTypes.shape(limitedCategoriesProps)),
   nameClassName: PropTypes.string,
   tooltipIconClassName: PropTypes.string,
   tooltipItemClassName: PropTypes.string,

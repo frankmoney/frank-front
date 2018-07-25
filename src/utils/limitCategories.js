@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+import PropTypes from 'prop-types'
 
 const DEFAULT_LIMIT = 5
 const VALUE_PROP = 'value'
@@ -40,5 +41,19 @@ export const limitCategoriesTo = customLimitCategories(
   OTHER_TEMPLATE,
   VALUE_PROP
 )
+
+export const categoryProps = {
+  color: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.number,
+}
+
+export const categoryShape = PropTypes.shape(categoryProps)
+
+export const limitedCategoriesProps = {
+  items: PropTypes.arrayOf(categoryShape),
+  other: categoryShape,
+  tooltipItems: PropTypes.arrayOf(categoryShape),
+}
 
 export default limitCategoriesTo(DEFAULT_LIMIT)

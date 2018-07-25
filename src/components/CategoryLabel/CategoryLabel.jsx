@@ -3,6 +3,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import IconCircle from 'components/IconCircle'
+import { categoryProps } from 'utils/limitCategories'
 
 const styles = {
   root: {
@@ -41,14 +42,8 @@ const CategoryLabel = ({
   </div>
 )
 
-export const categoryPropTypes = {
-  color: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.number,
-}
-
 CategoryLabel.propTypes = {
-  ...categoryPropTypes,
+  ...categoryProps,
   iconClassName: PropTypes.string,
   nameClassName: PropTypes.string,
   valueClassName: PropTypes.string,
