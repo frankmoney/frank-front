@@ -85,6 +85,7 @@ class BarChart extends React.PureComponent {
           })}
           dual={income && spending}
           data={trimmedData}
+          labelKey="date"
         />
       </div>
     )

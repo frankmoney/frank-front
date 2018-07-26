@@ -163,6 +163,7 @@ const BarChart = ({
   dual,
   footerPadding,
   height,
+  labelKey,
   positiveBarColor,
   width,
 }) => {
@@ -190,7 +191,7 @@ const BarChart = ({
         barSize={barWidth}
       >
         <XAxis
-          dataKey="name"
+          dataKey={labelKey}
           axisLine={false}
           tickLine={false}
           tickMargin={footerPadding + BASE_LINE_OFFSET}
@@ -240,6 +241,7 @@ BarChart.propTypes = {
   dual: PropTypes.bool,
   footerPadding: PropTypes.number,
   height: PropTypes.number,
+  labelKey: PropTypes.string,
   positiveBarColor: PropTypes.string,
   width: PropTypes.number,
 }
@@ -248,6 +250,7 @@ BarChart.defaultProps = {
   barColor: PRIMARY_BAR_COLOR,
   height: HEIGHT,
   footerPadding: FOOTER_PADDING,
+  labelKey: 'name',
   positiveBarColor: POSITIVE_BAR_COLOR,
   width: WIDTH,
 }
