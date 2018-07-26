@@ -38,7 +38,7 @@ const CategoryLabel = ({
   >
     <IconCircle className={cx(classes.icon, iconClassName)} />
     <span className={cx(classes.name, nameClassName)}>{name}</span>
-    {value && (
+    {(value || value === 0) && (
       <span className={cx(classes.value, valueClassName)}>
         {` ${value}`}
         {valueUnit && valueUnit}
