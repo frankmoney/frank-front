@@ -70,6 +70,7 @@ const mergeByCategory = R.pipe(
   )
 )
 
+// example: { color: '#21CB61', name: 'Marketing', value: 25 }
 export const categoricalData = R.pipe(
   R.groupBy(R.prop('type')),
   R.map(mergeByCategory)
@@ -85,6 +86,7 @@ const mergeDate = R.pipe(
   R.mergeAll
 )
 
+// example: { name: 'Jan', value: 39, negativeValue: 67 }
 export const dualData = R.pipe(
   R.groupBy(R.prop('date')),
   R.map(mergeDate),
