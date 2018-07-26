@@ -8,6 +8,8 @@ import Bar, {
 } from 'components/Charts/Bar'
 import Checkbox from './Checkbox'
 
+const MAX_ZEROES_TO_HIDE = 0.5
+
 const styles = theme => ({
   chart: {},
   checkboxes: {
@@ -32,8 +34,15 @@ const styles = theme => ({
   },
 })
 
-const makePositive = R.map(({ name, negativeValue }) => ({
-  name,
+const countZeroes = prop =>
+  R.pipe(
+    R.countBy(R.prop(prop)),
+    R.prop('0'),
+    R.defaultTo(0)
+  )
+
+const makePositive = R.map(({ date, negativeValue }) => ({
+  date,
   value: negativeValue,
 }))
 
@@ -41,6 +50,17 @@ class BarChart extends React.PureComponent {
   state = {
     income: true,
     spending: true,
+  }
+
+  componentWillMount() {
+    const { data } = this.props
+    const dataSize = R.length(data)
+    const zeroValues = countZeroes('value')(data)
+    const zeroNegativeValues = countZeroes('negativeValue')(data)
+    this.setState({
+      income: zeroValues / dataSize < MAX_ZEROES_TO_HIDE,
+      spending: zeroNegativeValues / dataSize < MAX_ZEROES_TO_HIDE,
+    })
   }
 
   handleIncomeChange = () => {

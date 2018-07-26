@@ -11,7 +11,7 @@ import styles from './GraphOverviewCard.jss'
 
 class GraphOverviewCard extends React.PureComponent {
   state = {
-    expanded: false,
+    expanded: true,
   }
 
   handleToggleExpand = expanded => {
