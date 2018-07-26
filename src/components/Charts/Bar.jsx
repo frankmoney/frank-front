@@ -24,8 +24,8 @@ const FOOTER_TEXT_HEIGHT = 20
 const LEGEND_COLOR = '#808080'
 const NEGATIVE_VALUE_PROP = 'negativeValue'
 const PADDING = 20
-const POSITIVE_BAR_COLOR = '#21CB61'
-const PRIMARY_BAR_COLOR = '#484DE7'
+export const POSITIVE_BAR_COLOR = '#21CB61'
+export const PRIMARY_BAR_COLOR = '#484DE7'
 
 const WIDTH = 790
 const HEIGHT = 260

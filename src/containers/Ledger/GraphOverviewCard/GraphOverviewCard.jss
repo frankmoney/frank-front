@@ -13,6 +13,6 @@ export default {
     padding: [0, CARD_PADDING, CARD_PADDING],
   },
   barChart: {
-    margin: [36, 0, 10],
+    margin: [26, 0, 10],
   },
 }

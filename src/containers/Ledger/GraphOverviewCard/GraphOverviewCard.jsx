@@ -1,14 +1,13 @@
-/* eslint-disable global-require */
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
-import BarChart from 'components/Charts/Bar'
+import BarChart from './BarChart'
 import ExpandRow from './ExpandRow'
 import PieChart from './PieChart'
 import Title from './Title'
-import styles from './GraphOverviewCard.jss'
 import { categoricalData, dualData } from './demoData'
+import styles from './GraphOverviewCard.jss'
 
 class GraphOverviewCard extends React.PureComponent {
   state = {
@@ -40,7 +39,7 @@ class GraphOverviewCard extends React.PureComponent {
           title="Timeline"
           onToggle={this.handleToggleExpand}
         >
-          <BarChart className={classes.barChart} dual data={dualData} />
+          <BarChart className={classes.barChart} data={dualData} />
         </ExpandRow>
       </Paper>
     )
