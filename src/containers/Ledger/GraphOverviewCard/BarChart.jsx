@@ -81,6 +81,9 @@ class BarChart extends React.PureComponent {
     const hide = !(income || spending)
     const trimmedData = !income ? makePositive(data) : data
 
+    const barColor =
+      income && !spending ? POSITIVE_BAR_COLOR : PRIMARY_BAR_COLOR
+
     return (
       <div className={className}>
         <div className={cx(classes.checkboxes, { [classes.slim]: hide })}>
@@ -103,6 +106,7 @@ class BarChart extends React.PureComponent {
           className={cx(classes.chart, {
             [classes.hidden]: hide,
           })}
+          barColor={barColor}
           dual={income && spending}
           data={trimmedData}
           labelKey="date"
