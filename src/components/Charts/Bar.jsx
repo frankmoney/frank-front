@@ -165,6 +165,7 @@ const BarChart = ({
   height,
   labelKey,
   positiveBarColor,
+  showBars,
   width,
 }) => {
   const signedData = dual ? R.map(fixNegative, data) : data
@@ -205,25 +206,28 @@ const BarChart = ({
           isAnimationActive={false}
           cursor={false}
         />
-        <Bar
-          className={{ [classes.positiveBars]: dual }}
-          dataKey={DEFAULT_VALUE_PROP}
-          fill={dual ? positiveBarColor : barColor}
-          minPointSize={5}
-          shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
-          stackId="posNeg"
-          type="monotone"
-        />
-        {dual && (
+        {showBars && (
           <Bar
-            dataKey={NEGATIVE_VALUE_PROP}
-            fill={barColor}
+            className={{ [classes.positiveBars]: dual }}
+            dataKey={DEFAULT_VALUE_PROP}
+            fill={dual ? positiveBarColor : barColor}
             minPointSize={5}
             shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
             stackId="posNeg"
             type="monotone"
           />
         )}
+        {showBars &&
+          dual && (
+            <Bar
+              dataKey={NEGATIVE_VALUE_PROP}
+              fill={barColor}
+              minPointSize={5}
+              shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
+              stackId="posNeg"
+              type="monotone"
+            />
+          )}
       </Chart>
     </div>
   )
@@ -243,6 +247,7 @@ BarChart.propTypes = {
   height: PropTypes.number,
   labelKey: PropTypes.string,
   positiveBarColor: PropTypes.string,
+  showBars: PropTypes.bool,
   width: PropTypes.number,
 }
 
@@ -252,6 +257,7 @@ BarChart.defaultProps = {
   footerPadding: FOOTER_PADDING,
   labelKey: 'name',
   positiveBarColor: POSITIVE_BAR_COLOR,
+  showBars: true,
   width: WIDTH,
 }
 

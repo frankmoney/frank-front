@@ -26,12 +26,6 @@ const styles = theme => ({
   spending: {
     color: PRIMARY_BAR_COLOR,
   },
-  slim: {
-    marginBottom: 14,
-  },
-  hidden: {
-    display: 'none',
-  },
 })
 
 const countZeroes = prop =>
@@ -86,7 +80,7 @@ class BarChart extends React.PureComponent {
 
     return (
       <div className={className}>
-        <div className={cx(classes.checkboxes, { [classes.slim]: hide })}>
+        <div className={classes.checkboxes}>
           <Checkbox
             checked={income}
             className={classes.income}
@@ -103,13 +97,12 @@ class BarChart extends React.PureComponent {
           />
         </div>
         <Bar
-          className={cx(classes.chart, {
-            [classes.hidden]: hide,
-          })}
           barColor={barColor}
-          dual={income && spending}
+          className={classes.chart}
           data={trimmedData}
+          dual={income && spending}
           labelKey="date"
+          showBars={!hide}
         />
       </div>
     )
