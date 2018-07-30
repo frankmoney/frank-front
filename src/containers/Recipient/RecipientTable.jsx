@@ -1,4 +1,3 @@
-import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { compose, mapProps } from 'recompose'
 import { Table } from '@frankmoney/components'
