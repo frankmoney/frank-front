@@ -15,7 +15,6 @@ const styles = {
     width: props => props.grid.fixed.getColumnSpanWidth(6),
   },
   tableHeaderClassName: {
-    backgroundColor: '#F8F8F9',
     height: 77,
     padding: [0, 10],
   },

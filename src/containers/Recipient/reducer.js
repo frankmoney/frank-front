@@ -4,7 +4,7 @@ import { mapPayment } from 'data/models/payment'
 import { searchTyping } from './actions'
 import DATA from './data.json'
 
-export const REDUCER_KEY = 'ledger'
+export const REDUCER_KEY = 'recipient'
 
 export default handleActions(
   {

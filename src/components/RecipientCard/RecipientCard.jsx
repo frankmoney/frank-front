@@ -1,16 +1,19 @@
 import React from 'react'
+import cx from 'classnames'
 import { format } from 'date-fns'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
 import CategoryList from 'components/CategoryList'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
+import TextWithEditableToggle from 'components/TextWithEditableToggle'
 import styles from './RecipientCard.jss'
 
 const formatDate = date => format(date, 'MMM d, YYYY')
 
 const RecipientCard = ({
   classes,
+  className,
   name,
   paymentsCount,
   lastPaymentDate,
@@ -19,9 +22,9 @@ const RecipientCard = ({
   totalSpending,
   categories,
 }) => (
-  <Paper className={classes.paper}>
+  <Paper className={cx(classes.paper, className)}>
     <div className={classes.leftColumn}>
-      <div className={classes.name}>{name}</div>
+      <TextWithEditableToggle className={classes.name} value={name} />
       <div className={classes.stats}>
         {totalSpending && (
           <div className={classes.statsColumn}>

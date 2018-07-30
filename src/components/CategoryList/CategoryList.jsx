@@ -26,8 +26,9 @@ const CategoryList = ({
   counterUnit,
   categories,
 }) => {
-  const renderItem = ({ ...otherProps }) =>
+  const renderItem = ({ id, ...otherProps }) =>
     renderProp(CategoryLabel, {
+      key: id,
       className: classes.item,
       classes: { name: classes.itemName, counter: classes.itemCounter },
       size: itemIconSize,
@@ -35,8 +36,9 @@ const CategoryList = ({
       ...otherProps,
     })
 
-  const renderTooltipItem = ({ ...otherProps }) =>
+  const renderTooltipItem = ({ id, ...otherProps }) =>
     renderProp(CategoryLabel, {
+      key: id,
       className: classes.tooltipItem,
       classes: {
         name: classes.tooltipItemName,
@@ -55,6 +57,7 @@ const CategoryList = ({
         R.slice(MAX_LEGEND_ITEMS - 1, Infinity),
         otherCategories => (
           <OtherCategories
+            key="other"
             categories={otherCategories}
             renderTooltipItem={renderTooltipItem}
           >
