@@ -36,6 +36,7 @@ export const ROUTES = {
       type3: '/demo/drawers/type-3',
       type4: '/demo/drawers/type-4',
     },
+    images: '/demo/images',
   },
 }
 

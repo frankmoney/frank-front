@@ -9,6 +9,7 @@ import CommentsDemo from 'containers/Comments/CommentsDemo'
 import ComponentsDemo from 'containers/ComponentsDemo'
 import DrawerDemo from 'containers/DrawerDemo'
 import Inbox from 'containers/Inbox'
+import ImagesDemo from 'components/BlendableImage/Demo'
 import Ledger from 'containers/Ledger'
 import Directory from 'containers/Directory'
 import Recipient from 'containers/Recipient'
@@ -108,6 +109,11 @@ export default [
   {
     component: withLayout(ChartDemo),
     path: ROUTES.demo.charts,
+    exact: true,
+  },
+  {
+    component: withLayout(ImagesDemo),
+    path: ROUTES.demo.images,
     exact: true,
   },
   {
