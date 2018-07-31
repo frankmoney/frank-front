@@ -15,6 +15,10 @@ import GraphOverviewCard from './GraphOverviewCard'
 import styles from './Ledger.jss'
 import LedgerTable from './LedgerTable'
 import { searchTextSelector } from './selectors'
+import {
+  categoricalDataSelector,
+  dualDataSelector,
+} from './GraphOverviewCard/selectors'
 
 const ConnectedSearchCard = connect(
   state => ({
@@ -29,6 +33,8 @@ const ConnectedSearchCard = connect(
 
 const ConnectedGraphOverviewCard = compose(
   connect(state => ({
+    categoricalData: categoricalDataSelector(state),
+    dualData: dualDataSelector(state),
     search: searchTextSelector(state),
   })),
   branch(props => props.search, renderNothing)

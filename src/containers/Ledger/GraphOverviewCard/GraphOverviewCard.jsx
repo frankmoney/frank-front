@@ -6,7 +6,6 @@ import BarChart from './BarChart'
 import ExpandRow from './ExpandRow'
 import PieChart from './PieChart'
 import Title from './Title'
-import { categoricalData, dualData } from './demoData'
 import styles from './GraphOverviewCard.jss'
 
 class GraphOverviewCard extends React.PureComponent {
@@ -19,7 +18,7 @@ class GraphOverviewCard extends React.PureComponent {
   }
 
   render() {
-    const { classes, className } = this.props
+    const { classes, className, categoricalData, dualData } = this.props
 
     const { expanded } = this.state
 

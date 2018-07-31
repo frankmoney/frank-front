@@ -1,6 +1,5 @@
 import React from 'react'
 import * as R from 'ramda'
-import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import Bar, {
   POSITIVE_BAR_COLOR,
