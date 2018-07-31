@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
+import HighlightText from 'components/HighlightText'
 
 const styles = {
   root: {
@@ -25,6 +26,7 @@ const CategoryLabel = ({
   className,
   classes,
   name,
+  highlighted,
   color,
   size,
   counter,
@@ -33,7 +35,11 @@ const CategoryLabel = ({
 }) => (
   <div className={cx(classes.root, className)} {...otherProps}>
     <span className={classes.icon} />
-    <span className={classes.name}>{name}</span>
+    <HighlightText
+      className={classes.name}
+      text={name}
+      textPattern={highlighted}
+    />
     {counter && (
       <span className={classes.counter}>
         {` ${counter}`}

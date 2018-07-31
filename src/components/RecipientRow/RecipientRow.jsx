@@ -6,6 +6,7 @@ import CategoryLabel from 'components/CategoryLabel'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
 import ListWithOverflow from 'components/ListWithOverflow'
+import HighlightText from 'components/HighlightText'
 
 const styles = theme => ({
   root: {
@@ -53,8 +54,8 @@ const styles = theme => ({
 
 const formatDate = date => format(date, 'MMM d')
 
-const categoriesListComponent = category => (
-  <CategoryLabel size={12} {...category} />
+const categoriesListComponent = highlighted => category => (
+  <CategoryLabel size={12} highlighted={highlighted} {...category} />
 )
 
 const RecipientRow = ({
@@ -68,10 +69,14 @@ const RecipientRow = ({
     totalSpending,
     categories,
   },
+  searchText,
 }) => (
   <TableRow className={classes.root} hoverBackgroundColor="#F8F8F9">
     <TableCell name="left" className={classes.leftColumn}>
-      <div className={classes.name}>{name}</div>
+      <div className={classes.name}>
+        <HighlightText text={name} textPattern={searchText} />
+      </div>
+
       <div className={classes.info}>
         <div>
           <span className={classes.infoLabel}>Payments</span> {paymentsCount}
@@ -98,7 +103,7 @@ const RecipientRow = ({
       <ListWithOverflow
         className={classes.categories}
         list={categories}
-        listComponent={categoriesListComponent}
+        listComponent={categoriesListComponent(searchText)}
         overflowComponentWidth={71}
       />
     </TableCell>

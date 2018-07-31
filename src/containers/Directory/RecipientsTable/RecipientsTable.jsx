@@ -1,11 +1,13 @@
 import cx from 'classnames'
 import { compose, withHandlers, withProps } from 'recompose'
+import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import { Table } from '@frankmoney/components'
 import RecipientRow from 'components/RecipientRow'
 import {
   recipientsDataSourceSelector,
   recipientsRowDataSelector,
+  searchTextSelector,
 } from '../selectors'
 
 const TABLE_NAME = 'recipients'
@@ -24,6 +26,9 @@ const styles = {
 }
 
 const ConnectedRow = compose(
+  connect(state => ({
+    searchText: searchTextSelector(state),
+  })),
   withHandlers({
     onEdit: props => () => {
       props.tableExpandRow({ name: TABLE_NAME, rowId: props.rowId })

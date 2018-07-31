@@ -20,7 +20,7 @@ const HighlightText = ({ classes, className, text, textPattern }) =>
       }}
     />
   ) : (
-    text
+    <span className={className}>{text}</span>
   )
 
 export default injectStyles(styles)(HighlightText)
