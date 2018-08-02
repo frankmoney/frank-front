@@ -21,6 +21,9 @@ const styles = {
 const WidgetsDemo = ({ classes }) => (
   <div className={classes.demo}>
     <Title>Button widget</Title>
+    <ButtonWidget content={StoriesPlaceholder} expanded />
+
+    <Title>Button widget (closed)</Title>
     <ButtonWidget content={StoriesPlaceholder} />
 
     <Title>Inline widget 400x275</Title>

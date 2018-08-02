@@ -3,11 +3,8 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
-import ChartIcon from './Chart.svg'
-import CloseIcon from './Close.svg'
+import Footer from './Footer'
 import LiveIndicator from './LiveIndicator'
-
-const SIDES_PADDING = 20
 
 const styles = theme => ({
   root: {
@@ -20,7 +17,7 @@ const styles = theme => ({
     width: 375,
     height: 720,
     boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.07)',
-    padding: [0, SIDES_PADDING, 59],
+    padding: [0, 20, 59],
     position: 'relative',
   },
   header: {
@@ -49,61 +46,49 @@ const styles = theme => ({
     right: 0,
     top: 21,
   },
-  footer: {
-    alignItems: 'center',
-    background: colors.black,
-    borderRadius: [0, 0, 8, 8],
-    bottom: -1,
-    display: 'flex',
-    height: 60,
-    left: 0,
-    padding: [10, SIDES_PADDING, 10],
-    position: 'absolute',
-    width: '100%',
-  },
-  chartIcon: {
-    color: '#FFFFFF',
-    marginRight: 19,
-  },
-  footerTitle: {
-    ...theme.fontMedium(16, 20),
-    color: '#FFFFFF',
-    position: 'relative',
-    top: 1,
-  },
-  footerSubtitle: {
-    ...theme.fontRegular(14, 20),
-    color: '#9295A1',
-  },
-  closeIcon: {
-    color: '#666B7B',
-    position: 'absolute',
-    right: SIDES_PADDING,
-  },
 })
 
-const ButtonWidget = ({ classes, className, content: Content }) => (
-  <div className={cx(classes.root, className)}>
-    <div className={classes.header}>
-      <div className={cx(classes.headerItem, classes.active)}>Stories</div>
-      <div className={classes.headerItem}>Expenses</div>
-      <div className={classes.headerItem}>Income</div>
-      <LiveIndicator className={classes.live} />
-    </div>
-    <Content />
-    <div className={classes.footer}>
-      <ChartIcon className={classes.chartIcon} />
-      <div>
-        <div className={classes.footerTitle}>Real-time report</div>
-        <div className={classes.footerSubtitle}>Verified by Frank</div>
+class ButtonWidget extends React.PureComponent {
+  state = {
+    expanded: this.props.expanded,
+  }
+
+  handleClose = () => this.setState({ expanded: false })
+  handleOpen = () => this.setState({ expanded: true })
+
+  render() {
+    const { classes, className, content: Content } = this.props
+    const { expanded } = this.state
+
+    if (!expanded) {
+      return (
+        <Footer
+          button
+          onClick={this.handleOpen}
+          title="We’re transparent"
+          subtitle="See realtime report"
+        />
+      )
+    }
+
+    return (
+      <div className={cx(classes.root, className)}>
+        <div className={classes.header}>
+          <div className={cx(classes.headerItem, classes.active)}>Stories</div>
+          <div className={classes.headerItem}>Expenses</div>
+          <div className={classes.headerItem}>Income</div>
+          <LiveIndicator className={classes.live} />
+        </div>
+        <Content />
+        <Footer onClose={this.handleClose} />
       </div>
-      <CloseIcon className={classes.closeIcon} />
-    </div>
-  </div>
-)
+    )
+  }
+}
 
 ButtonWidget.propTypes = {
   content: PropTypes.element,
+  expanded: PropTypes.bool,
 }
 
 export default injectStyles(styles)(ButtonWidget)
