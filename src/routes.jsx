@@ -3,7 +3,7 @@ import { Page404 as NotFound } from '@frankmoney/components'
 import { compose, withProps } from 'recompose'
 import { Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
-import ChartDemo from 'components/Charts/Demo'
+import WidgetDemo from 'containers/Widget/Demo'
 import Layout from 'components/Layout'
 import CommentsDemo from 'containers/Comments/CommentsDemo'
 import ComponentsDemo from 'containers/ComponentsDemo'
@@ -106,8 +106,8 @@ export default [
     exact: true,
   },
   {
-    component: withLayout(ChartDemo),
-    path: ROUTES.demo.charts,
+    component: withLayout(WidgetDemo),
+    path: ROUTES.demo.widgets,
     exact: true,
   },
   {

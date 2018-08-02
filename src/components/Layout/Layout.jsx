@@ -82,9 +82,9 @@ export default withProps({
             primaryText="Demo :: Comments"
           />
           <SidebarMenuItem
-            href={createRouteUrl(ROUTES.demo.charts)}
+            href={createRouteUrl(ROUTES.demo.widgets)}
             navLinkComponent={ReduxNavLink}
-            primaryText="Demo :: Charts"
+            primaryText="Demo :: Widgets"
           />
         </>
       ),
