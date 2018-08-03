@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
 import Footer from './Footer'
-import LiveIndicator from './LiveIndicator'
+import { Header, HeaderItem } from './Header'
 
 const styles = theme => ({
   root: {
@@ -21,27 +21,12 @@ const styles = theme => ({
     position: 'relative',
   },
   header: {
-    display: 'flex',
-    position: 'relative',
-    borderBottom: '1px solid #E9EAEC',
     marginBottom: 21,
     minHeight: 62,
   },
   headerItem: {
-    ...theme.fontRegular(20, 26),
-    color: '#A8AAB4',
-    cursor: 'pointer',
     padding: [19, 1, 0],
-    '&:not(:first-child)': {
-      marginLeft: 16,
-    },
-    '&$active': {
-      color: '#252B43',
-      borderBottom: '1px solid #252B43',
-      marginBottom: -1,
-    },
   },
-  active: {},
   live: {
     right: 0,
     top: 21,
@@ -51,14 +36,21 @@ const styles = theme => ({
 class ButtonWidget extends React.PureComponent {
   state = {
     expanded: this.props.expanded,
+    tab: this.props.tab,
   }
 
   handleClose = () => this.setState({ expanded: false })
   handleOpen = () => this.setState({ expanded: true })
 
+  switchTab = tab => () => this.setState({ tab })
+
   render() {
-    const { classes, className, content: Content } = this.props
-    const { expanded } = this.state
+    const { charts: Charts, classes, className, stories: Stories } = this.props
+    const { expanded, tab } = this.state
+
+    const isStories = tab === 'stories'
+    const isIncome = tab === 'income'
+    const isExpenses = tab === 'expenses'
 
     if (!expanded) {
       return (
@@ -73,13 +65,29 @@ class ButtonWidget extends React.PureComponent {
 
     return (
       <div className={cx(classes.root, className)}>
-        <div className={classes.header}>
-          <div className={cx(classes.headerItem, classes.active)}>Stories</div>
-          <div className={classes.headerItem}>Expenses</div>
-          <div className={classes.headerItem}>Income</div>
-          <LiveIndicator className={classes.live} />
-        </div>
-        <Content />
+        <Header
+          className={classes.header}
+          itemClassName={classes.headerItem}
+          liveClassName={classes.live}
+        >
+          <HeaderItem
+            active={isStories}
+            name="Stories"
+            onClick={this.switchTab('stories')}
+          />
+          <HeaderItem
+            active={isExpenses}
+            name="Expenses"
+            onClick={this.switchTab('expenses')}
+          />
+          <HeaderItem
+            active={isIncome}
+            name="Income"
+            onClick={this.switchTab('income')}
+          />
+        </Header>
+        {isStories && <Stories />}
+        {(isIncome || isExpenses) && <Charts />}
         <Footer onClose={this.handleClose} />
       </div>
     )
@@ -87,8 +95,14 @@ class ButtonWidget extends React.PureComponent {
 }
 
 ButtonWidget.propTypes = {
-  content: PropTypes.element,
+  charts: PropTypes.element,
   expanded: PropTypes.bool,
+  stories: PropTypes.element,
+  tab: PropTypes.oneOf(['stories', 'expenses', 'income']),
+}
+
+ButtonWidget.defaultProps = {
+  tab: 'stories',
 }
 
 export default injectStyles(styles)(ButtonWidget)

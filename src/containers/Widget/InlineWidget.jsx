@@ -3,18 +3,17 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
-import LiveIndicator from './LiveIndicator'
+import { Header, HeaderItem } from './Header'
 
 const styles = theme => ({
   root: {
     ...theme.fontRegular(16, 26),
-    color: colors.black,
     background: '#FFFFFF',
+    border: '1px solid #E9EAEC',
     borderRadius: 8,
+    color: colors.black,
     display: 'flex',
     flexDirection: 'column',
-
-    border: '1px solid #E9EAEC',
     padding: [0, 18, 19],
   },
   size400: {
@@ -30,59 +29,73 @@ const styles = theme => ({
     height: 430,
   },
   size800: {
-    width: 800,
     height: 550,
     minHeight: 550,
+    width: 800,
   },
-  header: {
-    display: 'flex',
-    position: 'relative',
-    borderBottom: '1px solid #E9EAEC',
-    minHeight: 60,
-    marginBottom: 14,
-  },
-  headerItem: {
-    ...theme.fontRegular(20, 26),
-    color: '#A8AAB4',
-    cursor: 'pointer',
-    padding: [16, 2, 0],
-    '&:not(:first-child)': {
-      marginLeft: 16,
-    },
-    '&$active': {
-      color: '#252B43',
-      borderBottom: '1px solid #252B43',
-      marginBottom: -1,
-    },
-  },
-  active: {},
 })
 
-const InlineWidget = ({ classes, className, content: Content, size }) => (
-  <div
-    className={cx(
-      classes.root,
-      {
-        [classes.size400]: size === 400,
-        [classes.size500]: size === 500,
-        [classes.size625]: size === 625,
-        [classes.size800]: size === 800,
-      },
-      className
-    )}
-  >
-    <div className={classes.header}>
-      <div className={classes.headerItem}>Spending</div>
-      <div className={cx(classes.headerItem, classes.active)}>Stories</div>
-      <LiveIndicator />
-    </div>
-    <Content />
-  </div>
-)
+class InlineWidget extends React.PureComponent {
+  state = {
+    tab: this.props.tab,
+  }
+
+  switchTab = tab => () => this.setState({ tab })
+
+  render() {
+    const {
+      classes,
+      className,
+      stories: Stories,
+      charts: Charts,
+      size,
+    } = this.props
+    const { tab } = this.state
+
+    const isStories = tab === 'stories'
+    const isSpending = tab === 'spending'
+
+    return (
+      <div
+        className={cx(
+          classes.root,
+          {
+            [classes.size400]: size === 400,
+            [classes.size500]: size === 500,
+            [classes.size625]: size === 625,
+            [classes.size800]: size === 800,
+          },
+          className
+        )}
+      >
+        <Header>
+          <HeaderItem
+            name="Spending"
+            active={isSpending}
+            onClick={this.switchTab('spending')}
+          />
+          <HeaderItem
+            name="Stories"
+            active={isStories}
+            onClick={this.switchTab('stories')}
+          />
+        </Header>
+        {isStories && <Stories />}
+        {isSpending && <Charts />}
+      </div>
+    )
+  }
+}
 
 InlineWidget.propTypes = {
-  content: PropTypes.element,
+  charts: PropTypes.element,
+  stories: PropTypes.element,
+  tab: PropTypes.oneOf(['stories', 'spending']),
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
+}
+
+InlineWidget.defaultProps = {
+  tab: 'stories',
 }
 
 export default injectStyles(styles)(InlineWidget)
