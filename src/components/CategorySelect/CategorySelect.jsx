@@ -1,13 +1,18 @@
 import React from 'react'
+import * as R from 'ramda'
+import cx from 'classnames'
 import { CheckedMenuList, HeaderFilter } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
-import * as R from 'ramda'
 import CategoryLabel from 'components/CategoryLabel'
 import colors from 'styles/colors'
 import CategorySelectItem from './CategorySelectItem'
 
 const styles = {
   root: {},
+  categoryIcon: {
+    height: 16,
+    width: 16,
+  },
 }
 
 const items = [
@@ -19,10 +24,22 @@ const items = [
   { value: 'marketing', name: 'Marketing', color: colors.purple },
 ]
 
-const CategorySelect = ({ classes, size = 16, value, ...otherProps }) => {
+const CategorySelect = ({
+  categoryIconClassName,
+  classes,
+  value,
+  ...otherProps
+}) => {
   const item = R.find(R.propEq('value', value), items) || items[0]
+
+  const iconClassName = cx(classes.categoryIcon, categoryIconClassName)
+
   const selection = (
-    <CategoryLabel size={size} color={item.color} name={item.name} />
+    <CategoryLabel
+      iconClassName={iconClassName}
+      color={item.color}
+      name={item.name}
+    />
   )
 
   return (
@@ -32,7 +49,7 @@ const CategorySelect = ({ classes, size = 16, value, ...otherProps }) => {
           <CategorySelectItem
             key={itemValue}
             value={itemValue}
-            size={size}
+            iconClassName={iconClassName}
             name={name}
             color={color}
             selected={value === itemValue}

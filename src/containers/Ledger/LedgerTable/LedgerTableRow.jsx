@@ -72,6 +72,10 @@ const styles = theme => ({
     composes: '$icon',
     color: '#21CB61',
   },
+  categoryIcon: {
+    height: 12,
+    width: 12,
+  },
 })
 
 const LedgerTableRow = ({
@@ -98,8 +102,8 @@ const LedgerTableRow = ({
         {category && (
           <CategoryLabel
             className={classes.category}
-            size={12}
             color={category.color}
+            iconClassName={classes.categoryIcon}
             name={category.name}
           />
         )}

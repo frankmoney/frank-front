@@ -70,6 +70,10 @@ const styles = theme => ({
     paddingLeft: 10,
     ...theme.fontMedium(16, 55),
   },
+  categoryIcon: {
+    height: 12,
+    width: 12,
+  },
   date: {
     display: 'table-cell',
     width: 70,
@@ -106,7 +110,11 @@ const Item = ({
     </div>
     <div className={classes.title}>{title}</div>
     <div className={classes.category}>
-      <CategoryLabel name={categoryName} color={categoryColor} size={12} />
+      <CategoryLabel
+        color={categoryColor}
+        iconClassName={classes.categoryIcon}
+        name={categoryName}
+      />
     </div>
     <div className={classes.date}>{formatDate(date)}</div>
   </div>

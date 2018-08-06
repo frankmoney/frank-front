@@ -11,7 +11,7 @@ import {
 } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
 import { formatCurrency, Paper } from '@frankmoney/components'
-import Circle from './Circle.svg'
+import IconCircle from 'components/IconCircle'
 
 const BAR_CORNER_RADIUS = 3
 const BASE_LINE_COLOR = '#E5E5E5'
@@ -24,8 +24,8 @@ const FOOTER_TEXT_HEIGHT = 20
 const LEGEND_COLOR = '#808080'
 const NEGATIVE_VALUE_PROP = 'negativeValue'
 const PADDING = 20
-const POSITIVE_BAR_COLOR = '#21CB61'
-const PRIMARY_BAR_COLOR = '#484DE7'
+export const POSITIVE_BAR_COLOR = '#21CB61'
+export const PRIMARY_BAR_COLOR = '#484DE7'
 
 const WIDTH = 790
 const HEIGHT = 260
@@ -132,10 +132,10 @@ const formatMoney = R.pipe(
 )
 
 const TooltipLine = injectStyles(styles)(
-  ({ caption, classes, dataKey, fill, value }) => (
-    <div className={classes.tooltipItem} style={{ color: fill }}>
+  ({ caption, classes, dataKey, color, value }) => (
+    <div className={classes.tooltipItem} style={{ color }}>
       <div>
-        <Circle className={classes.circle} />
+        <IconCircle className={classes.circle} />
         <span className={classes.tooltipItemText}>
           {caption || (dataKey === NEGATIVE_VALUE_PROP ? 'Spending' : 'Income')}
         </span>
@@ -163,7 +163,9 @@ const BarChart = ({
   dual,
   footerPadding,
   height,
+  labelKey,
   positiveBarColor,
+  showBars,
   width,
 }) => {
   const signedData = dual ? R.map(fixNegative, data) : data
@@ -190,7 +192,7 @@ const BarChart = ({
         barSize={barWidth}
       >
         <XAxis
-          dataKey="key"
+          dataKey={labelKey}
           axisLine={false}
           tickLine={false}
           tickMargin={footerPadding + BASE_LINE_OFFSET}
@@ -204,25 +206,28 @@ const BarChart = ({
           isAnimationActive={false}
           cursor={false}
         />
-        <Bar
-          className={{ [classes.positiveBars]: dual }}
-          dataKey={DEFAULT_VALUE_PROP}
-          fill={dual ? positiveBarColor : barColor}
-          minPointSize={5}
-          shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
-          stackId="posNeg"
-          type="monotone"
-        />
-        {dual && (
+        {showBars && (
           <Bar
-            dataKey={NEGATIVE_VALUE_PROP}
-            fill={barColor}
+            className={{ [classes.positiveBars]: dual }}
+            dataKey={DEFAULT_VALUE_PROP}
+            fill={dual ? positiveBarColor : barColor}
             minPointSize={5}
             shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
             stackId="posNeg"
             type="monotone"
           />
         )}
+        {showBars &&
+          dual && (
+            <Bar
+              dataKey={NEGATIVE_VALUE_PROP}
+              fill={barColor}
+              minPointSize={5}
+              shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
+              stackId="posNeg"
+              type="monotone"
+            />
+          )}
       </Chart>
     </div>
   )
@@ -233,14 +238,16 @@ BarChart.propTypes = {
   caption: PropTypes.string,
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.string,
-      value: PropTypes.number,
+      name: PropTypes.string,
+      value: PropTypes.number.isRequired,
     })
   ).isRequired,
   dual: PropTypes.bool,
   footerPadding: PropTypes.number,
   height: PropTypes.number,
+  labelKey: PropTypes.string,
   positiveBarColor: PropTypes.string,
+  showBars: PropTypes.bool,
   width: PropTypes.number,
 }
 
@@ -248,7 +255,9 @@ BarChart.defaultProps = {
   barColor: PRIMARY_BAR_COLOR,
   height: HEIGHT,
   footerPadding: FOOTER_PADDING,
+  labelKey: 'name',
   positiveBarColor: POSITIVE_BAR_COLOR,
+  showBars: true,
   width: WIDTH,
 }
 
