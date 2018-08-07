@@ -1,11 +1,13 @@
 import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 import { MenuItem, Input } from 'material-ui'
 import { injectStyles } from '@frankmoney/ui'
 import { SelectField } from '@frankmoney/components'
 import CategoryList from 'components/CategoryList'
 import Pie from 'components/Charts/Pie'
+import { categoricalDataShape } from 'components/Charts/shapes'
 import limitCategories from 'utils/limitCategories'
 import styles from './PieChart.jss'
 
@@ -34,7 +36,7 @@ class PieChart extends React.PureComponent {
   handleMouseOut = () => this.setState({ activeKey: null })
 
   render() {
-    const { classes, className, categories } = this.props
+    const { classes, className, categories, hideChart } = this.props
 
     const { categoryType } = this.state
 
@@ -45,13 +47,15 @@ class PieChart extends React.PureComponent {
 
     return (
       <div className={cx(classes.root, className)}>
-        <Pie
-          activeKey={this.state.activeKey}
-          className={classes.chart}
-          data={pieData}
-          onMouseEnter={this.handleMouseOver}
-          onMouseLeave={this.handleMouseOut}
-        />
+        {!hideChart && (
+          <Pie
+            activeKey={this.state.activeKey}
+            className={classes.chart}
+            data={pieData}
+            onMouseEnter={this.handleMouseOver}
+            onMouseLeave={this.handleMouseOut}
+          />
+        )}
         <div className={classes.switcherRoot}>
           <div className={classes.switcher}>
             {'% of total '}
@@ -96,6 +100,11 @@ class PieChart extends React.PureComponent {
       </div>
     )
   }
+}
+
+PieChart.propTypes = {
+  categories: PropTypes.arrayOf(categoricalDataShape),
+  hideChart: PropTypes.bool.isRequired,
 }
 
 export default injectStyles(styles)(PieChart)

@@ -42,7 +42,7 @@ const mergeByCategory = categories =>
     scale
   )
 
-// example: { color: '#21CB61', name: 'Marketing', value: 25 }
+// categoricalDataShape
 export const categoricalDataSelector = name =>
   createSelector(
     plainChartDataSelector(name),
@@ -64,7 +64,7 @@ const mergeDate = R.pipe(
   R.mergeAll
 )
 
-// example: { name: 'Jan', value: 39, negativeValue: 67 }
+// dualDataShape
 export const dualDataSelector = name =>
   createSelector(
     plainChartDataSelector(name),
