@@ -36,7 +36,7 @@ class PieChart extends React.PureComponent {
   handleMouseOut = () => this.setState({ activeKey: null })
 
   render() {
-    const { classes, className, categories, hideChart } = this.props
+    const { classes, className, categories, hideChart, chartSize } = this.props
 
     const { categoryType } = this.state
 
@@ -48,39 +48,41 @@ class PieChart extends React.PureComponent {
     return (
       <div className={cx(classes.root, className)}>
         {!hideChart && (
-          <Pie
-            activeKey={this.state.activeKey}
-            className={classes.chart}
-            data={pieData}
-            onMouseEnter={this.handleMouseOver}
-            onMouseLeave={this.handleMouseOut}
-          />
-        )}
-        <div className={classes.switcherRoot}>
-          <div className={classes.switcher}>
-            {'% of total '}
-            <SelectField
-              name="type"
-              value={categoryType}
-              values={pieCategoryTypes}
-              valueKey="key"
-              MenuProps={{ MenuListProps: { className: classes.list } }}
-              inputComponent={
-                <Input
-                  classes={{
-                    root: classes.inputContainer,
-                    input: classes.input,
-                  }}
-                  disableUnderline
-                />
-              }
-              renderValue={renderSelectInput}
-              onChange={this.handleChangeCategoryType}
-            >
-              {pieCategoryTypes.map(type => renderMenuItem(type))}
-            </SelectField>
+          <div className={classes.chartContainer}>
+            <Pie
+              activeKey={this.state.activeKey}
+              className={classes.chart}
+              data={pieData}
+              onMouseEnter={this.handleMouseOver}
+              onMouseLeave={this.handleMouseOut}
+              size={chartSize}
+            />
+            <div className={classes.switcher}>
+              {'% of total '}
+              <SelectField
+                classes={{ icon: classes.switcherIcon }}
+                name="type"
+                value={categoryType}
+                values={pieCategoryTypes}
+                valueKey="key"
+                MenuProps={{ MenuListProps: { className: classes.list } }}
+                inputComponent={
+                  <Input
+                    classes={{
+                      root: classes.inputContainer,
+                      input: classes.input,
+                    }}
+                    disableUnderline
+                  />
+                }
+                renderValue={renderSelectInput}
+                onChange={this.handleChangeCategoryType}
+              >
+                {pieCategoryTypes.map(type => renderMenuItem(type))}
+              </SelectField>
+            </div>
           </div>
-        </div>
+        )}
         <CategoryList
           activeKey={this.state.activeKey}
           activeLabelClassName={classes.activeLegendItem}
@@ -105,6 +107,11 @@ class PieChart extends React.PureComponent {
 PieChart.propTypes = {
   categories: PropTypes.arrayOf(categoricalDataShape),
   hideChart: PropTypes.bool.isRequired,
+  chartSize: PropTypes.number.isRequired,
+}
+
+PieChart.defaultProps = {
+  chartSize: 350,
 }
 
 export default injectStyles(styles)(PieChart)

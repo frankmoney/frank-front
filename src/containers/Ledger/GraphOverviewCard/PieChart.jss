@@ -1,23 +1,29 @@
 export default theme => ({
   root: {
-    display: 'flex',
     alignItems: 'center',
+    display: 'flex',
     padding: [0, 30],
     position: 'relative',
   },
-  switcherRoot: {
-    position: 'absolute',
-    top: 0,
-    width: 350,
+  chartContainer: {
+    height: ({ chartSize }) => chartSize,
+    position: 'relative',
+    width: ({ chartSize }) => chartSize,
   },
   switcher: {
-    ...theme.fontRegular(18, 22),
+    ...theme.fontRegular(18, 20),
     alignItems: 'center',
     left: '50%',
+    maxWidth: ({ chartSize }) => chartSize - 30 * 2,
     position: 'absolute',
-    top: 166,
-    transform: 'translateX(-50%)',
-    whiteSpace: 'nowrap',
+    textAlign: 'center',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '100%',
+  },
+  switcherIcon: {
+    top: 0,
+    right: 0,
   },
   input: {
     ...theme.fontMedium(18, 22),

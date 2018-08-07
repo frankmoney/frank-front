@@ -81,7 +81,7 @@ class InlineWidget extends React.PureComponent {
           />
         </Header>
         {isStories && <Stories />}
-        {isSpending && <Charts />}
+        {isSpending && <Charts size={size} />}
       </div>
     )
   }
