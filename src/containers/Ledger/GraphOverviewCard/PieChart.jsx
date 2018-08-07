@@ -36,7 +36,18 @@ class PieChart extends React.PureComponent {
   handleMouseOut = () => this.setState({ activeKey: null })
 
   render() {
-    const { classes, className, categories, hideChart, chartSize } = this.props
+    const {
+      categories,
+      chartSize,
+      classes,
+      className,
+      hideChart,
+      legendClassName,
+      legendIconClassName,
+      legendItemClassName,
+      legendNameClassName,
+      legendValueClassName,
+    } = this.props
 
     const { categoryType } = this.state
 
@@ -86,17 +97,17 @@ class PieChart extends React.PureComponent {
         <CategoryList
           activeKey={this.state.activeKey}
           activeLabelClassName={classes.activeLegendItem}
-          className={cx(classes.legend, {
+          className={cx(classes.legend, legendClassName, {
             [classes.highlightedLegend]: this.state.activeKey !== null,
           })}
-          iconClassName={classes.legendIcon}
-          itemClassName={classes.legendItem}
+          iconClassName={cx(classes.legendIcon, legendIconClassName)}
+          itemClassName={cx(classes.legendItem, legendItemClassName)}
           limitedCategories={limitedCategories}
-          nameClassName={classes.legendItemName}
+          nameClassName={cx(classes.legendItemName, legendNameClassName)}
           onLabelMouseEnter={this.handleMouseOver}
           onLabelMouseLeave={this.handleMouseOut}
           tooltip
-          valueClassName={classes.legendItemValue}
+          valueClassName={cx(classes.legendItemValue, legendValueClassName)}
           valueUnit="%"
         />
       </div>
@@ -106,8 +117,13 @@ class PieChart extends React.PureComponent {
 
 PieChart.propTypes = {
   categories: PropTypes.arrayOf(categoricalDataShape),
-  hideChart: PropTypes.bool.isRequired,
   chartSize: PropTypes.number.isRequired,
+  hideChart: PropTypes.bool.isRequired,
+  legendClassName: PropTypes.string,
+  legendIconClassName: PropTypes.string,
+  legendItemClassName: PropTypes.string,
+  legendNameClassName: PropTypes.string,
+  legendValueClassName: PropTypes.string,
 }
 
 PieChart.defaultProps = {
