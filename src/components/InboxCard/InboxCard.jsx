@@ -77,7 +77,6 @@ const InboxCard = ({
         >
           <CategorySelect
             className={classes.categorySelect}
-            size={16}
             value={categoryId}
           />
         </Field>

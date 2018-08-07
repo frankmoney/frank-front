@@ -1,0 +1,122 @@
+[
+  {
+    "date": "Jan",
+    "type": "spending",
+    "value": 67,
+    "category": 0
+  },
+  {
+    "date": "Feb",
+    "type": "spending",
+    "value": 84,
+    "category": 1
+  },
+  {
+    "date": "Mar",
+    "type": "spending",
+    "value": 67,
+    "category": 2
+  },
+  {
+    "date": "Apr",
+    "type": "spending",
+    "value": 36,
+    "category": 3
+  },
+  {
+    "date": "May",
+    "type": "spending",
+    "value": 50,
+    "category": 4
+  },
+  {
+    "date": "Jun",
+    "type": "spending",
+    "value": 35,
+    "category": 5
+  },
+  {
+    "date": "Jul",
+    "type": "spending",
+    "value": 29,
+    "category": 0
+  },
+  {
+    "date": "Aug",
+    "type": "spending",
+    "value": 0,
+    "category": 1
+  },
+  {
+    "date": "Sep",
+    "type": "spending",
+    "value": 94,
+    "category": 2
+  },
+  {
+    "date": "Oct",
+    "type": "spending",
+    "value": 0,
+    "category": 3
+  },
+  {
+    "date": "Jan",
+    "type": "income",
+    "value": 39,
+    "category": 0
+  },
+  {
+    "date": "Feb",
+    "type": "income",
+    "value": 49,
+    "category": 1
+  },
+  {
+    "date": "Mar",
+    "type": "income",
+    "value": 0,
+    "category": 2
+  },
+  {
+    "date": "Apr",
+    "type": "income",
+    "value": 0,
+    "category": 3
+  },
+  {
+    "date": "May",
+    "type": "income",
+    "value": 13,
+    "category": 4
+  },
+  {
+    "date": "Jun",
+    "type": "income",
+    "value": 29,
+    "category": 5
+  },
+  {
+    "date": "Jul",
+    "type": "income",
+    "value": 0,
+    "category": 0
+  },
+  {
+    "date": "Aug",
+    "type": "income",
+    "value": 0,
+    "category": 2
+  },
+  {
+    "date": "Sep",
+    "type": "income",
+    "value": 24,
+    "category": 4
+  },
+  {
+    "date": "Oct",
+    "type": "income",
+    "value": 0,
+    "category": 3
+  }
+]

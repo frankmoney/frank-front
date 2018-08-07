@@ -1,7 +1,9 @@
 import { fromJS } from 'immutable'
+import * as R from 'ramda'
 import { handleActions } from 'redux-actions'
 import ACTIONS from './actions'
-import { PROFILES, REDUCER_NAME } from './constants'
+import { REDUCER_NAME } from './constants'
+import EDIT_ROLE_ACTIONS from './EditRoleDrawer/actions'
 
 const initialState = fromJS({
   loaded: false,
@@ -13,17 +15,20 @@ const initialState = fromJS({
 
 const teamReducer = handleActions(
   {
-    [ACTIONS.load]: () => {
-      console.warn('load:', { ...PROFILES })
-      return fromJS({
+    [ACTIONS.load]: state => state.merge({ loaded: false, loading: true }),
+    [ACTIONS.load.error]: state =>
+      state.merge({ loaded: false, loading: false }),
+    [ACTIONS.load.success]: (state, { payload: { self, others } }) =>
+      state.merge({
         loaded: true,
         loading: false,
-        profiles: { ...PROFILES },
-        ownProfileId: '59',
-        otherProfileIds: Object.keys(PROFILES).filter(({ id }) => id !== '59'),
-      })
-    },
+        profiles: R.fromPairs([self, ...others].map(x => [x.id, x])),
+        ownProfileId: self.id,
+        otherProfileIds: others.map(R.prop('id')),
+      }),
     [ACTIONS.leave]: () => initialState,
+    [EDIT_ROLE_ACTIONS.submit.success]: (state, { payload: profile }) =>
+      state.mergeIn(['profiles', profile.id], profile),
   },
   initialState
 )

@@ -7,9 +7,15 @@ const styles = {
   root: {},
 }
 
-const CategorySelectItem = ({ classes, size, name, color, ...otherProps }) => (
+const CategorySelectItem = ({
+  classes,
+  color,
+  iconClassName,
+  name,
+  ...otherProps
+}) => (
   <CheckedMenuItem {...otherProps}>
-    <CategoryLabel size={size} color={color} name={name} />
+    <CategoryLabel iconClassName={iconClassName} color={color} name={name} />
   </CheckedMenuItem>
 )
 

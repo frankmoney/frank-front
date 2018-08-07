@@ -4,8 +4,10 @@ import cx from 'classnames'
 import { Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import Title from 'containers/Ledger/GraphOverviewCard/Title'
+import CategoryList from 'components/CategoryList'
+import limitCategories from 'utils/limitCategories'
 import BarChart, { Tooltip as ChartTooltip } from './Bar'
-import PieChart, { injectIndex } from './Pie'
+import PieChart from './Pie'
 
 const styles = theme => ({
   demo: {
@@ -27,11 +29,9 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  ledgerCard: {
-    marginLeft: 60,
-  },
   pieContainer: {
     display: 'flex',
+    paddingLeft: 30,
   },
   pieLegend: {
     display: 'inline-flex',
@@ -41,6 +41,17 @@ const styles = theme => ({
     justifyContent: 'space-between',
     height: '8em',
   },
+  pieLegendActive: {
+    '& > *': {
+      opacity: 0.4,
+    },
+    '&:hover > *': {
+      opacity: 'unset',
+    },
+  },
+  activeLegendItem: {
+    opacity: 1,
+  },
 })
 
 const DemoCard = injectStyles(styles)(({ children, classes, className }) => (
@@ -48,86 +59,79 @@ const DemoCard = injectStyles(styles)(({ children, classes, className }) => (
 ))
 
 const singularData = [
-  { key: 'Jan', value: 135 },
-  { key: 'Feb', value: 170 },
-  { key: 'Mar', value: 135 },
-  { key: 'Apr', value: 75 },
-  { key: 'May', value: 100 },
-  { key: 'Jun', value: 75 },
-  { key: 'Jul', value: 60 },
-  { key: 'Aug', value: 0 },
-  { key: 'Sep', value: 190 },
-  { key: 'Oct', value: 60 },
+  { name: 'Jan', value: 135 },
+  { name: 'Feb', value: 170 },
+  { name: 'Mar', value: 135 },
+  { name: 'Apr', value: 75 },
+  { name: 'May', value: 100 },
+  { name: 'Jun', value: 75 },
+  { name: 'Jul', value: 60 },
+  { name: 'Aug', value: 0 },
+  { name: 'Sep', value: 190 },
+  { name: 'Oct', value: 60 },
 ]
 
 const dualData = [
-  { key: 'Jan', value: 39, negativeValue: 67 },
-  { key: 'Feb', value: 49, negativeValue: 84 },
-  { key: 'Mar', value: 0, negativeValue: 67 },
-  { key: 'Apr', value: 0, negativeValue: 36 },
-  { key: 'May', value: 13, negativeValue: 50 },
-  { key: 'Jun', value: 29, negativeValue: 35 },
-  { key: 'Jul', value: 0, negativeValue: 29 },
-  { key: 'Aug', value: 0, negativeValue: 0 },
-  { key: 'Sep', value: 24, negativeValue: 94 },
-  { key: 'Oct', value: 0, negativeValue: 29 },
+  { name: 'Jan', value: 39, negativeValue: 67 },
+  { name: 'Feb', value: 49, negativeValue: 84 },
+  { name: 'Mar', value: 0, negativeValue: 67 },
+  { name: 'Apr', value: 0, negativeValue: 36 },
+  { name: 'May', value: 13, negativeValue: 50 },
+  { name: 'Jun', value: 29, negativeValue: 35 },
+  { name: 'Jul', value: 0, negativeValue: 29 },
+  { name: 'Aug', value: 0, negativeValue: 0 },
+  { name: 'Sep', value: 24, negativeValue: 94 },
+  { name: 'Oct', value: 0, negativeValue: 29 },
 ]
 
 const pieData = [
-  { key: 'Operational expenses', value: 36, fill: '#8725FB' },
-  { key: 'Marketing', value: 25, fill: '#21CB61' },
-  { key: 'Program expenses', value: 12, fill: '#0624FB' },
-  { key: 'Street outreach', value: 7, fill: '#FC1891' },
-  { key: 'Other categories', value: 14 },
+  { name: 'Operational expenses', value: 36, color: '#8725FB' },
+  { name: 'Marketing', value: 25, color: '#21CB61' },
+  { name: 'Program expenses', value: 12, color: '#0624FB' },
+  { name: 'Street outreach', value: 7, color: '#FC1891' },
+  { color: '#FF9C28', name: 'Advertising', value: 2 },
+  { color: '#00DCEA', name: 'Sales', value: 2 },
 ]
 
 const tooltipPayload = [
-  { value: 481, fill: '#21CB61', caption: 'Income' },
-  { value: -14899, fill: '#484DE7', caption: 'Spending' },
+  { value: 481, color: '#21CB61', caption: 'Income' },
+  { value: -14899, color: '#484DE7', caption: 'Spending' },
 ]
 
 class PieDemo extends React.Component {
   state = {
-    activeIndex: null,
-    hoveredPieIndex: null,
+    activeKey: null,
   }
 
-  handleLegendOver = index => () => this.setState({ activeIndex: index })
+  handleMouseOver = key => this.setState({ activeKey: key })
 
-  handleLegendOut = () => this.setState({ activeIndex: null })
-
-  handlePieOver = index => this.setState({ hoveredPieIndex: index })
-
-  handlePieOut = () => this.setState({ hoveredPieIndex: null })
+  handleMouseOut = () => this.setState({ activeKey: null })
 
   render() {
     const { classes } = this.props
-    const data = injectIndex(pieData)
+    const limitedCategories = limitCategories(pieData)
+    const { other, items } = limitedCategories
+    const pieItems = R.append(other, items)
     return (
       <div className={classes.pieContainer}>
         <PieChart
-          data={pieData}
-          activeIndex={this.state.activeIndex}
-          onMouseEnter={this.handlePieOver}
-          onMouseLeave={this.handlePieOut}
+          data={pieItems}
+          activeKey={this.state.activeKey}
+          onMouseEnter={this.handleMouseOver}
+          onMouseLeave={this.handleMouseOut}
         />
-        <ul className={classes.pieLegend}>
-          {R.map(
-            ({ fill, key, index }) => (
-              <li
-                onMouseOver={this.handleLegendOver(index)}
-                onMouseOut={this.handleLegendOut}
-                style={{
-                  color: fill,
-                  fontWeight: this.state.hoveredPieIndex === index ? 500 : 400,
-                }}
-              >
-                {key}
-              </li>
-            ),
-            data
-          )}
-        </ul>
+        <CategoryList
+          activeKey={this.state.activeKey}
+          activeLabelClassName={classes.activeLegendItem}
+          className={cx(classes.pieLegend, {
+            [classes.pieLegendActive]: this.state.activeKey !== null,
+          })}
+          limitedCategories={limitedCategories}
+          onLabelMouseEnter={this.handleMouseOver}
+          onLabelMouseLeave={this.handleMouseOut}
+          tooltip
+          valueUnit="%"
+        />
       </div>
     )
   }
@@ -135,7 +139,7 @@ class PieDemo extends React.Component {
 
 const ChartsDemo = ({ classes }) => (
   <div className={classes.demo}>
-    <DemoCard className={classes.ledgerCard}>
+    <DemoCard>
       <Title>PieChart</Title>
       <PieDemo classes={classes} />
     </DemoCard>

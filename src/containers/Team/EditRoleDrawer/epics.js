@@ -1,32 +1,44 @@
 import { push } from 'react-router-redux'
 import { ROUTES } from 'const'
-import { PROFILES } from '../constants'
 import ACTIONS from './actions'
+import QUERIES from './queries'
 import {
   idSelector,
   adminSelector,
   canInviteSelector,
-  accessSelector,
+  accountIdsSelector,
 } from './selectors'
+
+export const loadEpic = (action$, store, { graphql }) =>
+  action$
+    .ofType(ACTIONS.load)
+    .switchMap(({ payload: { id } }) =>
+      Promise.all([
+        graphql(QUERIES.teamAccounts),
+        graphql(QUERIES.teammate, { id }),
+      ])
+    )
+    .map(([accounts, profile]) => ACTIONS.load.success({ accounts, profile }))
 
 export const cancelEpic = action$ =>
   action$.ofType(ACTIONS.cancel).map(() => push(ROUTES.team.root))
 
-export const submitEpic = (action$, store) =>
-  action$.ofType(ACTIONS.submit).switchMap(() => {
-    const state = store.getState()
+export const submitEpic = (action$, store, { graphql }) =>
+  action$
+    .ofType(ACTIONS.submit)
+    .switchMap(() => {
+      const state = store.getState()
 
-    const id = idSelector(state)
-    const admin = adminSelector(state)
-    const canInvite = canInviteSelector(state)
-    const access = accessSelector(state)
+      const args = {
+        id: idSelector(state),
+        admin: adminSelector(state),
+        canInvite: canInviteSelector(state),
+        accountIds: accountIdsSelector(state),
+      }
 
-    PROFILES[id] = {
-      ...PROFILES[id],
-      admin,
-      canInvite,
-      access,
-    }
-
-    return [ACTIONS.submit.success(), push(ROUTES.team.root)]
-  })
+      return graphql(QUERIES.editRole, args)
+    })
+    .switchMap(profile => [
+      ACTIONS.submit.success(profile),
+      push(ROUTES.team.root),
+    ])

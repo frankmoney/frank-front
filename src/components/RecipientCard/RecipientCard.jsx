@@ -53,18 +53,12 @@ const RecipientCard = ({
     </div>
     <div className={classes.rightColumn}>
       <CategoryList
-        itemIconSize={12}
-        tooltipItemIconSize={12}
-        className={classes.list}
-        classes={{
-          item: classes.listItem,
-          itemName: classes.listItemName,
-          itemCounter: classes.listItemCounter,
-          tooltipItem: classes.listTooltipItem,
-          tooltipItemName: classes.listTooltipItemName,
-          tooltipItemCounter: classes.listTooltipItemCounter,
-        }}
         categories={categories}
+        className={classes.list}
+        itemClassName={classes.listItem}
+        itemIconClassName={classes.listItemIcon}
+        nameClassName={classes.listItemName}
+        valueClassName={classes.listItemValue}
       />
       <div className={classes.lastDate}>
         <span className={classes.lastDateLabel}>Last payment</span>{' '}

@@ -54,9 +54,14 @@ const styles = theme => ({
 
 const formatDate = date => format(date, 'MMM d')
 
-const categoriesListComponent = highlighted => category => (
-  <CategoryLabel size={12} highlighted={highlighted} {...category} />
-)
+const categoriesListComponent = injectStyles({
+  icon: {
+    height: 12,
+    width: 12,
+  },
+})(({ classes, ...category }) => (
+  <CategoryLabel iconClassName={classes.icon} {...category} />
+))
 
 const RecipientRow = ({
   classes,
@@ -103,7 +108,7 @@ const RecipientRow = ({
       <ListWithOverflow
         className={classes.categories}
         list={categories}
-        listComponent={categoriesListComponent(searchText)}
+        listComponent={categoriesListComponent}
         overflowComponentWidth={71}
       />
     </TableCell>

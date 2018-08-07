@@ -7,30 +7,30 @@ import { compose, lifecycle } from 'recompose'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import Drawer from 'components/Drawer'
-import AccessField from '../form/AccessField'
+import AccountsField from '../form/AccountsField'
 import AdminField from '../form/AdminField'
 import CanInviteField from '../form/CanInviteField'
 import ACTIONS from './actions'
 import {
   loadedSelector,
   loadingSelector,
+  accountsSelector,
   lastNameSelector,
   firstNameSelector,
   adminSelector,
   canInviteSelector,
-  accessSelector,
-  accessItemsSelector,
+  accountIdsSelector,
 } from './selectors'
 
 const mapStateToProps = createStructuredSelector({
   loaded: loadedSelector,
   loading: loadingSelector,
+  accounts: accountsSelector,
   lastName: lastNameSelector,
   firstName: firstNameSelector,
   admin: adminSelector,
   canInvite: canInviteSelector,
-  access: accessSelector,
-  accessItems: accessItemsSelector,
+  accountIds: accountIdsSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
@@ -40,6 +40,7 @@ const mapDispatchToProps = R.partial(bindActionCreators, [
     handleDoneClick: ACTIONS.submit,
     handleAdminChange: admin => ACTIONS.change({ admin }),
     handleCanInviteChange: canInvite => ACTIONS.change({ canInvite }),
+    handleAccountsChange: accountIds => ACTIONS.change({ accountIds }),
   },
 ])
 
@@ -51,14 +52,15 @@ const styles = {
 
 const EditRole = ({
   classes,
+  accounts,
   lastName,
   firstName,
   admin,
   canInvite,
-  access,
-  accessItems,
+  accountIds,
   handleAdminChange,
   handleCanInviteChange,
+  handleAccountsChange,
   handleDoneClick,
 }) => (
   <>
@@ -69,7 +71,17 @@ const EditRole = ({
       <AdminField checked={admin} onChange={handleAdminChange} />
       {admin || (
         <>
-          <AccessField items={accessItems} access={access} />
+          <AccountsField
+            accounts={accounts}
+            selection={accountIds}
+            onChange={({ target: { value, checked } }) =>
+              handleAccountsChange(
+                checked
+                  ? R.uniq(R.append(value, accountIds))
+                  : R.without([value], accountIds)
+              )
+            }
+          />
           <CanInviteField
             checked={canInvite}
             onChange={handleCanInviteChange}
