@@ -10,15 +10,16 @@ import {
 } from '@frankmoney/components'
 import CurrencyProvider from 'components/CurrencyProvider'
 import SearchCard from 'components/SearchCard'
+import {
+  categoricalDataSelector,
+  dualDataSelector,
+} from 'components/Charts/selectors'
 import { searchTyping } from './actions'
 import GraphOverviewCard from './GraphOverviewCard'
 import styles from './Ledger.jss'
 import LedgerTable from './LedgerTable'
 import { searchTextSelector } from './selectors'
-import {
-  categoricalDataSelector,
-  dualDataSelector,
-} from './GraphOverviewCard/selectors'
+import { name } from './GraphOverviewCard/reducer'
 
 const ConnectedSearchCard = connect(
   state => ({
@@ -33,8 +34,8 @@ const ConnectedSearchCard = connect(
 
 const ConnectedGraphOverviewCard = compose(
   connect(state => ({
-    categoricalData: categoricalDataSelector(state),
-    dualData: dualDataSelector(state),
+    categoricalData: categoricalDataSelector(name)(state),
+    dualData: dualDataSelector(name)(state),
     search: searchTextSelector(state),
   })),
   branch(props => props.search, renderNothing)

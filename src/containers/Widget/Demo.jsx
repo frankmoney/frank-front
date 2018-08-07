@@ -4,6 +4,7 @@ import Title from 'containers/Ledger/GraphOverviewCard/Title'
 import ButtonWidget from './ButtonWidget'
 import InlineWidget from './InlineWidget'
 import { ChartPlaceholder, StoriesPlaceholder } from './Placeholders'
+import Chart from './Chart'
 
 const styles = {
   demo: {
@@ -31,11 +32,7 @@ const WidgetsDemo = ({ classes }) => (
     <ButtonWidget stories={StoriesPlaceholder} charts={ChartPlaceholder} />
 
     <Title>Inline widget 400x275</Title>
-    <InlineWidget
-      size={400}
-      stories={StoriesPlaceholder}
-      charts={ChartPlaceholder}
-    />
+    <InlineWidget size={400} stories={StoriesPlaceholder} charts={Chart} />
 
     <Title>Inline widget 500x345</Title>
     <InlineWidget

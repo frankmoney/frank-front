@@ -1,17 +1,13 @@
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
-import { name } from './reducer'
 
-const getter = prop => store => store.getIn([name, prop])
-const getters = {
-  categories: getter('categories'),
-  chartData: getter('chartData'),
-}
+const getter = (prop, name) => store => store.getIn([name, prop])
 
-export const chartDataSelector = getters.chartData
-const plainChartDataSelector = createPlainObjectSelector(chartDataSelector)
-export const categoriesSelector = getters.categories
+export const categoriesSelector = name => getter('categories', name)
+export const chartDataSelector = name => getter('chartData', name)
+const plainChartDataSelector = name =>
+  createPlainObjectSelector(chartDataSelector(name))
 
 const sumCategory = R.pipe(
   R.pluck('value'),
@@ -47,15 +43,16 @@ const mergeByCategory = categories =>
   )
 
 // example: { color: '#21CB61', name: 'Marketing', value: 25 }
-export const categoricalDataSelector = createSelector(
-  plainChartDataSelector,
-  createPlainObjectSelector(categoriesSelector),
-  (data, categories) =>
-    R.pipe(
-      R.groupBy(R.prop('type')),
-      R.map(mergeByCategory(categories))
-    )(data)
-)
+export const categoricalDataSelector = name =>
+  createSelector(
+    plainChartDataSelector(name),
+    createPlainObjectSelector(categoriesSelector(name)),
+    (data, categories) =>
+      R.pipe(
+        R.groupBy(R.prop('type')),
+        R.map(mergeByCategory(categories))
+      )(data)
+  )
 
 const signedValue = ({ date, type, value }) => ({
   date,
@@ -68,11 +65,12 @@ const mergeDate = R.pipe(
 )
 
 // example: { name: 'Jan', value: 39, negativeValue: 67 }
-export const dualDataSelector = createSelector(
-  plainChartDataSelector,
-  R.pipe(
-    R.groupBy(R.prop('date')),
-    R.map(mergeDate),
-    R.values
+export const dualDataSelector = name =>
+  createSelector(
+    plainChartDataSelector(name),
+    R.pipe(
+      R.groupBy(R.prop('date')),
+      R.map(mergeDate),
+      R.values
+    )
   )
-)

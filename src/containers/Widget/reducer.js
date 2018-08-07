@@ -4,7 +4,7 @@ import { handleActions } from 'redux-actions'
 import CATEGORIES from 'components/Charts/categories.json'
 import CHART_DATA from 'components/Charts/chartData.json'
 
-export const name = 'ledgerCharts'
+export const name = 'widgetData'
 
 const initialState = fromJS({
   categories: CATEGORIES,
