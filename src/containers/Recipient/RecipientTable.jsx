@@ -1,16 +1,13 @@
 import { injectStyles } from '@frankmoney/ui'
-import { connect } from 'react-redux'
-import { Table } from '@frankmoney/components'
 import { compose, mapProps } from 'recompose'
+import { Table } from '@frankmoney/components'
 import {
-  PaymentsTableRow,
+  PaymentsTableRow as rowComponent,
   PaymentsTableDetailRow as rowDetailViewComponent,
 } from 'components/PaymentsTable'
-import {
-  dataSourceSelector,
-  rowDataSelector,
-  searchTextSelector,
-} from '../selectors'
+import { dataSourceSelector, rowDataSelector } from './selectors'
+
+const TABLE_NAME = 'recipient'
 
 const styles = {
   header: {
@@ -22,18 +19,14 @@ const styles = {
   },
 }
 
-const ConnectedLedgerRow = connect(state => ({
-  searchText: searchTextSelector(state),
-}))(PaymentsTableRow)
-
 export default compose(
   injectStyles(styles, { grid: true }),
   mapProps(({ classes, ...props }) => ({
-    name: 'ledger',
-    canSelectRows: true,
+    name: TABLE_NAME,
+    canSelectRows: false,
     tableHeaderClassName: classes.header,
     tableDetailRowClassName: classes.detailRow,
-    rowComponent: ConnectedLedgerRow,
+    rowComponent,
     rowDetailViewComponent,
     dataSourceSelector,
     rowDataSelector,

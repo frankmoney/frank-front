@@ -1,5 +1,5 @@
 export default {
-  directoryPage: {
+  recipientPage: {
     minHeight: '100vh',
     position: 'relative',
     display: 'flex',
@@ -10,10 +10,7 @@ export default {
   container: {
     width: 850,
   },
-  searchCard: {
-    marginBottom: 35,
-  },
-  overviewCard: {
+  card: {
     marginBottom: 35,
   },
 }

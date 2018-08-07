@@ -8,6 +8,7 @@ import {
   BreadcrumbsItem,
 } from '@frankmoney/components'
 import RecipientCard from 'components/RecipientCard'
+import RecipientTable from './RecipientTable'
 import styles from './Recipient.jss'
 
 const recipientCard = {
@@ -18,12 +19,12 @@ const recipientCard = {
   totalSpending: -25499.0,
   // totalIncome: 1490.0,
   categories: [
-    { color: '#8725FB', name: 'Operational expenses', value: 34 },
-    { color: '#21CB61', name: 'Marketing', value: 12 },
-    { color: '#0624FB', name: 'Program expenses', value: 6 },
-    { color: '#FC1891', name: 'Street outreach', value: 2 },
-    { color: '#FF9C28', name: 'Advertising', value: 2 },
-    { color: '#00DCEA', name: 'Sales', value: 2 },
+    { id: '1', color: '#8725FB', name: 'Operational expenses', counter: 34 },
+    { id: '2', color: '#21CB61', name: 'Marketing', counter: 12 },
+    { id: '3', color: '#0624FB', name: 'Program expenses', counter: 6 },
+    { id: '4', color: '#FC1891', name: 'Street outreach', counter: 2 },
+    { id: '5', color: '#FF9C28', name: 'Advertising', counter: 2 },
+    { id: '6', color: '#00DCEA', name: 'Sales', counter: 2 },
   ],
 }
 
@@ -32,7 +33,7 @@ class Recipient extends React.PureComponent {
     const { classes, className } = this.props
 
     return (
-      <div className={cx(classes.directoryPage, className)}>
+      <div className={cx(classes.recipientPage, className)}>
         <FixedHeader>
           <Breadcrumbs>
             <BreadcrumbsItem>Directory</BreadcrumbsItem>
@@ -40,7 +41,8 @@ class Recipient extends React.PureComponent {
           </Breadcrumbs>
         </FixedHeader>
         <div className={classes.container}>
-          <RecipientCard {...recipientCard} />
+          <RecipientCard className={classes.card} {...recipientCard} />
+          <RecipientTable />
         </div>
       </div>
     )

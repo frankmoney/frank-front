@@ -1,0 +1,1832 @@
+{
+  "user": {
+    "id": 15,
+    "fullname": "Rinat Mur"
+  },
+  "account": {
+    "id": 1,
+    "currentsum": "4997.11",
+    "revenue": "921315.48",
+    "spendings": "-916318.37",
+    "name": "Frank Money Inc.",
+    "description": "Public facing transparent ledger",
+    "created_at": "2015-05-15T00:00:00.000Z",
+    "paid_comments": true,
+    "project_URL": null,
+    "virtual": false,
+    "cover_color": "#8568E6",
+    "currency_code": "USD",
+    "team_id": 85,
+    "internal_description": null,
+    "embed_view_restriction": "summary_and_all_payments",
+    "last_transaction_date": "2018-04-06T00:00:00.000Z",
+    "aggregate": false,
+    "foundation_data": null,
+    "processing": false,
+    "impact": false,
+    "admin_ids": [
+      13,
+      15,
+      29,
+      17,
+      16,
+      317,
+      316,
+      395,
+      397
+    ],
+    "comments_count": 243,
+    "featured": true,
+    "privacy_type": "public",
+    "have_access": true,
+    "unhandled_transactions_count": 83,
+    "bank_name": "Silicon Valley Bank",
+    "bank_description": "3301319750",
+    "connected_app": null,
+    "access_members_ids": [
+      395,
+      400
+    ]
+  },
+  "transactions": [
+    {
+      "id": 11965,
+      "sum": "-294.4",
+      "datetime": "2018-04-06T00:00:00.000Z",
+      "description": "Yodlee 2018-04-06 -294.4\nACH DEBIT",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": "Digital advertising campaign investments",
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2828,
+        "firstname": "Ach Debit",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13520,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-294.4"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2828,
+        "name": "Ach Debit",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11957,
+      "sum": "-1049.45",
+      "datetime": "2018-04-04T00:00:00.000Z",
+      "description": "Yodlee 2018-04-04 -1049.45\nGUSTO TAX XX8485 6semjmudmo4 Fra\nTax Payment",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": "Digital advertising",
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2711,
+        "firstname": "Tax Payment",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 7,
+          "split_id": 13512,
+          "name": "Product development",
+          "color": "#3cd5c1",
+          "category_type_id": 1,
+          "sum": "-1049.45"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2711,
+        "name": "Tax Payment",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11956,
+      "sum": "-3124.06",
+      "datetime": "2018-04-04T00:00:00.000Z",
+      "description": "Yodlee 2018-04-04 -3124.06\nGUSTO NET 508484 6semjmudmnt Fra\nGUSTO NET XX8484 6semjmudmnt Fra",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2824,
+        "firstname": "Gusto Net 508484 6semjmudmnt Fra",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13511,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-3124.06"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2824,
+        "name": "Gusto Net 508484 6semjmudmnt Fra",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11955,
+      "sum": "-500.0",
+      "datetime": "2018-04-04T00:00:00.000Z",
+      "description": "Yodlee 2018-04-04 -500.0\nFINICITY DATA SERVICES XXX-X1805\nFINICITY DATA SERVICES XX",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2823,
+        "firstname": "Finicity Data Services Xx",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13510,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-500.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2823,
+        "name": "Finicity Data Services Xx",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11954,
+      "sum": "-334.0",
+      "datetime": "2018-04-04T00:00:00.000Z",
+      "description": "Yodlee 2018-04-04 -334.0\nIP SHVAMENTAL ZINAIDA ISAKOVNA",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 73,
+        "firstname": "Shvamental Zinaida Isakovna (Ip)",
+        "lastname": "",
+        "client_type": {
+          "id": 2,
+          "name": "Independent contractor"
+        }
+      },
+      "categories": [
+        {
+          "id": 3,
+          "split_id": 13509,
+          "name": "Operating expenses",
+          "color": "#b259ad",
+          "category_type_id": 1,
+          "sum": "-334.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 73,
+        "name": "Shvamental Zinaida Isakovna (Ip)",
+        "account_type": {
+          "id": 2,
+          "name": "Independent contractor"
+        }
+      }
+    },
+    {
+      "id": 11953,
+      "sum": "-1300.0",
+      "datetime": "2018-04-04T00:00:00.000Z",
+      "description": "Yodlee 2018-04-04 -1300.0\nPETROVA ANASTASIIA ANATOLEVNA (I",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2754,
+        "firstname": "Petrova Anastasiia Anatolevna",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13508,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-1300.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2754,
+        "name": "Petrova Anastasiia Anatolevna",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11952,
+      "sum": "-3250.0",
+      "datetime": "2018-04-04T00:00:00.000Z",
+      "description": "Yodlee 2018-04-04 -3250.0\nMURTAZIN RINAT ZINUROVICH (IP)",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 47,
+        "firstname": "Murtazin Rinat Zinurovich (Ip)",
+        "lastname": "",
+        "client_type": {
+          "id": 2,
+          "name": "Independent contractor"
+        }
+      },
+      "categories": [
+        {
+          "id": 7,
+          "split_id": 13507,
+          "name": "Product development",
+          "color": "#3cd5c1",
+          "category_type_id": 1,
+          "sum": "-3250.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 47,
+        "name": "Murtazin Rinat Zinurovich (Ip)",
+        "account_type": {
+          "id": 2,
+          "name": "Independent contractor"
+        }
+      }
+    },
+    {
+      "id": 11951,
+      "sum": "-2500.0",
+      "datetime": "2018-04-04T00:00:00.000Z",
+      "description": "Yodlee 2018-04-04 -2500.0\nFINICITY DATA SERVICES XXX-X1805\nFINICITY DATA SERVICES XX",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2823,
+        "firstname": "Finicity Data Services Xx",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13506,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-2500.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2823,
+        "name": "Finicity Data Services Xx",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11958,
+      "sum": "-51.0",
+      "datetime": "2018-04-03T00:00:00.000Z",
+      "description": "Yodlee 2018-04-03 -51.0\nGUSTO FEE 506003 6semjmuappq Fra\nGUSTO FEE XX6003 6semjmuappq Fra",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2825,
+        "firstname": "Gusto Fee 506003 6semjmuappq Fra",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13513,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-51.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2825,
+        "name": "Gusto Fee 506003 6semjmuappq Fra",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11943,
+      "sum": "-13.92",
+      "datetime": "2018-04-02T00:00:00.000Z",
+      "description": "Yodlee 2018-04-02 -13.92\nAPIntegoInsuranc ACHTRANS 225950\nAPIntegoInsuranc ACHTRANS XX5950",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2816,
+        "firstname": "Apintegoinsuranc Achtrans 225950",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13498,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-13.92"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2816,
+        "name": "Apintegoinsuranc Achtrans 225950",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11942,
+      "sum": "-19.0",
+      "datetime": "2018-04-02T00:00:00.000Z",
+      "description": "Yodlee 2018-04-02 -19.0\nROADMAP XXXXXXX7876 SE\nROADMAP XX876 SE",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2815,
+        "firstname": "Roadmap Xx876 Se",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13497,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-19.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2815,
+        "name": "Roadmap Xx876 Se",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11941,
+      "sum": "-47.73",
+      "datetime": "2018-04-02T00:00:00.000Z",
+      "description": "Yodlee 2018-04-02 -47.73\nFEDEX XXXXXXXX8180 MEMPHIS TN\nFedEx Memphis TN\nFACTUAL\nFedEx",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 456,
+        "firstname": "Fedex",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13496,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-47.73"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 456,
+        "name": "Fedex",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11940,
+      "sum": "-92.57",
+      "datetime": "2018-04-02T00:00:00.000Z",
+      "description": "Yodlee 2018-04-02 -92.57\nGOOGLE *SVCSAPPS_FRANK CC@GOOGLE\nFACTUAL\nGoogle",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 24,
+        "firstname": "Google",
+        "lastname": "",
+        "client_type": {
+          "id": 5,
+          "name": "Electronics \u0026 Software"
+        }
+      },
+      "categories": [
+        {
+          "id": 3,
+          "split_id": 13495,
+          "name": "Operating expenses",
+          "color": "#b259ad",
+          "category_type_id": 1,
+          "sum": "-92.57"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 24,
+        "name": "Google",
+        "account_type": {
+          "id": 5,
+          "name": "Electronics \u0026 Software"
+        }
+      }
+    },
+    {
+      "id": 11931,
+      "sum": "-75.62",
+      "datetime": "2018-03-26T00:00:00.000Z",
+      "description": "Yodlee 2018-03-26 -75.62\nService Charge\nSERVICE CHARGE",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 79,
+        "firstname": "Service Charge",
+        "lastname": "",
+        "client_type": {
+          "id": 12,
+          "name": "Bank Fee"
+        }
+      },
+      "categories": [
+        {
+          "id": 3,
+          "split_id": 13486,
+          "name": "Operating expenses",
+          "color": "#b259ad",
+          "category_type_id": 1,
+          "sum": "-75.62"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 79,
+        "name": "Service Charge",
+        "account_type": {
+          "id": 12,
+          "name": "Bank Fee"
+        }
+      }
+    },
+    {
+      "id": 11926,
+      "sum": "-1045.53",
+      "datetime": "2018-03-21T00:00:00.000Z",
+      "description": "Yodlee 2018-03-21 -1045.53\nGUSTO TAX XX4285 6semjmtq4bm Fra\nTax Payment",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2711,
+        "firstname": "Tax Payment",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 7,
+          "split_id": 13481,
+          "name": "Product development",
+          "color": "#3cd5c1",
+          "category_type_id": 1,
+          "sum": "-1045.53"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2711,
+        "name": "Tax Payment",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11925,
+      "sum": "-3127.96",
+      "datetime": "2018-03-21T00:00:00.000Z",
+      "description": "Yodlee 2018-03-21 -3127.96\nGUSTO NET 454284 6semjmtq4bk Fra\nGUSTO NET XX4284 6semjmtq4bk Fra",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2809,
+        "firstname": "Gusto Net 454284 6semjmtq4bk Fra",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13480,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-3127.96"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2809,
+        "name": "Gusto Net 454284 6semjmtq4bk Fra",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11920,
+      "sum": "-89.01",
+      "datetime": "2018-03-20T00:00:00.000Z",
+      "description": "Yodlee 2018-03-20 -89.01\nFS *SKETCH XXX-XXX8914 CA\nFS *SKETCH XX14 CA",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2806,
+        "firstname": "Fs *sketch Xx14 Ca",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13475,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-89.01"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2806,
+        "name": "Fs *sketch Xx14 Ca",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11922,
+      "sum": "-13.92",
+      "datetime": "2018-03-19T00:00:00.000Z",
+      "description": "Yodlee 2018-03-19 -13.92\nAPIntegoInsuranc ACHTRANS 220626\nAPIntegoInsuranc ACHTRANS XX0626",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2808,
+        "firstname": "Apintegoinsuranc Achtrans 220626",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13477,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-13.92"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2808,
+        "name": "Apintegoinsuranc Achtrans 220626",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11921,
+      "sum": "-96.0",
+      "datetime": "2018-03-19T00:00:00.000Z",
+      "description": "Yodlee 2018-03-19 -96.0\nSLACK XXXXXX7815 CA\nSLACK XX15 CA",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2807,
+        "firstname": "Slack Xx15 Ca",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13476,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-96.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2807,
+        "name": "Slack Xx15 Ca",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11914,
+      "sum": "-3500.0",
+      "datetime": "2018-03-15T00:00:00.000Z",
+      "description": "Yodlee 2018-03-15 -3500.0\nDELITSKIY NIKOLAY YUREVICH",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 712,
+        "firstname": "Delitskiy Nikolay Yurevich",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 7,
+          "split_id": 13469,
+          "name": "Product development",
+          "color": "#3cd5c1",
+          "category_type_id": 1,
+          "sum": "-3500.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 712,
+        "name": "Delitskiy Nikolay Yurevich",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11897,
+      "sum": "-4800.0",
+      "datetime": "2018-03-13T00:00:00.000Z",
+      "description": "Yodlee 2018-03-13 -4800.0\nSAMARENKOV DMITRII ALEKSEEVICH (\n\nFinicity 2018-03-13 -4800.0\nSENDER ID:=SVBKUS6S; SENDER REF:=20180720246900; ORG ID:=3301319750; ORG:=FRANK MONEY, INC.; ORG ADDRESS:=3 VENTANA COURTEMERALD HILLS, CA 94063; BNF ID:=40802840102980000045; BNF NAME:=SAMARENKOV DMITRII ALEKSEEVICH (IP); BNF ADDRESS:=RUSSIA, SARATOVSKA\nSAMARENKOV DMITRII ALEKSEEVICH (\nPayPal",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2733,
+        "firstname": "Samarenkov Dmitrii Alekseevich (ip)",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 6,
+          "split_id": 13452,
+          "name": "Product design",
+          "color": "#0aaddb",
+          "category_type_id": 1,
+          "sum": "-4800.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2733,
+        "name": "Samarenkov Dmitrii Alekseevich (ip)",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11896,
+      "sum": "25000.0",
+      "datetime": "2018-03-13T00:00:00.000Z",
+      "description": "Finicity 2018-03-13 25000.0\nSENDER BNK:=JPMCHASE; SENDER ID:=021000021; ORG:=ANNA LIBERMAN; ORG ADDRESS:=1930 OCEAN AVE APT 105 SANTA MONICA, CA 904051040 ; BNF ID:=3301319750; BNF NAME:=FRANK MONEY, INC.; BNF ADDRESS:=3 VENTANA COURTEMERALD HILLS, CA 94063; REC FI:=SIL VLY BK SCLA\nANNA LIBERMAN\nWire Out Bnf\n\nYodlee 2018-03-13 25000.0\nInvestment Income/Cash\nANNA LIBERMAN",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 21,
+        "firstname": "Anna Liberman",
+        "lastname": "",
+        "client_type": {
+          "id": 68,
+          "name": "Personal"
+        }
+      },
+      "categories": [
+        {
+          "id": 2,
+          "split_id": 13451,
+          "name": "Investments",
+          "color": "#00bd6a",
+          "category_type_id": 2,
+          "sum": "25000.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 21,
+        "name": "Anna Liberman",
+        "account_type": {
+          "id": 68,
+          "name": "Personal"
+        }
+      }
+    },
+    {
+      "id": 11875,
+      "sum": "-1045.57",
+      "datetime": "2018-03-07T00:00:00.000Z",
+      "description": "Yodlee 2018-03-07 -1045.57\nGUSTO TAX XX6090 6semjmt8hnb Fra\nTax Payment\n\nFinicity 2018-03-07 -1045.57\nGUSTO TAX 416090 6semjmt8hnb Frank Money Inc\nGUSTO TAX 416090 6semjmt8hnb Fra\nGusto Withdrawal Gusto",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2743,
+        "firstname": "Gusto Withdrawal Gusto",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 7,
+          "split_id": 13430,
+          "name": "Product development",
+          "color": "#3cd5c1",
+          "category_type_id": 1,
+          "sum": "-1045.57"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2743,
+        "name": "Gusto Withdrawal Gusto",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11874,
+      "sum": "-3127.94",
+      "datetime": "2018-03-07T00:00:00.000Z",
+      "description": "Finicity 2018-03-07 -3127.94\nGUSTO NET 416089 6semjmt8hn7 Frank Money Inc\nGUSTO NET 416089 6semjmt8hn7 Fra\nGusto Withdrawal Gusto\n\nYodlee 2018-03-07 -3127.94\nGUSTO NET 416089 6semjmt8hn7 Fra\nGUSTO NET XX6089 6semjmt8hn7 Fra",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2743,
+        "firstname": "Gusto Withdrawal Gusto",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 7,
+          "split_id": 13429,
+          "name": "Product development",
+          "color": "#3cd5c1",
+          "category_type_id": 1,
+          "sum": "-3127.94"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2743,
+        "name": "Gusto Withdrawal Gusto",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11871,
+      "sum": "-19.0",
+      "datetime": "2018-03-05T00:00:00.000Z",
+      "description": "Finicity 2018-03-05 -19.0\nROADMAP 46739817876 SE Ref7527793EE3S Crd6749 Dt 3/01\nROADMAP 46739817876 SE\nRoadmap Roadmap Pro\n\nYodlee 2018-03-05 -19.0\nROADMAP XXXXXXX7876 SE\nROADMAP XX876 SE",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2791,
+        "firstname": "Roadmap",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13426,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-19.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2791,
+        "name": "Roadmap",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11870,
+      "sum": "-13.92",
+      "datetime": "2018-03-05T00:00:00.000Z",
+      "description": "Finicity 2018-03-05 -13.92\nAPIntegoInsuranc ACHTRANS 21585559 Frank Money Inc\nAPIntegoInsuranc ACHTRANS 215855\nAchtrans Apintegoinsuranc Ccd\n\nYodlee 2018-03-05 -13.92\nAPIntegoInsuranc ACHTRANS 215855\nAPIntegoInsuranc ACHTRANS XX5855",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2762,
+        "firstname": "Achtrans Apintegoinsuranc Ccd",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13425,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-13.92"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2762,
+        "name": "Achtrans Apintegoinsuranc Ccd",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11869,
+      "sum": "-69.0",
+      "datetime": "2018-03-05T00:00:00.000Z",
+      "description": "Finicity 2018-03-05 -69.0\nFS *BOHEMIANCODING 877-3278914 CA Ref7541823ED1G Crd6749 Dt 3/02\nFS *BOHEMIANCODING 877-3278914 C\nFs Bohemiancoding\n\nYodlee 2018-03-05 -69.0\nFS *BOHEMIANCODING XXX-XXX8914 C\nFS *BOHEMIANCODING XX14 C",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2556,
+        "firstname": "Bohemiancoding",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 1,
+          "split_id": 13424,
+          "name": "Unspecified",
+          "color": "#ffb54c",
+          "category_type_id": 1,
+          "sum": "-69.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2556,
+        "name": "Bohemiancoding",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11866,
+      "sum": "-51.0",
+      "datetime": "2018-03-02T00:00:00.000Z",
+      "description": "Finicity 2018-03-02 -51.0\nGUSTO FEE 403371 6semjmt2530 Frank Money Inc\nGUSTO FEE 403371 6semjmt2530 Fra\nGusto Withdrawal Gusto\n\nYodlee 2018-03-02 -51.0\nGUSTO FEE 403371 6semjmt2530 Fra\nGUSTO FEE XX3371 6semjmt2530 Fra",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2743,
+        "firstname": "Gusto Withdrawal Gusto",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 7,
+          "split_id": 13421,
+          "name": "Product development",
+          "color": "#3cd5c1",
+          "category_type_id": 1,
+          "sum": "-51.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2743,
+        "name": "Gusto Withdrawal Gusto",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11865,
+      "sum": "-500.0",
+      "datetime": "2018-03-02T00:00:00.000Z",
+      "description": "Finicity 2018-03-02 -500.0\nFINICITY DATA SERVICES 866-7180535 UT Ref5541734ED3T Crd6749 Dt 3/01\nFINICITY DATA SERVICES 866-71805\nFlightline Data Services\n\nYodlee 2018-03-02 -500.0\nFINICITY DATA SERVICES XXX-X1805\nFINICITY DATA SERVICES XX",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 2388,
+        "firstname": "Finicity Data Services",
+        "lastname": "",
+        "client_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      },
+      "categories": [
+        {
+          "id": 3,
+          "split_id": 13420,
+          "name": "Operating expenses",
+          "color": "#b259ad",
+          "category_type_id": 1,
+          "sum": "-500.0"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 2388,
+        "name": "Finicity Data Services",
+        "account_type": {
+          "id": 0,
+          "name": "Unspecified"
+        }
+      }
+    },
+    {
+      "id": 11864,
+      "sum": "-86.95",
+      "datetime": "2018-03-02T00:00:00.000Z",
+      "description": "Finicity 2018-03-02 -86.95\nGOOGLE *SVCSAPPS_FRANK CC@GOOGLE.COM CA Ref5543286ED5V Crd6749 Dt 3/02\nGOOGLE *SVCSAPPS_FRANK CC@GOOGLE\nSvcsapps Cc\n\nYodlee 2018-03-02 -86.95\nGOOGLE *SVCSAPPS_FRANK CC@GOOGLE\nFACTUAL\nGoogle",
+      "account_id": 1,
+      "frnk_title": null,
+      "frnk_description": null,
+      "comments_count": 0,
+      "records_count": 0,
+      "balancing": false,
+      "story_id": null,
+      "handled": false,
+      "notes_count": 0,
+      "client": {
+        "id": 1,
+        "firstname": "Frank Money Inc.",
+        "lastname": ""
+      },
+      "peerclient": {
+        "id": 24,
+        "firstname": "Google",
+        "lastname": "",
+        "client_type": {
+          "id": 5,
+          "name": "Electronics \u0026 Software"
+        }
+      },
+      "categories": [
+        {
+          "id": 3,
+          "split_id": 13419,
+          "name": "Operating expenses",
+          "color": "#b259ad",
+          "category_type_id": 1,
+          "sum": "-86.95"
+        }
+      ],
+      "visibility": "public",
+      "currency_code": "USD",
+      "comments_teaser": {
+        "total_comments_count": 0,
+        "creator_participating": false,
+        "creator": null,
+        "users": []
+      },
+      "account": {
+        "id": 1,
+        "name": "Frank Money Inc."
+      },
+      "peeraccount": {
+        "id": 24,
+        "name": "Google",
+        "account_type": {
+          "id": 5,
+          "name": "Electronics \u0026 Software"
+        }
+      }
+    }
+  ],
+  "info": {
+    "apiversion": null,
+    "last_id": 12103,
+    "timestamp": "2018-07-12T12:57:44.612+00:00",
+    "total_count": 657,
+    "endoftheday": true,
+    "endofthemonth": true,
+    "total_sum": "-375.63"
+  }
+}

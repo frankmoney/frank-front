@@ -1,10 +1,9 @@
 import Immutable from 'immutable'
 import { handleActions } from 'redux-actions'
-import { mapPayment } from 'data/models/payment'
 import { searchTyping } from './actions'
-import DATA from './data.json'
+import DATA from './demo.json'
 
-export const REDUCER_KEY = 'ledger'
+export const REDUCER_KEY = 'directory'
 
 export default handleActions(
   {
@@ -12,6 +11,6 @@ export default handleActions(
   },
   Immutable.fromJS({
     searchText: '',
-    transactions: DATA.transactions.map(mapPayment),
+    recipients: DATA.recipients,
   })
 )

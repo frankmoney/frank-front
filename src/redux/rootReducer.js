@@ -2,6 +2,12 @@ import { createReducer } from '@frankmoney/webapp'
 import ledgerReducer, {
   REDUCER_KEY as ledgerKey,
 } from 'containers/Ledger/reducer'
+import directoryReducer, {
+  REDUCER_KEY as directoryKey,
+} from 'containers/Directory/reducer'
+import recipientReducer, {
+  REDUCER_KEY as recipientKey,
+} from 'containers/Recipient/reducer'
 import ledgerChartsReducer, {
   name as ledgerChartsKey,
 } from 'containers/Ledger/GraphOverviewCard/reducer'
@@ -16,6 +22,9 @@ import teamInviteDrawerReducer, {
 export default createReducer({
   [ledgerChartsKey]: ledgerChartsReducer,
   [ledgerKey]: ledgerReducer,
+  [directoryKey]: directoryReducer,
+  [recipientKey]: recipientReducer,
+  [teamKey]: teamReducer,
   [teamEditRoleDrawerKey]: teamEditRoleDrawerReducer,
   [teamInviteDrawerKey]: teamInviteDrawerReducer,
   [teamKey]: teamReducer,

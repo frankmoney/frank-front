@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
+import HighlightText from 'components/HighlightText'
 import IconCircle from 'components/IconCircle'
 import { categoryProps } from 'utils/limitCategories'
 
@@ -24,9 +25,10 @@ const CategoryLabel = ({
   classes,
   className,
   color,
-  iconClassName,
   name,
   nameClassName,
+  highlighted,
+  iconClassName,
   value,
   valueClassName,
   valueUnit,
@@ -37,7 +39,11 @@ const CategoryLabel = ({
     {...otherProps}
   >
     <IconCircle className={cx(classes.icon, iconClassName)} />
-    <span className={cx(classes.name, nameClassName)}>{name}</span>
+    <HighlightText
+      className={cx(classes.name, nameClassName)}
+      text={name}
+      textPattern={highlighted}
+    />
     {(value || value === 0) && (
       <span className={cx(classes.value, valueClassName)}>
         {` ${value}`}

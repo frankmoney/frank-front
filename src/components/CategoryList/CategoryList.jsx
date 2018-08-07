@@ -69,7 +69,7 @@ const CategoryList = ({
       ...otherProps,
     })
 
-  const renderTooltipItem = ({ ...otherProps }) =>
+  const renderTooltipItem = ({ id, ...otherProps }) =>
     renderProp(CategoryLabel, {
       className: cx(classes.tooltipItem, tooltipItemClassName),
       iconClassName: cx(classes.tooltipIcon, tooltipIconClassName),

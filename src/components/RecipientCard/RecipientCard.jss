@@ -12,8 +12,9 @@ export default theme => ({
     position: 'relative',
   },
   name: {
+    width: 420,
     ...theme.fontSemibold(40, 46),
-    paddingBottom: 44,
+    marginBottom: 98,
   },
   stats: {
     display: 'flex',
