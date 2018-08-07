@@ -7,25 +7,25 @@ const getters = {
   loaded: getter('loaded'),
   loading: getter('loading'),
   id: getter('id'),
-  lastName: getter('lastName'),
-  firstName: getter('firstName'),
-  admin: getter('admin'),
-  canInvite: getter('canInvite'),
-  access: getter('access'),
-  accessItems: getter('accessItems'),
+  accounts: getter('accounts'),
+  profile: getter('profile'),
+  lastName: getter('profile', 'lastName'),
+  firstName: getter('profile', 'firstName'),
+  admin: getter('profile', 'admin'),
+  canInvite: getter('profile', 'canInvite'),
+  accountIds: getter('profile', 'accountIds'),
 }
 
 export const loadedSelector = getters.loaded
 export const loadingSelector = getters.loading
 
 export const idSelector = getters.id
+
+export const accountsSelector = createPlainObjectSelector(getters.accounts)
+
 export const lastNameSelector = getters.lastName
 export const firstNameSelector = getters.firstName
 
 export const adminSelector = getters.admin
 export const canInviteSelector = getters.canInvite
-export const accessSelector = getters.access
-
-export const accessItemsSelector = createPlainObjectSelector(
-  getters.accessItems
-)
+export const accountIdsSelector = createPlainObjectSelector(getters.accountIds)

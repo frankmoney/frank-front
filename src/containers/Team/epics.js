@@ -20,6 +20,3 @@ export const openEditRoleDrawerEpic = action$ =>
     .map(({ payload: { id } }) =>
       push(createRouteUrl(ROUTES.team.match, { action: 'edit-role', id }))
     )
-
-export const editRoleDoneEpic = action$ =>
-  action$.ofType(EditRoleActions.submit.success).map(() => ACTIONS.load())
