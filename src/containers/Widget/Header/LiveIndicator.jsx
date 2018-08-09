@@ -7,11 +7,11 @@ const styles = theme => ({
     ...theme.fontRegular(12, 20),
     background: '#252B43',
     borderRadius: 3,
+    bottom: 22,
     color: '#FFFFFF',
     padding: [0, 6],
     position: 'absolute',
-    right: 2,
-    top: 19,
+    right: 0,
     // letterSpacing should be 0 to match the design
   },
 })

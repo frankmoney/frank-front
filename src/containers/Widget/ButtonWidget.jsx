@@ -11,25 +11,15 @@ const styles = theme => ({
     ...theme.fontRegular(16, 26),
     color: colors.black,
     background: '#FFFFFF',
+    border: '1px solid #fff',
     borderRadius: 8,
     display: 'flex',
     flexDirection: 'column',
     width: 375,
     height: 720,
     boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.07)',
-    padding: [0, 20, 59],
+    padding: [0, 18, 59],
     position: 'relative',
-  },
-  header: {
-    marginBottom: 21,
-    minHeight: 62,
-  },
-  headerItem: {
-    padding: [19, 1, 0],
-  },
-  live: {
-    right: 0,
-    top: 21,
   },
 })
 
@@ -48,9 +38,9 @@ class ButtonWidget extends React.PureComponent {
     const { charts: Charts, classes, className, stories: Stories } = this.props
     const { expanded, tab } = this.state
 
+    const isPayments = tab === 'payments'
     const isStories = tab === 'stories'
-    const isIncome = tab === 'income'
-    const isExpenses = tab === 'expenses'
+    const isAbout = tab === 'about'
 
     if (!expanded) {
       return (
@@ -65,29 +55,26 @@ class ButtonWidget extends React.PureComponent {
 
     return (
       <div className={cx(classes.root, className)}>
-        <Header
-          className={classes.header}
-          itemClassName={classes.headerItem}
-          liveClassName={classes.live}
-        >
+        <Header>
           <HeaderItem
-            active={isStories}
+            name="Payments"
+            active={isPayments}
+            onClick={this.switchTab('payments')}
+          />
+          <HeaderItem
             name="Stories"
+            active={isStories}
             onClick={this.switchTab('stories')}
           />
           <HeaderItem
-            active={isExpenses}
-            name="Expenses"
-            onClick={this.switchTab('expenses')}
-          />
-          <HeaderItem
-            active={isIncome}
-            name="Income"
-            onClick={this.switchTab('income')}
+            name="About"
+            active={isAbout}
+            onClick={this.switchTab('about')}
           />
         </Header>
+        {isPayments && <Charts />}
         {isStories && <Stories />}
-        {(isIncome || isExpenses) && <Charts />}
+        {isAbout && <div>TODO</div>}
         <Footer onClose={this.handleClose} />
       </div>
     )
@@ -98,7 +85,7 @@ ButtonWidget.propTypes = {
   charts: PropTypes.element,
   expanded: PropTypes.bool,
   stories: PropTypes.element,
-  tab: PropTypes.oneOf(['stories', 'expenses', 'income']),
+  tab: PropTypes.oneOf(['payments', 'stories', 'about']),
 }
 
 ButtonWidget.defaultProps = {

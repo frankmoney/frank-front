@@ -53,8 +53,9 @@ class InlineWidget extends React.PureComponent {
     } = this.props
     const { tab } = this.state
 
+    const isPayments = tab === 'payments'
     const isStories = tab === 'stories'
-    const isSpending = tab === 'spending'
+    const isAbout = tab === 'about'
 
     return (
       <div
@@ -71,18 +72,24 @@ class InlineWidget extends React.PureComponent {
       >
         <Header>
           <HeaderItem
-            name="Spending"
-            active={isSpending}
-            onClick={this.switchTab('spending')}
+            name="Payments"
+            active={isPayments}
+            onClick={this.switchTab('payments')}
           />
           <HeaderItem
             name="Stories"
             active={isStories}
             onClick={this.switchTab('stories')}
           />
+          <HeaderItem
+            name="About"
+            active={isAbout}
+            onClick={this.switchTab('about')}
+          />
         </Header>
+        {isPayments && <Charts size={size} period="All time" />}
         {isStories && <Stories />}
-        {isSpending && <Charts size={size} period="All time" />}
+        {isAbout && <div>TODO</div>}
       </div>
     )
   }
@@ -91,12 +98,12 @@ class InlineWidget extends React.PureComponent {
 InlineWidget.propTypes = {
   charts: PropTypes.element,
   stories: PropTypes.element,
-  tab: PropTypes.oneOf(['stories', 'spending']),
+  tab: PropTypes.oneOf(['payments', 'stories', 'about']),
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
 }
 
 InlineWidget.defaultProps = {
-  tab: 'stories',
+  tab: 'payments',
 }
 
 export default injectStyles(styles)(InlineWidget)
