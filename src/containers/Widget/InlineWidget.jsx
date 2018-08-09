@@ -15,6 +15,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: [0, 18, 19],
+    justifyContent: 'space-between',
   },
   size400: {
     width: 400,
@@ -81,7 +82,7 @@ class InlineWidget extends React.PureComponent {
           />
         </Header>
         {isStories && <Stories />}
-        {isSpending && <Charts size={size} />}
+        {isSpending && <Charts size={size} period="All time" />}
       </div>
     )
   }

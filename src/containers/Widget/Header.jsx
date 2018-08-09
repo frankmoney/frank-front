@@ -10,7 +10,7 @@ const styles = theme => ({
   root: {
     borderBottom: '1px solid #E9EAEC',
     display: 'flex',
-    marginBottom: 14,
+    marginBottom: 15,
     minHeight: 60,
     position: 'relative',
   },
