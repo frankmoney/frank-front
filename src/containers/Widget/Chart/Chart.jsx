@@ -10,9 +10,10 @@ import {
   dualDataSelector,
 } from 'components/Charts/selectors'
 import { categoricalDataShape } from 'components/Charts/shapes'
-import PieChart from '../Ledger/GraphOverviewCard/PieChart'
-import ChartIcon from './Chart.svg'
-import { name } from './reducer'
+import PieChart from 'containers/Ledger/GraphOverviewCard/PieChart' // TODO: refactor out
+import ChartIcon from '../Chart.svg'
+import { name } from '../reducer'
+import Footer from './Footer'
 
 const pieLegendMargin = R.cond([
   [R.equals(500), R.always(25)],
@@ -57,36 +58,8 @@ const styles = theme => ({
     position: 'relative',
     top: 2,
   },
-  footer: {
-    display: 'flex',
-    lineHeight: 20,
-    marginTop: 20,
-    padding: [0, 1, 0, 2],
-    justifyContent: 'space-between',
-  },
-  footerContent: {
-    color: '#9295A1',
-    alignItems: 'center',
-    display: 'flex',
-    whiteSpace: 'pre',
-  },
-  footerIcon: {
-    color: '#252B43',
-    marginRight: 14,
-  },
-  footerNumber: {
-    color: '#252B43',
-  },
-  seeAll: {
-    marginLeft: 10,
-    color: '#484DE7',
-    cursor: 'pointer',
-  },
-  verified: {
-    color: '#9295A1',
-  },
-  frank: {
-    color: '#252B43',
+  smallSeeAll: {
+    marginLeft: 5,
   },
 })
 
@@ -97,7 +70,7 @@ const pieChartSize = R.cond([
   [R.T, R.always(0)],
 ])
 
-const Chart = ({ categoricalData, classes, period, size }) => (
+const ActualChart = ({ categoricalData, classes, period, size }) => (
   <>
     <div className={classes.period}>
       {period}
@@ -114,21 +87,23 @@ const Chart = ({ categoricalData, classes, period, size }) => (
       legendNameClassName={classes.legendItemFont}
       legendValueClassName={classes.legendItemValue}
     />
-    <div className={classes.footer}>
-      <div className={classes.footerContent}>
-        <ChartIcon className={classes.footerIcon} />
-        <span className={classes.footerNumber}>{954}</span>
-        {' payments in '}
-        <span className={classes.footerNumber}>{5}</span>
-        {' categories'}
-        <a className={classes.seeAll}>See all</a>
-      </div>
-      <div className={classes.verified}>
-        Verified by <span className={classes.frank}>Frank</span>
-      </div>
-    </div>
+    <Footer paymentCount={954} categoryCount={5} />
   </>
 )
+
+const Chart = ({ size, ...props }) => {
+  if (size > 400) {
+    return <ActualChart size={size} {...props} />
+  }
+  // const { categoricalData, classes, period } = props
+  const { classes } = props
+  return (
+    <div>
+      TODO: legend only
+      <Footer paymentCount={954} seeAllClassName={classes.smallSeeAll} />
+    </div>
+  )
+}
 
 Chart.propTypes = {
   categoricalData: PropTypes.arrayOf(categoricalDataShape),

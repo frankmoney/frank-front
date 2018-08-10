@@ -1,10 +1,10 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import Title from 'containers/Ledger/GraphOverviewCard/Title'
-import ButtonWidget from './ButtonWidget'
-import InlineWidget from './InlineWidget'
+import ButtonWidget from '../ButtonWidget'
+import InlineWidget from '../InlineWidget'
+import Chart from '../Chart'
 import { ChartPlaceholder, StoriesPlaceholder } from './Placeholders'
-import Chart from './Chart'
 
 const styles = {
   demo: {

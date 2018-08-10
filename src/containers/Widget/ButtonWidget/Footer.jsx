@@ -3,7 +3,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
-import ChartIcon from './Chart.svg'
+import ChartIcon from '../Chart.svg'
 import CloseIcon from './Close.svg'
 
 const styles = theme => ({

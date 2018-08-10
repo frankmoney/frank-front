@@ -3,8 +3,8 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
+import { Header, HeaderItem } from '../Header'
 import Footer from './Footer'
-import { Header, HeaderItem } from './Header'
 
 const WIDTH = 375
 
