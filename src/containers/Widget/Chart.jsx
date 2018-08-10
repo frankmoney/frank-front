@@ -23,19 +23,22 @@ const pieLegendMargin = R.cond([
 
 const styles = theme => ({
   chart: {
-    padding: [0, 9, 0, 0],
+    padding: [0, 17, 2, 0],
     margin: 'auto',
   },
   legend: {
-    margin: ({ size }) => `-6px 0 0 ${pieLegendMargin(size)}px`,
+    margin: ({ size }) => `-9px 0 0 ${pieLegendMargin(size)}px`,
   },
   legendItem: {
     '&:not(:first-child)': {
-      marginTop: 4,
+      marginTop: 5,
     },
   },
   legendItemFont: {
     ...theme.fontMedium(18, 26),
+  },
+  legendItemValue: {
+    ...theme.fontRegular(18, 26),
   },
   legendIcon: {
     height: 14,
@@ -46,9 +49,7 @@ const styles = theme => ({
     color: '#252B43',
     cursor: 'pointer',
     display: 'flex',
-    left: -4,
-    marginBottom: 13,
-    position: 'relative',
+    margin: [0, 0, 13, 2],
   },
   periodExpander: {
     color: '#BCBFC9',
@@ -111,7 +112,7 @@ const Chart = ({ categoricalData, classes, period, size }) => (
       legendIconClassName={classes.legendIcon}
       legendItemClassName={classes.legendItem}
       legendNameClassName={classes.legendItemFont}
-      legendValueClassName={classes.legendItemFont}
+      legendValueClassName={classes.legendItemValue}
     />
     <div className={classes.footer}>
       <div className={classes.footerContent}>

@@ -6,20 +6,26 @@ import colors from 'styles/colors'
 import Footer from './Footer'
 import { Header, HeaderItem } from './Header'
 
+const WIDTH = 375
+
 const styles = theme => ({
   root: {
     ...theme.fontRegular(16, 26),
-    color: colors.black,
     background: '#FFFFFF',
     border: '1px solid #fff',
     borderRadius: 8,
+    boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.07)',
+    color: colors.black,
     display: 'flex',
     flexDirection: 'column',
-    width: 375,
     height: 720,
-    boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.07)',
     padding: [0, 18, 59],
     position: 'relative',
+    width: WIDTH,
+  },
+  footer: {
+    margin: [0, -1],
+    width: WIDTH,
   },
 })
 
@@ -75,7 +81,7 @@ class ButtonWidget extends React.PureComponent {
         {isPayments && <Charts />}
         {isStories && <Stories />}
         {isAbout && <div>TODO</div>}
-        <Footer onClose={this.handleClose} />
+        <Footer className={classes.footer} onClose={this.handleClose} />
       </div>
     )
   }

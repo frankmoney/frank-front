@@ -15,7 +15,9 @@ const styles = {
     marginRight: 10,
   },
   name: {},
-  value: {},
+  value: {
+    marginLeft: 4,
+  },
 }
 
 const CategoryLabel = ({

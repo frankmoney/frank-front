@@ -36,6 +36,8 @@ export default theme => ({
     cursor: 'default',
   },
   legendItem: {
+    display: 'flex',
+    alignItems: 'center',
     '&:not(:first-child)': {
       marginTop: 10,
     },
