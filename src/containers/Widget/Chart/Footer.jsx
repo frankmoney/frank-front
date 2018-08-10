@@ -6,11 +6,12 @@ import ChartIcon from '../Chart.svg'
 
 const styles = {
   root: {
+    alignItems: 'center',
     display: 'flex',
+    justifyContent: 'space-between',
     lineHeight: 20,
     marginTop: 20,
     padding: [0, 1, 0, 2],
-    justifyContent: 'space-between',
   },
   content: {
     color: '#9295A1',

@@ -11,8 +11,8 @@ import {
 } from 'components/Charts/selectors'
 import { categoricalDataShape } from 'components/Charts/shapes'
 import PieChart from 'containers/Ledger/GraphOverviewCard/PieChart' // TODO: refactor out
-import ChartIcon from '../Chart.svg'
 import { name } from '../reducer'
+import LegendOnly from './LegendOnly'
 import Footer from './Footer'
 
 const pieLegendMargin = R.cond([
@@ -58,9 +58,6 @@ const styles = theme => ({
     position: 'relative',
     top: 2,
   },
-  smallSeeAll: {
-    marginLeft: 5,
-  },
 })
 
 const pieChartSize = R.cond([
@@ -95,14 +92,8 @@ const Chart = ({ size, ...props }) => {
   if (size > 400) {
     return <ActualChart size={size} {...props} />
   }
-  // const { categoricalData, classes, period } = props
-  const { classes } = props
-  return (
-    <div>
-      TODO: legend only
-      <Footer paymentCount={954} seeAllClassName={classes.smallSeeAll} />
-    </div>
-  )
+  const { categoricalData } = props
+  return <LegendOnly data={categoricalData} />
 }
 
 Chart.propTypes = {
