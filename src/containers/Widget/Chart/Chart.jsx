@@ -9,7 +9,7 @@ import {
   dualDataSelector,
 } from 'components/Charts/selectors'
 import { categoricalDataShape } from 'components/Charts/shapes'
-import PieChart from 'containers/Ledger/GraphOverviewCard/PieChart' // TODO: refactor out
+import PieChart from 'containers/PieChart'
 import { name } from '../reducer'
 import Footer from './Footer'
 import LegendOnly from './LegendOnly'

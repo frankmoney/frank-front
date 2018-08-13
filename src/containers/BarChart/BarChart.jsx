@@ -7,7 +7,7 @@ import Bar, {
   PRIMARY_BAR_COLOR,
 } from 'components/Charts/Bar'
 import { dualDataShape } from 'components/Charts/shapes'
-import Checkbox from './Checkbox'
+import Checkbox from 'components/Checkbox'
 
 const MAX_ZEROES_TO_HIDE = 0.5
 
@@ -60,7 +60,7 @@ class BarChart extends React.PureComponent {
 
   handleIncomeChange = () => {
     this.setState({ income: !this.state.income })
-    // Do it this way to not allow last checkbox un checking
+    // Do it this way to not allow last checkbox unchecking
     // const { income, spending } = this.state
     // this.setState({ income: !(income && spending) || !income })
   }
