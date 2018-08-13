@@ -1,5 +1,5 @@
 export default {
-  ledgerPage: {
+  root: {
     minHeight: '100vh',
     position: 'relative',
     display: 'flex',
@@ -15,5 +15,9 @@ export default {
   },
   overviewCard: {
     marginBottom: 35,
+  },
+  header: {
+    justifyContent: 'space-between',
+    paddingRight: 30,
   },
 }

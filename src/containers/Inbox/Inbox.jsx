@@ -8,7 +8,7 @@ import { injectStyles } from '@frankmoney/ui'
 import { compose, withProps } from 'recompose'
 import InboxCard from 'components/InboxCard'
 
-const styles = theme => ({
+const styles = {
   root: {},
   body: {
     width: ({ grid }) => grid.fixed.contentWidth,
@@ -18,7 +18,7 @@ const styles = theme => ({
   card: {
     marginBottom: 30,
   },
-})
+}
 
 const Inbox = ({ classes, items }) => (
   <div className={classes.root}>

@@ -53,7 +53,6 @@ const Team = ({
   ownProfile,
   otherProfiles,
   handleEditRole,
-  handleDrawerClose,
 }) => (
   <>
     <FixedHeader>

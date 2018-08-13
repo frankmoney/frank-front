@@ -3,15 +3,14 @@ import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { REDUCER_KEY } from './reducer'
 
-const getIn = prop => store => store.getIn([REDUCER_KEY, prop])
-const getters = {
-  searchText: getIn('searchText'),
-  transactions: getIn('transactions'),
-}
+const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
+const getFilters = (...prop) => get('filtersEdit', ...prop)
 
-export const searchTextSelector = getters.searchText
+export const searchTextSelector = get('searchText')
+export const isLoadingSelector = get('loading')
+export const transactionsTotalCountSelector = get('transactionsCount')
 export const transactionsSelector = createPlainObjectSelector(
-  getters.transactions
+  get('transactions')
 )
 
 const propContainsText = (prop, text) => x =>
@@ -27,7 +26,7 @@ const filterTransactionByText = text =>
 
 export const transactionsIdsSelector = createSelector(
   transactionsSelector,
-  getters.searchText,
+  get('searchText'),
   (list, searchText) =>
     R.pipe(
       R.filter(filterTransactionByText(searchText)),
@@ -45,3 +44,14 @@ export const rowDataSelector = id =>
     transactionsSelector,
     R.find(x => x.id.toString() === id.toString())
   )
+
+// Filters drawer
+
+export const isFiltersEstimatingResultsCountSelector = getFilters(
+  'estimatingResults'
+)
+export const isFiltersLoadedSelector = getFilters('loaded')
+export const isFiltersOpenSelector = getFilters('open')
+export const isFiltersEstimatingSelector = getFilters('estimatingResults')
+export const filtersDataSelector = createPlainObjectSelector(getFilters('data'))
+export const filtersEstimatedResultsCountSelector = getFilters('totalCount')

@@ -10,9 +10,7 @@ const getters = {
 }
 
 export const searchTextSelector = getters.searchText
-export const recipientsSelector = createPlainObjectSelector(
-  getters.recipients
-)
+export const recipientsSelector = createPlainObjectSelector(getters.recipients)
 
 const propContainsText = (prop, text) => x =>
   (x[prop] || '').toLowerCase().includes(text.toLowerCase())

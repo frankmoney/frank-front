@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import path from 'path'
 import Server from '@frankmoney/webapp/es/server/Server'
 import config from '../../config'

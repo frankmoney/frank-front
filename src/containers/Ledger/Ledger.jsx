@@ -1,35 +1,35 @@
+import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
-import { compose, branch, renderNothing } from 'recompose'
+import {
+  compose,
+  branch,
+  renderNothing,
+  renderComponent,
+  lifecycle,
+} from 'recompose'
 import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import {
   FixedHeader,
   Breadcrumbs,
   BreadcrumbsItem,
+  PageLoader,
 } from '@frankmoney/components'
+import { bindActionCreators } from 'redux'
+import { createStructuredSelector } from 'reselect'
 import CurrencyProvider from 'components/CurrencyProvider'
-import SearchCard from 'components/SearchCard'
-import { searchTyping } from './actions'
+import LedgerSearch from './LedgerSearch'
 import GraphOverviewCard from './GraphOverviewCard'
 import styles from './Ledger.jss'
 import LedgerTable from './LedgerTable'
-import { searchTextSelector } from './selectors'
+import { isLoadingSelector, searchTextSelector } from './selectors'
+import LedgerFilter from './LedgerFilter'
+import * as ACTIONS from './actions'
 import {
   categoricalDataSelector,
   dualDataSelector,
 } from './GraphOverviewCard/selectors'
-
-const ConnectedSearchCard = connect(
-  state => ({
-    value: searchTextSelector(state),
-  }),
-  dispatch => ({
-    onChange: event => {
-      dispatch(searchTyping(event.currentTarget.value))
-    },
-  })
-)(SearchCard)
 
 const ConnectedGraphOverviewCard = compose(
   connect(state => ({
@@ -42,14 +42,15 @@ const ConnectedGraphOverviewCard = compose(
 
 const Ledger = ({ classes, className }) => (
   <CurrencyProvider code="USD">
-    <div className={cx(classes.ledgerPage, className)}>
-      <FixedHeader>
+    <div className={cx(classes.root, className)}>
+      <FixedHeader className={classes.header}>
         <Breadcrumbs>
           <BreadcrumbsItem>Ledger</BreadcrumbsItem>
         </Breadcrumbs>
+        <LedgerFilter />
       </FixedHeader>
       <div className={classes.container}>
-        <ConnectedSearchCard
+        <LedgerSearch
           placeholder="Start typing a category, recipient or part of a description..."
           className={classes.searchCard}
         />
@@ -60,4 +61,32 @@ const Ledger = ({ classes, className }) => (
   </CurrencyProvider>
 )
 
-export default compose(injectStyles(styles, { fixedGrid: true }))(Ledger)
+const mapStateToProps = createStructuredSelector({
+  loading: isLoadingSelector,
+})
+
+const mapDispatchToProps = R.partial(bindActionCreators, [
+  {
+    load: ACTIONS.load,
+    leave: ACTIONS.leave,
+  },
+])
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  lifecycle({
+    componentWillMount() {
+      if (!this.props.loaded) {
+        this.props.load()
+      }
+    },
+    componentWillUnmount() {
+      this.props.leave()
+    },
+  }),
+  branch(props => props.loading, renderComponent(PageLoader)),
+  injectStyles(styles, { grid: true })
+)(Ledger)

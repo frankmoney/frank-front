@@ -3,7 +3,6 @@ import { push } from 'react-router-redux'
 import { ROUTES } from 'const'
 import ACTIONS from './actions'
 import QUERIES from './queries'
-import EditRoleActions from './EditRoleDrawer/actions'
 
 export const loadEpic = (action$, store, { graphql }) =>
   action$

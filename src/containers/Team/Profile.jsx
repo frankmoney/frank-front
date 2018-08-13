@@ -114,7 +114,7 @@ const Profile = ({
   firstName,
   avatar,
   large,
-  acl: { remove, editRole, editProfile, changeAvatar, changePassword },
+  acl: { remove, editRole, editProfile, changePassword },
   onEditRole,
 }) => (
   <div className={classes.root}>
