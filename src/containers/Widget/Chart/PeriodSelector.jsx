@@ -1,28 +1,28 @@
 import React from 'react'
-import { ArrowDropDown } from 'material-ui-icons'
-import { injectStyles } from '@frankmoney/ui'
+import PropTypes from 'prop-types'
+import DropdownSwitcher from 'components/DropdownSwitcher'
 
-const styles = theme => ({
-  root: {
-    ...theme.fontMedium(18, 26),
-    color: '#252B43',
-    cursor: 'pointer',
-    display: 'flex',
-    margin: [0, 0, 13, 2],
-  },
-  expander: {
-    color: '#BCBFC9',
-    left: 3,
-    position: 'relative',
-    top: 2,
-  },
-})
+export const PERIODS = [{ key: 'All time' }, { key: '2018' }, { key: 'TBD' }]
 
-const PeriodExpander = ({ classes, text }) => (
-  <div className={classes.root}>
-    {text}
-    <ArrowDropDown className={classes.expander} />
-  </div>
+const PeriodSelector = ({ className, onChange, value, values }) => (
+  <DropdownSwitcher
+    className={className}
+    onChange={onChange}
+    value={value}
+    values={values}
+  />
 )
 
-export default injectStyles(styles)(PeriodExpander)
+PeriodSelector.propTypes = {
+  onChange: PropTypes.func,
+  value: PropTypes.string.isRequired,
+  values: PropTypes.arrayOf(
+    PropTypes.shape({ key: PropTypes.string.isRequired })
+  ).isRequired,
+}
+
+PeriodSelector.defaultProps = {
+  values: PERIODS,
+}
+
+export default PeriodSelector

@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-// import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
 import { limitCategoriesTo } from 'utils/limitCategories'
@@ -58,8 +57,8 @@ const LegendOnly = ({ classes, className, data, period }) => {
   return (
     <>
       <div className={classes.switchers}>
-        <PeriodSelector text={period} />
-        <PeriodSelector text="% of total spending" />
+        <PeriodSelector value={period} />
+        {/* <PeriodSelector text="% of total spending" /> */}
       </div>
       <div className={cx(classes.root, className)}>
         <CategoryList

@@ -2,24 +2,15 @@ import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
-import { MenuItem, Input } from 'material-ui'
 import { injectStyles } from '@frankmoney/ui'
-import { SelectField } from '@frankmoney/components'
-import CategoryList from 'components/CategoryList'
-import Pie from 'components/Charts/Pie'
 import { categoricalDataShape } from 'components/Charts/shapes'
+import CategoryList from 'components/CategoryList'
+import DropdownSwitcher from 'components/DropdownSwitcher'
+import Pie from 'components/Charts/Pie'
 import limitCategories from 'utils/limitCategories'
 import styles from './PieChart.jss'
 
-const renderSelectInput = ({ key }) => key
-
-const renderMenuItem = ({ key }) => (
-  <MenuItem key={key} value={key}>
-    {key}
-  </MenuItem>
-)
-
-const pieCategoryTypes = [{ key: 'income' }, { key: 'spending' }]
+export const pieCategoryTypes = [{ key: 'income' }, { key: 'spending' }]
 
 class PieChart extends React.PureComponent {
   state = {
@@ -47,6 +38,8 @@ class PieChart extends React.PureComponent {
       legendItemClassName,
       legendNameClassName,
       legendValueClassName,
+      switcherClassName,
+      switcherLabel,
     } = this.props
 
     const { categoryType } = this.state
@@ -68,30 +61,13 @@ class PieChart extends React.PureComponent {
               onMouseLeave={this.handleMouseOut}
               size={chartSize}
             />
-            <div className={classes.switcher}>
-              {'% of total '}
-              <SelectField
-                classes={{ icon: classes.switcherIcon }}
-                name="type"
-                value={categoryType}
-                values={pieCategoryTypes}
-                valueKey="key"
-                MenuProps={{ MenuListProps: { className: classes.list } }}
-                inputComponent={
-                  <Input
-                    classes={{
-                      root: classes.inputContainer,
-                      input: classes.input,
-                    }}
-                    disableUnderline
-                  />
-                }
-                renderValue={renderSelectInput}
-                onChange={this.handleChangeCategoryType}
-              >
-                {pieCategoryTypes.map(type => renderMenuItem(type))}
-              </SelectField>
-            </div>
+            <DropdownSwitcher
+              className={cx(classes.switcher, switcherClassName)}
+              label={switcherLabel}
+              onChange={this.handleChangeCategoryType}
+              value={categoryType}
+              values={pieCategoryTypes}
+            />
           </div>
         )}
         <CategoryList
@@ -124,10 +100,13 @@ PieChart.propTypes = {
   legendItemClassName: PropTypes.string,
   legendNameClassName: PropTypes.string,
   legendValueClassName: PropTypes.string,
+  switcherClassName: PropTypes.string,
+  switcherLabel: PropTypes.string,
 }
 
 PieChart.defaultProps = {
   chartSize: 350,
+  switcherLabel: '% of total',
 }
 
 export default injectStyles(styles)(PieChart)
