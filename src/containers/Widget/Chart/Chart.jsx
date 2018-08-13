@@ -1,7 +1,6 @@
 import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
-import { ArrowDropDown } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
@@ -12,8 +11,9 @@ import {
 import { categoricalDataShape } from 'components/Charts/shapes'
 import PieChart from 'containers/Ledger/GraphOverviewCard/PieChart' // TODO: refactor out
 import { name } from '../reducer'
-import LegendOnly from './LegendOnly'
 import Footer from './Footer'
+import LegendOnly from './LegendOnly'
+import PeriodSelector from './PeriodSelector'
 
 const pieLegendMargin = R.cond([
   [R.equals(500), R.always(25)],
@@ -45,19 +45,6 @@ const styles = theme => ({
     height: 14,
     width: 14,
   },
-  period: {
-    ...theme.fontMedium(18, 26),
-    color: '#252B43',
-    cursor: 'pointer',
-    display: 'flex',
-    margin: [0, 0, 13, 2],
-  },
-  periodExpander: {
-    color: '#BCBFC9',
-    left: 3,
-    position: 'relative',
-    top: 2,
-  },
 })
 
 const pieChartSize = R.cond([
@@ -69,10 +56,7 @@ const pieChartSize = R.cond([
 
 const ActualChart = ({ categoricalData, classes, period, size }) => (
   <>
-    <div className={classes.period}>
-      {period}
-      <ArrowDropDown className={classes.periodExpander} />
-    </div>
+    <PeriodSelector text={period} />
     <PieChart
       categories={categoricalData}
       chartSize={pieChartSize(size)}
@@ -92,8 +76,8 @@ const Chart = ({ size, ...props }) => {
   if (size > 400) {
     return <ActualChart size={size} {...props} />
   }
-  const { categoricalData } = props
-  return <LegendOnly data={categoricalData} />
+  const { categoricalData, period } = props
+  return <LegendOnly data={categoricalData} period={period} />
 }
 
 Chart.propTypes = {

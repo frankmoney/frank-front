@@ -5,6 +5,7 @@ import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
 import { limitCategoriesTo } from 'utils/limitCategories'
 import Footer from './Footer'
+import PeriodSelector from './PeriodSelector'
 
 const styles = theme => ({
   root: {
@@ -41,27 +42,40 @@ const styles = theme => ({
   seeAll: {
     marginLeft: 5,
   },
+  switchers: {
+    display: 'flex',
+    margin: [2, 0, 17],
+    '& > :not(:first-child)': {
+      marginLeft: 21,
+    },
+  },
 })
 
-const LegendOnly = ({ classes, className, data }) => {
+const LegendOnly = ({ classes, className, data, period }) => {
   const categoryType = 'spending' // FIXME: actually select type
   const unlimitedData = limitCategoriesTo(999)(data[categoryType])
   // TODO: support less than 4 items (align legend to top)
   return (
-    <div className={cx(classes.root, className)}>
-      <CategoryList
-        activeKey={null}
-        className={classes.legend}
-        iconClassName={classes.legendIcon}
-        itemClassName={classes.legendItem}
-        limitedCategories={unlimitedData}
-        nameClassName={classes.legendItemFont}
-        tooltip
-        valueClassName={classes.legendItemValue}
-        valueUnit="%"
-      />
-      <Footer paymentCount={954} seeAllClassName={classes.seeAll} />
-    </div>
+    <>
+      <div className={classes.switchers}>
+        <PeriodSelector text={period} />
+        <PeriodSelector text="% of total spending" />
+      </div>
+      <div className={cx(classes.root, className)}>
+        <CategoryList
+          activeKey={null}
+          className={classes.legend}
+          iconClassName={classes.legendIcon}
+          itemClassName={classes.legendItem}
+          limitedCategories={unlimitedData}
+          nameClassName={classes.legendItemFont}
+          tooltip
+          valueClassName={classes.legendItemValue}
+          valueUnit="%"
+        />
+        <Footer paymentCount={954} seeAllClassName={classes.seeAll} />
+      </div>
+    </>
   )
 }
 
