@@ -18,6 +18,7 @@ import {
 } from '@frankmoney/components'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
+import Pager from 'components/Pager'
 import CurrencyProvider from 'components/CurrencyProvider'
 import LedgerSearch from './LedgerSearch'
 import GraphOverviewCard from './GraphOverviewCard'
@@ -56,6 +57,14 @@ const Ledger = ({ classes, className }) => (
         />
         <ConnectedGraphOverviewCard className={classes.overviewCard} />
         <LedgerTable />
+        <div className={classes.tablePagerWrap}>
+          <Pager
+            className={classes.tablePager}
+            current={5}
+            total={16}
+            onPageSelect={R.noop}
+          />
+        </div>
       </div>
     </div>
   </CurrencyProvider>

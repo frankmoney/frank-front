@@ -20,4 +20,10 @@ export default {
     justifyContent: 'space-between',
     paddingRight: 30,
   },
+  tablePagerWrap: {
+    marginTop: 50,
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
 }
