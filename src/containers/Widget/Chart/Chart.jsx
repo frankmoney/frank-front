@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import {
   categoricalDataSelector,
   dualDataSelector,
+  entriesCountSelector,
 } from 'components/Charts/selectors'
 import { categoricalDataShape } from 'components/Charts/shapes'
 import PieChart from 'containers/PieChart'
@@ -65,13 +66,20 @@ const styles = theme => ({
   },
 })
 
-const ActualChart = ({ categoricalData, classes, period, size }) => {
+const ActualChart = ({
+  categoricalData,
+  classes,
+  entriesCount,
+  period,
+  size,
+}) => {
   const switcherLabel = size < 800 ? '% of' : '% of total'
   return (
     <PieChart
       categories={categoricalData}
       chartClassName={classes.chart}
       chartSize={pieSize(size)}
+      entriesCount={entriesCount}
       footer={Footer}
       hideChart={size === 400}
       legendClassName={classes.legend}
@@ -90,8 +98,8 @@ const Chart = ({ size, ...props }) => {
   if (size > 400) {
     return <ActualChart size={size} {...props} />
   }
-  const { categoricalData, period, classes, ...otherProps } = props
-  return <LegendOnly data={categoricalData} period={period} {...otherProps} />
+  const { categoricalData, classes, ...otherProps } = props
+  return <LegendOnly data={categoricalData} {...otherProps} />
 }
 
 Chart.propTypes = {
@@ -104,6 +112,7 @@ export default compose(
   connect(state => ({
     categoricalData: categoricalDataSelector(name)(state),
     dualData: dualDataSelector(name)(state),
+    entriesCount: entriesCountSelector(name)(state),
   })),
   injectStyles(styles)
 )(Chart)

@@ -74,3 +74,6 @@ export const dualDataSelector = name =>
       R.values
     )
   )
+
+export const entriesCountSelector = name =>
+  createSelector(plainChartDataSelector(name), R.length)

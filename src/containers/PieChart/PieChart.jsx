@@ -24,6 +24,10 @@ class PieChart extends React.PureComponent {
     this.setState({ categoryType: event.target.value })
   }
 
+  handleChangePeriod = event => {
+    this.setState({ period: event.target.value })
+  }
+
   handleMouseOver = key => this.setState({ activeKey: key })
 
   handleMouseOut = () => this.setState({ activeKey: null })
@@ -36,6 +40,7 @@ class PieChart extends React.PureComponent {
       chartSize,
       classes,
       className,
+      entriesCount,
       footer: Footer,
       footerClassName,
       hideChart,
@@ -45,15 +50,15 @@ class PieChart extends React.PureComponent {
       legendItemClassName,
       legendNameClassName,
       legendValueClassName,
-      period,
       periodSelectClassName,
       switcherClassName,
       switcherLabel,
     } = this.props
 
-    const { categoryType } = this.state
+    const { categoryType, period } = this.state
 
     const data = categories[categoryType]
+    const categoryCount = R.length(data)
     const limitedCategories = limitCategoriesTo(categoryLimit)(data)
     const { items, other } = limitedCategories
     const pieData = other ? R.append(other, items) : items
@@ -69,6 +74,7 @@ class PieChart extends React.PureComponent {
         {!hidePeriod && (
           <PeriodSelector
             className={cx(classes.periodSelect, periodSelectClassName)}
+            onChange={this.handleChangePeriod}
             value={period}
           />
         )}
@@ -107,12 +113,11 @@ class PieChart extends React.PureComponent {
           valueClassName={cx(classes.legendItemValue, legendValueClassName)}
           valueUnit="%"
         />
-        {// TODO: real counts
-        Footer && (
+        {Footer && (
           <Footer
             className={cx(classes.footer, footerClassName)}
-            paymentCount={954}
-            categoryCount={5}
+            paymentCount={entriesCount}
+            categoryCount={categoryCount}
           />
         )}
       </div>
@@ -124,6 +129,7 @@ PieChart.propTypes = {
   categories: PropTypes.arrayOf(categoricalDataShape),
   categoryLimit: PropTypes.number.isRequired,
   chartSize: PropTypes.number.isRequired,
+  entriesCount: PropTypes.number.isRequired,
   footer: PropTypes.element,
   hideChart: PropTypes.bool,
   hidePeriod: PropTypes.bool,

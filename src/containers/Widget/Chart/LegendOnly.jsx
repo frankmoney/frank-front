@@ -61,7 +61,7 @@ const styles = theme => ({
   },
 })
 
-const LegendOnly = ({ classes, className, data, period }) => {
+const LegendOnly = ({ classes, className, data, entriesCount, period }) => {
   // eslint-disable-next-line no-shadow
   const ShortFooter = ({ className, paymentCount }) => (
     <Footer
@@ -74,11 +74,11 @@ const LegendOnly = ({ classes, className, data, period }) => {
   return (
     <PieChart
       categories={data}
-      className={cx(classes.root, className)}
-      chartClassName={classes.switcherContainer}
       categoryLimit={999}
+      chartClassName={classes.switcherContainer}
+      className={cx(classes.root, className)}
+      entriesCount={entriesCount}
       footer={ShortFooter}
-      switcherClassName={classes.switcher}
       hideChart
       legendClassName={classes.legend}
       legendIconClassName={classes.legendIcon}
@@ -87,6 +87,7 @@ const LegendOnly = ({ classes, className, data, period }) => {
       legendValueClassName={classes.legendItemValue}
       period={period}
       periodSelectClassName={classes.periodSelect}
+      switcherClassName={classes.switcher}
     />
   )
 }
