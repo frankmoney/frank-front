@@ -90,7 +90,7 @@ const Chart = ({ size, ...props }) => {
   if (size > 400) {
     return <ActualChart size={size} {...props} />
   }
-  const { categoricalData, period, ...otherProps } = props
+  const { categoricalData, period, classes, ...otherProps } = props
   return <LegendOnly data={categoricalData} period={period} {...otherProps} />
 }
 

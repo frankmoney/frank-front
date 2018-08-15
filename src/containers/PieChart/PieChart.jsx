@@ -7,7 +7,7 @@ import { categoricalDataShape } from 'components/Charts/shapes'
 import CategoryList from 'components/CategoryList'
 import DropdownSwitcher from 'components/DropdownSwitcher'
 import Pie from 'components/Charts/Pie'
-import limitCategories from 'utils/limitCategories'
+import { limitCategoriesTo, DEFAULT_LIMIT } from 'utils/limitCategories'
 import PeriodSelector from './PeriodSelector'
 import styles from './PieChart.jss'
 
@@ -31,6 +31,7 @@ class PieChart extends React.PureComponent {
   render() {
     const {
       categories,
+      categoryLimit,
       chartClassName,
       chartSize,
       classes,
@@ -45,6 +46,7 @@ class PieChart extends React.PureComponent {
       legendNameClassName,
       legendValueClassName,
       period,
+      periodSelectClassName,
       switcherClassName,
       switcherLabel,
     } = this.props
@@ -52,7 +54,7 @@ class PieChart extends React.PureComponent {
     const { categoryType } = this.state
 
     const data = categories[categoryType]
-    const limitedCategories = limitCategories(data)
+    const limitedCategories = limitCategoriesTo(categoryLimit)(data)
     const { items, other } = limitedCategories
     const pieData = other ? R.append(other, items) : items
 
@@ -65,45 +67,46 @@ class PieChart extends React.PureComponent {
         )}
       >
         {!hidePeriod && (
-          <PeriodSelector className={classes.periodSelect} value={period} />
+          <PeriodSelector
+            className={cx(classes.periodSelect, periodSelectClassName)}
+            value={period}
+          />
         )}
-        <div className={classes.content}>
+        <div className={cx(classes.chartContainer, chartClassName)}>
           {!hideChart && (
-            <div className={cx(classes.chartContainer, chartClassName)}>
-              <Pie
-                activeKey={this.state.activeKey}
-                className={classes.chart}
-                data={pieData}
-                onMouseEnter={this.handleMouseOver}
-                onMouseLeave={this.handleMouseOut}
-                size={chartSize}
-              />
-              <DropdownSwitcher
-                className={cx(classes.switcher, switcherClassName)}
-                label={switcherLabel}
-                onChange={this.handleChangeCategoryType}
-                value={categoryType}
-                values={pieCategoryTypes}
-              />
-            </div>
+            <Pie
+              activeKey={this.state.activeKey}
+              className={classes.chart}
+              data={pieData}
+              onMouseEnter={this.handleMouseOver}
+              onMouseLeave={this.handleMouseOut}
+              size={chartSize}
+            />
           )}
-          <CategoryList
-            activeKey={this.state.activeKey}
-            activeLabelClassName={classes.activeLegendItem}
-            className={cx(classes.legend, legendClassName, {
-              [classes.highlightedLegend]: this.state.activeKey !== null,
-            })}
-            iconClassName={cx(classes.legendIcon, legendIconClassName)}
-            itemClassName={cx(classes.legendItem, legendItemClassName)}
-            limitedCategories={limitedCategories}
-            nameClassName={cx(classes.legendItemName, legendNameClassName)}
-            onLabelMouseEnter={this.handleMouseOver}
-            onLabelMouseLeave={this.handleMouseOut}
-            tooltip
-            valueClassName={cx(classes.legendItemValue, legendValueClassName)}
-            valueUnit="%"
+          <DropdownSwitcher
+            className={cx(classes.switcher, switcherClassName)}
+            label={switcherLabel}
+            onChange={this.handleChangeCategoryType}
+            value={categoryType}
+            values={pieCategoryTypes}
           />
         </div>
+        <CategoryList
+          activeKey={this.state.activeKey}
+          activeLabelClassName={classes.activeLegendItem}
+          className={cx(classes.legend, legendClassName, {
+            [classes.highlightedLegend]: this.state.activeKey !== null,
+          })}
+          iconClassName={cx(classes.legendIcon, legendIconClassName)}
+          itemClassName={cx(classes.legendItem, legendItemClassName)}
+          limitedCategories={limitedCategories}
+          nameClassName={cx(classes.legendItemName, legendNameClassName)}
+          onLabelMouseEnter={this.handleMouseOver}
+          onLabelMouseLeave={this.handleMouseOut}
+          tooltip
+          valueClassName={cx(classes.legendItemValue, legendValueClassName)}
+          valueUnit="%"
+        />
         {// TODO: real counts
         Footer && (
           <Footer
@@ -119,6 +122,7 @@ class PieChart extends React.PureComponent {
 
 PieChart.propTypes = {
   categories: PropTypes.arrayOf(categoricalDataShape),
+  categoryLimit: PropTypes.number.isRequired,
   chartSize: PropTypes.number.isRequired,
   footer: PropTypes.element,
   hideChart: PropTypes.bool,
@@ -134,6 +138,7 @@ PieChart.propTypes = {
 }
 
 PieChart.defaultProps = {
+  categoryLimit: DEFAULT_LIMIT,
   chartSize: 350,
   switcherLabel: '% of total',
 }

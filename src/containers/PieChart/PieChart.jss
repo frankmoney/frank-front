@@ -5,6 +5,7 @@ export default theme => ({
     width: '100%',
     height: '100%',
     padding: 0,
+    alignItems: 'center',
   },
   hiddenPeriod: {
     paddingTop: 0,
@@ -13,11 +14,6 @@ export default theme => ({
     position: 'absolute',
     top: 4,
     left: 2,
-  },
-  content: {
-    alignItems: 'center',
-    display: 'flex',
-    width: '100%',
   },
   footer: {
     position: 'absolute',
