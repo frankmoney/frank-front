@@ -1,9 +1,28 @@
 export default theme => ({
   root: {
+    display: 'flex',
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    padding: 0,
+  },
+  hiddenPeriod: {
+    paddingTop: 0,
+  },
+  periodSelect: {
+    position: 'absolute',
+    top: 4,
+    left: 2,
+  },
+  content: {
     alignItems: 'center',
     display: 'flex',
-    padding: [0, 30],
-    position: 'relative',
+    width: '100%',
+  },
+  footer: {
+    position: 'absolute',
+    width: '100%',
+    bottom: 0,
   },
   chartContainer: {
     height: ({ chartSize }) => chartSize,
@@ -19,7 +38,6 @@ export default theme => ({
     width: '100%',
   },
   legend: {
-    margin: [-4, 0, 0, 60],
     cursor: 'default',
   },
   legendItem: {

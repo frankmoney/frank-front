@@ -4,7 +4,6 @@ import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
 import { limitCategoriesTo } from 'utils/limitCategories'
 import Footer from './Footer'
-import PeriodSelector from './PeriodSelector'
 
 const styles = theme => ({
   root: {
@@ -56,10 +55,6 @@ const LegendOnly = ({ classes, className, data, period }) => {
   // TODO: support less than 4 items (align legend to top)
   return (
     <>
-      <div className={classes.switchers}>
-        <PeriodSelector value={period} />
-        {/* <PeriodSelector text="% of total spending" /> */}
-      </div>
       <div className={cx(classes.root, className)}>
         <CategoryList
           activeKey={null}
@@ -68,6 +63,7 @@ const LegendOnly = ({ classes, className, data, period }) => {
           itemClassName={classes.legendItem}
           limitedCategories={unlimitedData}
           nameClassName={classes.legendItemFont}
+          // period={period}
           tooltip
           valueClassName={classes.legendItemValue}
           valueUnit="%"

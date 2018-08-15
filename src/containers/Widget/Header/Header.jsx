@@ -10,7 +10,7 @@ const styles = {
   root: {
     borderBottom: '1px solid #E9EAEC',
     display: 'flex',
-    margin: [0, 2, 14],
+    margin: [0, 2, 11],
     minHeight: 64,
     position: 'relative',
   },

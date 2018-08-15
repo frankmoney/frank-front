@@ -10,7 +10,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     lineHeight: 20,
-    marginTop: 20,
     padding: [0, 1, 0, 2],
   },
   content: {

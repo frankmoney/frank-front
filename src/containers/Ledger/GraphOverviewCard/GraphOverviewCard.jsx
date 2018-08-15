@@ -8,6 +8,8 @@ import ExpandRow from './ExpandRow'
 import Title from './Title'
 import styles from './GraphOverviewCard.jss'
 
+const period = 'All time'
+
 class GraphOverviewCard extends React.PureComponent {
   state = {
     expanded: true,
@@ -30,8 +32,14 @@ class GraphOverviewCard extends React.PureComponent {
           className
         )}
       >
-        <Title className={classes.header}>All time</Title>
-        <PieChart categories={categoricalData} />
+        <Title className={classes.header}>{period}</Title>
+        <PieChart
+          categories={categoricalData}
+          chartClassName={classes.chart}
+          hidePeriod
+          legendClassName={classes.legend}
+          period={period}
+        />
         <ExpandRow
           className={classes.bottomRow}
           expanded={expanded}
