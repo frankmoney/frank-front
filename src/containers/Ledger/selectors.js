@@ -2,13 +2,16 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
+import { isSameYear, format } from 'date-fns'
+import { parseDate } from 'utils/dates'
 import { REDUCER_KEY } from './reducer'
+import { parseQueryStringBool } from './utils'
 
 const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
 const getFilters = (...prop) => get('filtersEdit', ...prop)
 
-export const searchTextSelector = queryParamSelector('search')
 export const isLoadingSelector = get('loading')
+export const loadedSelector = get('loaded')
 export const listIsUpdatingSelector = get('updatingList')
 export const paymentsTotalCountSelector = get('paymentsCount')
 export const paymentsSelector = createPlainObjectSelector(get('payments'))
@@ -55,16 +58,9 @@ export const isFiltersEstimatingSelector = getFilters('estimatingResults')
 export const filtersDataSelector = createPlainObjectSelector(getFilters('data'))
 export const filtersEstimatedResultsCountSelector = getFilters('totalCount')
 
-const parseNullableBool = value => {
-  switch (value) {
-    case 'true':
-      return true
-    case 'false':
-      return false
-    default:
-      return null
-  }
-}
+// Filters
+
+export const searchTextSelector = queryParamSelector('search')
 
 export const currentFiltersSelector = createSelector(
   queryParamSelector('amountMin'),
@@ -77,6 +73,92 @@ export const currentFiltersSelector = createSelector(
     amountMax: amountMax && parseInt(amountMax, 10),
     dateMin,
     dateMax,
-    verified: parseNullableBool(verified),
+    verified: parseQueryStringBool(verified),
   })
+)
+
+// Chart Selectors
+
+export const chartsVisibleSelector = createSelector(
+  searchTextSelector,
+  R.either(R.isNil, R.isEmpty)
+)
+
+// [{date:String,negativeValue:Float,value:Float}]
+export const barChartDataSelector = createSelector(
+  createPlainObjectSelector(get('barsData')),
+  R.pipe(
+    R.map(({ date, income: value, expenses: negateValue }) => ({
+      date,
+      value: Math.floor(value),
+      negativeValue: Math.floor(negateValue),
+    })),
+    list =>
+      list.reduce((acc, item, idx) => {
+        const prev = idx > 0 ? list[idx - 1] : null
+        const isNewYear =
+          prev && !isSameYear(parseDate(item.date), parseDate(prev.date))
+        return acc.concat([
+          {
+            ...item,
+            date: format(parseDate(item.date), isNewYear ? 'MMM YYYY' : 'MMM'),
+          },
+        ])
+      }, [])
+  )
+)
+
+// pieChart {income|spending: [{color,name,value}]} (value in percents)
+// category{},income,expenses ->
+const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
+
+const totalExpensesSelector = createSelector(
+  rawPieDataSelector,
+  R.pipe(
+    R.map(R.prop('expenses')),
+    R.sum
+  )
+)
+const totalIncomeSelector = createSelector(
+  rawPieDataSelector,
+  R.pipe(
+    R.map(R.prop('income')),
+    R.sum
+  )
+)
+
+const percentOf = (value, total) => Math.round((100 * value) / total)
+const mapCategory = R.when(
+  R.isNil,
+  R.always({ color: '#B3B3B3', name: '#Uncategorized' })
+)
+const sortByValueDescend = R.sortBy(
+  R.pipe(
+    R.prop('value'),
+    R.negate
+  )
+)
+export const pieChartDataSelector = createSelector(
+  rawPieDataSelector,
+  totalExpensesSelector,
+  totalIncomeSelector,
+  (list, totalExpenses, totalIncome) =>
+    R.converge((...args) => R.zipObj(['income', 'spending'], args), [
+      R.pipe(
+        R.filter(({ income }) => income > 0),
+        R.map(({ income: value, category }) => ({
+          value: percentOf(value, totalIncome),
+          ...mapCategory(category),
+        })),
+        sortByValueDescend
+      ),
+      R.pipe(
+        R.filter(({ expenses }) => expenses > 0),
+        R.map(({ expenses: value, category }) => ({
+          value: percentOf(value, totalExpenses),
+          ...mapCategory(category),
+        })),
+        sortByValueDescend
+      ),
+    ])(list)
 )

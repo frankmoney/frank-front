@@ -29,25 +29,25 @@ import LedgerTable from './LedgerTable'
 import {
   isLoadingSelector,
   listIsUpdatingSelector,
+  chartsVisibleSelector,
+  barChartDataSelector,
   searchTextSelector,
+  pieChartDataSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
-import {
-  categoricalDataSelector,
-  dualDataSelector,
-} from './GraphOverviewCard/selectors'
 
 const ConnectedGraphOverviewCard = compose(
   connect(state => ({
-    categoricalData: categoricalDataSelector(state),
-    dualData: dualDataSelector(state),
-    search: searchTextSelector(state),
+    categoricalData: pieChartDataSelector(state),
+    dualData: barChartDataSelector(state),
+    visible: chartsVisibleSelector(state),
   })),
-  branch(props => props.search, renderNothing)
+  branch(props => !props.visible, renderNothing)
 )(GraphOverviewCard)
 
-const SearchWrap = ({ value, children }) => (
+// нужно было создать враппер так ак React.Context.Provider почемуто не коннектится к редаксу напрямую
+const ContextProviderHackWrap = ({ value, children }) => (
   <HighlightTextProvider value={value}>{children}</HighlightTextProvider>
 )
 const SearchHighlightTextProvider = connect(
@@ -55,9 +55,9 @@ const SearchHighlightTextProvider = connect(
     value: searchTextSelector(state),
   }),
   null
-)(SearchWrap)
+)(ContextProviderHackWrap)
 
-const Ledger = ({ classes, loadingListOnly, className }) => (
+const Ledger = ({ classes, listIsUpdating, className }) => (
   <CurrencyProvider code="USD">
     <div className={cx(classes.root, className)}>
       <FixedHeader className={classes.header}>
@@ -71,20 +71,20 @@ const Ledger = ({ classes, loadingListOnly, className }) => (
           placeholder="Start typing a category, recipient or part of a description..."
           className={classes.searchCard}
         />
-        {loadingListOnly && (
+        {listIsUpdating && (
           <div className={classes.listLoaderWrap}>
             <Spinner className={classes.loader} />
           </div>
         )}
-        {!loadingListOnly && (
+        {!listIsUpdating && (
           <ConnectedGraphOverviewCard className={classes.overviewCard} />
         )}
-        {!loadingListOnly && (
+        {!listIsUpdating && (
           <SearchHighlightTextProvider>
             <LedgerTable />
           </SearchHighlightTextProvider>
         )}
-        {!loadingListOnly && (
+        {!listIsUpdating && (
           <div className={classes.tablePagerWrap}>
             <Pager
               className={classes.tablePager}
@@ -101,7 +101,7 @@ const Ledger = ({ classes, loadingListOnly, className }) => (
 
 const mapStateToProps = createStructuredSelector({
   loading: isLoadingSelector,
-  loadingListOnly: listIsUpdatingSelector,
+  listIsUpdating: listIsUpdatingSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [

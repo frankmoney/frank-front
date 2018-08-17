@@ -6,11 +6,14 @@ export const REDUCER_KEY = 'ledger'
 
 const defaultState = Immutable.fromJS({
   loading: true,
+  loaded: false,
   filtersEdit: {
     open: false,
     loaded: false,
     data: {},
   },
+  barsData: [],
+  pieData: [],
   paymentsCount: 0,
   payments: [],
 })
@@ -22,11 +25,17 @@ export default handleActions(
   {
     [ACTIONS.load]: (state, { payload: { updateListOnly } }) =>
       state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
-    [ACTIONS.load.success]: (state, { payload: { payments, totalCount } }) =>
+    [ACTIONS.load.success]: (
+      state,
+      { payload: { payments, totalCount, pieChart, barChart } }
+    ) =>
       state.merge({
         loading: false,
+        loaded: true,
         updatingList: false,
         payments: fromJS(payments),
+        barsData: fromJS(barChart || []),
+        pieData: fromJS(pieChart || []),
         paymentsCount: totalCount,
       }),
     [ACTIONS.load.error]: state => state.merge({ loading: false }),

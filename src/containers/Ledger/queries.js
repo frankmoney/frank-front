@@ -1,7 +1,12 @@
 import * as R from 'ramda'
 
 export default {
-  getPaymentsAndTotalCount: [
+  getPaymentsAndTotalCount: ({
+    totalCount: includeTotal,
+    payments: includePayments,
+    pieChart: includePie,
+    barChart: includeBars,
+  }) => [
     `
     query(
       $accountId: ID!,
@@ -13,7 +18,8 @@ export default {
       $amountMax: Float,
       $verified: Boolean,
     ) {
-      payments: ledgerPayments(
+      ${(includePayments &&
+        `payments: ledgerPayments(
         accountId: $accountId,
         first: $first,
         search: $search,
@@ -33,8 +39,36 @@ export default {
           name
           color
         }
-      }
-      totalCountResult: ledgerPaymentsCount(
+      }`) ||
+        ''}
+      ${(includePie &&
+        `pieChart: ledgerPieChart(accountId: $accountId) {
+        items {
+          category {
+            id
+            name
+            color
+          }
+          income
+          expenses
+        }
+      }`) ||
+        ''}
+      ${(includeBars &&
+        `barChart: ledgerBarChart(
+        accountId: $accountId,
+        dateMin: $dateMin,
+        dateMax: $dateMax
+      ) {
+          items {
+            date
+            income
+            expenses
+          }
+      }`) ||
+        ''}
+      ${(includeTotal &&
+        `totalCountResult: ledgerPaymentsCount(
         accountId: $accountId,
         search: $search,
         dateMin: $dateMin,
@@ -44,12 +78,15 @@ export default {
         verified: $verified,
       ) {
         count
-      }
+      }`) ||
+        ''}
     }
     `,
-    ({ payments, totalCountResult: { count: totalCount } }) => ({
+    ({ payments, totalCountResult, pieChart, barChart }) => ({
       payments,
-      totalCount,
+      totalCount: totalCountResult && totalCountResult.count,
+      pieChart: pieChart && pieChart.items,
+      barChart: barChart && barChart.items,
     }),
   ],
   getOnlyTotalCount: [
