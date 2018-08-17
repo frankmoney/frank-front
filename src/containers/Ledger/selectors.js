@@ -37,6 +37,8 @@ export const paymentsIdsSelector = createSelector(
     )(list)
 )
 
+export const hasNoResultsSelector = createSelector(paymentsSelector, R.isEmpty)
+
 export const dataSourceSelector = createSelector(paymentsIdsSelector, ids => [
   { title: 'April', rows: ids },
 ])
@@ -110,6 +112,8 @@ export const barChartDataSelector = createSelector(
 
 // pieChart {income|spending: [{color,name,value}]} (value in percents)
 // category{},income,expenses ->
+
+// из [category{name,color},income,expenses] в {income|spending: [{color,name,value}]} где value процент от всех income|spending
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
 
 const totalExpensesSelector = createSelector(

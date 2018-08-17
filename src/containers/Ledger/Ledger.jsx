@@ -16,6 +16,7 @@ import {
   BreadcrumbsItem,
   PageLoader,
   Spinner,
+  Button,
 } from '@frankmoney/components'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
@@ -33,6 +34,7 @@ import {
   barChartDataSelector,
   searchTextSelector,
   pieChartDataSelector,
+  hasNoResultsSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
@@ -57,7 +59,13 @@ const SearchHighlightTextProvider = connect(
   null
 )(ContextProviderHackWrap)
 
-const Ledger = ({ classes, listIsUpdating, className }) => (
+const Ledger = ({
+  classes,
+  listIsUpdating,
+  noResults,
+  resetSearch,
+  className,
+}) => (
   <CurrencyProvider code="USD">
     <div className={cx(classes.root, className)}>
       <FixedHeader className={classes.header}>
@@ -94,6 +102,20 @@ const Ledger = ({ classes, listIsUpdating, className }) => (
             />
           </div>
         )}
+        {noResults && (
+          <div className={classes.emptyPlaceholder}>
+            <div className={classes.emptyPlaceholderLabel}>
+              No payments found
+            </div>
+            <Button
+              className={classes.footerButton}
+              fat
+              type="secondary"
+              label="Reset"
+              onClick={() => resetSearch()}
+            />
+          </div>
+        )}
       </div>
     </div>
   </CurrencyProvider>
@@ -102,12 +124,14 @@ const Ledger = ({ classes, listIsUpdating, className }) => (
 const mapStateToProps = createStructuredSelector({
   loading: isLoadingSelector,
   listIsUpdating: listIsUpdatingSelector,
+  noResults: hasNoResultsSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
   {
     load: ACTIONS.load,
     leave: ACTIONS.leave,
+    resetSearch: ACTIONS.resetSearch,
   },
 ])
 

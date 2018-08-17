@@ -1,4 +1,4 @@
-export default {
+export default theme => ({
   root: {
     minHeight: '100vh',
     position: 'relative',
@@ -26,6 +26,20 @@ export default {
     alignItems: 'center',
     flexDirection: 'column',
   },
+  emptyPlaceholder: {
+    marginTop: 150,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    flexDirection: 'column',
+  },
+  emptyPlaceholderLabel: {
+    ...theme.fontRegular(22),
+    color: 'rgba(0,0,0,0.5)',
+    marginBottom: 30,
+  },
   listLoaderWrap: {
     marginTop: 150,
     width: '100%',
@@ -34,4 +48,4 @@ export default {
     justifyContent: 'center',
   },
   loader: {},
-}
+})

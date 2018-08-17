@@ -6,6 +6,7 @@ export const load = createDeferredAction(
   payload => payload || {}
 )
 export const update = createDeferredAction('ledger/update')
+export const resetSearch = createDeferredAction('ledger/resetSearch')
 export const searchTyping = createAction('ledger/search')
 
 export const filtersOpen = createAction('ledger/filters/open')
