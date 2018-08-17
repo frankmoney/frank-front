@@ -2,8 +2,8 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
-import { isSameYear, format } from 'date-fns'
-import { parseDate } from 'utils/dates'
+import { isSameYear, format } from 'date-fns/fp'
+import { parseDate, formatMonth, parseMonth } from 'utils/dates'
 import { REDUCER_KEY } from './reducer'
 import { parseQueryStringBool } from './utils'
 
@@ -39,9 +39,26 @@ export const paymentsIdsSelector = createSelector(
 
 export const hasNoResultsSelector = createSelector(paymentsSelector, R.isEmpty)
 
-export const dataSourceSelector = createSelector(paymentsIdsSelector, ids => [
-  { title: 'April', rows: ids },
-])
+export const dataSourceSelector = createSelector(
+  paymentsSelector,
+  R.pipe(
+    R.groupBy(({ postedDate: date }) => formatMonth(date)),
+    R.toPairs,
+    R.map(
+      R.converge((title, rows) => ({ title, rows }), [
+        R.pipe(
+          R.head,
+          parseMonth,
+          format('MMM YYYY')
+        ),
+        R.pipe(
+          R.last,
+          R.map(R.prop('id'))
+        ),
+      ])
+    )
+  )
+)
 
 export const rowDataSelector = id =>
   createSelector(
@@ -103,7 +120,7 @@ export const barChartDataSelector = createSelector(
         return acc.concat([
           {
             ...item,
-            date: format(parseDate(item.date), isNewYear ? 'MMM YYYY' : 'MMM'),
+            date: format(isNewYear ? 'MMM YYYY' : 'MMM', parseDate(item.date)),
           },
         ])
       }, [])
