@@ -106,13 +106,13 @@ const ComponentsDemo = ({ classes }) => (
       <InboxCard
         className={classes.card}
         createdAt="2018-01-01 19:05"
-        delta={1392.32}
+        amount={1392.32}
       />
 
       <InboxCard
         className={classes.card}
         createdAt="2018-01-01 05:00"
-        delta={-124}
+        amount={-124}
         recipientName="Adidas Group"
         categoryAddedFromSimilar
         categoryId="marketing"
@@ -124,7 +124,7 @@ const ComponentsDemo = ({ classes }) => (
       <InboxCard
         className={classes.card}
         createdAt="2018-02-25 00:00"
-        delta={-1244.548}
+        amount={-1244.548}
         recipientReviewed
         recipientName="Readymag"
         categoryAddedFromSimilar

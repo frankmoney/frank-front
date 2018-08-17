@@ -1,115 +1,73 @@
 import React from 'react'
 import { Page404 as NotFound } from '@frankmoney/components'
-import { compose, withProps } from 'recompose'
+import { connect } from 'react-redux'
+import { currentUserSelector } from '@frankmoney/webapp'
+import { compose, withProps, branch, renderComponent } from 'recompose'
 import { Redirect } from 'react-router-dom'
 import Helmet from 'react-helmet'
-import ChartDemo from 'components/Charts/Demo'
 import Layout from 'components/Layout'
-import CommentsDemo from 'containers/Comments/CommentsDemo'
-import ComponentsDemo from 'containers/ComponentsDemo'
-import DrawerDemo from 'containers/DrawerDemo'
+import Login from 'containers/Login'
 import Inbox from 'containers/Inbox'
 import Ledger from 'containers/Ledger'
 import Directory from 'containers/Directory'
 import Recipient from 'containers/Recipient'
 import Team from 'containers/Team'
-import { DEFAULT_TITLE, ROUTES } from './const'
+import demoRoutes from 'demo/routes'
+import { BASE_TITLE, ROUTES } from './const'
 
 const withLayout = Component => props => (
   <Layout>
     <Component {...props} />
-    <Helmet title={DEFAULT_TITLE} />
+    <Helmet title={BASE_TITLE} />
   </Layout>
+)
+
+const RedirectToLogin = withProps({ to: ROUTES.auth.login })(Redirect)
+
+const protectedRoute = compose(
+  connect(state => ({
+    user: currentUserSelector(state),
+  })),
+  branch(props => !props.user, renderComponent(RedirectToLogin))
 )
 
 export default [
   {
-    component: withProps({ to: ROUTES.demo.root })(Redirect),
+    component: withProps({ to: ROUTES.ledger.root })(Redirect),
     path: ROUTES.root,
     exact: true,
   },
   {
-    component: withProps({ to: ROUTES.demo.components })(Redirect),
-    path: ROUTES.demo.root,
+    component: Login,
+    path: ROUTES.auth.login,
     exact: true,
   },
   {
-    component: withLayout(Inbox),
+    component: withLayout(protectedRoute(Inbox)),
     path: ROUTES.inbox.root,
     exact: true,
   },
   {
-    component: withLayout(Ledger),
+    component: withLayout(protectedRoute(Ledger)),
     path: ROUTES.ledger.root,
     exact: true,
   },
   {
-    component: withLayout(Directory),
+    component: withLayout(protectedRoute(Directory)),
     path: ROUTES.directory.root,
     exact: true,
   },
   {
-    component: withLayout(Recipient),
+    component: withLayout(protectedRoute(Recipient)),
     path: ROUTES.directory.recipient,
     exact: true,
   },
   {
-    component: withLayout(Team),
+    component: withLayout(protectedRoute(Team)),
     path: ROUTES.team.match,
     exact: true,
   },
-  {
-    component: withLayout(ComponentsDemo),
-    path: ROUTES.demo.components,
-    exact: true,
-  },
-  {
-    component: withLayout(DrawerDemo),
-    path: ROUTES.demo.drawers.root,
-    exact: true,
-  },
-  {
-    component: compose(
-      withLayout,
-      withProps({ type: 'type-1' })
-    )(DrawerDemo),
-    path: ROUTES.demo.drawers.type1,
-    exact: true,
-  },
-  {
-    component: compose(
-      withLayout,
-      withProps({ type: 'type-2' })
-    )(DrawerDemo),
-    path: ROUTES.demo.drawers.type2,
-    exact: true,
-  },
-  {
-    component: compose(
-      withLayout,
-      withProps({ type: 'type-3' })
-    )(DrawerDemo),
-    path: ROUTES.demo.drawers.type3,
-    exact: true,
-  },
-  {
-    component: compose(
-      withLayout,
-      withProps({ type: 'type-4' })
-    )(DrawerDemo),
-    path: ROUTES.demo.drawers.type4,
-    exact: true,
-  },
-  {
-    component: withLayout(CommentsDemo),
-    path: ROUTES.demo.comments,
-    exact: true,
-  },
-  {
-    component: withLayout(ChartDemo),
-    path: ROUTES.demo.charts,
-    exact: true,
-  },
+  ...demoRoutes,
   {
     component: NotFound,
   },

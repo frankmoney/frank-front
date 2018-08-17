@@ -5,5 +5,5 @@ module.exports = {
   backendUrl,
   graphqlEndpointPath: '/graphql/v1',
   apiEndpointPath: '/api',
-  authCookieName: '_frank-back_session',
+  authCookieName: 'currentUser',
 }

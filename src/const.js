@@ -39,4 +39,4 @@ export const ROUTES = {
   },
 }
 
-export const DEFAULT_TITLE = 'Frank'
+export const BASE_TITLE = 'Frank'

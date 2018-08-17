@@ -1,1 +1,8 @@
-export const currentAccountIdSelector = () => 'cjkgy7pcv3p8b0716u58tsymo'
+import * as R from 'ramda'
+import { createSelector } from 'reselect'
+import { currentUserSelector } from '@frankmoney/webapp'
+
+export const currentAccountIdSelector = createSelector(
+  currentUserSelector,
+  R.prop('accountId')
+)

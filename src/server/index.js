@@ -5,11 +5,24 @@ import config from '../../config'
 import initRoutes from './router'
 
 const isProd = process.env.NODE_ENV === 'production'
+const findUser = ({ graphqlClient }) =>
+  graphqlClient(`{
+  me {
+    email
+  }
+}`).then(
+    ({ me: user }) =>
+      user && {
+        ...user,
+        accountId: 'cjkgy7pcv3p8b0716u58tsymo',
+      }
+  )
 
 const server = new Server({
   ...config,
   faviconPath: path.join(__dirname, 'favicon.ico'),
   initRoutes,
+  findUser,
 })
 
 if (isProd) {
