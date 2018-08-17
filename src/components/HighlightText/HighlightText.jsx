@@ -1,5 +1,6 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
+import { highlightContext } from './HighlightTextProvider'
 
 const styles = {
   highlight: {
@@ -23,4 +24,23 @@ const HighlightText = ({ classes, className, text, textPattern }) =>
     <span className={className}>{text}</span>
   )
 
-export default injectStyles(styles)(HighlightText)
+class ContextualAwareHighlightText extends React.Component {
+  isContextual() {
+    return typeof this.props.textPattern === 'undefined'
+  }
+
+  render() {
+    if (this.isContextual()) {
+      return (
+        <highlightContext.Consumer>
+          {searchPattern => (
+            <HighlightText {...this.props} textPattern={searchPattern} />
+          )}
+        </highlightContext.Consumer>
+      )
+    }
+    return <HighlightText {...this.props} />
+  }
+}
+
+export default injectStyles(styles)(ContextualAwareHighlightText)

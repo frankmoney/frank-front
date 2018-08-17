@@ -19,7 +19,7 @@
     "team_id": 85,
     "internal_description": null,
     "embed_view_restriction": "summary_and_all_payments",
-    "last_transaction_date": "2018-04-06T00:00:00.000Z",
+    "last_Payment_date": "2018-04-06T00:00:00.000Z",
     "aggregate": false,
     "foundation_data": null,
     "processing": false,
@@ -39,7 +39,7 @@
     "featured": true,
     "privacy_type": "public",
     "have_access": true,
-    "unhandled_transactions_count": 83,
+    "unhandled_payments_count": 83,
     "bank_name": "Silicon Valley Bank",
     "bank_description": "3301319750",
     "connected_app": null,
@@ -48,7 +48,7 @@
       400
     ]
   },
-  "transactions": [
+  "payments": [
     {
       "id": 11965,
       "sum": "-294.4",

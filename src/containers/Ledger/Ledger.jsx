@@ -15,16 +15,22 @@ import {
   Breadcrumbs,
   BreadcrumbsItem,
   PageLoader,
+  Spinner,
 } from '@frankmoney/components'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
+import HighlightTextProvider from 'components/HighlightText/HighlightTextProvider'
 import Pager from 'components/Pager'
 import CurrencyProvider from 'components/CurrencyProvider'
 import LedgerSearch from './LedgerSearch'
 import GraphOverviewCard from './GraphOverviewCard'
 import styles from './Ledger.jss'
 import LedgerTable from './LedgerTable'
-import { isLoadingSelector, searchTextSelector } from './selectors'
+import {
+  isLoadingSelector,
+  listIsUpdatingSelector,
+  searchTextSelector,
+} from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
 import {
@@ -41,7 +47,17 @@ const ConnectedGraphOverviewCard = compose(
   branch(props => props.search, renderNothing)
 )(GraphOverviewCard)
 
-const Ledger = ({ classes, className }) => (
+const SearchWrap = ({ value, children }) => (
+  <HighlightTextProvider value={value}>{children}</HighlightTextProvider>
+)
+const SearchHighlightTextProvider = connect(
+  state => ({
+    value: searchTextSelector(state),
+  }),
+  null
+)(SearchWrap)
+
+const Ledger = ({ classes, loadingListOnly, className }) => (
   <CurrencyProvider code="USD">
     <div className={cx(classes.root, className)}>
       <FixedHeader className={classes.header}>
@@ -55,16 +71,29 @@ const Ledger = ({ classes, className }) => (
           placeholder="Start typing a category, recipient or part of a description..."
           className={classes.searchCard}
         />
-        <ConnectedGraphOverviewCard className={classes.overviewCard} />
-        <LedgerTable />
-        <div className={classes.tablePagerWrap}>
-          <Pager
-            className={classes.tablePager}
-            current={5}
-            total={16}
-            onPageSelect={R.noop}
-          />
-        </div>
+        {loadingListOnly && (
+          <div className={classes.listLoaderWrap}>
+            <Spinner className={classes.loader} />
+          </div>
+        )}
+        {!loadingListOnly && (
+          <ConnectedGraphOverviewCard className={classes.overviewCard} />
+        )}
+        {!loadingListOnly && (
+          <SearchHighlightTextProvider>
+            <LedgerTable />
+          </SearchHighlightTextProvider>
+        )}
+        {!loadingListOnly && (
+          <div className={classes.tablePagerWrap}>
+            <Pager
+              className={classes.tablePager}
+              current={5}
+              total={16}
+              onPageSelect={R.noop}
+            />
+          </div>
+        )}
       </div>
     </div>
   </CurrencyProvider>
@@ -72,6 +101,7 @@ const Ledger = ({ classes, className }) => (
 
 const mapStateToProps = createStructuredSelector({
   loading: isLoadingSelector,
+  loadingListOnly: listIsUpdatingSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [

@@ -12,6 +12,6 @@ export default handleActions(
   },
   Immutable.fromJS({
     searchText: '',
-    transactions: DATA.transactions.map(mapPayment),
+    payments: DATA.payments.map(mapPayment),
   })
 )

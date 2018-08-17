@@ -21,7 +21,7 @@ const InboxCard = ({
   classes,
   className,
   createdAt,
-  delta,
+  amount,
   recipientReviewed,
   recipientName,
   categoryAddedFromSimilar,
@@ -40,7 +40,7 @@ const InboxCard = ({
         {format(createdAt, 'MMMM d, h:mmaa')}
       </div>
       <div className={classes.info}>
-        <CurrencyDelta value={delta} />
+        <CurrencyDelta value={amount} />
         <IconButton className={classes.infoButton} icon={InfoIcon} />
       </div>
     </div>
@@ -133,7 +133,7 @@ export default compose(
   withState(
     'recipientName',
     'setRecipientName',
-    ({ recipientName }) => recipientName || ''
+    ({ peerName }) => peerName || ''
   ),
   withState('description', 'setDescription', ({ description }) => description),
   injectStyles(styles)

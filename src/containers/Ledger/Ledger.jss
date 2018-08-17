@@ -26,4 +26,12 @@ export default {
     alignItems: 'center',
     flexDirection: 'column',
   },
+  listLoaderWrap: {
+    marginTop: 150,
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loader: {},
 }

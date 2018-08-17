@@ -14,7 +14,7 @@ import {
   isFiltersEstimatingSelector,
   isFiltersLoadedSelector,
   isFiltersOpenSelector,
-  transactionsTotalCountSelector,
+  paymentsTotalCountSelector,
 } from '../selectors'
 import LedgerFilterDrawer from './LedgerFilterDrawer'
 
@@ -79,7 +79,7 @@ class LedgerFilter extends React.Component {
           onClose={() => closeDrawer()}
           onReset={() => resetFilters()}
           onChange={changeFilters}
-          onApply={() => applyFilters()}
+          onApply={applyFilters}
           totalCount={estimatedResultsCount}
           totalCountEstimating={estimating}
           {...filtersData}
@@ -93,7 +93,7 @@ const mapStateToProps = createStructuredSelector({
   loaded: isFiltersLoadedSelector,
   open: isFiltersOpenSelector,
   estimating: isFiltersEstimatingSelector,
-  currentResultsCount: transactionsTotalCountSelector,
+  currentResultsCount: paymentsTotalCountSelector,
   estimatedResultsCount: filtersEstimatedResultsCountSelector,
   filtersData: filtersDataSelector,
 })

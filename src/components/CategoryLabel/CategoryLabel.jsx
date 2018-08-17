@@ -27,7 +27,6 @@ const CategoryLabel = ({
   color,
   name,
   nameClassName,
-  highlighted,
   iconClassName,
   value,
   valueClassName,
@@ -39,11 +38,7 @@ const CategoryLabel = ({
     {...otherProps}
   >
     <IconCircle className={cx(classes.icon, iconClassName)} />
-    <HighlightText
-      className={cx(classes.name, nameClassName)}
-      text={name}
-      textPattern={highlighted}
-    />
+    <HighlightText className={cx(classes.name, nameClassName)} text={name} />
     {(value || value === 0) && (
       <span className={cx(classes.value, valueClassName)}>
         {` ${value}`}

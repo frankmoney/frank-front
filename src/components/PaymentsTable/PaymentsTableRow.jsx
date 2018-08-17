@@ -78,8 +78,7 @@ const styles = theme => ({
 const PaymentsTableRow = ({
   classes,
   className,
-  data: { description: title, recipientName, delta, category },
-  searchText,
+  data: { description, peerName, amount, category },
   // omit
   grid,
   theme,
@@ -87,15 +86,20 @@ const PaymentsTableRow = ({
 }) => (
   <TableRow className={cx(classes.root, className)} {...rowProps}>
     <TableCell name="description" className={classes.cellLeft}>
-      <div className={cx(classes.title, !title && classes.emptyTitle)}>
-        {title ? (
-          <HighlightText text={title} textPattern={searchText} />
+      <div className={cx(classes.title, !description && classes.emptyTitle)}>
+        {description ? (
+          <HighlightText text={description} />
         ) : (
           'Add description...'
         )}
       </div>
       <div className={classes.description}>
-        {recipientName && <div className={classes.client}>{recipientName}</div>}
+        {peerName && (
+          <div className={classes.client}>
+            {' '}
+            <HighlightText text={peerName} />
+          </div>
+        )}
         {category && (
           <CategoryLabel
             className={classes.category}
@@ -107,7 +111,7 @@ const PaymentsTableRow = ({
       </div>
     </TableCell>
     <TableCell name="sum" className={classes.cellRight}>
-      <CurrencyDelta className={classes.sum} value={delta} />
+      <CurrencyDelta className={classes.sum} value={amount} />
       <div className={classes.rightDescription}>
         <div className={classes.date}>April 12, 12:42PM</div>
         <CheckCircle className={classes.checkIcon} />

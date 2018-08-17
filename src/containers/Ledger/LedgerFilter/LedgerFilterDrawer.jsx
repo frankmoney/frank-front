@@ -39,6 +39,10 @@ class LedgerFilterDrawer extends React.Component {
     })
   }
 
+  handleApply = () => {
+    this.props.onApply(this.getAllFilters())
+  }
+
   handleChangeVerification = value => {
     this.props.onChange({
       ...this.getAllFilters(),
@@ -105,7 +109,7 @@ class LedgerFilterDrawer extends React.Component {
               fat
               type="primary"
               label="Apply"
-              onClick={onApply}
+              onClick={this.handleApply}
               disabled={totalCountEstimating || !loaded}
             />
           </div>

@@ -1,7 +1,11 @@
 import { createAction } from 'redux-actions'
 import { createDeferredAction } from '@frankmoney/utils'
 
-export const load = createDeferredAction('ledger/load')
+export const load = createDeferredAction(
+  'ledger/load',
+  payload => payload || {}
+)
+export const update = createDeferredAction('ledger/update')
 export const searchTyping = createAction('ledger/search')
 
 export const filtersOpen = createAction('ledger/filters/open')

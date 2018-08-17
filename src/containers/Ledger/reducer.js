@@ -6,14 +6,13 @@ export const REDUCER_KEY = 'ledger'
 
 const defaultState = Immutable.fromJS({
   loading: true,
-  searchText: '',
   filtersEdit: {
     open: false,
     loaded: false,
     data: {},
   },
-  transactionsCount: 0,
-  transactions: [],
+  paymentsCount: 0,
+  payments: [],
 })
 
 const mergeFilters = (state, data) =>
@@ -21,15 +20,14 @@ const mergeFilters = (state, data) =>
 
 export default handleActions(
   {
-    [ACTIONS.load]: state => state.merge({ loading: true }),
-    [ACTIONS.load.success]: (
-      state,
-      { payload: { transactions, totalCount } }
-    ) =>
+    [ACTIONS.load]: (state, { payload: { updateListOnly } }) =>
+      state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
+    [ACTIONS.load.success]: (state, { payload: { payments, totalCount } }) =>
       state.merge({
         loading: false,
-        transactions: fromJS(transactions),
-        transactionsCount: totalCount,
+        updatingList: false,
+        payments: fromJS(payments),
+        paymentsCount: totalCount,
       }),
     [ACTIONS.load.error]: state => state.merge({ loading: false }),
     [ACTIONS.filtersOpen]: state => mergeFilters(state, { open: true }),
@@ -64,8 +62,6 @@ export default handleActions(
       }),
     [ACTIONS.filtersClose]: state => mergeFilters(state, { open: false }),
     [ACTIONS.leave]: () => defaultState,
-    [ACTIONS.searchTyping]: (state, { payload: text }) =>
-      state.set('searchText', text),
   },
   defaultState
 )

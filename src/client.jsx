@@ -13,6 +13,7 @@ const httpClient = createHttpClient({
   url: __API_URL,
   headers: {
     'X-CSRF-Token': csrfToken,
+    'X-Current-User': 'gabriel@frank.ly',
   },
 })
 
@@ -22,6 +23,7 @@ const graphqlClient = createGraphqlClient({
   mode: 'cors',
   headers: {
     'X-CSRF-Token': csrfToken,
+    'X-Current-User': 'gabriel@frank.ly',
   },
 })
 
