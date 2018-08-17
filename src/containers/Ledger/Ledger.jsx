@@ -1,13 +1,7 @@
 import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
-import {
-  compose,
-  branch,
-  renderNothing,
-  renderComponent,
-  lifecycle,
-} from 'recompose'
+import { compose, branch, renderComponent, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import {
@@ -20,44 +14,20 @@ import {
 } from '@frankmoney/components'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import HighlightTextProvider from 'components/HighlightText/HighlightTextProvider'
-import Pager from 'components/Pager'
 import CurrencyProvider from 'components/CurrencyProvider'
+import LedgerHighlightTextProvider from './LedgerHighlightTextProvider'
+import LedgerPager from './LedgerPager'
 import LedgerSearch from './LedgerSearch'
-import GraphOverviewCard from './GraphOverviewCard'
+import LedgerOverviewCard from './LedgerOverviewCard'
 import styles from './Ledger.jss'
 import LedgerTable from './LedgerTable'
 import {
   isLoadingSelector,
   listIsUpdatingSelector,
-  chartsVisibleSelector,
-  barChartDataSelector,
-  searchTextSelector,
-  pieChartDataSelector,
   hasNoResultsSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
-
-const ConnectedGraphOverviewCard = compose(
-  connect(state => ({
-    categoricalData: pieChartDataSelector(state),
-    dualData: barChartDataSelector(state),
-    visible: chartsVisibleSelector(state),
-  })),
-  branch(props => !props.visible, renderNothing)
-)(GraphOverviewCard)
-
-// нужно было создать враппер так ак React.Context.Provider почемуто не коннектится к редаксу напрямую
-const ContextProviderHackWrap = ({ value, children }) => (
-  <HighlightTextProvider value={value}>{children}</HighlightTextProvider>
-)
-const SearchHighlightTextProvider = connect(
-  state => ({
-    value: searchTextSelector(state),
-  }),
-  null
-)(ContextProviderHackWrap)
 
 const Ledger = ({
   classes,
@@ -85,37 +55,34 @@ const Ledger = ({
           </div>
         )}
         {!listIsUpdating && (
-          <ConnectedGraphOverviewCard className={classes.overviewCard} />
+          <LedgerOverviewCard className={classes.overviewCard} />
         )}
         {!listIsUpdating && (
-          <SearchHighlightTextProvider>
+          <LedgerHighlightTextProvider>
             <LedgerTable />
-          </SearchHighlightTextProvider>
+          </LedgerHighlightTextProvider>
         )}
-        {!listIsUpdating && (
-          <div className={classes.tablePagerWrap}>
-            <Pager
-              className={classes.tablePager}
-              current={5}
-              total={16}
-              onPageSelect={R.noop}
-            />
-          </div>
-        )}
-        {noResults && (
-          <div className={classes.emptyPlaceholder}>
-            <div className={classes.emptyPlaceholderLabel}>
-              No payments found
+        {!noResults &&
+          !listIsUpdating && (
+            <div className={classes.tablePagerWrap}>
+              <LedgerPager className={classes.tablePager} />
             </div>
-            <Button
-              className={classes.footerButton}
-              fat
-              type="secondary"
-              label="Reset"
-              onClick={() => resetSearch()}
-            />
-          </div>
-        )}
+          )}
+        {!listIsUpdating &&
+          noResults && (
+            <div className={classes.emptyPlaceholder}>
+              <div className={classes.emptyPlaceholderLabel}>
+                No payments found
+              </div>
+              <Button
+                className={classes.footerButton}
+                fat
+                type="secondary"
+                label="Reset"
+                onClick={() => resetSearch()}
+              />
+            </div>
+          )}
       </div>
     </div>
   </CurrencyProvider>

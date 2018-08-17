@@ -8,6 +8,7 @@ import {
   currentFiltersSelector,
   searchTextSelector,
   chartsVisibleSelector,
+  currentPageSelector,
 } from '../selectors'
 
 export default (action$, store, { graphql }) =>
@@ -17,6 +18,7 @@ export default (action$, store, { graphql }) =>
       () => {
         const state = store.getState()
         const search = searchTextSelector(state)
+        const page = currentPageSelector(state)
         const { amountMin, amountMax, verified } = currentFiltersSelector(state)
         const needLoadCharts = chartsVisibleSelector(state)
 
@@ -30,6 +32,7 @@ export default (action$, store, { graphql }) =>
           {
             accountId: currentAccountIdSelector(store.getState()),
             first: PAGE_SIZE,
+            skip: (page - 1) * PAGE_SIZE,
             search,
             amountMin,
             amountMax,

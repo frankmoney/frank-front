@@ -10,7 +10,8 @@ export default {
     `
     query(
       $accountId: ID!,
-      $first: Int!
+      $first: Int!,
+      $skip: Int,
       $search: String,
       $dateMin: DateTime,
       $dateMax: DateTime,
@@ -22,6 +23,7 @@ export default {
         `payments: ledgerPayments(
         accountId: $accountId,
         first: $first,
+        skip: $skip,
         search: $search,
         dateMin: $dateMin,
         dateMax: $dateMax,

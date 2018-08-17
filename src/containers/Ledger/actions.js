@@ -8,6 +8,7 @@ export const load = createDeferredAction(
 export const update = createDeferredAction('ledger/update')
 export const resetSearch = createDeferredAction('ledger/resetSearch')
 export const searchTyping = createAction('ledger/search')
+export const selectPage = createAction('ledger/select-page')
 
 export const filtersOpen = createAction('ledger/filters/open')
 export const filtersLoad = createDeferredAction('ledger/filters/load')

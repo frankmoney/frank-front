@@ -8,3 +8,8 @@ export const parseQueryStringBool = value => {
       return null
   }
 }
+
+export const parseQueryStringNumber = value => {
+  const number = parseInt(value, 10)
+  return isNaN(number) ? null : number
+}

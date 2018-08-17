@@ -4,8 +4,9 @@ import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
 import { isSameYear, format } from 'date-fns/fp'
 import { parseDate, formatMonth, parseMonth } from 'utils/dates'
+import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
-import { parseQueryStringBool } from './utils'
+import { parseQueryStringBool, parseQueryStringNumber } from './utils'
 
 const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
 const getFilters = (...prop) => get('filtersEdit', ...prop)
@@ -66,6 +67,11 @@ export const rowDataSelector = id =>
     R.find(x => x.id.toString() === id.toString())
   )
 
+export const totalPagesSelector = createSelector(
+  paymentsTotalCountSelector,
+  count => Math.ceil(count / PAGE_SIZE)
+)
+
 // Filters drawer
 
 export const isFiltersEstimatingResultsCountSelector = getFilters(
@@ -79,6 +85,11 @@ export const filtersEstimatedResultsCountSelector = getFilters('totalCount')
 
 // Filters
 
+export const currentPageSelector = createSelector(
+  queryParamSelector('page'),
+  page => parseQueryStringNumber(page) || 1
+)
+
 export const searchTextSelector = queryParamSelector('search')
 
 export const currentFiltersSelector = createSelector(
@@ -88,8 +99,8 @@ export const currentFiltersSelector = createSelector(
   queryParamSelector('dateMax'),
   queryParamSelector('verified'),
   (amountMin, amountMax, dateMin, dateMax, verified) => ({
-    amountMin: amountMin && parseInt(amountMin, 10),
-    amountMax: amountMax && parseInt(amountMax, 10),
+    amountMin: parseQueryStringNumber(amountMin),
+    amountMax: parseQueryStringNumber(amountMax),
     dateMin,
     dateMax,
     verified: parseQueryStringBool(verified),
