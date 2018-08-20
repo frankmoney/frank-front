@@ -76,7 +76,7 @@ const Login = ({
         className={classes.submit}
         fat
         type="primary"
-        label={hasProblem ? 'Let me in' : 'DEEP DIVE'}
+        label={hasProblem ? 'Let me in' : 'DEEP LOGIN'}
         onClick={handleSubmit}
         disabled={!email}
       />

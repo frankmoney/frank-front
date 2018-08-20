@@ -1,4 +1,4 @@
-import moment from 'moment'
+// import moment from 'moment'
 
 export const DOTS = '…'
 
@@ -54,6 +54,10 @@ export function getPages(current, start = 1, end, minRange = 4) {
   return rangeWithDots
 }
 
+export function getMonthPages(current, start, end, minRange) {
+  return null
+}
+
 /*
 1) список разбит на месяцы, пагинация идет по месяцам,
 2) если в текущем фильтре меньше 30 пейментов, пагинации нет,
@@ -65,90 +69,93 @@ export function getPages(current, start = 1, end, minRange = 4) {
 6) месяцы выводятся трехбуквенным сокращением, год — '99
 7) если какие-то месяцы не поместились в пагинатор (их больше пяти), выводятся контролы вперед-назад (кроме первого и последнего месяца)
 
-Jan '17 Feb Mar Apr
-Jan '17 Feb Mar Apr
-Dec '17 Jan '18 Feb Mar Apr
-Jan '17 Feb Mar ... Dec '18 >
-< Jan '17 ... Nov Dec '18
-< Jan '17 Feb Mar ... Dec '18 >
-< Jan '17 ... Jun July Aug ... Dec >
-< Jan '15 ... Jun '17 July Aug ... Dec '18 >
- */
-export function getMonthPages(current, start, end, minRange) {
-  const delta = 1
-  let left
-  let right
-  if (
-    moment(current).diff(start, 'months') < minRange - 1 &&
-    moment(current).diff(start, 'months') >= 0
-  ) {
-    left = start
-    right = moment
-      .min(moment(start).add(minRange - 1, 'month'), moment(end))
-      .toDate()
-  } else if (moment(end).diff(current, 'months') < minRange - 1) {
-    right = end
-    left = moment
-      .min(moment(current), moment(end).subtract(minRange - 2, 'months'))
-      .toDate()
-  } else {
-    left = moment(current)
-      .subtract(delta, 'month')
-      .toDate()
-    right = moment(current)
-      .add(delta + 1, 'month')
-      .toDate()
-  }
-  const range = []
-  const rangeWithDots = []
+// TODO uncomment when get rid from moment
 
-  // get numbers
-  for (
-    let i = start;
-    i <= end;
-    i = moment(i)
-      .add(1, 'month')
-      .toDate()
-  ) {
-    if (+i === +start || +i === +end || (i >= left && i < right)) {
-      range.push(i)
-    }
-  }
-
-  // add dots
-  let prev
-  for (const i of range) {
-    if (prev) {
-      if (moment(i).diff(prev, 'months') > 1) {
-        rangeWithDots.push(DOTS)
-      }
-    }
-    rangeWithDots.push(i)
-    prev = i
-  }
-
-  return rangeWithDots
-}
-
-export function formatMonthSequence(dates) {
-  const formatted = []
-  let lastDate
-  for (const date of dates) {
-    const idx = dates.indexOf(date)
-    if (date !== DOTS) {
-      if (
-        idx === 0 ||
-        (lastDate && date.getFullYear() !== lastDate.getFullYear())
-      ) {
-        formatted.push(moment(date).format("MMM 'YY"))
-      } else {
-        formatted.push(moment(date).format('MMM'))
-      }
-      lastDate = date
-    } else {
-      formatted.push(date)
-    }
-  }
-
-  return formatted
-}
+//
+// Jan '17 Feb Mar Apr
+// Jan '17 Feb Mar Apr
+// Dec '17 Jan '18 Feb Mar Apr
+// Jan '17 Feb Mar ... Dec '18 >
+// < Jan '17 ... Nov Dec '18
+// < Jan '17 Feb Mar ... Dec '18 >
+// < Jan '17 ... Jun July Aug ... Dec >
+// < Jan '15 ... Jun '17 July Aug ... Dec '18 >
+//  */
+// export function getMonthPages(current, start, end, minRange) {
+//   const delta = 1
+//   let left
+//   let right
+//   if (
+//     moment(current).diff(start, 'months') < minRange - 1 &&
+//     moment(current).diff(start, 'months') >= 0
+//   ) {
+//     left = start
+//     right = moment
+//       .min(moment(start).add(minRange - 1, 'month'), moment(end))
+//       .toDate()
+//   } else if (moment(end).diff(current, 'months') < minRange - 1) {
+//     right = end
+//     left = moment
+//       .min(moment(current), moment(end).subtract(minRange - 2, 'months'))
+//       .toDate()
+//   } else {
+//     left = moment(current)
+//       .subtract(delta, 'month')
+//       .toDate()
+//     right = moment(current)
+//       .add(delta + 1, 'month')
+//       .toDate()
+//   }
+//   const range = []
+//   const rangeWithDots = []
+//
+//   // get numbers
+//   for (
+//     let i = start;
+//     i <= end;
+//     i = moment(i)
+//       .add(1, 'month')
+//       .toDate()
+//   ) {
+//     if (+i === +start || +i === +end || (i >= left && i < right)) {
+//       range.push(i)
+//     }
+//   }
+//
+//   // add dots
+//   let prev
+//   for (const i of range) {
+//     if (prev) {
+//       if (moment(i).diff(prev, 'months') > 1) {
+//         rangeWithDots.push(DOTS)
+//       }
+//     }
+//     rangeWithDots.push(i)
+//     prev = i
+//   }
+//
+//   return rangeWithDots
+// }
+//
+// export function formatMonthSequence(dates) {
+//   const formatted = []
+//   let lastDate
+//   for (const date of dates) {
+//     const idx = dates.indexOf(date)
+//     if (date !== DOTS) {
+//       if (
+//         idx === 0 ||
+//         (lastDate && date.getFullYear() !== lastDate.getFullYear())
+//       ) {
+//         formatted.push(moment(date).format("MMM 'YY"))
+//       } else {
+//         formatted.push(moment(date).format('MMM'))
+//       }
+//       lastDate = date
+//     } else {
+//       formatted.push(date)
+//     }
+//   }
+//
+//   return formatted
+// }
