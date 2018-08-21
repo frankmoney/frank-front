@@ -1,8 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
-import { formatDateRange } from 'utils/dates'
+import { formatDateRange } from 'utils/datesLight'
 import { CURRENCY_INFO } from 'components/CurrencyProvider'
 import styles from './StoryPaymentsStats.jss'
 

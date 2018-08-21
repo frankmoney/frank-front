@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { Edit as EditIcon, Public as PublicIcon } from 'material-ui-icons'
 import { Button, LinkButton } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
-import { formatFullDate } from 'utils/dates'
+import { formatFullDate } from 'utils/datesLight'
 
 const styles = theme => ({
   container: {
