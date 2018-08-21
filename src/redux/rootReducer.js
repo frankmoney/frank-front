@@ -8,6 +8,12 @@ import directoryReducer, {
 import recipientReducer, {
   REDUCER_KEY as recipientKey,
 } from 'containers/Recipient/reducer'
+import storyPreviewReducer, {
+  REDUCER_KEY as storyPreviewKey,
+} from 'containers/StoryPreview/reducer'
+import storyEditReducer, {
+  REDUCER_KEY as storyEditKey,
+} from 'containers/StoryEdit/reducer'
 import teamReducer, { name as teamKey } from 'containers/Team/reducer'
 import teamEditRoleDrawerReducer, {
   name as teamEditRoleDrawerKey,
@@ -20,6 +26,8 @@ export default createReducer({
   [ledgerKey]: ledgerReducer,
   [directoryKey]: directoryReducer,
   [recipientKey]: recipientReducer,
+  [storyPreviewKey]: storyPreviewReducer,
+  [storyEditKey]: storyEditReducer,
   [teamKey]: teamReducer,
   [teamEditRoleDrawerKey]: teamEditRoleDrawerReducer,
   [teamInviteDrawerKey]: teamInviteDrawerReducer,

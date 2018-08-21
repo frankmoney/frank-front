@@ -13,6 +13,11 @@ export const ROUTES = {
   ledger: {
     root: '/ledger',
   },
+  stories: {
+    root: '/stories',
+    storyPreview: '/story/:id?',
+    storyNew: '/story/new',
+  },
   directory: {
     root: '/directory',
     recipient: '/directory/recipient',

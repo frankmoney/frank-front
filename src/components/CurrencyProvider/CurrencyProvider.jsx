@@ -1,7 +1,7 @@
 import React from 'react'
 import CurrencyContext from 'contexts/CurrencyContext'
 
-const CURRENCY_INFO = {
+export const CURRENCY_INFO = {
   USD: {
     code: 'USD',
     symbol: '$',

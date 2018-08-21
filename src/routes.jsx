@@ -9,6 +9,9 @@ import Layout from 'components/Layout'
 import Login from 'containers/Login'
 import Inbox from 'containers/Inbox'
 import Ledger from 'containers/Ledger'
+import Stories from 'containers/Stories'
+import StoryPreview from 'containers/StoryPreview'
+import StoryEdit from 'containers/StoryEdit'
 import Directory from 'containers/Directory'
 import Recipient from 'containers/Recipient'
 import Team from 'containers/Team'
@@ -30,6 +33,13 @@ const protectedRoute = compose(
   })),
   branch(props => !props.user, renderComponent(RedirectToLogin))
 )
+
+const ComposedStoryPreview = compose(
+  withLayout,
+  withProps(props => ({
+    storyId: props.match.params.id,
+  }))
+)(StoryPreview)
 
 export default [
   {
@@ -60,6 +70,21 @@ export default [
   {
     component: withLayout(protectedRoute(Recipient)),
     path: ROUTES.directory.recipient,
+    exact: true,
+  },
+  {
+    component: withLayout(Stories),
+    path: ROUTES.stories.root,
+    exact: true,
+  },
+  {
+    component: withLayout(StoryEdit),
+    path: ROUTES.stories.storyNew,
+    exact: true,
+  },
+  {
+    component: ComposedStoryPreview,
+    path: ROUTES.stories.storyPreview,
     exact: true,
   },
   {

@@ -37,6 +37,16 @@ export default withProps({
             primaryText="Team"
           />
           <SidebarMenuItem
+            href={createRouteUrl(ROUTES.stories.root)}
+            navLinkComponent={ReduxNavLink}
+            primaryText="Stories"
+          />
+          <SidebarMenuItem
+            href={createRouteUrl(ROUTES.stories.storyPreview)}
+            navLinkComponent={ReduxNavLink}
+            primaryText="Stories :: Preview Page"
+          />
+          <SidebarMenuItem
             href={createRouteUrl(ROUTES.directory.root)}
             navLinkComponent={ReduxNavLink}
             primaryText="Directory"

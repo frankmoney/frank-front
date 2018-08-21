@@ -42,6 +42,17 @@ export default {
       },
     },
   },
+  GiantButton: {
+    root: {
+      fontSize: 18,
+      fontWeight: 500,
+      color: '#fff',
+      backgroundColor: '#4C51F3',
+      '&:hover, &:active': {
+        backgroundColor: '#4C51F3',
+      },
+    },
+  },
   IconButton: {
     round: {
       color: colors.black,
@@ -53,6 +64,16 @@ export default {
       borderRadius: 8,
       boxShadow: '0 2px 10px rgba(0, 0, 0, 0.07)',
       padding: [30, 40],
+    },
+  },
+  PopupDialog: {
+    container: {
+      padding: [35, 40],
+    },
+  },
+  DialogTitle: {
+    title: {
+      fontWeight: 600,
     },
   },
 }

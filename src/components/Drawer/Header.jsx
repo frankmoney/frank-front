@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { compose, defaultProps } from 'recompose'
 import renderProp from 'utils/renderProp'
@@ -18,8 +19,8 @@ const styles = {
   },
 }
 
-const DrawerHeader = ({ classes, buttons, children }) => (
-  <div className={classes.root}>
+const DrawerHeader = ({ classes, className, buttons, children }) => (
+  <div className={cx(classes.root, className)}>
     <div className={classes.contents}>{children}</div>
     {buttons && <div className={classes.buttons}>{renderProp(buttons)}</div>}
   </div>
