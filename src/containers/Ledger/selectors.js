@@ -43,7 +43,7 @@ export const hasNoResultsSelector = createSelector(paymentsSelector, R.isEmpty)
 export const dataSourceSelector = createSelector(
   paymentsSelector,
   R.pipe(
-    R.groupBy(({ postedDate: date }) => formatMonth(date)),
+    R.groupBy(({ postedOn: date }) => formatMonth(date)),
     R.toPairs,
     R.map(
       R.converge((title, rows) => ({ title, rows }), [

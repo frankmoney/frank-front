@@ -32,7 +32,7 @@ export default {
         verified: $verified,
       ) {
         id
-        postedDate
+        postedOn
         amount
         peerName
         description
