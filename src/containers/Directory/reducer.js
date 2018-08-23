@@ -1,16 +1,29 @@
-import Immutable from 'immutable'
+import Immutable, { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
-import { searchTyping } from './actions'
-import DATA from './demo.json'
+import * as ACTIONS from './actions'
 
 export const REDUCER_KEY = 'directory'
 
+const defaultState = Immutable.fromJS({
+  loading: true,
+  updating: false,
+  loaded: false,
+  recipients: [],
+})
+
 export default handleActions(
   {
-    [searchTyping]: (store, { payload: text }) => store.set('searchText', text),
+    [ACTIONS.load]: (state, { payload: { update } }) =>
+      state.merge(update ? { updating: true } : { loading: true }),
+    [ACTIONS.load.success]: (state, { payload: { recipients } }) =>
+      state.merge({
+        loading: false,
+        updating: false,
+        loaded: true,
+        recipients: fromJS(recipients),
+      }),
+    [ACTIONS.load.error]: state => state.merge({ loading: false }),
+    [ACTIONS.leave]: () => defaultState,
   },
-  Immutable.fromJS({
-    searchText: '',
-    recipients: DATA.recipients,
-  })
+  defaultState
 )

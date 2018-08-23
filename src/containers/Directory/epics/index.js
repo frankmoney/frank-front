@@ -1,0 +1,5 @@
+export load from './load'
+export updateUrlWhenTypingSearch from './updateUrlWhenTypingSearch'
+export updateUrlWhenSelectPage from './updateUrlWhenSelectPage'
+export cleanUrlFiltersOnResetSearch from './cleanUrlFiltersOnResetSearch'
+export reloadResultsWhenUrlChange from './reloadResultsWhenUrlChange'

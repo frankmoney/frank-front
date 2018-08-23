@@ -34,8 +34,6 @@ export default (action$, store, { graphql }) =>
             first: PAGE_SIZE,
             skip: (page - 1) * PAGE_SIZE,
             search,
-            amountMin,
-            amountMax,
             verified,
           }
         )

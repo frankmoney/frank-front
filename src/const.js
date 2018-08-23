@@ -15,7 +15,7 @@ export const ROUTES = {
   },
   directory: {
     root: '/directory',
-    recipient: '/directory/recipient',
+    recipient: '/directory/:id?',
   },
   team: {
     root: '/team',

@@ -9,45 +9,37 @@ import CurrencyProvider from 'components/CurrencyProvider'
 import TextWithEditableToggle from 'components/TextWithEditableToggle'
 import styles from './RecipientCard.jss'
 
-const formatDate = date => format(date, 'MMM d, YYYY')
+const formatDate = date => format(date, 'MMM D, YYYY')
 
 const RecipientCard = ({
   classes,
   className,
   name,
-  paymentsCount,
+  paymentCount,
   lastPaymentDate,
-  currencyCode,
-  totalIncome,
-  totalSpending,
+  revenue,
+  spendings,
   categories,
 }) => (
   <Paper className={cx(classes.paper, className)}>
     <div className={classes.leftColumn}>
       <TextWithEditableToggle className={classes.name} value={name} />
       <div className={classes.stats}>
-        {totalSpending && (
+        {spendings !== 0 && (
           <div className={classes.statsColumn}>
             <div className={classes.statsLabel}>Spending</div>
-            <CurrencyProvider code={currencyCode}>
-              <CurrencyDelta
-                className={classes.totalSum}
-                value={totalSpending}
-              />
-            </CurrencyProvider>
+            <CurrencyDelta className={classes.totalSum} value={spendings} />
           </div>
         )}
-        {totalIncome && (
+        {revenue !== 0 && (
           <div className={classes.statsColumn}>
             <div className={classes.statsLabel}>Income</div>
-            <CurrencyProvider code={currencyCode}>
-              <CurrencyDelta className={classes.totalSum} value={totalIncome} />
-            </CurrencyProvider>
+            <CurrencyDelta className={classes.totalSum} value={revenue} />
           </div>
         )}
         <div className={classes.statsColumn}>
           <div className={classes.statsLabel}>Payments</div>
-          {paymentsCount}
+          {paymentCount}
         </div>
       </div>
     </div>

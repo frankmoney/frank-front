@@ -5,8 +5,8 @@ import { injectStyles } from '@frankmoney/ui'
 import { Table } from '@frankmoney/components'
 import RecipientRow from 'components/RecipientRow'
 import {
-  recipientsDataSourceSelector,
-  recipientsRowDataSelector,
+  dataSourceSelector,
+  rowDataSelector,
   searchTextSelector,
 } from '../selectors'
 
@@ -48,8 +48,8 @@ const tableProps = props => ({
   noClickAway: true,
   tableHeaderClassName: props.classes.tableHeaderClassName,
   tableGroupSectionClassName: props.classes.tableCorners,
-  dataSourceSelector: recipientsDataSourceSelector,
-  rowDataSelector: recipientsRowDataSelector,
+  dataSourceSelector,
+  rowDataSelector,
 })
 
 export default compose(

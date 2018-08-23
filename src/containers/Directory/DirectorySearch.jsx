@@ -3,7 +3,7 @@ import SearchCard from 'components/SearchCard'
 import * as ACTIONS from './actions'
 import { searchTextSelector } from './selectors'
 
-const LedgerSearch = connect(
+const DirectorySearch = connect(
   state => ({
     value: searchTextSelector(state),
   }),
@@ -14,4 +14,4 @@ const LedgerSearch = connect(
   })
 )(SearchCard)
 
-export default LedgerSearch
+export default DirectorySearch
