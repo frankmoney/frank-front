@@ -12,6 +12,7 @@ import limitCategories, {
 import OtherCategories from './OtherCategories'
 
 const styles = theme => ({
+  item: {},
   tooltipItem: {
     display: 'flex',
     '&:not(:first-child)': {
@@ -48,6 +49,7 @@ const CategoryList = ({
   nameClassName,
   onLabelMouseEnter,
   onLabelMouseLeave,
+  onLabelClick,
   tooltipIconClassName,
   tooltipItemClassName,
   tooltipNameClassName,
@@ -64,6 +66,7 @@ const CategoryList = ({
       nameClassName,
       valueClassName,
       valueUnit,
+      onClick: onLabelClick && (() => onLabelClick(otherProps.id)),
       onMouseEnter: onLabelMouseEnter && (() => onLabelMouseEnter(key)),
       onMouseLeave: onLabelMouseLeave && (() => onLabelMouseLeave(key)),
       ...otherProps,

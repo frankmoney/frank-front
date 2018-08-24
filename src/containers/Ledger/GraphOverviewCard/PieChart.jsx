@@ -34,7 +34,7 @@ class PieChart extends React.PureComponent {
   handleMouseOut = () => this.setState({ activeKey: null })
 
   render() {
-    const { classes, className, categories } = this.props
+    const { classes, className, categories, onCategoryClick } = this.props
 
     const { categoryType } = this.state
 
@@ -89,6 +89,7 @@ class PieChart extends React.PureComponent {
           nameClassName={classes.legendItemName}
           onLabelMouseEnter={this.handleMouseOver}
           onLabelMouseLeave={this.handleMouseOut}
+          onLabelClick={onCategoryClick}
           tooltip
           valueClassName={classes.legendItemValue}
           valueUnit="%"

@@ -9,42 +9,42 @@ import {
   searchTextSelector,
   chartsVisibleSelector,
   currentPageSelector,
+  categoriesSelector,
+  currentCategoryIdSelector,
 } from '../selectors'
 
 export default (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.load)
-    .switchMap(
-      () => {
-        const state = store.getState()
-        const search = searchTextSelector(state)
-        const page = currentPageSelector(state)
-        const { amountMin, amountMax, verified } = currentFiltersSelector(state)
-        const needLoadCharts = chartsVisibleSelector(state)
+    .switchMap(() => {
+      const state = store.getState()
+      const search = searchTextSelector(state)
+      const page = currentPageSelector(state)
+      const categories = categoriesSelector(state)
+      const categoriesLoaded = categories.length > 0
+      const { amountMin, amountMax, verified } = currentFiltersSelector(state)
+      const categoryId = currentCategoryIdSelector(state)
+      const needLoadCharts = chartsVisibleSelector(state)
 
-        return graphql(
-          QUERIES.getPaymentsAndTotalCount({
-            payments: true,
-            totalCount: true,
-            barChart: needLoadCharts,
-            pieChart: needLoadCharts,
-          }),
-          {
-            accountId: currentAccountIdSelector(store.getState()),
-            first: PAGE_SIZE,
-            skip: (page - 1) * PAGE_SIZE,
-            search,
-            amountMin,
-            amountMax,
-            verified,
-          }
-        )
-      }
-
-      // Promise.resolve({
-      //   payments: [],
-      //   totalCount: 0,
-      // })
-    )
+      return graphql(
+        QUERIES.getPaymentsAndTotalCount({
+          payments: true,
+          totalCount: true,
+          barChart: needLoadCharts,
+          pieChart: needLoadCharts,
+          categories: !categoriesLoaded,
+        }),
+        {
+          accountId: currentAccountIdSelector(store.getState()),
+          categoryId,
+          first: PAGE_SIZE,
+          skip: (page - 1) * PAGE_SIZE,
+          search,
+          amountMin,
+          amountMax,
+          verified,
+        }
+      )
+    })
     .map(R.evolve({ payments: R.map(mapPayment) }))
     .map(ACTIONS.load.success)

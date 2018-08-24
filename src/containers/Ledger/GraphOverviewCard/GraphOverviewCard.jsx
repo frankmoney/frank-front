@@ -18,7 +18,14 @@ class GraphOverviewCard extends React.PureComponent {
   }
 
   render() {
-    const { classes, className, categoricalData, dualData } = this.props
+    const {
+      classes,
+      className,
+      pieData,
+      onCategoryClick,
+      barsData,
+      barsOnly,
+    } = this.props
 
     const { expanded } = this.state
 
@@ -31,15 +38,21 @@ class GraphOverviewCard extends React.PureComponent {
         )}
       >
         <Title className={classes.header}>All time</Title>
-        <PieChart categories={categoricalData} />
-        <ExpandRow
-          className={classes.bottomRow}
-          expanded={expanded}
-          title="Timeline"
-          onToggle={this.handleToggleExpand}
-        >
-          <BarChart className={classes.barChart} data={dualData} />
-        </ExpandRow>
+        {barsOnly ? (
+          <BarChart className={classes.barChart} data={barsData} />
+        ) : (
+          <>
+            <PieChart onCategoryClick={onCategoryClick} categories={pieData} />
+            <ExpandRow
+              className={classes.bottomRow}
+              expanded={expanded}
+              title="Timeline"
+              onToggle={this.handleToggleExpand}
+            >
+              <BarChart className={classes.barChart} data={barsData} />
+            </ExpandRow>
+          </>
+        )}
       </Paper>
     )
   }
