@@ -2,11 +2,13 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
-import BarChart from './BarChart'
+import BarChart from 'containers/BarChart'
+import PieChart from 'containers/PieChart'
 import ExpandRow from './ExpandRow'
-import PieChart from './PieChart'
 import Title from './Title'
 import styles from './GraphOverviewCard.jss'
+
+const period = 'All time'
 
 class GraphOverviewCard extends React.PureComponent {
   state = {
@@ -30,8 +32,14 @@ class GraphOverviewCard extends React.PureComponent {
           className
         )}
       >
-        <Title className={classes.header}>All time</Title>
-        <PieChart categories={categoricalData} />
+        <Title className={classes.header}>{period}</Title>
+        <PieChart
+          categories={categoricalData}
+          chartClassName={classes.chart}
+          hidePeriod
+          legendClassName={classes.legend}
+          period={period}
+        />
         <ExpandRow
           className={classes.bottomRow}
           expanded={expanded}

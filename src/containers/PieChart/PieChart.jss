@@ -1,35 +1,44 @@
 export default theme => ({
   root: {
     display: 'flex',
-    alignItems: 'center',
-    padding: [0, 30],
     position: 'relative',
+    width: '100%',
+    height: '100%',
+    padding: 0,
+    alignItems: 'center',
   },
-  switcherRoot: {
+  hiddenPeriod: {
+    paddingTop: 0,
+  },
+  periodSelect: {
     position: 'absolute',
-    top: 0,
-    width: 350,
+    top: 4,
+    left: 2,
+  },
+  footer: {
+    position: 'absolute',
+    width: '100%',
+    bottom: 0,
+  },
+  chartContainer: {
+    height: ({ chartSize }) => chartSize,
+    position: 'relative',
+    width: ({ chartSize }) => chartSize,
   },
   switcher: {
-    ...theme.fontRegular(18, 22),
-    alignItems: 'center',
     left: '50%',
+    maxWidth: ({ chartSize }) => chartSize - 30 * 2,
     position: 'absolute',
-    top: 166,
-    transform: 'translateX(-50%)',
-    whiteSpace: 'nowrap',
-  },
-  input: {
-    ...theme.fontMedium(18, 22),
-    margin: 0,
-    padding: [0, 18, 0, 0],
-    minHeight: 'auto',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '100%',
   },
   legend: {
-    margin: [-4, 0, 0, 60],
     cursor: 'default',
   },
   legendItem: {
+    display: 'flex',
+    alignItems: 'center',
     '&:not(:first-child)': {
       marginTop: 10,
     },

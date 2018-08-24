@@ -13,6 +13,7 @@ import OtherCategories from './OtherCategories'
 
 const styles = theme => ({
   tooltipItem: {
+    alignItems: 'center',
     display: 'flex',
     '&:not(:first-child)': {
       marginTop: 12,

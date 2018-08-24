@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 
-const DEFAULT_LIMIT = 5
+export const DEFAULT_LIMIT = 5
 const VALUE_PROP = 'value'
 const OTHER_TEMPLATE = {
   name: 'Other categories',
