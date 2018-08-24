@@ -12,5 +12,6 @@ export default action$ =>
         dateMin: dateLimit && dateLimit.from && formatDate(dateLimit.from),
         dateMax: dateLimit && dateLimit.to && formatDate(dateLimit.to),
         verified,
+        page: null,
       })
     )

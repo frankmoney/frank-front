@@ -4,4 +4,4 @@ import * as ACTIONS from '../actions'
 export default action$ =>
   action$
     .ofType(ACTIONS.cancelCategory)
-    .map(() => mergeQuery({ category: null }))
+    .map(() => mergeQuery({ category: null, page: null }))

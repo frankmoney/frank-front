@@ -4,4 +4,4 @@ import * as ACTIONS from '../actions'
 export default action$ =>
   action$
     .ofType(ACTIONS.searchTyping)
-    .map(({ payload: search }) => mergeQuery({ search }, true))
+    .map(({ payload: search }) => mergeQuery({ search, page: null }, true))
