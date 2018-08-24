@@ -1,4 +1,5 @@
 import { mergeQuery } from '@frankmoney/webapp'
+import { formatDate } from 'utils/dates'
 import * as ACTIONS from '../actions'
 
 export default action$ =>
@@ -8,8 +9,8 @@ export default action$ =>
       mergeQuery({
         amountMin: sumLimit && sumLimit.min,
         amountMax: sumLimit && sumLimit.max,
-        dateMin: dateLimit && dateLimit.min,
-        dateMax: dateLimit && dateLimit.max,
+        dateMin: dateLimit && dateLimit.from && formatDate(dateLimit.from),
+        dateMax: dateLimit && dateLimit.to && formatDate(dateLimit.to),
         verified,
       })
     )

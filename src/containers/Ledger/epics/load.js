@@ -22,7 +22,13 @@ export default (action$, store, { graphql }) =>
       const page = currentPageSelector(state)
       const categories = categoriesSelector(state)
       const categoriesLoaded = categories.length > 0
-      const { amountMin, amountMax, verified } = currentFiltersSelector(state)
+      const {
+        amountMin,
+        amountMax,
+        dateMin,
+        dateMax,
+        verified,
+      } = currentFiltersSelector(state)
       const categoryId = currentCategoryIdSelector(state)
       const needLoadCharts = chartsVisibleSelector(state)
 
@@ -42,6 +48,8 @@ export default (action$, store, { graphql }) =>
           search,
           amountMin,
           amountMax,
+          dateMin,
+          dateMax,
           verified,
         }
       )

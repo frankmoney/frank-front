@@ -117,8 +117,8 @@ export const currentFiltersSelector = createSelector(
   (amountMin, amountMax, dateMin, dateMax, verified) => ({
     amountMin: parseQueryStringNumber(amountMin),
     amountMax: parseQueryStringNumber(amountMax),
-    dateMin,
-    dateMax,
+    dateMin: dateMin ? parseDate(dateMin) : null,
+    dateMax: dateMax ? parseDate(dateMax) : null,
     verified: parseQueryStringBool(verified),
   })
 )
