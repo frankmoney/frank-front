@@ -1,12 +1,12 @@
 import React from 'react'
-import { Redirect } from "react-router-dom";
+import { Redirect } from 'react-router-dom'
 import { compose, withProps } from 'recompose'
 import Helmet from 'react-helmet'
 import { BASE_TITLE, ROUTES } from 'const'
 import CommentsDemo from 'containers/Comments/CommentsDemo'
 import ComponentsDemo from 'containers/ComponentsDemo'
 import DrawerDemo from 'containers/DrawerDemo'
-import ChartDemo from '../components/Charts/Demo'
+import WidgetDemo from 'containers/Widget/Demo'
 import DemoLayout from './DemoLayout'
 
 const withDemoLayout = Component => props => (
@@ -70,8 +70,8 @@ export default [
     exact: true,
   },
   {
-    component: withDemoLayout(ChartDemo),
-    path: ROUTES.demo.charts,
+    component: withDemoLayout(WidgetDemo),
+    path: ROUTES.demo.widgets,
     exact: true,
   },
 ]

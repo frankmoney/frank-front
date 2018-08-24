@@ -4,14 +4,14 @@ import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
+import { categoricalDataShape } from 'components/Charts/shapes'
+import PieChart from 'containers/PieChart'
+import { name } from '../reducer'
 import {
   categoricalDataSelector,
   dualDataSelector,
   entriesCountSelector,
-} from 'components/Charts/selectors'
-import { categoricalDataShape } from 'components/Charts/shapes'
-import PieChart from 'containers/PieChart'
-import { name } from '../reducer'
+} from '../selectors'
 import Footer from './Footer'
 import LegendOnly from './LegendOnly'
 
