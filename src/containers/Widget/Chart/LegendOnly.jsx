@@ -73,10 +73,10 @@ const LegendOnly = ({ classes, className, data, entriesCount, period }) => {
   // TODO: support less than 4 items (align legend to top)
   return (
     <PieChart
-      categories={data}
       categoryLimit={999}
       chartClassName={classes.switcherContainer}
       className={cx(classes.root, className)}
+      data={data}
       entriesCount={entriesCount}
       footer={ShortFooter}
       hideChart

@@ -52,7 +52,7 @@ export const categoryProps = {
   value: PropTypes.number,
 }
 
-export const categoryShape = PropTypes.shape(categoryProps)
+const categoryShape = PropTypes.shape(categoryProps)
 
 export const limitedCategoriesProps = {
   items: PropTypes.arrayOf(categoryShape),

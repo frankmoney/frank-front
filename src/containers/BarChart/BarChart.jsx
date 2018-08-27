@@ -6,7 +6,7 @@ import Bar, {
   POSITIVE_BAR_COLOR,
   PRIMARY_BAR_COLOR,
 } from 'components/Charts/Bar'
-import { dualDataShape } from 'components/Charts/shapes'
+import { barChartDataShape } from 'components/Charts/shapes'
 import Checkbox from 'components/Checkbox'
 
 const MAX_ZEROES_TO_HIDE = 0.5
@@ -111,7 +111,7 @@ class BarChart extends React.PureComponent {
 }
 
 BarChart.propTypes = {
-  data: PropTypes.arrayOf(dualDataShape),
+  data: PropTypes.arrayOf(barChartDataShape),
 }
 
 export default injectStyles(styles)(BarChart)

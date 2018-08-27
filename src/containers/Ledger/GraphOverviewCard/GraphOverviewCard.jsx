@@ -34,8 +34,8 @@ class GraphOverviewCard extends React.PureComponent {
       >
         <Title className={classes.header}>{period}</Title>
         <PieChart
-          categories={pieChartData}
           chartClassName={classes.chart}
+          data={pieChartData}
           hidePeriod
           legendClassName={classes.legend}
           period={period}

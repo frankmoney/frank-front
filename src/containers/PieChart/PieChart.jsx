@@ -3,7 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { categoricalDataShape } from 'components/Charts/shapes'
+import { pieChartDataShape } from 'components/Charts/shapes'
 import CategoryList from 'components/CategoryList'
 import DropdownSwitcher from 'components/DropdownSwitcher'
 import Pie from 'components/Charts/Pie'
@@ -36,12 +36,12 @@ class PieChart extends React.PureComponent {
 
   render() {
     const {
-      categories,
       categoryLimit,
       chartClassName,
       chartSize,
       classes,
       className,
+      data,
       entriesCount,
       footer: Footer,
       footerClassName,
@@ -59,13 +59,14 @@ class PieChart extends React.PureComponent {
 
     const { categoryType, period } = this.state
 
-    const data = categories[categoryType]
-    const categoryCount = R.length(data)
-    let limitedCategories = limitCategoriesTo(categoryLimit)(data)
-    const { items, other, tooltipItems } = limitedCategories
-    limitedCategories = {
+    const categories = data[categoryType]
+    const categoryCount = R.length(categories)
+    const { items, other, tooltipItems } = limitCategoriesTo(categoryLimit)(
+      categories
+    )
+    const limitedCategories = {
       items: R.map(roundValues, items),
-      other: roundValues(other),
+      other: other && roundValues(other),
       tooltipItems: R.map(roundValues, tooltipItems),
     }
     const pieData = other ? R.append(other, items) : items
@@ -132,10 +133,14 @@ class PieChart extends React.PureComponent {
   }
 }
 
+export const dataPropShape = PropTypes.objectOf(
+  PropTypes.arrayOf(pieChartDataShape)
+)
+
 PieChart.propTypes = {
-  categories: PropTypes.arrayOf(categoricalDataShape),
   categoryLimit: PropTypes.number.isRequired,
   chartSize: PropTypes.number.isRequired,
+  data: dataPropShape,
   entriesCount: PropTypes.number.isRequired,
   footer: PropTypes.element,
   hideChart: PropTypes.bool,

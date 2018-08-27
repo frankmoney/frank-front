@@ -4,14 +4,8 @@ import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { categoricalDataShape } from 'components/Charts/shapes'
-import PieChart from 'containers/PieChart'
-import { name } from '../reducer'
-import {
-  categoricalDataSelector,
-  dualDataSelector,
-  entriesCountSelector,
-} from '../selectors'
+import PieChart, { dataPropShape } from 'containers/PieChart'
+import { entriesCountSelector, pieChartDataSelector } from '../selectors'
 import Footer from './Footer'
 import LegendOnly from './LegendOnly'
 
@@ -66,19 +60,13 @@ const styles = theme => ({
   },
 })
 
-const ActualChart = ({
-  categoricalData,
-  classes,
-  entriesCount,
-  period,
-  size,
-}) => {
+const ActualChart = ({ classes, entriesCount, period, pieChartData, size }) => {
   const switcherLabel = size < 800 ? '% of' : '% of total'
   return (
     <PieChart
-      categories={categoricalData}
       chartClassName={classes.chart}
       chartSize={pieSize(size)}
+      data={pieChartData}
       entriesCount={entriesCount}
       footer={Footer}
       hideChart={size === 400}
@@ -98,21 +86,20 @@ const Chart = ({ size, ...props }) => {
   if (size > 400) {
     return <ActualChart size={size} {...props} />
   }
-  const { categoricalData, classes, ...otherProps } = props
-  return <LegendOnly data={categoricalData} {...otherProps} />
+  const { pieChartData, classes, ...otherProps } = props
+  return <LegendOnly data={pieChartData} {...otherProps} />
 }
 
 Chart.propTypes = {
-  categoricalData: PropTypes.arrayOf(categoricalDataShape),
   period: PropTypes.string,
+  pieChartData: dataPropShape,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
 }
 
 export default compose(
   connect(state => ({
-    categoricalData: categoricalDataSelector(name)(state),
-    dualData: dualDataSelector(name)(state),
-    entriesCount: entriesCountSelector(name)(state),
+    entriesCount: entriesCountSelector(state),
+    pieChartData: pieChartDataSelector(state),
   })),
   injectStyles(styles)
 )(Chart)
