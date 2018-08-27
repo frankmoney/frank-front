@@ -9,8 +9,8 @@ import {
 
 export default compose(
   connect(state => ({
-    categoricalData: pieChartDataSelector(state),
-    dualData: barChartDataSelector(state),
+    barChartData: barChartDataSelector(state),
+    pieChartData: pieChartDataSelector(state),
     visible: chartsVisibleSelector(state),
   })),
   branch(props => !props.visible, renderNothing)
