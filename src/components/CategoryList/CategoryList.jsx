@@ -60,11 +60,12 @@ const CategoryList = ({
       activeClassName: activeLabelClassName,
       className: cx(classes.item, itemClassName),
       iconClassName,
+      key,
       nameClassName,
-      valueClassName,
-      valueUnit,
       onMouseEnter: onLabelMouseEnter && (() => onLabelMouseEnter(key)),
       onMouseLeave: onLabelMouseLeave && (() => onLabelMouseLeave(key)),
+      valueClassName,
+      valueUnit,
       ...otherProps,
     })
 

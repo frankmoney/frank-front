@@ -24,7 +24,14 @@ const Header = ({
   liveClassName,
 }) => (
   <div className={cx(classes.root, className)}>
-    {R.map(item => renderProp(item, { className: itemClassName }), children)}
+    {R.map(
+      item =>
+        renderProp(item, {
+          className: itemClassName,
+          key: item.props.name,
+        }),
+      children
+    )}
     <LiveIndicator className={cx(classes.live, liveClassName)} />
   </div>
 )

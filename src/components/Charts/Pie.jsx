@@ -26,10 +26,12 @@ const styles = {
   },
 }
 
-const PieSlice = ({ color = DEFAULT_COLOR }) => <Cell fill={color} />
+const PieSlice = ({ color = DEFAULT_COLOR, key }) => (
+  <Cell fill={color} key={key} />
+)
 
-const FatPieSlice = ({ color = DEFAULT_COLOR, active }) => (
-  <Cell fill={active ? color : 'none'} />
+const FatPieSlice = ({ color = DEFAULT_COLOR, active, key }) => (
+  <Cell fill={active ? color : 'none'} key={key} />
 )
 
 const injectActive = current => item =>

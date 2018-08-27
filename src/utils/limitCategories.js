@@ -25,7 +25,7 @@ const doLimit = (otherTemplate, valueProp, maxEntries) =>
       return {
         items: R.init(allItems),
         other: R.last(allItems),
-        tooltipItems: rest,
+        tooltipItems: injectKey(rest),
       }
     }
   )

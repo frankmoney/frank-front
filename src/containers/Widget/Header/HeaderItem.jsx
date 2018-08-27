@@ -21,8 +21,8 @@ const styles = theme => ({
   },
 })
 
-const HeaderItem = ({ active, classes, className, name, onClick }) => {
-  const props = active
+const HeaderItem = ({ active, classes, className, name, onClick, key }) => {
+  const stateProps = active
     ? {}
     : {
         onClick,
@@ -32,7 +32,8 @@ const HeaderItem = ({ active, classes, className, name, onClick }) => {
   return (
     <div
       className={cx(classes.item, { [classes.active]: active }, className)}
-      {...props}
+      key={key}
+      {...stateProps}
     >
       {name}
     </div>
