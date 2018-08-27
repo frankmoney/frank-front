@@ -11,13 +11,15 @@ export default (action$, store, { graphql }) =>
       () => {
         const state = store.getState()
         const search = searchTextSelector(state)
-        const { sumLimit, verified } = filtersDataSelector(state)
+        const { sumLimit, dateLimit, verified } = filtersDataSelector(state)
 
         return graphql(QUERIES.getOnlyTotalCount, {
           accountId: currentAccountIdSelector(store.getState()),
           search,
           amountMin: sumLimit && sumLimit.min,
           amountMax: sumLimit && sumLimit.max,
+          dateMin: dateLimit && dateLimit.from,
+          dateMax: dateLimit && dateLimit.to,
           verified,
         })
       }

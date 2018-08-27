@@ -8,7 +8,6 @@ export default (action$, store) =>
     // TODO no hardcode. Epic should occurs only on Ledger page!
     .filter(({ payload: { pathname } }) => pathname === '/ledger')
     .filter(() => loadedSelector(store.getState()))
-    .debounceTime(777)
     .mergeMap(() => [
       ACTIONS.filtersClose(),
       ACTIONS.load({ updateListOnly: true }),

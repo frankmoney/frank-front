@@ -3,6 +3,7 @@ const CARD_PADDING = 30
 export default {
   root: {
     padding: [30, CARD_PADDING, 0],
+    paddingBottom: props => (props.barsOnly ? 30 : 0),
   },
   header: {
     marginBottom: 39,

@@ -64,6 +64,7 @@ class LedgerFilterDrawer extends React.Component {
       totalCountEstimating,
       ...drawerProps
     } = this.props
+
     return (
       <Drawer {...drawerProps}>
         <Drawer.Header>
@@ -72,7 +73,8 @@ class LedgerFilterDrawer extends React.Component {
         <Drawer.Body>
           {loaded && (
             <DateRangeField
-              value={dateLimit}
+              from={dateLimit.from}
+              to={dateLimit.to}
               onChange={this.handleChangeDateRange}
             />
           )}

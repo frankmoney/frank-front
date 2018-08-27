@@ -33,14 +33,15 @@ const styles = theme => ({
     marginRight: 15,
   },
   counter: {
-    borderRadius: '50%',
-    backgroundColor: '#484DE7',
-    height: 25,
-    width: 25,
-    marginLeft: 20,
-    textAlign: 'center',
     ...theme.fontMedium(14, 26, 0),
+    backgroundColor: '#484DE7',
+    borderRadius: 13,
     color: '#fff',
+    height: 25,
+    marginLeft: 20,
+    minWidth: 25,
+    padding: [0, 8],
+    textAlign: 'center',
   },
 })
 

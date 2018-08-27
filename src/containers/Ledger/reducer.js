@@ -12,6 +12,7 @@ const defaultState = Immutable.fromJS({
     loaded: false,
     data: {},
   },
+  categories: [],
   barsData: [],
   pieData: [],
   paymentsCount: 0,
@@ -27,12 +28,13 @@ export default handleActions(
       state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
     [ACTIONS.load.success]: (
       state,
-      { payload: { payments, totalCount, pieChart, barChart } }
+      { payload: { payments, categories, totalCount, pieChart, barChart } }
     ) =>
       state.merge({
         loading: false,
         loaded: true,
         updatingList: false,
+        categories: categories ? fromJS(categories) : state.get('categories'),
         payments: fromJS(payments),
         barsData: fromJS(barChart || []),
         pieData: fromJS(pieChart || []),

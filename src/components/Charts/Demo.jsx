@@ -71,7 +71,7 @@ const singularData = [
   { name: 'Oct', value: 60 },
 ]
 
-const dualData = [
+const barsData = [
   { name: 'Jan', value: 39, negativeValue: 67 },
   { name: 'Feb', value: 49, negativeValue: 84 },
   { name: 'Mar', value: 0, negativeValue: 67 },
@@ -156,7 +156,7 @@ const ChartsDemo = ({ classes }) => (
 
     <DemoCard>
       <Title>Double BarChart</Title>
-      <BarChart dual data={dualData} />
+      <BarChart dual data={barsData} />
     </DemoCard>
 
     <DemoCard>

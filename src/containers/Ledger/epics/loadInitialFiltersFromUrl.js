@@ -17,7 +17,7 @@ export default (action$, store) =>
           min: amountMin || -80000,
           max: amountMax || 40000,
         },
-        dateLimit: 'all',
+        dateLimit: { from: dateMin, to: dateMax },
         verified,
       },
       totalCount,
