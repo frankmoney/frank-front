@@ -5,7 +5,6 @@ import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
 import CategoryList from 'components/CategoryList'
 import CurrencyDelta from 'components/CurrencyDelta'
-import CurrencyProvider from 'components/CurrencyProvider'
 import TextWithEditableToggle from 'components/TextWithEditableToggle'
 import styles from './RecipientCard.jss'
 
@@ -20,10 +19,15 @@ const RecipientCard = ({
   revenue,
   spendings,
   categories,
+  onEditName,
 }) => (
   <Paper className={cx(classes.paper, className)}>
     <div className={classes.leftColumn}>
-      <TextWithEditableToggle className={classes.name} value={name} />
+      <TextWithEditableToggle
+        className={classes.name}
+        value={name}
+        onChange={onEditName}
+      />
       <div className={classes.stats}>
         {spendings !== 0 && (
           <div className={classes.statsColumn}>

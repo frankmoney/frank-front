@@ -1,19 +1,14 @@
 export default {
   getDirectoryRecipients: [
     `
-    query(
-      $accountId: ID!,
-      $search: String,
-      $first: Int!,
-      $skip: Int,
-    ) {
+    query($accountId: ID!, $search: String, $first: Int!, $skip: Int) {
       recipients: directoryPeers(
-        accountId: $accountId,
-        first: $first,
-        skip: $skip,
-        search: $search,
-        donors: true,
-        recipients: true,
+        accountId: $accountId
+        first: $first
+        skip: $skip
+        search: $search
+        donors: true
+        recipients: true
       ) {
         id
         name
@@ -28,10 +23,19 @@ export default {
         paymentCount
         lastPaymentDate
       }
+      totalCount: directoryPeersCount(
+        accountId: $accountId
+        search: $search
+        donors: true
+        recipients: true
+      ) {
+        count
+      }
     }
     `,
-    ({ recipients }) => ({
+    ({ recipients, totalCount }) => ({
       recipients,
+      totalCount: totalCount && totalCount.count,
     }),
   ],
 }

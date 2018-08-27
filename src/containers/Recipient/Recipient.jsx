@@ -8,25 +8,32 @@ import { createStructuredSelector } from 'reselect'
 import { injectStyles } from '@frankmoney/ui'
 import {
   FixedHeader,
-  Breadcrumbs,
-  BreadcrumbsItem,
   Spinner,
   PageLoader,
+  BreadcrumbsItem,
 } from '@frankmoney/components'
-import RecipientCard from 'components/RecipientCard'
+import Breadcrumbs from 'components/Breadcrumbs'
 import {
   recipientSelector,
   isLoadingSelector,
   listIsUpdatingSelector,
+  paymentCountSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 import RecipientTable from './RecipientTable'
 import RecipientPager from './RecipientPager'
+import RecipientCard from './RecipientCard'
 import styles from './Recipient.jss'
 
 class Recipient extends React.PureComponent {
   render() {
-    const { classes, className, recipient, listIsUpdating } = this.props
+    const {
+      classes,
+      className,
+      recipient,
+      paymentCount,
+      listIsUpdating,
+    } = this.props
 
     return (
       <div className={cx(classes.root, className)}>
@@ -37,7 +44,11 @@ class Recipient extends React.PureComponent {
           </Breadcrumbs>
         </FixedHeader>
         <div className={classes.container}>
-          <RecipientCard className={classes.recipientCard} {...recipient} />
+          <RecipientCard
+            className={classes.recipientCard}
+            {...recipient}
+            paymentCount={paymentCount}
+          />
 
           {listIsUpdating && (
             <div className={classes.listLoaderWrap}>
@@ -60,6 +71,7 @@ const mapStateToProps = createStructuredSelector({
   loading: isLoadingSelector,
   listIsUpdating: listIsUpdatingSelector,
   recipient: recipientSelector,
+  paymentCount: paymentCountSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [

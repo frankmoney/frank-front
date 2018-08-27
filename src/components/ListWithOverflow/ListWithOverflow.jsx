@@ -34,6 +34,7 @@ const List = ({
         </div>
       ) : (
         <Component
+          key={component.id}
           className={classes.listItem}
           onClick={onComponentClick}
           {...component}

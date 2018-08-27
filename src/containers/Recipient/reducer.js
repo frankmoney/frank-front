@@ -7,9 +7,11 @@ export const REDUCER_KEY = 'recipient'
 const defaultState = Immutable.fromJS({
   loading: true,
   loaded: false,
+  updatingList: false,
+  updatingRecipient: false,
   recipient: null,
   paymentCount: 0,
-  payments: [],
+  payments: null,
 })
 
 export default handleActions(
@@ -29,6 +31,14 @@ export default handleActions(
         paymentCount,
       }),
     [ACTIONS.load.error]: state => state.merge({ loading: false }),
+    [ACTIONS.editName]: state => state.merge({ updatingRecipient: true }),
+    [ACTIONS.editName.success]: (state, { payload: { recipient, paymentCount } }) =>
+      state.merge({
+        updatingRecipient: false,
+        recipient: fromJS(recipient),
+        paymentCount,
+      }),
+    [ACTIONS.editName.error]: state => state.merge({ updatingRecipient: false }),
     [ACTIONS.leave]: () => defaultState,
   },
   defaultState

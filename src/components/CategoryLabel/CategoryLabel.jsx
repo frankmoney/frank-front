@@ -20,6 +20,7 @@ const styles = {
 }
 
 const CategoryLabel = ({
+  id,
   active,
   activeClassName,
   classes,
