@@ -13,6 +13,8 @@ import styles from './PieChart.jss'
 
 export const pieCategoryTypes = [{ key: 'income' }, { key: 'spending' }]
 
+const roundValues = R.over(R.lensProp('value'), Math.round)
+
 class PieChart extends React.PureComponent {
   state = {
     activeKey: null,
@@ -59,8 +61,13 @@ class PieChart extends React.PureComponent {
 
     const data = categories[categoryType]
     const categoryCount = R.length(data)
-    const limitedCategories = limitCategoriesTo(categoryLimit)(data)
-    const { items, other } = limitedCategories
+    let limitedCategories = limitCategoriesTo(categoryLimit)(data)
+    const { items, other, tooltipItems } = limitedCategories
+    limitedCategories = {
+      items: R.map(roundValues, items),
+      other: roundValues(other),
+      tooltipItems: R.map(roundValues, tooltipItems),
+    }
     const pieData = other ? R.append(other, items) : items
 
     return (
