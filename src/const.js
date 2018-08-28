@@ -25,7 +25,6 @@ export const ROUTES = {
   demo: {
     root: '/demo',
     cards: '/demo/cards',
-    charts: '/demo/charts',
     comments: '/demo/comments',
     components: '/demo/components',
     drawers: {
@@ -36,6 +35,7 @@ export const ROUTES = {
       type3: '/demo/drawers/type-3',
       type4: '/demo/drawers/type-4',
     },
+    widgets: '/demo/widgets',
   },
 }
 

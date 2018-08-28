@@ -90,11 +90,19 @@ const Grid = injectStyles(styles)(
     // eslint-disable-next-line no-plusplus
     for (let i = 1; i <= steps; i++) {
       dashedLines.push(
-        <DashedLine y={baseLine - i * step + CLIPPING_FIX} width={width} />
+        <DashedLine
+          key={i}
+          y={baseLine - i * step + CLIPPING_FIX}
+          width={width}
+        />
       )
       if (dual) {
         dashedLines.push(
-          <DashedLine y={baseLine + i * step + CLIPPING_FIX} width={width} />
+          <DashedLine
+            key={steps + i}
+            y={baseLine + i * step + CLIPPING_FIX}
+            width={width}
+          />
         )
       }
     }
@@ -233,7 +241,7 @@ const BarChart = ({
         />
         {showBars && (
           <Bar
-            className={{ [classes.positiveBars]: dual }}
+            className={cx({ [classes.positiveBars]: dual })}
             dataKey={DEFAULT_VALUE_PROP}
             fill={dual ? positiveBarColor : barColor}
             minPointSize={5}
