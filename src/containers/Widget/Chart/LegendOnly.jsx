@@ -32,6 +32,7 @@ const styles = theme => ({
   legend: {
     padding: [10, 2],
     width: '100%',
+    minHeight: 128, // fixes case of too few lines
   },
   legendItem: {
     alignItems: 'center',
@@ -68,7 +69,6 @@ const LegendOnly = ({ classes, className, data, entriesCount, period }) => {
       seeAllClassName={classes.seeAll}
     />
   )
-  // TODO: support less than 4 items (align legend to top)
   return (
     <PieChart
       categoryLimit={999}
