@@ -11,8 +11,10 @@ import {
   Spinner,
   PageLoader,
   BreadcrumbsItem,
+  BreadcrumbsItemLink,
 } from '@frankmoney/components'
 import Breadcrumbs from 'components/Breadcrumbs'
+import { ROUTES } from 'const'
 import {
   recipientSelector,
   isLoadingSelector,
@@ -23,6 +25,7 @@ import * as ACTIONS from './actions'
 import RecipientTable from './RecipientTable'
 import RecipientPager from './RecipientPager'
 import RecipientCard from './RecipientCard'
+import RecipientFilter from './RecipientFilter'
 import styles from './Recipient.jss'
 
 class Recipient extends React.PureComponent {
@@ -37,11 +40,14 @@ class Recipient extends React.PureComponent {
 
     return (
       <div className={cx(classes.root, className)}>
-        <FixedHeader>
+        <FixedHeader className={classes.header}>
           <Breadcrumbs>
-            <BreadcrumbsItem>Directory</BreadcrumbsItem>
+            <BreadcrumbsItemLink to={ROUTES.directory.root}>
+              Directory
+            </BreadcrumbsItemLink>
             <BreadcrumbsItem>{recipient.name}</BreadcrumbsItem>
           </Breadcrumbs>
+          <RecipientFilter />
         </FixedHeader>
         <div className={classes.container}>
           <RecipientCard

@@ -1,7 +1,11 @@
 import * as ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
 import QUERIES from '../queries'
-import { currentPageSelector, recipientSelector } from '../selectors'
+import {
+  currentPageSelector,
+  recipientSelector,
+  sortByFilterSelector,
+} from '../selectors'
 
 export default (action$, store, { graphql }) =>
   action$
@@ -10,6 +14,7 @@ export default (action$, store, { graphql }) =>
       const state = store.getState()
       const page = currentPageSelector(state)
       const recipient = recipientSelector(state)
+      const sortBy = sortByFilterSelector(state)
 
       const id = peerId || recipient.id
 
@@ -17,6 +22,7 @@ export default (action$, store, { graphql }) =>
         QUERIES.getRecipientAndPayments({
           recipient: true,
           payments: true,
+          sortBy,
         }),
         {
           peerId: id,
@@ -25,5 +31,4 @@ export default (action$, store, { graphql }) =>
         }
       )
     })
-    // .map(R.evolve({ payments: R.map(mapPayment) }))
     .map(ACTIONS.load.success)

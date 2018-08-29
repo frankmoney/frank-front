@@ -8,14 +8,15 @@ import { createStructuredSelector } from 'reselect'
 import { injectStyles } from '@frankmoney/ui'
 import {
   FixedHeader,
-  Breadcrumbs,
   BreadcrumbsItem,
   Button,
   Spinner,
   PageLoader,
 } from '@frankmoney/components'
+import Breadcrumbs from 'components/Breadcrumbs'
 import {
   hasNoResultsSelector,
+  noResultsTextSelector,
   isLoadingSelector,
   isUpdatingSelector,
 } from './selectors'
@@ -25,19 +26,22 @@ import DirectoryHighlightTextProvider from './DirectoryHighlightTextProvider'
 import DirectoryPager from './DirectoryPager'
 import RecipientsTable from './RecipientsTable'
 import styles from './Directory.jss'
+import DirectoryFilter from './DirectoryFilter/DirectoryFilter'
 
 const Directory = ({
   classes,
   className,
   isUpdating,
   noResults,
+  noResultsText,
   resetSearch,
 }) => (
   <div className={cx(classes.root, className)}>
-    <FixedHeader>
+    <FixedHeader className={classes.header}>
       <Breadcrumbs>
         <BreadcrumbsItem>Directory</BreadcrumbsItem>
       </Breadcrumbs>
+      <DirectoryFilter />
     </FixedHeader>
     <div className={classes.container}>
       <DirectorySearch
@@ -64,7 +68,7 @@ const Directory = ({
         noResults && (
           <div className={classes.emptyPlaceholder}>
             <div className={classes.emptyPlaceholderLabel}>
-              No recipients found
+              No {noResultsText} found
             </div>
             <Button
               className={classes.footerButton}
@@ -83,6 +87,7 @@ const mapStateToProps = createStructuredSelector({
   loading: isLoadingSelector,
   isUpdating: isUpdatingSelector,
   noResults: hasNoResultsSelector,
+  noResultsText: noResultsTextSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [

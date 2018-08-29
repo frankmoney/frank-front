@@ -6,7 +6,6 @@ export default (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.editName)
     .switchMap(({ payload }) => {
-      console.log('epic', payload)
       const state = store.getState()
       const name = payload
       const recipient = recipientSelector(state)

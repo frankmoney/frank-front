@@ -2,9 +2,15 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
-import { PAGE_SIZE } from './constants'
+import { format } from 'date-fns/fp'
+import { formatMonth, parseMonth } from 'utils/dates'
+import {
+  parseQueryStringNumber,
+  parseQueryStringBool,
+  parseQueryString,
+} from 'utils/urlQueries'
+import { PAGE_SIZE, SORT_BY_DEFAULT, SORT_BY } from './constants'
 import { REDUCER_KEY } from './reducer'
-import { parseQueryStringNumber } from './utils'
 
 const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
 
@@ -16,6 +22,76 @@ export const recipientsSelector = createPlainObjectSelector(get('recipients'))
 
 const propContainsText = (prop, text) => x =>
   (x[prop] || '').toLowerCase().includes(text.toLowerCase())
+
+// Filters
+
+export const currentPageSelector = createSelector(
+  queryParamSelector('page'),
+  page => parseQueryStringNumber(page) || 1
+)
+
+export const searchTextSelector = createSelector(
+  queryParamSelector('search'),
+  string => parseQueryString(string)
+)
+
+export const includeRecipientsFilterSelector = createSelector(
+  queryParamSelector('recipients'),
+  query => (R.isNil(query) ? true : parseQueryStringBool(query))
+)
+
+export const includeDonorsFilterSelector = createSelector(
+  queryParamSelector('donors'),
+  query => (R.isNil(query) ? true : parseQueryStringBool(query))
+)
+
+export const sortByFilterSelector = createSelector(
+  queryParamSelector('sortBy'),
+  query => (R.isNil(query) ? SORT_BY_DEFAULT : query)
+)
+
+export const filterPeerTypeSelectedValueSelector = createSelector(
+  includeDonorsFilterSelector,
+  includeRecipientsFilterSelector,
+  (includeDonors, includeRecipients) => {
+    if (includeDonors && includeRecipients) {
+      return 'Donors & Recipients'
+    } else if (includeDonors) {
+      return 'Donors'
+    } else if (includeRecipients) {
+      return 'Recipients'
+    }
+    return 'Donors & Recipients'
+  }
+)
+
+export const noResultsTextSelector = createSelector(
+  includeDonorsFilterSelector,
+  includeRecipientsFilterSelector,
+  (includeDonors, includeRecipients) => {
+    if (includeDonors && includeRecipients) {
+      return 'donors or recipients'
+    } else if (includeDonors) {
+      return 'donors'
+    } else if (includeRecipients) {
+      return 'recipients'
+    }
+    return 'donors or recipients'
+  }
+)
+
+export const filterSortBySelectedValueSelector = createSelector(
+  sortByFilterSelector,
+  value =>
+    R.pipe(
+      R.find(R.propEq('id', value)),
+      R.prop('name'),
+      R.toLower,
+      R.concat('By ')
+    )(SORT_BY)
+)
+
+// Table
 
 const filterRecipientsByText = text =>
   text
@@ -48,7 +124,6 @@ const recipientsGroupedByName = R.pipe(
     )
   ),
   R.toPairs,
-  // R.map(row => ({ title: row[0], rows: R.map(R.prop('id'), row[1]) }))
   R.map(
     R.converge((title, rows) => ({ title, rows }), [
       R.head,
@@ -60,9 +135,64 @@ const recipientsGroupedByName = R.pipe(
   )
 )
 
+const formatTotalDesc = total => {
+  const absolute = Math.abs(total)
+
+  if (absolute > 100000) {
+    return '100K+'
+  } else if (absolute > 10000) {
+    return '10-100K'
+  } else if (absolute > 5000) {
+    return '5-10K'
+  } else if (absolute > 100) {
+    return '100-5K'
+  }
+  return '0-99'
+}
+
+const recipientsGroupedByTotal = R.pipe(
+  R.groupBy(({ total }) => formatTotalDesc(total)),
+  R.toPairs,
+  R.map(
+    R.converge((title, rows) => ({ title, rows }), [
+      R.head,
+      R.pipe(
+        R.last,
+        R.map(R.prop('id'))
+      ),
+    ])
+  )
+)
+
+const recipientsGroupedByDate = R.pipe(
+  R.groupBy(({ lastPaymentDate: date }) => formatMonth(date)),
+  R.toPairs,
+  R.map(
+    R.converge((title, rows) => ({ title, rows }), [
+      R.pipe(
+        R.head,
+        parseMonth,
+        format('MMM YYYY')
+      ),
+      R.pipe(
+        R.last,
+        R.map(R.prop('id'))
+      ),
+    ])
+  )
+)
+
 export const dataSourceSelector = createSelector(
   recipientsSelector,
-  recipientsGroupedByName
+  sortByFilterSelector,
+  (recipients, sortBy) => {
+    if (sortBy === 'date') {
+      return recipientsGroupedByDate(recipients)
+    } else if (sortBy === 'total') {
+      return recipientsGroupedByTotal(recipients)
+    }
+    return recipientsGroupedByName(recipients)
+  }
 )
 
 export const rowDataSelector = id =>
@@ -75,12 +205,3 @@ export const totalPagesSelector = createSelector(
   recipientsTotalCountSelector,
   count => Math.ceil(count / PAGE_SIZE)
 )
-
-// Filters
-
-export const currentPageSelector = createSelector(
-  queryParamSelector('page'),
-  page => parseQueryStringNumber(page) || 1
-)
-
-export const searchTextSelector = queryParamSelector('search')

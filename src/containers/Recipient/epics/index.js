@@ -1,4 +1,5 @@
 export load from './load'
 export reloadResultsWhenUrlChange from './reloadResultsWhenUrlChange'
 export updateUrlWhenSelectPage from './updateUrlWhenSelectPage'
+export updateUrlWhenChangeSorting from './updateUrlWhenChangeSorting'
 export editRecipientName from './editRecipientName'

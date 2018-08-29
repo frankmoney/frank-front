@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import HighlightTextProvider from 'components/HighlightText/HighlightTextProvider'
-
 // нужно было создать враппер так ак React.Context.Provider почемуто не коннектится к редаксу напрямую
 import { searchTextSelector } from './selectors'
 

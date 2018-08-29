@@ -32,13 +32,17 @@ export default handleActions(
       }),
     [ACTIONS.load.error]: state => state.merge({ loading: false }),
     [ACTIONS.editName]: state => state.merge({ updatingRecipient: true }),
-    [ACTIONS.editName.success]: (state, { payload: { recipient, paymentCount } }) =>
+    [ACTIONS.editName.success]: (
+      state,
+      { payload: { recipient, paymentCount } }
+    ) =>
       state.merge({
         updatingRecipient: false,
         recipient: fromJS(recipient),
         paymentCount,
       }),
-    [ACTIONS.editName.error]: state => state.merge({ updatingRecipient: false }),
+    [ACTIONS.editName.error]: state =>
+      state.merge({ updatingRecipient: false }),
     [ACTIONS.leave]: () => defaultState,
   },
   defaultState

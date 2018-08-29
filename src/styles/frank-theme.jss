@@ -66,4 +66,11 @@ export default {
     },
   },
   BreadcrumbItem: {},
+  HeaderFilter: {
+    value: {
+      '&:hover': {
+        color: colors.black,
+      },
+    },
+  },
 }

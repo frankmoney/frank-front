@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+import { SORT_BY_DEFAULT } from './constants'
 
 const mapCategory = ({ category, count }) => ({ ...category, value: count })
 
@@ -24,6 +25,7 @@ export default {
   getRecipientAndPayments: ({
     recipient: includeRecipientInfo,
     payments: includePayments,
+    sortBy,
   }) => [
     `
     query($peerId: ID!${(includePayments && `, $first: Int!, $skip: Int`) ||
@@ -32,7 +34,9 @@ export default {
         ${(includeRecipientInfo && recipientDetails) || ''}
         ${(includePayments &&
           `
-            payments(orderBy: postedOn_DESC, first: $first, skip: $skip) {
+            payments(orderBy: ${
+              sortBy === SORT_BY_DEFAULT ? `postedOn_DESC` : `amount_DESC`
+            }, first: $first, skip: $skip) {
               id
               postedOn
               amount
