@@ -202,7 +202,8 @@ const BarChart = ({
   const signedData = dual ? R.map(fixNegative, data) : data
   const barCount = R.length(data)
   const barWidth = (width - 2 * PADDING) / (2 * barCount - 1)
-  const w = barWidth * (2 * barCount)
+  // const w = barWidth * (2 * barCount)
+  const w = width // ^^ There was a reason for that, but it seems just width is working for now
   const footerHeight = footerPadding + FOOTER_TEXT_HEIGHT
   return (
     <div className={cx(classes.root, className)} style={{ width, height }}>
