@@ -63,7 +63,7 @@ const Login = ({
   <div className={classes.root}>
     <div className={classes.container}>
       <div className={classes.form}>
-        <div className={classes.title}>I am, </div>
+        <div className={classes.title}>I am</div>
         <TextBox
           value={email}
           onChange={event => setEmail(event.target.value)}
@@ -76,14 +76,14 @@ const Login = ({
         className={classes.submit}
         fat
         type="primary"
-        label={hasProblem ? 'Let me in' : 'DEEP LOGIN'}
+        label={hasProblem ? 'Let me in' : 'GO DEEPER'}
         onClick={handleSubmit}
         disabled={!email}
       />
       {!hasProblem && (
         <div className={classes.problemsWrap}>
           <div className={classes.problemsLabel} onClick={handleProblem}>
-            Not a gay?
+            Not gay?
           </div>
         </div>
       )}

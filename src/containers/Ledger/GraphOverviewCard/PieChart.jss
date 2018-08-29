@@ -30,9 +30,8 @@ export default theme => ({
     cursor: 'default',
   },
   legendItem: {
-    '&:not(:first-child)': {
-      marginTop: 10,
-    },
+    cursor: 'pointer',
+    padding: [5, 0],
   },
   legendIcon: {
     marginRight: 13,

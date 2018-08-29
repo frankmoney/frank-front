@@ -6,6 +6,7 @@ export default {
     payments: includePayments,
     pieChart: includePie,
     barChart: includeBars,
+    categories: includeCategories,
   }) => [
     `
     query(
@@ -18,7 +19,14 @@ export default {
       $amountMin: Float,
       $amountMax: Float,
       $verified: Boolean,
+      $categoryId: ID,
     ) {
+      ${(includeCategories &&
+        `categories: accountCategories(accountId: $accountId) {
+          id
+          name
+        }`) ||
+        ''}
       ${(includePayments &&
         `payments: ledgerPayments(
         accountId: $accountId,
@@ -30,9 +38,10 @@ export default {
         amountMin: $amountMin,
         amountMax: $amountMax,
         verified: $verified,
+        categoryId: $categoryId
       ) {
         id
-        postedDate
+        postedOn
         amount
         peerName
         description
@@ -60,7 +69,8 @@ export default {
         `barChart: ledgerBarChart(
         accountId: $accountId,
         dateMin: $dateMin,
-        dateMax: $dateMax
+        dateMax: $dateMax,
+        categoryId: $categoryId
       ) {
           items {
             date
@@ -78,14 +88,16 @@ export default {
         amountMin: $amountMin,
         amountMax: $amountMax,
         verified: $verified,
+        categoryId: $categoryId
       ) {
         count
       }`) ||
         ''}
     }
     `,
-    ({ payments, totalCountResult, pieChart, barChart }) => ({
+    ({ payments, categories, totalCountResult, pieChart, barChart }) => ({
       payments,
+      categories,
       totalCount: totalCountResult && totalCountResult.count,
       pieChart: pieChart && pieChart.items,
       barChart: barChart && barChart.items,

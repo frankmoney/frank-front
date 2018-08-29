@@ -19,9 +19,10 @@ const BASE_LINE_OFFSET = 3
 const CLIPPING_FIX = 1
 const DASH_LINE_COLOR = '#EBEBEB'
 const DEFAULT_VALUE_PROP = 'value'
-const FOOTER_PADDING = 35
-const FOOTER_TEXT_HEIGHT = 20
+const FOOTER_PADDING = 20
+const FOOTER_TEXT_HEIGHT = 31
 const LEGEND_COLOR = '#808080'
+const LEGEND_SECOND_COLOR = '#B3B3B3'
 const NEGATIVE_VALUE_PROP = 'negativeValue'
 const PADDING = 20
 export const POSITIVE_BAR_COLOR = '#21CB61'
@@ -154,6 +155,28 @@ export const Tooltip = injectStyles(styles)(
   )
 )
 
+const Tick = ({ x, y, payload: { value } }) => {
+  const [text, secondLine] = R.split(' ', value)
+  return (
+    <>
+      <text x={x} y={y} textAnchor="middle" fontSize={12} fill={LEGEND_COLOR}>
+        {text}
+      </text>
+      {secondLine && (
+        <text
+          x={x}
+          y={y + 22}
+          textAnchor="middle"
+          fontSize={12}
+          fill={LEGEND_SECOND_COLOR}
+        >
+          {secondLine}
+        </text>
+      )}
+    </>
+  )
+}
+
 const BarChart = ({
   barColor,
   caption,
@@ -192,14 +215,16 @@ const BarChart = ({
         barSize={barWidth}
       >
         <XAxis
-          dataKey={labelKey}
           axisLine={false}
+          dataKey={labelKey}
+          height={footerHeight + BASE_LINE_OFFSET}
+          interval={0}
+          minTickGap={0}
+          padding={{ left: 0, right: 0 }}
+          tick={<Tick />}
           tickLine={false}
           tickMargin={footerPadding + BASE_LINE_OFFSET}
-          height={footerHeight + BASE_LINE_OFFSET}
-          padding={{ left: 0, right: 0 }}
-          minTickGap={0}
-          tick={{ fontSize: 12, fill: LEGEND_COLOR }}
+          tickSize={4}
         />
         <ReTooltip
           content={<Tooltip caption={caption} />}

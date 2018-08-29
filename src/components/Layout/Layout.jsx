@@ -21,11 +21,11 @@ export default withProps({
     withProps({
       renderMainMenuItems: () => (
         <>
-          <SidebarMenuItem
-            href={createRouteUrl(ROUTES.inbox.root)}
-            navLinkComponent={ReduxNavLink}
-            primaryText="Inbox"
-          />
+          {/* <SidebarMenuItem */}
+          {/* href={createRouteUrl(ROUTES.inbox.root)} */}
+          {/* navLinkComponent={ReduxNavLink} */}
+          {/* primaryText="Inbox" */}
+          {/* /> */}
           <SidebarMenuItem
             href={createRouteUrl(ROUTES.ledger.root)}
             navLinkComponent={ReduxNavLink}
@@ -51,16 +51,16 @@ export default withProps({
             navLinkComponent={ReduxNavLink}
             primaryText="Directory"
           />
-          <SidebarMenuItem
-            href={createRouteUrl(ROUTES.directory.recipient)}
-            navLinkComponent={ReduxNavLink}
-            primaryText="Directory :: Recipient"
-          />
-          <SidebarMenuItem
-            href={createRouteUrl(ROUTES.team.root)}
-            navLinkComponent={ReduxNavLink}
-            primaryText="Team"
-          />
+          {/* <SidebarMenuItem */}
+          {/* href={createRouteUrl(ROUTES.directory.recipient)} */}
+          {/* navLinkComponent={ReduxNavLink} */}
+          {/* primaryText="Directory :: Recipient" */}
+          {/* /> */}
+          {/* <SidebarMenuItem */}
+          {/* href={createRouteUrl(ROUTES.team.root)} */}
+          {/* navLinkComponent={ReduxNavLink} */}
+          {/* primaryText="Team" */}
+          {/* /> */}
         </>
       ),
     }),

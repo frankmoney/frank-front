@@ -15,6 +15,7 @@ export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const listIsUpdatingSelector = get('updatingList')
 export const paymentsTotalCountSelector = get('paymentsCount')
+export const categoriesSelector = createPlainObjectSelector(get('categories'))
 export const paymentsSelector = createPlainObjectSelector(get('payments'))
 
 const propContainsText = (prop, text) => x =>
@@ -43,7 +44,7 @@ export const hasNoResultsSelector = createSelector(paymentsSelector, R.isEmpty)
 export const dataSourceSelector = createSelector(
   paymentsSelector,
   R.pipe(
-    R.groupBy(({ postedDate: date }) => formatMonth(date)),
+    R.groupBy(({ postedOn: date }) => formatMonth(date)),
     R.toPairs,
     R.map(
       R.converge((title, rows) => ({ title, rows }), [
@@ -85,6 +86,21 @@ export const filtersEstimatedResultsCountSelector = getFilters('totalCount')
 
 // Filters
 
+export const currentCategoryIdSelector = createSelector(
+  queryParamSelector('category'),
+  x => x || null
+)
+
+export const currentCategoryNameSelector = createSelector(
+  categoriesSelector,
+  currentCategoryIdSelector,
+  (list, id) =>
+    R.pipe(
+      R.find(R.propEq('id', id)),
+      R.prop('name')
+    )(list)
+)
+
 export const currentPageSelector = createSelector(
   queryParamSelector('page'),
   page => parseQueryStringNumber(page) || 1
@@ -101,8 +117,8 @@ export const currentFiltersSelector = createSelector(
   (amountMin, amountMax, dateMin, dateMax, verified) => ({
     amountMin: parseQueryStringNumber(amountMin),
     amountMax: parseQueryStringNumber(amountMax),
-    dateMin,
-    dateMax,
+    dateMin: dateMin ? parseDate(dateMin) : null,
+    dateMax: dateMax ? parseDate(dateMax) : null,
     verified: parseQueryStringBool(verified),
   })
 )
@@ -112,6 +128,11 @@ export const currentFiltersSelector = createSelector(
 export const chartsVisibleSelector = createSelector(
   searchTextSelector,
   R.either(R.isNil, R.isEmpty)
+)
+
+export const barChartOnlySelector = createSelector(
+  currentCategoryIdSelector,
+  R.complement(R.either(R.isNil, R.isEmpty))
 )
 
 // [{date:String,negativeValue:Float,value:Float}]
@@ -137,9 +158,6 @@ export const barChartDataSelector = createSelector(
       }, [])
   )
 )
-
-// pieChart {income|spending: [{color,name,value}]} (value in percents)
-// category{},income,expenses ->
 
 // из [category{name,color},income,expenses] в {income|spending: [{color,name,value}]} где value процент от всех income|spending
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))

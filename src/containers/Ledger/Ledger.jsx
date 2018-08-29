@@ -25,6 +25,7 @@ import {
   isLoadingSelector,
   listIsUpdatingSelector,
   hasNoResultsSelector,
+  currentCategoryNameSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
@@ -32,8 +33,10 @@ import * as ACTIONS from './actions'
 const Ledger = ({
   classes,
   listIsUpdating,
+  currentCategory,
   noResults,
   resetSearch,
+  cancelCategory,
   className,
 }) => (
   <CurrencyProvider code="USD">
@@ -41,6 +44,11 @@ const Ledger = ({
       <FixedHeader className={classes.header}>
         <Breadcrumbs>
           <BreadcrumbsItem>Ledger</BreadcrumbsItem>
+          {currentCategory && (
+            <BreadcrumbsItem onRemove={cancelCategory}>
+              {currentCategory}
+            </BreadcrumbsItem>
+          )}
         </Breadcrumbs>
         <LedgerFilter />
       </FixedHeader>
@@ -92,6 +100,7 @@ const mapStateToProps = createStructuredSelector({
   loading: isLoadingSelector,
   listIsUpdating: listIsUpdatingSelector,
   noResults: hasNoResultsSelector,
+  currentCategory: currentCategoryNameSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
@@ -99,6 +108,7 @@ const mapDispatchToProps = R.partial(bindActionCreators, [
     load: ACTIONS.load,
     leave: ACTIONS.leave,
     resetSearch: ACTIONS.resetSearch,
+    cancelCategory: ACTIONS.cancelCategory,
   },
 ])
 
