@@ -141,8 +141,8 @@ const formatMoney = R.pipe(
 )
 
 const TooltipLine = injectStyles(styles)(
-  ({ caption, classes, dataKey, color, value }) => (
-    <div className={classes.tooltipItem} style={{ color }}>
+  ({ caption, classes, dataKey, color, key, value }) => (
+    <div className={classes.tooltipItem} style={{ color }} key={key}>
       <div>
         <IconCircle className={classes.circle} />
         <span className={classes.tooltipItemText}>
