@@ -6,6 +6,7 @@ import { CheckCircle } from 'material-ui-icons'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
 import HighlightText from 'components/HighlightText'
+import { formatDateTime } from 'utils/dates'
 
 const CELL_HEIGHT = 110
 
@@ -78,7 +79,7 @@ const styles = theme => ({
 const PaymentsTableRow = ({
   classes,
   className,
-  data: { description, peerName, amount, category },
+  data: { description, peerName, amount, category, postedOn },
   // omit
   grid,
   theme,
@@ -113,7 +114,7 @@ const PaymentsTableRow = ({
     <TableCell name="sum" className={classes.cellRight}>
       <CurrencyDelta className={classes.sum} value={amount} />
       <div className={classes.rightDescription}>
-        <div className={classes.date}>April 12, 12:42PM</div>
+        <div className={classes.date}>{formatDateTime(postedOn)}</div>
         <CheckCircle className={classes.checkIcon} />
       </div>
     </TableCell>

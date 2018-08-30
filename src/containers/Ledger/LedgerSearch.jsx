@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import SearchCard from '../../components/SearchCard'
+import SearchCard from 'components/SearchCard'
 import * as ACTIONS from './actions'
 import { searchTextSelector } from './selectors'
 
