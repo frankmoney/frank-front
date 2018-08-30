@@ -101,7 +101,7 @@ class TextWithEditableToggle extends React.PureComponent {
     })
   }
 
-  handleCancel = () => {
+  handleReset = () => {
     this.setState({
       editing: false,
       newValue: '',
@@ -109,14 +109,15 @@ class TextWithEditableToggle extends React.PureComponent {
     })
   }
 
-  handleSubmitOrCancel = event => {
+  handleSubmitOrReset = event => {
     if (event.key === 'Escape') {
-      this.handleCancel()
+      this.handleReset()
     }
     if (event.key === 'Enter') {
       event.preventDefault()
       if (this.props.onChange) {
         this.props.onChange(this.state.newValue)
+        this.handleReset()
       }
     }
   }
@@ -157,7 +158,7 @@ class TextWithEditableToggle extends React.PureComponent {
           className={cx(classes.input, !editing && classes.hidden)}
           value={newValue}
           placeholder={value}
-          onKeyDown={this.handleSubmitOrCancel}
+          onKeyDown={this.handleSubmitOrReset}
           onBlur={this.handleCancel}
           onChange={this.handleInputChange}
         />

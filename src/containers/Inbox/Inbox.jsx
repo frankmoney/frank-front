@@ -1,10 +1,10 @@
 import React from 'react'
 import {
   FixedHeader,
-  Breadcrumbs,
   BreadcrumbsItem,
 } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
+import Breadcrumbs from 'components/Breadcrumbs'
 import { compose, withProps } from 'recompose'
 import InboxCard from 'components/InboxCard'
 

@@ -41,6 +41,12 @@ const ComposedStoryPreview = compose(
   }))
 )(StoryPreview)
 
+const ComposedRecipient = compose(
+  withProps(props => ({
+    peerId: props.match.params.id,
+  }))
+)(Recipient)
+
 export default [
   {
     component: withProps({ to: ROUTES.ledger.root })(Redirect),
@@ -68,7 +74,7 @@ export default [
     exact: true,
   },
   {
-    component: withLayout(protectedRoute(Recipient)),
+    component: withLayout(protectedRoute(ComposedRecipient)),
     path: ROUTES.directory.recipient,
     exact: true,
   },

@@ -76,4 +76,22 @@ export default {
       fontWeight: 600,
     },
   },
+  Breadcrumbs: {
+    separator: {
+      width: 22,
+      height: 22,
+      margin: [0, 5],
+      opacity: 0.4,
+      color: '#252B43',
+      transform: 'unset',
+    },
+  },
+  BreadcrumbItem: {},
+  HeaderFilter: {
+    value: {
+      '&:hover': {
+        color: colors.black,
+      },
+    },
+  },
 }

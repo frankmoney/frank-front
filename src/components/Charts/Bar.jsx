@@ -90,11 +90,19 @@ const Grid = injectStyles(styles)(
     // eslint-disable-next-line no-plusplus
     for (let i = 1; i <= steps; i++) {
       dashedLines.push(
-        <DashedLine y={baseLine - i * step + CLIPPING_FIX} width={width} />
+        <DashedLine
+          key={i}
+          y={baseLine - i * step + CLIPPING_FIX}
+          width={width}
+        />
       )
       if (dual) {
         dashedLines.push(
-          <DashedLine y={baseLine + i * step + CLIPPING_FIX} width={width} />
+          <DashedLine
+            key={steps + i}
+            y={baseLine + i * step + CLIPPING_FIX}
+            width={width}
+          />
         )
       }
     }
@@ -133,8 +141,8 @@ const formatMoney = R.pipe(
 )
 
 const TooltipLine = injectStyles(styles)(
-  ({ caption, classes, dataKey, color, value }) => (
-    <div className={classes.tooltipItem} style={{ color }}>
+  ({ caption, classes, dataKey, color, key, value }) => (
+    <div className={classes.tooltipItem} style={{ color }} key={key}>
       <div>
         <IconCircle className={classes.circle} />
         <span className={classes.tooltipItemText}>
@@ -194,7 +202,8 @@ const BarChart = ({
   const signedData = dual ? R.map(fixNegative, data) : data
   const barCount = R.length(data)
   const barWidth = (width - 2 * PADDING) / (2 * barCount - 1)
-  const w = barWidth * (2 * barCount)
+  // const w = barWidth * (2 * barCount)
+  const w = width // ^^ There was a reason for that, but it seems just width is working for now
   const footerHeight = footerPadding + FOOTER_TEXT_HEIGHT
   return (
     <div className={cx(classes.root, className)} style={{ width, height }}>
@@ -233,7 +242,7 @@ const BarChart = ({
         />
         {showBars && (
           <Bar
-            className={{ [classes.positiveBars]: dual }}
+            className={cx({ [classes.positiveBars]: dual })}
             dataKey={DEFAULT_VALUE_PROP}
             fill={dual ? positiveBarColor : barColor}
             minPointSize={5}

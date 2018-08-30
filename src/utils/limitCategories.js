@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 
-const DEFAULT_LIMIT = 5
+export const DEFAULT_LIMIT = 5
 const VALUE_PROP = 'value'
 const OTHER_TEMPLATE = {
   name: 'Other categories',
@@ -25,7 +25,7 @@ const doLimit = (otherTemplate, valueProp, maxEntries) =>
       return {
         items: R.init(allItems),
         other: R.last(allItems),
-        tooltipItems: rest,
+        tooltipItems: injectKey(rest),
       }
     }
   )
@@ -52,7 +52,7 @@ export const categoryProps = {
   value: PropTypes.number,
 }
 
-export const categoryShape = PropTypes.shape(categoryProps)
+const categoryShape = PropTypes.shape(categoryProps)
 
 export const limitedCategoriesProps = {
   items: PropTypes.arrayOf(categoryShape),

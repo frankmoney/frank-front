@@ -1,16 +1,21 @@
 import React from 'react'
 import { format } from 'date-fns'
+import { Link } from 'react-router-dom'
 import { injectStyles } from '@frankmoney/ui'
+import { createRouteUrl } from '@frankmoney/utils'
 import { TableCell, TableRow } from '@frankmoney/components'
 import CategoryLabel from 'components/CategoryLabel'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
 import ListWithOverflow from 'components/ListWithOverflow'
 import HighlightText from 'components/HighlightText'
+import { ROUTES } from '../../const'
 
 const styles = theme => ({
   root: {
     display: 'flex',
+    textDecoration: 'none',
+    color: 'inherit',
     height: 'inherit',
     minHeight: 128,
     padding: [22, 29],
@@ -52,7 +57,7 @@ const styles = theme => ({
   },
 })
 
-const formatDate = date => format(date, 'MMM d')
+const formatDate = date => format(date, 'MMM D')
 
 const categoriesListComponent = injectStyles({
   icon: {
@@ -66,8 +71,9 @@ const categoriesListComponent = injectStyles({
 const RecipientRow = ({
   classes,
   data: {
+    id,
     name,
-    paymentsCount,
+    paymentCount,
     lastPaymentDate,
     currencyCode,
     totalIncome,
@@ -76,7 +82,12 @@ const RecipientRow = ({
   },
   searchText,
 }) => (
-  <TableRow className={classes.root} hoverBackgroundColor="#F8F8F9">
+  <TableRow
+    className={classes.root}
+    hoverBackgroundColor="#F8F8F9"
+    component={Link}
+    to={createRouteUrl(ROUTES.directory.recipient, { id })}
+  >
     <TableCell name="left" className={classes.leftColumn}>
       <div className={classes.name}>
         <HighlightText text={name} textPattern={searchText} />
@@ -84,7 +95,7 @@ const RecipientRow = ({
 
       <div className={classes.info}>
         <div>
-          <span className={classes.infoLabel}>Payments</span> {paymentsCount}
+          <span className={classes.infoLabel}>Payments</span> {paymentCount}
         </div>
         <div>
           <span className={classes.infoLabel}>Last payment</span>{' '}

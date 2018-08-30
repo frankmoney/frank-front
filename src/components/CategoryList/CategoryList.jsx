@@ -3,17 +3,16 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
+import { pieChartDataShape } from 'components/Charts/shapes'
 import renderProp from 'utils/renderProp'
 import CategoryLabel from 'components/CategoryLabel'
-import limitCategories, {
-  categoryShape,
-  limitedCategoriesProps,
-} from 'utils/limitCategories'
+import limitCategories, { limitedCategoriesProps } from 'utils/limitCategories'
 import OtherCategories from './OtherCategories'
 
 const styles = theme => ({
   item: {},
   tooltipItem: {
+    alignItems: 'center',
     display: 'flex',
     '&:not(:first-child)': {
       marginTop: 12,
@@ -57,23 +56,28 @@ const CategoryList = ({
   valueClassName,
   valueUnit,
 }) => {
-  const renderItem = ({ key, ...otherProps }) =>
+  const renderItem = ({ key, id, ...otherProps }) =>
     renderProp(CategoryLabel, {
+      key: `category-${id}`,
+      id,
       active: key === activeKey,
       activeClassName: activeLabelClassName,
       className: cx(classes.item, itemClassName),
       iconClassName,
+      key,
       nameClassName,
-      valueClassName,
-      valueUnit,
       onClick: onLabelClick && (() => onLabelClick(otherProps.id)),
       onMouseEnter: onLabelMouseEnter && (() => onLabelMouseEnter(key)),
       onMouseLeave: onLabelMouseLeave && (() => onLabelMouseLeave(key)),
+      valueClassName,
+      valueUnit,
       ...otherProps,
     })
 
   const renderTooltipItem = ({ id, ...otherProps }) =>
     renderProp(CategoryLabel, {
+      key: `category-${id}`,
+      id,
       className: cx(classes.tooltipItem, tooltipItemClassName),
       iconClassName: cx(classes.tooltipIcon, tooltipIconClassName),
       nameClassName: cx(classes.tooltipName, tooltipNameClassName),
@@ -90,6 +94,7 @@ const CategoryList = ({
       {R.map(renderItem, items)}
       {other && (
         <OtherCategories
+          key="other"
           categories={tooltipItems}
           renderTooltipItem={renderTooltipItem}
         >
@@ -103,10 +108,10 @@ const CategoryList = ({
 CategoryList.propTypes = {
   activeKey: PropTypes.number,
   activeLabelClassName: PropTypes.string,
-  categories: PropTypes.arrayOf(categoryShape),
+  categories: PropTypes.arrayOf(pieChartDataShape),
   iconClassName: PropTypes.string,
   itemClassName: PropTypes.string,
-  limitedCategories: PropTypes.arrayOf(PropTypes.shape(limitedCategoriesProps)),
+  limitedCategories: PropTypes.shape(limitedCategoriesProps),
   nameClassName: PropTypes.string,
   onLabelMouseEnter: PropTypes.func,
   onLabelMouseLeave: PropTypes.func,
