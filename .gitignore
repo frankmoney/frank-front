@@ -54,3 +54,5 @@ build
 
 
 /.eslintcache
+
+src/server/webpack-assets.json

@@ -33,7 +33,7 @@ const styles = theme => ({
     marginRight: 15,
   },
   counter: {
-    ...theme.fontMedium(14, 26, 0),
+    ...theme.fontMedium(14, 26),
     backgroundColor: '#484DE7',
     borderRadius: 13,
     color: '#fff',

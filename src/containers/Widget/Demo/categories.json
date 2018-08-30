@@ -1,0 +1,26 @@
+{
+    "0": {
+        "color": "#8725FB",
+        "name": "Operational expenses"
+    },
+    "1": {
+        "color": "#21CB61",
+        "name": "Marketing"
+    },
+    "2": {
+        "color": "#0624FB",
+        "name": "Program expenses"
+    },
+    "3": {
+        "color": "#FC1891",
+        "name": "Street outreach"
+    },
+    "4": {
+        "color": "#FF9C28",
+        "name": "Advertising"
+    },
+    "5": {
+        "color": "#00DCEA",
+        "name": "Sales"
+    }
+}

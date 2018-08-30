@@ -2,11 +2,13 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
-import BarChart from './BarChart'
+import BarChart from 'containers/BarChart'
+import PieChart from 'containers/PieChart'
 import ExpandRow from './ExpandRow'
-import PieChart from './PieChart'
 import Title from './Title'
 import styles from './GraphOverviewCard.jss'
+
+const period = 'All time' // TODO: real period
 
 class GraphOverviewCard extends React.PureComponent {
   state = {
@@ -19,12 +21,12 @@ class GraphOverviewCard extends React.PureComponent {
 
   render() {
     const {
-      classes,
-      className,
-      pieData,
-      onCategoryClick,
       barsData,
       barsOnly,
+      classes,
+      className,
+      onCategoryClick,
+      pieData,
     } = this.props
 
     const { expanded } = this.state
@@ -37,17 +39,24 @@ class GraphOverviewCard extends React.PureComponent {
           className
         )}
       >
-        <Title className={classes.header}>All time</Title>
+        <Title className={classes.header}>{period}</Title>
         {barsOnly ? (
           <BarChart className={classes.barChart} data={barsData} />
         ) : (
           <>
-            <PieChart onCategoryClick={onCategoryClick} categories={pieData} />
+            <PieChart
+              chartClassName={classes.chart}
+              data={pieData}
+              hidePeriod
+              legendClassName={classes.legend}
+              onCategoryClick={onCategoryClick}
+              period={period}
+            />
             <ExpandRow
               className={classes.bottomRow}
               expanded={expanded}
-              title="Timeline"
               onToggle={this.handleToggleExpand}
+              title="Timeline"
             >
               <BarChart className={classes.barChart} data={barsData} />
             </ExpandRow>
