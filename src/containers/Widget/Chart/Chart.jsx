@@ -2,10 +2,7 @@ import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { compose } from 'recompose'
-import { connect } from 'react-redux'
 import PieChart, { dataPropShape } from 'containers/PieChart'
-import { entriesCountSelector, pieChartDataSelector } from '../selectors'
 import Footer from './Footer'
 import LegendOnly from './LegendOnly'
 
@@ -58,13 +55,13 @@ const styles = theme => ({
   },
 })
 
-const ActualChart = ({ classes, entriesCount, period, pieChartData, size }) => {
+const ActualChart = ({ classes, entriesCount, period, pieData, size }) => {
   const switcherLabel = size < 800 ? '% of' : '% of total'
   return (
     <PieChart
       chartClassName={classes.chart}
       chartSize={pieSize(size)}
-      data={pieChartData}
+      data={pieData}
       entriesCount={entriesCount}
       footer={Footer}
       hideChart={size === 400}
@@ -84,20 +81,15 @@ const Chart = ({ size, ...props }) => {
   if (size > 400) {
     return <ActualChart size={size} {...props} />
   }
-  const { pieChartData, classes, ...otherProps } = props
-  return <LegendOnly data={pieChartData} {...otherProps} />
+  const { pieData, classes, ...otherProps } = props
+  return <LegendOnly data={pieData} {...otherProps} />
 }
 
 Chart.propTypes = {
+  entriesCount: PropTypes.number,
   period: PropTypes.string,
-  pieChartData: dataPropShape,
+  pieData: dataPropShape,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
 }
 
-export default compose(
-  connect(state => ({
-    entriesCount: entriesCountSelector(state),
-    pieChartData: pieChartDataSelector(state),
-  })),
-  injectStyles(styles)
-)(Chart)
+export default injectStyles(styles)(Chart)

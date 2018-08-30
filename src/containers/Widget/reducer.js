@@ -7,6 +7,7 @@ export const REDUCER_KEY = 'widgetData'
 const initialState = fromJS({
   barsData: [], // TODO: bars placeholder data
   pieData: PIE_CHART_DATA,
+  currentCategory: null,
 })
 
 export default handleActions({}, initialState)
