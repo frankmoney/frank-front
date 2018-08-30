@@ -7,6 +7,6 @@ export default (action$, store) =>
     const donors = includeDonorsFilterSelector(store.getState())
     return mergeQuery(
       { recipients, donors: !recipients && !donors ? true : donors },
-      true
+      false
     )
   })

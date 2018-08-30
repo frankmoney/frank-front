@@ -49,15 +49,15 @@ export const paymentsIdsSelector = createSelector(
 )
 
 const formatTotalDesc = total => {
-  const absolute = Math.abs(total)
+  const absTotal = Math.abs(total)
 
-  if (absolute > 100000) {
+  if (absTotal > 100000) {
     return '100K+'
-  } else if (absolute > 10000) {
+  } else if (absTotal > 10000) {
     return '10-100K'
-  } else if (absolute > 5000) {
+  } else if (absTotal > 5000) {
     return '5-10K'
-  } else if (absolute > 100) {
+  } else if (absTotal > 100) {
     return '100-5K'
   }
   return '0-99'

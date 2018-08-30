@@ -8,7 +8,7 @@ import {
   parseQueryStringNumber,
   parseQueryStringBool,
   parseQueryString,
-} from 'utils/urlQueries'
+} from 'utils/querystring'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
