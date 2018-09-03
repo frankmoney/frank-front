@@ -4,8 +4,13 @@ import { REDUCER_KEY } from './reducer'
 const get = prop => store => store.getIn([REDUCER_KEY, prop])
 
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
+const rawBarDataSelector = createPlainObjectSelector(get('barsData'))
 
 export const pieChartDataSelector = rawPieDataSelector
 export const entriesCountSelector = () => 42 // FIXME: entriesCountSelector
 
 export const currentCategoryNameSelector = () => 'Product development' // FIXME: get('currentCategory')
+
+export const barChartDataSelector = rawBarDataSelector
+
+export const periodSelector = () => 'All time' // FIXME: periodSelector

@@ -1,4 +1,5 @@
 import React from 'react'
+import * as R from 'ramda'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
@@ -6,10 +7,15 @@ import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
+import Bar from 'components/Charts/Bar'
+import PeriodSelector from 'containers/PieChart/PeriodSelector'
 import { Header, HeaderItem, CategoryName } from './Header'
+import OverviewChart from './Chart'
 import {
+  barChartDataSelector,
   currentCategoryNameSelector,
   entriesCountSelector,
+  periodSelector,
   pieChartDataSelector,
 } from './selectors'
 
@@ -23,7 +29,6 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: [0, 18, 19],
-    justifyContent: 'space-between',
   },
   size400: {
     width: 400,
@@ -42,7 +47,24 @@ const styles = theme => ({
     minHeight: 550,
     width: 800,
   },
+  paymentsPeriodSelect: {
+    display: 'flex',
+    marginTop: 4,
+  },
+  barChart: {
+    margin: [10, 'auto', 0],
+    '$size500 &': {
+      margin: [10, -3, 0],
+    },
+  },
 })
+
+const barsHeight = R.cond([
+  [R.equals(500), R.always(146)],
+  [R.equals(625), R.always(198)],
+  [R.equals(800), R.always(203)],
+  [R.T, R.always(0)],
+])
 
 class InlineWidget extends React.PureComponent {
   state = {
@@ -54,12 +76,13 @@ class InlineWidget extends React.PureComponent {
 
   render() {
     const {
+      barsData,
       classes,
       className,
       currentCategoryName,
       entriesCount,
       stories: Stories,
-      charts: Charts,
+      period,
       pieData,
       size,
     } = this.props
@@ -106,14 +129,35 @@ class InlineWidget extends React.PureComponent {
             />
           </Header>
         )}
-        {isPayments && (
-          <Charts
-            entriesCount={entriesCount}
-            period="All time"
-            pieData={pieData}
-            size={size}
-          />
-        )}
+        {isPayments &&
+          paymentList &&
+          size > 400 && (
+            <>
+              <PeriodSelector
+                className={cx(classes.paymentsPeriodSelect)}
+                // onChange={this.handleChangePeriod}
+                value={period}
+              />
+              <Bar
+                className={classes.barChart}
+                data={barsData}
+                footerPadding={10}
+                height={barsHeight(size)}
+                hideBaseLine
+                labelKey="date"
+                width={size > 500 ? 516 : 468}
+              />
+            </>
+          )}
+        {isPayments &&
+          !paymentList && (
+            <OverviewChart
+              entriesCount={entriesCount}
+              period={period}
+              pieData={pieData}
+              size={size}
+            />
+          )}
         {isStories && <Stories />}
         {isAbout && <div>TODO</div>}
       </div>
@@ -122,8 +166,8 @@ class InlineWidget extends React.PureComponent {
 }
 
 InlineWidget.propTypes = {
-  charts: PropTypes.element,
   paymentList: PropTypes.bool,
+  period: PropTypes.string,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
   stories: PropTypes.element,
   tab: PropTypes.oneOf(['payments', 'stories', 'about']),
@@ -135,9 +179,11 @@ InlineWidget.defaultProps = {
 }
 
 const mapStateToProps = createStructuredSelector({
-  entriesCount: entriesCountSelector,
-  pieData: pieChartDataSelector,
+  barsData: barChartDataSelector,
   currentCategoryName: currentCategoryNameSelector,
+  entriesCount: entriesCountSelector,
+  period: periodSelector,
+  pieData: pieChartDataSelector,
 })
 
 export default compose(

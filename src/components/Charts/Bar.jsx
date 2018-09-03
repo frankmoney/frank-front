@@ -82,8 +82,9 @@ const DashedLine = ({ y, width }) => (
   />
 )
 
+// TODO: move out
 const Grid = injectStyles(styles)(
-  ({ className, dual, steps = 4, height, width }) => {
+  ({ className, dual, hideBaseLine = false, steps = 4, height, width }) => {
     const baseLine = dual ? Math.floor(height / 2) : height
     const dashedLines = []
     const step = Math.floor(baseLine / steps)
@@ -114,14 +115,16 @@ const Grid = injectStyles(styles)(
         className={className}
       >
         {dashedLines}
-        <line
-          x1="0"
-          x2={width}
-          y1={baseLine}
-          y2={baseLine}
-          strokeWidth={1}
-          stroke={BASE_LINE_COLOR}
-        />
+        {!hideBaseLine && (
+          <line
+            x1="0"
+            x2={width}
+            y1={baseLine}
+            y2={baseLine}
+            strokeWidth={1}
+            stroke={BASE_LINE_COLOR}
+          />
+        )}
       </svg>
     )
   }
@@ -194,6 +197,7 @@ const BarChart = ({
   dual,
   footerPadding,
   height,
+  hideBaseLine,
   labelKey,
   positiveBarColor,
   showBars,
@@ -213,6 +217,7 @@ const BarChart = ({
         width={width}
         steps={dual ? 2 : 4}
         height={height - footerHeight}
+        hideBaseLine={hideBaseLine}
       />
       <Chart
         className={classes.chart}
@@ -279,6 +284,7 @@ BarChart.propTypes = {
   dual: PropTypes.bool,
   footerPadding: PropTypes.number,
   height: PropTypes.number,
+  hideBaseLine: PropTypes.bool,
   labelKey: PropTypes.string,
   positiveBarColor: PropTypes.string,
   showBars: PropTypes.bool,
