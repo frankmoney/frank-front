@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
-import PIE_CHART_DATA from './Demo/pieChartData.json' // FIXME: static data
+import PIE_CHART_DATA from 'demo/Widgets/pieChartData.json' // FIXME: static data
 
 export const REDUCER_KEY = 'widgetData'
 
