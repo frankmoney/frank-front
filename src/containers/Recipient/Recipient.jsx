@@ -95,7 +95,10 @@ export default compose(
   lifecycle({
     componentWillMount() {
       if (!this.props.loaded) {
-        this.props.load({ peerId: this.props.peerId })
+        this.props.load({
+          accountId: 'cjkgy7pcv3p8b0716u58tsymo',
+          peerId: this.props.peerId,
+        })
       }
     },
     componentWillUnmount() {

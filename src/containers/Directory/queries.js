@@ -4,47 +4,84 @@ export default {
     query(
       $accountId: ID!
       $search: String
-      $first: Int!
+      $first: Int
       $skip: Int
       $donors: Boolean
       $recipients: Boolean
-      $sortBy: DirectoryPeersInputSortBy
+      $sortBy: PeersOrder!
     ) {
-      recipients: directoryPeers(
-        accountId: $accountId
-        first: $first
-        skip: $skip
-        search: $search
-        donors: $donors
-        recipients: $recipients
-        sortBy: $sortBy
-      ) {
-        id
-        name
-        total
-        revenue
-        spendings
-        categories {
+      account(id: $accountId) {
+        peers(
+          first: $first
+          skip: $skip
+          search: $search
+          donors: $donors
+          recipients: $recipients
+          sortBy: $sortBy
+        ) {
           id
           name
-          color
+          
+          total {
+            value
+          }
+          
+          revenue {
+            value
+          }
+          
+          spending {
+            value
+          }
+          
+          categories {
+            id
+            name
+            color
+          }
+          
+          countPayments {
+            value
+          }
+          
+          lastPaymentOn {
+            value
+          }
         }
-        paymentCount
-        lastPaymentDate
-      }
-      totalCount: directoryPeersCount(
-        accountId: $accountId
-        search: $search
-        donors: true
-        recipients: true
-      ) {
-        count
+        
+        countPeers(
+          search: $search
+          donors: $donors
+          recipients: $recipients
+        ) {
+          value
+        }
       }
     }
     `,
-    ({ recipients, totalCount }) => ({
-      recipients,
-      totalCount: totalCount && totalCount.count,
+    ({ account: { peers, countPeers } }) => ({
+      recipients: peers.map(
+        ({
+          id,
+          name,
+          total,
+          revenue,
+          spending,
+          categories,
+          countPayments,
+          lastPaymentOn,
+        }) => ({
+          id,
+          name,
+          total,
+          revenue,
+          spendings: spending,
+          categories,
+          paymentCount: countPayments.value,
+          lastPaymentDate: lastPaymentOn.value,
+        })
+      ),
+      totalCount: countPeers.value,
     }),
   ],
 }
