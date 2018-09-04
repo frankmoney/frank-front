@@ -10,7 +10,7 @@ import {
 export default (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.load)
-    .switchMap(({ payload: { peerId } }) => {
+    .switchMap(({ payload: { accountId, peerId } }) => {
       const state = store.getState()
       const page = currentPageSelector(state)
       const recipient = recipientSelector(state)
@@ -25,6 +25,7 @@ export default (action$, store, { graphql }) =>
           sortBy,
         }),
         {
+          accountId,
           peerId: id,
           first: PAGE_SIZE,
           skip: (page - 1) * PAGE_SIZE,
