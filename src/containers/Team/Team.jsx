@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   FixedHeader,
-  Breadcrumbs,
   BreadcrumbsItem,
   PageLoader,
 } from '@frankmoney/components'
@@ -13,6 +12,7 @@ import { push as pushLocation } from 'react-router-redux'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
 import { createStructuredSelector } from 'reselect'
 import ListLayoutContent from 'components/ListLayoutContent'
+import Breadcrumbs from 'components/Breadcrumbs'
 import { ROUTES } from 'const'
 import EditRoleDrawer from './EditRoleDrawer'
 import InviteButton from './InviteButton'

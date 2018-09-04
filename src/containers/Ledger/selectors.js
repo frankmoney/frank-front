@@ -4,9 +4,13 @@ import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
 import { isSameYear, format } from 'date-fns/fp'
 import { parseDate, formatMonth, parseMonth } from 'utils/dates'
+import {
+  parseQueryStringNumber,
+  parseQueryStringBool,
+  parseQueryString,
+} from 'utils/querystring'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
-import { parseQueryStringBool, parseQueryStringNumber } from './utils'
 
 const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
 const getFilters = (...prop) => get('filtersEdit', ...prop)
@@ -106,7 +110,10 @@ export const currentPageSelector = createSelector(
   page => parseQueryStringNumber(page) || 1
 )
 
-export const searchTextSelector = queryParamSelector('search')
+export const searchTextSelector = createSelector(
+  queryParamSelector('search'),
+  string => parseQueryString(string)
+)
 
 export const currentFiltersSelector = createSelector(
   queryParamSelector('amountMin'),

@@ -56,8 +56,10 @@ const CategoryList = ({
   valueClassName,
   valueUnit,
 }) => {
-  const renderItem = ({ key, ...otherProps }) =>
+  const renderItem = ({ key, id, ...otherProps }) =>
     renderProp(CategoryLabel, {
+      key: `category-${id}`,
+      id,
       active: key === activeKey,
       activeClassName: activeLabelClassName,
       className: cx(classes.item, itemClassName),
@@ -74,6 +76,8 @@ const CategoryList = ({
 
   const renderTooltipItem = ({ id, ...otherProps }) =>
     renderProp(CategoryLabel, {
+      key: `category-${id}`,
+      id,
       className: cx(classes.tooltipItem, tooltipItemClassName),
       iconClassName: cx(classes.tooltipIcon, tooltipIconClassName),
       nameClassName: cx(classes.tooltipName, tooltipNameClassName),
@@ -90,6 +94,7 @@ const CategoryList = ({
       {R.map(renderItem, items)}
       {other && (
         <OtherCategories
+          key="other"
           categories={tooltipItems}
           renderTooltipItem={renderTooltipItem}
         >

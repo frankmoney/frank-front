@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import {
   FixedHeader,
-  Breadcrumbs,
   BreadcrumbsItem,
   PageLoader,
   Spinner,
@@ -15,6 +14,7 @@ import {
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import CurrencyProvider from 'components/CurrencyProvider'
+import Breadcrumbs from 'components/Breadcrumbs'
 import LedgerHighlightTextProvider from './LedgerHighlightTextProvider'
 import LedgerPager from './LedgerPager'
 import LedgerSearch from './LedgerSearch'

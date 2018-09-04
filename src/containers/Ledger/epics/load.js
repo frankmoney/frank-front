@@ -34,6 +34,7 @@ export default (action$, store, { graphql }) =>
 
       return graphql(
         QUERIES.getPaymentsAndTotalCount({
+          categoryScoped: !!categoryId,
           payments: true,
           totalCount: true,
           barChart: needLoadCharts,
@@ -42,7 +43,7 @@ export default (action$, store, { graphql }) =>
         }),
         {
           accountId: currentAccountIdSelector(store.getState()),
-          categoryId,
+          categoryId: categoryId || undefined,
           first: PAGE_SIZE,
           skip: (page - 1) * PAGE_SIZE,
           search,
