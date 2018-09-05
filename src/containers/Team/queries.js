@@ -3,43 +3,45 @@ import * as R from 'ramda'
 export default {
   team: [
     `
-    fragment profileFields on TeamResultProfile {
-      id
-      email
-      lastName
-      firstName
-      avatar
-      admin
-      canInvite
-      accountIds
-      acl {
-        remove
-        editRole
-        editAvatar
-        editProfile
-        editPassword
-      }
-    }
-    
     query {
-      result: team {
-        team {
+      accounts {
+        id
+        name
+      }
+    
+      team {
+        id
+        name
+        
+        members {
           id
-          name
-          accounts {
-            id
-            name
+          self
+          email
+          lastName
+          firstName
+          avatar
+          admin
+          canInvite
+          accountIds
+          acl {
+            remove
+            editRole
+            editAvatar
+            editProfile
+            editPassword
           }
-        }
-        self {
-          ...profileFields
-        }
-        others {
-          ...profileFields
         }
       }
     }
     `,
-    R.prop('result'),
+    ({ accounts, team }) => ({
+      team: {
+        id: team.id,
+        name: team.name,
+        accounts,
+      },
+      self: R.find(x => x.self, team.members),
+      others: R.filter(x => !x.self, team.members),
+    }),
   ],
 }

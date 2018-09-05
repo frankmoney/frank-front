@@ -1,24 +1,43 @@
 import * as R from 'ramda'
 import { SORT_BY_DEFAULT } from './constants'
 
-const mapCategory = ({ category, count }) => ({ ...category, value: count })
+const mapCategory = ({ countPayments, ...category }) => ({
+  ...category,
+  value: countPayments,
+})
 
 const recipientDetails = `
     id
     name
-    total
-    revenue
-    spendings
+    
     categories {
-      category {
-        id
-        name
-        color
+      id
+      name
+      color
+      countPayments {
+        value
       }
-      count
     }
-    paymentCount
-    lastPaymentDate
+    
+    countPayments {
+      value
+    }
+    
+    total {
+      value
+    }
+    
+    revenue {
+      value
+    }
+    
+    spending {
+      value
+    }
+    
+    lastPaymentOn {
+      value
+    }
   `
 
 export default {
@@ -28,15 +47,24 @@ export default {
     sortBy,
   }) => [
     `
-    query($peerId: ID!${(includePayments && `, $first: Int!, $skip: Int`) ||
-      ''}) {
-      recipient: directoryPeer(peerId: $peerId) {
-        ${(includeRecipientInfo && recipientDetails) || ''}
-        ${(includePayments &&
-          `
-            payments(orderBy: ${
-              sortBy === SORT_BY_DEFAULT ? `postedOn_DESC` : `amount_DESC`
-            }, first: $first, skip: $skip) {
+    query(
+      $accountId: ID!
+      $peerId: ID!
+      ${includePayments ? '$first: Int' : ''}
+      ${includePayments ? '$skip: Int' : ''}
+    ) {
+      account(id: $accountId) {
+        peer(id: $peerId) {
+          ${includeRecipientInfo ? recipientDetails : ''}
+          
+          ${(includePayments &&
+            `payments(
+              first: $first
+              skip: $skip
+              sortBy: ${
+                sortBy === SORT_BY_DEFAULT ? 'postedOn_DESC' : 'amount_DESC'
+              }
+            ) {
               id
               postedOn
               amount
@@ -47,22 +75,40 @@ export default {
                 name
                 color
               }
-            }
-          `) ||
-          ''}
+            }`) ||
+            ''}
+        }
       }
     }
     `,
     ({
-      recipient: { payments, categories, paymentCount, spendings, ...other },
-    }) => ({
-      recipient: {
-        ...other,
-        spendings: -spendings,
-        categories: R.map(mapCategory, categories),
+      account: {
+        peer: {
+          id,
+          name,
+          categories,
+          payments,
+          countPayments,
+          total,
+          revenue,
+          spending,
+          lastPaymentOn,
+        },
       },
+    }) => ({
+      recipient: includeRecipientInfo
+        ? {
+            id,
+            name,
+            categories: R.map(mapCategory, categories),
+            total: total.value,
+            revenue: revenue.value,
+            spendings: -spending.value,
+            lastPaymentDate: lastPaymentOn.value,
+          }
+        : null,
       payments,
-      paymentCount,
+      paymentCount: includeRecipientInfo ? countPayments.value : null,
     }),
   ],
   editPeerName: [
