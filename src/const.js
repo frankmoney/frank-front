@@ -22,6 +22,9 @@ export const ROUTES = {
     match: '/team/:action?/:id?',
     invite: '/team/invite',
   },
+  onboarding: {
+    root: '/onboarding',
+  },
   demo: {
     root: '/demo',
     cards: '/demo/cards',

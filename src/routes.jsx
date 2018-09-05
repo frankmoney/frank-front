@@ -12,6 +12,7 @@ import Ledger from 'containers/Ledger'
 import Directory from 'containers/Directory'
 import Recipient from 'containers/Recipient'
 import Team from 'containers/Team'
+import Onboarding from 'containers/Onboarding'
 import demoRoutes from 'demo/routes'
 import { BASE_TITLE, ROUTES } from './const'
 
@@ -71,6 +72,11 @@ export default [
   {
     component: withLayout(protectedRoute(Team)),
     path: ROUTES.team.match,
+    exact: true,
+  },
+  {
+    component: protectedRoute(Onboarding),
+    path: ROUTES.onboarding.root,
     exact: true,
   },
   ...demoRoutes,
