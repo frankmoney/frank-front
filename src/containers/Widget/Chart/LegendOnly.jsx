@@ -62,11 +62,13 @@ const styles = theme => ({
 })
 
 const LegendOnly = ({
+  categoryType,
   classes,
   className,
   data,
   entriesCount,
   onCategoryClick,
+  onCategoryTypeChange,
   onPeriodChange,
   period,
   periods,
@@ -82,6 +84,7 @@ const LegendOnly = ({
   return (
     <PieChart
       categoryLimit={999}
+      categoryType={categoryType}
       chartClassName={classes.switcherContainer}
       className={cx(classes.root, className)}
       data={data}
@@ -94,6 +97,7 @@ const LegendOnly = ({
       legendNameClassName={classes.legendItemFont}
       legendValueClassName={classes.legendItemValue}
       onCategoryClick={onCategoryClick}
+      onCategoryTypeChange={onCategoryTypeChange}
       onPeriodChange={onPeriodChange}
       period={period}
       periods={periods}
@@ -104,12 +108,14 @@ const LegendOnly = ({
 }
 
 LegendOnly.propTypes = {
-  entriesCount: PropTypes.number,
-  onCategoryClick: PropTypes.func,
-  onPeriodChange: PropTypes.func,
-  period: PropTypes.string,
-  periods: PropTypes.arrayOf(PropTypes.string),
-  data: dataPropShape,
+  categoryType: PropTypes.string.isRequired,
+  entriesCount: PropTypes.number.isRequired,
+  onCategoryClick: PropTypes.func.isRequired,
+  onCategoryTypeChange: PropTypes.func.isRequired,
+  onPeriodChange: PropTypes.func.isRequired,
+  period: PropTypes.string.isRequired,
+  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
+  data: dataPropShape.isRequired,
 }
 
 export default injectStyles(styles)(LegendOnly)

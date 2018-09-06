@@ -132,6 +132,8 @@ export const currentFiltersSelector = createSelector(
 
 // Chart Selectors
 
+export const chartCategoryTypeSelector = get('chartCategoryType')
+
 export const chartsVisibleSelector = createSelector(
   searchTextSelector,
   R.either(R.isNil, R.isEmpty)

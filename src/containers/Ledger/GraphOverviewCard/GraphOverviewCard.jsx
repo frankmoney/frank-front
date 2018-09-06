@@ -23,14 +23,15 @@ class GraphOverviewCard extends React.PureComponent {
     const {
       barsData,
       barsOnly,
+      categoryType,
       classes,
       className,
       onCategoryClick,
+      onCategoryTypeChange,
       pieData,
     } = this.props
 
     const { expanded } = this.state
-
     return (
       <Paper
         className={cx(
@@ -45,12 +46,13 @@ class GraphOverviewCard extends React.PureComponent {
         ) : (
           <>
             <PieChart
+              categoryType={categoryType}
               chartClassName={classes.chart}
               data={pieData}
               hidePeriod
               legendClassName={classes.legend}
               onCategoryClick={onCategoryClick}
-              period={period}
+              onCategoryTypeChange={onCategoryTypeChange}
             />
             <ExpandRow
               className={classes.bottomRow}

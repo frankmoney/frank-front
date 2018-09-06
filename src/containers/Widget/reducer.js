@@ -9,7 +9,7 @@ export const REDUCER_KEY = 'widget'
 
 const initialState = fromJS({
   barsData: BAR_CHART_DATA,
-  categoryType: 'income', // FIXME: placeholder
+  categoryType: 'spending', // TODO: should it be hardcoded?
   currentCategory: null,
   period: 'All time', // FIXME: placeholder
   periods: ['All time', '2018', 'TBD'], // FIXME: placeholder
@@ -18,6 +18,8 @@ const initialState = fromJS({
 
 export default handleActions(
   {
+    [ACTIONS.selectCategoryType]: (state, { payload: categoryType }) =>
+      state.merge({ categoryType }),
     [ACTIONS.selectCategory]: (state, { payload: category }) =>
       state.merge({ currentCategory: category }),
     [ACTIONS.cancelCategory]: state => state.merge({ currentCategory: null }),

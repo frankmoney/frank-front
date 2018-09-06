@@ -11,18 +11,13 @@ import { limitCategoriesTo, DEFAULT_LIMIT } from 'utils/limitCategories'
 import PeriodSelector from './PeriodSelector'
 import styles from './PieChart.jss'
 
-export const pieCategoryTypes = [{ key: 'income' }, { key: 'spending' }]
+const CATEGORY_TYPES = [{ key: 'income' }, { key: 'spending' }]
 
 const roundValues = R.over(R.lensProp('value'), Math.round)
 
 class PieChart extends React.PureComponent {
   state = {
     activeKey: null,
-    categoryType: 'spending',
-  }
-
-  handleChangeCategoryType = event => {
-    this.setState({ categoryType: event.target.value })
   }
 
   handleMouseOver = key => this.setState({ activeKey: key })
@@ -32,6 +27,7 @@ class PieChart extends React.PureComponent {
   render() {
     const {
       categoryLimit,
+      categoryType,
       chartClassName,
       chartSize,
       classes,
@@ -48,6 +44,7 @@ class PieChart extends React.PureComponent {
       legendNameClassName,
       legendValueClassName,
       onCategoryClick,
+      onCategoryTypeChange,
       onPeriodChange,
       period,
       periods,
@@ -56,7 +53,9 @@ class PieChart extends React.PureComponent {
       switcherLabel,
     } = this.props
 
-    const { categoryType } = this.state
+    const handleChangeCategoryType =
+      onCategoryTypeChange &&
+      (event => onCategoryTypeChange(event.target.value))
 
     const categories = data[categoryType]
     const categoryCount = R.length(categories)
@@ -103,9 +102,9 @@ class PieChart extends React.PureComponent {
           <DropdownSwitcher
             className={cx(classes.switcher, switcherClassName)}
             label={switcherLabel}
-            onChange={this.handleChangeCategoryType}
+            onChange={handleChangeCategoryType}
             value={categoryType}
-            values={pieCategoryTypes}
+            values={CATEGORY_TYPES}
           />
         </div>
         <CategoryList
@@ -143,6 +142,7 @@ export const dataPropShape = PropTypes.objectOf(
 
 PieChart.propTypes = {
   categoryLimit: PropTypes.number.isRequired,
+  categoryType: PropTypes.string.isRequired,
   chartSize: PropTypes.number.isRequired,
   data: dataPropShape,
   entriesCount: PropTypes.number.isRequired,
@@ -155,6 +155,7 @@ PieChart.propTypes = {
   legendNameClassName: PropTypes.string,
   legendValueClassName: PropTypes.string,
   onCategoryClick: PropTypes.func, // category object in callback
+  onCategoryTypeChange: PropTypes.func,
   onPeriodChange: PropTypes.func,
   period: PropTypes.string,
   periods: PropTypes.arrayOf(PropTypes.string),

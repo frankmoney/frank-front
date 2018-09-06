@@ -14,6 +14,7 @@ import { Header, HeaderItem, CategoryName } from './Header'
 import OverviewChart from './Chart'
 import {
   barChartDataSelector,
+  categoryTypeSelector,
   currentCategoryColorSelector,
   currentCategoryNameSelector,
   entriesCountSelector,
@@ -80,6 +81,7 @@ class InlineWidget extends React.PureComponent {
   render() {
     const {
       barsData,
+      categoryType,
       classes,
       className,
       currentCategoryColor,
@@ -87,6 +89,7 @@ class InlineWidget extends React.PureComponent {
       entriesCount,
       onCategoryClick,
       onCancelCategoryClick,
+      onCategoryTypeChange,
       onPeriodChange,
       stories: Stories,
       period,
@@ -166,8 +169,10 @@ class InlineWidget extends React.PureComponent {
         {isPayments &&
           !paymentList && (
             <OverviewChart
+              categoryType={categoryType}
               entriesCount={entriesCount}
               onCategoryClick={onCategoryClick}
+              onCategoryTypeChange={onCategoryTypeChange}
               onPeriodChange={onPeriodChange}
               period={period}
               periods={periods}
@@ -183,8 +188,12 @@ class InlineWidget extends React.PureComponent {
 }
 
 InlineWidget.propTypes = {
-  period: PropTypes.string,
-  periods: PropTypes.arrayOf(PropTypes.string),
+  categoryType: PropTypes.string,
+  onCategoryClick: PropTypes.func.isRequired,
+  onCategoryTypeChange: PropTypes.func.isRequired,
+  onPeriodChange: PropTypes.func.isRequired,
+  period: PropTypes.string.isRequired,
+  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
   stories: PropTypes.element,
   tab: PropTypes.oneOf(['payments', 'stories', 'about']),
@@ -196,6 +205,7 @@ InlineWidget.defaultProps = {
 
 const mapStateToProps = createStructuredSelector({
   barsData: barChartDataSelector,
+  categoryType: categoryTypeSelector,
   currentCategoryColor: currentCategoryColorSelector,
   currentCategoryName: currentCategoryNameSelector,
   entriesCount: entriesCountSelector,
@@ -207,6 +217,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = R.partial(bindActionCreators, [
   {
     onCategoryClick: ACTIONS.selectCategory,
+    onCategoryTypeChange: ACTIONS.selectCategoryType,
     onCancelCategoryClick: ACTIONS.cancelCategory,
     onPeriodChange: ACTIONS.selectPeriod,
   },

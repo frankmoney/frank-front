@@ -56,9 +56,11 @@ const styles = theme => ({
 })
 
 const ActualChart = ({
+  categoryType,
   classes,
   entriesCount,
   onCategoryClick,
+  onCategoryTypeChange,
   onPeriodChange,
   period,
   periods,
@@ -68,6 +70,7 @@ const ActualChart = ({
   const switcherLabel = size < 800 ? '% of' : '% of total'
   return (
     <PieChart
+      categoryType={categoryType}
       chartClassName={classes.chart}
       chartSize={pieSize(size)}
       data={pieData}
@@ -80,6 +83,7 @@ const ActualChart = ({
       legendNameClassName={classes.legendItemFont}
       legendValueClassName={classes.legendItemValue}
       onCategoryClick={onCategoryClick}
+      onCategoryTypeChange={onCategoryTypeChange}
       onPeriodChange={onPeriodChange}
       period={period}
       periods={periods}
@@ -98,12 +102,14 @@ const Chart = ({ size, ...props }) => {
 }
 
 Chart.propTypes = {
-  entriesCount: PropTypes.number,
-  onCategoryClick: PropTypes.func,
-  onPeriodChange: PropTypes.func,
-  period: PropTypes.string,
-  periods: PropTypes.arrayOf(PropTypes.string),
-  pieData: dataPropShape,
+  categoryType: PropTypes.string.isRequired,
+  entriesCount: PropTypes.number.isRequired,
+  onCategoryClick: PropTypes.func.isRequired,
+  onCategoryTypeChange: PropTypes.func.isRequired,
+  onPeriodChange: PropTypes.func.isRequired,
+  period: PropTypes.string.isRequired,
+  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
+  pieData: dataPropShape.isRequired,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
 }
 
