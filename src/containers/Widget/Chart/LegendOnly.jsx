@@ -60,7 +60,14 @@ const styles = theme => ({
   },
 })
 
-const LegendOnly = ({ classes, className, data, entriesCount, period }) => {
+const LegendOnly = ({
+  classes,
+  className,
+  data,
+  entriesCount,
+  onCategoryClick,
+  period,
+}) => {
   // eslint-disable-next-line no-shadow
   const ShortFooter = ({ className, paymentCount }) => (
     <Footer
@@ -83,6 +90,7 @@ const LegendOnly = ({ classes, className, data, entriesCount, period }) => {
       legendItemClassName={classes.legendItem}
       legendNameClassName={classes.legendItemFont}
       legendValueClassName={classes.legendItemValue}
+      onCategoryClick={onCategoryClick}
       period={period}
       periodSelectClassName={classes.periodSelect}
       switcherClassName={classes.switcher}

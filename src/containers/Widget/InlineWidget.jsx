@@ -4,6 +4,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { compose } from 'recompose'
 import { createStructuredSelector } from 'reselect'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
@@ -13,11 +14,13 @@ import { Header, HeaderItem, CategoryName } from './Header'
 import OverviewChart from './Chart'
 import {
   barChartDataSelector,
+  currentCategoryColorSelector,
   currentCategoryNameSelector,
   entriesCountSelector,
   periodSelector,
   pieChartDataSelector,
 } from './selectors'
+import * as ACTIONS from './actions'
 
 const styles = theme => ({
   root: {
@@ -69,7 +72,6 @@ const barsHeight = R.cond([
 class InlineWidget extends React.PureComponent {
   state = {
     tab: this.props.tab,
-    paymentList: this.props.paymentList,
   }
 
   switchTab = tab => () => this.setState({ tab })
@@ -79,14 +81,18 @@ class InlineWidget extends React.PureComponent {
       barsData,
       classes,
       className,
+      currentCategoryColor,
       currentCategoryName,
       entriesCount,
+      onCategoryClick,
+      onCancelCategoryClick,
       stories: Stories,
       period,
       pieData,
       size,
     } = this.props
-    const { tab, paymentList } = this.state
+    const { tab } = this.state
+    const paymentList = currentCategoryName != null
 
     const isPayments = tab === 'payments'
     const isStories = tab === 'stories'
@@ -107,7 +113,10 @@ class InlineWidget extends React.PureComponent {
       >
         {paymentList && (
           <Header live={false}>
-            <CategoryName name={currentCategoryName} />
+            <CategoryName
+              name={currentCategoryName}
+              onClick={() => onCancelCategoryClick()}
+            />
           </Header>
         )}
         {!paymentList && (
@@ -139,6 +148,7 @@ class InlineWidget extends React.PureComponent {
                 value={period}
               />
               <Bar
+                barColor={currentCategoryColor}
                 className={classes.barChart}
                 data={barsData}
                 footerPadding={10}
@@ -153,6 +163,7 @@ class InlineWidget extends React.PureComponent {
           !paymentList && (
             <OverviewChart
               entriesCount={entriesCount}
+              onCategoryClick={onCategoryClick}
               period={period}
               pieData={pieData}
               size={size}
@@ -166,7 +177,6 @@ class InlineWidget extends React.PureComponent {
 }
 
 InlineWidget.propTypes = {
-  paymentList: PropTypes.bool,
   period: PropTypes.string,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
   stories: PropTypes.element,
@@ -174,19 +184,29 @@ InlineWidget.propTypes = {
 }
 
 InlineWidget.defaultProps = {
-  paymentList: false,
   tab: 'payments',
 }
 
 const mapStateToProps = createStructuredSelector({
   barsData: barChartDataSelector,
+  currentCategoryColor: currentCategoryColorSelector,
   currentCategoryName: currentCategoryNameSelector,
   entriesCount: entriesCountSelector,
   period: periodSelector,
   pieData: pieChartDataSelector,
 })
 
+const mapDispatchToProps = R.partial(bindActionCreators, [
+  {
+    onCategoryClick: ACTIONS.selectCategory,
+    onCancelCategoryClick: ACTIONS.cancelCategory,
+  },
+])
+
 export default compose(
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   injectStyles(styles)
 )(InlineWidget)

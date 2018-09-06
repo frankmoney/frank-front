@@ -37,20 +37,11 @@ const WidgetsDemo = ({ classes }) => (
     <Title>Inline widget 500x345</Title>
     <InlineWidget size={500} stories={StoriesPlaceholder} />
 
-    <Title>Inline widget 500x345 bars</Title>
-    <InlineWidget paymentList size={500} stories={StoriesPlaceholder} />
-
     <Title>Inline widget 625x430</Title>
     <InlineWidget size={625} stories={StoriesPlaceholder} />
 
-    <Title>Inline widget 625x430 bars</Title>
-    <InlineWidget paymentList size={625} stories={StoriesPlaceholder} />
-
     <Title>Inline widget 800x550</Title>
     <InlineWidget size={800} stories={StoriesPlaceholder} />
-
-    <Title>Inline widget 800x550 bars</Title>
-    <InlineWidget paymentList size={800} stories={StoriesPlaceholder} />
   </div>
 )
 

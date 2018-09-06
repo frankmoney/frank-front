@@ -72,6 +72,9 @@ class PieChart extends React.PureComponent {
     }
     const pieData = other ? R.append(other, items) : items
 
+    const handleCategoryClick =
+      onCategoryClick && (key => onCategoryClick(items[key]))
+
     return (
       <div
         className={cx(
@@ -116,7 +119,7 @@ class PieChart extends React.PureComponent {
           itemClassName={cx(classes.legendItem, legendItemClassName)}
           limitedCategories={limitedCategories}
           nameClassName={cx(classes.legendItemName, legendNameClassName)}
-          onLabelClick={onCategoryClick}
+          onLabelClick={handleCategoryClick}
           onLabelMouseEnter={this.handleMouseOver}
           onLabelMouseLeave={this.handleMouseOut}
           tooltip
@@ -152,7 +155,7 @@ PieChart.propTypes = {
   legendItemClassName: PropTypes.string,
   legendNameClassName: PropTypes.string,
   legendValueClassName: PropTypes.string,
-  onCategoryClick: PropTypes.func,
+  onCategoryClick: PropTypes.func, // category object in callback
   period: PropTypes.string,
   switcherClassName: PropTypes.string,
   switcherLabel: PropTypes.string,

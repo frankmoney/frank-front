@@ -55,7 +55,14 @@ const styles = theme => ({
   },
 })
 
-const ActualChart = ({ classes, entriesCount, period, pieData, size }) => {
+const ActualChart = ({
+  classes,
+  entriesCount,
+  onCategoryClick,
+  period,
+  pieData,
+  size,
+}) => {
   const switcherLabel = size < 800 ? '% of' : '% of total'
   return (
     <PieChart
@@ -70,6 +77,7 @@ const ActualChart = ({ classes, entriesCount, period, pieData, size }) => {
       legendItemClassName={classes.legendItem}
       legendNameClassName={classes.legendItemFont}
       legendValueClassName={classes.legendItemValue}
+      onCategoryClick={onCategoryClick}
       period={period}
       switcherClassName={size === 500 && classes.switcher500}
       switcherLabel={switcherLabel}

@@ -1,16 +1,41 @@
+import * as R from 'ramda'
+import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { REDUCER_KEY } from './reducer'
 
-const get = prop => store => store.getIn([REDUCER_KEY, prop])
+const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
 
-const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
-const rawBarDataSelector = createPlainObjectSelector(get('barsData'))
+export const pieChartDataSelector = createPlainObjectSelector(get('pieData'))
+export const barChartDataSelector = createPlainObjectSelector(get('barsData'))
 
-export const pieChartDataSelector = rawPieDataSelector
-export const entriesCountSelector = () => 42 // FIXME: entriesCountSelector
+export const categoryTypeSelector = get('categoryType')
+export const periodSelector = get('period')
 
-export const currentCategoryNameSelector = () => 'Product development' // FIXME: get('currentCategory')
+export const activeCategoriesSelector = createSelector(
+  pieChartDataSelector,
+  categoryTypeSelector,
+  (data, categoryType) => data[categoryType]
+)
 
-export const barChartDataSelector = rawBarDataSelector
+export const entriesCountSelector = createSelector(
+  activeCategoriesSelector,
+  R.pipe(
+    // FIXME: placeholder
+    R.length,
+    R.multiply(3)
+  )
+)
 
-export const periodSelector = () => 'All time' // FIXME: periodSelector
+export const selectedCategorySelector = createPlainObjectSelector(
+  get('currentCategory')
+)
+
+export const currentCategoryNameSelector = createSelector(
+  selectedCategorySelector,
+  R.prop('name')
+)
+
+export const currentCategoryColorSelector = createSelector(
+  selectedCategorySelector,
+  R.prop('color')
+)
