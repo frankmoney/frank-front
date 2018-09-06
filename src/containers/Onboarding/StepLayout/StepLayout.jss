@@ -27,4 +27,14 @@ export default theme => ({
     padding: [0, 20],
     boxShadow: '0px -1px 0px rgba(37, 43, 67, 0.08)',
   },
+  footerText: {
+    color: '#20284A',
+    opacity: 0.4,
+    ...theme.fontRegular(16, 22),
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
 })

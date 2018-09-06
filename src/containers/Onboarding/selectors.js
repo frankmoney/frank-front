@@ -13,3 +13,7 @@ export const canGoBackSelector = createSelector(
     R.gt(R.__, 0)
   )
 )
+
+export const selectedBankIdSelector = get('bank', 'selectedBank', 'id')
+export const selectedBankNameSelector = get('bank', 'selectedBank', 'name')
+export const selectedBankLogoSelector = get('bank', 'selectedBank', 'logoUrl')

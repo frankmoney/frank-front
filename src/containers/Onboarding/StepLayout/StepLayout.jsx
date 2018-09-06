@@ -18,6 +18,7 @@ const StepLayout = ({
   canGoBack,
   goNext,
   goBack,
+  footerText,
   children,
 }) => (
   <div className={cx(classes.root, className)}>
@@ -25,7 +26,8 @@ const StepLayout = ({
     <div className={classes.container}>{children}</div>
     <div className={classes.footer}>
       {canGoBack ? <Button label="Back" onClick={goBack} /> : <div />}
-      <Button label="Continue" primary onClick={goNext} />
+      {footerText && <div className={classes.footerText}>{footerText}</div>}
+      <Button label="Continue" type="primary" onClick={goNext} />
     </div>
   </div>
 )

@@ -6,9 +6,21 @@ import { PageLoader } from '@frankmoney/components'
 import { createStructuredSelector } from 'reselect'
 import styles from './Onboarding.jss'
 import { currentStepSelector } from './selectors'
-import AccountInfo from './Steps/AccountInfo'
+import * as STEPS from './Steps'
 
-const Onboarding = ({ currentStep, ...props }) => <AccountInfo {...props} />
+const Onboarding = ({ currentStep, ...props }) => {
+  const StepComponent = {
+    bank: STEPS.SelectBank,
+    account: STEPS.SelectAccount,
+    credentials: STEPS.Credentials,
+    verify: STEPS.Verify,
+    accountInfo: STEPS.AccountInfo,
+    categories: STEPS.Categories,
+    team: STEPS.Team,
+  }[currentStep]
+
+  return <StepComponent {...props} />
+}
 
 const mapStateToProps = createStructuredSelector({
   currentStep: currentStepSelector,

@@ -6,6 +6,7 @@ const styles = theme => ({
   root: {
     ...theme.fontSemibold(60, 60),
     textAlign: 'center',
+    color: '#20284A',
   },
 })
 

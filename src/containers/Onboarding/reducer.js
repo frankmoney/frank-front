@@ -6,11 +6,11 @@ import { STEPS } from './constants'
 export const REDUCER_KEY = 'onboarding'
 
 const defaultState = fromJS({
-  currentStep: 'bank',
+  currentStep: 'verify',
   bank: {
     list: [],
     search: '',
-    selectedId: null,
+    selectedBank: null,
   },
   credentials: {},
   account: {},
@@ -50,6 +50,8 @@ export default handleActions(
         }
         return STEPS[idx - 1]
       }),
+    [ACTIONS.bankSelect]: (state, { payload: bank }) =>
+      state.setIn(['bank', 'selectedBank'], fromJS(bank)),
     [ACTIONS.leave]: () => defaultState,
   },
   defaultState
