@@ -2,32 +2,29 @@ import React from 'react'
 import cx from 'classnames'
 import { withProps } from 'recompose'
 import { Field } from 'redux-form/immutable'
-import { Subject as DescriptionIcon } from 'material-ui-icons'
+import { Title as TitleIcon } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
 import { FieldWithIcon as FieldContainer } from 'components/Field'
 import TextBox from 'components/TextBox'
 import FieldIcon from 'components/FieldIcon'
 
 const styles = theme => ({
-  description: {},
-  descriptionTextBox: {
-    ...theme.fontRegular(20, 32),
-    padding: [7, 0, 5, 0],
+  title: {},
+  titleTextBox: {
+    ...theme.fontSemibold(40, 46),
+    padding: [10, 0, 4, 0],
   },
 })
 
-const DescriptionIconLabel = withProps({ iconComponent: DescriptionIcon })(
-  FieldIcon
-)
+const TitleIconLabel = withProps({ iconComponent: TitleIcon })(FieldIcon)
 
 const TextField = ({ classes, className, placeholder, input }) => (
   <FieldContainer
-    label={DescriptionIconLabel}
-    className={cx(classes.description, className)}
+    label={TitleIconLabel}
+    className={cx(classes.title, className)}
   >
     <TextBox
-      className={classes.descriptionTextBox}
-      expand="vertically"
+      className={classes.titleTextBox}
       placeholder={placeholder}
       disableUnderline
       {...input}
@@ -37,8 +34,8 @@ const TextField = ({ classes, className, placeholder, input }) => (
 
 const StyledTextField = injectStyles(styles)(TextField)
 
-const BigTextField = ({ ...props }) => (
+const TitleField = ({ ...props }) => (
   <Field component={StyledTextField} {...props} />
 )
 
-export default BigTextField
+export default TitleField
