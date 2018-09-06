@@ -18,6 +18,7 @@ import {
   currentCategoryNameSelector,
   entriesCountSelector,
   periodSelector,
+  periodsSelector,
   pieChartDataSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
@@ -86,8 +87,10 @@ class InlineWidget extends React.PureComponent {
       entriesCount,
       onCategoryClick,
       onCancelCategoryClick,
+      onPeriodChange,
       stories: Stories,
       period,
+      periods,
       pieData,
       size,
     } = this.props
@@ -144,8 +147,9 @@ class InlineWidget extends React.PureComponent {
             <>
               <PeriodSelector
                 className={cx(classes.paymentsPeriodSelect)}
-                // onChange={this.handleChangePeriod}
+                onChange={onPeriodChange}
                 value={period}
+                values={periods}
               />
               <Bar
                 barColor={currentCategoryColor}
@@ -164,7 +168,9 @@ class InlineWidget extends React.PureComponent {
             <OverviewChart
               entriesCount={entriesCount}
               onCategoryClick={onCategoryClick}
+              onPeriodChange={onPeriodChange}
               period={period}
+              periods={periods}
               pieData={pieData}
               size={size}
             />
@@ -178,6 +184,7 @@ class InlineWidget extends React.PureComponent {
 
 InlineWidget.propTypes = {
   period: PropTypes.string,
+  periods: PropTypes.arrayOf(PropTypes.string),
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
   stories: PropTypes.element,
   tab: PropTypes.oneOf(['payments', 'stories', 'about']),
@@ -193,6 +200,7 @@ const mapStateToProps = createStructuredSelector({
   currentCategoryName: currentCategoryNameSelector,
   entriesCount: entriesCountSelector,
   period: periodSelector,
+  periods: periodsSelector,
   pieData: pieChartDataSelector,
 })
 
@@ -200,6 +208,7 @@ const mapDispatchToProps = R.partial(bindActionCreators, [
   {
     onCategoryClick: ACTIONS.selectCategory,
     onCancelCategoryClick: ACTIONS.cancelCategory,
+    onPeriodChange: ACTIONS.selectPeriod,
   },
 ])
 

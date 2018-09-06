@@ -59,7 +59,9 @@ const ActualChart = ({
   classes,
   entriesCount,
   onCategoryClick,
+  onPeriodChange,
   period,
+  periods,
   pieData,
   size,
 }) => {
@@ -78,7 +80,9 @@ const ActualChart = ({
       legendNameClassName={classes.legendItemFont}
       legendValueClassName={classes.legendItemValue}
       onCategoryClick={onCategoryClick}
+      onPeriodChange={onPeriodChange}
       period={period}
+      periods={periods}
       switcherClassName={size === 500 && classes.switcher500}
       switcherLabel={switcherLabel}
     />
@@ -95,7 +99,10 @@ const Chart = ({ size, ...props }) => {
 
 Chart.propTypes = {
   entriesCount: PropTypes.number,
+  onCategoryClick: PropTypes.func,
+  onPeriodChange: PropTypes.func,
   period: PropTypes.string,
+  periods: PropTypes.arrayOf(PropTypes.string),
   pieData: dataPropShape,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
 }

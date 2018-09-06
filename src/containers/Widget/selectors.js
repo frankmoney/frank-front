@@ -10,6 +10,7 @@ export const barChartDataSelector = createPlainObjectSelector(get('barsData'))
 
 export const categoryTypeSelector = get('categoryType')
 export const periodSelector = get('period')
+export const periodsSelector = createPlainObjectSelector(get('periods'))
 
 export const activeCategoriesSelector = createSelector(
   pieChartDataSelector,

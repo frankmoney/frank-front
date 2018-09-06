@@ -12,6 +12,7 @@ const initialState = fromJS({
   categoryType: 'income', // FIXME: placeholder
   currentCategory: null,
   period: 'All time', // FIXME: placeholder
+  periods: ['All time', '2018', 'TBD'], // FIXME: placeholder
   pieData: PIE_CHART_DATA,
 })
 
@@ -20,6 +21,8 @@ export default handleActions(
     [ACTIONS.selectCategory]: (state, { payload: category }) =>
       state.merge({ currentCategory: category }),
     [ACTIONS.cancelCategory]: state => state.merge({ currentCategory: null }),
+    [ACTIONS.selectPeriod]: (state, { payload: period }) =>
+      state.merge({ period }),
   },
   initialState
 )

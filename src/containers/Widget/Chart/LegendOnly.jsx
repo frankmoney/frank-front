@@ -1,7 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import PieChart from 'containers/PieChart'
+import PieChart, { dataPropShape } from 'containers/PieChart'
 import Footer from './Footer'
 
 const styles = theme => ({
@@ -66,7 +67,9 @@ const LegendOnly = ({
   data,
   entriesCount,
   onCategoryClick,
+  onPeriodChange,
   period,
+  periods,
 }) => {
   // eslint-disable-next-line no-shadow
   const ShortFooter = ({ className, paymentCount }) => (
@@ -91,11 +94,22 @@ const LegendOnly = ({
       legendNameClassName={classes.legendItemFont}
       legendValueClassName={classes.legendItemValue}
       onCategoryClick={onCategoryClick}
+      onPeriodChange={onPeriodChange}
       period={period}
+      periods={periods}
       periodSelectClassName={classes.periodSelect}
       switcherClassName={classes.switcher}
     />
   )
+}
+
+LegendOnly.propTypes = {
+  entriesCount: PropTypes.number,
+  onCategoryClick: PropTypes.func,
+  onPeriodChange: PropTypes.func,
+  period: PropTypes.string,
+  periods: PropTypes.arrayOf(PropTypes.string),
+  data: dataPropShape,
 }
 
 export default injectStyles(styles)(LegendOnly)
