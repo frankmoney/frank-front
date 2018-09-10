@@ -13,8 +13,13 @@ const styles = theme => ({
     resize: 'none',
     outline: 'none',
     border: 'none',
-    borderBottom: ({ focus }) =>
-      `1px solid ${focus ? theme.colors.blue : '#E4E5E9'}`,
+    borderBottom: ({ focus, disableUnderline }) =>
+      disableUnderline
+        ? 'none'
+        : `1px solid ${focus ? theme.colors.blue : '#E4E5E9'}`,
+    '&::placeholder': {
+      color: 'rgba(37, 43, 67, 0.3)',
+    },
   },
 })
 

@@ -6,7 +6,7 @@ import { STEPS } from './constants'
 export const REDUCER_KEY = 'onboarding'
 
 const defaultState = fromJS({
-  currentStep: 'verify',
+  currentStep: 'accountInfo',
   bank: {
     list: [],
     search: '',
