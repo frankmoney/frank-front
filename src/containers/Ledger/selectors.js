@@ -219,3 +219,5 @@ export const pieChartDataSelector = createSelector(
       ),
     ])(list)
 )
+
+export const allPeersSelector = createPlainObjectSelector(get('allPeers'))

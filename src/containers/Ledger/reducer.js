@@ -28,13 +28,23 @@ export default handleActions(
       state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
     [ACTIONS.load.success]: (
       state,
-      { payload: { payments, categories, totalCount, pieChart, barChart } }
+      {
+        payload: {
+          allPeers,
+          payments,
+          categories,
+          totalCount,
+          pieChart,
+          barChart,
+        },
+      }
     ) =>
       state.merge({
         loading: false,
         loaded: true,
         updatingList: false,
         categories: categories ? fromJS(categories) : state.get('categories'),
+        allPeers: fromJS(allPeers),
         payments: fromJS(payments),
         barsData: fromJS(barChart || []),
         pieData: fromJS(pieChart || []),
