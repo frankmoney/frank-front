@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { Checkbox } from 'material-ui'
 import Field from './Field'
@@ -28,7 +28,7 @@ const AccountsField = ({ classes, accounts, selection, onChange }) => (
   <Field title="Access">
     {accounts &&
       accounts.map(({ id, name }, index) => (
-        <>
+        <Fragment key={id}>
           {index > 0 && <hr className={classes.separator} />}
           <label className={classes.item}>
             <Checkbox
@@ -39,7 +39,7 @@ const AccountsField = ({ classes, accounts, selection, onChange }) => (
             />
             <span className={classes.label}>{name}</span>
           </label>
-        </>
+        </Fragment>
       ))}
   </Field>
 )

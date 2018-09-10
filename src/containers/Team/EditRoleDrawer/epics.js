@@ -13,12 +13,9 @@ export const loadEpic = (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.load)
     .switchMap(({ payload: { id } }) =>
-      Promise.all([
-        graphql(QUERIES.teamAccounts),
-        graphql(QUERIES.teammate, { id }),
-      ])
+      graphql(QUERIES.accountsAndMember, { memberId: id })
     )
-    .map(([accounts, profile]) => ACTIONS.load.success({ accounts, profile }))
+    .map(ACTIONS.load.success)
 
 export const cancelEpic = action$ =>
   action$.ofType(ACTIONS.cancel).map(() => push(ROUTES.team.root))
