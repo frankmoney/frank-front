@@ -12,6 +12,7 @@ import Bar from 'components/Charts/Bar'
 import PeriodSelector from 'containers/PieChart/PeriodSelector'
 import { Header, HeaderItem, CategoryName } from './Header'
 import OverviewChart from './Chart'
+import Payments from './Payments'
 import {
   barChartDataSelector,
   categoryTypeSelector,
@@ -164,6 +165,7 @@ class InlineWidget extends React.PureComponent {
                 labelKey="date"
                 width={size > 500 ? 516 : 468}
               />
+              <Payments />
             </>
           )}
         {isPayments &&

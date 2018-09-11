@@ -9,6 +9,7 @@ import {
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
+import { remapPieData, totalExpensesFrom, totalIncomeFrom } from 'utils/pieData'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
@@ -171,53 +172,12 @@ export const barChartDataSelector = createSelector(
 // из [category{name,color},income,expenses] в {income|spending: [{color,name,value}]} где value процент от всех income|spending
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
 
-const totalExpensesSelector = createSelector(
-  rawPieDataSelector,
-  R.pipe(
-    R.map(R.prop('expenses')),
-    R.sum
-  )
-)
-const totalIncomeSelector = createSelector(
-  rawPieDataSelector,
-  R.pipe(
-    R.map(R.prop('income')),
-    R.sum
-  )
-)
+const totalExpensesSelector = totalExpensesFrom(rawPieDataSelector)
+const totalIncomeSelector = totalIncomeFrom(rawPieDataSelector)
 
-const percentOf = (value, total) => Math.round((100 * value) / total)
-const mapCategory = R.when(
-  R.isNil,
-  R.always({ color: '#B3B3B3', name: '#Uncategorized' })
-)
-const sortByValueDescend = R.sortBy(
-  R.pipe(
-    R.prop('value'),
-    R.negate
-  )
-)
 export const pieChartDataSelector = createSelector(
   rawPieDataSelector,
   totalExpensesSelector,
   totalIncomeSelector,
-  (list, totalExpenses, totalIncome) =>
-    R.converge((...args) => R.zipObj(['income', 'spending'], args), [
-      R.pipe(
-        R.filter(({ income }) => income > 0),
-        R.map(({ income: value, category }) => ({
-          value: percentOf(value, totalIncome),
-          ...mapCategory(category),
-        })),
-        sortByValueDescend
-      ),
-      R.pipe(
-        R.filter(({ expenses }) => expenses > 0),
-        R.map(({ expenses: value, category }) => ({
-          value: percentOf(value, totalExpenses),
-          ...mapCategory(category),
-        })),
-        sortByValueDescend
-      ),
-    ])(list)
+  remapPieData
 )
