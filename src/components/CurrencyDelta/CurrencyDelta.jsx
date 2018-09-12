@@ -29,10 +29,18 @@ const styles = {
   },
 }
 
-const render = ({ className, classes, symbol, value, formatter }) => (
+const render = ({
+  classes,
+  className,
+  formatter,
+  symbol,
+  value,
+  valueClassName,
+}) => (
   <div className={cx(classes.root, className)}>
     <div
       className={classes.sign}
+      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{
         __html: isNegative(value) ? '&minus;' : '&plus;',
       }}
@@ -41,7 +49,8 @@ const render = ({ className, classes, symbol, value, formatter }) => (
     <div
       className={cx(
         classes.value,
-        isNegative(value) ? classes.negative : classes.positive
+        isNegative(value) ? classes.negative : classes.positive,
+        valueClassName
       )}
     >
       {formatter(value, undefined, true)}
@@ -49,15 +58,23 @@ const render = ({ className, classes, symbol, value, formatter }) => (
   </div>
 )
 
-const CurrencyDelta = ({ className, classes, symbol, value, formatter }) => (
+const CurrencyDelta = ({
+  classes,
+  className,
+  formatter,
+  symbol,
+  value,
+  valueClassName,
+}) => (
   <CurrencyContext.Consumer>
     {(context = {}) =>
       render({
         classes,
         className,
+        formatter: formatter || context.formatter || defaultFormatter,
         symbol: symbol || context.symbol,
         value,
-        formatter: formatter || context.formatter || defaultFormatter,
+        valueClassName,
       })
     }
   </CurrencyContext.Consumer>

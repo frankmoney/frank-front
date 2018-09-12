@@ -45,6 +45,11 @@ const styles = theme => ({
   category: {
     ...theme.fontMedium(16),
   },
+  categoryIcon: {
+    height: 12,
+    marginBottom: -1,
+    width: 12,
+  },
   sum: {
     ...theme.fontRegular(20, 30),
     textAlign: 'right',
@@ -104,7 +109,7 @@ const PaymentsTableRow = ({
         {category && (
           <CategoryLabel
             className={classes.category}
-            size={12}
+            iconClassName={classes.categoryIcon}
             color={category.color}
             name={category.name}
           />
