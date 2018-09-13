@@ -15,27 +15,17 @@ const styles = theme => ({
   },
 })
 
-const PaymentBlock = ({
-  classes,
-  className,
-  items,
-  key,
-  showCategory,
-  title,
-}) => {
-  console.log('block', title, items, key)
-  return (
-    <div className={cx(classes.root, className)} key={key}>
-      <div className={classes.title}>{title}</div>
-      {R.map(
-        ({ id, ...payment }) => (
-          <Payment showCategory={showCategory} key={id} {...payment} />
-        ),
-        items
-      )}
-    </div>
-  )
-}
+const PaymentBlock = ({ classes, className, items, showCategory, title }) => (
+  <div className={cx(classes.root, className)}>
+    <div className={classes.title}>{title}</div>
+    {R.map(
+      ({ id, ...payment }) => (
+        <Payment showCategory={showCategory} key={id} {...payment} />
+      ),
+      items
+    )}
+  </div>
+)
 
 PaymentBlock.propTypes = {
   title: PropTypes.string.isRequired,

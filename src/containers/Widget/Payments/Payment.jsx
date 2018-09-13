@@ -10,10 +10,12 @@ const PADDING = 16
 
 const styles = theme => ({
   root: {
-    borderBottom: '1px solid #E9EAEC',
     margin: [0, 10],
     padding: [PADDING, 0],
     position: 'relative',
+    '&:not(:last-child)': {
+      borderBottom: '1px solid #E9EAEC',
+    },
   },
   title: {
     ...theme.fontMedium(16, 26),

@@ -2,6 +2,7 @@ import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
+import D from 'date-fns/fp'
 import { compose } from 'recompose'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
@@ -18,15 +19,24 @@ const styles = {
   },
 }
 
+const dateProp = R.prop('postedOn')
+const fullMonth = R.pipe(
+  dateProp,
+  D.format('MMMM')
+)
+const groupPayments = R.pipe(
+  R.groupBy(fullMonth),
+  R.toPairs,
+  R.addIndex(R.map)(([title, items], key) => ({
+    items: R.sortBy(dateProp, items),
+    key,
+    title,
+  }))
+)
+
 const Payments = ({ classes, className, data }) => {
-  console.log('Payments', data)
-  // TODO: group by month, sort by date
-  const groups = [
-    {
-      title: 'October',
-      items: data,
-    },
-  ]
+  const groups = groupPayments(data)
+
   return (
     <CurrencyProvider code="USD">
       <div className={cx(classes.root, className)}>
