@@ -6,7 +6,7 @@ import { injectStyles } from '@frankmoney/ui'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
 
-const PADDING = 17
+const PADDING = 16
 
 const styles = theme => ({
   root: {
@@ -83,7 +83,7 @@ const Payment = ({
   )
 }
 
-Payment.propTypes = {
+export const paymentProps = {
   amount: PropTypes.number.isRequired,
   category: PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -92,6 +92,10 @@ Payment.propTypes = {
   description: PropTypes.string,
   peerName: PropTypes.string.isRequired,
   postedOn: PropTypes.string.isRequired,
+}
+
+Payment.propTypes = {
+  ...paymentProps,
   showCategory: PropTypes.bool,
 }
 
