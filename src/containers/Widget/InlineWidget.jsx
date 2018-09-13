@@ -54,8 +54,9 @@ const styles = theme => ({
     width: 800,
   },
   paymentsPeriodSelect: {
-    display: 'flex',
     marginTop: 4,
+    paddingLeft: 2,
+    textAlign: 'left',
   },
   barChart: {
     margin: [10, 'auto', 0],
