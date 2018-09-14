@@ -7,3 +7,5 @@ export const STEPS = [
   'categories',
   'team',
 ]
+
+export const CREDENTIALS_FORM = 'onboarding-credentials'

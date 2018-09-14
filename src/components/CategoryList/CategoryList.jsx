@@ -64,7 +64,6 @@ const CategoryList = ({
       activeClassName: activeLabelClassName,
       className: cx(classes.item, itemClassName),
       iconClassName,
-      key,
       nameClassName,
       onClick: onLabelClick && (() => onLabelClick(otherProps.id)),
       onMouseEnter: onLabelMouseEnter && (() => onLabelMouseEnter(key)),

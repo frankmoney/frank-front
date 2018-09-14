@@ -5,9 +5,7 @@ import FieldLabel from 'components/FieldLabel'
 import renderProp from 'utils/renderProp'
 
 const styles = {
-  root: {
-    display: 'inline-block',
-  },
+  root: {},
 }
 
 class Field extends React.Component {

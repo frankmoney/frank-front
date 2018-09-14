@@ -1,11 +1,18 @@
 import React from 'react'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
+import * as R from 'ramda'
+import { bindActionCreators } from 'redux'
 import { injectStyles } from '@frankmoney/ui'
 import { PageLoader } from '@frankmoney/components'
 import { createStructuredSelector } from 'reselect'
+import * as ACTIONS from './actions'
 import styles from './Onboarding.jss'
-import { currentStepSelector } from './selectors'
+import {
+  currentStepSelector,
+  loadingSelector,
+  loadedSelector,
+} from './selectors'
 import * as STEPS from './Steps'
 
 const Onboarding = ({ currentStep, ...props }) => {
@@ -24,16 +31,27 @@ const Onboarding = ({ currentStep, ...props }) => {
 
 const mapStateToProps = createStructuredSelector({
   currentStep: currentStepSelector,
+  loading: loadingSelector,
+  loaded: loadedSelector,
 })
 
+const mapDispatchToProps = R.partial(bindActionCreators, [
+  {
+    load: ACTIONS.load,
+  },
+])
+
 export default compose(
-  connect(mapStateToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   lifecycle({
-    // componentWillMount() {
-    //   if (!this.props.loaded) {
-    //     this.props.load()
-    //   }
-    // },
+    componentWillMount() {
+      if (!this.props.loaded) {
+        this.props.load()
+      }
+    },
     componentWillUnmount() {
       this.props.leave()
     },

@@ -1,9 +1,10 @@
 export default {
-  card: {
+  root: {
     alignItems: 'center',
     display: 'flex',
     height: 60,
     padding: [0, 11],
+    position: 'relative',
   },
   field: {
     flex: [2, 1],
@@ -16,5 +17,12 @@ export default {
     fontSize: 30,
     marginRight: 2,
     color: 'rgba(0,0,0,0.2)',
+  },
+  spinner: {
+    position: 'absolute',
+    right: 15,
+    top: 18,
+    width: 24,
+    height: 24,
   },
 }
