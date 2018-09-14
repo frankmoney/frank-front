@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import { branch, compose, renderNothing } from 'recompose'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import GraphOverviewCard from './GraphOverviewCard'
+import ChartCard from './ChartCard'
 import {
   barChartDataSelector,
   barChartOnlySelector,
@@ -34,4 +34,4 @@ export default compose(
     mapDispatchToProps
   ),
   branch(props => !props.visible, renderNothing)
-)(GraphOverviewCard)
+)(ChartCard)

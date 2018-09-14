@@ -6,7 +6,7 @@ import PieChart from 'containers/PieChart'
 import BarChart from './BarChart'
 import ExpandRow from './ExpandRow'
 import Title from './Title'
-import styles from './GraphOverviewCard.jss'
+import styles from './ChartCard.jss'
 
 const period = 'All time' // TODO: real period
 
