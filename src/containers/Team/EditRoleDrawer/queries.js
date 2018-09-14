@@ -1,31 +1,26 @@
 import * as R from 'ramda'
 
-const teamAccounts = [
+const accountsAndMember = [
   `
-  query {
-    result: teamAccounts {
+  query($memberId: ID!) {
+    accounts {
       id
       name
     }
-  }
-  `,
-  R.prop('result'),
-]
-
-const teammate = [
-  `
-  query($id: ID!) {
-    result: teammate(id: $id) {
-      id
-      lastName
-      firstName
-      admin
-      canInvite
-      accountIds
+    
+    team {
+      member(id: $memberId) {
+        id
+        lastName
+        firstName
+        admin
+        canInvite
+        accountIds
+      }
     }
   }
   `,
-  R.prop('result'),
+  ({ accounts, team: { member } }) => ({ accounts, member }),
 ]
 
 const editRole = [
@@ -36,7 +31,7 @@ const editRole = [
     $canInvite: Boolean!,
     $accountIds: [ID!]!
   ) {
-    result: editTeamMemberRole(
+    teamMemberUpdateRole(
       id: $id,
       admin: $admin,
       canInvite: $canInvite,
@@ -51,11 +46,10 @@ const editRole = [
     }
   }
   `,
-  R.prop('result'),
+  R.prop('teamMemberUpdateRole'),
 ]
 
 export default {
-  teamAccounts,
-  teammate,
+  accountsAndMember,
   editRole,
 }
