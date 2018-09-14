@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { Checkbox } from 'material-ui'
-import Field from './Field'
+import DrawerField from 'components/DrawerField'
 
 const styles = theme => ({
   separator: {
@@ -25,7 +25,7 @@ const styles = theme => ({
 
 /* eslint-disable jsx-a11y/label-has-for */
 const AccountsField = ({ classes, accounts, selection, onChange }) => (
-  <Field title="Access">
+  <DrawerField title="Access">
     {accounts &&
       accounts.map(({ id, name }, index) => (
         <Fragment key={id}>
@@ -41,7 +41,7 @@ const AccountsField = ({ classes, accounts, selection, onChange }) => (
           </label>
         </Fragment>
       ))}
-  </Field>
+  </DrawerField>
 )
 /* eslint-enable jsx-a11y/label-has-for */
 

@@ -22,6 +22,9 @@ export const ROUTES = {
     match: '/team/:action?/:id?',
     invite: '/team/invite',
   },
+  onboarding: {
+    root: '/onboarding',
+  },
   demo: {
     root: '/demo',
     cards: '/demo/cards',
@@ -42,3 +45,18 @@ export const ROUTES = {
 export const BASE_TITLE = 'Frank'
 
 export const UNCATEGORIZED_COLOR = 'rgb(211, 213, 217)'
+
+export const CATEGORY_COLORS = {
+  '#3240A8': 'Navy Blue',
+  '#8725FB': 'Purple',
+  '#FF27A9': 'Pink',
+  '#EE4542': 'Red',
+  '#FF7970': 'Coral',
+  '#FF8F00': 'Orange',
+  '#F2B90E': 'Yellow',
+  '#95D832': 'Lime Green',
+  '#14D3DF': 'Turquoise',
+  '#000000': 'Black',
+  '#574D43': 'Brown',
+  '#CAB268': 'Sorrell Brown',
+}

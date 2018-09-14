@@ -13,11 +13,11 @@ const styles = theme => ({
     width: 200,
     minWidth: 200,
     marginBottom: 0,
-    ...theme.fontMedium(18, 26),
   },
   labelTitle: {
     position: 'relative',
     color: '#252b43',
+    ...theme.fontMedium(18, 26),
   },
   control: {
     flex: 1,

@@ -18,6 +18,9 @@ import teamEditRoleDrawerReducer, {
 import teamInviteDrawerReducer, {
   name as teamInviteDrawerKey,
 } from 'containers/Team/InviteDrawer/reducer'
+import onboardingReducer, {
+  REDUCER_KEY as onboardingKey,
+} from 'containers/Onboarding/reducer'
 
 export default createReducer({
   [ledgerKey]: ledgerReducer,
@@ -28,4 +31,5 @@ export default createReducer({
   [teamInviteDrawerKey]: teamInviteDrawerReducer,
   [teamKey]: teamReducer,
   [widgetDataKey]: widgetDataReducer,
+  [onboardingKey]: onboardingReducer,
 })

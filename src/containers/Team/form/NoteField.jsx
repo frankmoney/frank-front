@@ -1,15 +1,15 @@
 import React from 'react'
 import TextBox from 'components/TextBox'
-import Field from './Field'
+import DrawerField from 'components/DrawerField'
 
 const NoteField = ({ value, onChange }) => (
-  <Field title="Note">
+  <DrawerField title="Note">
     <TextBox
       expand="vertically"
       value={value}
       onChange={({ target }) => onChange(target.value)}
     />
-  </Field>
+  </DrawerField>
 )
 
 export default NoteField

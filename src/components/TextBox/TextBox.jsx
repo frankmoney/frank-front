@@ -4,17 +4,27 @@ import cx from 'classnames'
 import * as R from 'ramda'
 import { compose, withPropsOnChange } from 'recompose'
 
+const LINE_HEIGHT = 26
+const BOTTOM_PADDING = 14
 const styles = theme => ({
   root: {
     width: '100%',
-    font: 'inherit',
-    padding: [0, 0, 14, 0],
+    padding: [0, 0, BOTTOM_PADDING, 0],
     background: 'transparent',
     resize: 'none',
     outline: 'none',
     border: 'none',
-    borderBottom: ({ focus }) =>
-      `1px solid ${focus ? theme.colors.blue : '#E4E5E9'}`,
+    ...theme.fontRegular(18, LINE_HEIGHT),
+    fontFamily: 'inherit',
+    minHeight: props =>
+      `${(props.minLines || 1) * LINE_HEIGHT + BOTTOM_PADDING}px`,
+    borderBottom: ({ focus, disableUnderline }) =>
+      disableUnderline
+        ? 'none'
+        : `1px solid ${focus ? theme.colors.blue : '#E4E5E9'}`,
+    '&::placeholder': {
+      color: 'rgba(37, 43, 67, 0.3)',
+    },
   },
 })
 
@@ -26,6 +36,7 @@ const TextBox = ({
   controlRef,
   children,
   expand,
+  minLines,
   ...otherProps
 }) => {
   switch (expand) {
@@ -126,8 +137,21 @@ export default class TextBoxWrap extends React.Component {
     return this.props.onBlur && this.props.onBlur(...args)
   }
 
+  componentDidMount() {
+    if (this.props.autoFocus && typeof this.control.focus === 'function') {
+      this.control.focus()
+    }
+  }
+
   render() {
-    const { value, focus, onFocus, onBlur, ...otherProps } = this.props
+    const {
+      value,
+      autoFocus,
+      focus,
+      onFocus,
+      onBlur,
+      ...otherProps
+    } = this.props
     const { focused } = this.state
 
     return (
