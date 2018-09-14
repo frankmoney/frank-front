@@ -4,6 +4,6 @@ import * as ACTIONS from '../actions'
 export default action$ =>
   action$
     .ofType(ACTIONS.selectCategory)
-    .map(({ payload: categoryId }) =>
-      mergeQuery({ category: categoryId, page: null })
+    .map(({ payload: category }) =>
+      mergeQuery({ category: category.id, page: null })
     )

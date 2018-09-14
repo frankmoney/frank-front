@@ -1,9 +1,9 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
+import ButtonWidget from 'containers/Widget/ButtonWidget'
+import Chart from 'containers/Widget/Chart'
+import InlineWidget from 'containers/Widget/InlineWidget'
 import Title from 'containers/Ledger/GraphOverviewCard/Title'
-import ButtonWidget from '../ButtonWidget'
-import InlineWidget from '../InlineWidget'
-import Chart from '../Chart'
 import { ChartPlaceholder, StoriesPlaceholder } from './Placeholders'
 
 const styles = {
@@ -32,16 +32,16 @@ const WidgetsDemo = ({ classes }) => (
     <ButtonWidget stories={StoriesPlaceholder} charts={ChartPlaceholder} />
 
     <Title>Inline widget 400x275</Title>
-    <InlineWidget size={400} stories={StoriesPlaceholder} charts={Chart} />
+    <InlineWidget size={400} stories={StoriesPlaceholder} />
 
     <Title>Inline widget 500x345</Title>
-    <InlineWidget size={500} stories={StoriesPlaceholder} charts={Chart} />
+    <InlineWidget size={500} stories={StoriesPlaceholder} />
 
     <Title>Inline widget 625x430</Title>
-    <InlineWidget size={625} stories={StoriesPlaceholder} charts={Chart} />
+    <InlineWidget size={625} stories={StoriesPlaceholder} />
 
     <Title>Inline widget 800x550</Title>
-    <InlineWidget size={800} stories={StoriesPlaceholder} charts={Chart} />
+    <InlineWidget size={800} stories={StoriesPlaceholder} />
   </div>
 )
 

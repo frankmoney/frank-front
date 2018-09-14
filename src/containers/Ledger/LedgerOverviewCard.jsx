@@ -7,21 +7,24 @@ import GraphOverviewCard from './GraphOverviewCard'
 import {
   barChartDataSelector,
   barChartOnlySelector,
+  chartCategoryTypeSelector,
   chartsVisibleSelector,
   pieChartDataSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 
 const mapStateToProps = createStructuredSelector({
-  pieData: pieChartDataSelector,
   barsData: barChartDataSelector,
-  visible: chartsVisibleSelector,
   barsOnly: barChartOnlySelector,
+  categoryType: chartCategoryTypeSelector,
+  pieData: pieChartDataSelector,
+  visible: chartsVisibleSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
   {
     onCategoryClick: ACTIONS.selectCategory,
+    onCategoryTypeChange: ACTIONS.selectCategoryType,
   },
 ])
 

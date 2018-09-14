@@ -12,6 +12,7 @@ const defaultState = Immutable.fromJS({
     loaded: false,
     data: {},
   },
+  chartCategoryType: 'spending',
   categories: [],
   barsData: [],
   pieData: [],
@@ -83,6 +84,8 @@ export default handleActions(
       }),
     [ACTIONS.filtersClose]: state => mergeFilters(state, { open: false }),
     [ACTIONS.leave]: () => defaultState,
+    [ACTIONS.selectCategoryType]: (state, { payload: categoryType }) =>
+      state.merge({ chartCategoryType: categoryType }),
   },
   defaultState
 )

@@ -56,17 +56,15 @@ const CategoryList = ({
   valueClassName,
   valueUnit,
 }) => {
-  const renderItem = ({ key, id, ...otherProps }) =>
+  const renderItem = ({ key, ...otherProps }) =>
     renderProp(CategoryLabel, {
-      key: `category-${id}`,
-      id,
+      key,
       active: key === activeKey,
       activeClassName: activeLabelClassName,
       className: cx(classes.item, itemClassName),
       iconClassName,
-      key,
       nameClassName,
-      onClick: onLabelClick && (() => onLabelClick(otherProps.id)),
+      onClick: onLabelClick && (() => onLabelClick(key)),
       onMouseEnter: onLabelMouseEnter && (() => onLabelMouseEnter(key)),
       onMouseLeave: onLabelMouseLeave && (() => onLabelMouseLeave(key)),
       valueClassName,
@@ -74,10 +72,9 @@ const CategoryList = ({
       ...otherProps,
     })
 
-  const renderTooltipItem = ({ id, ...otherProps }) =>
+  const renderTooltipItem = ({ key, ...otherProps }) =>
     renderProp(CategoryLabel, {
-      key: `category-${id}`,
-      id,
+      key,
       className: cx(classes.tooltipItem, tooltipItemClassName),
       iconClassName: cx(classes.tooltipIcon, tooltipIconClassName),
       nameClassName: cx(classes.tooltipName, tooltipNameClassName),
