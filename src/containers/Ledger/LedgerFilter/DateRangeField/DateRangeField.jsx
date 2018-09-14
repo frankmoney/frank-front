@@ -3,7 +3,6 @@ import { injectStyles } from '@frankmoney/ui'
 import { DateSelect, CheckedMenuItem } from '@frankmoney/components'
 import * as D from 'date-fns'
 import SelectField from 'components/SelectField'
-import { formatDate } from 'utils/dates'
 import Field from '../Field'
 import { DATE_FILTER } from './constants'
 

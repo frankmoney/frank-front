@@ -33,7 +33,8 @@ export default (action$, store, { graphql }) =>
       const needLoadCharts = chartsVisibleSelector(state)
 
       return graphql(
-        QUERIES.getPaymentsAndTotalCount({
+        QUERIES.buildQuery({
+          allPeers: true,
           categoryScoped: !!categoryId,
           payments: true,
           totalCount: true,

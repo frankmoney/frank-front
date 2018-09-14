@@ -1,9 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
-import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import renderProp from 'utils/renderProp'
 import LiveIndicator from './LiveIndicator'
 
 const styles = {
@@ -16,29 +14,20 @@ const styles = {
   },
 }
 
-const Header = ({
-  classes,
-  className,
-  children,
-  itemClassName,
-  liveClassName,
-}) => (
+const Header = ({ classes, className, children, live, liveClassName }) => (
   <div className={cx(classes.root, className)}>
-    {R.map(
-      item =>
-        renderProp(item, {
-          className: itemClassName,
-          key: item.props.name,
-        }),
-      children
-    )}
-    <LiveIndicator className={cx(classes.live, liveClassName)} />
+    {children}
+    {live && <LiveIndicator className={cx(classes.live, liveClassName)} />}
   </div>
 )
 
 Header.propTypes = {
-  itemClassName: PropTypes.string,
+  live: PropTypes.bool,
   liveClassName: PropTypes.string,
+}
+
+Header.defaultProps = {
+  live: true,
 }
 
 export default injectStyles(styles)(Header)

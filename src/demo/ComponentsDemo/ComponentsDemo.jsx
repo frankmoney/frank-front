@@ -7,7 +7,7 @@ import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Field from 'components/Field'
 import FieldLabel from 'components/FieldLabel'
-import InboxCard from 'components/InboxCard'
+import PaymentCard from 'components/PaymentCard'
 import TextBox from 'components/TextBox'
 import Title from 'containers/Ledger/GraphOverviewCard/Title'
 
@@ -103,13 +103,13 @@ const ComponentsDemo = ({ classes }) => (
     </DemoCard>
 
     <CurrencyProvider code="USD">
-      <InboxCard
+      <PaymentCard
         className={classes.card}
         createdAt="2018-01-01 19:05"
         amount={1392.32}
       />
 
-      <InboxCard
+      <PaymentCard
         className={classes.card}
         createdAt="2018-01-01 05:00"
         amount={-124}
@@ -121,7 +121,7 @@ const ComponentsDemo = ({ classes }) => (
         useForSimilar
       />
 
-      <InboxCard
+      <PaymentCard
         className={classes.card}
         createdAt="2018-02-25 00:00"
         amount={-1244.548}
