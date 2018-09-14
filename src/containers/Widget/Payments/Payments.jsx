@@ -8,7 +8,7 @@ import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import CurrencyProvider from 'components/CurrencyProvider'
-import { paymentsSelector } from '../selectors'
+import { paymentsSelector, showCategorySelector } from '../selectors'
 import PaymentBlock from './PaymentBlock'
 import { paymentProps } from './Payment'
 
@@ -28,22 +28,26 @@ const fullMonth = R.pipe(
   D.format('MMMM')
 )
 const groupPayments = R.pipe(
+  R.sortBy(dateProp),
   R.groupBy(fullMonth),
   R.toPairs,
   R.addIndex(R.map)(([title, items], key) => ({
-    items: R.sortBy(dateProp, items),
+    items,
     key,
     title,
   }))
 )
 
-const Payments = ({ classes, className, data }) => {
+const Payments = ({ classes, className, data, showCategory }) => {
   const groups = groupPayments(data)
 
   return (
     <CurrencyProvider code="USD">
       <div className={cx(classes.root, className)}>
-        {R.map(group => <PaymentBlock showCategory {...group} />, groups)}
+        {R.map(
+          group => <PaymentBlock showCategory={showCategory} {...group} />,
+          groups
+        )}
       </div>
     </CurrencyProvider>
   )
@@ -51,10 +55,12 @@ const Payments = ({ classes, className, data }) => {
 
 Payments.propTypes = {
   data: PropTypes.arrayOf(paymentProps).isRequired,
+  showCategory: PropTypes.bool,
 }
 
 const mapStateToProps = createStructuredSelector({
   data: paymentsSelector,
+  showCategory: showCategorySelector,
 })
 
 export default compose(

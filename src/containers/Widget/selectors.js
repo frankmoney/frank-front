@@ -28,17 +28,28 @@ export const activeCategoriesSelector = createSelector(
   (data, categoryType) => data[categoryType]
 )
 
-export const entriesCountSelector = createSelector(
+export const categoryCountSelector = createSelector(
   activeCategoriesSelector,
-  R.pipe(
-    // FIXME: placeholder
-    R.length,
-    R.multiply(3)
-  )
+  R.length
 )
 
-export const selectedCategorySelector = createPlainObjectSelector(
+export const entriesCountSelector = createSelector(
+  categoryCountSelector,
+  // FIXME: placeholder
+  R.multiply(3)
+)
+
+const selectedAllCategories = get('selectedAll')
+
+const currentCategorySelector = createPlainObjectSelector(
   get('currentCategory')
+)
+
+export const selectedCategorySelector = createSelector(
+  selectedAllCategories,
+  currentCategorySelector,
+  (selectedAll, category) =>
+    selectedAll ? { name: 'Payments', id: null } : category
 )
 
 export const currentCategoryNameSelector = createSelector(
@@ -63,5 +74,12 @@ export const paymentsSelector = createSelector(
   currentCategoryIdSelector,
   // TODO: filter by period too
   (items, categoryId) =>
-    R.filter(R.pathEq(['category', 'id'], categoryId))(items)
+    categoryId === null
+      ? items
+      : R.filter(R.pathEq(['category', 'id'], categoryId))(items)
+)
+
+export const showCategorySelector = createSelector(
+  selectedCategorySelector,
+  R.isNil
 )

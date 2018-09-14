@@ -3,7 +3,6 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import PieChart, { dataPropShape } from 'containers/PieChart'
-import Footer from './Footer'
 
 const styles = theme => ({
   root: {
@@ -53,12 +52,6 @@ const styles = theme => ({
     height: 14,
     width: 14,
   },
-  footer: {
-    position: 'static',
-  },
-  seeAll: {
-    marginLeft: 5,
-  },
 })
 
 const LegendOnly = ({
@@ -66,50 +59,36 @@ const LegendOnly = ({
   classes,
   className,
   data,
-  entriesCount,
   onCategoryClick,
   onCategoryTypeChange,
   onPeriodChange,
   period,
   periods,
-}) => {
-  // eslint-disable-next-line no-shadow
-  const ShortFooter = ({ className, paymentCount }) => (
-    <Footer
-      className={cx(classes.footer, className)}
-      paymentCount={paymentCount}
-      seeAllClassName={classes.seeAll}
-    />
-  )
-  return (
-    <PieChart
-      categoryLimit={999}
-      categoryType={categoryType}
-      chartClassName={classes.switcherContainer}
-      className={cx(classes.root, className)}
-      data={data}
-      entriesCount={entriesCount}
-      footer={ShortFooter}
-      hideChart
-      legendClassName={classes.legend}
-      legendIconClassName={classes.legendIcon}
-      legendItemClassName={classes.legendItem}
-      legendNameClassName={classes.legendItemFont}
-      legendValueClassName={classes.legendItemValue}
-      onCategoryClick={onCategoryClick}
-      onCategoryTypeChange={onCategoryTypeChange}
-      onPeriodChange={onPeriodChange}
-      period={period}
-      periods={periods}
-      periodSelectClassName={classes.periodSelect}
-      switcherClassName={classes.switcher}
-    />
-  )
-}
+}) => (
+  <PieChart
+    categoryLimit={999}
+    categoryType={categoryType}
+    chartClassName={classes.switcherContainer}
+    className={cx(classes.root, className)}
+    data={data}
+    hideChart
+    legendClassName={classes.legend}
+    legendIconClassName={classes.legendIcon}
+    legendItemClassName={classes.legendItem}
+    legendNameClassName={classes.legendItemFont}
+    legendValueClassName={classes.legendItemValue}
+    onCategoryClick={onCategoryClick}
+    onCategoryTypeChange={onCategoryTypeChange}
+    onPeriodChange={onPeriodChange}
+    period={period}
+    periods={periods}
+    periodSelectClassName={classes.periodSelect}
+    switcherClassName={classes.switcher}
+  />
+)
 
 LegendOnly.propTypes = {
   categoryType: PropTypes.string.isRequired,
-  entriesCount: PropTypes.number.isRequired,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,

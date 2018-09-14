@@ -3,7 +3,6 @@ import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import PieChart, { dataPropShape } from 'containers/PieChart'
-import Footer from './Footer'
 import LegendOnly from './LegendOnly'
 
 const pieOffset = R.cond([
@@ -58,7 +57,6 @@ const styles = theme => ({
 const ActualChart = ({
   categoryType,
   classes,
-  entriesCount,
   onCategoryClick,
   onCategoryTypeChange,
   onPeriodChange,
@@ -74,8 +72,6 @@ const ActualChart = ({
       chartClassName={classes.chart}
       chartSize={pieSize(size)}
       data={pieData}
-      entriesCount={entriesCount}
-      footer={Footer}
       hideChart={size === 400}
       legendClassName={classes.legend}
       legendIconClassName={classes.legendIcon}
@@ -103,7 +99,6 @@ const Chart = ({ size, ...props }) => {
 
 Chart.propTypes = {
   categoryType: PropTypes.string.isRequired,
-  entriesCount: PropTypes.number.isRequired,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,

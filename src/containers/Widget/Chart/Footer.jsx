@@ -11,6 +11,11 @@ const styles = {
     justifyContent: 'space-between',
     lineHeight: 20,
     padding: [0, 1, 0, 2],
+    width: '100%',
+  },
+  fixed: {
+    position: 'absolute',
+    bottom: 0,
   },
   content: {
     color: '#9295A1',
@@ -26,9 +31,13 @@ const styles = {
     color: '#252B43',
   },
   seeAll: {
-    marginLeft: 10,
     color: '#484DE7',
     cursor: 'pointer',
+    outline: 'none',
+    marginLeft: 5,
+    '$fixed &': {
+      marginLeft: 10,
+    },
   },
   verified: {
     color: '#9295A1',
@@ -41,11 +50,13 @@ const styles = {
 const Footer = ({
   classes,
   className,
+  fixed,
   paymentCount,
   categoryCount,
+  onSeeAllClick,
   seeAllClassName,
 }) => (
-  <div className={cx(classes.root, className)}>
+  <div className={cx(classes.root, fixed && classes.fixed, className)}>
     <div className={classes.content}>
       <ChartIcon className={classes.icon} />
       <span className={classes.number}>{paymentCount}</span>
@@ -57,7 +68,14 @@ const Footer = ({
           {' categories'}
         </>
       )}
-      <a className={cx(classes.seeAll, seeAllClassName)}>See all</a>
+      <a
+        className={cx(classes.seeAll, seeAllClassName)}
+        onClick={onSeeAllClick}
+        role="button"
+        tabIndex={0}
+      >
+        See all
+      </a>
     </div>
     <div className={classes.verified}>
       Verified by <span className={classes.frank}>Frank</span>
@@ -67,7 +85,12 @@ const Footer = ({
 
 Footer.propTypes = {
   categoryCount: PropTypes.number,
+  fixed: PropTypes.bool,
   paymentCount: PropTypes.number.isRequired,
+}
+
+PropTypes.defaultProps = {
+  fixed: true,
 }
 
 export default injectStyles(styles)(Footer)

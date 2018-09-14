@@ -12,9 +12,11 @@ import Bar from 'components/Charts/Bar'
 import PeriodSelector from 'containers/PieChart/PeriodSelector'
 import { Header, HeaderItem, CategoryName } from './Header'
 import OverviewChart from './Chart'
+import Footer from './Chart/Footer' // FIXME
 import Payments from './Payments'
 import {
   barChartDataSelector,
+  categoryCountSelector,
   categoryTypeSelector,
   currentCategoryColorSelector,
   currentCategoryNameSelector,
@@ -53,6 +55,16 @@ const styles = theme => ({
     minHeight: 550,
     width: 800,
   },
+  content: {
+    display: 'flex',
+    height: '100%',
+    position: 'relative',
+    width: '100%',
+    '$size400 &': {
+      display: 'block',
+      overflowY: 'scroll',
+    },
+  },
   paymentsPeriodSelect: {
     marginTop: 4,
     paddingLeft: 2,
@@ -83,6 +95,7 @@ class InlineWidget extends React.PureComponent {
   render() {
     const {
       barsData,
+      categoryCount,
       categoryType,
       classes,
       className,
@@ -93,6 +106,7 @@ class InlineWidget extends React.PureComponent {
       onCancelCategoryClick,
       onCategoryTypeChange,
       onPeriodChange,
+      onSeeAllClick,
       stories: Stories,
       period,
       periods,
@@ -106,12 +120,14 @@ class InlineWidget extends React.PureComponent {
     const isStories = tab === 'stories'
     const isAbout = tab === 'about'
 
+    const small = size === 400
+
     return (
       <div
         className={cx(
           classes.root,
           {
-            [classes.size400]: size === 400,
+            [classes.size400]: small,
             [classes.size500]: size === 500,
             [classes.size625]: size === 625,
             [classes.size800]: size === 800,
@@ -148,7 +164,7 @@ class InlineWidget extends React.PureComponent {
         )}
         {isPayments &&
           paymentList &&
-          size > 400 && (
+          !small && (
             <>
               <PeriodSelector
                 className={cx(classes.paymentsPeriodSelect)}
@@ -171,17 +187,24 @@ class InlineWidget extends React.PureComponent {
           )}
         {isPayments &&
           !paymentList && (
-            <OverviewChart
-              categoryType={categoryType}
-              entriesCount={entriesCount}
-              onCategoryClick={onCategoryClick}
-              onCategoryTypeChange={onCategoryTypeChange}
-              onPeriodChange={onPeriodChange}
-              period={period}
-              periods={periods}
-              pieData={pieData}
-              size={size}
-            />
+            <div className={classes.content}>
+              <OverviewChart
+                categoryType={categoryType}
+                onCategoryClick={onCategoryClick}
+                onCategoryTypeChange={onCategoryTypeChange}
+                onPeriodChange={onPeriodChange}
+                period={period}
+                periods={periods}
+                pieData={pieData}
+                size={size}
+              />
+              <Footer
+                fixed={!small}
+                paymentCount={entriesCount}
+                categoryCount={small ? null : categoryCount}
+                onSeeAllClick={onSeeAllClick}
+              />
+            </div>
           )}
         {isStories && <Stories />}
         {isAbout && <div>TODO</div>}
@@ -191,10 +214,12 @@ class InlineWidget extends React.PureComponent {
 }
 
 InlineWidget.propTypes = {
+  categoryCount: PropTypes.number,
   categoryType: PropTypes.string,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,
+  onSeeAllClick: PropTypes.func.isRequired,
   period: PropTypes.string.isRequired,
   periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
@@ -208,6 +233,7 @@ InlineWidget.defaultProps = {
 
 const mapStateToProps = createStructuredSelector({
   barsData: barChartDataSelector,
+  categoryCount: categoryCountSelector,
   categoryType: categoryTypeSelector,
   currentCategoryColor: currentCategoryColorSelector,
   currentCategoryName: currentCategoryNameSelector,
@@ -223,6 +249,7 @@ const mapDispatchToProps = R.partial(bindActionCreators, [
     onCategoryTypeChange: ACTIONS.selectCategoryType,
     onCancelCategoryClick: ACTIONS.cancelCategory,
     onPeriodChange: ACTIONS.selectPeriod,
+    onSeeAllClick: ACTIONS.selectAllCategories,
   },
 ])
 

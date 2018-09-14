@@ -17,6 +17,7 @@ const initialState = fromJS({
   period: 'All time', // FIXME: placeholder
   periods: ['All time', '2018', 'TBD'], // FIXME: placeholder
   pieData: convertGraphqlPieData(PIE_CHART_DATA),
+  selectedAll: false,
 })
 
 export default handleActions(
@@ -25,9 +26,11 @@ export default handleActions(
       state.merge({ categoryType }),
     [ACTIONS.selectCategory]: (state, { payload: category }) =>
       state.merge({ currentCategory: category }),
-    [ACTIONS.cancelCategory]: state => state.merge({ currentCategory: null }),
+    [ACTIONS.cancelCategory]: state =>
+      state.merge({ currentCategory: null, selectedAll: false }),
     [ACTIONS.selectPeriod]: (state, { payload: period }) =>
       state.merge({ period }),
+    [ACTIONS.selectAllCategories]: state => state.merge({ selectedAll: true }),
   },
   initialState
 )

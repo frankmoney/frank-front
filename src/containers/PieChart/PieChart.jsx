@@ -33,9 +33,6 @@ class PieChart extends React.PureComponent {
       classes,
       className,
       data,
-      entriesCount,
-      footer: Footer,
-      footerClassName,
       hideChart,
       hidePeriod,
       legendClassName,
@@ -57,8 +54,7 @@ class PieChart extends React.PureComponent {
       onCategoryTypeChange &&
       (event => onCategoryTypeChange(event.target.value))
 
-    const categories = data[categoryType]
-    const categoryCount = R.length(categories)
+    const categories = data[categoryType] // TODO: use selector
     const { items, other, tooltipItems } = limitCategoriesTo(categoryLimit)(
       categories
     )
@@ -124,13 +120,6 @@ class PieChart extends React.PureComponent {
           valueClassName={cx(classes.legendItemValue, legendValueClassName)}
           valueUnit="%"
         />
-        {Footer && (
-          <Footer
-            className={cx(classes.footer, footerClassName)}
-            paymentCount={entriesCount}
-            categoryCount={categoryCount}
-          />
-        )}
       </div>
     )
   }
@@ -145,8 +134,6 @@ PieChart.propTypes = {
   categoryType: PropTypes.string.isRequired,
   chartSize: PropTypes.number.isRequired,
   data: dataPropShape,
-  entriesCount: PropTypes.number.isRequired,
-  footer: PropTypes.element,
   hideChart: PropTypes.bool,
   hidePeriod: PropTypes.bool,
   legendClassName: PropTypes.string,

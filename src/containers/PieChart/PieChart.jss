@@ -15,11 +15,6 @@ export default theme => ({
     top: 4,
     left: 2,
   },
-  footer: {
-    position: 'absolute',
-    width: '100%',
-    bottom: 0,
-  },
   chartContainer: {
     height: ({ chartSize }) => chartSize,
     position: 'relative',
