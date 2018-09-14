@@ -3,11 +3,11 @@ import { Redirect } from 'react-router-dom'
 import { compose, withProps } from 'recompose'
 import Helmet from 'react-helmet'
 import { BASE_TITLE, ROUTES } from 'const'
-import CommentsDemo from 'containers/Comments/CommentsDemo'
-import ComponentsDemo from 'containers/ComponentsDemo'
-import DrawerDemo from 'containers/DrawerDemo'
-import WidgetDemo from 'containers/Widget/Demo'
+import CommentsDemo from './CommentsDemo'
+import ComponentsDemo from './ComponentsDemo'
 import DemoLayout from './DemoLayout'
+import DrawerDemo from './DrawerDemo'
+import WidgetDemo from './Widgets'
 
 const withDemoLayout = Component => props => (
   <DemoLayout>

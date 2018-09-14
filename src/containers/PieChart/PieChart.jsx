@@ -11,23 +11,13 @@ import { limitCategoriesTo, DEFAULT_LIMIT } from 'utils/limitCategories'
 import PeriodSelector from './PeriodSelector'
 import styles from './PieChart.jss'
 
-export const pieCategoryTypes = [{ key: 'income' }, { key: 'spending' }]
+const CATEGORY_TYPES = [{ key: 'income' }, { key: 'spending' }]
 
 const roundValues = R.over(R.lensProp('value'), Math.round)
 
 class PieChart extends React.PureComponent {
   state = {
     activeKey: null,
-    categoryType: 'spending',
-    period: this.props.period,
-  }
-
-  handleChangeCategoryType = event => {
-    this.setState({ categoryType: event.target.value })
-  }
-
-  handleChangePeriod = event => {
-    this.setState({ period: event.target.value })
   }
 
   handleMouseOver = key => this.setState({ activeKey: key })
@@ -37,6 +27,7 @@ class PieChart extends React.PureComponent {
   render() {
     const {
       categoryLimit,
+      categoryType,
       chartClassName,
       chartSize,
       classes,
@@ -53,12 +44,18 @@ class PieChart extends React.PureComponent {
       legendNameClassName,
       legendValueClassName,
       onCategoryClick,
+      onCategoryTypeChange,
+      onPeriodChange,
+      period,
+      periods,
       periodSelectClassName,
       switcherClassName,
       switcherLabel,
     } = this.props
 
-    const { categoryType, period } = this.state
+    const handleChangeCategoryType =
+      onCategoryTypeChange &&
+      (event => onCategoryTypeChange(event.target.value))
 
     const categories = data[categoryType]
     const categoryCount = R.length(categories)
@@ -72,6 +69,9 @@ class PieChart extends React.PureComponent {
     }
     const pieData = other ? R.append(other, items) : items
 
+    const handleCategoryClick =
+      onCategoryClick && (key => onCategoryClick(items[key]))
+
     return (
       <div
         className={cx(
@@ -83,8 +83,9 @@ class PieChart extends React.PureComponent {
         {!hidePeriod && (
           <PeriodSelector
             className={cx(classes.periodSelect, periodSelectClassName)}
-            onChange={this.handleChangePeriod}
+            onChange={onPeriodChange}
             value={period}
+            values={periods}
           />
         )}
         <div className={cx(classes.chartContainer, chartClassName)}>
@@ -101,9 +102,9 @@ class PieChart extends React.PureComponent {
           <DropdownSwitcher
             className={cx(classes.switcher, switcherClassName)}
             label={switcherLabel}
-            onChange={this.handleChangeCategoryType}
+            onChange={handleChangeCategoryType}
             value={categoryType}
-            values={pieCategoryTypes}
+            values={CATEGORY_TYPES}
           />
         </div>
         <CategoryList
@@ -116,7 +117,7 @@ class PieChart extends React.PureComponent {
           itemClassName={cx(classes.legendItem, legendItemClassName)}
           limitedCategories={limitedCategories}
           nameClassName={cx(classes.legendItemName, legendNameClassName)}
-          onLabelClick={onCategoryClick}
+          onLabelClick={handleCategoryClick}
           onLabelMouseEnter={this.handleMouseOver}
           onLabelMouseLeave={this.handleMouseOut}
           tooltip
@@ -141,6 +142,7 @@ export const dataPropShape = PropTypes.objectOf(
 
 PieChart.propTypes = {
   categoryLimit: PropTypes.number.isRequired,
+  categoryType: PropTypes.string.isRequired,
   chartSize: PropTypes.number.isRequired,
   data: dataPropShape,
   entriesCount: PropTypes.number.isRequired,
@@ -152,8 +154,11 @@ PieChart.propTypes = {
   legendItemClassName: PropTypes.string,
   legendNameClassName: PropTypes.string,
   legendValueClassName: PropTypes.string,
-  onCategoryClick: PropTypes.func,
+  onCategoryClick: PropTypes.func, // category object in callback
+  onCategoryTypeChange: PropTypes.func,
+  onPeriodChange: PropTypes.func,
   period: PropTypes.string,
+  periods: PropTypes.arrayOf(PropTypes.string),
   switcherClassName: PropTypes.string,
   switcherLabel: PropTypes.string,
 }

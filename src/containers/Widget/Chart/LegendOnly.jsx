@@ -1,7 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import PieChart from 'containers/PieChart'
+import PieChart, { dataPropShape } from 'containers/PieChart'
 import Footer from './Footer'
 
 const styles = theme => ({
@@ -60,7 +61,18 @@ const styles = theme => ({
   },
 })
 
-const LegendOnly = ({ classes, className, data, entriesCount, period }) => {
+const LegendOnly = ({
+  categoryType,
+  classes,
+  className,
+  data,
+  entriesCount,
+  onCategoryClick,
+  onCategoryTypeChange,
+  onPeriodChange,
+  period,
+  periods,
+}) => {
   // eslint-disable-next-line no-shadow
   const ShortFooter = ({ className, paymentCount }) => (
     <Footer
@@ -72,6 +84,7 @@ const LegendOnly = ({ classes, className, data, entriesCount, period }) => {
   return (
     <PieChart
       categoryLimit={999}
+      categoryType={categoryType}
       chartClassName={classes.switcherContainer}
       className={cx(classes.root, className)}
       data={data}
@@ -83,11 +96,26 @@ const LegendOnly = ({ classes, className, data, entriesCount, period }) => {
       legendItemClassName={classes.legendItem}
       legendNameClassName={classes.legendItemFont}
       legendValueClassName={classes.legendItemValue}
+      onCategoryClick={onCategoryClick}
+      onCategoryTypeChange={onCategoryTypeChange}
+      onPeriodChange={onPeriodChange}
       period={period}
+      periods={periods}
       periodSelectClassName={classes.periodSelect}
       switcherClassName={classes.switcher}
     />
   )
+}
+
+LegendOnly.propTypes = {
+  categoryType: PropTypes.string.isRequired,
+  entriesCount: PropTypes.number.isRequired,
+  onCategoryClick: PropTypes.func.isRequired,
+  onCategoryTypeChange: PropTypes.func.isRequired,
+  onPeriodChange: PropTypes.func.isRequired,
+  period: PropTypes.string.isRequired,
+  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
+  data: dataPropShape.isRequired,
 }
 
 export default injectStyles(styles)(LegendOnly)

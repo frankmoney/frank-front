@@ -2,10 +2,7 @@ import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { compose } from 'recompose'
-import { connect } from 'react-redux'
 import PieChart, { dataPropShape } from 'containers/PieChart'
-import { entriesCountSelector, pieChartDataSelector } from '../selectors'
 import Footer from './Footer'
 import LegendOnly from './LegendOnly'
 
@@ -58,13 +55,25 @@ const styles = theme => ({
   },
 })
 
-const ActualChart = ({ classes, entriesCount, period, pieChartData, size }) => {
+const ActualChart = ({
+  categoryType,
+  classes,
+  entriesCount,
+  onCategoryClick,
+  onCategoryTypeChange,
+  onPeriodChange,
+  period,
+  periods,
+  pieData,
+  size,
+}) => {
   const switcherLabel = size < 800 ? '% of' : '% of total'
   return (
     <PieChart
+      categoryType={categoryType}
       chartClassName={classes.chart}
       chartSize={pieSize(size)}
-      data={pieChartData}
+      data={pieData}
       entriesCount={entriesCount}
       footer={Footer}
       hideChart={size === 400}
@@ -73,7 +82,11 @@ const ActualChart = ({ classes, entriesCount, period, pieChartData, size }) => {
       legendItemClassName={classes.legendItem}
       legendNameClassName={classes.legendItemFont}
       legendValueClassName={classes.legendItemValue}
+      onCategoryClick={onCategoryClick}
+      onCategoryTypeChange={onCategoryTypeChange}
+      onPeriodChange={onPeriodChange}
       period={period}
+      periods={periods}
       switcherClassName={size === 500 && classes.switcher500}
       switcherLabel={switcherLabel}
     />
@@ -84,20 +97,20 @@ const Chart = ({ size, ...props }) => {
   if (size > 400) {
     return <ActualChart size={size} {...props} />
   }
-  const { pieChartData, classes, ...otherProps } = props
-  return <LegendOnly data={pieChartData} {...otherProps} />
+  const { pieData, classes, ...otherProps } = props
+  return <LegendOnly data={pieData} {...otherProps} />
 }
 
 Chart.propTypes = {
-  period: PropTypes.string,
-  pieChartData: dataPropShape,
+  categoryType: PropTypes.string.isRequired,
+  entriesCount: PropTypes.number.isRequired,
+  onCategoryClick: PropTypes.func.isRequired,
+  onCategoryTypeChange: PropTypes.func.isRequired,
+  onPeriodChange: PropTypes.func.isRequired,
+  period: PropTypes.string.isRequired,
+  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
+  pieData: dataPropShape.isRequired,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
 }
 
-export default compose(
-  connect(state => ({
-    entriesCount: entriesCountSelector(state),
-    pieChartData: pieChartDataSelector(state),
-  })),
-  injectStyles(styles)
-)(Chart)
+export default injectStyles(styles)(Chart)
