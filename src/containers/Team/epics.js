@@ -19,3 +19,11 @@ export const openEditRoleDrawerEpic = action$ =>
     .map(({ payload: { id } }) =>
       push(createRouteUrl(ROUTES.team.match, { action: 'edit-role', id }))
     )
+
+export const updateRoleEpic = (action$, store, { graphql }) =>
+  action$
+    .ofType(ACTIONS.updateRole)
+    .switchMap(({ payload: { id, role } }) =>
+      graphql(QUERIES.updateRole, { id, role })
+    )
+    .map(ACTIONS.updateRole.success)

@@ -26,6 +26,8 @@ const teamReducer = handleActions(
         ownProfileId: self.id,
         otherProfileIds: others.map(R.prop('id')),
       }),
+    [ACTIONS.updateRole]: (state, { payload: { id, role } }) =>
+      state.setIn(['profiles', id, 'role'], role),
     [ACTIONS.leave]: () => initialState,
     [EDIT_ROLE_ACTIONS.submit.success]: (state, { payload: profile }) =>
       state.mergeIn(['profiles', profile.id], profile),

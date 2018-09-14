@@ -1,47 +1,73 @@
 import * as R from 'ramda'
 
-export default {
-  team: [
-    `
-    query {
-      accounts {
+const team = [
+  `
+  query {
+    accounts {
+      id
+      name
+    }
+  
+    team {
+      id
+      name
+      
+      members {
         id
-        name
-      }
-    
-      team {
-        id
-        name
-        
-        members {
-          id
-          self
-          email
-          lastName
-          firstName
-          avatar
-          admin
-          canInvite
-          accountIds
-          acl {
-            remove
-            editRole
-            editAvatar
-            editProfile
-            editPassword
-          }
+        self
+        email
+        lastName
+        firstName
+        avatar
+        role
+        admin
+        canInvite
+        accountIds
+        acl {
+          remove
+          editRole
+          editAvatar
+          editProfile
+          editPassword
         }
       }
     }
-    `,
-    ({ accounts, team }) => ({
-      team: {
-        id: team.id,
-        name: team.name,
-        accounts,
-      },
-      self: R.find(x => x.self, team.members),
-      others: R.filter(x => !x.self, team.members),
-    }),
-  ],
+  }
+  `,
+  ({ accounts, team: { id, name, members } }) => ({
+    team: {
+      id,
+      name,
+      accounts,
+    },
+    self: R.find(x => x.self, members),
+    others: R.filter(x => !x.self, members),
+  }),
+]
+
+const updateRole = [
+  `
+  mutation($id: ID!, $role: TeamMemberRole!) {
+    teamMemberUpdateRole(id: $id, role: $role) {
+      id
+      email
+      lastName
+      firstName
+      role
+      acl {
+        remove
+        editRole
+        editAvatar
+        editProfile
+        editPassword
+      }
+    }
+  }
+  `,
+  R.prop('teamMemberUpdateRole'),
+]
+
+export default {
+  team,
+  updateRole,
 }

@@ -1,0 +1,1 @@
+export TeamMembersTableRow from './TeamMembersTableRow'

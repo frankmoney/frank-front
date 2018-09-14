@@ -6,6 +6,7 @@ const actions = createActions(ACTION_PREFIX, {
   leave: false,
   openInviteDrawer: false,
   openEditRoleDrawer: false,
+  updateRole: true,
 })
 
 export default actions

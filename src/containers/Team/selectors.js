@@ -16,6 +16,8 @@ const getters = {
 export const loadedSelector = getters.loaded
 export const loadingSelector = getters.loading
 
+export const profilesSelector = createPlainObjectSelector(getters.profiles)
+
 export const ownProfileSelector = createPlainObjectSelector(
   createSelector(
     getters.profiles,
@@ -36,3 +38,15 @@ export const canInviteSelector = createSelector(
   ownProfileSelector,
   R.prop('canInvite')
 )
+
+export const teamMembersTableDataSelector = createSelector(
+  profilesSelector,
+  profiles => [
+    {
+      rows: Object.keys(profiles),
+    },
+  ]
+)
+
+export const teamMemberSelector = id =>
+  createSelector(profilesSelector, R.prop(id))

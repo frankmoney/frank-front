@@ -14,6 +14,7 @@ import { createStructuredSelector } from 'reselect'
 import ListLayoutContent from 'components/ListLayoutContent'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { ROUTES } from 'const'
+import TeamMembersTable from './TeamMembersTable'
 import EditRoleDrawer from './EditRoleDrawer'
 import InviteButton from './InviteButton'
 import InviteDrawer from './InviteDrawer'
@@ -62,6 +63,7 @@ const Team = ({
     </FixedHeader>
     <ListLayoutContent>
       {canInvite && <InviteButton />}
+      <TeamMembersTable />
       <OwnProfile profile={ownProfile} />
       <ProfileList profiles={otherProfiles} onEditRole={handleEditRole} />
     </ListLayoutContent>
