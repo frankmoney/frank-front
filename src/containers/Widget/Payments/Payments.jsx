@@ -12,13 +12,9 @@ import { paymentsSelector, showCategorySelector } from '../selectors'
 import PaymentBlock from './PaymentBlock'
 import { paymentProps } from './Payment'
 
-const SCROLL_PADDING = 13
-
 const styles = {
   root: {
-    overflowY: 'scroll',
-    margin: [-5, 18 - SCROLL_PADDING, 0, 18],
-    paddingRight: SCROLL_PADDING,
+    margin: [-5, 18, 0, 18],
   },
 }
 

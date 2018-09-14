@@ -6,16 +6,10 @@ import ChartIcon from '../Chart.svg'
 
 const styles = {
   root: {
-    alignItems: 'center',
     display: 'flex',
     justifyContent: 'space-between',
     lineHeight: 20,
     padding: [0, 1, 0, 2],
-    width: '100%',
-  },
-  fixed: {
-    position: 'absolute',
-    bottom: 0,
   },
   content: {
     color: '#9295A1',
@@ -50,13 +44,12 @@ const styles = {
 const Footer = ({
   classes,
   className,
-  fixed,
   paymentCount,
   categoryCount,
   onSeeAllClick,
   seeAllClassName,
 }) => (
-  <div className={cx(classes.root, fixed && classes.fixed, className)}>
+  <div className={cx(classes.root, className)}>
     <div className={classes.content}>
       <ChartIcon className={classes.icon} />
       <span className={classes.number}>{paymentCount}</span>
@@ -85,7 +78,6 @@ const Footer = ({
 
 Footer.propTypes = {
   categoryCount: PropTypes.number,
-  fixed: PropTypes.bool,
   paymentCount: PropTypes.number.isRequired,
 }
 

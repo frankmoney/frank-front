@@ -27,6 +27,13 @@ const pieSize = R.cond([
 ])
 
 const styles = theme => ({
+  root: {
+    // TODO: fix size in PieChart, check in Ledger
+    width: 'unset',
+    height: 'unset',
+    flexGrow: 1,
+    paddingTop: 20, // centering the chart vertically
+  },
   switcher500: {
     fontSize: 15,
     whiteSpace: 'nowrap',
@@ -71,6 +78,7 @@ const ActualChart = ({
       categoryType={categoryType}
       chartClassName={classes.chart}
       chartSize={pieSize(size)}
+      className={classes.root}
       data={pieData}
       hideChart={size === 400}
       legendClassName={classes.legend}

@@ -57,12 +57,15 @@ const styles = theme => ({
   },
   content: {
     display: 'flex',
+    flexDirection: 'column',
     height: '100%',
+    overflowY: 'scroll',
     position: 'relative',
-    width: '100%',
+    marginRight: -15,
+    paddingRight: 15,
+    justifyContent: 'space-between',
     '$size400 &': {
-      display: 'block',
-      overflowY: 'scroll',
+      display: 'block', // TODO: redo small list as flex
     },
   },
   paymentsPeriodSelect: {
@@ -162,50 +165,51 @@ class InlineWidget extends React.PureComponent {
             />
           </Header>
         )}
-        {isPayments &&
-          paymentList &&
-          !small && (
-            <>
-              <PeriodSelector
-                className={cx(classes.paymentsPeriodSelect)}
-                onChange={onPeriodChange}
-                value={period}
-                values={periods}
-              />
-              <Bar
-                barColor={currentCategoryColor}
-                className={classes.barChart}
-                data={barsData}
-                footerPadding={10}
-                height={barsHeight(size)}
-                hideBaseLine
-                labelKey="date"
-                width={size > 500 ? 516 : 468}
-              />
-              <Payments />
-            </>
-          )}
-        {isPayments &&
-          !paymentList && (
-            <div className={classes.content}>
-              <OverviewChart
-                categoryType={categoryType}
-                onCategoryClick={onCategoryClick}
-                onCategoryTypeChange={onCategoryTypeChange}
-                onPeriodChange={onPeriodChange}
-                period={period}
-                periods={periods}
-                pieData={pieData}
-                size={size}
-              />
-              <Footer
-                fixed={!small}
-                paymentCount={entriesCount}
-                categoryCount={small ? null : categoryCount}
-                onSeeAllClick={onSeeAllClick}
-              />
-            </div>
-          )}
+        <div className={classes.content}>
+          {isPayments &&
+            paymentList &&
+            !small && (
+              <>
+                <PeriodSelector
+                  className={cx(classes.paymentsPeriodSelect)}
+                  onChange={onPeriodChange}
+                  value={period}
+                  values={periods}
+                />
+                <Bar
+                  barColor={currentCategoryColor}
+                  className={classes.barChart}
+                  data={barsData}
+                  footerPadding={10}
+                  height={barsHeight(size)}
+                  hideBaseLine
+                  labelKey="date"
+                  width={size > 500 ? 516 : 468}
+                />
+                <Payments />
+              </>
+            )}
+          {isPayments &&
+            !paymentList && (
+              <>
+                <OverviewChart
+                  categoryType={categoryType}
+                  onCategoryClick={onCategoryClick}
+                  onCategoryTypeChange={onCategoryTypeChange}
+                  onPeriodChange={onPeriodChange}
+                  period={period}
+                  periods={periods}
+                  pieData={pieData}
+                  size={size}
+                />
+                <Footer
+                  paymentCount={entriesCount}
+                  categoryCount={small ? null : categoryCount}
+                  onSeeAllClick={onSeeAllClick}
+                />
+              </>
+            )}
+        </div>
         {isStories && <Stories />}
         {isAbout && <div>TODO</div>}
       </div>

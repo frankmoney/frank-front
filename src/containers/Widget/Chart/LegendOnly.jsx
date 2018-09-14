@@ -7,8 +7,8 @@ import PieChart, { dataPropShape } from 'containers/PieChart'
 const styles = theme => ({
   root: {
     overflowY: 'scroll',
-    margin: [0, -15, -19, 0],
-    padding: [5, 15, 19, 0],
+    margin: [0, 0, -19],
+    padding: [5, 0, 19],
     display: 'block',
     width: 'unset',
     height: 'unset',
