@@ -35,14 +35,25 @@ export default {
   sendCredentials: [
     `mutation($credentials: [JSON!]!) {
       onboarding: onboardingEnterCredentials(
-          institutionCode: $credentials
+          credentials: $credentials
       ) {
         step
-        institution
         credentials
         accounts
       }
-    }`
+    }`,
+    ({ onboarding }) => onboarding,
+  ],
+  selectAccount: [
+    `mutation($id: String!) {
+      onboarding: onboardingSelectAccount(
+          accountGuid: $id
+      ) {
+        step
+        account
+      }
+    }`,
+    ({ onboarding }) => onboarding,
   ],
   goBack: [
     `mutation {

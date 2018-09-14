@@ -5,7 +5,7 @@ import ListItemContext from './context'
 
 const styles = theme => ({
   root: {
-    ...theme.fontMedium(22, 26),
+    ...theme.fontMedium(22, 30),
     color: '#20284A',
   },
   selected: {

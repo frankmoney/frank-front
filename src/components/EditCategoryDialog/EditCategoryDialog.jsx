@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import sample from 'lodash/sample'
-import { compose, withHandlers, withPropsOnChange } from 'recompose'
+import { compose, withPropsOnChange } from 'recompose'
 import { injectStyles } from '@frankmoney/ui'
 import { reduxForm } from 'redux-form/immutable'
 import { ConfirmDialog } from '@frankmoney/components'
@@ -33,6 +33,7 @@ const EditCategoryDialog = ({
   submit,
   invalid,
   open,
+  onCancel,
 }) => (
   <ConfirmDialog
     className={cx(classes.root, className)}
@@ -40,6 +41,9 @@ const EditCategoryDialog = ({
     confirmLabel="Add"
     cancelLabel="Cancel"
     open={open}
+    onClose={onCancel}
+    onCancel={onCancel}
+    onConfirm={submit}
   >
     <Field title="Color" className={classes.field}>
       <ColorSelectField name="color" validate={validations.color} />
@@ -58,14 +62,10 @@ export default compose(
   withPropsOnChange(['category'], props => ({
     initialValues: props.category || EMPTY_CATEGORY,
   })),
-  withHandlers({
-    handleCancelDialog: props => () => {
-      props.onCancel(props.partner ? { ...props.partner } : {})
-    },
-  }),
   reduxForm({
     form: FORM_NAME,
     enableReinitialize: true,
+    onSubmit: (values, _, props) => props.onSubmit(values),
   }),
   injectStyles(styles)
 )(EditCategoryDialog)

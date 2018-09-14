@@ -34,6 +34,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginTop: 45,
   },
   placeholderLabel: {
     ...theme.fontRegular(22, 22),
@@ -41,6 +42,7 @@ const styles = theme => ({
   },
   placeholderButton: {
     marginTop: 30,
+    width: 130,
   },
 })
 

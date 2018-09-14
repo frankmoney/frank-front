@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import * as ACTIONS from './actions'
-import { STEPS } from './constants'
 
 export const REDUCER_KEY = 'onboarding'
 const CATEGORIES = [
@@ -92,7 +91,7 @@ const defaultState = {
   loaded: false,
   loadingNext: false,
   loadingBack: false,
-  currentStep: 'team',
+  currentStep: 'categories',
   stepData: {},
   credentials: {},
   account: {},
@@ -122,9 +121,9 @@ const getStepData = session => {
     }
   }
 
-  const { institution: bank, credentials } = session
+  const { institution: bank, credentials, accounts, account } = session
 
-  if (credentials.status === 'awaiting_input') {
+  if (credentials.status !== 'success') {
     return {
       currentStep: 'credentials',
       session,
@@ -133,6 +132,30 @@ const getStepData = session => {
         ...credentials,
       },
     }
+  } else if (!account) {
+    return {
+      currentStep: 'account',
+      session,
+      stepData: {
+        selectedBank: bank,
+        accounts,
+      },
+    }
+  } else if (account) {
+    return {
+      currentStep: 'accountInfo',
+      session,
+      stepData: {
+        accountName: account.name,
+      },
+    }
+  }
+
+  return {
+    currentStep: 'categories',
+    stepData: {
+      list: CATEGORIES,
+    },
   }
 }
 
@@ -215,6 +238,31 @@ export default handleActions(
             .get(0)
         )
       ),
+
+    //
+    // Select Account
+    //
+    [ACTIONS.accountSelect]: (state, { payload: accountId }) =>
+      state.mergeIn(['stepData'], {
+        selectedAccountId: accountId,
+      }),
+    //
+    // Categories
+    //
+    [ACTIONS.addNewCategory]: state =>
+      state.mergeIn(['stepData'], {
+        openEditDialog: true,
+        editingCategoryId: null,
+      }),
+    [ACTIONS.editCategory]: (state, { payload: categoryId }) =>
+      state.mergeIn(['stepData'], {
+        openEditDialog: true,
+        editingCategoryId: categoryId,
+      }),
+    [ACTIONS.cancelEditCategory]: state =>
+      state.mergeIn(['stepData'], {
+        openEditDialog: false,
+      }),
 
     [ACTIONS.leave]: () => fromJS(defaultState),
   },

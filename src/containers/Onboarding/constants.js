@@ -9,3 +9,8 @@ export const STEPS = [
 ]
 
 export const CREDENTIALS_FORM = 'onboarding-credentials'
+
+export const CREDENTIALS_STATUS = {
+  initial: 'awaiting_input',
+  checking: 'checking',
+}

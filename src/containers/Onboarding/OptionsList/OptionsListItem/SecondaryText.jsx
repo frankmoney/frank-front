@@ -5,7 +5,7 @@ import ListItemContext from './context'
 
 const styles = theme => ({
   root: {
-    ...theme.fontRegular(22, 28),
+    ...theme.fontRegular(22, 30),
     color: '#20284A',
     opacity: 0.5,
   },

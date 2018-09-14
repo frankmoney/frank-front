@@ -2,6 +2,8 @@ import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { compose, withState } from 'recompose'
 import cx from 'classnames'
+import reconnect from 'utils/reconnect'
+import { accountNameSelector } from '../../selectors'
 import StepLayout from '../../StepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription, { Em } from '../../StepDescription'
@@ -56,7 +58,10 @@ const AccountInfo = ({
 )
 
 export default compose(
+  reconnect({
+    accountName: accountNameSelector,
+  }),
   injectStyles(styles),
-  withState('title', 'onTitleChange'),
+  withState('title', 'onTitleChange', props => props.accountName),
   withState('description', 'onDescriptionChange')
 )(AccountInfo)

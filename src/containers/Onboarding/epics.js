@@ -1,11 +1,17 @@
 import * as ACTIONS from './actions'
 import QUERIES from './queries'
-import { currentStepSelector, selectedBankIdSelector } from './selectors'
+import {
+  credentialsFormSelector,
+  currentStepSelector,
+  selectedAccountIdSelector,
+  selectedBankIdSelector,
+} from './selectors'
 
 export const loadEpic = (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.load)
     .switchMap(() => graphql(QUERIES.getOnboardingSession))
+    // .map(() => ({ credentials: { status: 'success' } }))
     .map(ACTIONS.load.success)
 
 export const loadBanksEpic = (action$, store, { graphql }) =>
@@ -15,6 +21,9 @@ export const loadBanksEpic = (action$, store, { graphql }) =>
       graphql(QUERIES.listBanks, { filter: nameFilter })
     )
     .map(ACTIONS.loadBanks.success)
+
+export const resetBankSearchEpic = action$ =>
+  action$.ofType(ACTIONS.banksResetSearch).map(() => ACTIONS.bankNameType(''))
 
 export const searchBankEpic = action$ =>
   action$
@@ -30,18 +39,18 @@ export const nextStepEpic = (action$, store, { graphql }) =>
       const bankId = selectedBankIdSelector(state)
       const session = await graphql(QUERIES.selectBank, { id: bankId })
       return ACTIONS.goNext.success(session)
-    } else if (step == 'credentials') {
+    } else if (step === 'credentials') {
+      const credentials = credentialsFormSelector(state)
       const session = await graphql(QUERIES.sendCredentials, {
-        credentials: [
-          {
-            guid: 'CRD-598ec8d4-6200-8cda-345d-3dbb5fc17716',
-            value: 'username',
-          },
-          {
-            guid: 'CRD-27d0edb8-1d50-5b90-bcbc-be270ca42b9f',
-            value: 'password',
-          },
-        ].map(x => JSON.stringify(x)),
+        credentials: Object.entries(credentials).map(([guid, value]) =>
+          JSON.stringify({ guid, value })
+        ),
+      })
+      return ACTIONS.goNext.success(session)
+    } else if (step === 'account') {
+      const accountId = selectedAccountIdSelector(state)
+      const session = await graphql(QUERIES.selectAccount, {
+        id: accountId,
       })
       return ACTIONS.goNext.success(session)
     }

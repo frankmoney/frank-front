@@ -35,7 +35,13 @@ const styles = theme => ({
   },
 })
 
-const CategoriesList = ({ classes, className, categories, onDeleteAll }) => (
+const CategoriesList = ({
+  classes,
+  className,
+  categories,
+  onDeleteAll,
+  onEdit,
+}) => (
   <div className={cx(classes.root, className)}>
     <div className={classes.titleWrap}>
       <div className={classes.title}>Categories</div>
@@ -51,6 +57,7 @@ const CategoriesList = ({ classes, className, categories, onDeleteAll }) => (
         id={id}
         name={name}
         color={color}
+        onEdit={onEdit}
       />
     ))}
   </div>

@@ -55,8 +55,11 @@ const CategoriesListItem = ({
       color={color}
     />
     <div className={classes.toolbar} style={{ color }}>
-      <EditIcon className={classes.toolbarButton} onClick={onEdit} />
-      <RemoveIcon className={classes.toolbarButton} onClick={onRemove} />
+      <EditIcon className={classes.toolbarButton} onClick={() => onEdit(id)} />
+      <RemoveIcon
+        className={classes.toolbarButton}
+        onClick={() => onRemove(id)}
+      />
     </div>
   </div>
 )

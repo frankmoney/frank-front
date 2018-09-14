@@ -1,15 +1,19 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { compose } from 'recompose'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 import { Button } from '@frankmoney/components'
 import cx from 'classnames'
+import reconnect from 'utils/reconnect'
 import EditCategoryDialog from 'components/EditCategoryDialog'
 import StepLayout from '../../StepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription from '../../StepDescription'
-import { categoriesSelector } from '../../selectors'
+import {
+  categoriesSelector,
+  editingCategorySelector,
+  openEditCategoryDialogSelector,
+} from '../../selectors'
+import * as ACTIONS from '../../actions'
 import CategoriesList from './CategoriesList'
 
 const styles = {
@@ -22,11 +26,25 @@ const styles = {
   },
 }
 
-const Categories = ({ className, classes, categories }) => (
+const Categories = ({
+  className,
+  classes,
+  categories,
+  editingCategory,
+  openEditDialog,
+  onCancelEdit,
+  onAddCategory,
+  onEditCategory,
+  onSubmitEdit,
+}) => (
   <StepLayout
     className={cx(classes.root, className)}
     footerButton={
-      <Button className={classes.addCategoryButton} label="Add new category" />
+      <Button
+        className={classes.addCategoryButton}
+        label="Add new category"
+        onClick={onAddCategory}
+      />
     }
   >
     <StepTitle>List your categories</StepTitle>
@@ -37,17 +55,34 @@ const Categories = ({ className, classes, categories }) => (
     </StepDescription>
     {categories &&
       categories.length && (
-        <CategoriesList className={classes.list} categories={categories} />
+        <CategoriesList
+          className={classes.list}
+          categories={categories}
+          onEdit={onEditCategory}
+        />
       )}
-    <EditCategoryDialog open />
+    <EditCategoryDialog
+      category={editingCategory}
+      open={openEditDialog}
+      onCancel={onCancelEdit}
+      onSubmit={onSubmitEdit}
+    />
   </StepLayout>
 )
 
-const mapStateToProps = createStructuredSelector({
-  categories: categoriesSelector,
-})
-
 export default compose(
-  connect(mapStateToProps),
+  reconnect(
+    {
+      categories: categoriesSelector,
+      openEditDialog: openEditCategoryDialogSelector,
+      editingCategory: editingCategorySelector,
+    },
+    {
+      onAddCategory: ACTIONS.addNewCategory,
+      onEditCategory: ACTIONS.editCategory,
+      onCancelEdit: ACTIONS.cancelEditCategory,
+      onSubmitEdit: ACTIONS.submitEditCategory,
+    }
+  ),
   injectStyles(styles)
 )(Categories)

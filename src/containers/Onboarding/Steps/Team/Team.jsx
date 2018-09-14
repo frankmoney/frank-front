@@ -34,7 +34,7 @@ const Team = ({ className, classes, members }) => (
       Invite a teammate
     </GiantButton>
     <Invites className={classes.list} invites={members} />
-    <InviteDrawer open />
+    <InviteDrawer />
   </StepLayout>
 )
 

@@ -28,8 +28,12 @@ const OptionsListItem = ({
   className,
   children,
   primaryText,
+  onClick,
 }) => (
-  <div className={cx(classes.root, selected && classes.selected, className)}>
+  <div
+    className={cx(classes.root, selected && classes.selected, className)}
+    onClick={onClick}
+  >
     <Context.Provider value={{ selected }}>
       {primaryText && <PrimaryText>{primaryText}</PrimaryText>}
       {children}
