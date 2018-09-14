@@ -3,7 +3,7 @@ import { Table } from '@frankmoney/components'
 import { connect } from 'react-redux'
 import { compose, mapProps, withHandlers } from 'recompose'
 import { bindActionCreators } from 'redux'
-import { TeamMembersTableRow } from 'components/TeamMembersTable'
+import TeamMembersTableRow from 'components/TeamMembersTableRow'
 import ACTIONS from './actions'
 import { teamMembersTableDataSelector, teamMemberSelector } from './selectors'
 
