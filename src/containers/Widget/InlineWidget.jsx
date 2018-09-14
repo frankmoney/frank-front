@@ -7,12 +7,11 @@ import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
+import PeriodSelector from 'components/LegendPieChart/PeriodSelector'
 import colors from 'styles/colors'
 import Bar from 'components/Charts/Bar'
-import PeriodSelector from 'containers/PieChart/PeriodSelector'
 import { Header, HeaderItem, CategoryName } from './Header'
-import OverviewChart from './Chart'
-import Footer from './Chart/Footer' // FIXME
+import OverviewChart, { Footer } from './Chart'
 import Payments from './Payments'
 import {
   barChartDataSelector,

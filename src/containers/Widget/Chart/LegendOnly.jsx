@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import PieChart, { dataPropShape } from 'containers/PieChart'
+import LegendPieChart, { dataPropShape } from 'components/LegendPieChart'
 
 const styles = theme => ({
   root: {
@@ -65,7 +65,8 @@ const LegendOnly = ({
   period,
   periods,
 }) => (
-  <PieChart
+  // TODO: rewrite it without?
+  <LegendPieChart
     categoryLimit={999}
     categoryType={categoryType}
     chartClassName={classes.switcherContainer}

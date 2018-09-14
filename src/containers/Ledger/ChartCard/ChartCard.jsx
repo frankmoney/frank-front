@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
-import PieChart from 'containers/PieChart'
+import LegendPieChart from 'components/LegendPieChart'
 import BarChart from './BarChart'
 import ExpandRow from './ExpandRow'
 import Title from './Title'
@@ -45,7 +45,7 @@ class GraphOverviewCard extends React.PureComponent {
           <BarChart className={classes.barChart} data={barsData} />
         ) : (
           <>
-            <PieChart
+            <LegendPieChart
               categoryType={categoryType}
               chartClassName={classes.chart}
               data={pieData}
