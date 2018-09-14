@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { CheckedMenuItem } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
+import { UNCATEGORIZED_COLOR } from 'const'
 import CategoryLabel from 'components/CategoryLabel'
 import SelectField from 'components/SelectField'
 
@@ -35,7 +36,7 @@ const CategorySelect = ({
         <CategoryLabel
           iconClassName={iconClassName}
           name="Uncategorized"
-          color="rgb(211, 213, 217)"
+          color={UNCATEGORIZED_COLOR}
         />
       </CheckedMenuItem>
       {categories.map(({ id, name, color }) => (
