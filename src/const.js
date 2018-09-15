@@ -1,3 +1,5 @@
+import { OrderedMap } from 'immutable'
+
 // eslint-disable-next-line import/prefer-default-export
 export const ROUTES = {
   root: '/',
@@ -19,8 +21,6 @@ export const ROUTES = {
   },
   team: {
     root: '/team',
-    match: '/team/:action?/:id?',
-    invite: '/team/invite',
   },
   onboarding: {
     root: '/onboarding',
@@ -43,6 +43,14 @@ export const ROUTES = {
 }
 
 export const BASE_TITLE = 'Frank'
+
+export const ROLES = OrderedMap(
+  [
+    { role: 'administrator', title: 'Administrator' },
+    { role: 'manager', title: 'Manager' },
+    { role: 'observer', title: 'Observer' },
+  ].map(item => [item.role, item])
+)
 
 export const UNCATEGORIZED_COLOR = 'rgb(211, 213, 217)'
 

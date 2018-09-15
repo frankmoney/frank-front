@@ -1,14 +1,14 @@
 export default theme => ({
   root: {
     height: 119,
-    '& > *': {
-      alignItems: 'center',
-    },
+    display: 'flex',
+    padding: [0, 30],
+    alignItems: 'center',
   },
   avatar: {
     marginRight: 15,
   },
-  avatarBody: {
+  avatarComponent: {
     width: 60,
     height: 60,
   },
@@ -24,12 +24,12 @@ export default theme => ({
   },
   role: {
     textAlign: 'right',
-    ...theme.fontRegular(18, 46),
+    ...theme.fontMedium(18, 46),
   },
   menu: {
-    width: 220,
+    color: 'rgba(37, 43, 67, 0.5)',
   },
-  menuDeleteUser: {
+  menuDeleteUserItem: {
     color: '#ff3939',
   },
 })

@@ -4,18 +4,10 @@ import {
   BreadcrumbsItem,
   PageLoader,
 } from '@frankmoney/components'
-import { createRouteUrl } from '@frankmoney/utils'
-import * as R from 'ramda'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { push as pushLocation } from 'react-router-redux'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
-import { createStructuredSelector } from 'reselect'
 import ListLayoutContent from 'components/ListLayoutContent'
 import Breadcrumbs from 'components/Breadcrumbs'
-import { ROUTES } from 'const'
-import TeamMembersTable from './TeamMembersTable'
-import EditRoleDrawer from './EditRoleDrawer'
+import reconnect from 'utils/reconnect'
 import InviteButton from './InviteButton'
 import InviteDrawer from './InviteDrawer'
 import OwnProfile from './OwnProfile'
@@ -23,38 +15,28 @@ import ProfileList from './ProfileList'
 import ACTIONS from './actions'
 import {
   canInviteSelector,
+  inviteDrawerOpenSelector,
   loadedSelector,
   loadingSelector,
   otherProfilesSelector,
   ownProfileSelector,
 } from './selectors'
 
-const mapStateToProps = createStructuredSelector({
+const selectorsToProps = {
   loaded: loadedSelector,
   loading: loadingSelector,
   canInvite: canInviteSelector,
   ownProfile: ownProfileSelector,
   otherProfiles: otherProfilesSelector,
-})
+  inviteDrawerOpen: inviteDrawerOpenSelector,
+}
 
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    load: ACTIONS.load,
-    leave: ACTIONS.leave,
-    handleEditRole: ACTIONS.openEditRoleDrawer,
-    handleDrawerClose: () => pushLocation(createRouteUrl(ROUTES.team.root)),
-  },
-])
+const connectDispatch = {
+  load: ACTIONS.load,
+  leave: ACTIONS.leave,
+}
 
-const Team = ({
-  match: {
-    params: { id, action },
-  },
-  canInvite,
-  ownProfile,
-  otherProfiles,
-  handleEditRole,
-}) => (
+const Team = ({ canInvite, ownProfile, otherProfiles, inviteDrawerOpen }) => (
   <>
     <FixedHeader>
       <Breadcrumbs>
@@ -63,20 +45,15 @@ const Team = ({
     </FixedHeader>
     <ListLayoutContent>
       {canInvite && <InviteButton />}
-      <TeamMembersTable />
       <OwnProfile profile={ownProfile} />
-      <ProfileList profiles={otherProfiles} onEditRole={handleEditRole} />
+      <ProfileList profiles={otherProfiles} />
     </ListLayoutContent>
-    <InviteDrawer open={action === 'invite'} />
-    <EditRoleDrawer open={action === 'edit-role' && id} id={id} />
+    <InviteDrawer open={inviteDrawerOpen} />
   </>
 )
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  reconnect(selectorsToProps, connectDispatch),
   lifecycle({
     componentWillMount() {
       if (!this.props.loaded) {

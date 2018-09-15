@@ -1,182 +1,85 @@
 import React from 'react'
-import { Avatar, Button, IconButton } from '@frankmoney/components'
+import { Avatar, Select2 } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
-import DeleteIcon from 'material-ui-icons/Delete'
-import EditIcon from 'material-ui-icons/Edit'
-import LockIcon from 'material-ui-icons/Lock'
+import { omitProps } from '@frankmoney/utils'
+import cx from 'classnames'
 import * as R from 'ramda'
+import { compose, withPropsOnChange } from 'recompose'
+import { ROLES } from 'const'
+import reconnect from 'utils/reconnect'
+import ACTIONS from './actions'
+import styles from './Profile.jss'
 
-const styles = theme => ({
-  root: {
-    padding: 30,
-    '&:hover $roleWrap': {
-      display: ({ large, acl: { remove, editRole } }) =>
-        !large && (remove || editRole) ? 'none' : 'block',
-    },
-    '&:hover $overlay': {
-      display: ({ large, acl: { remove, editRole } }) =>
-        !large && (remove || editRole) ? 'flex' : 'none',
-    },
-  },
-  body: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  avatarWrap: {
-    marginRight: 15,
-  },
-  avatar: {
-    width: ({ large }) => (large ? 90 : 60),
-    height: ({ large }) => (large ? 90 : 60),
-  },
-  mainWrap: {
-    flex: 1,
-  },
-  name: {
-    ...theme.fontMedium(22, 34),
-  },
-  nameLarge: {
-    ...theme.fontMedium(28, 46),
-  },
-  edit: {
-    marginTop: 13,
-    verticalAlign: 'top',
-  },
-  editIcon: {
-    width: 22,
-    height: 22,
-  },
-  email: {
-    color: 'rgba(37, 43, 67, .5)',
-    ...theme.fontRegular(18),
-  },
-  roleWrap: {
-    textAlign: 'right',
-    ...theme.fontRegular(18, 46),
-  },
-  admin: {
-    color: '#21CB61',
-  },
-  overlay: {
-    display: 'none',
-    alignItems: 'center',
-  },
-  editRoleButton: {
-    extend: 'button',
-    '&:hover': {
-      extend: 'buttonActive',
-    },
-    '&:active': {
-      extend: 'buttonActive',
-    },
-  },
-  footer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    marginTop: 20,
-  },
-  changePasswordButton: {
-    extend: 'button',
-    '&:hover': {
-      extend: 'buttonActive',
-    },
-    '&:active': {
-      extend: 'buttonActive',
-    },
-  },
-  removeButton: {
-    width: 40,
-    height: 40,
-    marginLeft: 10,
-  },
-  removeIcon: {
-    width: 22,
-    height: 22,
-  },
-  button: {
-    ...theme.fontMedium(16, 22),
-    backgroundColor: 'rgba(37, 43, 67, 0.04)',
-    border: 0,
-  },
-  buttonActive: {
-    backgroundColor: 'rgba(37, 43, 67, 0.04)',
-    border: 0,
-    color: '#4C51F3',
-  },
-})
+const deleteRoleSelectValue = '#delete'
 
 const Profile = ({
   classes,
-  id,
-  admin,
-  email,
-  lastName,
-  firstName,
-  avatar,
-  large,
-  acl: { remove, editRole, editProfile, changePassword },
-  onEditRole,
+  className,
+  profile: { email, lastName, firstName, avatar, role },
+  acl: { remove, editRole },
+  roles,
+  onMenuSelectChange,
+  ...otherProps
 }) => (
-  <div className={classes.root}>
-    <div className={classes.body}>
-      <div className={classes.avatarWrap}>
-        <Avatar className={classes.avatar} src={R.prop('preview', avatar)} />
-      </div>
-      <div className={classes.mainWrap}>
-        <div className={large ? classes.nameLarge : classes.name}>
-          {firstName} {lastName}
-          {editProfile && (
-            <>
-              {' '}
-              <IconButton
-                className={classes.edit}
-                iconClassName={classes.editIcon}
-                icon={EditIcon}
-              />
-            </>
-          )}
-        </div>
-        <div className={classes.email}>{email}</div>
-      </div>
-      <div className={classes.roleWrap}>
-        {admin && <span className={classes.admin}>Administrator</span>}
-      </div>
-      {(remove || editRole) && (
-        <div className={classes.overlay}>
-          <Button
-            className={classes.editRoleButton}
-            label="Edit role"
-            icon={EditIcon}
-            onClick={() => onEditRole && onEditRole({ id })}
-          />
-          {remove && (
-            <IconButton
-              className={classes.removeButton}
-              iconClassName={classes.removeIcon}
-              icon={DeleteIcon}
-              round
-            />
-          )}
-        </div>
-      )}
+  <div className={cx(classes.root, className)} {...otherProps}>
+    <div className={classes.avatar}>
+      <Avatar
+        className={classes.avatarComponent}
+        src={R.prop('preview', avatar)}
+      />
     </div>
-    {large &&
-      (remove || changePassword) && (
-        <div className={classes.footer}>
-          <Button
-            className={classes.changePasswordButton}
-            label="Change Password"
-            icon={LockIcon}
-          />
-          <IconButton
-            className={classes.removeButton}
-            iconClassName={classes.removeIcon}
-            icon={DeleteIcon}
-            round
-          />
-        </div>
-      )}
+    <div className={classes.info}>
+      <div className={classes.name}>
+        {firstName} {lastName}
+      </div>
+      <div className={email}>{email}</div>
+    </div>
+    <div className={classes.role}>
+      <Select2
+        className={classes.menu}
+        value={role || 'observer'}
+        disabled={!remove && !editRole}
+        onChange={onMenuSelectChange}
+      >
+        {roles.map(x => (
+          <Select2.Option key={x.role} value={x.role}>
+            {x.title}
+          </Select2.Option>
+        ))}
+        {remove && (
+          <Select2.Option
+            key={deleteRoleSelectValue}
+            className={classes.menuDeleteUserItem}
+            value={deleteRoleSelectValue}
+          >
+            Delete user
+          </Select2.Option>
+        )}
+      </Select2>
+    </div>
   </div>
 )
 
-export default injectStyles(styles)(Profile)
+export default compose(
+  reconnect(null, { remove: ACTIONS.remove, updateRole: ACTIONS.updateRole }),
+  withPropsOnChange(
+    ['profile', 'remove', 'updateRole'],
+    ({ profile: { id }, remove, updateRole }) => ({
+      onMenuSelectChange: role => {
+        if (role === deleteRoleSelectValue) {
+          remove({ id })
+        } else {
+          updateRole({ id, role })
+        }
+      },
+    })
+  ),
+  withPropsOnChange(
+    ['profile'],
+    ({ profile: { role }, acl: { editRole } }) => ({
+      roles: editRole ? Array.from(ROLES.values()) : [ROLES.get(role)],
+    })
+  ),
+  injectStyles(styles),
+  omitProps('theme', 'remove', 'updateRole')
+)(Profile)

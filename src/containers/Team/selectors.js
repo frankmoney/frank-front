@@ -8,6 +8,8 @@ const getter = (...path) => s => s.getIn([REDUCER_NAME, ...path])
 const getters = {
   loaded: getter('loaded'),
   loading: getter('loading'),
+  inviteDrawerOpen: getter('inviteDrawerOpen'),
+  changePasswordPopupOpen: getter('changePasswordPopupOpen'),
   profiles: getter('profiles'),
   ownProfileId: getter('ownProfileId'),
   otherProfileIds: getter('otherProfileIds'),
@@ -16,7 +18,8 @@ const getters = {
 export const loadedSelector = getters.loaded
 export const loadingSelector = getters.loading
 
-export const profilesSelector = createPlainObjectSelector(getters.profiles)
+export const inviteDrawerOpenSelector = getters.inviteDrawerOpen
+export const changePasswordPopupOpen = getters.changePasswordPopupOpen
 
 export const ownProfileSelector = createPlainObjectSelector(
   createSelector(
@@ -35,18 +38,6 @@ export const otherProfilesSelector = createPlainObjectSelector(
 )
 
 export const canInviteSelector = createSelector(
-  ownProfileSelector,
-  R.prop('canInvite')
+  createSelector(ownProfileSelector, R.prop('role')),
+  role => role === 'administrator'
 )
-
-export const teamMembersTableDataSelector = createSelector(
-  profilesSelector,
-  profiles => [
-    {
-      rows: Object.keys(profiles),
-    },
-  ]
-)
-
-export const teamMemberSelector = id =>
-  createSelector(profilesSelector, R.prop(id))
