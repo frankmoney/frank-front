@@ -9,6 +9,7 @@ import {
   barChartOnlySelector,
   chartCategoryTypeSelector,
   chartsVisibleSelector,
+  periodSelector,
   pieChartDataSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
@@ -17,6 +18,7 @@ const mapStateToProps = createStructuredSelector({
   barsData: barChartDataSelector,
   barsOnly: barChartOnlySelector,
   categoryType: chartCategoryTypeSelector,
+  period: periodSelector,
   pieData: pieChartDataSelector,
   visible: chartsVisibleSelector,
 })

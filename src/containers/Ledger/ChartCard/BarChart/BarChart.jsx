@@ -110,8 +110,10 @@ class BarChart extends React.PureComponent {
   }
 }
 
+export const barDataShape = PropTypes.arrayOf(barChartDataShape)
+
 BarChart.propTypes = {
-  data: PropTypes.arrayOf(barChartDataShape),
+  data: barDataShape,
 }
 
 export default injectStyles(styles)(BarChart)

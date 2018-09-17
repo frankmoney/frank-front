@@ -131,6 +131,8 @@ export const currentFiltersSelector = createSelector(
   })
 )
 
+export const periodSelector = () => 'All time' // TODO: get data from filter and formatter from DateRangeField
+
 // Chart Selectors
 
 export const chartCategoryTypeSelector = get('chartCategoryType')
