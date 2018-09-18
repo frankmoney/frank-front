@@ -111,7 +111,7 @@ class InlineWidget extends React.PureComponent {
       size,
     } = this.props
     const { tab } = this.state
-    const paymentList = currentCategoryName != null
+    const paymentList = currentCategoryName != null // TODO: redo as a tab?
 
     const isPayments = tab === 'payments'
     const isStories = tab === 'stories'
@@ -161,25 +161,28 @@ class InlineWidget extends React.PureComponent {
         )}
         <div className={classes.content}>
           {isPayments &&
-            paymentList &&
-            !small && (
+            paymentList && (
               <>
-                <PeriodSelector
-                  className={cx(classes.paymentsPeriodSelect)}
-                  onChange={onPeriodChange}
-                  value={period}
-                  values={periods}
-                />
-                <Bar
-                  barColor={currentCategoryColor}
-                  className={classes.barChart}
-                  data={barsData}
-                  footerPadding={10}
-                  height={barsHeight(size)}
-                  hideBaseLine
-                  labelKey="date"
-                  width={size > 500 ? 516 : 468}
-                />
+                {!small && (
+                  <>
+                    <PeriodSelector
+                      className={cx(classes.paymentsPeriodSelect)}
+                      onChange={onPeriodChange}
+                      value={period}
+                      values={periods}
+                    />
+                    <Bar
+                      barColor={currentCategoryColor}
+                      className={classes.barChart}
+                      data={barsData}
+                      footerPadding={10}
+                      height={barsHeight(size)}
+                      hideBaseLine
+                      labelKey="date"
+                      width={size > 500 ? 516 : 468}
+                    />
+                  </>
+                )}
                 <Payments />
               </>
             )}
@@ -188,12 +191,12 @@ class InlineWidget extends React.PureComponent {
               <>
                 <OverviewChart
                   categoryType={categoryType}
+                  data={pieData}
                   onCategoryClick={onCategoryClick}
                   onCategoryTypeChange={onCategoryTypeChange}
                   onPeriodChange={onPeriodChange}
                   period={period}
                   periods={periods}
-                  pieData={pieData}
                   size={size}
                 />
                 <Footer

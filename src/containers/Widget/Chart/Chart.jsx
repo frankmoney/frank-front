@@ -60,12 +60,12 @@ const styles = theme => ({
 const ActualChart = ({
   categoryType,
   classes,
+  data,
   onCategoryClick,
   onCategoryTypeChange,
   onPeriodChange,
   period,
   periods,
-  pieData,
   size,
 }) => {
   const switcherLabel = size < 800 ? '% of' : '% of total'
@@ -75,7 +75,7 @@ const ActualChart = ({
       chartClassName={classes.chart}
       chartSize={pieSize(size)}
       className={classes.root}
-      data={pieData}
+      data={data}
       hideChart={size === 400}
       legendClassName={classes.legend}
       legendIconClassName={classes.legendIcon}
@@ -93,22 +93,21 @@ const ActualChart = ({
   )
 }
 
-const Chart = ({ size, ...props }) => {
-  if (size > 400) {
-    return <ActualChart size={size} {...props} />
-  }
-  const { pieData, classes, ...otherProps } = props
-  return <LegendOnly data={pieData} {...otherProps} />
-}
+const Chart = ({ classes, size, ...props }) =>
+  size > 400 ? (
+    <ActualChart size={size} classes={classes} {...props} />
+  ) : (
+    <LegendOnly {...props} />
+  )
 
 Chart.propTypes = {
   categoryType: PropTypes.string.isRequired,
+  data: dataPropShape.isRequired,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,
   period: PropTypes.string.isRequired,
   periods: PropTypes.arrayOf(PropTypes.string).isRequired,
-  pieData: dataPropShape.isRequired,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
 }
 
