@@ -13,9 +13,7 @@ import PaymentBlock from './PaymentBlock'
 import { paymentProps } from './Payment'
 
 const styles = {
-  root: {
-    margin: [-5, 18, 0, 18],
-  },
+  root: {},
 }
 
 const dateProp = R.prop('postedOn')

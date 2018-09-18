@@ -59,8 +59,8 @@ const styles = theme => ({
     flexDirection: 'column',
     flexGrow: 1,
     overflowY: 'scroll',
-    marginRight: -15,
-    paddingRight: 15,
+    margin: [0, -15],
+    padding: [0, 15],
   },
   paymentsPeriodSelect: {
     marginTop: 4,
@@ -71,6 +71,18 @@ const styles = theme => ({
     margin: [10, 'auto', 0],
     '$size500 &': {
       margin: [10, -3, 0],
+    },
+  },
+  payments: {
+    margin: [-5, 'auto', 0],
+    width: 550,
+    '$size400 &': {
+      margin: [4, -8, 0],
+      width: 'auto',
+    },
+    '$size500 &': {
+      margin: [-5, -8, 0],
+      width: 'auto',
     },
   },
 })
@@ -183,7 +195,7 @@ class InlineWidget extends React.PureComponent {
                     />
                   </>
                 )}
-                <Payments />
+                <Payments className={classes.payments} />
               </>
             )}
           {isPayments &&
