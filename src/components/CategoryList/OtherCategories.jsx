@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, cloneElement } from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { Popover } from 'material-ui'
-import renderProp from 'utils/renderProp'
 
 const styles = {
   tooltip: {
@@ -38,7 +37,7 @@ class OtherCategories extends React.PureComponent {
   }
 
   render() {
-    const { categories, classes, renderTooltipItem, children } = this.props
+    const { categories, children, classes, renderTooltipItem } = this.props
     const { anchorEl } = this.state
     const open = !!anchorEl
     return (
@@ -54,8 +53,7 @@ class OtherCategories extends React.PureComponent {
         >
           {categories.map(renderTooltipItem)}
         </Popover>
-
-        {renderProp(children, {
+        {cloneElement(children, {
           onMouseEnter: this.handlePopoverOpen,
           onMouseLeave: this.handlePopoverClose,
         })}

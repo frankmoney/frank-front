@@ -4,7 +4,6 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import { pieChartDataShape } from 'components/Charts/shapes'
-import renderProp from 'utils/renderProp'
 import CategoryLabel from 'components/CategoryLabel'
 import limitCategories, { limitedCategoriesProps } from 'utils/limitCategories'
 import OtherCategories from './OtherCategories'
@@ -56,32 +55,34 @@ const CategoryList = ({
   valueClassName,
   valueUnit,
 }) => {
-  const renderItem = ({ key, ...otherProps }) =>
-    renderProp(CategoryLabel, {
-      key,
-      active: key === activeKey,
-      activeClassName: activeLabelClassName,
-      className: cx(classes.item, itemClassName),
-      iconClassName,
-      nameClassName,
-      onClick: onLabelClick && (() => onLabelClick(key)),
-      onMouseEnter: onLabelMouseEnter && (() => onLabelMouseEnter(key)),
-      onMouseLeave: onLabelMouseLeave && (() => onLabelMouseLeave(key)),
-      valueClassName,
-      valueUnit,
-      ...otherProps,
-    })
+  const renderItem = ({ key, ...otherProps }) => (
+    <CategoryLabel
+      active={key === activeKey}
+      activeClassName={activeLabelClassName}
+      className={cx(classes.item, itemClassName)}
+      iconClassName={iconClassName}
+      key={key}
+      nameClassName={nameClassName}
+      onClick={onLabelClick && (() => onLabelClick(key))}
+      onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(key))}
+      onMouseLeave={onLabelMouseLeave && (() => onLabelMouseLeave(key))}
+      valueClassName={valueClassName}
+      valueUnit={valueUnit}
+      {...otherProps}
+    />
+  )
 
-  const renderTooltipItem = ({ key, ...otherProps }) =>
-    renderProp(CategoryLabel, {
-      key,
-      className: cx(classes.tooltipItem, tooltipItemClassName),
-      iconClassName: cx(classes.tooltipIcon, tooltipIconClassName),
-      nameClassName: cx(classes.tooltipName, tooltipNameClassName),
-      valueClassName: cx(classes.tooltipValue, tooltipValueClassName),
-      valueUnit,
-      ...otherProps,
-    })
+  const renderTooltipItem = ({ key, ...otherProps }) => (
+    <CategoryLabel
+      className={cx(classes.tooltipItem, tooltipItemClassName)}
+      iconClassName={cx(classes.tooltipIcon, tooltipIconClassName)}
+      key={key}
+      nameClassName={cx(classes.tooltipName, tooltipNameClassName)}
+      valueClassName={cx(classes.tooltipValue, tooltipValueClassName)}
+      valueUnit={valueUnit}
+      {...otherProps}
+    />
+  )
 
   const { items, other, tooltipItems } =
     limitedCategories || limitCategories(categories)
