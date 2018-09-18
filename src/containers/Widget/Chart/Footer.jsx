@@ -8,18 +8,18 @@ const styles = {
   root: {
     display: 'flex',
     justifyContent: 'space-between',
-    lineHeight: 20,
-    padding: [0, 1, 0, 2],
+    lineHeight: 17,
+    minHeight: 18,
+    padding: [0, 2, 0, 2],
+    whiteSpace: 'pre',
   },
   content: {
     color: '#9295A1',
-    alignItems: 'center',
     display: 'flex',
-    whiteSpace: 'pre',
   },
   icon: {
     color: '#252B43',
-    marginRight: 14,
+    margin: [-1, 14, 0, 0],
   },
   number: {
     color: '#252B43',

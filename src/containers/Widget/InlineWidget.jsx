@@ -57,15 +57,10 @@ const styles = theme => ({
   content: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
+    flexGrow: 1,
     overflowY: 'scroll',
-    position: 'relative',
     marginRight: -15,
     paddingRight: 15,
-    justifyContent: 'space-between',
-    '$size400 &': {
-      display: 'block', // TODO: redo small list as flex
-    },
   },
   paymentsPeriodSelect: {
     marginTop: 4,

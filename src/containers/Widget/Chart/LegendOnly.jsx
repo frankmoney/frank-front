@@ -6,12 +6,9 @@ import LegendPieChart, { dataPropShape } from 'components/LegendPieChart'
 
 const styles = theme => ({
   root: {
-    overflowY: 'scroll',
-    margin: [0, 0, -19],
-    padding: [5, 0, 19],
+    marginBottom: 5,
+    paddingTop: 5,
     display: 'block',
-    width: 'unset',
-    height: 'unset',
   },
   periodSelect: {
     display: 'inline-block',
