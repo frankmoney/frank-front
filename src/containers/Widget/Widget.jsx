@@ -4,12 +4,10 @@ import PropTypes from 'prop-types'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import PeriodSelector from 'components/LegendPieChart/PeriodSelector'
-import Bar from 'components/Charts/Bar'
-import { Stories } from './Tabs'
-import { Header, HeaderItem, CategoryName } from './Header'
+import { barChartDataShape, pieChartDataShape } from 'components/Charts/shapes'
+import { AboutTab, PaymentListTab, StoriesTab } from './Tabs'
+import { Header, HeaderItem } from './Header'
 import OverviewChart, { Footer } from './Chart'
-import Payments from './Payments'
 import {
   barChartDataSelector,
   categoryCountSelector,
@@ -57,23 +55,16 @@ class Widget extends React.PureComponent {
       showBarChart,
       showCategoryCount,
     } = this.props
-    const { tab } = this.state
 
-    const overviewTab = tab === 'payments'
-    const paymentListTab = currentCategoryName != null // TODO: redo as a tab
+    const { tab } = this.state
+    const selectedCategory = currentCategoryName != null
+    const overviewTab = tab === 'payments' && !selectedCategory
+    const paymentListTab = tab === 'payments' && selectedCategory // TODO: redo as a tab
     const storiesTab = tab === 'stories'
     const aboutTab = tab === 'about'
 
     return (
       <div className={className}>
-        {paymentListTab && (
-          <Header live={false}>
-            <CategoryName
-              name={currentCategoryName}
-              onClick={() => onCancelCategoryClick()}
-            />
-          </Header>
-        )}
         {!paymentListTab && (
           <Header>
             <HeaderItem
@@ -93,56 +84,45 @@ class Widget extends React.PureComponent {
             />
           </Header>
         )}
-        <div className={contentClassName}>
-          {overviewTab &&
-            paymentListTab && (
-              <>
-                {showBarChart && (
-                  <>
-                    <PeriodSelector
-                      className={paymentsPeriodClassName}
-                      onChange={onPeriodChange}
-                      value={period}
-                      values={periods}
-                    />
-                    <Bar
-                      barColor={currentCategoryColor}
-                      className={barChartClassName}
-                      data={barsData}
-                      footerPadding={10}
-                      height={barsHeight}
-                      hideBaseLine
-                      labelKey="date"
-                      width={barsWidth}
-                    />
-                  </>
-                )}
-                <Payments className={paymentsClassName} />
-              </>
-            )}
-          {overviewTab &&
-            !paymentListTab && (
-              <>
-                <OverviewChart
-                  categoryType={categoryType}
-                  data={pieData}
-                  onCategoryClick={onCategoryClick}
-                  onCategoryTypeChange={onCategoryTypeChange}
-                  onPeriodChange={onPeriodChange}
-                  period={period}
-                  periods={periods}
-                  size={pieChartSize}
-                />
-                <Footer
-                  paymentCount={entriesCount}
-                  categoryCount={showCategoryCount ? categoryCount : null}
-                  onSeeAllClick={onSeeAllClick}
-                />
-              </>
-            )}
-        </div>
-        {storiesTab && <Stories />}
-        {aboutTab && <div>TODO</div>}
+        {overviewTab && (
+          <div className={contentClassName}>
+            <OverviewChart
+              categoryType={categoryType}
+              data={pieData}
+              onCategoryClick={onCategoryClick}
+              onCategoryTypeChange={onCategoryTypeChange}
+              onPeriodChange={onPeriodChange}
+              period={period}
+              periods={periods}
+              size={pieChartSize}
+            />
+            <Footer
+              paymentCount={entriesCount}
+              categoryCount={showCategoryCount ? categoryCount : null}
+              onSeeAllClick={onSeeAllClick}
+            />
+          </div>
+        )}
+        {paymentListTab && (
+          <PaymentListTab
+            barChartClassName={barChartClassName}
+            barsData={barsData}
+            barsHeight={barsHeight}
+            barsWidth={barsWidth}
+            contentClassName={contentClassName}
+            currentCategoryColor={currentCategoryColor}
+            currentCategoryName={currentCategoryName}
+            onCancelCategoryClick={onCancelCategoryClick}
+            onPeriodChange={onPeriodChange}
+            paymentsClassName={paymentsClassName}
+            paymentsPeriodClassName={paymentsPeriodClassName}
+            period={period}
+            periods={periods}
+            showBarChart={showBarChart}
+          />
+        )}
+        {storiesTab && <StoriesTab />}
+        {aboutTab && <AboutTab />}
       </div>
     )
   }
@@ -151,17 +131,23 @@ class Widget extends React.PureComponent {
 Widget.propTypes = {
   barsHeight: PropTypes.number.isRequired,
   barsWidth: PropTypes.number.isRequired,
-  categoryCount: PropTypes.number,
-  categoryType: PropTypes.string,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,
   onSeeAllClick: PropTypes.func.isRequired,
-  period: PropTypes.string.isRequired,
-  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   pieChartSize: PropTypes.number.isRequired,
   showBarChart: PropTypes.bool,
   showCategoryCount: PropTypes.bool,
+  // Selectors
+  barsData: PropTypes.arrayOf(barChartDataShape),
+  categoryCount: PropTypes.number,
+  categoryType: PropTypes.string,
+  currentCategoryColor: PropTypes.string,
+  currentCategoryName: PropTypes.string,
+  entriesCount: PropTypes.number,
+  period: PropTypes.string.isRequired,
+  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
+  pieData: PropTypes.arrayOf(pieChartDataShape),
   // tab: PropTypes.oneOf(['payments', 'stories', 'about']), // TODO: wait for selector
   // Styles
   barChartClassName: PropTypes.string,
