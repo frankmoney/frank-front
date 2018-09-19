@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PeriodSelector from 'components/LegendPieChart/PeriodSelector'
 import Bar from 'components/Charts/Bar'
+import { Stories } from './Tabs'
 import { Header, HeaderItem, CategoryName } from './Header'
 import OverviewChart, { Footer } from './Chart'
 import Payments from './Payments'
@@ -55,7 +56,6 @@ class Widget extends React.PureComponent {
       pieData,
       showBarChart,
       showCategoryCount,
-      stories: Stories,
     } = this.props
     const { tab } = this.state
 
@@ -162,7 +162,6 @@ Widget.propTypes = {
   pieChartSize: PropTypes.number.isRequired,
   showBarChart: PropTypes.bool,
   showCategoryCount: PropTypes.bool,
-  stories: PropTypes.element,
   // tab: PropTypes.oneOf(['payments', 'stories', 'about']), // TODO: wait for selector
   // Styles
   barChartClassName: PropTypes.string,

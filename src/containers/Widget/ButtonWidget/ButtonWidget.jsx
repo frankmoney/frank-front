@@ -32,6 +32,7 @@ const styles = theme => ({
   contentRoot: {
     display: 'flex',
     flexDirection: 'column',
+    flexGrow: 1,
   },
   content: {
     overflowY: 'scroll',
@@ -47,7 +48,7 @@ class ButtonWidget extends React.PureComponent {
   handleOpen = () => this.setState({ expanded: true })
 
   render() {
-    const { classes, className, stories } = this.props
+    const { classes, className } = this.props
     const { expanded } = this.state
 
     if (!expanded) {
@@ -70,7 +71,6 @@ class ButtonWidget extends React.PureComponent {
           pieChartSize={300}
           showBarChart
           showCategoryCount
-          stories={stories}
         />
         <Footer className={classes.footer} onClose={this.handleClose} />
       </div>
@@ -80,7 +80,6 @@ class ButtonWidget extends React.PureComponent {
 
 ButtonWidget.propTypes = {
   expanded: PropTypes.bool, // demo flag
-  stories: PropTypes.element,
 }
 
 export default injectStyles(styles)(ButtonWidget)

@@ -93,7 +93,7 @@ const barsHeight = R.cond([
 //       periods,
 //       pieData,
 //       size,
-const InlineWidget = ({ classes, size, ...props }) => (
+const InlineWidget = ({ classes, size }) => (
   <Widget
     className={cx(classes.root, {
       [classes.size400]: size === 400,
@@ -110,13 +110,11 @@ const InlineWidget = ({ classes, size, ...props }) => (
     pieChartSize={size}
     showBarChart={size > 400}
     showCategoryCount={size > 400}
-    {...props}
   />
 )
 
 InlineWidget.propTypes = {
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
-  stories: PropTypes.element,
 }
 
 export default injectStyles(styles)(InlineWidget)

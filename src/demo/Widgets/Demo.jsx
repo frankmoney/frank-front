@@ -3,7 +3,6 @@ import { injectStyles } from '@frankmoney/ui'
 import ButtonWidget from 'containers/Widget/ButtonWidget'
 import InlineWidget from 'containers/Widget/InlineWidget'
 import Title from 'containers/Ledger/ChartCard/Title'
-import { StoriesPlaceholder } from './Placeholders'
 
 const styles = {
   demo: {
@@ -21,22 +20,22 @@ const styles = {
 const WidgetsDemo = ({ classes }) => (
   <div className={classes.demo}>
     <Title>Button widget</Title>
-    <ButtonWidget stories={StoriesPlaceholder} expanded />
+    <ButtonWidget expanded />
 
     <Title>Button widget (closed)</Title>
-    <ButtonWidget stories={StoriesPlaceholder} />
+    <ButtonWidget />
 
     <Title>Inline widget 400x275</Title>
-    <InlineWidget size={400} stories={StoriesPlaceholder} />
+    <InlineWidget size={400} />
 
     <Title>Inline widget 500x345</Title>
-    <InlineWidget size={500} stories={StoriesPlaceholder} />
+    <InlineWidget size={500} />
 
     <Title>Inline widget 625x430</Title>
-    <InlineWidget size={625} stories={StoriesPlaceholder} />
+    <InlineWidget size={625} />
 
     <Title>Inline widget 800x550</Title>
-    <InlineWidget size={800} stories={StoriesPlaceholder} />
+    <InlineWidget size={800} />
   </div>
 )
 
