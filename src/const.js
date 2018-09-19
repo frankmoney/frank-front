@@ -44,6 +44,8 @@ export const ROUTES = {
 
 export const BASE_TITLE = 'Frank'
 
+export const UNCATEGORIZED_COLOR = 'rgb(211, 213, 217)'
+
 export const CATEGORY_COLORS = {
   '#3240A8': 'Navy Blue',
   '#8725FB': 'Purple',

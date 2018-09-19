@@ -1,8 +1,13 @@
 // spellchecker:ignore mmaa
 import React from 'react'
-import { Button, IconButton, Paper, Switch } from '@frankmoney/components'
+import {
+  Button,
+  CheckedMenuItem,
+  IconButton,
+  Paper,
+  Switch,
+} from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
-import { compose, withState } from 'recompose'
 import cx from 'classnames'
 import format from 'date-fns/format'
 import CheckCircleIcon from 'material-ui-icons/CheckCircle'
@@ -13,24 +18,29 @@ import MoreHoriz from 'material-ui-icons/MoreHoriz'
 import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
 import Field from 'components/Field'
+import SelectField from 'components/SelectField'
 import TextBox from 'components/TextBox'
 import colors from 'styles/colors'
-import styles from './InboxCard.jss'
+import styles from './PaymentCard.jss'
 
-const InboxCard = ({
+const PaymentCard = ({
   classes,
   className,
   createdAt,
+  categories,
+  peers,
   amount,
-  recipientReviewed,
-  recipientName,
+  peerId,
+  peerName,
   categoryAddedFromSimilar,
   categoryId,
   descriptionAddedFromSimilar,
   description,
   useForSimilar,
-  setRecipientName,
-  setDescription,
+  onPeerIdChange,
+  onPeerNameChange,
+  onCategoryIdChange,
+  onDescriptionChange,
   searchText,
   ...otherProps
 }) => (
@@ -50,21 +60,31 @@ const InboxCard = ({
           className={classes.field}
           title="Recipient"
           hint={
-            recipientReviewed
+            peerId
               ? 'Had been reviewed previously'
               : "First-timer, please check if the name's correct"
           }
         >
-          {recipientReviewed ? (
-            <div className={classes.recipientName}>
-              <CheckCircleIcon className={classes.recipientReviewedIcon} />
-              {recipientName}
+          {peerId ? (
+            <div className={classes.peerName}>
+              <SelectField
+                value={peerId}
+                fullWidth
+                onChange={event => onPeerIdChange(event.target.value)}
+              >
+                {peers.map(({ id, name }) => (
+                  <CheckedMenuItem className={classes.peerItem} value={id}>
+                    <CheckCircleIcon className={classes.peerItemIcon} />
+                    <div className={classes.peerItemName}>{name}</div>
+                  </CheckedMenuItem>
+                ))}
+              </SelectField>
             </div>
           ) : (
             <TextBox
-              className={classes.recipientTextBox}
-              value={recipientName || ''}
-              onChange={event => setRecipientName(event.target.value)}
+              className={classes.peerTextBox}
+              value={peerName}
+              onChange={event => onPeerNameChange(event.target.value)}
             />
           )}
         </Field>
@@ -77,7 +97,10 @@ const InboxCard = ({
         >
           <CategorySelect
             className={classes.categorySelect}
+            categories={categories}
             value={categoryId}
+            fullWidth
+            onChange={event => onCategoryIdChange(event.target.value)}
           />
         </Field>
       </div>
@@ -91,7 +114,7 @@ const InboxCard = ({
             className={classes.descriptionTextBox}
             expand="vertically"
             value={description}
-            onChange={event => setDescription(event.target.value)}
+            onChange={event => onDescriptionChange(event.target.value)}
           />
         </Field>
       </div>
@@ -129,12 +152,4 @@ const InboxCard = ({
   </Paper>
 )
 
-export default compose(
-  withState(
-    'recipientName',
-    'setRecipientName',
-    ({ peerName }) => peerName || ''
-  ),
-  withState('description', 'setDescription', ({ description }) => description),
-  injectStyles(styles)
-)(InboxCard)
+export default injectStyles(styles)(PaymentCard)

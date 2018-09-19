@@ -1,9 +1,9 @@
 import { mapProps, compose } from 'recompose'
-import InboxCard from 'components/InboxCard'
+import PaymentCard from 'components/PaymentCard'
 
 export default compose(
   mapProps(({ data, ...otherProps }) => ({
     ...data,
     ...otherProps,
   }))
-)(InboxCard)
+)(PaymentCard)
