@@ -1,9 +1,10 @@
 import React from 'react'
+import * as R from 'ramda'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
-import { Header, HeaderItem } from '../Header'
+import Widget from '../Widget'
 import Footer from './Footer'
 
 const WIDTH = 375
@@ -29,6 +30,14 @@ const styles = theme => ({
   },
 })
 
+// FIXME: correct values
+const barsHeight = R.cond([
+  [R.equals(500), R.always(146)],
+  [R.equals(625), R.always(198)],
+  [R.equals(800), R.always(203)],
+  [R.T, R.always(0)],
+])
+
 class ButtonWidget extends React.PureComponent {
   state = {
     expanded: this.props.expanded,
@@ -41,12 +50,8 @@ class ButtonWidget extends React.PureComponent {
   switchTab = tab => () => this.setState({ tab })
 
   render() {
-    const { charts: Charts, classes, className, stories: Stories } = this.props
-    const { expanded, tab } = this.state
-
-    const isPayments = tab === 'payments'
-    const isStories = tab === 'stories'
-    const isAbout = tab === 'about'
+    const { classes, className } = this.props
+    const { expanded } = this.state
 
     if (!expanded) {
       return (
@@ -61,26 +66,7 @@ class ButtonWidget extends React.PureComponent {
 
     return (
       <div className={cx(classes.root, className)}>
-        <Header>
-          <HeaderItem
-            name="Payments"
-            active={isPayments}
-            onClick={this.switchTab('payments')}
-          />
-          <HeaderItem
-            name="Stories"
-            active={isStories}
-            onClick={this.switchTab('stories')}
-          />
-          <HeaderItem
-            name="About"
-            active={isAbout}
-            onClick={this.switchTab('about')}
-          />
-        </Header>
-        {isPayments && <Charts />}
-        {isStories && <Stories />}
-        {isAbout && <div>TODO</div>}
+        <Widget barsHeight={barsHeight} {...this.props} />
         <Footer className={classes.footer} onClose={this.handleClose} />
       </div>
     )
@@ -88,14 +74,13 @@ class ButtonWidget extends React.PureComponent {
 }
 
 ButtonWidget.propTypes = {
-  charts: PropTypes.element,
   expanded: PropTypes.bool,
   stories: PropTypes.element,
   tab: PropTypes.oneOf(['payments', 'stories', 'about']),
 }
 
 ButtonWidget.defaultProps = {
-  tab: 'stories',
+  tab: 'payments',
 }
 
 export default injectStyles(styles)(ButtonWidget)
