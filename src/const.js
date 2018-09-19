@@ -16,6 +16,7 @@ export const ROUTES = {
   stories: {
     root: '/stories',
     storyPreview: '/story/:id?',
+    storyEdit: '/story/:id?/edit',
     storyNew: '/story/new',
   },
   directory: {
@@ -42,6 +43,12 @@ export const ROUTES = {
     },
     widgets: '/demo/widgets',
   },
+}
+
+export const UI_FLAGS = {
+  // UX Design: Every time after user (moderator) publish story, after redirect
+  // to stories page - share dialog should be shown
+  lastPublishedStoryUrl: 'ui/lastPublishedStoryUrl',
 }
 
 export const BASE_TITLE = 'Frank'

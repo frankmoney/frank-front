@@ -41,7 +41,7 @@ const styles = theme => ({
   },
 })
 
-const Item = ({ classes, amount, description, peerName, postedDate }) => (
+const Item = ({ classes, amount, description, peerName, postedOn }) => (
   <div className={classes.item}>
     <div className={classes.amount}>
       <CurrencyDelta value={amount} />
@@ -49,7 +49,7 @@ const Item = ({ classes, amount, description, peerName, postedDate }) => (
     <div className={classes.info}>
       <div className={classes.row}>
         <div className={classes.recipient}>{peerName}</div>
-        <div className={classes.date}>{formatFullDate(postedDate)}</div>
+        <div className={classes.date}>{formatFullDate(postedOn)}</div>
       </div>
       <div className={classes.row}>
         <div className={classes.description}>{description}</div>

@@ -1,39 +1,45 @@
-import Immutable from 'immutable'
+import storage from 'local-storage-fallback'
+import Immutable, { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
-import { searchTyping } from './actions'
-import DATA from './data.json'
+import { UI_FLAGS } from '../../const'
+import * as ACTIONS from './actions'
 
-export const REDUCER_KEY = 'ledger'
+export const REDUCER_KEY = 'stories'
 
-const mapTransaction = ({
-  id,
-  sum,
-  frnk_description,
-  frnk_title,
-  categories,
-  peerclient,
-  description,
-  title,
-  ...otherProps
-}) => ({
-  id: id.toString(), // TODO stupid Table component hack
-  createdAt: '2018-01-01 05:00',
-  delta: parseFloat(sum),
-  recipientName: peerclient.firstName,
-  categoryAddedFromSimilar: true,
-  categoryId: categories && categories[0] && categories[0].id,
-  categoryName: categories && categories[0] && categories[0].name,
-  description: frnk_description,
-  title: frnk_title,
-  ...otherProps,
+const defaultState = Immutable.fromJS({
+  loading: true,
+  loaded: false,
+  filtersEdit: {
+    open: false,
+    loaded: false,
+    data: {},
+  },
+  stories: [],
+  storiesCount: 0,
+  shareDialogIsOpen: false,
+  shareDialogUrl: null,
 })
 
 export default handleActions(
   {
-    [searchTyping]: (store, { payload: text }) => store.set('searchText', text),
+    [ACTIONS.load]: state => state.merge({ loading: true }),
+    [ACTIONS.load.success]: (state, { payload: { stories, totalCount } }) => {
+      const { host } = window.location
+      const publishedStoryUrl =
+        host + storage.getItem(UI_FLAGS.lastPublishedStoryUrl)
+      // storage.removeItem(UI_FLAGS.lastPublishedStoryUrl)
+
+      return state.merge({
+        loading: false,
+        loaded: true,
+        stories: fromJS(stories),
+        storiesCount: totalCount,
+        shareDialogIsOpen: !!publishedStoryUrl,
+        shareDialogUrl: publishedStoryUrl,
+      })
+    },
+    [ACTIONS.load.error]: state => state.merge({ loading: false }),
+    [ACTIONS.leave]: () => defaultState,
   },
-  Immutable.fromJS({
-    searchText: '',
-    transactions: DATA.transactions.map(mapTransaction),
-  })
+  defaultState
 )

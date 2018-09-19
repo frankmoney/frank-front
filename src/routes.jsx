@@ -34,6 +34,13 @@ const protectedRoute = compose(
   branch(props => !props.user, renderComponent(RedirectToLogin))
 )
 
+const ComposedStoryEdit = compose(
+  withLayout,
+  withProps(props => ({
+    storyId: props.match.params.id,
+  }))
+)(StoryEdit)
+
 const ComposedStoryPreview = compose(
   withLayout,
   withProps(props => ({
@@ -86,6 +93,11 @@ export default [
   {
     component: withLayout(StoryEdit),
     path: ROUTES.stories.storyNew,
+    exact: true,
+  },
+  {
+    component: ComposedStoryEdit,
+    path: ROUTES.stories.storyEdit,
     exact: true,
   },
   {

@@ -19,7 +19,7 @@ import StoryEditForm from './StoryEditForm'
 import styles from './StoryEdit.jss'
 
 const StoryEdit = ({ classes, className }) => (
-  <div className={cx(classes.storyEditPage, className)}>
+  <div className={cx(classes.root, className)}>
     <FixedHeader>
       <Breadcrumbs>
         <BreadcrumbsItem>{false ? 'Edit story' : 'New story'}</BreadcrumbsItem>

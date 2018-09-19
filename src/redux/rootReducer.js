@@ -11,6 +11,9 @@ import directoryReducer, {
 import recipientReducer, {
   REDUCER_KEY as recipientKey,
 } from 'containers/Recipient/reducer'
+import storiesReducer, {
+  REDUCER_KEY as storiesKey,
+} from 'containers/Stories/reducer'
 import storyPreviewReducer, {
   REDUCER_KEY as storyPreviewKey,
 } from 'containers/StoryPreview/reducer'
@@ -29,6 +32,7 @@ export default createReducer({
   [ledgerKey]: ledgerReducer,
   [directoryKey]: directoryReducer,
   [recipientKey]: recipientReducer,
+  [storiesKey]: storiesReducer,
   [storyPreviewKey]: storyPreviewReducer,
   [storyEditKey]: storyEditReducer,
   [teamKey]: teamReducer,

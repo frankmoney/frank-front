@@ -16,11 +16,7 @@ const StoryPayments = ({ classes, className, payments, readOnly, onEdit }) => (
           <div className={classes.title}>Attached payments</div>
           {readOnly ? <VerifiedByFrank /> : <ManageButton onClick={onEdit} />}
         </div>
-        <List
-          currencyCode={'USD'}
-          payments={payments}
-          className={classes.list}
-        />
+        <List payments={payments} className={classes.list} />
       </div>
     ) : (
       <GiantButton label="Add payments" icon={AddIcon} onClick={onEdit} />

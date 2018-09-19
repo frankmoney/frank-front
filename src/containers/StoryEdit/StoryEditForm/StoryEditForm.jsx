@@ -8,11 +8,10 @@ import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { injectStyles } from '@frankmoney/ui'
 import createUploaderField from 'controls/forms/createUploaderField'
-import BigTextField from 'controls/forms/BigTextField'
+import TitleField from 'controls/forms/TitleField'
 import DescriptionField from 'controls/forms/DescriptionField'
 import StoryPayments from 'components/StoryPayments'
 import PaymentsSelectorDrawer from 'components/PaymentsSelectorDrawer'
-import StoryDeleteConfirmDialog from 'components/dialogs/StoryDeleteConfirmDialog'
 import {
   formInitialValuesSelector,
   paymentsSelector,
@@ -24,6 +23,7 @@ import {
 import ACTIONS from '../actions'
 import { FORM_NAME } from '../constants'
 import { CoverUploader } from './MediaUploader'
+import { validate } from './validation'
 
 const CoverField = createUploaderField(CoverUploader)
 
@@ -36,13 +36,16 @@ const styles = theme => ({
     ...theme.fontRegular(16),
     color: 'rgba(37, 43, 67, 0.5)',
   },
-  title: {
+  textFields: {
     marginTop: 45,
-    marginBottom: 18,
+    marginLeft: -72,
+    minHeight: 478,
+  },
+  title: {
+    marginBottom: 32,
   },
   description: {
-    minHeight: 323,
-    ...theme.fontRegular(20, 32),
+    marginBottom: 50,
     color: 'rgba(37, 43, 67, 0.9)',
     '&::placeholder': {
       color: 'rgba(37, 43, 67, 0.3)',
@@ -83,21 +86,15 @@ const ConnectedStoryPayments = compose(
 class StoryEditForm extends React.PureComponent {
   state = {
     isDrawerOpen: false,
-    isConfirmDialogOpen: false,
   }
 
   handleToggleDrawer = () => {
     this.setState({ isDrawerOpen: !this.state.isDrawerOpen })
   }
 
-  handleToggleConfirmDialog = () => {
-    this.setState({ isConfirmDialogOpen: !this.state.isConfirmDialogOpen })
-  }
-
   render() {
     const { classes, className } = this.props
-
-    const { isDrawerOpen, isConfirmDialogOpen } = this.state
+    const { isDrawerOpen } = this.state
 
     return (
       <div className={cx(classes.container, className)}>
@@ -107,19 +104,24 @@ class StoryEditForm extends React.PureComponent {
           hint="optional, 1000+ pixels wide, no text over image"
           className={classes.coverImageUploader}
         />
-        <BigTextField name="title" className={classes.title} label="Title" />
-        <DescriptionField
-          name="description"
-          className={classes.description}
-          placeholder="Tell about your project. Why is that important? Who are you doing it for? What are the first steps you will take?"
-        />
+        <div className={classes.textFields}>
+          <TitleField
+            name="title"
+            className={classes.title}
+            placeholder="Title..."
+          />
+          <DescriptionField
+            name="description"
+            className={classes.description}
+            placeholder="Your story..."
+          />
+        </div>
 
         <ConnectedStoryPayments onEdit={this.handleToggleDrawer} />
         <ConnectedPaymentsSelectorDrawer
           open={isDrawerOpen}
           onClose={this.handleToggleDrawer}
         />
-        <StoryDeleteConfirmDialog open={isConfirmDialogOpen} />
       </div>
     )
   }
@@ -128,24 +130,10 @@ export default compose(
   connect(state => ({
     initialValues: formInitialValuesSelector(state),
   })),
-
-  /*
-  connect(
-    state => ({
-      initialValues: formInitialValuesSelector(state),
-      tags: tagsSelector(state),
-      isAnyTagSelected: isAnyTagSelectedSelector(state),
-    }),
-    dispatch => ({
-      onSubmit: data => dispatch(saveEvent(data && data.toJS())),
-      succeededAction: saveEvent.success.toString(),
-      failedAction: saveEvent.error.toString(),
-    })
-  ),
-  */
   reduxForm({
     form: FORM_NAME,
     enableReinitialize: true,
+    validate,
   }),
   injectStyles(styles)
 )(StoryEditForm)

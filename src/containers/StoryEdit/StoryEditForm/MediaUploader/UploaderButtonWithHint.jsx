@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 
 const styles = theme => ({
@@ -28,11 +29,12 @@ const styles = theme => ({
 
 const UploaderButtonWithHint = ({
   classes,
+  className,
   hint,
   label,
   iconComponent: ButtonIcon,
 }) => (
-  <div className={classes.buttonContainer}>
+  <div className={cx(classes.buttonContainer, className)}>
     {ButtonIcon && <ButtonIcon className={classes.icon} />}
     <div className={classes.buttonText}>
       <div className={classes.buttonLabel}>{label}</div>

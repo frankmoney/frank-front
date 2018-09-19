@@ -8,22 +8,25 @@ const styles = {
   },
 }
 
-const StoryDeleteConfirmDialog = ({
+const StoryConfirmDialog = ({
   classes,
-  onDeleteClick,
-  onCloseClick,
+  title,
+  confirmLabel,
+  confirmType,
+  onConfirmClick,
+  onRequestClose,
   ...dialogProps
 }) => (
   <ConfirmDialog
-    title="Delete draft?"
-    confirmLabel="Delete"
+    title={title}
+    confirmLabel={confirmLabel}
+    confirmType={confirmType}
     cancelLabel="Cancel"
-    onConfirm={onDeleteClick}
-    onCancel={onCloseClick}
-    danger
+    onConfirm={onConfirmClick}
+    onRequestClose={onRequestClose}
     reverseButtons
     {...dialogProps}
   />
 )
 
-export default injectStyles(styles)(StoryDeleteConfirmDialog)
+export default injectStyles(styles)(StoryConfirmDialog)

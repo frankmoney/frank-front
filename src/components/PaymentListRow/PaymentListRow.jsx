@@ -54,7 +54,7 @@ class RecipientRow extends React.PureComponent {
       loadMore,
       peerName,
       amount,
-      postedDate,
+      postedOn,
       onLoadMore,
       selectable,
     } = this.props
@@ -66,18 +66,18 @@ class RecipientRow extends React.PureComponent {
         className={cx(
           classes.root,
           lastItem && classes.lastItem,
-          !postedDate && loadMore && classes.loadMoreItem
+          !postedOn && loadMore && classes.loadMoreItem
         )}
         style={style}
       >
-        {!postedDate &&
+        {!postedOn &&
           loadMore && (
             <LoadMoreButton
               label="Show 30 more payments"
               onClick={onLoadMore}
             />
           )}
-        {postedDate && (
+        {postedOn && (
           <>
             {selectable && (
               <Checkbox
@@ -90,7 +90,7 @@ class RecipientRow extends React.PureComponent {
             )}
             <CurrencyDelta className={classes.sum} value={amount} />
             <div className={classes.name}>{peerName}</div>
-            <div className={classes.date}>{formatDate(postedDate)}</div>
+            <div className={classes.date}>{formatDate(postedOn)}</div>
           </>
         )}
       </div>

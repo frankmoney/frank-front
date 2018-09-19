@@ -7,8 +7,8 @@ import UploaderButtonWithHint from './UploaderButtonWithHint'
 import { CoverPreview } from './index'
 
 const styles = {
-  root: {
-    marginTop: props => (props.files.length ? 30 : 0),
+  uploadButton: {
+    marginBottom: 15,
   },
 }
 
@@ -45,6 +45,7 @@ const CoverUploader = ({
       {({ files, removeFile }) =>
         files.length === 0 ? (
           <UploadButton
+            className={classes.uploadButton}
             iconComponent={CoverPhotoIcon}
             label={buttonLabel}
             hint={hint}

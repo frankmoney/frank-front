@@ -1,5 +1,3 @@
-import * as R from 'ramda'
-import { mapPayment } from 'data/models/payment'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
@@ -14,7 +12,7 @@ export default (action$, store, { graphql }) =>
       const page = paymentsLoadedPagesCounterSelector(state)
 
       return graphql(
-        QUERIES.getPaymentsAndTotalCount({
+        QUERIES.getStoryAndPaymentsAndTotalCount({
           payments: true,
         }),
         {
@@ -25,5 +23,4 @@ export default (action$, store, { graphql }) =>
         }
       )
     })
-    .map(R.evolve({ payments: R.map(mapPayment) }))
     .map(ACTIONS.loadMorePayments.success)

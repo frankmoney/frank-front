@@ -11,10 +11,10 @@ const StoryCard = ({
   component: RootElement,
   coverImage,
   paymentsCurrency,
-  paymentsCounter,
+  paymentsCount,
   paymentsDateRange,
   title,
-  description,
+  body: { text },
   published,
   ...otherProps
 }) => (
@@ -23,26 +23,24 @@ const StoryCard = ({
     {...otherProps}
   >
     {coverImage && (
-      <div className={classes.coverImageContainer}>
-        <img
-          className={classes.eventCardImage}
-          src={coverImage.thumbs.preview}
-          alt="event"
-        />
-      </div>
+      <img
+        className={classes.coverImage}
+        src={coverImage.thumbs.sized}
+        alt="event"
+      />
     )}
     <div className={classes.textContainer}>
       {!published && <div className={classes.flag}>Draft</div>}
       <div className={classes.title}>{title}</div>
-      {paymentsCounter && (
+      {paymentsCount !== 0 && (
         <StoryPaymentsStats
           className={classes.stats}
           paymentsCurrency={paymentsCurrency}
-          paymentsCounter={paymentsCounter}
+          paymentsCount={paymentsCount}
           paymentsDateRange={paymentsDateRange}
         />
       )}
-      {description && <div className={classes.description}>{description}</div>}
+      {text && <div className={classes.text}>{text}</div>}
     </div>
   </RootElement>
 )

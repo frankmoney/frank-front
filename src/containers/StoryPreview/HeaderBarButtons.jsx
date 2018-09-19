@@ -1,9 +1,14 @@
 import React from 'react'
 import cx from 'classnames'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
 import { Edit as EditIcon, Public as PublicIcon } from 'material-ui-icons'
 import { Button, LinkButton } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
+import { createRouteUrl } from '@frankmoney/utils'
 import { formatFullDate } from 'utils/datesLight'
+import { ROUTES } from 'const'
+import { storySelector } from './selectors'
 
 const styles = theme => ({
   container: {
@@ -27,7 +32,11 @@ const styles = theme => ({
   },
 })
 
-const HeaderBarButtons = ({ classes, className, id, publishedDate }) => (
+const HeaderBarButtons = ({
+  classes,
+  className,
+  story: { id, publishedDate },
+}) => (
   <div className={cx(classes.container, className)}>
     {publishedDate ? (
       <>
@@ -41,16 +50,21 @@ const HeaderBarButtons = ({ classes, className, id, publishedDate }) => (
     ) : (
       <div className={classes.draft}>Draft</div>
     )}
-
     <Button
       className={classes.discussButton}
       fat
       type="secondary"
       icon={EditIcon}
+      href={createRouteUrl(ROUTES.stories.storyEdit, { id })}
     >
       Edit story
     </Button>
   </div>
 )
 
-export default injectStyles(styles)(HeaderBarButtons)
+export default compose(
+  connect(state => ({
+    story: storySelector(state),
+  })),
+  injectStyles(styles)
+)(HeaderBarButtons)

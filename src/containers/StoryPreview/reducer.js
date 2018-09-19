@@ -17,11 +17,11 @@ export default handleActions(
         isLoading: true,
         isLoaded: false,
       }),
-    [ACTIONS.load.success]: (state, { payload }) =>
+    [ACTIONS.load.success]: (state, { payload: { story } }) =>
       state.merge({
         isLoading: false,
         isLoaded: true,
-        story: fromJS(payload),
+        story: fromJS(story),
       }),
     [ACTIONS.load.error]: state =>
       state.merge({

@@ -17,6 +17,10 @@ export default theme => ({
     },
     marginBottom: 35,
   },
+  coverImage: {
+    maxWidth: '100%',
+    maxHeight: '100%',
+  },
   textContainer: {
     position: 'relative',
     display: 'flex',
@@ -38,7 +42,7 @@ export default theme => ({
   stats: {
     marginBottom: 15,
   },
-  description: {
+  text: {
     ...theme.fontRegular(20, 30),
     fontFamily: 'inherit',
     color: 'rgba(37, 43, 67, 0.9)',

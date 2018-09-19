@@ -9,9 +9,10 @@ import ImageMiniature from 'controls/ImageMiniature'
 const previewStyles = {
   container: {
     position: 'relative',
+    marginLeft: -35,
     borderRadius: 5,
     overflow: 'hidden',
-    marginBottom: 30,
+    width: 850,
   },
   removeIcon: {
     position: 'absolute',

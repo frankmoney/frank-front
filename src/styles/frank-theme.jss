@@ -41,6 +41,21 @@ export default {
         ...DISABLED_BUTTON_COLORS,
       },
     },
+    tertiary: {
+      color: 'white',
+      border: 'none',
+      boxShadow: 'none',
+      backgroundColor: colors.black,
+      '&:hover, &:active': {
+        backgroundColor: colors.buttonGrey,
+        border: 'none',
+        boxShadow: 'none',
+        color: colors.blue,
+      },
+      '&$disabled': {
+        ...DISABLED_BUTTON_COLORS,
+      },
+    },
   },
   GiantButton: {
     root: {

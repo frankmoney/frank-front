@@ -10,22 +10,22 @@ export default client => ({
       data.append(k, v)
     })
     if (typeof fileOrUrl === 'string') {
-      data.append('image_url', fileOrUrl)
+      data.append('imageUrl', fileOrUrl)
     } else {
-      data.append('file', fileOrUrl)
+      data.append('image', fileOrUrl)
     }
 
     return client
       .request({
         method: 'post',
-        url: '/images_upload',
+        url: '/upload-image',
         data,
         onUploadProgress: progressEvent => {
           progressReporter(
-            Math.round(progressEvent.loaded * 100 / progressEvent.total)
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
           )
         },
       })
-      .then(({ images: [thumbs] }) => ({ thumbs }))
+      .then(thumbs => thumbs)
   },
 })

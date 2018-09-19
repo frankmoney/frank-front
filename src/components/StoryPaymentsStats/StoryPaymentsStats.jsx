@@ -2,22 +2,21 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { formatDateRange } from 'utils/datesLight'
-import { CURRENCY_INFO } from 'components/CurrencyProvider'
+import CurrencyContext from 'contexts/CurrencyContext'
 import styles from './StoryPaymentsStats.jss'
 
 const StoryPaymentsStats = ({
   classes,
   className,
-  paymentsCurrency,
-  paymentsCounter,
+  paymentsCount,
   paymentsDateRange,
 }) => (
   <div className={cx(classes.container, className)}>
-    <span className={classes.symbol}>
-      {CURRENCY_INFO[paymentsCurrency].symbol}
-    </span>
+    <CurrencyContext.Consumer>
+      {(context = {}) => <context.icon className={classes.symbol} />}
+    </CurrencyContext.Consumer>
     <span className={classes.counter}>
-      {`${paymentsCounter} payment${paymentsCounter > 1 && 's'} `}
+      {`${paymentsCount} payment${paymentsCount > 1 ? 's' : ''} `}
     </span>
     <span className={classes.dateRange}>
       {formatDateRange(...paymentsDateRange, {

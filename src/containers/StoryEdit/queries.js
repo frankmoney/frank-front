@@ -1,120 +1,132 @@
-import * as R from 'ramda'
+import { mapStory } from 'data/models/story'
+
+const paymentScheme = `
+  {
+    id
+    postedOn
+    amount
+    peerName
+    description
+    category {
+      id
+      name
+      color
+    }
+  }
+  `
+
+const storyDataScheme = (type = 'draft') => `
+  id
+  isPublished,
+  hasUnpublishedDraft,
+  data: ${type === 'draft' ? 'draftData' : 'publicData'} {
+    title
+    body
+    coverImage
+    payments ${paymentScheme}
+  }
+`
+
+const storyQuery = (type = 'draft') => `
+  story(id: $storyId) { 
+    ${storyDataScheme(type)}
+  }
+`
+
+const paymentsQuery = `
+      payments(
+        first: $first
+        skip: $skip
+        postedOnMin: $dateMin
+        postedOnMax: $dateMax
+      ) ${paymentScheme}
+`
+
+const totalCountQuery = `
+    countPayments(
+      postedOnMin: $dateMin
+      postedOnMax: $dateMax
+    ) {
+      value
+    }
+`
 
 export default {
-  getPaymentsAndTotalCount: ({
+  getStoryAndPaymentsAndTotalCount: ({
+    storyId,
     totalCount: includeTotal,
     payments: includePayments,
-    pieChart: includePie,
-    barChart: includeBars,
   }) => [
     `
     query(
-      $accountId: ID!,
-      $first: Int!,
-      $skip: Int,
-      $search: String,
-      $dateMin: DateTime,
-      $dateMax: DateTime,
-      $amountMin: Float,
-      $amountMax: Float,
-      $verified: Boolean,
+      $accountId: ID!
+      ${(storyId && `$storyId: ID!`) || ''}
+      $first: Int!
+      $skip: Int
+      $dateMin: Date
+      $dateMax: Date
     ) {
-      ${(includePayments &&
-        `payments: ledgerPayments(
-        accountId: $accountId,
-        first: $first,
-        skip: $skip,
-        search: $search,
-        dateMin: $dateMin,
-        dateMax: $dateMax,
-        amountMin: $amountMin,
-        amountMax: $amountMax,
-        verified: $verified,
-      ) {
-        id
-        postedDate
-        amount
-        peerName
-        description
-        category {
-          id
-          name
-          color
-        }
-      }`) ||
-        ''}
-      ${(includePie &&
-        `pieChart: ledgerPieChart(accountId: $accountId) {
-        items {
-          category {
-            id
-            name
-            color
-          }
-          income
-          expenses
-        }
-      }`) ||
-        ''}
-      ${(includeBars &&
-        `barChart: ledgerBarChart(
-        accountId: $accountId,
-        dateMin: $dateMin,
-        dateMax: $dateMax
-      ) {
-          items {
-            date
-            income
-            expenses
-          }
-      }`) ||
-        ''}
-      ${(includeTotal &&
-        `totalCountResult: ledgerPaymentsCount(
-        accountId: $accountId,
-        search: $search,
-        dateMin: $dateMin,
-        dateMax: $dateMax,
-        amountMin: $amountMin,
-        amountMax: $amountMax,
-        verified: $verified,
-      ) {
-        count
-      }`) ||
-        ''}
+      account(id: $accountId) {
+        ${(includePayments && paymentsQuery) || ''}
+        ${(includeTotal && totalCountQuery) || ''}
+      }
+      ${(storyId && storyQuery()) || ''}
     }
     `,
-    ({ payments, totalCountResult, pieChart, barChart }) => ({
+    ({ account: { payments, countPayments }, story }) => ({
+      story: story && mapStory(story),
       payments,
-      totalCount: totalCountResult && totalCountResult.count,
-      pieChart: pieChart && pieChart.items,
-      barChart: barChart && barChart.items,
+      totalCount: countPayments && countPayments.value,
     }),
   ],
-  getOnlyTotalCount: [
+  storyСreateOrUpdate: ({ isNew }) => [
     `
-    query(
-      $accountId: ID!,
-      $search: String,
-      $dateMin: DateTime,
-      $dateMax: DateTime,
-      $amountMin: Float,
-      $amountMax: Float,
-      $verified: Boolean,
+    mutation(
+      $accountId: ID!
+      ${(!isNew && '$storyId: ID!') || ''}
+      $title: String!
+      $body: JSON!
+      $coverImage: JSON
+      $paymentsIds: [ID!]
     ) {
-      result: ledgerPaymentsCount(
-        accountId: $accountId,
-        search: $search,
-        dateMin: $dateMin,
-        dateMax: $dateMax,
-        amountMin: $amountMin,
-        amountMax: $amountMax,
-        verified: $verified,
+      story: ${isNew ? `storyCreate` : `storyUpdate`}(
+        accountId: $accountId
+        ${(!isNew && 'storyId: $storyId') || ''}
+        title: $title
+        body: $body
+        coverImage: $coverImage
+        paymentsIds: $paymentsIds
       ) {
-        count
+        ${storyDataScheme()}
       }
     }
     `,
-    R.path(['result', 'count']),
+    ({ story }) => ({ story: story && mapStory(story) }),
+  ],
+  storyDelete: [
+    `
+    mutation($accountId: ID!, $storyId: ID!) {
+      story: storyDelete(accountId: $accountId, storyId: $storyId) {
+        id
+      }
+    }
+    `,
+    ({ story }) => ({ story }),
+  ],
+  storyPublish: [
+    `
+    mutation($accountId: ID!, $storyId: ID!, $isPublished: Boolean!) {
+      story: storyPublish(
+        accountId: $accountId,
+        storyId: $storyId,
+        isPublished: $isPublished
+      ) {
+        id
+        isPublished
+        hasUnpublishedDraft
+      }
+    }
+    `,
+    ({ story }) => ({ story }),
   ],
 }

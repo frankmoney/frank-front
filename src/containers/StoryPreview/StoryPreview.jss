@@ -11,8 +11,12 @@ export default theme => ({
   container: {
     width: 850,
   },
-  coverImageContainer: {
+  imageContainer: {
     marginBottom: 36,
+  },
+  coverImage: {
+    maxWidth: '100%',
+    maxHeight: '100%',
   },
   textContainer: {
     display: 'flex',
@@ -27,14 +31,14 @@ export default theme => ({
     textDecoration: 'none',
   },
   stats: {
-    marginBottom: 15,
-    marginLeft: 5,
+    marginLeft: -2,
   },
-  description: {
+  text: {
     margin: [40, 0],
     ...theme.fontRegular(20, 32),
     fontFamily: 'inherit',
     color: 'rgba(37, 43, 67, 0.9)',
     textDecoration: 'none',
+    whiteSpace: 'pre-line',
   },
 })

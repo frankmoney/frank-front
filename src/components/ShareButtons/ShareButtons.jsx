@@ -1,8 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
-import { MoreHoriz as MoreOptionsIcon } from 'material-ui-icons'
+import { FacebookShareButton, TwitterShareButton } from 'react-share'
 import { injectStyles } from '@frankmoney/ui'
-import { Button, IconButton } from '@frankmoney/components'
+import { Button } from '@frankmoney/components'
 import { TwitterIcon, FacebookIcon } from './ShareIcons'
 
 const styles = {
@@ -17,15 +17,28 @@ const styles = {
   },
 }
 
-const ShareButtons = ({ classes, className }) => (
+const ShareButtons = ({ classes, className, url }) => (
   <div className={cx(classes.container, className)}>
-    <Button fat type="secondary" className={classes.button} icon={FacebookIcon}>
-      Share
-    </Button>
-    <Button fat type="secondary" className={classes.button} icon={TwitterIcon}>
-      Tweet
-    </Button>
-    <IconButton round icon={MoreOptionsIcon} />
+    <FacebookShareButton url={url}>
+      <Button
+        fat
+        type="secondary"
+        className={classes.button}
+        icon={FacebookIcon}
+      >
+        Share
+      </Button>
+    </FacebookShareButton>
+    <TwitterShareButton url={url}>
+      <Button
+        fat
+        type="secondary"
+        className={classes.button}
+        icon={TwitterIcon}
+      >
+        Tweet
+      </Button>
+    </TwitterShareButton>
   </div>
 )
 

@@ -17,45 +17,40 @@ import HeaderBarButtons from './HeaderBarButtons'
 const StoryPreview = ({
   classes,
   className,
-  storyData: {
+  story: {
     coverImage,
     payments,
-    paymentsCurrency,
-    paymentsCounter,
+    paymentsCount,
     paymentsDateRange,
     title,
-    description,
-    publishedDate,
+    body: { text },
   },
 }) => (
   <div className={cx(classes.storyPreviewPage, className)}>
     <FixedHeader>
-      <HeaderBarButtons publishedDate={publishedDate} />
+      <HeaderBarButtons />
     </FixedHeader>
     <div className={classes.container}>
       {coverImage && (
-        <div className={classes.coverImageContainer}>
+        <div className={classes.imageContainer}>
           <img
-            className={classes.eventCardImage}
-            src={coverImage.thumbs.preview}
+            className={classes.coverImage}
+            src={coverImage.thumbs.sized}
             alt="story cover"
           />
         </div>
       )}
       <div className={classes.textContainer}>
         {title && <div className={classes.title}>{title}</div>}
-        {paymentsCounter && (
+        {paymentsCount !== 0 && (
           <StoryPaymentsStats
             className={classes.stats}
-            paymentsCurrency={paymentsCurrency}
-            paymentsCounter={paymentsCounter}
+            paymentsCount={paymentsCount}
             paymentsDateRange={paymentsDateRange}
           />
         )}
-        {description && (
-          <div className={classes.description}>{description}</div>
-        )}
-        {paymentsCounter && <StoryPayments payments={payments} readOnly />}
+        {text && <div className={classes.text}>{text}</div>}
+        {paymentsCount !== 0 && <StoryPayments payments={payments} readOnly />}
       </div>
     </div>
   </div>
@@ -63,7 +58,7 @@ const StoryPreview = ({
 
 const mapStateToProps = createStructuredSelector({
   isLoaded: isLoadedSelector,
-  storyData: storySelector,
+  story: storySelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
