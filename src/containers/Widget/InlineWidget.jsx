@@ -1,5 +1,6 @@
 import React from 'react'
 import * as R from 'ramda'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
@@ -73,7 +74,7 @@ const barsHeight = R.cond([
   [R.T, R.always(0)],
 ])
 
-// TODO: probably props should be more defensive
+// TODO: probably props should be more defensive. Full old list below:
 //       barsData,
 //       categoryCount,
 //       categoryType,
@@ -92,24 +93,30 @@ const barsHeight = R.cond([
 //       periods,
 //       pieData,
 //       size,
-const InlineWidget = props => <Widget barsHeight={barsHeight} {...props} />
+const InlineWidget = ({ classes, size, ...props }) => (
+  <Widget
+    className={cx(classes.root, {
+      [classes.size400]: size === 400,
+      [classes.size500]: size === 500,
+      [classes.size625]: size === 625,
+      [classes.size800]: size === 800,
+    })}
+    barChartClassName={classes.barChart}
+    barsHeight={barsHeight(size)}
+    barsWidth={size > 500 ? 516 : 468}
+    contentClassName={classes.content}
+    paymentsClassName={classes.payments}
+    paymentsPeriodClassName={classes.paymentsPeriodSelect}
+    pieChartSize={size}
+    showBarChart={size > 400}
+    showCategoryCount={size > 400}
+    {...props}
+  />
+)
 
 InlineWidget.propTypes = {
-  categoryCount: PropTypes.number,
-  categoryType: PropTypes.string,
-  onCategoryClick: PropTypes.func.isRequired,
-  onCategoryTypeChange: PropTypes.func.isRequired,
-  onPeriodChange: PropTypes.func.isRequired,
-  onSeeAllClick: PropTypes.func.isRequired,
-  period: PropTypes.string.isRequired,
-  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
   stories: PropTypes.element,
-  tab: PropTypes.oneOf(['payments', 'stories', 'about']),
-}
-
-InlineWidget.defaultProps = {
-  tab: 'payments',
 }
 
 export default injectStyles(styles)(InlineWidget)

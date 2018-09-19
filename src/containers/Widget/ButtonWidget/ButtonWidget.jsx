@@ -1,5 +1,4 @@
 import React from 'react'
-import * as R from 'ramda'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
@@ -10,6 +9,7 @@ import Footer from './Footer'
 const WIDTH = 375
 
 const styles = theme => ({
+  // Wrapper
   root: {
     ...theme.fontRegular(16, 26),
     background: '#FFFFFF',
@@ -28,29 +28,26 @@ const styles = theme => ({
     margin: [0, -1],
     width: WIDTH,
   },
+  // Actual widget content
+  contentRoot: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  content: {
+    overflowY: 'scroll',
+  },
 })
-
-// FIXME: correct values
-const barsHeight = R.cond([
-  [R.equals(500), R.always(146)],
-  [R.equals(625), R.always(198)],
-  [R.equals(800), R.always(203)],
-  [R.T, R.always(0)],
-])
 
 class ButtonWidget extends React.PureComponent {
   state = {
     expanded: this.props.expanded,
-    tab: this.props.tab,
   }
 
   handleClose = () => this.setState({ expanded: false })
   handleOpen = () => this.setState({ expanded: true })
 
-  switchTab = tab => () => this.setState({ tab })
-
   render() {
-    const { classes, className } = this.props
+    const { classes, className, stories } = this.props
     const { expanded } = this.state
 
     if (!expanded) {
@@ -66,7 +63,15 @@ class ButtonWidget extends React.PureComponent {
 
     return (
       <div className={cx(classes.root, className)}>
-        <Widget barsHeight={barsHeight} {...this.props} />
+        <Widget
+          barsHeight={200}
+          className={classes.contentRoot}
+          contentClassName={classes.content}
+          pieChartSize={300}
+          showBarChart
+          showCategoryCount
+          stories={stories}
+        />
         <Footer className={classes.footer} onClose={this.handleClose} />
       </div>
     )
@@ -74,13 +79,8 @@ class ButtonWidget extends React.PureComponent {
 }
 
 ButtonWidget.propTypes = {
-  expanded: PropTypes.bool,
+  expanded: PropTypes.bool, // demo flag
   stories: PropTypes.element,
-  tab: PropTypes.oneOf(['payments', 'stories', 'about']),
-}
-
-ButtonWidget.defaultProps = {
-  tab: 'payments',
 }
 
 export default injectStyles(styles)(ButtonWidget)

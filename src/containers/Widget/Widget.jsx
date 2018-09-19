@@ -1,6 +1,5 @@
 import React from 'react'
 import * as R from 'ramda'
-import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
@@ -25,56 +24,49 @@ import * as ACTIONS from './actions'
 
 class Widget extends React.PureComponent {
   state = {
-    tab: this.props.tab,
+    tab: 'payments',
   }
 
   switchTab = tab => () => this.setState({ tab })
 
   render() {
     const {
+      barChartClassName,
       barsData,
       barsHeight,
+      barsWidth,
       categoryCount,
       categoryType,
-      classes,
       className,
+      contentClassName,
       currentCategoryColor,
       currentCategoryName,
       entriesCount,
-      onCategoryClick,
       onCancelCategoryClick,
+      onCategoryClick,
       onCategoryTypeChange,
       onPeriodChange,
       onSeeAllClick,
-      stories: Stories,
+      paymentsClassName,
+      paymentsPeriodClassName,
       period,
       periods,
+      pieChartSize,
       pieData,
-      size,
+      showBarChart,
+      showCategoryCount,
+      stories: Stories,
     } = this.props
     const { tab } = this.state
-    const paymentList = currentCategoryName != null // TODO: redo as a tab?
 
-    const isPayments = tab === 'payments'
-    const isStories = tab === 'stories'
-    const isAbout = tab === 'about'
-
-    const small = size === 400
+    const overviewTab = tab === 'payments'
+    const paymentListTab = currentCategoryName != null // TODO: redo as a tab
+    const storiesTab = tab === 'stories'
+    const aboutTab = tab === 'about'
 
     return (
-      <div
-        className={cx(
-          classes.root,
-          {
-            [classes.size400]: small,
-            [classes.size500]: size === 500,
-            [classes.size625]: size === 625,
-            [classes.size800]: size === 800,
-          },
-          className
-        )}
-      >
-        {paymentList && (
+      <div className={className}>
+        {paymentListTab && (
           <Header live={false}>
             <CategoryName
               name={currentCategoryName}
@@ -82,54 +74,54 @@ class Widget extends React.PureComponent {
             />
           </Header>
         )}
-        {!paymentList && (
+        {!paymentListTab && (
           <Header>
             <HeaderItem
               name="Payments"
-              active={isPayments}
+              active={overviewTab}
               onClick={this.switchTab('payments')}
             />
             <HeaderItem
               name="Stories"
-              active={isStories}
+              active={storiesTab}
               onClick={this.switchTab('stories')}
             />
             <HeaderItem
               name="About"
-              active={isAbout}
+              active={aboutTab}
               onClick={this.switchTab('about')}
             />
           </Header>
         )}
-        <div className={classes.content}>
-          {isPayments &&
-            paymentList && (
+        <div className={contentClassName}>
+          {overviewTab &&
+            paymentListTab && (
               <>
-                {!small && (
+                {showBarChart && (
                   <>
                     <PeriodSelector
-                      className={cx(classes.paymentsPeriodSelect)}
+                      className={paymentsPeriodClassName}
                       onChange={onPeriodChange}
                       value={period}
                       values={periods}
                     />
                     <Bar
                       barColor={currentCategoryColor}
-                      className={classes.barChart}
+                      className={barChartClassName}
                       data={barsData}
                       footerPadding={10}
-                      height={barsHeight(size)}
+                      height={barsHeight}
                       hideBaseLine
                       labelKey="date"
-                      width={size > 500 ? 516 : 468}
+                      width={barsWidth}
                     />
                   </>
                 )}
-                <Payments className={classes.payments} />
+                <Payments className={paymentsClassName} />
               </>
             )}
-          {isPayments &&
-            !paymentList && (
+          {overviewTab &&
+            !paymentListTab && (
               <>
                 <OverviewChart
                   categoryType={categoryType}
@@ -139,25 +131,26 @@ class Widget extends React.PureComponent {
                   onPeriodChange={onPeriodChange}
                   period={period}
                   periods={periods}
-                  size={size}
+                  size={pieChartSize}
                 />
                 <Footer
                   paymentCount={entriesCount}
-                  categoryCount={small ? null : categoryCount}
+                  categoryCount={showCategoryCount ? categoryCount : null}
                   onSeeAllClick={onSeeAllClick}
                 />
               </>
             )}
         </div>
-        {isStories && <Stories />}
-        {isAbout && <div>TODO</div>}
+        {storiesTab && <Stories />}
+        {aboutTab && <div>TODO</div>}
       </div>
     )
   }
 }
 
 Widget.propTypes = {
-  barsHeight: PropTypes.func,
+  barsHeight: PropTypes.number.isRequired,
+  barsWidth: PropTypes.number.isRequired,
   categoryCount: PropTypes.number,
   categoryType: PropTypes.string,
   onCategoryClick: PropTypes.func.isRequired,
@@ -166,9 +159,17 @@ Widget.propTypes = {
   onSeeAllClick: PropTypes.func.isRequired,
   period: PropTypes.string.isRequired,
   periods: PropTypes.arrayOf(PropTypes.string).isRequired,
-  size: PropTypes.oneOf([400, 500, 625, 800]).isRequired, // TODO: move size logic out
+  pieChartSize: PropTypes.number.isRequired,
+  showBarChart: PropTypes.bool,
+  showCategoryCount: PropTypes.bool,
   stories: PropTypes.element,
-  tab: PropTypes.oneOf(['payments', 'stories', 'about']),
+  // tab: PropTypes.oneOf(['payments', 'stories', 'about']), // TODO: wait for selector
+  // Styles
+  barChartClassName: PropTypes.string,
+  className: PropTypes.string,
+  contentClassName: PropTypes.string,
+  paymentsClassName: PropTypes.string,
+  paymentsPeriodClassName: PropTypes.string,
 }
 
 const mapStateToProps = createStructuredSelector({
