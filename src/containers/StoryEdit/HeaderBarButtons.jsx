@@ -123,6 +123,11 @@ class HeaderBarButtons extends React.PureComponent {
         ? `danger`
         : `${confirmDialogType !== 'publish' ? 'tertia' : 'prima'}ry`
 
+    const dialogConfirmButtonProps = {
+      type: dialogConfirmType,
+      loading: processing,
+    }
+
     return (
       <div className={cx(classes.container, className)}>
         <SaveButton fat type="secondary" />
@@ -161,8 +166,7 @@ class HeaderBarButtons extends React.PureComponent {
           open={isConfirmDialogOpen}
           title={dialogTitle}
           confirmLabel={dialogConfirmLabel}
-          confirmType={dialogConfirmType}
-          confirmProcessing={processing}
+          confirmButtonProps={dialogConfirmButtonProps}
           onRequestClose={() =>
             this.handleToggleConfirmDialog(confirmDialogType)
           }

@@ -11,8 +11,7 @@ const styles = {
 const StoryConfirmDialog = ({
   classes,
   title,
-  confirmLabel,
-  confirmType,
+  confirmButtonProps,
   onConfirmClick,
   onRequestClose,
   ...dialogProps
@@ -20,7 +19,7 @@ const StoryConfirmDialog = ({
   <ConfirmDialog
     title={title}
     confirmLabel={confirmLabel}
-    confirmType={confirmType}
+    confirmButtonProps={confirmButtonProps}
     cancelLabel="Cancel"
     onConfirm={onConfirmClick}
     onRequestClose={onRequestClose}
