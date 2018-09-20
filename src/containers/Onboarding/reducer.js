@@ -1,110 +1,24 @@
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
+import { DEFAULT_CATEGORIES } from 'const'
 import * as ACTIONS from './actions'
+import { CREDENTIALS_STATUS } from './constants'
 
 export const REDUCER_KEY = 'onboarding'
-const CATEGORIES = [
-  {
-    category: {
-      id: 'cjkxpe30m0bky0b08ptqbpyxu',
-      name: 'Certification',
-      color: '#fde282',
-    },
-    income: 0,
-    expenses: 59486.77,
-  },
-  {
-    category: {
-      id: 'cjkxpe4a60bl90b089gsjjbro',
-      name: 'Taxes',
-      color: '#ffb54c',
-    },
-    income: 5000,
-    expenses: 89868.78,
-  },
-  {
-    category: {
-      id: 'cjkxpe5dm0blk0b08msdrtu9s',
-      name: 'Product development',
-      color: '#3cd5c1',
-    },
-    income: 0,
-    expenses: 47960.19,
-  },
-  {
-    category: {
-      id: 'cjkxpe8u50bmh0b08laoi9oow',
-      name: 'Product design',
-      color: '#0aaddb',
-    },
-    income: 0,
-    expenses: 63555.35999999999,
-  },
-  {
-    category: {
-      id: 'cjkxpeaqv0bmy0b080odzrphz',
-      name: 'Fundraising events',
-      color: '#00bd6a',
-    },
-    income: 0,
-    expenses: 52847.59,
-  },
-  {
-    category: {
-      id: 'cjkxpeix20bou0b0826080qls',
-      name: 'Operating expenses',
-      color: '#b259ad',
-    },
-    income: 0,
-    expenses: 57506.97,
-  },
-  {
-    category: {
-      id: 'cjkxpek4r0bp50b08maikpsef',
-      name: 'Administrative expenses',
-      color: '#0a70dd',
-    },
-    income: 29000,
-    expenses: 50120.79,
-  },
-]
-  .map(x => x.category)
-  .filter(x => !!x)
 
-const TEAM = [
-  {
-    email: 'gabriel@liberman.ru',
-    role: 'Administrator',
-  },
-  {
-    email: 'a.ivanov@ivanov.ru',
-    role: 'Manager',
-  },
-  {
-    email: 'greenkaktus@gmail.com',
-    role: 'Observer',
-  },
-]
+const getDefaultCategories = () =>
+  DEFAULT_CATEGORIES.map(category => ({
+    ...category,
+    id: Math.random().toString(),
+  }))
 
 const defaultState = {
   loading: true,
   loaded: false,
   loadingNext: false,
   loadingBack: false,
-  currentStep: 'categories',
+  currentStep: null,
   stepData: {},
-  credentials: {},
-  account: {},
-  accountInfo: {
-    name: '',
-    description: '',
-  },
-  categories: {
-    list: CATEGORIES,
-  },
-  team: {
-    list: TEAM,
-  },
 }
 
 const getStepData = session => {
@@ -121,9 +35,16 @@ const getStepData = session => {
     }
   }
 
-  const { institution: bank, credentials, accounts, account } = session
+  const {
+    step,
+    institution: bank,
+    credentials,
+    accounts,
+    account,
+    categories,
+  } = session
 
-  if (credentials.status !== 'success') {
+  if (step === 'credentials') {
     return {
       currentStep: 'credentials',
       session,
@@ -132,7 +53,7 @@ const getStepData = session => {
         ...credentials,
       },
     }
-  } else if (!account) {
+  } else if (step === 'accounts') {
     return {
       currentStep: 'account',
       session,
@@ -141,21 +62,31 @@ const getStepData = session => {
         accounts,
       },
     }
-  } else if (account) {
+  } else if (step === 'account') {
     return {
       currentStep: 'accountInfo',
       session,
       stepData: {
-        accountName: account.name,
+        accountName: account.frankName || account.name,
+        accountDescription: account.frankDescription,
       },
     }
-  }
-
-  return {
-    currentStep: 'categories',
-    stepData: {
-      list: CATEGORIES,
-    },
+  } else if (step === 'categories') {
+    return {
+      currentStep: 'categories',
+      session,
+      stepData: {
+        list: categories || getDefaultCategories(),
+      },
+    }
+  } else if (step === 'team') {
+    return {
+      currentStep: 'team',
+      session,
+      stepData: {
+        members: [],
+      },
+    }
   }
 }
 
@@ -188,6 +119,10 @@ export default handleActions(
       state.merge({
         loadingBack: false,
         ...getStepData(session),
+      }),
+    [ACTIONS.cancel]: state =>
+      state.merge({
+        loading: true,
       }),
     // [ACTIONS.goNext]: state =>
     //   state.update('currentStep', step => {
@@ -239,6 +174,9 @@ export default handleActions(
         )
       ),
 
+    // Credentials
+    [ACTIONS.backToCredentials]: state =>
+      state.mergeIn(['stepData'], { status: CREDENTIALS_STATUS.initial }),
     //
     // Select Account
     //
@@ -263,7 +201,45 @@ export default handleActions(
       state.mergeIn(['stepData'], {
         openEditDialog: false,
       }),
+    [ACTIONS.submitEditCategory]: (state, { payload }) =>
+      state
+        .mergeIn(['stepData'], {
+          openEditDialog: false,
+        })
+        .updateIn(
+          ['stepData', 'list'],
+          list =>
+            payload.id
+              ? list.mergeIn(
+                  [list.findIndex(x => x.get('id') === payload.id)],
+                  payload
+                )
+              : list.push(fromJS({ ...payload, id: Math.random().toString() }))
+        ),
+    [ACTIONS.removeCategory]: (state, { payload: id }) =>
+      state.updateIn(['stepData', 'list'], list =>
+        list.deleteIn([list.findIndex(x => x.get('id') === id)])
+      ),
+    [ACTIONS.cleanAllCategories]: state =>
+      state.mergeIn(['stepData'], {
+        list: [],
+      }),
 
+    // Team
+    [ACTIONS.openInvite]: state =>
+      state.mergeIn(['stepData'], {
+        inviteDrawerOpen: true,
+      }),
+    [ACTIONS.closeInvite]: state =>
+      state.mergeIn(['stepData'], {
+        inviteDrawerOpen: false,
+      }),
+    [ACTIONS.submitInvite]: (state, { payload: invite }) =>
+      state
+        .updateIn(['stepData', 'members'], list => list.push(fromJS(invite)))
+        .mergeIn(['stepData'], {
+          inviteDrawerOpen: false,
+        }),
     [ACTIONS.leave]: () => fromJS(defaultState),
   },
   fromJS(defaultState)

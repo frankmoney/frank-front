@@ -38,6 +38,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = R.partial(bindActionCreators, [
   {
     load: ACTIONS.load,
+    leave: ACTIONS.leave,
   },
 ])
 

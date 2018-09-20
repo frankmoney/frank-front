@@ -10,11 +10,18 @@ const findUser = ({ graphqlClient }) =>
   me {
     email
   }
+  accounts {
+  id
+  }
 }`).then(
-    ({ me: user }) =>
+    ({ me: user, accounts }) =>
       user && {
         ...user,
-        accountId: 'cjkgy7pcv3p8b0716u58tsymo',
+        // last account is default
+        accountId:
+          accounts && accounts.length > 0
+            ? accounts[accounts.length - 1].id
+            : null,
       }
   )
 

@@ -6,11 +6,14 @@ import Context from './context'
 
 const styles = theme => ({
   root: {
+    display: 'block', // override if root component set to 'a' for example
     borderRadius: 8,
     padding: [12, 15],
     background: 'rgba(32, 40, 74, 0.04)',
     transition: theme.transition('background-color'),
     cursor: 'pointer',
+    color: '#20284A',
+    textDecoration: 'none',
     '&:hover:not($selected)': {
       background: 'rgba(32, 40, 74, 0.1)',
     },
@@ -24,21 +27,27 @@ const styles = theme => ({
 
 const OptionsListItem = ({
   classes,
+  component: Root = 'div',
   selected,
   className,
   children,
   primaryText,
   onClick,
+  primaryTextIcon,
+  ...otherProps
 }) => (
-  <div
+  <Root
     className={cx(classes.root, selected && classes.selected, className)}
     onClick={onClick}
+    {...otherProps}
   >
     <Context.Provider value={{ selected }}>
-      {primaryText && <PrimaryText>{primaryText}</PrimaryText>}
+      {primaryText && (
+        <PrimaryText icon={primaryTextIcon}>{primaryText}</PrimaryText>
+      )}
       {children}
     </Context.Provider>
-  </div>
+  </Root>
 )
 
 export default injectStyles(styles)(OptionsListItem)

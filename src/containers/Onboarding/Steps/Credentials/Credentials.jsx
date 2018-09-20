@@ -1,21 +1,22 @@
 import React from 'react'
 import * as R from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
-import { required, createValidateFromRules } from '@frankmoney/forms'
+import { Spinner } from '@frankmoney/components'
+import { required, createValidateFromRules, TextField } from '@frankmoney/forms'
 import cx from 'classnames'
-import { compose, withPropsOnChange } from 'recompose'
+import { compose, withPropsOnChange, branch, renderComponent } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
-import Field from 'components/Field'
-import TextField from 'components/forms/TextBoxField'
 import reconnect from 'utils/reconnect'
 import { CREDENTIALS_FORM } from '../../constants'
 import {
   credentialsFieldsSelector,
   isCredentialsCheckingSelector,
+  isCredentialsErrorSelector,
 } from '../../selectors'
 import StepLayout from '../../StepLayout'
 import StepTitle from '../../StepTitle'
 import StepBankLogo from '../../StepBankLogo'
+import CredentialsFail from './CredentialsFail'
 
 const styles = {
   root: {},
@@ -27,6 +28,9 @@ const styles = {
     width: 370,
     display: 'flex',
   },
+  spinner: {
+    marginTop: 70,
+  },
 }
 
 const Credentials = ({ className, classes, fields, isChecking }) => (
@@ -35,23 +39,25 @@ const Credentials = ({ className, classes, fields, isChecking }) => (
     footerText={
       isChecking
         ? 'Verifying credentials... It’s can last from 5 to 60 seconds.'
-        : 'We don’t store your credentials, we transfer it to the aggregation system.'
+        : 'We never store account credentials'
     }
+    backButtonText="Select another bank"
   >
     <StepBankLogo />
     <StepTitle>Enter your credentials</StepTitle>
     <div className={classes.form}>
       {fields.map(({ label, guid: id, type }, idx) => (
-        <Field title={label} stretch>
-          <TextField
-            className={classes.field}
-            autoFocus={idx === 0}
-            name={id}
-            type={type === 'PASSWORD' ? 'password' : 'text'}
-          />
-        </Field>
+        <TextField
+          className={classes.field}
+          autoFocus={idx === 0}
+          disabled={isChecking}
+          name={id}
+          label={label}
+          type={type === 'PASSWORD' ? 'password' : 'text'}
+        />
       ))}
     </div>
+    {isChecking && <Spinner className={classes.spinner} />}
   </StepLayout>
 )
 
@@ -66,7 +72,9 @@ export default compose(
   reconnect({
     fields: credentialsFieldsSelector,
     isChecking: isCredentialsCheckingSelector,
+    isError: isCredentialsErrorSelector,
   }),
+  branch(R.prop('isError'), renderComponent(CredentialsFail)),
   withPropsOnChange(['fields'], ({ fields }) => ({
     validate: createAllFieldsRequiredValidation(fields),
   })),

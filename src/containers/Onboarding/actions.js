@@ -4,6 +4,10 @@ import { createDeferredAction } from '@frankmoney/utils'
 export const load = createDeferredAction('onboarding/load')
 export const goNext = createDeferredAction('onboarding/next')
 export const goBack = createDeferredAction('onboarding/back')
+export const backToCredentials = createDeferredAction(
+  'onboarding/back-credentials'
+)
+export const cancel = createDeferredAction('onboarding/cancel')
 export const leave = createAction('onboarding/leave')
 
 // Step: Banks
@@ -21,9 +25,13 @@ export const cancelEditCategory = createAction(
 export const submitEditCategory = createAction(
   'onboarding/categories/submit-add'
 )
+export const cleanAllCategories = createAction('onboarding/categories/clean')
+export const removeCategory = createAction('onboarding/categories/remove')
 
 // Step: Accounts
 export const accountSelect = createAction('onboarding/accounts/select')
 
 // Step: Team
+export const openInvite = createAction('onboarding/team/open-invite')
+export const closeInvite = createAction('onboarding/team/close-invite')
 export const submitInvite = createAction('onboarding/team/invite')

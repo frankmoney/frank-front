@@ -41,6 +41,7 @@ const CategoriesList = ({
   categories,
   onDeleteAll,
   onEdit,
+  onDelete,
 }) => (
   <div className={cx(classes.root, className)}>
     <div className={classes.titleWrap}>
@@ -58,6 +59,7 @@ const CategoriesList = ({
         name={name}
         color={color}
         onEdit={onEdit}
+        onDelete={onDelete}
       />
     ))}
   </div>

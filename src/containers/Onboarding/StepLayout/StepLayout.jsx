@@ -26,6 +26,7 @@ const StepLayout = ({
   loadingBack,
   goNext,
   goBack,
+  noFooter,
   footerText,
   footerButton,
   children,
@@ -33,24 +34,26 @@ const StepLayout = ({
   <div className={cx(classes.root, className)}>
     <FrankLogo className={classes.logo} />
     <div className={classes.container}>{children}</div>
-    <div className={classes.footer}>
-      {canGoBack ? (
-        <Button label="Back" onClick={goBack} loading={loadingBack} />
-      ) : (
-        <div />
-      )}
-      {footerText && <div className={classes.footerText}>{footerText}</div>}
-      {footerButton && (
-        <div className={classes.footerButtonWrap}>{footerButton}</div>
-      )}
-      <Button
-        label="Continue"
-        type="primary"
-        disabled={!canGoNext}
-        loading={loadingNext}
-        onClick={goNext}
-      />
-    </div>
+    {!noFooter && (
+      <div className={classes.footer}>
+        {canGoBack ? (
+          <Button label="Back" onClick={goBack} loading={loadingBack} />
+        ) : (
+          <div />
+        )}
+        {footerText && <div className={classes.footerText}>{footerText}</div>}
+        {footerButton && (
+          <div className={classes.footerButtonWrap}>{footerButton}</div>
+        )}
+        <Button
+          label="Continue"
+          type="primary"
+          disabled={!canGoNext}
+          loading={loadingNext}
+          onClick={goNext}
+        />
+      </div>
+    )}
   </div>
 )
 

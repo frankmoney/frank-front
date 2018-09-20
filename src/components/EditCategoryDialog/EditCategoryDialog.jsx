@@ -18,8 +18,6 @@ const styles = {
   },
 }
 
-const FORM_NAME = 'save-category'
-
 const validations = {
   name: [required],
   color: [required],
@@ -54,18 +52,27 @@ const EditCategoryDialog = ({
   </ConfirmDialog>
 )
 
-const EMPTY_CATEGORY = {
+const createEmptyCategory = () => ({
   color: sample(Object.keys(CATEGORY_COLORS)),
-}
+  name: '',
+})
 
 export default compose(
   withPropsOnChange(['category'], props => ({
-    initialValues: props.category || EMPTY_CATEGORY,
+    initialValues: props.category || createEmptyCategory(),
+    form: `edit-category-${props.id || 'new'}`,
   })),
   reduxForm({
-    form: FORM_NAME,
     enableReinitialize: true,
-    onSubmit: (values, _, props) => props.onSubmit(values),
+    onSubmit: (values, _, props) => {
+      props.onSubmitForm(values && values.toJS())
+      if (props.form === 'edit-category-new') {
+        props.reset()
+        const category = createEmptyCategory()
+        props.change('color', category.color)
+        props.change('name', category.name)
+      }
+    },
   }),
   injectStyles(styles)
 )(EditCategoryDialog)
