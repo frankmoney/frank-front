@@ -5,7 +5,7 @@ export const ROUTES = {
   auth: {
     login: '/sign-in',
     recoverPassword: '/recover-password',
-    logout: '/sign-out',
+    logout: '/logout',
   },
   inbox: {
     root: '/inbox',
@@ -41,6 +41,8 @@ export const ROUTES = {
     widgets: '/demo/widgets',
   },
 }
+
+export const ACCOUNT_COOKIE_NAME = 'account-id'
 
 export const BASE_TITLE = 'Frank'
 

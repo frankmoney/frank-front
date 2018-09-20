@@ -1,27 +1,34 @@
 /* eslint-disable global-require */
 import path from 'path'
 import Server from '@frankmoney/webapp/es/server/Server'
+import { ACCOUNT_COOKIE_NAME } from 'const'
 import config from '../../config'
 import initRoutes from './router'
 
 const isProd = process.env.NODE_ENV === 'production'
-const findUser = ({ graphqlClient }) =>
+const findUser = ({ graphqlClient, req }) =>
   graphqlClient(`{
   me {
+    id
     email
+    lastName
+    firstName
   }
   accounts {
   id
+  name
   }
 }`).then(
     ({ me: user, accounts }) =>
       user && {
         ...user,
+        accounts,
         // last account is default
         accountId:
-          accounts && accounts.length > 0
+          req.cookies[ACCOUNT_COOKIE_NAME] ||
+          (accounts && accounts.length > 0
             ? accounts[accounts.length - 1].id
-            : null,
+            : null),
       }
   )
 
