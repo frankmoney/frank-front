@@ -18,6 +18,7 @@ export default (action$, store, { graphql }) =>
     .ofType(ACTIONS.load)
     .switchMap(() => {
       const state = store.getState()
+      const currentAccountId = currentAccountIdSelector(state)
       const search = searchTextSelector(state)
       const page = currentPageSelector(state)
       const categories = categoriesSelector(state)
@@ -43,7 +44,7 @@ export default (action$, store, { graphql }) =>
           categories: !categoriesLoaded,
         }),
         {
-          accountId: currentAccountIdSelector(store.getState()),
+          accountId: currentAccountId,
           categoryId: categoryId || undefined,
           first: PAGE_SIZE,
           skip: (page - 1) * PAGE_SIZE,

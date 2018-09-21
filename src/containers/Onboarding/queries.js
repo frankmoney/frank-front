@@ -125,6 +125,7 @@ export default {
     `mutation {
       account: onboardingFinish {
         id
+        name
       }
     }`,
     ({ account }) => account,

@@ -3,15 +3,15 @@ import {
   SidebarBottomMenu,
   SidebarBottomMenuItem,
 } from '@frankmoney/components'
-import { compose, withHandlers } from 'recompose'
+import { compose } from 'recompose'
 import { currentUserSelector } from '@frankmoney/webapp'
-import cookies from 'browser-cookies'
 import reconnect from 'utils/reconnect'
 import {
   userAccountsSelector,
   currentAccountIdSelector,
 } from 'redux/selectors/user'
-import { ROUTES, ACCOUNT_COOKIE_NAME } from '../../const'
+import * as USER_ACTIONS from 'redux/actions/user'
+import { ROUTES } from '../../const'
 
 const SidebarBottomUserMenu = ({
   user,
@@ -43,15 +43,14 @@ const SidebarBottomUserMenu = ({
 )
 
 export default compose(
-  reconnect({
-    user: currentUserSelector,
-    selectedAccountId: currentAccountIdSelector,
-    accounts: userAccountsSelector,
-  }),
-  withHandlers({
-    handleAccountSelect: () => accountId => {
-      cookies.set(ACCOUNT_COOKIE_NAME, accountId)
-      window.location.reload()
+  reconnect(
+    {
+      user: currentUserSelector,
+      selectedAccountId: currentAccountIdSelector,
+      accounts: userAccountsSelector,
     },
-  })
+    {
+      handleAccountSelect: USER_ACTIONS.selectAccount,
+    }
+  )
 )(SidebarBottomUserMenu)

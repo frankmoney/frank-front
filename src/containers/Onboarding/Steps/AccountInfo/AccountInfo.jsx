@@ -29,7 +29,6 @@ const styles = {
 
 const validation = {
   name: [required],
-  description: [required],
 }
 
 const AccountInfo = ({ className, classes }) => (

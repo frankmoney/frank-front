@@ -1,4 +1,5 @@
 import { push as pushRoute } from 'react-router-redux'
+import * as USER_ACTIONS from 'redux/actions/user'
 import { ROUTES } from '../../const'
 import * as ACTIONS from './actions'
 import { CREDENTIALS_STATUS } from './constants'
@@ -38,13 +39,13 @@ export const searchBankEpic = action$ =>
     .map(({ payload: filter }) => ACTIONS.loadBanks(filter))
 
 export const nextStepEpic = (action$, store, { graphql }) =>
-  action$.ofType(ACTIONS.goNext).switchMapFromPromise(async () => {
+  action$.ofType(ACTIONS.goNext).mergeMapFromPromise(async () => {
     const state = store.getState()
     const step = currentStepSelector(state)
     if (step === 'bank') {
       const bankId = selectedBankIdSelector(state)
       const session = await graphql(QUERIES.selectBank, { id: bankId })
-      return ACTIONS.goNext.success(session)
+      return [ACTIONS.goNext.success(session)]
     } else if (step === 'credentials') {
       const credentials = credentialsFormSelector(state)
       const session = await graphql(QUERIES.sendCredentials, {
@@ -52,7 +53,7 @@ export const nextStepEpic = (action$, store, { graphql }) =>
           JSON.stringify({ guid, value })
         ),
       })
-      return ACTIONS.goNext.success(session)
+      return [ACTIONS.goNext.success(session)]
     } else if (step === 'mfa') {
       const formData = credentialsFormSelector(state)
       const session = await graphql(QUERIES.sendMfa, {
@@ -60,13 +61,13 @@ export const nextStepEpic = (action$, store, { graphql }) =>
           JSON.stringify({ guid, value })
         ),
       })
-      return ACTIONS.goNext.success(session)
+      return [ACTIONS.goNext.success(session)]
     } else if (step === 'account') {
       const accountId = selectedAccountIdSelector(state)
       const session = await graphql(QUERIES.selectAccount, {
         id: accountId,
       })
-      return ACTIONS.goNext.success(session)
+      return [ACTIONS.goNext.success(session)]
     } else if (step === 'accountInfo') {
       const { name, description } = accountInfoFormSelector(state)
       await graphql(QUERIES.updateAccountInfo, {
@@ -74,7 +75,7 @@ export const nextStepEpic = (action$, store, { graphql }) =>
         description,
       })
       const session = await graphql(QUERIES.completeAccountInfo)
-      return ACTIONS.goNext.success(session)
+      return [ACTIONS.goNext.success(session)]
     } else if (step === 'categories') {
       const categories = categoriesSelector(state)
       await graphql(QUERIES.updateCategories, {
@@ -84,7 +85,7 @@ export const nextStepEpic = (action$, store, { graphql }) =>
       })
       const session = await graphql(QUERIES.completeCategories)
 
-      return ACTIONS.goNext.success(session)
+      return [ACTIONS.goNext.success(session)]
     } else if (step === 'team') {
       const members = teamMembersSelector(state)
       await graphql(QUERIES.updateTeam, {
@@ -92,9 +93,14 @@ export const nextStepEpic = (action$, store, { graphql }) =>
           JSON.stringify({ email, role, note })
         ),
       })
+
       const account = await graphql(QUERIES.finish)
 
-      return pushRoute(ROUTES.protectedArea)
+      return [
+        USER_ACTIONS.addAccount(account),
+        USER_ACTIONS.selectAccount(account.id),
+        pushRoute(ROUTES.ledger.root),
+      ]
     }
   })
 
