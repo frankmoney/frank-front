@@ -8,11 +8,10 @@ import {
   FixedHeader,
   BreadcrumbsItem,
   PageLoader,
-  Spinner,
-  Button,
 } from '@frankmoney/components'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
+import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Breadcrumbs from 'components/Breadcrumbs'
 import LedgerHighlightTextProvider from './LedgerHighlightTextProvider'
@@ -23,7 +22,7 @@ import styles from './Ledger.jss'
 import LedgerTable from './LedgerTable'
 import {
   isLoadingSelector,
-  listIsUpdatingSelector,
+  listDisabledSelector,
   hasNoResultsSelector,
   currentCategoryNameSelector,
 } from './selectors'
@@ -32,7 +31,7 @@ import * as ACTIONS from './actions'
 
 const Ledger = ({
   classes,
-  listIsUpdating,
+  listDisabled,
   currentCategory,
   noResults,
   resetSearch,
@@ -56,40 +55,26 @@ const Ledger = ({
         <LedgerSearch
           placeholder="Start typing a category, recipient or part of a description..."
           className={classes.searchCard}
+          processing={listDisabled}
         />
-        {listIsUpdating && (
-          <div className={classes.listLoaderWrap}>
-            <Spinner className={classes.loader} />
-          </div>
-        )}
-        {!listIsUpdating && (
+        {!listDisabled && (
           <LedgerOverviewCard className={classes.overviewCard} />
         )}
-        {!listIsUpdating && (
-          <LedgerHighlightTextProvider>
-            <LedgerTable />
-          </LedgerHighlightTextProvider>
-        )}
+        <LedgerHighlightTextProvider>
+          <LedgerTable className={classes.table} />
+        </LedgerHighlightTextProvider>
         {!noResults &&
-          !listIsUpdating && (
+          !listDisabled && (
             <div className={classes.tablePagerWrap}>
               <LedgerPager className={classes.tablePager} />
             </div>
           )}
-        {!listIsUpdating &&
+        {!listDisabled &&
           noResults && (
-            <div className={classes.emptyPlaceholder}>
-              <div className={classes.emptyPlaceholderLabel}>
-                No payments found
-              </div>
-              <Button
-                className={classes.footerButton}
-                fat
-                type="secondary"
-                label="Reset"
-                onClick={() => resetSearch()}
-              />
-            </div>
+            <TableEmptyPlaceholder
+              text="payments"
+              onReset={() => resetSearch()}
+            />
           )}
       </div>
     </div>
@@ -98,7 +83,7 @@ const Ledger = ({
 
 const mapStateToProps = createStructuredSelector({
   loading: isLoadingSelector,
-  listIsUpdating: listIsUpdatingSelector,
+  listDisabled: listDisabledSelector,
   noResults: hasNoResultsSelector,
   currentCategory: currentCategoryNameSelector,
 })

@@ -4,4 +4,4 @@ import * as ACTIONS from '../actions'
 export default action$ =>
   action$
     .ofType(ACTIONS.changeSorting)
-    .map(({ payload: sortBy }) => mergeQuery({ sortBy }, true))
+    .map(({ payload: sortBy }) => mergeQuery({ sortBy, page: 1 }, true))

@@ -5,6 +5,7 @@ import * as ACTIONS from './actions'
 export const REDUCER_KEY = 'directory'
 
 const defaultState = Immutable.fromJS({
+  typing: false,
   loading: true,
   updating: false,
   loaded: false,
@@ -14,17 +15,23 @@ const defaultState = Immutable.fromJS({
 
 export default handleActions(
   {
+    [ACTIONS.searchTyping]: state => state.merge({ typing: true }),
     [ACTIONS.load]: (state, { payload: { update } }) =>
       state.merge(update ? { updating: true } : { loading: true }),
     [ACTIONS.load.success]: (state, { payload: { recipients, totalCount } }) =>
       state.merge({
         loading: false,
+        typing: false,
         updating: false,
         loaded: true,
         recipientsCount: totalCount,
         recipients: fromJS(recipients),
       }),
-    [ACTIONS.load.error]: state => state.merge({ loading: false }),
+    [ACTIONS.load.error]: state =>
+      state.merge({
+        loading: false,
+        typing: false,
+      }),
     [ACTIONS.leave]: () => defaultState,
   },
   defaultState
