@@ -1,4 +1,4 @@
-export default theme => ({
+export default {
   root: {
     minHeight: '100vh',
     position: 'relative',
@@ -26,25 +26,9 @@ export default theme => ({
     alignItems: 'center',
     flexDirection: 'column',
   },
-  emptyPlaceholder: {
-    marginTop: 150,
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-  },
-  emptyPlaceholderLabel: {
-    ...theme.fontRegular(22),
-    color: 'rgba(0,0,0,0.5)',
-    marginBottom: 30,
-  },
-  listLoaderWrap: {
-    marginTop: 150,
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  table: {
+    opacity: props => (props.listDisabled ? 0.5 : 1),
+    pointerEvents: props => (props.listDisabled ? 'none' : 'unset'),
   },
   loader: {},
-})
+}

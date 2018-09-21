@@ -40,12 +40,9 @@ export default theme => ({
     color: 'rgba(0,0,0,0.5)',
     marginBottom: 30,
   },
-  listLoaderWrap: {
-    marginTop: 150,
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  table: {
+    opacity: props => (props.listDisabled ? 0.5 : 1),
+    pointerEvents: props => (props.listDisabled ? 'none' : 'unset'),
   },
   loader: {},
 })

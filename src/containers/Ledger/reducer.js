@@ -5,6 +5,7 @@ import * as ACTIONS from './actions'
 export const REDUCER_KEY = 'ledger'
 
 const defaultState = Immutable.fromJS({
+  typing: false,
   loading: true,
   loaded: false,
   filtersEdit: {
@@ -25,6 +26,7 @@ const mergeFilters = (state, data) =>
 
 export default handleActions(
   {
+    [ACTIONS.searchTyping]: state => state.merge({ typing: true }),
     [ACTIONS.load]: (state, { payload: { updateListOnly } }) =>
       state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
     [ACTIONS.load.success]: (
@@ -42,6 +44,7 @@ export default handleActions(
     ) =>
       state.merge({
         loading: false,
+        typing: false,
         loaded: true,
         updatingList: false,
         categories: categories ? fromJS(categories) : state.get('categories'),
@@ -51,7 +54,11 @@ export default handleActions(
         pieData: fromJS(pieChart || []),
         paymentsCount: totalCount,
       }),
-    [ACTIONS.load.error]: state => state.merge({ loading: false }),
+    [ACTIONS.load.error]: state =>
+      state.merge({
+        loading: false,
+        typing: false,
+      }),
     [ACTIONS.filtersOpen]: state => mergeFilters(state, { open: true }),
     [ACTIONS.filtersChange]: (state, { payload: newFilters }) =>
       mergeFilters(state, { data: newFilters }),

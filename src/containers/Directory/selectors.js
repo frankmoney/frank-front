@@ -17,6 +17,7 @@ const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const isUpdatingSelector = get('updating')
+export const isTypingSelector = get('typing')
 export const recipientsTotalCountSelector = get('recipientsCount')
 export const recipientsSelector = createPlainObjectSelector(get('recipients'))
 
@@ -33,6 +34,12 @@ export const currentPageSelector = createSelector(
 export const searchTextSelector = createSelector(
   queryParamSelector('search'),
   string => parseQueryString(string)
+)
+
+export const listDisabledSelector = createSelector(
+  isUpdatingSelector,
+  isTypingSelector,
+  (updating, typing) => updating || typing
 )
 
 export const includeRecipientsFilterSelector = createSelector(
@@ -84,7 +91,7 @@ export const filterSortBySelectedValueSelector = createSelector(
   sortByFilterSelector,
   value =>
     R.pipe(
-      R.find(R.propEq('id', value)),
+      R.find(R.propEq('query', value)),
       R.prop('name'),
       R.toLower,
       R.concat('By ')
@@ -184,7 +191,7 @@ const recipientsGroupedByDate = R.pipe(
 
 export const dataSourceSelector = createSelector(
   recipientsSelector,
-  sortByFilterSelector,
+  queryParamSelector('sortBy'),
   (recipients, sortBy) => {
     if (sortBy === 'date') {
       return recipientsGroupedByDate(recipients)
