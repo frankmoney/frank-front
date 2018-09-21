@@ -76,15 +76,15 @@ const RecipientRow = ({
     paymentCount,
     lastPaymentDate,
     currencyCode,
-    totalIncome,
-    totalSpending,
+    revenue,
+    spending,
     categories,
   },
   searchText,
 }) => (
   <TableRow
     className={classes.root}
-    hoverBackgroundColor="#F8F8F9"
+    hoverBackgroundColor="#F8F9F9"
     component={Link}
     to={createRouteUrl(ROUTES.directory.recipient, { id })}
   >
@@ -105,14 +105,14 @@ const RecipientRow = ({
     </TableCell>
     <TableCell name="right" className={classes.rightColumn}>
       <div className={classes.totalSums}>
-        {totalSpending && (
+        {spending !== 0 && (
           <CurrencyProvider code={currencyCode}>
-            <CurrencyDelta className={classes.totalSum} value={totalSpending} />
+            <CurrencyDelta className={classes.totalSum} value={spending} />
           </CurrencyProvider>
         )}
-        {totalIncome && (
+        {revenue !== 0 && (
           <CurrencyProvider code={currencyCode}>
-            <CurrencyDelta className={classes.totalSum} value={totalIncome} />
+            <CurrencyDelta className={classes.totalSum} value={revenue} />
           </CurrencyProvider>
         )}
       </div>

@@ -10,6 +10,7 @@ export default theme => ({
   },
   rightColumn: {
     position: 'relative',
+    width: 270,
   },
   name: {
     width: 420,

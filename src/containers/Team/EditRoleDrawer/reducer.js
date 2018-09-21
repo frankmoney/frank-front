@@ -19,13 +19,13 @@ const teamReducer = handleActions(
         loading: true,
         id,
       }),
-    [ACTIONS.load.success]: (state, { payload: { accounts, profile } }) =>
-      profile.id === state.get('id')
+    [ACTIONS.load.success]: (state, { payload: { accounts, member } }) =>
+      member.id === state.get('id')
         ? state.merge({
             loaded: true,
-            loading: true,
+            loading: false,
             accounts,
-            profile,
+            profile: member,
           })
         : state,
     [ACTIONS.submit.success]: (state, { payload: profile }) =>

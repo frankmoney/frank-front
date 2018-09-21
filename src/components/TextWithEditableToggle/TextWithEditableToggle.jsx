@@ -32,7 +32,7 @@ const styles = {
     outline: 'none',
     border: 0,
     '&::placeholder': {
-      color: '#B7BAC2',
+      color: '#E9EAEC',
     },
   },
   hidden: {

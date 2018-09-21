@@ -21,34 +21,27 @@ export default {
         ) {
           id
           name
-          
-          total {
-            value
-          }
-          
           revenue {
             value
           }
-          
           spending {
             value
           }
-          
+          total {
+            value
+          }
           categories {
             id
             name
             color
           }
-          
           countPayments {
             value
           }
-          
           lastPaymentOn {
             value
           }
         }
-        
         countPeers(
           search: $search
           donors: $donors
@@ -64,18 +57,18 @@ export default {
         ({
           id,
           name,
-          total,
-          revenue,
-          spending,
+          revenue: { value: revenue },
+          spending: { value: spending },
+          total: { value: total },
           categories,
           countPayments,
           lastPaymentOn,
         }) => ({
           id,
           name,
-          total,
           revenue,
-          spendings: spending,
+          spending: -spending,
+          total,
           categories,
           paymentCount: countPayments.value,
           lastPaymentDate: lastPaymentOn.value,

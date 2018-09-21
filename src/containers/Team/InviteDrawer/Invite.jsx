@@ -4,11 +4,11 @@ import { injectStyles } from '@frankmoney/ui'
 import SendIcon from 'material-ui-icons/Send'
 import * as R from 'ramda'
 import { connect } from 'react-redux'
-import { compose, lifecycle, withStateHandlers } from 'recompose'
+import { compose, lifecycle } from 'recompose'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import Drawer from 'components/Drawer'
-import AccessField from '../form/AccessField'
+import AccountsField from '../form/AccountsField'
 import AdminField from '../form/AdminField'
 import CanInviteField from '../form/CanInviteField'
 import EmailField from '../form/EmailField'
@@ -17,13 +17,23 @@ import ACTIONS from './actions'
 import {
   loadedSelector,
   loadingSelector,
-  accessItemsSelector,
+  accountsSelector,
+  adminSelector,
+  canInviteSelector,
+  accountIdsSelector,
+  emailSelector,
+  noteSelector,
 } from './selectors'
 
 const mapStateToProps = createStructuredSelector({
   loaded: loadedSelector,
   loading: loadingSelector,
-  accessItems: accessItemsSelector,
+  accounts: accountsSelector,
+  admin: adminSelector,
+  canInvite: canInviteSelector,
+  accountIds: accountIdsSelector,
+  email: emailSelector,
+  note: noteSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
@@ -31,6 +41,11 @@ const mapDispatchToProps = R.partial(bindActionCreators, [
     load: ACTIONS.load,
     leave: ACTIONS.leave,
     handleDoneClick: ACTIONS.submit,
+    handleAdminChange: admin => ACTIONS.change({ admin }),
+    handleCanInviteChange: canInvite => ACTIONS.change({ canInvite }),
+    handleAccountsChange: accountIds => ACTIONS.change({ accountIds }),
+    handleEmailChange: email => ACTIONS.change({ email }),
+    handleNoteChange: note => ACTIONS.change({ note }),
   },
 ])
 
@@ -46,14 +61,15 @@ const styles = theme => ({
 
 const Invite = ({
   classes,
+  accounts,
   admin,
   canInvite,
+  accountIds,
   email,
-  access,
-  accessItems,
   note,
   handleAdminChange,
   handleCanInviteChange,
+  handleAccountsChange,
   handleEmailChange,
   handleNoteChange,
   handleDoneClick,
@@ -67,7 +83,17 @@ const Invite = ({
       <AdminField checked={admin} onChange={handleAdminChange} />
       {admin || (
         <>
-          <AccessField items={accessItems} access={access} />
+          <AccountsField
+            accounts={accounts}
+            selection={accountIds}
+            onChange={({ target: { value, checked } }) =>
+              handleAccountsChange(
+                checked
+                  ? R.uniq(R.append(value, accountIds))
+                  : R.without([value], accountIds)
+              )
+            }
+          />
           <CanInviteField
             checked={canInvite}
             onChange={handleCanInviteChange}
@@ -100,27 +126,12 @@ export default compose(
   lifecycle({
     componentWillMount() {
       if (!this.props.loaded) {
-        this.props.load()
+        this.props.load({ id: this.props.id })
       }
     },
     componentWillUnmount() {
       this.props.leave()
     },
   }),
-  withStateHandlers(
-    {
-      admin: false,
-      canInvite: false,
-      email: '',
-      access: {},
-      note: '',
-    },
-    {
-      handleAdminChange: () => checked => ({ admin: checked }),
-      handleCanInviteChange: () => checked => ({ canInvite: checked }),
-      handleEmailChange: () => value => ({ email: value }),
-      handleNoteChange: () => value => ({ note: value }),
-    }
-  ),
   injectStyles(styles)
 )(Invite)

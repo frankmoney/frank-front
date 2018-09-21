@@ -37,20 +37,30 @@ export default theme => ({
     minWidth: 400,
     paddingRight: 20,
   },
-  recipientName: {
-    position: 'relative',
-    paddingLeft: 30, // space for icon
+  peerName: {
     ...theme.fontMedium(22),
   },
-  recipientReviewedIcon: {
+  peerItem: {
+    position: 'relative',
+  },
+  peerItemIcon: {
+    display: 'none',
     position: 'absolute',
     left: 0,
     top: 0,
     width: 22,
     height: 22,
-    color: theme.colors.blue,
+    color: theme.colors.green,
+    '$peerName &': {
+      display: 'block',
+    },
   },
-  recipientTextBox: {
+  peerItemName: {
+    '$peerName &': {
+      paddingLeft: 30, // space for icon
+    },
+  },
+  peerTextBox: {
     ...theme.fontMedium(22, 30),
   },
   category: {

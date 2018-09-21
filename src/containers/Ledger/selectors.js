@@ -18,6 +18,7 @@ const getFilters = (...prop) => get('filtersEdit', ...prop)
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const listIsUpdatingSelector = get('updatingList')
+export const isTypingSelector = get('typing')
 export const paymentsTotalCountSelector = get('paymentsCount')
 export const categoriesSelector = createPlainObjectSelector(get('categories'))
 export const paymentsSelector = createPlainObjectSelector(get('payments'))
@@ -32,6 +33,12 @@ const filterPaymentByText = text =>
         propContainsText('categoryName', text),
       ])
     : R.always(true)
+
+export const listDisabledSelector = createSelector(
+  listIsUpdatingSelector,
+  isTypingSelector,
+  (updating, typing) => updating || typing
+)
 
 export const paymentsIdsSelector = createSelector(
   paymentsSelector,
@@ -132,6 +139,8 @@ export const currentFiltersSelector = createSelector(
 
 // Chart Selectors
 
+export const chartCategoryTypeSelector = get('chartCategoryType')
+
 export const chartsVisibleSelector = createSelector(
   searchTextSelector,
   R.either(R.isNil, R.isEmpty)
@@ -219,3 +228,5 @@ export const pieChartDataSelector = createSelector(
       ),
     ])(list)
 )
+
+export const allPeersSelector = createPlainObjectSelector(get('allPeers'))
