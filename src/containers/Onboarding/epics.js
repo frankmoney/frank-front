@@ -53,6 +53,14 @@ export const nextStepEpic = (action$, store, { graphql }) =>
         ),
       })
       return ACTIONS.goNext.success(session)
+    } else if (step === 'mfa') {
+      const formData = credentialsFormSelector(state)
+      const session = await graphql(QUERIES.sendMfa, {
+        challenges: Object.entries(formData).map(([guid, value]) =>
+          JSON.stringify({ guid, value })
+        ),
+      })
+      return ACTIONS.goNext.success(session)
     } else if (step === 'account') {
       const accountId = selectedAccountIdSelector(state)
       const session = await graphql(QUERIES.selectAccount, {
@@ -98,9 +106,10 @@ export const pollCredentialsWhileStatusIsCheckingEpic = (
   action$
     .ofType(ACTIONS.goNext.success)
     .filter(
-      ({ payload: { step, credentials } }) =>
-        step === 'credentials' &&
-        credentials.status === CREDENTIALS_STATUS.checking
+      ({ payload: { step, credentials, mfa } }) =>
+        (step === 'credentials' &&
+          credentials.status === CREDENTIALS_STATUS.checking) ||
+        (step === 'mfa' && mfa.status === CREDENTIALS_STATUS.checking)
     )
     .debounceTime(2000)
     .switchMap(() => graphql(QUERIES.getOnboardingSession))

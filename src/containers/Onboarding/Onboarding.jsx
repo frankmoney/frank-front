@@ -20,7 +20,7 @@ const Onboarding = ({ currentStep, ...props }) => {
     bank: STEPS.SelectBank,
     account: STEPS.SelectAccount,
     credentials: STEPS.Credentials,
-    verify: STEPS.Verify,
+    mfa: STEPS.Verify,
     accountInfo: STEPS.AccountInfo,
     categories: STEPS.Categories,
     team: STEPS.Team,

@@ -1,14 +1,14 @@
 export const STEPS = [
   'bank',
   'credentials',
-  'verify',
+  'mfa',
   'account',
   'accountInfo',
   'categories',
   'team',
 ]
 
-export const CREDENTIALS_FORM = 'onboarding-credentials'
+export const STEP_FORM = 'onboarding-dynamic-form'
 export const ACCOUNT_FORM = 'onboarding-account-info'
 
 export const CREDENTIALS_STATUS = {

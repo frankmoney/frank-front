@@ -38,6 +38,7 @@ const getStepData = session => {
   const {
     step,
     institution: bank,
+    mfa,
     credentials,
     accounts,
     account,
@@ -51,6 +52,16 @@ const getStepData = session => {
       stepData: {
         selectedBank: bank,
         ...credentials,
+      },
+    }
+  } else if (step === 'mfa') {
+    return {
+      currentStep: 'mfa',
+      session,
+      stepData: {
+        selectedBank: bank,
+        status: mfa.status,
+        fields: mfa.challenges,
       },
     }
   } else if (step === 'accounts') {

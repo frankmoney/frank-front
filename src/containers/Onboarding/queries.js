@@ -12,6 +12,7 @@ export default {
         step
         institution
         credentials
+        mfa
         accounts
         account
         categories
@@ -40,6 +41,19 @@ export default {
         step
         institution
         credentials
+        accounts
+        mfa
+      }
+    }`,
+    ({ onboarding }) => onboarding,
+  ],
+  sendMfa: [
+    `mutation($challenges: [JSON!]!) {
+      onboarding: onboardingEnterMfaChallenges(
+          challenges: $challenges
+      ) {
+        step
+        mfa
         accounts
       }
     }`,

@@ -3,12 +3,7 @@ import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { isValid as isFormValid, getFormValues } from 'redux-form/immutable'
 import { REDUCER_KEY } from './reducer'
-import {
-  STEPS,
-  CREDENTIALS_FORM,
-  CREDENTIALS_STATUS,
-  ACCOUNT_FORM,
-} from './constants'
+import { STEPS, STEP_FORM, CREDENTIALS_STATUS, ACCOUNT_FORM } from './constants'
 
 const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
 
@@ -56,10 +51,10 @@ export const filteredBankListSelector = createSelector(
       : list
 )
 
-// Credentials
-const isCredentialsFormValid = isFormValid(CREDENTIALS_FORM)
+// Credentials && MFA
+const isCredentialsFormValid = isFormValid(STEP_FORM)
 export const credentialsFormSelector = createPlainObjectSelector(
-  getFormValues(CREDENTIALS_FORM)
+  getFormValues(STEP_FORM)
 )
 export const credentialsStatusSelector = get('stepData', 'status')
 export const isCredentialsCheckingSelector = createSelector(
@@ -130,6 +125,7 @@ export const canGoNextSelector = createSelector(
   ) =>
     (step === 'bank' && !!selectedBankId) ||
     (step === 'credentials' && isCredentialsValid && !isCredentialsChecking) ||
+    (step === 'mfa' && isCredentialsValid && !isCredentialsChecking) ||
     (step === 'account' && accountId) ||
     (step === 'accountInfo' && isAccountInfoValid) ||
     step === 'categories' ||
