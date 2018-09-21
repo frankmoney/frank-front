@@ -48,49 +48,36 @@ const styles = {
 
 class ArrowPopup extends React.PureComponent {
   state = {
-    arrowRef: null,
+    arrowEl: null,
     anchorEl: null,
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.anchorEl !== this.props.anchorEl) {
-      this.setState({
-        anchorEl: nextProps.anchorEl,
-      })
-    }
-  }
-
   handleClickAway = () => {
-    this.setState({
-      anchorEl: null,
-    })
-    if (this.props.onBlur) {
-      this.props.onBlur()
+    if (this.props.onClose) {
+      this.props.onClose()
     }
   }
 
-  handleArrowRef = node => {
+  handleArrowEl = node => {
     this.setState({
-      arrowRef: node,
+      arrowEl: node,
     })
   }
 
   render() {
-    const { children, classes, id = 'default-popup' } = this.props
-    const { arrowRef, anchorEl } = this.state
+    const { children, classes, anchorEl } = this.props
+    const { arrowEl } = this.state
     const open = !!anchorEl
-    const popupId = open ? id : null
 
     return (
       <Popper
-        id={popupId}
         open={open}
         anchorEl={anchorEl}
         className={classes.popper}
         modifiers={{
           arrow: {
             enabled: true,
-            element: arrowRef,
+            element: arrowEl,
           },
           offset: {
             enabled: true,
@@ -101,7 +88,7 @@ class ArrowPopup extends React.PureComponent {
         <ClickAway onClickAway={this.handleClickAway}>
           <div className={classes.root}>
             {children}
-            <div className={classes.arrow} ref={this.handleArrowRef}>
+            <div className={classes.arrow} ref={this.handleArrowEl}>
               <Arrow className={classes.arrowIcon} />
             </div>
           </div>

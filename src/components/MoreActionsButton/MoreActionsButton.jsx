@@ -32,7 +32,7 @@ class MoreActionsButton extends React.PureComponent {
   }
 
   render() {
-    const { children, classes, id = 'default-menu' } = this.props
+    const { children, classes } = this.props
     const { anchorEl } = this.state
     const open = !!anchorEl
     return (
@@ -44,10 +44,9 @@ class MoreActionsButton extends React.PureComponent {
           onClick={this.handlePopupOpen}
         />
         <ArrowPopup
-          id={id}
           open={open}
           anchorEl={anchorEl}
-          onBlur={this.handlePopupBlur}
+          onClose={this.handlePopupBlur}
         >
           <MenuList onClick={this.handlePopupBlur} className={classes.list}>
             {children}

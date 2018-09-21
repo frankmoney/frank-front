@@ -11,6 +11,7 @@ const styles = {
 const StoryConfirmDialog = ({
   classes,
   title,
+  confirmLabel,
   confirmButtonProps,
   onConfirmClick,
   onRequestClose,
