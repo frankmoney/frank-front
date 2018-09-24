@@ -1,31 +1,29 @@
 import React from 'react'
 import cx from 'classnames'
-import { InputAdornment } from 'material-ui'
 import { Search as SearchIcon } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
-import { Paper, TextField } from '@frankmoney/components'
+import { Paper, Spinner } from '@frankmoney/components'
+import TextBox from 'components/TextBox'
 import styles from './SearchCard.jss'
 
-const AdornmentIcon = ({ className }) => (
-  <InputAdornment position="start">
-    <SearchIcon className={className} />
-  </InputAdornment>
-)
-
-const SearchCard = ({ classes, className, onChange, value, placeholder }) => (
+const SearchCard = ({
+  classes,
+  className,
+  onChange,
+  value,
+  placeholder,
+  processing,
+}) => (
   <Paper className={cx(classes.card, className)}>
-    <TextField
+    <SearchIcon className={classes.icon} />
+    <TextBox
       className={classes.field}
       value={value}
       onChange={onChange}
-      InputProps={{
-        classes: { input: classes.fieldInput },
-        disableUnderline: true,
-        startAdornment: <AdornmentIcon className={classes.adornmentIcon} />,
-      }}
       placeholder={placeholder}
-      fontBig
+      disableUnderline
     />
+    {processing && <Spinner className={classes.loader} />}
   </Paper>
 )
 

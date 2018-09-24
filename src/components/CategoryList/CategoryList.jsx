@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { pieChartDataShape } from 'components/Charts/shapes'
+import { pieDataProp } from 'data/models/charts'
 import CategoryLabel from 'components/CategoryLabel'
 import limitCategories, { limitedCategoriesProps } from 'utils/limitCategories'
 import OtherCategories from './OtherCategories'
@@ -106,7 +106,7 @@ const CategoryList = ({
 CategoryList.propTypes = {
   activeKey: PropTypes.number,
   activeLabelClassName: PropTypes.string,
-  categories: PropTypes.arrayOf(pieChartDataShape),
+  categories: pieDataProp,
   iconClassName: PropTypes.string,
   itemClassName: PropTypes.string,
   limitedCategories: PropTypes.shape(limitedCategoriesProps),

@@ -17,7 +17,7 @@ const RecipientCard = ({
   paymentCount,
   lastPaymentDate,
   revenue,
-  spendings,
+  spending,
   categories,
   onEditName,
 }) => (
@@ -29,10 +29,10 @@ const RecipientCard = ({
         onChange={onEditName}
       />
       <div className={classes.stats}>
-        {spendings !== 0 && (
+        {spending !== 0 && (
           <div className={classes.statsColumn}>
             <div className={classes.statsLabel}>Spending</div>
-            <CurrencyDelta className={classes.totalSum} value={spendings} />
+            <CurrencyDelta className={classes.totalSum} value={spending} />
           </div>
         )}
         {revenue !== 0 && (

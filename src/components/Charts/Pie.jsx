@@ -4,6 +4,7 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { Cell, PieChart as ReChart, Pie as RePie } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
+import { pieDataProp } from 'data/models/charts'
 
 const DEFAULT_COLOR = '#B3B3B3'
 const INNER_RING_THICCNESS = 15
@@ -126,13 +127,7 @@ class Pie extends React.Component {
 
 Pie.propTypes = {
   activeKey: PropTypes.number,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      color: PropTypes.string,
-      name: PropTypes.string,
-      value: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+  data: pieDataProp.isRequired,
   onClick: PropTypes.func,
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,

@@ -1,12 +1,11 @@
 import React from 'react'
 import * as R from 'ramda'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import Bar, {
   POSITIVE_BAR_COLOR,
   PRIMARY_BAR_COLOR,
 } from 'components/Charts/Bar'
-import { barChartDataShape } from 'components/Charts/shapes'
+import { barDataProp } from 'data/models/charts'
 import Checkbox from 'components/Checkbox'
 
 const MAX_ZEROES_TO_HIDE = 0.5
@@ -110,10 +109,8 @@ class BarChart extends React.PureComponent {
   }
 }
 
-export const barDataShape = PropTypes.arrayOf(barChartDataShape)
-
 BarChart.propTypes = {
-  data: barDataShape,
+  data: barDataProp,
 }
 
 export default injectStyles(styles)(BarChart)

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { barChartDataShape, pieChartDataShape } from 'components/Charts/shapes'
+import { barDataProp, pieDataProp } from 'data/models/charts'
 import { AboutTab, PaymentListTab, StoriesTab } from './Tabs'
 import { Header, HeaderItem } from './Header'
 import OverviewChart, { Footer } from './Chart'
@@ -139,7 +139,7 @@ Widget.propTypes = {
   showBarChart: PropTypes.bool,
   showCategoryCount: PropTypes.bool,
   // Selectors
-  barsData: PropTypes.arrayOf(barChartDataShape),
+  barsData: barDataProp,
   categoryCount: PropTypes.number,
   categoryType: PropTypes.string,
   currentCategoryColor: PropTypes.string,
@@ -147,7 +147,7 @@ Widget.propTypes = {
   entriesCount: PropTypes.number,
   period: PropTypes.string.isRequired,
   periods: PropTypes.arrayOf(PropTypes.string).isRequired,
-  pieData: PropTypes.arrayOf(pieChartDataShape),
+  pieData: pieDataProp,
   // tab: PropTypes.oneOf(['payments', 'stories', 'about']), // TODO: wait for selector
   // Styles
   barChartClassName: PropTypes.string,

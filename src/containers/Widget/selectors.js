@@ -1,14 +1,20 @@
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
-import { remapPieData, totalExpensesFrom, totalIncomeFrom } from 'utils/pieData'
+import { remapPieData, sumProp } from 'data/models/pieData'
 import { REDUCER_KEY } from './reducer'
 
 const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
 
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
-const totalExpensesSelector = totalExpensesFrom(rawPieDataSelector)
-const totalIncomeSelector = totalIncomeFrom(rawPieDataSelector)
+const totalExpensesSelector = createSelector(
+  rawPieDataSelector,
+  sumProp('expenses')
+)
+const totalIncomeSelector = createSelector(
+  rawPieDataSelector,
+  sumProp('income')
+)
 export const pieChartDataSelector = createSelector(
   rawPieDataSelector,
   totalExpensesSelector,

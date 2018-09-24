@@ -3,13 +3,13 @@ import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
 import { isSameYear, format } from 'date-fns/fp'
+import { remapPieData, sumProp } from 'data/models/pieData'
 import { parseDate, formatMonth, parseMonth } from 'utils/dates'
 import {
   parseQueryStringNumber,
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
-import { remapPieData, totalExpensesFrom, totalIncomeFrom } from 'utils/pieData'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
@@ -19,6 +19,7 @@ const getFilters = (...prop) => get('filtersEdit', ...prop)
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const listIsUpdatingSelector = get('updatingList')
+export const isTypingSelector = get('typing')
 export const paymentsTotalCountSelector = get('paymentsCount')
 export const categoriesSelector = createPlainObjectSelector(get('categories'))
 export const paymentsSelector = createPlainObjectSelector(get('payments'))
@@ -33,6 +34,12 @@ const filterPaymentByText = text =>
         propContainsText('categoryName', text),
       ])
     : R.always(true)
+
+export const listDisabledSelector = createSelector(
+  listIsUpdatingSelector,
+  isTypingSelector,
+  (updating, typing) => updating || typing
+)
 
 export const paymentsIdsSelector = createSelector(
   paymentsSelector,
@@ -171,11 +178,16 @@ export const barChartDataSelector = createSelector(
   )
 )
 
-// из [category{name,color},income,expenses] в {income|spending: [{color,name,value}]} где value процент от всех income|spending
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
 
-const totalExpensesSelector = totalExpensesFrom(rawPieDataSelector)
-const totalIncomeSelector = totalIncomeFrom(rawPieDataSelector)
+const totalExpensesSelector = createSelector(
+  rawPieDataSelector,
+  sumProp('expenses')
+)
+const totalIncomeSelector = createSelector(
+  rawPieDataSelector,
+  sumProp('income')
+)
 
 export const pieChartDataSelector = createSelector(
   rawPieDataSelector,
@@ -183,3 +195,5 @@ export const pieChartDataSelector = createSelector(
   totalIncomeSelector,
   remapPieData
 )
+
+export const allPeersSelector = createPlainObjectSelector(get('allPeers'))

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import PeriodSelector from 'components/LegendPieChart/PeriodSelector'
+import PeriodSelector from 'components/CategoryListPieChart/PeriodSelector'
 import Bar from 'components/Charts/Bar'
-import { barChartDataShape } from 'components/Charts/shapes'
+import { barDataProp } from 'data/models/charts'
 import Payments from '../Payments'
 import { Header, CategoryName } from '../Header'
 
@@ -56,7 +56,7 @@ const PaymentListTab = ({
 )
 
 PaymentListTab.propTypes = {
-  barsData: PropTypes.arrayOf(barChartDataShape),
+  barsData: barDataProp,
   barsHeight: PropTypes.number.isRequired,
   barsWidth: PropTypes.number.isRequired,
   onCancelCategoryClick: PropTypes.func.isRequired,
