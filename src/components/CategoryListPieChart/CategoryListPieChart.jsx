@@ -3,7 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { pieChartDataShape } from 'components/Charts/shapes'
+import { pieDataProp } from 'data/models/charts'
 import CategoryList from 'components/CategoryList'
 import DropdownSwitcher from 'components/DropdownSwitcher'
 import Pie from 'components/Charts/Pie'
@@ -125,15 +125,11 @@ class CategoryListPieChart extends React.PureComponent {
   }
 }
 
-export const dataPropShape = PropTypes.objectOf(
-  PropTypes.arrayOf(pieChartDataShape)
-)
-
 CategoryListPieChart.propTypes = {
   categoryLimit: PropTypes.number.isRequired,
   categoryType: PropTypes.string.isRequired,
   chartSize: PropTypes.number.isRequired,
-  data: dataPropShape,
+  data: pieDataProp,
   hideChart: PropTypes.bool,
   hidePeriod: PropTypes.bool,
   legendClassName: PropTypes.string,

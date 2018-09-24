@@ -2,9 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import CategoryListPieChart, {
-  dataPropShape,
-} from 'components/CategoryListPieChart'
+import CategoryListPieChart from 'components/CategoryListPieChart'
+import { pieDataProp } from 'data/models/charts'
 
 const styles = theme => ({
   root: {
@@ -94,7 +93,7 @@ LegendOnly.propTypes = {
   onPeriodChange: PropTypes.func.isRequired,
   period: PropTypes.string.isRequired,
   periods: PropTypes.arrayOf(PropTypes.string).isRequired,
-  data: dataPropShape.isRequired,
+  data: pieDataProp.isRequired,
 }
 
 export default injectStyles(styles)(LegendOnly)

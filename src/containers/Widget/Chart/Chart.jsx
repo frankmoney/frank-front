@@ -2,9 +2,8 @@ import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import CategoryListPieChart, {
-  dataPropShape,
-} from 'components/CategoryListPieChart'
+import CategoryListPieChart from 'components/CategoryListPieChart'
+import { pieDataProp } from 'data/models/charts'
 import LegendOnly from './LegendOnly'
 
 const pieOffset = R.cond([
@@ -104,7 +103,7 @@ const Chart = ({ classes, size, ...props }) =>
 
 Chart.propTypes = {
   categoryType: PropTypes.string.isRequired,
-  data: dataPropShape.isRequired,
+  data: pieDataProp.isRequired,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,
