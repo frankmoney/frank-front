@@ -13,8 +13,10 @@ const styles = theme => ({
     resize: 'none',
     outline: 'none',
     border: 'none',
-    borderBottom: ({ focus }) =>
-      `1px solid ${focus ? theme.colors.blue : '#E4E5E9'}`,
+    borderBottom: ({ disableUnderline, focus }) =>
+      disableUnderline
+        ? 'unset'
+        : `1px solid ${focus ? theme.colors.blue : '#E4E5E9'}`,
   },
 })
 

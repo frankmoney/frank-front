@@ -1,15 +1,14 @@
 import * as R from 'ramda'
 import { SORT_BY_DEFAULT } from './constants'
 
-const mapCategory = ({ countPayments, ...category }) => ({
+const mapCategory = ({ countPayments: { value }, ...category }) => ({
   ...category,
-  value: countPayments,
+  value,
 })
 
 const recipientDetails = `
     id
     name
-    
     categories {
       id
       name
@@ -18,23 +17,18 @@ const recipientDetails = `
         value
       }
     }
-    
     countPayments {
       value
     }
-    
     total {
       value
     }
-    
     revenue {
       value
     }
-    
     spending {
       value
     }
-    
     lastPaymentOn {
       value
     }
@@ -68,7 +62,6 @@ export default {
               id
               postedOn
               amount
-              peerName
               description
               category {
                 id
@@ -90,8 +83,8 @@ export default {
           payments,
           countPayments,
           total,
-          revenue,
-          spending,
+          revenue: { value: revenue },
+          spending: { value: spending },
           lastPaymentOn,
         },
       },
@@ -102,8 +95,8 @@ export default {
             name,
             categories: R.map(mapCategory, categories),
             total: total.value,
-            revenue: revenue.value,
-            spendings: -spending.value,
+            revenue,
+            spending: -spending,
             lastPaymentDate: lastPaymentOn.value,
           }
         : null,

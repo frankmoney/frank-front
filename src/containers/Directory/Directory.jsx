@@ -9,16 +9,15 @@ import { injectStyles } from '@frankmoney/ui'
 import {
   FixedHeader,
   BreadcrumbsItem,
-  Button,
-  Spinner,
   PageLoader,
 } from '@frankmoney/components'
 import Breadcrumbs from 'components/Breadcrumbs'
+import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import {
   hasNoResultsSelector,
   noResultsTextSelector,
   isLoadingSelector,
-  isUpdatingSelector,
+  listDisabledSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 import DirectorySearch from './DirectorySearch'
@@ -26,12 +25,12 @@ import DirectoryHighlightTextProvider from './DirectoryHighlightTextProvider'
 import DirectoryPager from './DirectoryPager'
 import RecipientsTable from './RecipientsTable'
 import styles from './Directory.jss'
-import DirectoryFilter from './DirectoryFilter/DirectoryFilter'
+import DirectoryFilter from './DirectoryFilter'
 
 const Directory = ({
   classes,
   className,
-  isUpdating,
+  listDisabled,
   noResults,
   noResultsText,
   resetSearch,
@@ -47,37 +46,23 @@ const Directory = ({
       <DirectorySearch
         placeholder="Start typing recipient or donor name…"
         className={classes.searchCard}
+        processing={listDisabled}
       />
-      {isUpdating && (
-        <div className={classes.listLoaderWrap}>
-          <Spinner className={classes.loader} />
-        </div>
-      )}
-      {!isUpdating && (
-        <DirectoryHighlightTextProvider>
-          <RecipientsTable />
-        </DirectoryHighlightTextProvider>
-      )}
+      <DirectoryHighlightTextProvider>
+        <RecipientsTable className={classes.table} />
+      </DirectoryHighlightTextProvider>
       {!noResults &&
-        !isUpdating && (
+        !listDisabled && (
           <div className={classes.tablePagerWrap}>
             <DirectoryPager className={classes.tablePager} />
           </div>
         )}
-      {!isUpdating &&
+      {!listDisabled &&
         noResults && (
-          <div className={classes.emptyPlaceholder}>
-            <div className={classes.emptyPlaceholderLabel}>
-              No {noResultsText} found
-            </div>
-            <Button
-              className={classes.footerButton}
-              fat
-              type="secondary"
-              label="Reset"
-              onClick={() => resetSearch()}
-            />
-          </div>
+          <TableEmptyPlaceholder
+            text={noResultsText}
+            onReset={() => resetSearch()}
+          />
         )}
     </div>
   </div>
@@ -85,7 +70,7 @@ const Directory = ({
 
 const mapStateToProps = createStructuredSelector({
   loading: isLoadingSelector,
-  isUpdating: isUpdatingSelector,
+  listDisabled: listDisabledSelector,
   noResults: hasNoResultsSelector,
   noResultsText: noResultsTextSelector,
 })

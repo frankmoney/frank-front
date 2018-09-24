@@ -1,6 +1,7 @@
+import * as R from 'ramda'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import * as ACTIONS from '../actions'
-import { PAGE_SIZE } from '../constants'
+import { PAGE_SIZE, SORT_BY } from '../constants'
 import QUERIES from '../queries'
 import {
   searchTextSelector,
@@ -19,7 +20,10 @@ export default (action$, store, { graphql }) =>
       const page = currentPageSelector(state)
       const recipients = includeRecipientsFilterSelector(state)
       const donors = includeDonorsFilterSelector(state)
-      const sortBy = sortByFilterSelector(state)
+      const sortBy = R.pipe(
+        R.find(R.propEq('query', sortByFilterSelector(state))),
+        R.prop('graph')
+      )(SORT_BY)
 
       return graphql(QUERIES.getDirectoryRecipients, {
         accountId: currentAccountIdSelector(store.getState()),

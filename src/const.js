@@ -40,3 +40,5 @@ export const ROUTES = {
 }
 
 export const BASE_TITLE = 'Frank'
+
+export const UNCATEGORIZED_COLOR = 'rgb(211, 213, 217)'
