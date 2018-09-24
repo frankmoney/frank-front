@@ -50,27 +50,27 @@ export default [
     exact: true,
   },
   {
-    component: withLayout(protectedRoute(Inbox)),
+    component: protectedRoute(withLayout(Inbox)),
     path: ROUTES.inbox.root,
     exact: true,
   },
   {
-    component: withLayout(protectedRoute(Ledger)),
+    component: protectedRoute(withLayout(Ledger)),
     path: ROUTES.ledger.root,
     exact: true,
   },
   {
-    component: withLayout(protectedRoute(Directory)),
+    component: protectedRoute(withLayout(Directory)),
     path: ROUTES.directory.root,
     exact: true,
   },
   {
-    component: withLayout(protectedRoute(ComposedRecipient)),
+    component: protectedRoute(withLayout(ComposedRecipient)),
     path: ROUTES.directory.recipient,
     exact: true,
   },
   {
-    component: withLayout(protectedRoute(Team)),
+    component: protectedRoute(withLayout(Team)),
     path: ROUTES.team.match,
     exact: true,
   },

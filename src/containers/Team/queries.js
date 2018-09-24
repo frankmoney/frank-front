@@ -20,9 +20,6 @@ const team = [
         firstName
         avatar
         role
-        admin
-        canInvite
-        accountIds
         acl {
           remove
           editRole

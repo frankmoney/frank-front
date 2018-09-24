@@ -3,7 +3,7 @@ import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { isValid as isFormValid, getFormValues } from 'redux-form/immutable'
 import { REDUCER_KEY } from './reducer'
-import { STEPS, CREDENTIALS_FORM, CREDENTIALS_STATUS } from './constants'
+import { STEPS, STEP_FORM, CREDENTIALS_STATUS, ACCOUNT_FORM } from './constants'
 
 const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
 
@@ -19,6 +19,19 @@ export const canGoBackSelector = createSelector(
     R.indexOf(R.__, STEPS),
     R.gt(R.__, 0)
   )
+)
+
+export const selectedBankIdSelector = get('stepData', 'selectedBank', 'code')
+export const selectedBankNameSelector = get('stepData', 'selectedBank', 'name')
+export const selectedBankWebsiteSelector = get(
+  'stepData',
+  'selectedBank',
+  'url'
+)
+export const selectedBankLogoSelector = get(
+  'stepData',
+  'selectedBank',
+  'mediumLogoUrl'
 )
 
 // Banks
@@ -38,23 +51,23 @@ export const filteredBankListSelector = createSelector(
       : list
 )
 
-export const selectedBankIdSelector = get('stepData', 'selectedBank', 'code')
-export const selectedBankNameSelector = get('stepData', 'selectedBank', 'name')
-export const selectedBankLogoSelector = get(
-  'stepData',
-  'selectedBank',
-  'mediumLogoUrl'
-)
-
-// Credentials
-const isCredentialsFormValid = isFormValid(CREDENTIALS_FORM)
+// Credentials && MFA
+const isCredentialsFormValid = isFormValid(STEP_FORM)
 export const credentialsFormSelector = createPlainObjectSelector(
-  getFormValues(CREDENTIALS_FORM)
+  getFormValues(STEP_FORM)
 )
 export const credentialsStatusSelector = get('stepData', 'status')
 export const isCredentialsCheckingSelector = createSelector(
   credentialsStatusSelector,
   R.equals(CREDENTIALS_STATUS.checking)
+)
+export const isCredentialsErrorSelector = createSelector(
+  credentialsStatusSelector,
+  R.contains(R.__, [
+    CREDENTIALS_STATUS.denied,
+    CREDENTIALS_STATUS.failed,
+    CREDENTIALS_STATUS.mfa,
+  ])
 )
 
 export const credentialsFieldsSelector = createPlainObjectSelector(
@@ -79,21 +92,42 @@ export const accountsSelector = createPlainObjectSelector(
 export const selectedAccountIdSelector = get('stepData', 'selectedAccountId')
 
 // Step: AccountInfo
-export const accountNameSelector = get('stepData', 'accountName')
+const isAccountInfoFormValid = isFormValid(ACCOUNT_FORM)
+export const accountInfoInitialValuesSelector = createSelector(
+  get('stepData', 'accountName'),
+  get('stepData', 'accountDescription'),
+  (name, description) => ({ name, description })
+)
+export const accountInfoFormSelector = createPlainObjectSelector(
+  getFormValues(ACCOUNT_FORM)
+)
 
 // Step: Team
-
+export const isInviteDrawerOpenSelector = get('stepData', 'inviteDrawerOpen')
 export const teamMembersSelector = createPlainObjectSelector(
-  get('team', 'list')
+  get('stepData', 'members')
 )
 
 export const canGoNextSelector = createSelector(
   currentStepSelector,
   selectedBankIdSelector,
+  isCredentialsCheckingSelector,
   isCredentialsFormValid,
   selectedAccountIdSelector,
-  (step, selectedBankId, isCredentialsValid, accountId) =>
+  isAccountInfoFormValid,
+  (
+    step,
+    selectedBankId,
+    isCredentialsChecking,
+    isCredentialsValid,
+    accountId,
+    isAccountInfoValid
+  ) =>
     (step === 'bank' && !!selectedBankId) ||
-    (step === 'credentials' && isCredentialsValid) ||
-    (step === 'account' && accountId)
+    (step === 'credentials' && isCredentialsValid && !isCredentialsChecking) ||
+    (step === 'mfa' && isCredentialsValid && !isCredentialsChecking) ||
+    (step === 'account' && accountId) ||
+    (step === 'accountInfo' && isAccountInfoValid) ||
+    step === 'categories' ||
+    step === 'team'
 )

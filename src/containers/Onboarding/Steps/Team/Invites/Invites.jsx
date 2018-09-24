@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
+import { ROLES } from 'const'
 
 const styles = theme => ({
   root: {
@@ -30,7 +31,7 @@ const Invites = ({ classes, className, invites }) => (
     {invites.map(({ email, role }) => (
       <div className={classes.item}>
         <div className={classes.email}>{email}</div>
-        <div className={classes.role}>{role}</div>
+        <div className={classes.role}>{ROLES.get(role).title}</div>
       </div>
     ))}
   </div>

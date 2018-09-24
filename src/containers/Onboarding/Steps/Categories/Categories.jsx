@@ -36,6 +36,8 @@ const Categories = ({
   onAddCategory,
   onEditCategory,
   onSubmitEdit,
+  onDeleteCategory,
+  onDeleteAll,
 }) => (
   <StepLayout
     className={cx(classes.root, className)}
@@ -54,18 +56,20 @@ const Categories = ({
       <br />in the account settings.
     </StepDescription>
     {categories &&
-      categories.length && (
+      categories.length > 0 && (
         <CategoriesList
           className={classes.list}
           categories={categories}
           onEdit={onEditCategory}
+          onDelete={onDeleteCategory}
+          onDeleteAll={onDeleteAll}
         />
       )}
     <EditCategoryDialog
       category={editingCategory}
       open={openEditDialog}
       onCancel={onCancelEdit}
-      onSubmit={onSubmitEdit}
+      onSubmitForm={onSubmitEdit}
     />
   </StepLayout>
 )
@@ -80,8 +84,10 @@ export default compose(
     {
       onAddCategory: ACTIONS.addNewCategory,
       onEditCategory: ACTIONS.editCategory,
+      onDeleteCategory: ACTIONS.removeCategory,
       onCancelEdit: ACTIONS.cancelEditCategory,
       onSubmitEdit: ACTIONS.submitEditCategory,
+      onDeleteAll: ACTIONS.cleanAllCategories,
     }
   ),
   injectStyles(styles)

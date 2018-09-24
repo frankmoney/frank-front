@@ -45,7 +45,7 @@ const CategoriesListItem = ({
   name,
   color,
   onEdit,
-  onRemove,
+  onDelete,
 }) => (
   <div className={cx(classes.root, className)}>
     <CategoryLabel
@@ -58,7 +58,7 @@ const CategoriesListItem = ({
       <EditIcon className={classes.toolbarButton} onClick={() => onEdit(id)} />
       <RemoveIcon
         className={classes.toolbarButton}
-        onClick={() => onRemove(id)}
+        onClick={() => onDelete(id)}
       />
     </div>
   </div>

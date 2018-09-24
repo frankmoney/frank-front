@@ -1,11 +1,9 @@
-import React from 'react'
 import * as R from 'ramda'
+import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
-import { compose, withPropsOnChange, branch, renderComponent } from 'recompose'
-import { reduxForm } from 'redux-form/immutable'
+import { branch, compose, renderComponent } from 'recompose'
 import reconnect from 'utils/reconnect'
-import { STEP_FORM } from '../../constants'
 import {
   credentialsFieldsSelector,
   isCredentialsCheckingSelector,
@@ -13,26 +11,21 @@ import {
 } from '../../selectors'
 import StepLayout from '../../StepLayout'
 import StepTitle from '../../StepTitle'
-import StepBankLogo from '../../StepBankLogo'
 import StepForm from '../../StepForm'
-import CredentialsFail from './CredentialsFail'
+import StepBankLogo from '../../StepBankLogo'
+import CredentialsFail from '../Credentials/CredentialsFail'
 
 const styles = {
   root: {},
+  answers: {
+    marginTop: 50,
+  },
 }
 
-const Credentials = ({ className, classes, fields, isChecking }) => (
-  <StepLayout
-    className={cx(classes.root, className)}
-    footerText={
-      isChecking
-        ? 'Verifying credentials... It’s can last from 5 to 60 seconds.'
-        : 'We never store account credentials'
-    }
-    backButtonText="Select another bank"
-  >
+const Verify = ({ className, classes, fields, isChecking }) => (
+  <StepLayout className={cx(classes.root, className)}>
     <StepBankLogo />
-    <StepTitle>Enter your credentials</StepTitle>
+    <StepTitle>Verify your identity</StepTitle>
     <StepForm fields={fields} isChecking={isChecking} />
   </StepLayout>
 )
@@ -45,4 +38,4 @@ export default compose(
   }),
   branch(R.prop('isError'), renderComponent(CredentialsFail)),
   injectStyles(styles)
-)(Credentials)
+)(Verify)

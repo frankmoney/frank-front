@@ -1,12 +1,15 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
-import { compose, withState } from 'recompose'
+import { compose } from 'recompose'
+import { reduxForm } from 'redux-form/immutable'
 import cx from 'classnames'
+import { required } from '@frankmoney/forms'
 import reconnect from 'utils/reconnect'
-import { accountNameSelector } from '../../selectors'
+import { accountInfoInitialValuesSelector } from '../../selectors'
 import StepLayout from '../../StepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription, { Em } from '../../StepDescription'
+import { ACCOUNT_FORM } from '../../constants'
 import TitleTextField from './TitleTextField'
 import DescriptionTextField from './DescriptionTextField'
 
@@ -24,14 +27,11 @@ const styles = {
   },
 }
 
-const AccountInfo = ({
-  className,
-  classes,
-  title,
-  description,
-  onTitleChange,
-  onDescriptionChange,
-}) => (
+const validation = {
+  name: [required],
+}
+
+const AccountInfo = ({ className, classes }) => (
   <StepLayout className={cx(classes.root, className)}>
     <StepTitle>Account info</StepTitle>
     <StepDescription>
@@ -44,24 +44,25 @@ const AccountInfo = ({
     </StepDescription>
     <TitleTextField
       className={classes.titleField}
+      name="name"
       placeholder="Account name..."
-      value={title}
-      onChange={event => onTitleChange(event.target.value)}
+      validate={validation.name}
     />
     <DescriptionTextField
       className={classes.descriptionField}
       placeholder="Description..."
-      value={description}
-      onChange={event => onDescriptionChange(event.target.value)}
+      name="description"
+      validate={validation.description}
     />
   </StepLayout>
 )
 
 export default compose(
   reconnect({
-    accountName: accountNameSelector,
+    initialValues: accountInfoInitialValuesSelector,
   }),
   injectStyles(styles),
-  withState('title', 'onTitleChange', props => props.accountName),
-  withState('description', 'onDescriptionChange')
+  reduxForm({
+    form: ACCOUNT_FORM,
+  })
 )(AccountInfo)
