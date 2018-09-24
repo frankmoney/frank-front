@@ -3,13 +3,13 @@ import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
 import { isSameYear, format } from 'date-fns/fp'
+import { remapPieData, sumProp } from 'data/models/pieData'
 import { parseDate, formatMonth, parseMonth } from 'utils/dates'
 import {
   parseQueryStringNumber,
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
-import { remapPieData, sumProp } from 'utils/pieData'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 

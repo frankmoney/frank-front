@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
-import { remapPieData, sumProp } from 'utils/pieData'
+import { remapPieData, sumProp } from 'data/models/pieData'
 import { REDUCER_KEY } from './reducer'
 
 const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])

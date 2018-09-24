@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { convertGraphqlPieData } from 'utils/pieData'
+import { convertGraphqlPieData } from 'data/models/pieData'
 
 export default {
   getPaymentsAndTotalCount: ({
