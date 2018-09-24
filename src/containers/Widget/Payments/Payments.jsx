@@ -17,13 +17,13 @@ const styles = {
 }
 
 const dateProp = R.prop('postedOn')
-const fullMonth = R.pipe(
+const fullMonthProp = R.pipe(
   dateProp,
   D.format('MMMM')
 )
 const groupPayments = R.pipe(
   R.sortBy(dateProp),
-  R.groupBy(fullMonth),
+  R.groupBy(fullMonthProp),
   R.toPairs,
   R.addIndex(R.map)(([title, items], key) => ({
     items,

@@ -9,7 +9,7 @@ import {
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
-import { remapPieData, totalExpensesFrom, totalIncomeFrom } from 'utils/pieData'
+import { remapPieData, sumProp } from 'utils/pieData'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
@@ -171,11 +171,16 @@ export const barChartDataSelector = createSelector(
   )
 )
 
-// из [category{name,color},income,expenses] в {income|spending: [{color,name,value}]} где value процент от всех income|spending
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
 
-const totalExpensesSelector = totalExpensesFrom(rawPieDataSelector)
-const totalIncomeSelector = totalIncomeFrom(rawPieDataSelector)
+const totalExpensesSelector = createSelector(
+  rawPieDataSelector,
+  sumProp('expenses')
+)
+const totalIncomeSelector = createSelector(
+  rawPieDataSelector,
+  sumProp('income')
+)
 
 export const pieChartDataSelector = createSelector(
   rawPieDataSelector,

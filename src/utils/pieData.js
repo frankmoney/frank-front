@@ -1,22 +1,9 @@
 import * as R from 'ramda'
-import { createSelector } from 'reselect'
 
-export const totalExpensesFrom = selector =>
-  createSelector(
-    selector,
-    R.pipe(
-      R.map(R.prop('expenses')),
-      R.sum
-    )
-  )
-
-export const totalIncomeFrom = selector =>
-  createSelector(
-    selector,
-    R.pipe(
-      R.map(R.prop('income')),
-      R.sum
-    )
+export const sumProp = propName =>
+  R.pipe(
+    R.map(R.prop(propName)),
+    R.sum
   )
 
 const percentOf = (value, total) => Math.round((100 * value) / total)

@@ -2,7 +2,9 @@ import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import LegendPieChart, { dataPropShape } from 'components/LegendPieChart'
+import CategoryListPieChart, {
+  dataPropShape,
+} from 'components/CategoryListPieChart'
 import LegendOnly from './LegendOnly'
 
 const pieOffset = R.cond([
@@ -70,7 +72,7 @@ const ActualChart = ({
 }) => {
   const switcherLabel = size < 800 ? '% of' : '% of total'
   return (
-    <LegendPieChart
+    <CategoryListPieChart
       categoryType={categoryType}
       chartClassName={classes.chart}
       chartSize={pieSize(size)}

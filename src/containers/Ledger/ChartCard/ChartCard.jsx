@@ -3,9 +3,9 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
-import LegendPieChart, {
+import CategoryListPieChart, {
   dataPropShape as pieDataShape,
-} from 'components/LegendPieChart'
+} from 'components/CategoryListPieChart'
 import BarChart, { barDataShape } from './BarChart'
 import ExpandRow from './ExpandRow'
 import Title from './Title'
@@ -47,7 +47,7 @@ class ChartCard extends React.PureComponent {
           <BarChart className={classes.barChart} data={barsData} />
         ) : (
           <>
-            <LegendPieChart
+            <CategoryListPieChart
               categoryType={categoryType}
               chartClassName={classes.chart}
               data={pieData}

@@ -9,13 +9,13 @@ import DropdownSwitcher from 'components/DropdownSwitcher'
 import Pie from 'components/Charts/Pie'
 import { limitCategoriesTo, DEFAULT_LIMIT } from 'utils/limitCategories'
 import PeriodSelector from './PeriodSelector'
-import styles from './LegendPieChart.jss'
+import styles from './CategoryListPieChart.jss'
 
 const CATEGORY_TYPES = [{ key: 'income' }, { key: 'spending' }]
 
 const roundValues = R.over(R.lensProp('value'), Math.round)
 
-class LegendPieChart extends React.PureComponent {
+class CategoryListPieChart extends React.PureComponent {
   state = {
     activeKey: null,
   }
@@ -129,7 +129,7 @@ export const dataPropShape = PropTypes.objectOf(
   PropTypes.arrayOf(pieChartDataShape)
 )
 
-LegendPieChart.propTypes = {
+CategoryListPieChart.propTypes = {
   categoryLimit: PropTypes.number.isRequired,
   categoryType: PropTypes.string.isRequired,
   chartSize: PropTypes.number.isRequired,
@@ -150,10 +150,10 @@ LegendPieChart.propTypes = {
   switcherLabel: PropTypes.string,
 }
 
-LegendPieChart.defaultProps = {
+CategoryListPieChart.defaultProps = {
   categoryLimit: DEFAULT_LIMIT,
   chartSize: 350,
   switcherLabel: '% of total',
 }
 
-export default injectStyles(styles)(LegendPieChart)
+export default injectStyles(styles)(CategoryListPieChart)
