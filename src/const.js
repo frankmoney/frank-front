@@ -1,5 +1,3 @@
-import { OrderedMap } from 'immutable'
-
 // eslint-disable-next-line import/prefer-default-export
 export const ROUTES = {
   root: '/',
@@ -14,6 +12,12 @@ export const ROUTES = {
   },
   ledger: {
     root: '/ledger',
+  },
+  stories: {
+    root: '/stories',
+    storyPreview: '/story/:id?',
+    storyEdit: '/story/:id?/edit',
+    storyNew: '/story/new',
   },
   directory: {
     root: '/directory',
@@ -40,6 +44,12 @@ export const ROUTES = {
     },
     widgets: '/demo/widgets',
   },
+}
+
+export const LS_FLAGS = {
+  // UX Design: Every time after user (moderator) publish story, after redirect
+  // to stories page - share dialog should be shown
+  lastPublishedStoryUrl: 'ui/lastPublishedStoryUrl',
 }
 
 export const ACCOUNT_COOKIE_NAME = 'account-id'

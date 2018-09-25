@@ -1,10 +1,12 @@
 import React from 'react'
+import { AttachMoney as DollarIcon } from 'material-ui-icons'
 import CurrencyContext from 'contexts/CurrencyContext'
 
 const CURRENCY_INFO = {
   USD: {
     code: 'USD',
     symbol: '$',
+    icon: DollarIcon,
     position: 'before',
   },
   RUB: {

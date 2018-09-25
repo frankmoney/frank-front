@@ -36,6 +36,7 @@ const TextBox = ({
   controlRef,
   children,
   expand,
+  disableUnderline,
   minLines,
   ...otherProps
 }) => {
@@ -61,6 +62,10 @@ const TextBox = ({
         />
       )
   }
+}
+
+TextBox.defaultProps = {
+  disableUnderline: false,
 }
 
 const adjustTextareaSize = element => {
