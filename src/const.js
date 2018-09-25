@@ -46,13 +46,23 @@ export const ACCOUNT_COOKIE_NAME = 'account-id'
 
 export const BASE_TITLE = 'Frank'
 
-export const ROLES = OrderedMap(
-  [
-    { role: 'administrator', title: 'Administrator' },
-    { role: 'manager', title: 'Manager' },
-    { role: 'observer', title: 'Observer' },
-  ].map(item => [item.role, item])
-)
+export const TEAM_ROLES = {
+  administrator: 'administrator',
+  manager: 'manager',
+  observer: 'observer',
+}
+
+export const TEAM_ROLE_TITLES = {
+  [TEAM_ROLES.administrator]: 'Administrator',
+  [TEAM_ROLES.manager]: 'Manager',
+  [TEAM_ROLES.observer]: 'Observer',
+}
+
+export const ORDERED_TEAM_ROLES = [
+  TEAM_ROLES.administrator,
+  TEAM_ROLES.manager,
+  TEAM_ROLES.observer,
+]
 
 export const UNCATEGORIZED_COLOR = 'rgb(211, 213, 217)'
 

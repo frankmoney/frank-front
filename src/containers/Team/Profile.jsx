@@ -5,7 +5,7 @@ import { omitProps } from '@frankmoney/utils'
 import cx from 'classnames'
 import * as R from 'ramda'
 import { compose, withPropsOnChange } from 'recompose'
-import { ROLES } from 'const'
+import { ORDERED_TEAM_ROLES, TEAM_ROLE_TITLES } from 'const'
 import reconnect from 'utils/reconnect'
 import ACTIONS from './actions'
 import styles from './Profile.jss'
@@ -42,8 +42,8 @@ const Profile = ({
         onChange={onMenuSelectChange}
       >
         {roles.map(x => (
-          <Select2.Option key={x.role} value={x.role}>
-            {x.title}
+          <Select2.Option key={x} value={x}>
+            {TEAM_ROLE_TITLES[x]}
           </Select2.Option>
         ))}
         {remove && (
@@ -77,7 +77,7 @@ export default compose(
   withPropsOnChange(
     ['profile'],
     ({ profile: { role }, acl: { editRole } }) => ({
-      roles: editRole ? Array.from(ROLES.values()) : [ROLES.get(role)],
+      roles: editRole ? ORDERED_TEAM_ROLES : [role],
     })
   ),
   injectStyles(styles),

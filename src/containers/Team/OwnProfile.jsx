@@ -6,7 +6,7 @@ import cx from 'classnames'
 import LockIcon from 'material-ui-icons/Lock'
 import * as R from 'ramda'
 import { compose } from 'recompose'
-import { ROLES } from 'const'
+import { TEAM_ROLE_TITLES } from 'const'
 import reconnect from 'utils/reconnect'
 import Paper from './Paper'
 import ACTIONS from './actions'
@@ -32,7 +32,7 @@ const OwnProfile = ({
       </div>
       <div className={email}>{email}</div>
     </div>
-    <div className={classes.role}>{ROLES.get(role).title}</div>
+    <div className={classes.role}>{TEAM_ROLE_TITLES[role]}</div>
     <div className={classes.footer}>
       <Button
         className={classes.changePasswordButton}
