@@ -6,6 +6,7 @@ import CloseIcon from './CloseIcon.svg'
 const styles = {
   root: {
     marginLeft: 20,
+    marginTop: 13,
     cursor: 'pointer',
     color: '#D8D8D8',
     stroke: '#D8D8D8',
