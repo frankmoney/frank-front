@@ -71,7 +71,7 @@ export default [
   },
   {
     component: protectedRoute(withLayout(Team)),
-    path: ROUTES.team.match,
+    path: ROUTES.team.root,
     exact: true,
   },
   {
