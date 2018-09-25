@@ -62,7 +62,7 @@ class Field extends React.Component {
     const {
       classes,
       className,
-      label,
+      label: FieldCustomLabel,
       title,
       hint,
       children,
@@ -80,7 +80,7 @@ class Field extends React.Component {
 
     let labelNode
     if (this.props.label) {
-      labelNode = label
+      labelNode = <FieldCustomLabel />
     } else if (title) {
       labelNode = <FieldLabel title={title} hint={hint} />
     }

@@ -5,13 +5,13 @@ import { reduxForm } from 'redux-form/immutable'
 import cx from 'classnames'
 import { required } from '@frankmoney/forms'
 import reconnect from 'utils/reconnect'
+import TitleTextField from 'controls/forms/TitleField'
+import DescriptionTextField from 'controls/forms/DescriptionField'
 import { accountInfoInitialValuesSelector } from '../../selectors'
 import StepLayout from '../../StepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription, { Em } from '../../StepDescription'
 import { ACCOUNT_FORM } from '../../constants'
-import TitleTextField from './TitleTextField'
-import DescriptionTextField from './DescriptionTextField'
 
 const styles = {
   root: {

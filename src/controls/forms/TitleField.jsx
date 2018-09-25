@@ -1,11 +1,10 @@
 import React from 'react'
 import cx from 'classnames'
 import { withProps } from 'recompose'
-import { Field } from 'redux-form/immutable'
 import { Title as TitleIcon } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
 import { FieldWithIcon as FieldContainer } from 'components/Field'
-import TextBox from 'components/TextBox'
+import TextBox from 'components/forms/TextBoxField'
 import FieldIcon from 'components/FieldIcon'
 
 const styles = theme => ({
@@ -18,7 +17,7 @@ const styles = theme => ({
 
 const TitleIconLabel = withProps({ iconComponent: TitleIcon })(FieldIcon)
 
-const TextField = ({ classes, className, placeholder, input }) => (
+const TitleField = ({ classes, className, placeholder, ...props }) => (
   <FieldContainer
     label={TitleIconLabel}
     className={cx(classes.title, className)}
@@ -27,15 +26,9 @@ const TextField = ({ classes, className, placeholder, input }) => (
       className={classes.titleTextBox}
       placeholder={placeholder}
       disableUnderline
-      {...input}
+      {...props}
     />
   </FieldContainer>
 )
 
-const StyledTextField = injectStyles(styles)(TextField)
-
-const TitleField = ({ ...props }) => (
-  <Field component={StyledTextField} {...props} />
-)
-
-export default TitleField
+export default injectStyles(styles)(TitleField)
