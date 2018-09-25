@@ -5,7 +5,7 @@ export const ROUTES = {
   auth: {
     login: '/sign-in',
     recoverPassword: '/recover-password',
-    logout: '/sign-out',
+    logout: '/logout',
   },
   inbox: {
     root: '/inbox',
@@ -42,6 +42,65 @@ export const ROUTES = {
   },
 }
 
+export const ACCOUNT_COOKIE_NAME = 'account-id'
+
 export const BASE_TITLE = 'Frank'
 
 export const UNCATEGORIZED_COLOR = 'rgb(211, 213, 217)'
+
+export const CATEGORY_COLORS = {
+  '#3240A8': 'Navy Blue',
+  '#8725FB': 'Purple',
+  '#FF27A9': 'Pink',
+  '#EE4542': 'Red',
+  '#FF7970': 'Coral',
+  '#FF8F00': 'Orange',
+  '#F2B90E': 'Yellow',
+  '#95D832': 'Lime Green',
+  '#14D3DF': 'Turquoise',
+  '#000000': 'Black',
+  '#574D43': 'Brown',
+  '#CAB268': 'Sorrell Brown',
+}
+
+export const DEFAULT_CATEGORIES = [
+  {
+    name: 'Certification',
+    color: '#fde282',
+  },
+  {
+    name: 'Taxes',
+    color: '#ffb54c',
+  },
+  {
+    name: 'Product development',
+    color: '#3cd5c1',
+  },
+  {
+    name: 'Product design',
+    color: '#0aaddb',
+  },
+  {
+    name: 'Fundraising events',
+    color: '#00bd6a',
+  },
+  {
+    name: 'Operating expenses',
+    color: '#b259ad',
+  },
+  {
+    name: 'Administrative expenses',
+    color: '#0a70dd',
+  },
+]
+export const TEAM_ROLE = {
+  observer: 'observer',
+  admin: 'administrator',
+  manager: 'manager',
+}
+
+export const TEAM_ROLE_TEXT = {
+  [TEAM_ROLE.observer]: 'Observer',
+  [TEAM_ROLE.admin]: 'Administrator',
+  [TEAM_ROLE.manager]: 'Manager',
+}

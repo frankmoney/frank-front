@@ -9,6 +9,8 @@ import { categoryProps } from 'utils/limitCategories'
 const styles = {
   root: {
     color: ({ color }) => color,
+    display: 'flex',
+    alignItems: 'center',
   },
   icon: {
     height: 16,

@@ -1,35 +1,48 @@
 import React from 'react'
+import * as R from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
-import { TextField } from '@frankmoney/components'
+import { compose, withPropsOnChange, branch, renderComponent } from 'recompose'
+import { reduxForm } from 'redux-form/immutable'
+import reconnect from 'utils/reconnect'
+import { STEP_FORM } from '../../constants'
+import {
+  credentialsFieldsSelector,
+  isCredentialsCheckingSelector,
+  isCredentialsErrorSelector,
+} from '../../selectors'
 import StepLayout from '../../StepLayout'
 import StepTitle from '../../StepTitle'
 import StepBankLogo from '../../StepBankLogo'
+import StepForm from '../../StepForm'
+import CredentialsFail from './CredentialsFail'
 
 const styles = {
   root: {},
-  form: {
-    marginTop: 50,
-  },
-  field: {
-    marginTop: 30,
-    width: 370,
-    display: 'flex',
-  },
 }
 
-const Credentials = ({ className, classes }) => (
+const Credentials = ({ className, classes, fields, isChecking }) => (
   <StepLayout
     className={cx(classes.root, className)}
-    footerText="We don’t store your credentials, we transfer it to the aggregation system."
+    footerText={
+      isChecking
+        ? 'Verifying credentials... It’s can last from 5 to 60 seconds.'
+        : 'We never store account credentials'
+    }
+    backButtonText="Select another bank"
   >
     <StepBankLogo />
     <StepTitle>Enter your credentials</StepTitle>
-    <div className={classes.form}>
-      <TextField autoFocus className={classes.field} label="Login" />
-      <TextField className={classes.field} label="Password" type="password" />
-    </div>
+    <StepForm fields={fields} isChecking={isChecking} />
   </StepLayout>
 )
 
-export default injectStyles(styles)(Credentials)
+export default compose(
+  reconnect({
+    fields: credentialsFieldsSelector,
+    isChecking: isCredentialsCheckingSelector,
+    isError: isCredentialsErrorSelector,
+  }),
+  branch(R.prop('isError'), renderComponent(CredentialsFail)),
+  injectStyles(styles)
+)(Credentials)

@@ -27,6 +27,7 @@ export default theme => ({
     padding: [0, 20],
     boxShadow: '0px -1px 0px rgba(37, 43, 67, 0.08)',
   },
+  footerButtonWrap: {},
   footerText: {
     color: '#20284A',
     opacity: 0.4,

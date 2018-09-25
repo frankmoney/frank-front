@@ -4,7 +4,7 @@ import { withProps } from 'recompose'
 import { Title as TitleIcon } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
 import { FieldWithIcon as FieldContainer } from 'components/Field'
-import TextBox from 'components/TextBox'
+import TextBox from 'components/forms/TextBoxField'
 import FieldIcon from 'components/FieldIcon'
 
 const styles = theme => ({

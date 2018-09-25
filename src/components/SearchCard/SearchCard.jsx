@@ -12,9 +12,9 @@ const SearchCard = ({
   onChange,
   value,
   placeholder,
-  processing,
+  loading,
 }) => (
-  <Paper className={cx(classes.card, className)}>
+  <Paper className={cx(classes.root, className)}>
     <SearchIcon className={classes.icon} />
     <TextBox
       className={classes.field}
@@ -23,7 +23,7 @@ const SearchCard = ({
       placeholder={placeholder}
       disableUnderline
     />
-    {processing && <Spinner className={classes.loader} />}
+    {loading && <Spinner className={classes.spinner} />}
   </Paper>
 )
 

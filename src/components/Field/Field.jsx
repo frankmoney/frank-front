@@ -5,7 +5,7 @@ import FieldLabel from 'components/FieldLabel'
 
 const styles = {
   root: {
-    display: 'inline-block',
+    display: props => (props.stretch ? 'block' : 'inline-block'),
   },
 }
 
@@ -66,6 +66,7 @@ class Field extends React.Component {
       title,
       hint,
       children,
+      stretch,
       // omit
       onClick,
       onFocus,

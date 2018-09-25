@@ -55,7 +55,7 @@ const Ledger = ({
         <LedgerSearch
           placeholder="Start typing a category, recipient or part of a description..."
           className={classes.searchCard}
-          processing={listDisabled}
+          loading={listDisabled}
         />
         {!listDisabled && (
           <ConnectedChartCard className={classes.overviewCard} />

@@ -1,22 +1,63 @@
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
+import { injectStyles } from '@frankmoney/ui'
+import { compose } from 'recompose'
+import { GiantButton } from '@frankmoney/components'
+import reconnect from 'utils/reconnect'
 import StepLayout from '../../StepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription from '../../StepDescription'
+import {
+  isInviteDrawerOpenSelector,
+  teamMembersSelector,
+} from '../../selectors'
+import * as ACTIONS from '../../actions'
+import InviteDrawer from './InviteDrawer'
+import Invites from './Invites'
 
 const styles = {
   root: {},
+  inviteButton: {
+    width: 550,
+    marginTop: 50,
+  },
+  list: {
+    marginTop: 40,
+  },
 }
 
-const Team = ({ className, classes }) => (
+const Team = ({
+  className,
+  classes,
+  members,
+  drawerOpen,
+  onAddMemberClick,
+  onCloseDrawer,
+}) => (
   <StepLayout className={cx(classes.root, className)}>
     <StepTitle>Invite teammates</StepTitle>
     <StepDescription>
       Invite your team members and assign roles to work together faster<br />
       and avoid bottlenecks in your workflow
     </StepDescription>
+    <GiantButton className={classes.inviteButton} onClick={onAddMemberClick}>
+      Invite a teammate
+    </GiantButton>
+    <Invites className={classes.list} invites={members} />
+    <InviteDrawer open={drawerOpen} onClose={onCloseDrawer} />
   </StepLayout>
 )
 
-export default injectStyles(styles)(Team)
+export default compose(
+  reconnect(
+    {
+      members: teamMembersSelector,
+      drawerOpen: isInviteDrawerOpenSelector,
+    },
+    {
+      onAddMemberClick: () => ACTIONS.openInvite(),
+      onCloseDrawer: ACTIONS.closeInvite,
+    }
+  ),
+  injectStyles(styles)
+)(Team)

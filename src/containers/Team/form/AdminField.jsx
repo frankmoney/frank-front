@@ -3,7 +3,7 @@ import { Switch } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import InfoIcon from 'material-ui-icons/InfoOutline'
 import colors from 'styles/colors'
-import Field from './Field'
+import DrawerField from 'components/DrawerField'
 
 const styles = {
   infoIcon: {
@@ -17,7 +17,7 @@ const styles = {
 }
 
 const AdminField = ({ classes, checked, onChange }) => (
-  <Field
+  <DrawerField
     title={
       <>
         Administrator
@@ -30,7 +30,7 @@ const AdminField = ({ classes, checked, onChange }) => (
       checked={checked}
       onChange={({ target }) => onChange(target.checked)}
     />
-  </Field>
+  </DrawerField>
 )
 
 export default injectStyles(styles)(AdminField)
