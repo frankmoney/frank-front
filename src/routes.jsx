@@ -15,6 +15,7 @@ import StoryEdit from 'containers/StoryEdit'
 import Directory from 'containers/Directory'
 import Recipient from 'containers/Recipient'
 import Team from 'containers/Team'
+import Onboarding from 'containers/Onboarding'
 import demoRoutes from 'demo/routes'
 import { BASE_TITLE, ROUTES } from './const'
 
@@ -35,14 +36,12 @@ const protectedRoute = compose(
 )
 
 const ComposedStoryEdit = compose(
-  withLayout,
   withProps(props => ({
     storyId: props.match.params.id,
   }))
 )(StoryEdit)
 
 const ComposedStoryPreview = compose(
-  withLayout,
   withProps(props => ({
     storyId: props.match.params.id,
   }))
@@ -66,48 +65,53 @@ export default [
     exact: true,
   },
   {
-    component: withLayout(protectedRoute(Inbox)),
+    component: protectedRoute(withLayout(Inbox)),
     path: ROUTES.inbox.root,
     exact: true,
   },
   {
-    component: withLayout(protectedRoute(Ledger)),
+    component: protectedRoute(withLayout(Ledger)),
     path: ROUTES.ledger.root,
     exact: true,
   },
   {
-    component: withLayout(protectedRoute(Directory)),
+    component: protectedRoute(withLayout(Directory)),
     path: ROUTES.directory.root,
     exact: true,
   },
   {
-    component: withLayout(protectedRoute(ComposedRecipient)),
+    component: protectedRoute(withLayout(ComposedRecipient)),
     path: ROUTES.directory.recipient,
     exact: true,
   },
   {
-    component: withLayout(Stories),
+    component: protectedRoute(withLayout(Stories)),
     path: ROUTES.stories.root,
     exact: true,
   },
   {
-    component: withLayout(StoryEdit),
+    component: protectedRoute(withLayout(StoryEdit)),
     path: ROUTES.stories.storyNew,
     exact: true,
   },
   {
-    component: ComposedStoryEdit,
+    component: protectedRoute(withLayout(ComposedStoryEdit)),
     path: ROUTES.stories.storyEdit,
     exact: true,
   },
   {
-    component: ComposedStoryPreview,
+    component: protectedRoute(withLayout(ComposedStoryPreview)),
     path: ROUTES.stories.storyPreview,
     exact: true,
   },
   {
-    component: withLayout(protectedRoute(Team)),
-    path: ROUTES.team.match,
+    component: protectedRoute(withLayout(Team)),
+    path: ROUTES.team.root,
+    exact: true,
+  },
+  {
+    component: protectedRoute(Onboarding),
+    path: ROUTES.onboarding.root,
     exact: true,
   },
   ...demoRoutes,

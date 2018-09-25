@@ -2,8 +2,8 @@ import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import PieChart, { dataPropShape } from 'containers/PieChart'
-import Footer from './Footer'
+import CategoryListPieChart from 'components/CategoryListPieChart'
+import { pieDataProp } from 'data/models/charts'
 import LegendOnly from './LegendOnly'
 
 const pieOffset = R.cond([
@@ -28,6 +28,9 @@ const pieSize = R.cond([
 ])
 
 const styles = theme => ({
+  root: {
+    paddingTop: 20, // centering the chart vertically
+  },
   switcher500: {
     fontSize: 15,
     whiteSpace: 'nowrap',
@@ -58,24 +61,22 @@ const styles = theme => ({
 const ActualChart = ({
   categoryType,
   classes,
-  entriesCount,
+  data,
   onCategoryClick,
   onCategoryTypeChange,
   onPeriodChange,
   period,
   periods,
-  pieData,
   size,
 }) => {
   const switcherLabel = size < 800 ? '% of' : '% of total'
   return (
-    <PieChart
+    <CategoryListPieChart
       categoryType={categoryType}
       chartClassName={classes.chart}
       chartSize={pieSize(size)}
-      data={pieData}
-      entriesCount={entriesCount}
-      footer={Footer}
+      className={classes.root}
+      data={data}
       hideChart={size === 400}
       legendClassName={classes.legend}
       legendIconClassName={classes.legendIcon}
@@ -93,23 +94,21 @@ const ActualChart = ({
   )
 }
 
-const Chart = ({ size, ...props }) => {
-  if (size > 400) {
-    return <ActualChart size={size} {...props} />
-  }
-  const { pieData, classes, ...otherProps } = props
-  return <LegendOnly data={pieData} {...otherProps} />
-}
+const Chart = ({ classes, size, ...props }) =>
+  size > 400 ? (
+    <ActualChart size={size} classes={classes} {...props} />
+  ) : (
+    <LegendOnly {...props} />
+  )
 
 Chart.propTypes = {
   categoryType: PropTypes.string.isRequired,
-  entriesCount: PropTypes.number.isRequired,
+  data: pieDataProp.isRequired,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,
   period: PropTypes.string.isRequired,
   periods: PropTypes.arrayOf(PropTypes.string).isRequired,
-  pieData: dataPropShape.isRequired,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
 }
 

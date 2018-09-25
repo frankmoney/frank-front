@@ -13,13 +13,13 @@ const styles = {
   },
 }
 
-const ProfileList = ({ classes, profiles, onEditRole }) => (
+const ProfileList = ({ classes, profiles }) => (
   <Paper className={classes.root}>
     {profiles &&
-      profiles.map((profile, index) => (
+      profiles.map(({ acl, ...profile }, index) => (
         <Fragment key={profile.id}>
           {!index || <hr className={classes.separator} />}
-          <Profile {...profile} onEditRole={onEditRole} />
+          <Profile profile={profile} acl={acl} />
         </Fragment>
       ))}
   </Paper>

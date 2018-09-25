@@ -14,12 +14,12 @@ import { createStructuredSelector } from 'reselect'
 import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Breadcrumbs from 'components/Breadcrumbs'
+import ConnectedChartCard from './ConnectedChartCard'
 import LedgerHighlightTextProvider from './LedgerHighlightTextProvider'
 import LedgerPager from './LedgerPager'
 import LedgerSearch from './LedgerSearch'
-import LedgerOverviewCard from './LedgerOverviewCard'
-import styles from './Ledger.jss'
 import LedgerTable from './LedgerTable'
+import styles from './Ledger.jss'
 import {
   isLoadingSelector,
   listDisabledSelector,
@@ -55,10 +55,10 @@ const Ledger = ({
         <LedgerSearch
           placeholder="Start typing a category, recipient or part of a description..."
           className={classes.searchCard}
-          processing={listDisabled}
+          loading={listDisabled}
         />
         {!listDisabled && (
-          <LedgerOverviewCard className={classes.overviewCard} />
+          <ConnectedChartCard className={classes.overviewCard} />
         )}
         <LedgerHighlightTextProvider>
           <LedgerTable className={classes.table} />

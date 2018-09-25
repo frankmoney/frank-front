@@ -1,9 +1,10 @@
 export default {
-  card: {
+  root: {
     alignItems: 'center',
     display: 'flex',
     height: 60,
-    padding: [0, 20, 0, 11],
+    padding: [0, 11],
+    position: 'relative',
   },
   field: {
     flex: [2, 1],
@@ -18,8 +19,11 @@ export default {
     marginRight: 15,
     color: 'rgba(0,0,0,0.2)',
   },
-  loader: {
-    width: 20,
-    height: 20,
+  spinner: {
+    position: 'absolute',
+    right: 15,
+    top: 18,
+    width: 24,
+    height: 24,
   },
 }

@@ -6,29 +6,32 @@ import ChartIcon from '../Chart.svg'
 
 const styles = {
   root: {
-    alignItems: 'center',
     display: 'flex',
     justifyContent: 'space-between',
-    lineHeight: 20,
-    padding: [0, 1, 0, 2],
+    lineHeight: 17,
+    minHeight: 18,
+    padding: [0, 2, 0, 2],
+    whiteSpace: 'pre',
   },
   content: {
     color: '#9295A1',
-    alignItems: 'center',
     display: 'flex',
-    whiteSpace: 'pre',
   },
   icon: {
     color: '#252B43',
-    marginRight: 14,
+    margin: [-1, 14, 0, 0],
   },
   number: {
     color: '#252B43',
   },
   seeAll: {
-    marginLeft: 10,
     color: '#484DE7',
     cursor: 'pointer',
+    outline: 'none',
+    marginLeft: 5,
+    '$fixed &': {
+      marginLeft: 10,
+    },
   },
   verified: {
     color: '#9295A1',
@@ -43,6 +46,7 @@ const Footer = ({
   className,
   paymentCount,
   categoryCount,
+  onSeeAllClick,
   seeAllClassName,
 }) => (
   <div className={cx(classes.root, className)}>
@@ -57,7 +61,14 @@ const Footer = ({
           {' categories'}
         </>
       )}
-      <a className={cx(classes.seeAll, seeAllClassName)}>See all</a>
+      <a
+        className={cx(classes.seeAll, seeAllClassName)}
+        onClick={onSeeAllClick}
+        role="button"
+        tabIndex={0}
+      >
+        See all
+      </a>
     </div>
     <div className={classes.verified}>
       Verified by <span className={classes.frank}>Frank</span>
@@ -68,6 +79,10 @@ const Footer = ({
 Footer.propTypes = {
   categoryCount: PropTypes.number,
   paymentCount: PropTypes.number.isRequired,
+}
+
+PropTypes.defaultProps = {
+  fixed: true,
 }
 
 export default injectStyles(styles)(Footer)

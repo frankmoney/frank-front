@@ -9,6 +9,7 @@ import { PageLayout, ReduxNavLink } from '@frankmoney/webapp'
 import { compose, withProps } from 'recompose'
 import CurrencyProvider from 'components/CurrencyProvider'
 import { ROUTES } from 'const'
+import AccountSidebarBottomMenu from './AccountSidebarBottomMenu'
 
 const Layout = props => (
   <CurrencyProvider code="USD">
@@ -19,6 +20,7 @@ const Layout = props => (
 export default withProps({
   sidebarComponent: compose(
     withProps({
+      BottomMenuComponent: AccountSidebarBottomMenu,
       renderMainMenuItems: () => (
         <>
           {/* <SidebarMenuItem */}

@@ -7,13 +7,15 @@ import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
+import PeriodSelector from 'components/CategoryListPieChart/PeriodSelector'
 import colors from 'styles/colors'
 import Bar from 'components/Charts/Bar'
-import PeriodSelector from 'containers/PieChart/PeriodSelector'
 import { Header, HeaderItem, CategoryName } from './Header'
-import OverviewChart from './Chart'
+import OverviewChart, { Footer } from './Chart'
+import Payments from './Payments'
 import {
   barChartDataSelector,
+  categoryCountSelector,
   categoryTypeSelector,
   currentCategoryColorSelector,
   currentCategoryNameSelector,
@@ -52,14 +54,35 @@ const styles = theme => ({
     minHeight: 550,
     width: 800,
   },
-  paymentsPeriodSelect: {
+  content: {
     display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    overflowY: 'scroll',
+    margin: [0, -15],
+    padding: [0, 15],
+  },
+  paymentsPeriodSelect: {
     marginTop: 4,
+    paddingLeft: 2,
+    textAlign: 'left',
   },
   barChart: {
     margin: [10, 'auto', 0],
     '$size500 &': {
       margin: [10, -3, 0],
+    },
+  },
+  payments: {
+    margin: [-5, 'auto', 0],
+    width: 550,
+    '$size400 &': {
+      margin: [4, -8, 0],
+      width: 'auto',
+    },
+    '$size500 &': {
+      margin: [-5, -8, 0],
+      width: 'auto',
     },
   },
 })
@@ -81,6 +104,7 @@ class InlineWidget extends React.PureComponent {
   render() {
     const {
       barsData,
+      categoryCount,
       categoryType,
       classes,
       className,
@@ -91,6 +115,7 @@ class InlineWidget extends React.PureComponent {
       onCancelCategoryClick,
       onCategoryTypeChange,
       onPeriodChange,
+      onSeeAllClick,
       stories: Stories,
       period,
       periods,
@@ -98,18 +123,20 @@ class InlineWidget extends React.PureComponent {
       size,
     } = this.props
     const { tab } = this.state
-    const paymentList = currentCategoryName != null
+    const paymentList = currentCategoryName != null // TODO: redo as a tab?
 
     const isPayments = tab === 'payments'
     const isStories = tab === 'stories'
     const isAbout = tab === 'about'
+
+    const small = size === 400
 
     return (
       <div
         className={cx(
           classes.root,
           {
-            [classes.size400]: size === 400,
+            [classes.size400]: small,
             [classes.size500]: size === 500,
             [classes.size625]: size === 625,
             [classes.size800]: size === 800,
@@ -144,42 +171,54 @@ class InlineWidget extends React.PureComponent {
             />
           </Header>
         )}
-        {isPayments &&
-          paymentList &&
-          size > 400 && (
-            <>
-              <PeriodSelector
-                className={cx(classes.paymentsPeriodSelect)}
-                onChange={onPeriodChange}
-                value={period}
-                values={periods}
-              />
-              <Bar
-                barColor={currentCategoryColor}
-                className={classes.barChart}
-                data={barsData}
-                footerPadding={10}
-                height={barsHeight(size)}
-                hideBaseLine
-                labelKey="date"
-                width={size > 500 ? 516 : 468}
-              />
-            </>
-          )}
-        {isPayments &&
-          !paymentList && (
-            <OverviewChart
-              categoryType={categoryType}
-              entriesCount={entriesCount}
-              onCategoryClick={onCategoryClick}
-              onCategoryTypeChange={onCategoryTypeChange}
-              onPeriodChange={onPeriodChange}
-              period={period}
-              periods={periods}
-              pieData={pieData}
-              size={size}
-            />
-          )}
+        <div className={classes.content}>
+          {isPayments &&
+            paymentList && (
+              <>
+                {!small && (
+                  <>
+                    <PeriodSelector
+                      className={cx(classes.paymentsPeriodSelect)}
+                      onChange={onPeriodChange}
+                      value={period}
+                      values={periods}
+                    />
+                    <Bar
+                      barColor={currentCategoryColor}
+                      className={classes.barChart}
+                      data={barsData}
+                      footerPadding={10}
+                      height={barsHeight(size)}
+                      hideBaseLine
+                      labelKey="date"
+                      width={size > 500 ? 516 : 468}
+                    />
+                  </>
+                )}
+                <Payments className={classes.payments} />
+              </>
+            )}
+          {isPayments &&
+            !paymentList && (
+              <>
+                <OverviewChart
+                  categoryType={categoryType}
+                  data={pieData}
+                  onCategoryClick={onCategoryClick}
+                  onCategoryTypeChange={onCategoryTypeChange}
+                  onPeriodChange={onPeriodChange}
+                  period={period}
+                  periods={periods}
+                  size={size}
+                />
+                <Footer
+                  paymentCount={entriesCount}
+                  categoryCount={small ? null : categoryCount}
+                  onSeeAllClick={onSeeAllClick}
+                />
+              </>
+            )}
+        </div>
         {isStories && <Stories />}
         {isAbout && <div>TODO</div>}
       </div>
@@ -188,10 +227,12 @@ class InlineWidget extends React.PureComponent {
 }
 
 InlineWidget.propTypes = {
+  categoryCount: PropTypes.number,
   categoryType: PropTypes.string,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,
+  onSeeAllClick: PropTypes.func.isRequired,
   period: PropTypes.string.isRequired,
   periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
@@ -205,6 +246,7 @@ InlineWidget.defaultProps = {
 
 const mapStateToProps = createStructuredSelector({
   barsData: barChartDataSelector,
+  categoryCount: categoryCountSelector,
   categoryType: categoryTypeSelector,
   currentCategoryColor: currentCategoryColorSelector,
   currentCategoryName: currentCategoryNameSelector,
@@ -220,6 +262,7 @@ const mapDispatchToProps = R.partial(bindActionCreators, [
     onCategoryTypeChange: ACTIONS.selectCategoryType,
     onCancelCategoryClick: ACTIONS.cancelCategory,
     onPeriodChange: ACTIONS.selectPeriod,
+    onSeeAllClick: ACTIONS.selectAllCategories,
   },
 ])
 

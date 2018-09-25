@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
 import { isSameYear, format } from 'date-fns/fp'
+import { remapPieData, sumProp } from 'data/models/pieData'
 import { parseDate, formatMonth, parseMonth } from 'utils/dates'
 import {
   parseQueryStringNumber,
@@ -137,6 +138,8 @@ export const currentFiltersSelector = createSelector(
   })
 )
 
+export const periodSelector = () => 'All time' // TODO: get data from filter and formatter from DateRangeField
+
 // Chart Selectors
 
 export const chartCategoryTypeSelector = get('chartCategoryType')
@@ -175,58 +178,22 @@ export const barChartDataSelector = createSelector(
   )
 )
 
-// из [category{name,color},income,expenses] в {income|spending: [{color,name,value}]} где value процент от всех income|spending
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
 
 const totalExpensesSelector = createSelector(
   rawPieDataSelector,
-  R.pipe(
-    R.map(R.prop('expenses')),
-    R.sum
-  )
+  sumProp('expenses')
 )
 const totalIncomeSelector = createSelector(
   rawPieDataSelector,
-  R.pipe(
-    R.map(R.prop('income')),
-    R.sum
-  )
+  sumProp('income')
 )
 
-const percentOf = (value, total) => Math.round((100 * value) / total)
-const mapCategory = R.when(
-  R.isNil,
-  R.always({ color: '#B3B3B3', name: '#Uncategorized' })
-)
-const sortByValueDescend = R.sortBy(
-  R.pipe(
-    R.prop('value'),
-    R.negate
-  )
-)
 export const pieChartDataSelector = createSelector(
   rawPieDataSelector,
   totalExpensesSelector,
   totalIncomeSelector,
-  (list, totalExpenses, totalIncome) =>
-    R.converge((...args) => R.zipObj(['income', 'spending'], args), [
-      R.pipe(
-        R.filter(({ income }) => income > 0),
-        R.map(({ income: value, category }) => ({
-          value: percentOf(value, totalIncome),
-          ...mapCategory(category),
-        })),
-        sortByValueDescend
-      ),
-      R.pipe(
-        R.filter(({ expenses }) => expenses > 0),
-        R.map(({ expenses: value, category }) => ({
-          value: percentOf(value, totalExpenses),
-          ...mapCategory(category),
-        })),
-        sortByValueDescend
-      ),
-    ])(list)
+  remapPieData
 )
 
 export const allPeersSelector = createPlainObjectSelector(get('allPeers'))

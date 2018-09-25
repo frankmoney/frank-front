@@ -1,12 +1,11 @@
-import React from 'react'
+import React, { cloneElement } from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
 import FieldLabel from 'components/FieldLabel'
-import renderProp from 'utils/renderProp'
 
 const styles = {
   root: {
-    display: 'inline-block',
+    display: props => (props.stretch ? 'block' : 'inline-block'),
   },
 }
 
@@ -67,6 +66,7 @@ class Field extends React.Component {
       title,
       hint,
       children,
+      stretch,
       // omit
       onClick,
       onFocus,
@@ -95,13 +95,14 @@ class Field extends React.Component {
         onMouseUp={this.handleMouseUp}
         {...otherProps}
       >
-        {labelNode && renderProp(labelNode, { focus })}
-        {renderProp(children, {
-          ref: this.childrenRef,
-          focus,
-          onFocus: this.handleFocus,
-          onBlur: this.handleBlur,
-        })}
+        {labelNode && cloneElement(labelNode, { focus })}
+        {children &&
+          cloneElement(children, {
+            ref: this.childrenRef,
+            focus,
+            onFocus: this.handleFocus,
+            onBlur: this.handleBlur,
+          })}
       </div>
     )
   }

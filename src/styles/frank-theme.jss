@@ -41,7 +41,7 @@ export default {
         ...DISABLED_BUTTON_COLORS,
       },
     },
-    tertiary: {
+    negative: {
       color: 'white',
       border: 'none',
       boxShadow: 'none',

@@ -18,15 +18,16 @@ const withDemoLayout = Component => props => (
 
 export default [
   {
-    component: withProps({ to: ROUTES.demo.components })(Redirect),
+    component: withProps({ to: ROUTES.demo.widgets })(Redirect),
     path: ROUTES.demo.root,
     exact: true,
   },
-  {
-    component: withDemoLayout(ComponentsDemo),
-    path: ROUTES.demo.components,
-    exact: true,
-  },
+  // TODO page is not working
+  // {
+  //   component: withDemoLayout(ComponentsDemo),
+  //   path: ROUTES.demo.components,
+  //   exact: true,
+  // },
   {
     component: withDemoLayout(DrawerDemo),
     path: ROUTES.demo.drawers.root,
