@@ -20,6 +20,12 @@ const styles = {
     width: 370,
     display: 'flex',
   },
+  fieldImageWrap: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: 30,
+  },
+  fieldImage: {},
   optionsField: {
     composes: '$field',
     display: 'block',
@@ -37,7 +43,7 @@ const StepForm = ({ classes, fields, isChecking }) => (
       )}
     <div className={classes.form}>
       {fields.map(
-        ({ label, guid: id, type, options }, idx) =>
+        ({ label, guid: id, type, imageData, options }, idx) =>
           type === 'OPTIONS' ? (
             <OptionsField
               className={classes.optionsField}
@@ -49,14 +55,25 @@ const StepForm = ({ classes, fields, isChecking }) => (
               ))}
             </OptionsField>
           ) : (
-            <TextField
-              className={classes.field}
-              autoFocus={idx === 0}
-              disabled={isChecking}
-              name={id}
-              label={label}
-              type={type === 'PASSWORD' ? 'password' : 'text'}
-            />
+            <>
+              {imageData && (
+                <div className={classes.fieldImageWrap}>
+                  <img
+                    className={classes.fieldImage}
+                    src={imageData}
+                    alt="mfa_image"
+                  />
+                </div>
+              )}
+              <TextField
+                className={classes.field}
+                autoFocus={idx === 0}
+                disabled={isChecking}
+                name={id}
+                label={label}
+                type={type === 'PASSWORD' ? 'password' : 'text'}
+              />
+            </>
           )
       )}
     </div>

@@ -110,7 +110,7 @@ export const pollCredentialsWhileStatusIsCheckingEpic = (
   { graphql }
 ) =>
   action$
-    .ofType(ACTIONS.goNext.success)
+    .ofType(ACTIONS.goNext.success, ACTIONS.load.success)
     .filter(
       ({ payload: { step, credentials, mfa } }) =>
         (step === 'credentials' &&
