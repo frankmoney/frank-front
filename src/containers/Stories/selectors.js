@@ -12,5 +12,5 @@ export const storiesSelector = createPlainObjectSelector(get('stories'))
 
 export const hasNoStoriesSelector = createSelector(storiesSelector, R.isEmpty)
 
-export const isShareDialogOpenSelector = get('iShareDialogOpen')
+export const isShareDialogOpenSelector = get('shareDialogIsOpen')
 export const shareDialogUrlSelector = get('shareDialogUrl')

@@ -13,16 +13,16 @@ import {
   BreadcrumbsItem,
 } from '@frankmoney/components'
 import HeaderBarButtons from './HeaderBarButtons'
-import { loadedSelector, storySelector } from './selectors'
+import { isNewStorySelector, loadedSelector } from './selectors'
 import ACTIONS from './actions'
 import StoryEditForm from './StoryEditForm'
 import styles from './StoryEdit.jss'
 
-const StoryEdit = ({ classes, className }) => (
+const StoryEdit = ({ classes, className, isNew }) => (
   <div className={cx(classes.root, className)}>
     <FixedHeader>
       <Breadcrumbs>
-        <BreadcrumbsItem>{false ? 'Edit story' : 'New story'}</BreadcrumbsItem>
+        <BreadcrumbsItem>{isNew ? 'New story' : 'Edit story'}</BreadcrumbsItem>
       </Breadcrumbs>
       <HeaderBarButtons />
     </FixedHeader>
@@ -32,7 +32,7 @@ const StoryEdit = ({ classes, className }) => (
 
 const mapStateToProps = createStructuredSelector({
   loaded: loadedSelector,
-  storyData: storySelector,
+  isNew: isNewStorySelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [

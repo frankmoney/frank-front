@@ -25,19 +25,15 @@ const styles = theme => ({
   },
 })
 
-const StoryPublishedDialog = ({ classes, onCloseClick, ...dialogProps }) => (
-  <PopupDialog
-    title="The story was published"
-    onClose={onCloseClick}
-    {...dialogProps}
-  >
+const StoryPublishedDialog = ({ classes, url, ...dialogProps }) => (
+  <PopupDialog title="The story was published" {...dialogProps}>
     <div className={classes.container}>
       <div className={classes.public}>Public page</div>
       <LinkButton type="secondary" icon={PublicIcon}>
         See the public page
       </LinkButton>
       <div className={classes.share}>Share story</div>
-      <ShareButtons />
+      <ShareButtons url={url} />
     </div>
   </PopupDialog>
 )

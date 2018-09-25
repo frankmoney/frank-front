@@ -42,7 +42,7 @@ const StoryPreview = ({
       )}
       <div className={classes.textContainer}>
         {title && <div className={classes.title}>{title}</div>}
-        {paymentsCount !== 0 && (
+        {paymentsCount > 0 && (
           <StoryPaymentsStats
             className={classes.stats}
             paymentsCount={paymentsCount}
@@ -50,7 +50,7 @@ const StoryPreview = ({
           />
         )}
         {text && <div className={classes.text}>{text}</div>}
-        {paymentsCount !== 0 && <StoryPayments payments={payments} readOnly />}
+        {paymentsCount > 0 && <StoryPayments payments={payments} readOnly />}
       </div>
     </div>
   </div>

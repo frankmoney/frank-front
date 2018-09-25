@@ -32,7 +32,7 @@ const StoryCard = ({
     <div className={classes.textContainer}>
       {!published && <div className={classes.flag}>Draft</div>}
       <div className={classes.title}>{title}</div>
-      {paymentsCount !== 0 && (
+      {paymentsCount > 0 && (
         <StoryPaymentsStats
           className={classes.stats}
           paymentsCurrency={paymentsCurrency}

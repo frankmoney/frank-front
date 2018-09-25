@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { Checkbox } from 'material-ui'
 import CurrencyDelta from 'components/CurrencyDelta'
-import { LoadMoreButton } from 'components/ListVirtualized'
+import LoadMoreButton from 'components/LoadMoreButton'
 import { formatDate } from 'utils/datesLight'
 
 export const ROW_HEIGHT = 55

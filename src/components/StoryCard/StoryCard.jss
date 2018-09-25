@@ -10,7 +10,7 @@ export default theme => ({
     width: '100%',
     backgroundColor: 'white',
     borderRadius: 8,
-    transition: 'box-shadow 0.1s ease-out',
+    transition: theme.transition('box-shadow 0.1s'),
     boxShadow: '0 2px 4px 0 rgba(0,0,0,0.03)',
     '&:hover': {
       boxShadow: '0 5px 10px 0px rgba(0,0,0,0.07)',

@@ -111,20 +111,24 @@ class HeaderBarButtons extends React.PureComponent {
     const dialogTitle =
       confirmDialogType === 'delete'
         ? `Delete ${isPublished ? 'story' : 'draft'}`
-        : `${confirmDialogType !== 'publish' ? 'Unp' : 'P'}ublish story`
+        : `${
+            confirmDialogType !== 'publish'
+              ? 'Unpublish story'
+              : 'Publish story'
+          }`
 
     const dialogConfirmLabel =
       confirmDialogType === 'delete'
         ? `Delete`
-        : `${confirmDialogType !== 'publish' ? 'Unp' : 'P'}ublish`
+        : `${confirmDialogType !== 'publish' ? 'Unpublish' : 'Publish'}`
 
-    const dialogConfirmType =
+    const dialogConfirmButtonType =
       confirmDialogType === 'delete'
         ? `danger`
-        : `${confirmDialogType !== 'publish' ? 'tertia' : 'prima'}ry`
+        : `${confirmDialogType !== 'publish' ? 'negative' : 'positive'}`
 
     const dialogConfirmButtonProps = {
-      type: dialogConfirmType,
+      type: dialogConfirmButtonType,
       loading: processing,
     }
 

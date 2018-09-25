@@ -3,7 +3,8 @@ import cx from 'classnames'
 import { FacebookShareButton, TwitterShareButton } from 'react-share'
 import { injectStyles } from '@frankmoney/ui'
 import { Button } from '@frankmoney/components'
-import { TwitterIcon, FacebookIcon } from './ShareIcons'
+import TwitterIcon from './TwitterIcon'
+import FacebookIcon from './FacebookIcon'
 
 const styles = {
   container: {

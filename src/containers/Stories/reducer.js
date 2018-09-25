@@ -1,7 +1,7 @@
 import storage from 'local-storage-fallback'
 import Immutable, { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
-import { UI_FLAGS } from '../../const'
+import { LS_FLAGS } from 'const'
 import * as ACTIONS from './actions'
 
 export const REDUCER_KEY = 'stories'
@@ -26,19 +26,24 @@ export default handleActions(
     [ACTIONS.load.success]: (state, { payload: { stories, totalCount } }) => {
       const { host } = window.location
       const publishedStoryUrl =
-        host + storage.getItem(UI_FLAGS.lastPublishedStoryUrl)
-      // storage.removeItem(UI_FLAGS.lastPublishedStoryUrl)
+        host + storage.getItem(LS_FLAGS.lastPublishedStoryUrl)
+      const shareDialogIsOpen = !!storage.getItem(
+        LS_FLAGS.lastPublishedStoryUrl
+      )
+      storage.removeItem(LS_FLAGS.lastPublishedStoryUrl)
 
       return state.merge({
         loading: false,
         loaded: true,
         stories: fromJS(stories),
         storiesCount: totalCount,
-        shareDialogIsOpen: !!publishedStoryUrl,
+        shareDialogIsOpen,
         shareDialogUrl: publishedStoryUrl,
       })
     },
     [ACTIONS.load.error]: state => state.merge({ loading: false }),
+    [ACTIONS.toggleShareDialog]: state =>
+      state.merge({ shareDialogIsOpen: false }),
     [ACTIONS.leave]: () => defaultState,
   },
   defaultState

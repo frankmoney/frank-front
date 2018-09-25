@@ -14,7 +14,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
   {
-    onCloseRequest: ACTIONS.toggleShareDialog,
+    onClose: ACTIONS.toggleShareDialog,
   },
 ])
 

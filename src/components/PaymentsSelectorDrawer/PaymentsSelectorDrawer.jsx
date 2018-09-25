@@ -7,7 +7,6 @@ import CurrencyProvider from 'components/CurrencyProvider'
 import Drawer from 'components/Drawer'
 import List from 'components/ListVirtualized'
 import { PaymentListRow, ROW_HEIGHT } from 'components/PaymentListRow'
-import renderProp from 'utils/renderProp'
 
 const style = theme => ({
   modeTitle: {},
@@ -84,22 +83,21 @@ class PaymentsSelectorDrawer extends React.PureComponent {
     R.map(getId)
   )
 
-  renderItemComponent = ({ index, ...other }) =>
-    renderProp(PaymentListRow, {
-      lastItem: index === this.props.payments.length - 1,
-      loadMore: this.props.totalPagesCounter > this.props.loadedPagesCounter,
-      selectable: true,
-      selected: R.contains(
+  renderItemComponent = ({ index, ...otherProps }) => (
+    <PaymentListRow
+      lastItem={index === this.props.payments.length - 1}
+      loadMore={this.props.totalPagesCounter > this.props.loadedPagesCounter}
+      selectable
+      selected={R.contains(
         getId(this.props.payments[index]),
         this.selectedPaymentsIdsSelector(this.state)
-      ),
-      onToggle: () => {
-        this.handleSelectPayment(this.props.payments[index])
-      },
-      onLoadMore: this.props.onLoadMore,
-      ...this.props.payments[index],
-      ...other,
-    })
+      )}
+      onToggle={() => this.handleSelectPayment(this.props.payments[index])}
+      onLoadMore={this.props.onLoadMore}
+      {...this.props.payments[index]}
+      {...otherProps}
+    />
+  )
 
   render() {
     const {

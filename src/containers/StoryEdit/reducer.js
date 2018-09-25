@@ -2,7 +2,7 @@ import storage from 'local-storage-fallback'
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import { createRouteUrl } from '@frankmoney/utils'
-import { UI_FLAGS, ROUTES } from 'const'
+import { LS_FLAGS, ROUTES } from 'const'
 import ACTIONS from './actions'
 import { PAGE_SIZE } from './constants'
 
@@ -81,7 +81,7 @@ export default handleActions(
     [ACTIONS.publish.success]: (state, { payload: { story } }) => {
       if (story.isPublished) {
         storage.setItem(
-          UI_FLAGS.lastPublishedStoryUrl,
+          LS_FLAGS.lastPublishedStoryUrl,
           createRouteUrl(ROUTES.stories.storyPreview, { id: story.id })
         )
       }
