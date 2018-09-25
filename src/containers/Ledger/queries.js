@@ -1,7 +1,9 @@
 import * as R from 'ramda'
+import { convertGraphqlPieData } from 'data/models/pieData'
 
 export default {
-  getPaymentsAndTotalCount: ({
+  buildQuery: ({
+    allPeers: includeAllPeers,
     totalCount: includeTotal,
     payments: includePayments,
     pieChart: includePie,
@@ -27,6 +29,14 @@ export default {
           `categories {
             id
             name
+            color
+          }`) ||
+          ''}
+        
+        ${(includeAllPeers &&
+          `peers(sortBy: name_ASC, donors: true, recipients: true) {
+            id
+            name
           }`) ||
           ''}
           
@@ -47,6 +57,10 @@ export default {
             postedOn
             amount
             peerName
+            peer {
+              id
+              name
+            }
             description
             category {
               id
@@ -104,6 +118,7 @@ export default {
       account: {
         categories,
         category,
+        peers,
         payments,
         countPayments,
         ledgerBarChart,
@@ -111,6 +126,7 @@ export default {
       },
     }) => ({
       categories: includeCategories ? categories : null,
+      allPeers: peers,
       payments: categoryScoped ? category.payments : payments,
       totalCount: (categoryScoped ? category.countPayments : countPayments)
         .value,
@@ -123,16 +139,7 @@ export default {
             })
           )
         : null,
-      pieChart: includePie
-        ? ledgerPieChart.items.map(
-            // eslint-disable-next-line
-            ({ category, revenue, spending }) => ({
-              category,
-              income: revenue,
-              expenses: spending,
-            })
-          )
-        : null,
+      pieChart: includePie ? convertGraphqlPieData(ledgerPieChart.items) : null,
     }),
   ],
   getOnlyTotalCount: [

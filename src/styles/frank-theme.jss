@@ -59,13 +59,21 @@ export default {
     separator: {
       width: 22,
       height: 22,
-      margin: [0, 5],
+      margin: [5, 11, 0, 13],
       opacity: 0.4,
       color: '#252B43',
       transform: 'unset',
     },
   },
-  BreadcrumbItem: {},
+  BreadcrumbItem: {
+    breadcrumb: {
+      color: '#252B43',
+      '&:last-child:not(:first-child)': {
+        fontWeight: 400,
+        color: '#252B43',
+      },
+    },
+  },
   HeaderFilter: {
     value: {
       '&:hover': {

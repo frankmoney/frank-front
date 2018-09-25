@@ -1,0 +1,42 @@
+[
+  {
+    "value": 10,
+    "date": "Jan"
+  },
+  {
+    "value": 12,
+    "date": "Feb"
+  },
+  {
+    "value": 10,
+    "date": "Mar"
+  },
+  {
+    "value": 5,
+    "date": "Apr"
+  },
+  {
+    "value": 8,
+    "date": "May"
+  },
+  {
+    "value": 5,
+    "date": "Jun"
+  },
+  {
+    "value": 4,
+    "date": "Jul"
+  },
+  {
+    "value": 0,
+    "date": "Aug"
+  },
+  {
+    "value": 15,
+    "date": "Sep"
+  },
+  {
+    "value": 4,
+    "date": "Oct"
+  }
+]

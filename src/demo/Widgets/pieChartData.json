@@ -1,0 +1,223 @@
+[
+  {
+    "category": {
+      "id": "cjkxpdze00bk10b088la6uc5r",
+      "name": "Other income",
+      "color": "#0a70dd"
+    },
+    "revenue": 25000,
+    "spending": 84672.19
+  },
+  {
+    "category": {
+      "id": "cjkxpe0pf0bkc0b089kd2bkb6",
+      "name": "Software development",
+      "color": "#3cd5c1"
+    },
+    "revenue": 5000,
+    "spending": 82528.58
+  },
+  {
+    "category": {
+      "id": "cjkxpe30m0bky0b08ptqbpyxu",
+      "name": "Certification",
+      "color": "#fde282"
+    },
+    "revenue": 0,
+    "spending": 59486.77
+  },
+  {
+    "category": {
+      "id": "cjkxpe4a60bl90b089gsjjbro",
+      "name": "Taxes",
+      "color": "#ffb54c"
+    },
+    "revenue": 5000,
+    "spending": 89868.78
+  },
+  {
+    "category": {
+      "id": "cjkxpe5dm0blk0b08msdrtu9s",
+      "name": "Product development",
+      "color": "#3cd5c1"
+    },
+    "revenue": 0,
+    "spending": 47960.19
+  },
+  {
+    "category": {
+      "id": "cjkxpe6ig0blv0b08xjtcoced",
+      "name": "Internal transfer",
+      "color": "#0a70dd"
+    },
+    "revenue": 5000,
+    "spending": 52676.96
+  },
+  {
+    "category": {
+      "id": "cjkxpe7p60bm60b08lifmn7i0",
+      "name": "Government grants",
+      "color": "#00bd6a"
+    },
+    "revenue": 5000,
+    "spending": 81474
+  },
+  {
+    "category": {
+      "id": "cjkxpe8u50bmh0b08laoi9oow",
+      "name": "Product design",
+      "color": "#0aaddb"
+    },
+    "revenue": 0,
+    "spending": 63555.35999999999
+  },
+  {
+    "category": {
+      "id": "cjkxpeaqv0bmy0b080odzrphz",
+      "name": "Fundraising events",
+      "color": "#00bd6a"
+    },
+    "revenue": 0,
+    "spending": 52847.59
+  },
+  {
+    "category": {
+      "id": "cjkxpedpd0bnl0b08uebjzmvt",
+      "name": "Fundraising expenses",
+      "color": "#b259ad"
+    },
+    "revenue": 0,
+    "spending": 81359.39
+  },
+  {
+    "category": {
+      "id": "cjkxpefrs0bo20b08jqua8ay1",
+      "name": "Grants",
+      "color": "#00bd6a"
+    },
+    "revenue": 20000,
+    "spending": 61271.590000000004
+  },
+  {
+    "category": {
+      "id": "cjkxpegvs0bod0b08v5ddqz0g",
+      "name": "Marketing research",
+      "color": "#c2e691"
+    },
+    "revenue": 25000,
+    "spending": 77158.39
+  },
+  {
+    "category": {
+      "id": "cjkxpeix20bou0b0826080qls",
+      "name": "Operating expenses",
+      "color": "#b259ad"
+    },
+    "revenue": 0,
+    "spending": 57506.97
+  },
+  {
+    "category": {
+      "id": "cjkxpek4r0bp50b08maikpsef",
+      "name": "Administrative expenses",
+      "color": "#0a70dd"
+    },
+    "revenue": 29000,
+    "spending": 50120.79
+  },
+  {
+    "category": {
+      "id": "cjkxpelam0bpg0b08yjzesow1",
+      "name": "Device development",
+      "color": "#0a70dd"
+    },
+    "revenue": 0,
+    "spending": 33401
+  },
+  {
+    "category": {
+      "id": "cjkxpemj10bpr0b084mq0cp9u",
+      "name": "Business development",
+      "color": "#d6c8a1"
+    },
+    "revenue": 0,
+    "spending": 37312.98
+  },
+  {
+    "category": {
+      "id": "cjkxpenqf0bq20b08y0dlzae2",
+      "name": "Tooling",
+      "color": "#c2e691"
+    },
+    "revenue": 0,
+    "spending": 60442.78
+  },
+  {
+    "category": {
+      "id": "cjkxpep280bqd0b087jmztsfk",
+      "name": "Loans",
+      "color": "#00bd6a"
+    },
+    "revenue": 25000,
+    "spending": 68462.76000000001
+  },
+  {
+    "category": {
+      "id": "cjkxpevlp0bro0b0860brsjb4",
+      "name": "Program revenue",
+      "color": "#00bd6a"
+    },
+    "revenue": 0,
+    "spending": 27821.980000000003
+  },
+  {
+    "category": {
+      "id": "cjkxpe1w30bkn0b086gsq9ncq",
+      "name": "Salary",
+      "color": "#00bd6a"
+    },
+    "revenue": 0,
+    "spending": 81928.4
+  },
+  {
+    "category": {
+      "id": "cjkxpf3yt0btl0b0848novjm2",
+      "name": "Investments",
+      "color": "#00bd6a"
+    },
+    "revenue": 0,
+    "spending": 48617.600000000006
+  },
+  {
+    "category": {
+      "id": "cjkxpf6wd0bu80b08a2cjghw1",
+      "name": "Production",
+      "color": "#0aaddb"
+    },
+    "revenue": 0,
+    "spending": 62071.2
+  },
+  {
+    "category": {
+      "id": "cjkxpf9sv0bv50b08kcnrtvpx",
+      "name": "Program expenses",
+      "color": "#fc5d7b "
+    },
+    "revenue": 10000,
+    "spending": 85848.78999999998
+  },
+  {
+    "category": {
+      "id": "cjkxpg9yz0c240b08hebgm2z1",
+      "name": "IP registration",
+      "color": "#fde282"
+    },
+    "revenue": 0,
+    "spending": 34942.8
+  },
+  {
+    "category": null,
+    "revenue": 0,
+    "spending": 3400
+  }
+]

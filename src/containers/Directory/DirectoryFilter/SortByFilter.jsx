@@ -16,12 +16,12 @@ import { SORT_BY } from '../constants'
 const SortByFilter = ({ value, selectedValue, onChange }) => (
   <HeaderFilterWithHint selectedValue={selectedValue} hint="Sort by">
     <CheckedMenuList>
-      {SORT_BY.map(({ name, id }) => (
+      {SORT_BY.map(({ name, query }) => (
         <CheckedMenuItem
-          key={id}
-          value={id}
-          selected={value === id}
-          onClick={() => onChange(id)}
+          key={query}
+          value={query}
+          selected={value === query}
+          onClick={() => onChange(query)}
         >
           {name}
         </CheckedMenuItem>

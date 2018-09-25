@@ -1,7 +1,6 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { compose, defaultProps } from 'recompose'
-import renderProp from 'utils/renderProp'
 import CloseButton from './CloseButton'
 
 const styles = {
@@ -21,7 +20,7 @@ const styles = {
 const DrawerHeader = ({ classes, buttons, children }) => (
   <div className={classes.root}>
     <div className={classes.contents}>{children}</div>
-    {buttons && <div className={classes.buttons}>{renderProp(buttons)}</div>}
+    {buttons && <div className={classes.buttons}>{buttons}</div>}
   </div>
 )
 

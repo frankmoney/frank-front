@@ -1,12 +1,9 @@
 import React from 'react'
-import {
-  FixedHeader,
-  BreadcrumbsItem,
-} from '@frankmoney/components'
+import { compose, withProps } from 'recompose'
+import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import Breadcrumbs from 'components/Breadcrumbs'
-import { compose, withProps } from 'recompose'
-import InboxCard from 'components/InboxCard'
+import PaymentCard from 'components/PaymentCard'
 
 const styles = {
   root: {},
@@ -29,7 +26,7 @@ const Inbox = ({ classes, items }) => (
     </FixedHeader>
     <div className={classes.body}>
       {items.map(({ id, ...otherItemProps }) => (
-        <InboxCard key={id} className={classes.card} {...otherItemProps} />
+        <PaymentCard key={id} className={classes.card} {...otherItemProps} />
       ))}
     </div>
   </div>
