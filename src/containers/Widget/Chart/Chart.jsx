@@ -94,16 +94,25 @@ const ActualChart = ({
   )
 }
 
-const Chart = ({ classes, size, ...props }) =>
-  size > 400 ? (
-    <ActualChart size={size} classes={classes} {...props} />
-  ) : (
-    <LegendOnly {...props} />
-  )
+const Chart = ({ classes, size, data, categoryType, ...props }) => {
+  if (size > 400) {
+    return (
+      <ActualChart
+        size={size}
+        data={data}
+        categoryType={categoryType}
+        classes={classes}
+        {...props}
+      />
+    )
+  }
+  const categories = data[categoryType] // TODO: move to selector
+  return <LegendOnly data={categories} {...props} />
+}
 
 Chart.propTypes = {
   categoryType: PropTypes.string.isRequired,
-  data: pieDataProp.isRequired,
+  data: PropTypes.objectOf(pieDataProp).isRequired,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,

@@ -71,13 +71,13 @@ class ChartCard extends React.PureComponent {
 }
 
 ChartCard.propTypes = {
-  barsData: barDataProp,
+  barsData: barDataProp.isRequired,
   barsOnly: PropTypes.bool,
   categoryType: PropTypes.string,
   onCategoryClick: PropTypes.func,
   onCategoryTypeChange: PropTypes.func,
   period: PropTypes.string.isRequired,
-  pieData: pieDataProp,
+  pieData: PropTypes.objectOf(pieDataProp).isRequired,
 }
 
 export default injectStyles(styles, { fixedGrid: true })(ChartCard)

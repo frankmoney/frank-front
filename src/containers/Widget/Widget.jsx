@@ -143,7 +143,7 @@ Widget.propTypes = {
   entriesCount: PropTypes.number,
   period: PropTypes.string.isRequired,
   periods: PropTypes.arrayOf(PropTypes.string).isRequired,
-  pieData: pieDataProp,
+  pieData: PropTypes.objectOf(pieDataProp),
   // tab: PropTypes.oneOf(['payments', 'stories', 'about']), // TODO: wait for selector
   // Styles
   barChartClassName: PropTypes.string,

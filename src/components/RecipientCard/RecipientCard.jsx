@@ -6,6 +6,7 @@ import { Paper } from '@frankmoney/components'
 import CategoryList from 'components/CategoryList'
 import CurrencyDelta from 'components/CurrencyDelta'
 import TextWithEditableToggle from 'components/TextWithEditableToggle'
+import { limitCategoriesTo } from 'data/models/categories'
 import styles from './RecipientCard.jss'
 
 const formatDate = date => format(date, 'MMM D, YYYY')
@@ -49,7 +50,7 @@ const RecipientCard = ({
     </div>
     <div className={classes.rightColumn}>
       <CategoryList
-        categories={categories}
+        data={limitCategoriesTo(5)(categories)}
         className={classes.list}
         itemClassName={classes.listItem}
         itemIconClassName={classes.listItemIcon}

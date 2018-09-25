@@ -6,7 +6,7 @@ const pieData = PropTypes.shape({
   value: PropTypes.number.isRequired,
 })
 
-export const pieDataProp = PropTypes.objectOf(PropTypes.arrayOf(pieData))
+export const pieDataProp = PropTypes.arrayOf(pieData)
 
 const barData = PropTypes.shape({
   name: PropTypes.string.isRequired,

@@ -39,7 +39,7 @@ const OverviewTab = ({
 OverviewTab.propTypes = {
   categoryCount: PropTypes.number,
   categoryType: PropTypes.string,
-  data: pieDataProp,
+  data: PropTypes.objectOf(pieDataProp),
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,
