@@ -9,7 +9,7 @@ import Field from 'components/Field'
 import FieldLabel from 'components/FieldLabel'
 import PaymentCard from 'components/PaymentCard'
 import TextBox from 'components/TextBox'
-import Title from 'containers/Ledger/GraphOverviewCard/Title'
+import Title from 'containers/Ledger/ChartCard/Title'
 
 const styles = theme => ({
   root: {

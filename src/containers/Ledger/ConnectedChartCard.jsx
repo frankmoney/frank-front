@@ -3,12 +3,13 @@ import * as R from 'ramda'
 import { branch, compose, renderNothing } from 'recompose'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import GraphOverviewCard from './GraphOverviewCard'
+import ChartCard from './ChartCard'
 import {
   barChartDataSelector,
   barChartOnlySelector,
   chartCategoryTypeSelector,
   chartsVisibleSelector,
+  periodSelector,
   pieChartDataSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
@@ -17,6 +18,7 @@ const mapStateToProps = createStructuredSelector({
   barsData: barChartDataSelector,
   barsOnly: barChartOnlySelector,
   categoryType: chartCategoryTypeSelector,
+  period: periodSelector,
   pieData: pieChartDataSelector,
   visible: chartsVisibleSelector,
 })
@@ -34,4 +36,4 @@ export default compose(
     mapDispatchToProps
   ),
   branch(props => !props.visible, renderNothing)
-)(GraphOverviewCard)
+)(ChartCard)

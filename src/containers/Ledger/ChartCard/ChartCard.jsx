@@ -1,16 +1,16 @@
 import React from 'react'
 import cx from 'classnames'
+import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
-import PieChart from 'containers/PieChart'
+import CategoryListPieChart from 'components/CategoryListPieChart'
+import { barDataProp, pieDataProp } from 'data/models/charts'
 import BarChart from './BarChart'
 import ExpandRow from './ExpandRow'
 import Title from './Title'
-import styles from './GraphOverviewCard.jss'
+import styles from './ChartCard.jss'
 
-const period = 'All time' // TODO: real period
-
-class GraphOverviewCard extends React.PureComponent {
+class ChartCard extends React.PureComponent {
   state = {
     expanded: true,
   }
@@ -28,6 +28,7 @@ class GraphOverviewCard extends React.PureComponent {
       className,
       onCategoryClick,
       onCategoryTypeChange,
+      period,
       pieData,
     } = this.props
 
@@ -45,7 +46,7 @@ class GraphOverviewCard extends React.PureComponent {
           <BarChart className={classes.barChart} data={barsData} />
         ) : (
           <>
-            <PieChart
+            <CategoryListPieChart
               categoryType={categoryType}
               chartClassName={classes.chart}
               data={pieData}
@@ -69,4 +70,14 @@ class GraphOverviewCard extends React.PureComponent {
   }
 }
 
-export default injectStyles(styles, { fixedGrid: true })(GraphOverviewCard)
+ChartCard.propTypes = {
+  barsData: barDataProp,
+  barsOnly: PropTypes.bool,
+  categoryType: PropTypes.string,
+  onCategoryClick: PropTypes.func,
+  onCategoryTypeChange: PropTypes.func,
+  period: PropTypes.string.isRequired,
+  pieData: pieDataProp,
+}
+
+export default injectStyles(styles, { fixedGrid: true })(ChartCard)

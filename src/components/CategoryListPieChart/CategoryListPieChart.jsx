@@ -3,19 +3,19 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { pieChartDataShape } from 'components/Charts/shapes'
+import { pieDataProp } from 'data/models/charts'
 import CategoryList from 'components/CategoryList'
 import DropdownSwitcher from 'components/DropdownSwitcher'
 import Pie from 'components/Charts/Pie'
 import { limitCategoriesTo, DEFAULT_LIMIT } from 'utils/limitCategories'
 import PeriodSelector from './PeriodSelector'
-import styles from './PieChart.jss'
+import styles from './CategoryListPieChart.jss'
 
 const CATEGORY_TYPES = [{ key: 'income' }, { key: 'spending' }]
 
 const roundValues = R.over(R.lensProp('value'), Math.round)
 
-class PieChart extends React.PureComponent {
+class CategoryListPieChart extends React.PureComponent {
   state = {
     activeKey: null,
   }
@@ -33,9 +33,6 @@ class PieChart extends React.PureComponent {
       classes,
       className,
       data,
-      entriesCount,
-      footer: Footer,
-      footerClassName,
       hideChart,
       hidePeriod,
       legendClassName,
@@ -57,8 +54,7 @@ class PieChart extends React.PureComponent {
       onCategoryTypeChange &&
       (event => onCategoryTypeChange(event.target.value))
 
-    const categories = data[categoryType]
-    const categoryCount = R.length(categories)
+    const categories = data[categoryType] // TODO: use selector
     const { items, other, tooltipItems } = limitCategoriesTo(categoryLimit)(
       categories
     )
@@ -124,29 +120,16 @@ class PieChart extends React.PureComponent {
           valueClassName={cx(classes.legendItemValue, legendValueClassName)}
           valueUnit="%"
         />
-        {Footer && (
-          <Footer
-            className={cx(classes.footer, footerClassName)}
-            paymentCount={entriesCount}
-            categoryCount={categoryCount}
-          />
-        )}
       </div>
     )
   }
 }
 
-export const dataPropShape = PropTypes.objectOf(
-  PropTypes.arrayOf(pieChartDataShape)
-)
-
-PieChart.propTypes = {
+CategoryListPieChart.propTypes = {
   categoryLimit: PropTypes.number.isRequired,
   categoryType: PropTypes.string.isRequired,
   chartSize: PropTypes.number.isRequired,
-  data: dataPropShape,
-  entriesCount: PropTypes.number.isRequired,
-  footer: PropTypes.element,
+  data: pieDataProp,
   hideChart: PropTypes.bool,
   hidePeriod: PropTypes.bool,
   legendClassName: PropTypes.string,
@@ -163,10 +146,10 @@ PieChart.propTypes = {
   switcherLabel: PropTypes.string,
 }
 
-PieChart.defaultProps = {
+CategoryListPieChart.defaultProps = {
   categoryLimit: DEFAULT_LIMIT,
   chartSize: 350,
   switcherLabel: '% of total',
 }
 
-export default injectStyles(styles)(PieChart)
+export default injectStyles(styles)(CategoryListPieChart)

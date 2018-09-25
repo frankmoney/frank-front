@@ -1,10 +1,8 @@
 export default theme => ({
   root: {
     display: 'flex',
+    flexGrow: 1,
     position: 'relative',
-    width: '100%',
-    height: '100%',
-    padding: 0,
     alignItems: 'center',
   },
   hiddenPeriod: {
@@ -14,11 +12,6 @@ export default theme => ({
     position: 'absolute',
     top: 4,
     left: 2,
-  },
-  footer: {
-    position: 'absolute',
-    width: '100%',
-    bottom: 0,
   },
   chartContainer: {
     height: ({ chartSize }) => chartSize,

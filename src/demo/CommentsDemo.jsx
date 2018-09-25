@@ -3,8 +3,8 @@ import cx from 'classnames'
 import IconComment from 'material-ui-icons/ModeComment'
 import { Button, Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
-import Comments from 'containers/Comments'
-import Title from 'containers/Ledger/GraphOverviewCard/Title'
+import Comments from 'components/Comments'
+import Title from 'containers/Ledger/ChartCard/Title'
 
 const styles = theme => ({
   root: {

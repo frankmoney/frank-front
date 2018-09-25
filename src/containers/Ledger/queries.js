@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+import { convertGraphqlPieData } from 'data/models/pieData'
 
 export default {
   buildQuery: ({
@@ -138,16 +139,7 @@ export default {
             })
           )
         : null,
-      pieChart: includePie
-        ? ledgerPieChart.items.map(
-            // eslint-disable-next-line
-            ({ category, revenue, spending }) => ({
-              category,
-              income: revenue,
-              expenses: spending,
-            })
-          )
-        : null,
+      pieChart: includePie ? convertGraphqlPieData(ledgerPieChart.items) : null,
     }),
   ],
   getOnlyTotalCount: [
