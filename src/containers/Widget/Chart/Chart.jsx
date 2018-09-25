@@ -94,9 +94,14 @@ const ActualChart = ({
   )
 }
 
-const Chart = ({ classes, size, ...props }) =>
+const Chart = ({ categoryType, classes, size, ...props }) =>
   size > 400 ? (
-    <ActualChart size={size} classes={classes} {...props} />
+    <ActualChart
+      size={size}
+      categoryType={categoryType}
+      classes={classes}
+      {...props}
+    />
   ) : (
     <LegendOnly {...props} />
   )

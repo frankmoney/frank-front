@@ -3,11 +3,11 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
+import { limitCategoriesTo } from 'data/models/categories'
 import { pieDataProp } from 'data/models/charts'
 import CategoryList from 'components/CategoryList'
 import DropdownSwitcher from 'components/DropdownSwitcher'
 import Pie from 'components/Charts/Pie'
-import { limitCategoriesTo, DEFAULT_LIMIT } from 'utils/limitCategories'
 import PeriodSelector from './PeriodSelector'
 import styles from './CategoryListPieChart.jss'
 
@@ -26,7 +26,6 @@ class CategoryListPieChart extends React.PureComponent {
 
   render() {
     const {
-      categoryLimit,
       categoryType,
       chartClassName,
       chartSize,
@@ -54,10 +53,8 @@ class CategoryListPieChart extends React.PureComponent {
       onCategoryTypeChange &&
       (event => onCategoryTypeChange(event.target.value))
 
-    const categories = data[categoryType] // TODO: use selector
-    const { items, other, tooltipItems } = limitCategoriesTo(categoryLimit)(
-      categories
-    )
+    const { items, other, tooltipItems } = limitCategoriesTo(5)(data)
+    // TODO: move rounding into limit?
     const limitedCategories = {
       items: R.map(roundValues, items),
       other: other && roundValues(other),
@@ -111,7 +108,7 @@ class CategoryListPieChart extends React.PureComponent {
           })}
           iconClassName={cx(classes.legendIcon, legendIconClassName)}
           itemClassName={cx(classes.legendItem, legendItemClassName)}
-          limitedCategories={limitedCategories}
+          data={limitedCategories}
           nameClassName={cx(classes.legendItemName, legendNameClassName)}
           onLabelClick={handleCategoryClick}
           onLabelMouseEnter={this.handleMouseOver}
@@ -126,10 +123,9 @@ class CategoryListPieChart extends React.PureComponent {
 }
 
 CategoryListPieChart.propTypes = {
-  categoryLimit: PropTypes.number.isRequired,
   categoryType: PropTypes.string.isRequired,
   chartSize: PropTypes.number.isRequired,
-  data: pieDataProp,
+  data: pieDataProp.isRequired,
   hideChart: PropTypes.bool,
   hidePeriod: PropTypes.bool,
   legendClassName: PropTypes.string,
@@ -147,7 +143,6 @@ CategoryListPieChart.propTypes = {
 }
 
 CategoryListPieChart.defaultProps = {
-  categoryLimit: DEFAULT_LIMIT,
   chartSize: 350,
   switcherLabel: '% of total',
 }

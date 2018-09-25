@@ -68,7 +68,7 @@ class ButtonWidget extends React.PureComponent {
           barsHeight={200}
           className={classes.contentRoot}
           contentClassName={classes.content}
-          pieChartSize={300}
+          pieChartSize={500} // TODO: work around the hardcode
           showBarChart
           showCategoryCount
         />

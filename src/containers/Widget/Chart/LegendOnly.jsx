@@ -1,10 +1,11 @@
 import React from 'react'
-import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import CategoryListPieChart from 'components/CategoryListPieChart'
+import { limitCategoriesTo } from 'data/models/categories'
+import CategoryList from 'components/CategoryList'
 import { pieDataProp } from 'data/models/charts'
 
+// FIXME: styles
 const styles = theme => ({
   root: {
     marginBottom: 5,
@@ -52,48 +53,27 @@ const styles = theme => ({
   },
 })
 
-const LegendOnly = ({
-  categoryType,
-  classes,
-  className,
-  data,
-  onCategoryClick,
-  onCategoryTypeChange,
-  onPeriodChange,
-  period,
-  periods,
-}) => (
-  // TODO: rewrite as pure CategoryList
-  <CategoryListPieChart
-    categoryLimit={999}
-    categoryType={categoryType}
-    chartClassName={classes.switcherContainer}
-    className={cx(classes.root, className)}
-    data={data}
-    hideChart
-    legendClassName={classes.legend}
-    legendIconClassName={classes.legendIcon}
-    legendItemClassName={classes.legendItem}
-    legendNameClassName={classes.legendItemFont}
-    legendValueClassName={classes.legendItemValue}
-    onCategoryClick={onCategoryClick}
-    onCategoryTypeChange={onCategoryTypeChange}
-    onPeriodChange={onPeriodChange}
-    period={period}
-    periods={periods}
-    periodSelectClassName={classes.periodSelect}
-    switcherClassName={classes.switcher}
-  />
-)
+// TODO: actually move inside OverviewTab?
+const LegendOnly = ({ classes, data, onCategoryClick }) => {
+  const limitedCategories = limitCategoriesTo(999)(data)
+  return (
+    <CategoryList
+      className={classes.legend}
+      iconClassName={classes.legendIcon}
+      itemClassName={classes.legendItem}
+      data={limitedCategories}
+      nameClassName={classes.legendItemFont}
+      onLabelClick={onCategoryClick}
+      tooltip
+      valueClassName={classes.legendItemValue}
+      valueUnit="%"
+    />
+  )
+}
 
 LegendOnly.propTypes = {
-  categoryType: PropTypes.string.isRequired,
-  onCategoryClick: PropTypes.func.isRequired,
-  onCategoryTypeChange: PropTypes.func.isRequired,
-  onPeriodChange: PropTypes.func.isRequired,
-  period: PropTypes.string.isRequired,
-  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   data: pieDataProp.isRequired,
+  onCategoryClick: PropTypes.func.isRequired,
 }
 
 export default injectStyles(styles)(LegendOnly)

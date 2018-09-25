@@ -3,9 +3,8 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { pieDataProp } from 'data/models/charts'
+import { categoriesProp } from 'data/models/categories'
 import CategoryLabel from 'components/CategoryLabel'
-import limitCategories, { limitedCategoriesProps } from 'utils/limitCategories'
 import OtherCategories from './OtherCategories'
 
 const styles = theme => ({
@@ -38,16 +37,15 @@ const styles = theme => ({
 const CategoryList = ({
   activeKey,
   activeLabelClassName,
-  categories,
   classes,
   className,
+  data,
   iconClassName,
   itemClassName,
-  limitedCategories,
   nameClassName,
+  onLabelClick,
   onLabelMouseEnter,
   onLabelMouseLeave,
-  onLabelClick,
   tooltipIconClassName,
   tooltipItemClassName,
   tooltipNameClassName,
@@ -84,8 +82,7 @@ const CategoryList = ({
     />
   )
 
-  const { items, other, tooltipItems } =
-    limitedCategories || limitCategories(categories)
+  const { items, other, tooltipItems } = data
 
   return (
     <div className={className}>
@@ -106,10 +103,9 @@ const CategoryList = ({
 CategoryList.propTypes = {
   activeKey: PropTypes.number,
   activeLabelClassName: PropTypes.string,
-  categories: pieDataProp,
+  data: categoriesProp,
   iconClassName: PropTypes.string,
   itemClassName: PropTypes.string,
-  limitedCategories: PropTypes.shape(limitedCategoriesProps),
   nameClassName: PropTypes.string,
   onLabelMouseEnter: PropTypes.func,
   onLabelMouseLeave: PropTypes.func,

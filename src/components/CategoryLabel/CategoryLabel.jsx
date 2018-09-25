@@ -2,9 +2,9 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
+import { categoryProps } from 'data/models/categories'
 import HighlightText from 'components/HighlightText'
 import IconCircle from 'components/IconCircle'
-import { categoryProps } from 'utils/limitCategories'
 
 const styles = {
   root: {

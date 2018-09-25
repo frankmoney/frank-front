@@ -1,7 +1,6 @@
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 
-export const DEFAULT_LIMIT = 5
 const VALUE_PROP = 'value'
 const OTHER_TEMPLATE = {
   name: 'Other categories',
@@ -54,10 +53,8 @@ export const categoryProps = {
 
 const categoryShape = PropTypes.shape(categoryProps)
 
-export const limitedCategoriesProps = {
+export const categoriesProp = PropTypes.shape({
   items: PropTypes.arrayOf(categoryShape),
   other: categoryShape,
   tooltipItems: PropTypes.arrayOf(categoryShape),
-}
-
-export default limitCategoriesTo(DEFAULT_LIMIT)
+})

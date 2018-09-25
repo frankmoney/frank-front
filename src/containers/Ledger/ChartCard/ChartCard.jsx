@@ -33,6 +33,7 @@ class ChartCard extends React.PureComponent {
     } = this.props
 
     const { expanded } = this.state
+    const categories = pieData[categoryType]
     return (
       <Paper
         className={cx(
@@ -49,7 +50,7 @@ class ChartCard extends React.PureComponent {
             <CategoryListPieChart
               categoryType={categoryType}
               chartClassName={classes.chart}
-              data={pieData}
+              data={categories}
               hidePeriod
               legendClassName={classes.legend}
               onCategoryClick={onCategoryClick}
@@ -71,13 +72,13 @@ class ChartCard extends React.PureComponent {
 }
 
 ChartCard.propTypes = {
-  barsData: barDataProp,
+  barsData: barDataProp.isRequired,
   barsOnly: PropTypes.bool,
   categoryType: PropTypes.string,
   onCategoryClick: PropTypes.func,
   onCategoryTypeChange: PropTypes.func,
   period: PropTypes.string.isRequired,
-  pieData: pieDataProp,
+  pieData: PropTypes.objectOf(pieDataProp).isRequired,
 }
 
 export default injectStyles(styles, { fixedGrid: true })(ChartCard)
