@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { email as validateEmail, required, testObject } from '@frankmoney/forms'
 import { compose, withState, withPropsOnChange, withHandlers } from 'recompose'
 import TeamInviteDrawer from 'components/TeamInviteDrawer'
-import { TEAM_ROLE } from '../../../../const'
+import { TEAM_ROLES } from 'const'
 import * as ACTIONS from '../../actions'
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
@@ -19,7 +19,7 @@ const validate = props =>
     role: [required],
   })
 
-const DEFAULT_ROLE = TEAM_ROLE.observer
+const DEFAULT_ROLE = TEAM_ROLES.observer
 
 export default compose(
   connect(

@@ -1,18 +1,16 @@
 import React from 'react'
 import { Select2 } from '@frankmoney/components'
 import DrawerField from 'components/DrawerField'
-import { TEAM_ROLE_TEXT, TEAM_ROLE } from 'const'
-
-const renderTeamRoleOption = role => (
-  <Select2.Option value={role}>{TEAM_ROLE_TEXT[role]}</Select2.Option>
-)
+import { ORDERED_TEAM_ROLES, TEAM_ROLE_TITLES } from 'const'
 
 const RoleField = ({ value, onChange }) => (
   <DrawerField title="Role">
     <Select2 value={value} underline fullWidth onChange={onChange}>
-      {renderTeamRoleOption(TEAM_ROLE.admin)}
-      {renderTeamRoleOption(TEAM_ROLE.manager)}
-      {renderTeamRoleOption(TEAM_ROLE.observer)}
+      {ORDERED_TEAM_ROLES.map(role => (
+        <Select2.Option key={role} value={role}>
+          {TEAM_ROLE_TITLES[role]}
+        </Select2.Option>
+      ))}
     </Select2>
   </DrawerField>
 )

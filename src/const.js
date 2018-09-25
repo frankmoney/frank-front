@@ -1,3 +1,5 @@
+import { OrderedMap } from 'immutable'
+
 // eslint-disable-next-line import/prefer-default-export
 export const ROUTES = {
   root: '/',
@@ -19,8 +21,6 @@ export const ROUTES = {
   },
   team: {
     root: '/team',
-    match: '/team/:action?/:id?',
-    invite: '/team/invite',
   },
   onboarding: {
     root: '/onboarding',
@@ -45,6 +45,24 @@ export const ROUTES = {
 export const ACCOUNT_COOKIE_NAME = 'account-id'
 
 export const BASE_TITLE = 'Frank'
+
+export const TEAM_ROLES = {
+  administrator: 'administrator',
+  manager: 'manager',
+  observer: 'observer',
+}
+
+export const TEAM_ROLE_TITLES = {
+  [TEAM_ROLES.administrator]: 'Administrator',
+  [TEAM_ROLES.manager]: 'Manager',
+  [TEAM_ROLES.observer]: 'Observer',
+}
+
+export const ORDERED_TEAM_ROLES = [
+  TEAM_ROLES.administrator,
+  TEAM_ROLES.manager,
+  TEAM_ROLES.observer,
+]
 
 export const UNCATEGORIZED_COLOR = 'rgb(211, 213, 217)'
 
@@ -93,14 +111,3 @@ export const DEFAULT_CATEGORIES = [
     color: '#0a70dd',
   },
 ]
-export const TEAM_ROLE = {
-  observer: 'observer',
-  admin: 'administrator',
-  manager: 'manager',
-}
-
-export const TEAM_ROLE_TEXT = {
-  [TEAM_ROLE.observer]: 'Observer',
-  [TEAM_ROLE.admin]: 'Administrator',
-  [TEAM_ROLE.manager]: 'Manager',
-}
