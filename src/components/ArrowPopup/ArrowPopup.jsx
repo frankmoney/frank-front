@@ -1,6 +1,7 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
-import { ClickAway, Popper } from '@frankmoney/components'
+import { ClickAway } from '@frankmoney/components'
+import Popper from 'components/Popper'
 import Arrow from './arrow.svg'
 
 const styles = {
