@@ -53,8 +53,8 @@ class CategoryListPieChart extends React.PureComponent {
       onCategoryTypeChange &&
       (event => onCategoryTypeChange(event.target.value))
 
-    const categories = data[categoryType] // TODO: use selector
-    const { items, other, tooltipItems } = limitCategoriesTo(5)(categories)
+    const { items, other, tooltipItems } = limitCategoriesTo(5)(data)
+    // TODO: move rounding into limit?
     const limitedCategories = {
       items: R.map(roundValues, items),
       other: other && roundValues(other),
@@ -125,7 +125,7 @@ class CategoryListPieChart extends React.PureComponent {
 CategoryListPieChart.propTypes = {
   categoryType: PropTypes.string.isRequired,
   chartSize: PropTypes.number.isRequired,
-  data: PropTypes.objectOf(pieDataProp).isRequired,
+  data: pieDataProp.isRequired,
   hideChart: PropTypes.bool,
   hidePeriod: PropTypes.bool,
   legendClassName: PropTypes.string,

@@ -33,6 +33,7 @@ class ChartCard extends React.PureComponent {
     } = this.props
 
     const { expanded } = this.state
+    const categories = pieData[categoryType]
     return (
       <Paper
         className={cx(
@@ -49,7 +50,7 @@ class ChartCard extends React.PureComponent {
             <CategoryListPieChart
               categoryType={categoryType}
               chartClassName={classes.chart}
-              data={pieData}
+              data={categories}
               hidePeriod
               legendClassName={classes.legend}
               onCategoryClick={onCategoryClick}

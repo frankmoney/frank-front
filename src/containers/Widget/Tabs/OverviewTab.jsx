@@ -16,25 +16,28 @@ const OverviewTab = ({
   period,
   periods,
   size,
-}) => (
-  <div className={contentClassName}>
-    <OverviewChart
-      categoryType={categoryType}
-      data={data}
-      onCategoryClick={onCategoryClick}
-      onCategoryTypeChange={onCategoryTypeChange}
-      onPeriodChange={onPeriodChange}
-      period={period}
-      periods={periods}
-      size={size}
-    />
-    <Footer
-      paymentCount={paymentCount}
-      categoryCount={categoryCount}
-      onSeeAllClick={onSeeAllClick}
-    />
-  </div>
-)
+}) => {
+  const categories = data[categoryType] // TODO: move to selector?
+  return (
+    <div className={contentClassName}>
+      <OverviewChart
+        categoryType={categoryType}
+        data={categories}
+        onCategoryClick={onCategoryClick}
+        onCategoryTypeChange={onCategoryTypeChange}
+        onPeriodChange={onPeriodChange}
+        period={period}
+        periods={periods}
+        size={size}
+      />
+      <Footer
+        paymentCount={paymentCount}
+        categoryCount={categoryCount}
+        onSeeAllClick={onSeeAllClick}
+      />
+    </div>
+  )
+}
 
 OverviewTab.propTypes = {
   categoryCount: PropTypes.number,
