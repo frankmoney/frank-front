@@ -2,8 +2,10 @@ import React from 'react'
 import { GiantButton } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import AddIcon from 'material-ui-icons/Add'
+import { compose, withPropsOnChange } from 'recompose'
 import ListLayoutContentBlock from 'components/ListLayoutContentBlock'
-import { ROUTES } from 'const'
+import reconnect from 'utils/reconnect'
+import ACTIONS from './actions'
 
 const styles = theme => ({
   button: {
@@ -16,15 +18,27 @@ const styles = theme => ({
   },
 })
 
-const InviteButton = ({ classes }) => (
+const InviteButton = ({ classes, handleClick }) => (
   <ListLayoutContentBlock>
     <GiantButton
       className={classes.button}
       label="Invite a teammate"
       icon={AddIcon}
-      href={ROUTES.team.invite}
+      href="#invite"
+      onClick={handleClick}
     />
   </ListLayoutContentBlock>
 )
 
-export default injectStyles(styles)(InviteButton)
+export default compose(
+  reconnect(null, {
+    openInviteDrawer: ACTIONS.openInviteDrawer,
+  }),
+  withPropsOnChange(['openInviteDrawer'], ({ openInviteDrawer }) => ({
+    handleClick: event => {
+      event.preventDefault()
+      openInviteDrawer()
+    },
+  })),
+  injectStyles(styles)
+)(InviteButton)

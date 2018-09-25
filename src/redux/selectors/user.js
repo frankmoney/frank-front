@@ -6,3 +6,8 @@ export const currentAccountIdSelector = createSelector(
   currentUserSelector,
   R.prop('accountId')
 )
+
+export const userAccountsSelector = createSelector(
+  currentUserSelector,
+  R.prop('accounts')
+)

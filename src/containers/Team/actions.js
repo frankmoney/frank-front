@@ -5,7 +5,11 @@ const actions = createActions(ACTION_PREFIX, {
   load: true,
   leave: false,
   openInviteDrawer: false,
-  openEditRoleDrawer: false,
+  closeInviteDrawer: false,
+  openChangePasswordPopup: false,
+  invite: true,
+  remove: true,
+  updateRole: true,
 })
 
 export default actions

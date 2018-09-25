@@ -46,7 +46,7 @@ const Directory = ({
       <DirectorySearch
         placeholder="Start typing recipient or donor name…"
         className={classes.searchCard}
-        processing={listDisabled}
+        loading={listDisabled}
       />
       <DirectoryHighlightTextProvider>
         <RecipientsTable className={classes.table} />

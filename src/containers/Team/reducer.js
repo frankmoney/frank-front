@@ -3,7 +3,6 @@ import * as R from 'ramda'
 import { handleActions } from 'redux-actions'
 import ACTIONS from './actions'
 import { REDUCER_NAME } from './constants'
-import EDIT_ROLE_ACTIONS from './EditRoleDrawer/actions'
 
 const initialState = fromJS({
   loaded: false,
@@ -11,13 +10,17 @@ const initialState = fromJS({
   profiles: null,
   ownProfileId: null,
   otherProfileIds: null,
+  inviteDrawerOpen: false,
+  changePasswordPopupOpen: false,
 })
 
 const teamReducer = handleActions(
   {
     [ACTIONS.load]: state => state.merge({ loaded: false, loading: true }),
+
     [ACTIONS.load.error]: state =>
       state.merge({ loaded: false, loading: false }),
+
     [ACTIONS.load.success]: (state, { payload: { self, others } }) =>
       state.merge({
         loaded: true,
@@ -26,9 +29,20 @@ const teamReducer = handleActions(
         ownProfileId: self.id,
         otherProfileIds: others.map(R.prop('id')),
       }),
+
+    [ACTIONS.openInviteDrawer]: state => state.set('inviteDrawerOpen', true),
+
+    [ACTIONS.closeInviteDrawer]: state => state.set('inviteDrawerOpen', false),
+
+    [ACTIONS.openChangePasswordPopup]: state =>
+      state.set('changePasswordPopupOpen', true),
+
+    [ACTIONS.invite]: state => state.set('inviteDrawerOpen', false),
+
+    [ACTIONS.updateRole]: (state, { payload: { id, role } }) =>
+      state.setIn(['profiles', id, 'role'], role),
+
     [ACTIONS.leave]: () => initialState,
-    [EDIT_ROLE_ACTIONS.submit.success]: (state, { payload: profile }) =>
-      state.mergeIn(['profiles', profile.id], profile),
   },
   initialState
 )
