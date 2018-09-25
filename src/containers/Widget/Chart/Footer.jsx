@@ -29,9 +29,6 @@ const styles = {
     cursor: 'pointer',
     outline: 'none',
     marginLeft: 5,
-    '$fixed &': {
-      marginLeft: 10,
-    },
   },
   verified: {
     color: '#9295A1',

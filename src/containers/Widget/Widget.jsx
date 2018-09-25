@@ -5,9 +5,8 @@ import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { barDataProp, pieDataProp } from 'data/models/charts'
-import { AboutTab, PaymentListTab, StoriesTab } from './Tabs'
+import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
 import { Header, HeaderItem } from './Header'
-import OverviewChart, { Footer } from './Chart'
 import {
   barChartDataSelector,
   categoryCountSelector,
@@ -85,23 +84,20 @@ class Widget extends React.PureComponent {
           </Header>
         )}
         {overviewTab && (
-          <div className={contentClassName}>
-            <OverviewChart
-              categoryType={categoryType}
-              data={pieData}
-              onCategoryClick={onCategoryClick}
-              onCategoryTypeChange={onCategoryTypeChange}
-              onPeriodChange={onPeriodChange}
-              period={period}
-              periods={periods}
-              size={pieChartSize}
-            />
-            <Footer
-              paymentCount={entriesCount}
-              categoryCount={showCategoryCount ? categoryCount : null}
-              onSeeAllClick={onSeeAllClick}
-            />
-          </div>
+          <OverviewTab
+            data={pieData}
+            categoryType={categoryType}
+            contentClassName={contentClassName}
+            onCategoryClick={onCategoryClick}
+            onCategoryTypeChange={onCategoryTypeChange}
+            onPeriodChange={onPeriodChange}
+            onSeeAllClick={onSeeAllClick}
+            categoryCount={showCategoryCount ? categoryCount : null}
+            paymentCount={entriesCount}
+            period={period}
+            periods={periods}
+            size={pieChartSize}
+          />
         )}
         {paymentListTab && (
           <PaymentListTab
