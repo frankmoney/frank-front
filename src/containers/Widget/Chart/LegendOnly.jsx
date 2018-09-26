@@ -7,46 +7,31 @@ import { pieDataProp } from 'data/models/charts'
 import ConnectedPeriodSelect from '../ConnectedPeriodSelect'
 import ConnectedCategoryTypeSelect from '../ConnectedCategoryTypeSelect'
 
-// FIXME: styles
 const styles = theme => ({
-  root: {
-    marginBottom: 5,
-    paddingTop: 5,
-    display: 'block',
+  selectors: {
+    display: 'flex',
+    flexShrink: 0,
+    margin: [6, 0, -1, 2],
   },
-  periodSelect: {
-    display: 'inline-block',
-    position: 'relative',
-    top: 'unset',
-    left: 2,
-  },
-  switcherContainer: {
-    display: 'inline-block',
-    height: 'auto',
-    width: 'auto',
-    marginLeft: 29,
-  },
-  switcher: {
-    position: 'unset',
-    transform: 'none',
+  categoryType: {
+    marginLeft: 27,
   },
   legend: {
     padding: [10, 2],
-    width: '100%',
-    minHeight: 128, // fixes case of too few lines
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    flexShrink: 0,
   },
   legendItem: {
-    alignItems: 'center',
     display: 'flex',
     padding: [4, 0],
-    position: 'relative',
   },
-  legendItemFont: {
+  legendItemName: {
     ...theme.fontMedium(18, 26),
+    flexGrow: 1,
   },
   legendItemValue: {
-    position: 'absolute',
-    right: 0,
     ...theme.fontRegular(18, 26),
   },
   legendIcon: {
@@ -55,19 +40,20 @@ const styles = theme => ({
   },
 })
 
-// TODO: actually move inside OverviewTab?
 const LegendOnly = ({ classes, data, onCategoryClick }) => {
   const limitedCategories = limitCategoriesTo(999)(data)
   return (
     <>
-      <ConnectedPeriodSelect className={classes.periodSelect} />
-      <ConnectedCategoryTypeSelect className={classes.switcher} />
+      <div className={classes.selectors}>
+        <ConnectedPeriodSelect />
+        <ConnectedCategoryTypeSelect className={classes.categoryType} />
+      </div>
       <CategoryList
         className={classes.legend}
         iconClassName={classes.legendIcon}
         itemClassName={classes.legendItem}
         data={limitedCategories}
-        nameClassName={classes.legendItemFont}
+        nameClassName={classes.legendItemName}
         onCategoryClick={onCategoryClick}
         tooltip
         valueClassName={classes.legendItemValue}
