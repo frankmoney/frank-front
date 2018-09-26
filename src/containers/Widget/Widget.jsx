@@ -17,111 +17,102 @@ import {
   periodSelector,
   periodsSelector,
   pieChartDataSelector,
+  tabSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 
-class Widget extends React.PureComponent {
-  state = {
-    tab: 'payments',
-  }
+const Widget = ({
+  barChartClassName,
+  barsData,
+  barsHeight,
+  barsWidth,
+  categoryCount,
+  categoryType,
+  className,
+  contentClassName,
+  currentCategoryColor,
+  currentCategoryName,
+  entriesCount,
+  onCancelCategoryClick,
+  onCategoryClick,
+  onCategoryTypeChange,
+  onPeriodChange,
+  onSeeAllClick,
+  onTabSwitch,
+  paymentsClassName,
+  paymentsPeriodClassName,
+  period,
+  periods,
+  pieChartSize,
+  pieData,
+  showBarChart,
+  showCategoryCount,
+  tab,
+}) => {
+  const overviewTab = tab === 'overview'
+  const paymentListTab = tab === 'payments'
+  const storiesTab = tab === 'stories'
+  const aboutTab = tab === 'about'
 
-  switchTab = tab => () => this.setState({ tab })
-
-  render() {
-    const {
-      barChartClassName,
-      barsData,
-      barsHeight,
-      barsWidth,
-      categoryCount,
-      categoryType,
-      className,
-      contentClassName,
-      currentCategoryColor,
-      currentCategoryName,
-      entriesCount,
-      onCancelCategoryClick,
-      onCategoryClick,
-      onCategoryTypeChange,
-      onPeriodChange,
-      onSeeAllClick,
-      paymentsClassName,
-      paymentsPeriodClassName,
-      period,
-      periods,
-      pieChartSize,
-      pieData,
-      showBarChart,
-      showCategoryCount,
-    } = this.props
-
-    const { tab } = this.state
-    const selectedCategory = currentCategoryName != null
-    const overviewTab = tab === 'payments' && !selectedCategory
-    const paymentListTab = tab === 'payments' && selectedCategory // TODO: redo as a tab
-    const storiesTab = tab === 'stories'
-    const aboutTab = tab === 'about'
-
-    return (
-      <div className={className}>
-        {!paymentListTab && (
-          <Header>
-            <HeaderItem
-              name="Payments"
-              active={overviewTab}
-              onClick={this.switchTab('payments')}
-            />
-            <HeaderItem
-              name="Stories"
-              active={storiesTab}
-              onClick={this.switchTab('stories')}
-            />
-            <HeaderItem
-              name="About"
-              active={aboutTab}
-              onClick={this.switchTab('about')}
-            />
-          </Header>
-        )}
-        {overviewTab && (
-          <OverviewTab
-            data={pieData}
-            categoryType={categoryType}
-            contentClassName={contentClassName}
-            onCategoryClick={onCategoryClick}
-            onCategoryTypeChange={onCategoryTypeChange}
-            onPeriodChange={onPeriodChange}
-            onSeeAllClick={onSeeAllClick}
-            categoryCount={showCategoryCount ? categoryCount : null}
-            paymentCount={entriesCount}
-            period={period}
-            periods={periods}
-            size={pieChartSize}
+  return (
+    <div className={className}>
+      {!paymentListTab && (
+        <Header>
+          <HeaderItem
+            name="Payments"
+            active={overviewTab}
+            onClick={() => onTabSwitch('overview')}
           />
-        )}
-        {paymentListTab && (
-          <PaymentListTab
-            barChartClassName={barChartClassName}
-            barsData={barsData}
-            barsHeight={barsHeight}
-            barsWidth={barsWidth}
-            contentClassName={contentClassName}
-            currentCategoryColor={currentCategoryColor}
-            currentCategoryName={currentCategoryName}
-            onCancelCategoryClick={onCancelCategoryClick}
-            onPeriodChange={onPeriodChange}
-            paymentsClassName={paymentsClassName}
-            paymentsPeriodClassName={paymentsPeriodClassName}
-            period={period}
-            periods={periods}
-            showBarChart={showBarChart}
+          <HeaderItem
+            name="Stories"
+            active={storiesTab}
+            onClick={() => onTabSwitch('stories')}
           />
-        )}
-        {storiesTab && <StoriesTab />}
-        {aboutTab && <AboutTab />}
-      </div>
-    )
-  }
+          <HeaderItem
+            name="About"
+            active={aboutTab}
+            onClick={() => onTabSwitch('about')}
+          />
+        </Header>
+      )}
+      {overviewTab && (
+        <OverviewTab
+          data={pieData}
+          categoryType={categoryType}
+          contentClassName={contentClassName}
+          onCategoryClick={onCategoryClick}
+          onCategoryTypeChange={onCategoryTypeChange}
+          onPeriodChange={onPeriodChange}
+          onSeeAllClick={onSeeAllClick}
+          categoryCount={showCategoryCount ? categoryCount : null}
+          paymentCount={entriesCount}
+          period={period}
+          periods={periods}
+          size={pieChartSize}
+        />
+      )}
+      {paymentListTab && (
+        <PaymentListTab
+          barChartClassName={barChartClassName}
+          barsData={barsData}
+          barsHeight={barsHeight}
+          barsWidth={barsWidth}
+          contentClassName={contentClassName}
+          currentCategoryColor={currentCategoryColor}
+          currentCategoryName={currentCategoryName}
+          onCancelCategoryClick={onCancelCategoryClick}
+          onPeriodChange={onPeriodChange}
+          paymentsClassName={paymentsClassName}
+          paymentsPeriodClassName={paymentsPeriodClassName}
+          period={period}
+          periods={periods}
+          showBarChart={showBarChart}
+        />
+      )}
+      {storiesTab && <StoriesTab />}
+      {aboutTab && <AboutTab />}
+    </div>
+  )
 }
 
 Widget.propTypes = {
@@ -131,6 +122,7 @@ Widget.propTypes = {
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,
   onSeeAllClick: PropTypes.func.isRequired,
+  onTabSwitch: PropTypes.func.isRequired,
   pieChartSize: PropTypes.number.isRequired,
   showBarChart: PropTypes.bool,
   showCategoryCount: PropTypes.bool,
@@ -144,7 +136,7 @@ Widget.propTypes = {
   period: PropTypes.string.isRequired,
   periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   pieData: PropTypes.objectOf(pieDataProp),
-  // tab: PropTypes.oneOf(['payments', 'stories', 'about']), // TODO: wait for selector
+  tab: PropTypes.oneOf(['overview', 'payments', 'stories', 'about']),
   // Styles
   barChartClassName: PropTypes.string,
   className: PropTypes.string,
@@ -163,6 +155,7 @@ const mapStateToProps = createStructuredSelector({
   period: periodSelector,
   periods: periodsSelector,
   pieData: pieChartDataSelector,
+  tab: tabSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
@@ -172,6 +165,7 @@ const mapDispatchToProps = R.partial(bindActionCreators, [
     onCancelCategoryClick: ACTIONS.cancelCategory,
     onPeriodChange: ACTIONS.selectPeriod,
     onSeeAllClick: ACTIONS.selectAllCategories,
+    onTabSwitch: ACTIONS.switchTab,
   },
 ])
 
