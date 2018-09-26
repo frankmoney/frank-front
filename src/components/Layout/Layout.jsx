@@ -1,15 +1,15 @@
 import React from 'react'
-import {
-  Sidebar,
-  SidebarMenuItem,
-  responsiveSidebar,
-} from '@frankmoney/components'
+import { SidebarMenuItem, responsiveSidebar } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
 import { PageLayout, ReduxNavLink } from '@frankmoney/webapp'
 import { compose, withProps } from 'recompose'
+import { RecentActors as TeamIcon, Help as HelpIcon } from 'material-ui-icons'
+import { Sidebar } from 'components/Sidebar'
 import CurrencyProvider from 'components/CurrencyProvider'
 import { ROUTES } from 'const'
-import AccountSidebarBottomMenu from './AccountSidebarBottomMenu'
+import AccountsSwitchMenu from './AccountsSwitchMenu'
+import BottomMenu from './BottomMenu'
+import FrankLogo from './FrankLogo.svg'
 
 const Layout = props => (
   <CurrencyProvider code="USD">
@@ -17,42 +17,32 @@ const Layout = props => (
   </CurrencyProvider>
 )
 
+const Logo = ({ className }) => (
+  <div className={className}>
+    <FrankLogo />
+  </div>
+)
+
 export default withProps({
   sidebarComponent: compose(
     withProps({
-      BottomMenuComponent: AccountSidebarBottomMenu,
-      renderMainMenuItems: () => (
+      LogoComponent: Logo,
+      AccountsSwitchMenuComponent: AccountsSwitchMenu,
+      BottomMenuComponent: BottomMenu,
+      renderGlobalMenuItems: () => (
         <>
-          {/* <SidebarMenuItem */}
-          {/* href={createRouteUrl(ROUTES.inbox.root)} */}
-          {/* navLinkComponent={ReduxNavLink} */}
-          {/* primaryText="Inbox" */}
-          {/* /> */}
           <SidebarMenuItem
-            href={createRouteUrl(ROUTES.ledger.root)}
-            navLinkComponent={ReduxNavLink}
-            primaryText="Ledger"
-          />
-          <SidebarMenuItem
-            href={createRouteUrl(ROUTES.team.root)}
             navLinkComponent={ReduxNavLink}
             primaryText="Team"
+            leftIcon={TeamIcon}
+            disabled
           />
           <SidebarMenuItem
-            href={createRouteUrl(ROUTES.stories.root)}
             navLinkComponent={ReduxNavLink}
-            primaryText="Stories"
+            primaryText="How it works"
+            leftIcon={HelpIcon}
+            disabled
           />
-          <SidebarMenuItem
-            href={createRouteUrl(ROUTES.directory.root)}
-            navLinkComponent={ReduxNavLink}
-            primaryText="Directory"
-          />
-          {/* <SidebarMenuItem */}
-          {/* href={createRouteUrl(ROUTES.team.root)} */}
-          {/* navLinkComponent={ReduxNavLink} */}
-          {/* primaryText="Team" */}
-          {/* /> */}
         </>
       ),
     }),

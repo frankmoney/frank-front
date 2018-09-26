@@ -13,26 +13,12 @@ import {
 import * as USER_ACTIONS from 'redux/actions/user'
 import { ROUTES } from '../../const'
 
-const SidebarBottomUserMenu = ({
-  user,
-  accounts = [],
-  selectedAccountId,
-  children,
-  handleAccountSelect,
-  ...otherProps
-}) => (
+const SidebarBottomUserMenu = ({ user, children, ...otherProps }) => (
   <SidebarBottomMenu {...otherProps}>
     <SidebarBottomMenuItem
       key="user"
       text={[user.firstName, user.lastName].join(' ')}
     />
-    {accounts.map(({ id, name }) => (
-      <SidebarBottomMenuItem
-        key={id}
-        text={`${id === selectedAccountId ? '>> ' : ''}${name}`}
-        onClick={() => handleAccountSelect(id)}
-      />
-    ))}
     <SidebarBottomMenuItem
       key="logout"
       text="Sign out"
@@ -43,14 +29,7 @@ const SidebarBottomUserMenu = ({
 )
 
 export default compose(
-  reconnect(
-    {
-      user: currentUserSelector,
-      selectedAccountId: currentAccountIdSelector,
-      accounts: userAccountsSelector,
-    },
-    {
-      handleAccountSelect: USER_ACTIONS.selectAccount,
-    }
-  )
+  reconnect({
+    user: currentUserSelector,
+  })
 )(SidebarBottomUserMenu)
