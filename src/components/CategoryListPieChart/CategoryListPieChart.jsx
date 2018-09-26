@@ -6,12 +6,10 @@ import { injectStyles } from '@frankmoney/ui'
 import { limitCategoriesTo } from 'data/models/categories'
 import { pieDataProp } from 'data/models/charts'
 import CategoryList from 'components/CategoryList'
-import DropdownSwitcher from 'components/DropdownSwitcher'
 import Pie from 'components/Charts/Pie'
+import CategoryTypeSelect from './CategoryTypeSelect'
 import PeriodSelector from './PeriodSelector'
 import styles from './CategoryListPieChart.jss'
-
-const CATEGORY_TYPES = [{ key: 'income' }, { key: 'spending' }]
 
 class CategoryListPieChart extends React.PureComponent {
   state = {
@@ -47,10 +45,6 @@ class CategoryListPieChart extends React.PureComponent {
       switcherLabel,
     } = this.props
 
-    const handleChangeCategoryType =
-      onCategoryTypeChange &&
-      (event => onCategoryTypeChange(event.target.value))
-
     const categories = limitCategoriesTo(5)(data)
     const { items, other } = categories
     const pieData = other ? R.append(other, items) : items
@@ -82,12 +76,11 @@ class CategoryListPieChart extends React.PureComponent {
               size={chartSize}
             />
           )}
-          <DropdownSwitcher
+          <CategoryTypeSelect
             className={cx(classes.switcher, switcherClassName)}
             label={switcherLabel}
-            onChange={handleChangeCategoryType}
+            onChange={onCategoryTypeChange}
             value={categoryType}
-            values={CATEGORY_TYPES}
           />
         </div>
         <CategoryList
@@ -134,7 +127,6 @@ CategoryListPieChart.propTypes = {
 
 CategoryListPieChart.defaultProps = {
   chartSize: 350,
-  switcherLabel: '% of total',
 }
 
 export default injectStyles(styles)(CategoryListPieChart)

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import PeriodSelector from 'components/CategoryListPieChart/PeriodSelector'
 import Bar from 'components/Charts/Bar'
 import { barDataProp } from 'data/models/charts'
+import ConnectedPeriodSelect from '../ConnectedPeriodSelect'
 import Payments from '../Payments'
 import { Header, CategoryName } from '../Header'
 
@@ -15,11 +15,8 @@ const PaymentListTab = ({
   currentCategoryColor,
   currentCategoryName,
   onCancelCategoryClick,
-  onPeriodChange,
   paymentsClassName,
   paymentsPeriodClassName,
-  period,
-  periods,
   showBarChart,
 }) => (
   <>
@@ -32,12 +29,7 @@ const PaymentListTab = ({
     <div className={contentClassName}>
       {showBarChart && (
         <>
-          <PeriodSelector
-            className={paymentsPeriodClassName}
-            onChange={onPeriodChange}
-            value={period}
-            values={periods}
-          />
+          <ConnectedPeriodSelect className={paymentsPeriodClassName} />
           <Bar
             barColor={currentCategoryColor}
             className={barChartClassName}
@@ -60,9 +52,6 @@ PaymentListTab.propTypes = {
   barsHeight: PropTypes.number.isRequired,
   barsWidth: PropTypes.number.isRequired,
   onCancelCategoryClick: PropTypes.func.isRequired,
-  onPeriodChange: PropTypes.func.isRequired,
-  period: PropTypes.string.isRequired,
-  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   showBarChart: PropTypes.bool,
   // Styles
   barChartClassName: PropTypes.string,

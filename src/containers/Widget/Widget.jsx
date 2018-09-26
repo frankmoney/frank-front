@@ -101,11 +101,8 @@ const Widget = ({
           currentCategoryColor={currentCategoryColor}
           currentCategoryName={currentCategoryName}
           onCancelCategoryClick={onCancelCategoryClick}
-          onPeriodChange={onPeriodChange}
           paymentsClassName={paymentsClassName}
           paymentsPeriodClassName={paymentsPeriodClassName}
-          period={period}
-          periods={periods}
           showBarChart={showBarChart}
         />
       )}

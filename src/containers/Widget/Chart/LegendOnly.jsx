@@ -4,6 +4,8 @@ import { injectStyles } from '@frankmoney/ui'
 import { limitCategoriesTo } from 'data/models/categories'
 import CategoryList from 'components/CategoryList'
 import { pieDataProp } from 'data/models/charts'
+import ConnectedPeriodSelect from '../ConnectedPeriodSelect'
+import ConnectedCategoryTypeSelect from '../ConnectedCategoryTypeSelect'
 
 // FIXME: styles
 const styles = theme => ({
@@ -57,17 +59,21 @@ const styles = theme => ({
 const LegendOnly = ({ classes, data, onCategoryClick }) => {
   const limitedCategories = limitCategoriesTo(999)(data)
   return (
-    <CategoryList
-      className={classes.legend}
-      iconClassName={classes.legendIcon}
-      itemClassName={classes.legendItem}
-      data={limitedCategories}
-      nameClassName={classes.legendItemFont}
-      onCategoryClick={onCategoryClick}
-      tooltip
-      valueClassName={classes.legendItemValue}
-      valueUnit="%"
-    />
+    <>
+      <ConnectedPeriodSelect className={classes.periodSelect} />
+      <ConnectedCategoryTypeSelect className={classes.switcher} />
+      <CategoryList
+        className={classes.legend}
+        iconClassName={classes.legendIcon}
+        itemClassName={classes.legendItem}
+        data={limitedCategories}
+        nameClassName={classes.legendItemFont}
+        onCategoryClick={onCategoryClick}
+        tooltip
+        valueClassName={classes.legendItemValue}
+        valueUnit="%"
+      />
+    </>
   )
 }
 
