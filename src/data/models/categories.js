@@ -29,14 +29,23 @@ const doLimit = (otherTemplate, valueProp, maxEntries) =>
     }
   )
 
+const roundValues = R.over(R.lensProp('value'), Math.round)
+
 export const customLimitCategories = (otherTemplate, valueProp) => maxEntries =>
-  R.ifElse(
-    R.pipe(
-      R.length,
-      R.gte(maxEntries)
+  R.pipe(
+    R.ifElse(
+      R.pipe(
+        R.length,
+        R.gte(maxEntries)
+      ),
+      items => ({ items: injectKey(items), other: null, tooltipItems: [] }),
+      doLimit(otherTemplate, valueProp, maxEntries)
     ),
-    items => ({ items: injectKey(items), other: null, tooltipItems: [] }),
-    doLimit(otherTemplate, valueProp, maxEntries)
+    ({ items, other, tooltipItems }) => ({
+      items: R.map(roundValues, items),
+      other: other && roundValues(other),
+      tooltipItems: R.map(roundValues, tooltipItems),
+    })
   )
 
 export const limitCategoriesTo = customLimitCategories(

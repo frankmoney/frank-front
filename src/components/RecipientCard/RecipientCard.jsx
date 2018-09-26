@@ -12,15 +12,15 @@ import styles from './RecipientCard.jss'
 const formatDate = date => format(date, 'MMM D, YYYY')
 
 const RecipientCard = ({
+  categories,
   classes,
   className,
-  name,
-  paymentCount,
   lastPaymentDate,
+  name,
+  onEditName,
+  paymentCount,
   revenue,
   spending,
-  categories,
-  onEditName,
 }) => (
   <Paper className={cx(classes.paper, className)}>
     <div className={classes.leftColumn}>

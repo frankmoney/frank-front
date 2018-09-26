@@ -63,7 +63,7 @@ const LegendOnly = ({ classes, data, onCategoryClick }) => {
       itemClassName={classes.legendItem}
       data={limitedCategories}
       nameClassName={classes.legendItemFont}
-      onLabelClick={onCategoryClick}
+      onCategoryClick={onCategoryClick}
       tooltip
       valueClassName={classes.legendItemValue}
       valueUnit="%"

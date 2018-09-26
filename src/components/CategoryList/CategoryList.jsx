@@ -39,11 +39,11 @@ const CategoryList = ({
   activeLabelClassName,
   classes,
   className,
-  data,
+  data: { items, other, tooltipItems },
   iconClassName,
   itemClassName,
   nameClassName,
-  onLabelClick,
+  onCategoryClick,
   onLabelMouseEnter,
   onLabelMouseLeave,
   tooltipIconClassName,
@@ -61,7 +61,7 @@ const CategoryList = ({
       iconClassName={iconClassName}
       key={key}
       nameClassName={nameClassName}
-      onClick={onLabelClick && (() => onLabelClick(key))}
+      onClick={onCategoryClick && (() => onCategoryClick(items[key]))}
       onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(key))}
       onMouseLeave={onLabelMouseLeave && (() => onLabelMouseLeave(key))}
       valueClassName={valueClassName}
@@ -81,8 +81,6 @@ const CategoryList = ({
       {...otherProps}
     />
   )
-
-  const { items, other, tooltipItems } = data
 
   return (
     <div className={className}>
@@ -107,6 +105,7 @@ CategoryList.propTypes = {
   iconClassName: PropTypes.string,
   itemClassName: PropTypes.string,
   nameClassName: PropTypes.string,
+  onCategoryClick: PropTypes.func,
   onLabelMouseEnter: PropTypes.func,
   onLabelMouseLeave: PropTypes.func,
   tooltipIconClassName: PropTypes.string,

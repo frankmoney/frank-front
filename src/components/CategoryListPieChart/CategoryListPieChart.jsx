@@ -13,8 +13,6 @@ import styles from './CategoryListPieChart.jss'
 
 const CATEGORY_TYPES = [{ key: 'income' }, { key: 'spending' }]
 
-const roundValues = R.over(R.lensProp('value'), Math.round)
-
 class CategoryListPieChart extends React.PureComponent {
   state = {
     activeKey: null,
@@ -53,17 +51,9 @@ class CategoryListPieChart extends React.PureComponent {
       onCategoryTypeChange &&
       (event => onCategoryTypeChange(event.target.value))
 
-    const { items, other, tooltipItems } = limitCategoriesTo(5)(data)
-    // TODO: move rounding into limit?
-    const limitedCategories = {
-      items: R.map(roundValues, items),
-      other: other && roundValues(other),
-      tooltipItems: R.map(roundValues, tooltipItems),
-    }
+    const categories = limitCategoriesTo(5)(data)
+    const { items, other } = categories
     const pieData = other ? R.append(other, items) : items
-
-    const handleCategoryClick =
-      onCategoryClick && (key => onCategoryClick(items[key]))
 
     return (
       <div
@@ -108,9 +98,9 @@ class CategoryListPieChart extends React.PureComponent {
           })}
           iconClassName={cx(classes.legendIcon, legendIconClassName)}
           itemClassName={cx(classes.legendItem, legendItemClassName)}
-          data={limitedCategories}
+          data={categories}
           nameClassName={cx(classes.legendItemName, legendNameClassName)}
-          onLabelClick={handleCategoryClick}
+          onCategoryClick={onCategoryClick}
           onLabelMouseEnter={this.handleMouseOver}
           onLabelMouseLeave={this.handleMouseOut}
           tooltip
