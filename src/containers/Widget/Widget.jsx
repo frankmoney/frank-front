@@ -13,7 +13,7 @@ import {
   categoryTypeSelector,
   currentCategoryColorSelector,
   currentCategoryNameSelector,
-  entriesCountSelector,
+  paymentCountSelector,
   periodSelector,
   periodsSelector,
   pieChartDataSelector,
@@ -32,13 +32,13 @@ const Widget = ({
   contentClassName,
   currentCategoryColor,
   currentCategoryName,
-  entriesCount,
   onCancelCategoryClick,
   onCategoryClick,
   onCategoryTypeChange,
   onPeriodChange,
   onSeeAllClick,
   onTabSwitch,
+  paymentCount,
   paymentsClassName,
   paymentsPeriodClassName,
   period,
@@ -85,7 +85,7 @@ const Widget = ({
           onPeriodChange={onPeriodChange}
           onSeeAllClick={onSeeAllClick}
           categoryCount={showCategoryCount ? categoryCount : null}
-          paymentCount={entriesCount}
+          paymentCount={paymentCount}
           period={period}
           periods={periods}
           size={pieChartSize}
@@ -132,7 +132,7 @@ Widget.propTypes = {
   categoryType: PropTypes.string,
   currentCategoryColor: PropTypes.string,
   currentCategoryName: PropTypes.string,
-  entriesCount: PropTypes.number,
+  paymentCount: PropTypes.number,
   period: PropTypes.string.isRequired,
   periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   pieData: PropTypes.objectOf(pieDataProp),
@@ -151,7 +151,7 @@ const mapStateToProps = createStructuredSelector({
   categoryType: categoryTypeSelector,
   currentCategoryColor: currentCategoryColorSelector,
   currentCategoryName: currentCategoryNameSelector,
-  entriesCount: entriesCountSelector,
+  paymentCount: paymentCountSelector,
   period: periodSelector,
   periods: periodsSelector,
   pieData: pieChartDataSelector,

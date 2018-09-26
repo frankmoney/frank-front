@@ -40,12 +40,6 @@ export const categoryCountSelector = createSelector(
   R.length
 )
 
-export const entriesCountSelector = createSelector(
-  categoryCountSelector,
-  // FIXME: placeholder
-  R.multiply(3)
-)
-
 const selectedAllCategories = get('selectedAll')
 
 const currentCategorySelector = createPlainObjectSelector(
@@ -75,6 +69,11 @@ const currentCategoryIdSelector = createSelector(
 )
 
 const rawPaymentsSelector = createPlainObjectSelector(get('payments'))
+
+export const paymentCountSelector = createSelector(
+  rawPaymentsSelector,
+  R.length
+)
 
 export const paymentsSelector = createSelector(
   rawPaymentsSelector,
