@@ -26,6 +26,7 @@ const styles = theme => ({
   legendItem: {
     display: 'flex',
     padding: [4, 0],
+    cursor: 'pointer',
   },
   legendItemName: {
     ...theme.fontMedium(18, 26),

@@ -14,8 +14,12 @@ const PaymentListTab = ({
   contentClassName,
   currentCategoryColor,
   currentCategoryName,
+  footerPadding,
   onCancelCategoryClick,
-  paymentsClassName,
+  paymentBlockClassName,
+  paymentBlockTitleClassName,
+  paymentClassName,
+  paymentListClassName,
   paymentsPeriodClassName,
   showBarChart,
 }) => (
@@ -34,7 +38,7 @@ const PaymentListTab = ({
             barColor={currentCategoryColor}
             className={barChartClassName}
             data={barsData}
-            footerPadding={10}
+            footerPadding={footerPadding}
             height={barsHeight}
             hideBaseLine
             labelKey="date"
@@ -42,7 +46,12 @@ const PaymentListTab = ({
           />
         </>
       )}
-      <Payments className={paymentsClassName} />
+      <Payments
+        className={paymentListClassName}
+        blockClassName={paymentBlockClassName}
+        blockTitleClassName={paymentBlockTitleClassName}
+        paymentClassName={paymentClassName}
+      />
     </div>
   </>
 )
@@ -51,12 +60,16 @@ PaymentListTab.propTypes = {
   barsData: barDataProp,
   barsHeight: PropTypes.number.isRequired,
   barsWidth: PropTypes.number.isRequired,
+  footerPadding: PropTypes.number.isRequired,
   onCancelCategoryClick: PropTypes.func.isRequired,
   showBarChart: PropTypes.bool,
   // Styles
   barChartClassName: PropTypes.string,
   contentClassName: PropTypes.string,
-  paymentsClassName: PropTypes.string,
+  paymentBlockClassName: PropTypes.string,
+  paymentBlockTitleClassName: PropTypes.string,
+  paymentClassName: PropTypes.string,
+  paymentListClassName: PropTypes.string,
   paymentsPeriodClassName: PropTypes.string,
 }
 

@@ -34,8 +34,17 @@ const styles = theme => ({
     flexDirection: 'column',
     flexGrow: 1,
   },
+  period: {
+    display: 'flex',
+    padding: [4, 0, 11, 2],
+  },
   content: {
+    margin: [0, -15],
     overflowY: 'scroll',
+    padding: [0, 15],
+  },
+  payments: {
+    margin: [-3, -9, 0],
   },
 })
 
@@ -65,9 +74,13 @@ class ButtonWidget extends React.PureComponent {
     return (
       <div className={cx(classes.root, className)}>
         <Widget
-          barsHeight={200}
+          barsFooterPadding={12}
+          barsHeight={196}
+          barsWidth={337}
           className={classes.contentRoot}
           contentClassName={classes.content}
+          paymentListClassName={classes.payments}
+          paymentsPeriodClassName={classes.period}
           pieChartSize={500} // TODO: work around the hardcode
           showBarChart
           showCategoryCount

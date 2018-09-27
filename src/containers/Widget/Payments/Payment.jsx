@@ -11,7 +11,7 @@ const styles = theme => ({
   root: {
     display: 'flex',
     margin: [0, 10],
-    padding: [16, 0, 11],
+    padding: [16, 0, 18],
     '&:not(:last-child)': {
       borderBottom: '1px solid #E9EAEC',
     },
@@ -32,14 +32,20 @@ const styles = theme => ({
     color: '#8F93A4',
   },
   peerName: {
-    ...theme.fontMedium(16, 34),
+    ...theme.fontMedium(16, 22),
+    marginTop: 6,
   },
   amount: {
     ...theme.fontRegular(18, 26),
+    display: 'flex',
+    flexWrap: 'nowrap',
   },
-  amountValue: {},
+  amountValue: {
+    marginLeft: 4,
+  },
   category: {
-    ...theme.fontMedium(16, 36),
+    ...theme.fontMedium(16, 22),
+    margin: [13, 0, 0, -1],
   },
   categoryIcon: {
     height: 12,
@@ -47,7 +53,7 @@ const styles = theme => ({
     width: 12,
   },
   date: {
-    ...theme.fontRegular(16, 36),
+    ...theme.fontRegular(16, 22),
     color: '#BCBFC9',
   },
 })
@@ -66,7 +72,11 @@ const Payment = ({
   return (
     <div className={cx(classes.root, className)}>
       <div className={classes.left}>
-        <div className={classes.description}>{description}</div>
+        <div className={classes.description}>
+          {description || '[empty description. plz fix]'
+          // FIXME: remove dev placeholder
+          }
+        </div>
         <div className={classes.peerName}>{peerName}</div>
         {showCategory && (
           <CategoryLabel
@@ -92,10 +102,6 @@ const Payment = ({
 Payment.propTypes = {
   ...paymentProps,
   showCategory: PropTypes.bool,
-}
-
-Payment.defaultProps = {
-  description: "[description can't be empty. fix plz]",
 }
 
 export default injectStyles(styles)(Payment)

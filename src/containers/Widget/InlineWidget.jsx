@@ -102,10 +102,11 @@ const InlineWidget = ({ classes, size }) => (
       [classes.size800]: size === 800,
     })}
     barChartClassName={classes.barChart}
+    barsFooterPadding={10}
     barsHeight={barsHeight(size)}
     barsWidth={size > 500 ? 516 : 468}
     contentClassName={classes.content}
-    paymentsClassName={classes.payments}
+    paymentListClassName={classes.payments}
     paymentsPeriodClassName={classes.paymentsPeriodSelect}
     pieChartSize={size}
     showBarChart={size > 400}

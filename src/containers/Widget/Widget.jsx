@@ -24,6 +24,7 @@ import * as ACTIONS from './actions'
 const Widget = ({
   barChartClassName,
   barsData,
+  barsFooterPadding,
   barsHeight,
   barsWidth,
   categoryCount,
@@ -39,7 +40,10 @@ const Widget = ({
   onSeeAllClick,
   onTabSwitch,
   paymentCount,
-  paymentsClassName,
+  paymentBlockClassName,
+  paymentBlockTitleClassName,
+  paymentClassName,
+  paymentListClassName,
   paymentsPeriodClassName,
   period,
   periods,
@@ -100,8 +104,12 @@ const Widget = ({
           contentClassName={contentClassName}
           currentCategoryColor={currentCategoryColor}
           currentCategoryName={currentCategoryName}
+          footerPadding={barsFooterPadding}
           onCancelCategoryClick={onCancelCategoryClick}
-          paymentsClassName={paymentsClassName}
+          paymentBlockClassName={paymentBlockClassName}
+          paymentBlockTitleClassName={paymentBlockTitleClassName}
+          paymentClassName={paymentClassName}
+          paymentListClassName={paymentListClassName}
           paymentsPeriodClassName={paymentsPeriodClassName}
           showBarChart={showBarChart}
         />
@@ -113,6 +121,7 @@ const Widget = ({
 }
 
 Widget.propTypes = {
+  barsFooterPadding: PropTypes.number.isRequired,
   barsHeight: PropTypes.number.isRequired,
   barsWidth: PropTypes.number.isRequired,
   onCategoryClick: PropTypes.func.isRequired,
@@ -138,7 +147,10 @@ Widget.propTypes = {
   barChartClassName: PropTypes.string,
   className: PropTypes.string,
   contentClassName: PropTypes.string,
-  paymentsClassName: PropTypes.string,
+  paymentBlockClassName: PropTypes.string,
+  paymentBlockTitleClassName: PropTypes.string,
+  paymentClassName: PropTypes.string,
+  paymentListClassName: PropTypes.string,
   paymentsPeriodClassName: PropTypes.string,
 }
 
