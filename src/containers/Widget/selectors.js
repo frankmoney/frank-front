@@ -85,7 +85,7 @@ export const paymentsSelector = createSelector(
       : R.filter(R.pathEq(['category', 'id'], categoryId))(items)
 )
 
-export const showCategorySelector = createSelector(
-  selectedCategorySelector,
+export const showCategoriesSelector = createSelector(
+  currentCategoryIdSelector,
   R.isNil
 )

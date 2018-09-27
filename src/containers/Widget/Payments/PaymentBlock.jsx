@@ -15,12 +15,12 @@ const styles = theme => ({
   },
 })
 
-const PaymentBlock = ({ classes, className, items, showCategory, title }) => (
+const PaymentBlock = ({ classes, className, items, showCategories, title }) => (
   <div className={cx(classes.root, className)}>
     <div className={classes.title}>{title}</div>
     {R.map(
       ({ id, ...payment }) => (
-        <Payment showCategory={showCategory} key={id} {...payment} />
+        <Payment showCategory={showCategories} key={id} {...payment} />
       ),
       items
     )}
@@ -30,7 +30,7 @@ const PaymentBlock = ({ classes, className, items, showCategory, title }) => (
 PaymentBlock.propTypes = {
   title: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(paymentProps).isRequired,
-  showCategory: PropTypes.bool,
+  showCategories: PropTypes.bool,
 }
 
 export default injectStyles(styles)(PaymentBlock)
