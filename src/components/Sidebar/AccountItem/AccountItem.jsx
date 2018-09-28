@@ -20,11 +20,12 @@ const AccountItem = ({
   renderAccountMenuItems,
   classes,
   className,
+  onClick,
 }: Props) => {
   const accountMenuItems = renderAccountMenuItems()
 
   return (
-    <div className={cx(classes.accountItem, className)}>
+    <div className={cx(classes.accountItem, className)} onClick={onClick}>
       {compact ? (
         <>
           <div className={classes.labelCompact}>{label}</div>

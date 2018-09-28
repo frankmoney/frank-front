@@ -33,9 +33,9 @@ export default withProps({
         <>
           <SidebarMenuItem
             navLinkComponent={ReduxNavLink}
+            href={createRouteUrl(ROUTES.team.root)}
             primaryText="Team"
             leftIcon={TeamIcon}
-            disabled
           />
           <SidebarMenuItem
             navLinkComponent={ReduxNavLink}

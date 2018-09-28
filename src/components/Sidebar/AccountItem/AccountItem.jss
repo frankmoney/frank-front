@@ -1,7 +1,9 @@
 export default theme => ({
   accountItem: {
     position: 'relative',
-    flex: ({ compact }) => (compact ? 'row' : 'column'),
+    display: 'flex',
+    flexDirection: ({ compact }) => (compact ? 'row' : 'column'),
+    alignItems: ({ compact }) => (compact ? 'center' : 'unset'),
     backgroundColor: '#FFF',
     color: ({ compact }) => (compact ? '#C7C9D1' : theme.colors.black),
     marginBottom: 1,
@@ -10,14 +12,15 @@ export default theme => ({
   labelCompact: {
     padding: [21, 20, 21, 25],
     ...theme.fontMedium(16, 19),
+    flex: 1,
+    wordBreak: 'break-word',
   },
   labelBig: {
     padding: [22, 25, 38, 25],
     ...theme.fontMedium(20, 24),
+    wordBreak: 'break-word',
   },
   icon: {
-    position: 'absolute',
-    right: 20,
-    top: 25,
+    marginRight: 20,
   },
 })

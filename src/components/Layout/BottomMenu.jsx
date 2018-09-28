@@ -6,12 +6,7 @@ import {
 import { compose } from 'recompose'
 import { currentUserSelector } from '@frankmoney/webapp'
 import reconnect from 'utils/reconnect'
-import {
-  userAccountsSelector,
-  currentAccountIdSelector,
-} from 'redux/selectors/user'
-import * as USER_ACTIONS from 'redux/actions/user'
-import { ROUTES } from '../../const'
+import { ROUTES } from 'const'
 
 const SidebarBottomUserMenu = ({ user, children, ...otherProps }) => (
   <SidebarBottomMenu {...otherProps}>
