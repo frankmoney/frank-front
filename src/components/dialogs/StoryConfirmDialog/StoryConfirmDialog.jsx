@@ -1,15 +1,17 @@
 import React from 'react'
+import * as R from 'ramda'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { ConfirmDialog } from '@frankmoney/components'
 
+const omitDisabled = R.omit('&$disabled')
 const styles = theme => ({
   messageFade: {
     color: 'rgba(0, 0, 0, 0.3)',
   },
-  buttonNegative: { ...theme.Button.negative },
-  buttonPositive: { ...theme.Button.primary },
-  buttonDanger: { ...theme.Button.danger },
+  buttonNegative: omitDisabled(theme.Button.negative),
+  buttonPositive: omitDisabled(theme.Button.primary),
+  buttonDanger: omitDisabled(theme.Button.danger),
 })
 
 const StoryConfirmDialog = ({

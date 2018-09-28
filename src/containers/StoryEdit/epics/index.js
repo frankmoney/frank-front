@@ -1,4 +1,5 @@
 export load from './load'
+export filterPayments from './filterPayments'
 export loadMorePayments from './loadMorePayments'
 export resetCoverCropOnUnregister from './resetCoverCropOnUnregister'
 export modifyStoryPaymentsList from './modifyStoryPaymentsList'

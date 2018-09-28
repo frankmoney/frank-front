@@ -18,6 +18,8 @@ const initialState = fromJS({
   story: {},
   payments: [],
   paymentsLoadedPagesCount: 0,
+  paymentsFilterDateMin: null,
+  paymentsFilterDateMax: null,
 })
 
 export default handleActions(
@@ -44,6 +46,30 @@ export default handleActions(
       state.merge({
         loading: false,
         loaded: false,
+      }),
+    [ACTIONS.filterPayments]: (
+      state,
+      { payload: { from: dateMin, to: dateMax } }
+    ) =>
+      state.merge({
+        paymentsListLoading: true,
+        paymentsLoadedPagesCount: 0,
+        paymentsFilterDateMin: dateMin,
+        paymentsFilterDateMax: dateMax,
+      }),
+    [ACTIONS.filterPayments.success]: (
+      state,
+      { payload: { payments, totalCount } }
+    ) =>
+      state.merge({
+        paymentsListLoading: false,
+        payments: fromJS(payments),
+        paymentsLoadedPagesCount: 1,
+        paymentsTotalPagesCount: Math.ceil(totalCount / PAGE_SIZE),
+      }),
+    [ACTIONS.filterPayments.error]: state =>
+      state.merge({
+        paymentsListLoading: false,
       }),
     [ACTIONS.loadMorePayments]: state =>
       state.merge({

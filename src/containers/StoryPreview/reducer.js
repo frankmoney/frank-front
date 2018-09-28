@@ -28,6 +28,7 @@ export default handleActions(
         isLoading: false,
         isLoaded: false,
       }),
+    [ACTIONS.leave]: () => initialState,
   },
   initialState
 )

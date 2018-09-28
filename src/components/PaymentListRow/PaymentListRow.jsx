@@ -62,23 +62,21 @@ class RecipientRow extends React.PureComponent {
     const { checked } = this.state
 
     return (
-      <div
-        className={cx(
-          classes.root,
-          lastItem && classes.lastItem,
-          !postedOn && loadMore && classes.loadMoreItem
-        )}
-        style={style}
-      >
+      <>
         {!postedOn &&
           loadMore && (
-            <LoadMoreButton
-              label="Show 30 more payments"
-              onClick={onLoadMore}
-            />
+            <div className={classes.loadMoreItem} style={style}>
+              <LoadMoreButton
+                label="Show 30 more payments"
+                onClick={onLoadMore}
+              />
+            </div>
           )}
         {postedOn && (
-          <>
+          <div
+            className={cx(classes.root, lastItem && classes.lastItem)}
+            style={style}
+          >
             {selectable && (
               <Checkbox
                 color="primary"
@@ -91,9 +89,9 @@ class RecipientRow extends React.PureComponent {
             <CurrencyDelta className={classes.sum} value={amount} />
             <div className={classes.name}>{peerName}</div>
             <div className={classes.date}>{formatDate(postedOn)}</div>
-          </>
+          </div>
         )}
-      </div>
+      </>
     )
   }
 }

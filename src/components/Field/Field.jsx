@@ -1,4 +1,4 @@
-import React, { cloneElement } from 'react'
+import React, { isValidElement, cloneElement } from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
 import FieldLabel from 'components/FieldLabel'
@@ -62,7 +62,7 @@ class Field extends React.Component {
     const {
       classes,
       className,
-      label: FieldCustomLabel,
+      label,
       title,
       hint,
       children,
@@ -80,7 +80,7 @@ class Field extends React.Component {
 
     let labelNode
     if (this.props.label) {
-      labelNode = <FieldCustomLabel />
+      labelNode = this.props.label
     } else if (title) {
       labelNode = <FieldLabel title={title} hint={hint} />
     }

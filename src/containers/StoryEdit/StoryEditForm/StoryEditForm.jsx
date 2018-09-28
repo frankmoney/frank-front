@@ -19,6 +19,7 @@ import {
   paymentsListUpdatingSelector,
   paymentsTotalPagesCounterSelector,
   paymentsLoadedPagesCounterSelector,
+  paymentsFiltersSelector,
 } from '../selectors'
 import ACTIONS from '../actions'
 import { FORM_NAME } from '../constants'
@@ -56,6 +57,7 @@ const styles = theme => ({
 const mapStateToPropsForDrawer = createStructuredSelector({
   isUpdating: paymentsListUpdatingSelector,
   payments: paymentsSelector,
+  filter: paymentsFiltersSelector,
   selectedPayments: storySelectedPaymentsSelector,
   totalPagesCounter: paymentsTotalPagesCounterSelector,
   loadedPagesCounter: paymentsLoadedPagesCounterSelector,
@@ -65,6 +67,7 @@ const mapDispatchToPropsForDrawer = R.partial(bindActionCreators, [
   {
     onChange: ACTIONS.modifyStoryPaymentsList,
     onLoadMore: ACTIONS.loadMorePayments,
+    onFilter: ACTIONS.filterPayments,
   },
 ])
 

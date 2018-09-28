@@ -3,9 +3,11 @@ import { Button } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import { compose } from 'recompose'
 import Drawer from 'components/Drawer'
-import DateRangeField from './DateRangeField'
-import AmountField from './AmountField'
-import VerificationField from './VerificationField'
+import {
+  DateRangeField,
+  AmountField,
+  VerificationField,
+} from 'components/DrawerFilters'
 
 const styles = theme => ({
   footer: {
