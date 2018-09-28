@@ -51,6 +51,7 @@ const Widget = ({
   pieData,
   showBarChart,
   showCategoryCount,
+  showOverviewTotals,
   tab,
 }) => {
   const overviewTab = tab === 'overview'
@@ -93,6 +94,7 @@ const Widget = ({
           period={period}
           periods={periods}
           size={pieChartSize}
+          showTotals={showOverviewTotals}
         />
       )}
       {paymentListTab && (
@@ -132,6 +134,7 @@ Widget.propTypes = {
   pieChartSize: PropTypes.number.isRequired,
   showBarChart: PropTypes.bool,
   showCategoryCount: PropTypes.bool,
+  showOverviewTotals: PropTypes.bool,
   // Selectors
   barsData: barDataProp,
   categoryCount: PropTypes.number,

@@ -15,6 +15,7 @@ const ConnectedPeriodSelect = ({ className, onChange, period, periods }) => (
     values={periods}
   />
 )
+
 const mapStateToProps = createStructuredSelector({
   period: periodSelector,
   periods: periodsSelector,

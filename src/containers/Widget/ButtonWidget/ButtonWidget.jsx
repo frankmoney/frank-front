@@ -84,6 +84,7 @@ class ButtonWidget extends React.PureComponent {
           pieChartSize={500} // TODO: work around the hardcode
           showBarChart
           showCategoryCount
+          showOverviewTotals
         />
         <Footer className={classes.footer} onClose={this.handleClose} />
       </div>

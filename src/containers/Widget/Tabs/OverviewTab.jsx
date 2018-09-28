@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { pieDataProp } from 'data/models/charts'
 import OverviewChart, { Footer } from '../Chart'
+import Totals from '../Totals'
 
 const OverviewTab = ({
   categoryCount,
@@ -16,10 +17,12 @@ const OverviewTab = ({
   period,
   periods,
   size,
+  showTotals,
 }) => {
   const categories = data[categoryType] // TODO: move to selector?
   return (
     <div className={contentClassName}>
+      {showTotals && <Totals />}
       <OverviewChart
         categoryType={categoryType}
         data={categories}
@@ -51,6 +54,7 @@ OverviewTab.propTypes = {
   period: PropTypes.string.isRequired,
   periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   size: PropTypes.number.isRequired,
+  showTotals: PropTypes.bool,
   // Styles
   contentClassName: PropTypes.string,
 }
