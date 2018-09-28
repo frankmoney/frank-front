@@ -64,7 +64,19 @@ const updateRole = [
   R.prop('teamMemberUpdateRole'),
 ]
 
+const changePassword = [
+  `
+  mutation($password: String!) {
+    meChangePassword(password: $password) {
+      id
+    }
+  }
+  `,
+  R.prop('meChangePassword'),
+]
+
 export default {
   team,
   updateRole,
+  changePassword,
 }

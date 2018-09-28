@@ -14,3 +14,11 @@ export const updateRoleEpic = (action$, store, { graphql }) =>
       graphql(QUERIES.updateRole, { id, role })
     )
     .map(ACTIONS.updateRole.success)
+
+export const changePasswordEpic = (action$, store, { graphql }) =>
+  action$
+    .ofType(ACTIONS.changePassword)
+    .switchMap(({ payload: { newPassword } }) =>
+      graphql(QUERIES.changePassword, { password: newPassword })
+    )
+    .map(ACTIONS.changePassword.success)

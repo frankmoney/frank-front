@@ -10,6 +10,7 @@ const actions = createActions(ACTION_PREFIX, {
   invite: true,
   remove: true,
   updateRole: true,
+  changePassword: true,
 })
 
 export default actions
