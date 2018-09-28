@@ -130,5 +130,5 @@ export default compose(
     }
   ),
   injectStyles(styles),
-  omitProps('theme', 'setChangePasswordPopupAnchor')
+  omitProps('theme')
 )(OwnProfile)
