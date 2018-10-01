@@ -7,6 +7,7 @@ import ChartIcon from 'containers/Widget/Footer/Chart.svg'
 const styles = {
   root: {
     alignItems: 'center',
+    color: '#9295A1',
     display: 'flex',
     flexShrink: 0,
     marginBottom: -3,
@@ -28,7 +29,6 @@ const styles = {
     marginLeft: 5,
   },
   verified: {
-    color: '#9295A1',
     flexGrow: 1,
     textAlign: 'right',
   },
@@ -40,13 +40,15 @@ const styles = {
 const Footer = ({
   classes,
   className,
+  hideIcon,
+  hideVerifiedBy,
   paymentCount,
   categoryCount,
   onSeeAllClick,
   seeAllClassName,
 }) => (
   <div className={cx(classes.root, className)}>
-    <ChartIcon className={classes.icon} />
+    {!hideIcon && <ChartIcon className={classes.icon} />}
     <span className={classes.number}>{paymentCount}</span>
     {' payments'}
     {categoryCount && (
@@ -64,13 +66,24 @@ const Footer = ({
     >
       See all
     </a>
-    <div className={classes.verified}>
-      Verified by <span className={classes.frank}>Frank</span>
-    </div>
+    {!hideVerifiedBy && (
+      <div className={classes.verified}>
+        Verified by <span className={classes.frank}>Frank</span>
+      </div>
+    )}
   </div>
 )
 
+export const footerProps = {
+  hideIcon: PropTypes.bool,
+  hideVerifiedBy: PropTypes.bool,
+  //
+  className: PropTypes.string,
+  seeAllClassName: PropTypes.string,
+}
+
 Footer.propTypes = {
+  ...footerProps,
   categoryCount: PropTypes.number,
   paymentCount: PropTypes.number.isRequired,
 }

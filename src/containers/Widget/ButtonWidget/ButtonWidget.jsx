@@ -46,7 +46,16 @@ const styles = theme => ({
     padding: [0, 15],
   },
   pieChart: {
-    margin: [15, 'auto', 38],
+    margin: [15, 'auto'],
+  },
+  overviewFooter: {
+    ...theme.fontRegular(18, 26),
+    margin: [18, 0, 27],
+  },
+  overviewFooterSeeAll: {
+    flexGrow: 1,
+    marginRight: -2,
+    textAlign: 'right',
   },
   categoryList: {
     order: 4,
@@ -90,6 +99,12 @@ class ButtonWidget extends React.PureComponent {
           className={classes.contentRoot}
           contentClassName={classes.content}
           dontWrapPiechart
+          OverviewFooterProps={{
+            className: classes.overviewFooter,
+            hideIcon: true,
+            hideVerifiedBy: true,
+            seeAllClassName: classes.overviewFooterSeeAll,
+          }}
           paymentListClassName={classes.payments}
           paymentsPeriodClassName={classes.period}
           pieChartClassName={classes.pieChart}
