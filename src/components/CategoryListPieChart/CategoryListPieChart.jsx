@@ -22,6 +22,8 @@ class CategoryListPieChart extends React.PureComponent {
   render() {
     const {
       categoryType,
+      categoryTypeSelectClassName,
+      categoryTypeSelectLabel,
       chartClassName,
       chartSize,
       classes,
@@ -35,8 +37,6 @@ class CategoryListPieChart extends React.PureComponent {
       noWrap,
       onCategoryClick,
       onCategoryTypeChange,
-      switcherClassName,
-      switcherLabel,
     } = this.props
 
     const categories = limitCategoriesTo(5)(data)
@@ -61,8 +61,11 @@ class CategoryListPieChart extends React.PureComponent {
             size={chartSize}
           />
           <CategoryTypeSelect
-            className={cx(classes.switcher, switcherClassName)}
-            label={switcherLabel}
+            className={cx(
+              classes.categoryTypeSelect,
+              categoryTypeSelectClassName
+            )}
+            label={categoryTypeSelectLabel}
             onChange={onCategoryTypeChange}
             value={categoryType}
           />
@@ -91,20 +94,20 @@ class CategoryListPieChart extends React.PureComponent {
 
 CategoryListPieChart.propTypes = {
   categoryType: PropTypes.string.isRequired,
+  categoryTypeSelectLabel: PropTypes.string,
   chartSize: PropTypes.number.isRequired,
   data: pieDataProp.isRequired,
   noWrap: PropTypes.bool,
   onCategoryClick: PropTypes.func, // category object in callback
   onCategoryTypeChange: PropTypes.func,
-  switcherLabel: PropTypes.string,
   // Styles
+  categoryTypeSelectClassName: PropTypes.string,
   chartClassName: PropTypes.string,
   legendClassName: PropTypes.string,
   legendIconClassName: PropTypes.string,
   legendItemClassName: PropTypes.string,
   legendNameClassName: PropTypes.string,
   legendValueClassName: PropTypes.string,
-  switcherClassName: PropTypes.string,
 }
 
 CategoryListPieChart.defaultProps = {

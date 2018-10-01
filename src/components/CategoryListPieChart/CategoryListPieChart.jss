@@ -14,7 +14,7 @@ export default theme => ({
     position: 'relative',
     width: ({ chartSize }) => chartSize,
   },
-  switcher: {
+  categoryTypeSelect: {
     left: '50%',
     maxWidth: ({ chartSize }) => chartSize - 30 * 2,
     position: 'absolute',

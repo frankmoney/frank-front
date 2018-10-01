@@ -29,9 +29,17 @@ const pieSize = R.cond([
   [R.T, R.always(0)],
 ])
 
+const categoryTypeSelectLabel = R.cond([
+  [R.equals(375), R.always('% of total')],
+  [R.equals(500), R.always('% of')],
+  [R.equals(625), R.always('% of')],
+  [R.equals(800), R.always('% of total')],
+  [R.T, R.always('FIX ME')],
+])
+
 const styles = theme => ({
   root: {},
-  switcher500: {
+  categoryTypeSelect: {
     fontSize: 15,
     whiteSpace: 'nowrap',
   },
@@ -76,33 +84,32 @@ const OverviewChart = ({
   periodSelectClassName,
   pieClassName,
   widgetSize,
-}) => {
-  const switcherLabel = widgetSize < 800 ? '% of' : '% of total'
-  return (
-    <>
-      <ConnectedPeriodSelect
-        className={cx(classes.periodSelect, periodSelectClassName)}
-      />
-      <CategoryListPieChart
-        categoryType={categoryType}
-        chartClassName={cx(classes.chart, pieClassName)}
-        chartSize={pieSize(widgetSize)}
-        className={cx(classes.root, className)}
-        data={data}
-        legendClassName={cx(classes.legend, categoryListClassName)}
-        legendIconClassName={classes.legendIcon}
-        legendItemClassName={classes.legendItem}
-        legendNameClassName={classes.legendItemFont}
-        legendValueClassName={classes.legendItemValue}
-        noWrap={dontWrapPiechart}
-        onCategoryClick={onCategoryClick}
-        onCategoryTypeChange={onCategoryTypeChange}
-        switcherClassName={widgetSize === 500 && classes.switcher500}
-        switcherLabel={switcherLabel}
-      />
-    </>
-  )
-}
+}) => (
+  <>
+    <ConnectedPeriodSelect
+      className={cx(classes.periodSelect, periodSelectClassName)}
+    />
+    <CategoryListPieChart
+      categoryType={categoryType}
+      categoryTypeSelectClassName={
+        widgetSize === 500 && classes.categoryTypeSelect
+      }
+      categoryTypeSelectLabel={categoryTypeSelectLabel(widgetSize)}
+      chartClassName={cx(classes.chart, pieClassName)}
+      chartSize={pieSize(widgetSize)}
+      className={cx(classes.root, className)}
+      data={data}
+      legendClassName={cx(classes.legend, categoryListClassName)}
+      legendIconClassName={classes.legendIcon}
+      legendItemClassName={classes.legendItem}
+      legendNameClassName={classes.legendItemFont}
+      legendValueClassName={classes.legendItemValue}
+      noWrap={dontWrapPiechart}
+      onCategoryClick={onCategoryClick}
+      onCategoryTypeChange={onCategoryTypeChange}
+    />
+  </>
+)
 
 OverviewChart.propTypes = {
   categoryType: PropTypes.string.isRequired,
