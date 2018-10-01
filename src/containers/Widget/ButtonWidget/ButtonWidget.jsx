@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
 import Widget from '../Widget'
-import Footer from './Footer'
+import Expander from './Expander'
 
 const WIDTH = 375
 
@@ -71,8 +71,8 @@ class ButtonWidget extends React.PureComponent {
 
     if (!expanded) {
       return (
-        <Footer
-          button
+        <Expander
+          closed
           onClick={this.handleOpen}
           title="We’re transparent"
           subtitle="See realtime report"
@@ -98,7 +98,7 @@ class ButtonWidget extends React.PureComponent {
           showOverviewTotals
           widgetSize={WIDTH}
         />
-        <Footer className={classes.footer} onClose={this.handleClose} />
+        <Expander className={classes.footer} onClose={this.handleClose} />
       </div>
     )
   }
