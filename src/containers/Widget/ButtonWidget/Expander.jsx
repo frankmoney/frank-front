@@ -35,7 +35,7 @@ const styles = theme => ({
     color: '#FFFFFF',
     position: 'relative',
     top: 1,
-    '$button &': {
+    '$collapsed &': {
       top: 0,
     },
   },

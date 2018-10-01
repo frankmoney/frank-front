@@ -24,7 +24,7 @@ const styles = theme => ({
     position: 'relative',
     width: WIDTH,
   },
-  footer: {
+  expender: {
     margin: [0, -1],
     width: WIDTH,
   },
@@ -98,7 +98,7 @@ class ButtonWidget extends React.PureComponent {
           showOverviewTotals
           widgetSize={WIDTH}
         />
-        <Expander className={classes.footer} onClose={this.handleClose} />
+        <Expander className={classes.expender} onClose={this.handleClose} />
       </div>
     )
   }

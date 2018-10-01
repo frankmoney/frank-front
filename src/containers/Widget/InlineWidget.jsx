@@ -38,12 +38,11 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    overflowY: 'scroll',
     margin: [0, -15],
     padding: [0, 15],
-  },
-  overviewChart: {
-    marginTop: -12,
+    '$size400 &': {
+      overflowY: 'scroll',
+    },
   },
   paymentsPeriodSelect: {
     marginTop: 4,
@@ -90,7 +89,6 @@ const InlineWidget = ({ classes, size }) => (
     barsHeight={barsHeight(size)}
     barsWidth={size > 500 ? 516 : 468}
     contentClassName={classes.content}
-    overviewChartClassName={classes.overviewChart}
     paymentListClassName={classes.payments}
     paymentsPeriodClassName={classes.paymentsPeriodSelect}
     showBarChart={size > 400}
