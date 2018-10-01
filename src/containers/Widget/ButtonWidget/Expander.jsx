@@ -2,8 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
+import ChartIcon from 'containers/Widget/Footer/Chart.svg'
 import colors from 'styles/colors'
-import ChartIcon from '../Chart.svg'
 import CloseIcon from './Close.svg'
 
 const styles = theme => ({

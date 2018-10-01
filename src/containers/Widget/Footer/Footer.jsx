@@ -2,7 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import ChartIcon from '../Chart.svg'
+import ChartIcon from './Chart.svg'
 
 const styles = {
   root: {

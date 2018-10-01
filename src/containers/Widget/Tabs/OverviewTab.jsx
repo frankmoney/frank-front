@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { pieDataProp } from 'data/models/charts'
-import OverviewChart, { Footer, LegendOnly } from '../Chart'
+import Footer from 'containers/Widget/Footer'
+import OverviewChart, { LegendOnly } from '../Chart'
 import Totals from '../Totals'
 
 const OverviewTab = ({
