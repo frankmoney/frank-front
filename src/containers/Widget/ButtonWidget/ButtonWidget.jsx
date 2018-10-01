@@ -45,6 +45,13 @@ const styles = theme => ({
     overflowY: 'scroll',
     padding: [0, 15],
   },
+  pieChart: {
+    margin: [15, 'auto', 38],
+  },
+  categoryList: {
+    order: 4,
+    position: 'static',
+  },
   payments: {
     margin: [-3, -9, 0],
   },
@@ -79,15 +86,17 @@ class ButtonWidget extends React.PureComponent {
           barsFooterPadding={12}
           barsHeight={196}
           barsWidth={337}
+          categoryListClassName={classes.categoryList}
           className={classes.contentRoot}
           contentClassName={classes.content}
           dontWrapPiechart
           paymentListClassName={classes.payments}
           paymentsPeriodClassName={classes.period}
-          pieChartSize={500} // TODO: work around the hardcode
+          pieChartClassName={classes.pieChart}
           showBarChart
           showCategoryCount
           showOverviewTotals
+          widgetSize={WIDTH}
         />
         <Footer className={classes.footer} onClose={this.handleClose} />
       </div>

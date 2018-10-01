@@ -27,7 +27,6 @@ class CategoryListPieChart extends React.PureComponent {
       classes,
       className,
       data,
-      hideChart,
       legendClassName,
       legendIconClassName,
       legendItemClassName,
@@ -53,16 +52,14 @@ class CategoryListPieChart extends React.PureComponent {
     return (
       <OptionalContainer>
         <div className={cx(classes.chartContainer, chartClassName)}>
-          {!hideChart && (
-            <Pie
-              activeKey={this.state.activeKey}
-              className={classes.chart}
-              data={pieData}
-              onMouseEnter={this.handleMouseOver}
-              onMouseLeave={this.handleMouseOut}
-              size={chartSize}
-            />
-          )}
+          <Pie
+            activeKey={this.state.activeKey}
+            className={classes.chart}
+            data={pieData}
+            onMouseEnter={this.handleMouseOver}
+            onMouseLeave={this.handleMouseOut}
+            size={chartSize}
+          />
           <CategoryTypeSelect
             className={cx(classes.switcher, switcherClassName)}
             label={switcherLabel}
@@ -96,7 +93,6 @@ CategoryListPieChart.propTypes = {
   categoryType: PropTypes.string.isRequired,
   chartSize: PropTypes.number.isRequired,
   data: pieDataProp.isRequired,
-  hideChart: PropTypes.bool,
   noWrap: PropTypes.bool,
   onCategoryClick: PropTypes.func, // category object in callback
   onCategoryTypeChange: PropTypes.func,

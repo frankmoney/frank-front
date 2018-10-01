@@ -26,6 +26,7 @@ const Widget = ({
   barsHeight,
   barsWidth,
   categoryCount,
+  categoryListClassName,
   categoryType,
   className,
   contentClassName,
@@ -37,19 +38,20 @@ const Widget = ({
   onCategoryTypeChange,
   onSeeAllClick,
   onTabSwitch,
-  paymentCount,
+  overviewChartClassName,
   paymentBlockClassName,
   paymentBlockTitleClassName,
   paymentClassName,
+  paymentCount,
   paymentListClassName,
   paymentsPeriodClassName,
   pieChartClassName,
-  pieChartSize,
   pieData,
   showBarChart,
   showCategoryCount,
   showOverviewTotals,
   tab,
+  widgetSize,
 }) => {
   const overviewTab = tab === 'overview'
   const paymentListTab = tab === 'payments'
@@ -79,18 +81,20 @@ const Widget = ({
       )}
       {overviewTab && (
         <OverviewTab
+          categoryCount={showCategoryCount ? categoryCount : null}
+          categoryListClassName={categoryListClassName}
+          categoryType={categoryType}
+          chartClassName={overviewChartClassName}
+          contentClassName={contentClassName}
           data={pieData}
           dontWrapPiechart={dontWrapPiechart}
-          categoryType={categoryType}
-          chartClassName={pieChartClassName}
-          contentClassName={contentClassName}
           onCategoryClick={onCategoryClick}
           onCategoryTypeChange={onCategoryTypeChange}
           onSeeAllClick={onSeeAllClick}
-          categoryCount={showCategoryCount ? categoryCount : null}
           paymentCount={paymentCount}
-          size={pieChartSize}
+          pieClassName={pieChartClassName}
           showTotals={showOverviewTotals}
+          widgetSize={widgetSize}
         />
       )}
       {paymentListTab && (
@@ -127,10 +131,10 @@ Widget.propTypes = {
   onCategoryTypeChange: PropTypes.func.isRequired,
   onSeeAllClick: PropTypes.func.isRequired,
   onTabSwitch: PropTypes.func.isRequired,
-  pieChartSize: PropTypes.number.isRequired,
   showBarChart: PropTypes.bool,
   showCategoryCount: PropTypes.bool,
   showOverviewTotals: PropTypes.bool,
+  widgetSize: PropTypes.number.isRequired,
   // Selectors
   barsData: barDataProp,
   categoryCount: PropTypes.number,
@@ -142,8 +146,10 @@ Widget.propTypes = {
   tab: PropTypes.oneOf(['overview', 'payments', 'stories', 'about']),
   // Styles
   barChartClassName: PropTypes.string,
+  categoryListClassName: PropTypes.string,
   className: PropTypes.string,
   contentClassName: PropTypes.string,
+  overviewChartClassName: PropTypes.string,
   paymentBlockClassName: PropTypes.string,
   paymentBlockTitleClassName: PropTypes.string,
   paymentClassName: PropTypes.string,

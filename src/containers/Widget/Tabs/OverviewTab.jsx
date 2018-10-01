@@ -6,6 +6,7 @@ import Totals from '../Totals'
 
 const OverviewTab = ({
   categoryCount,
+  categoryListClassName,
   categoryType,
   chartClassName,
   contentClassName,
@@ -15,22 +16,25 @@ const OverviewTab = ({
   onCategoryTypeChange,
   onSeeAllClick,
   paymentCount,
-  size,
+  pieClassName,
   showTotals,
+  widgetSize,
 }) => {
   const categories = data[categoryType] // TODO: move to selector?
   return (
     <div className={contentClassName}>
       {showTotals && <Totals />}
-      {size > 400 ? (
+      {widgetSize !== 400 ? (
         <OverviewChart
+          categoryListClassName={categoryListClassName}
           categoryType={categoryType}
+          pieClassName={pieClassName}
           className={chartClassName}
           data={categories}
           dontWrapPiechart={dontWrapPiechart}
           onCategoryClick={onCategoryClick}
           onCategoryTypeChange={onCategoryTypeChange}
-          size={size}
+          widgetSize={widgetSize}
         />
       ) : (
         <LegendOnly data={categories} onCategoryClick={onCategoryClick} />
@@ -53,11 +57,13 @@ OverviewTab.propTypes = {
   onCategoryTypeChange: PropTypes.func.isRequired,
   onSeeAllClick: PropTypes.func.isRequired,
   paymentCount: PropTypes.number,
-  size: PropTypes.number.isRequired,
   showTotals: PropTypes.bool,
+  widgetSize: PropTypes.number.isRequired,
   // Styles
+  categoryListClassName: PropTypes.string,
   contentClassName: PropTypes.string,
   chartClassName: PropTypes.string,
+  pieClassName: PropTypes.string,
 }
 
 export default OverviewTab

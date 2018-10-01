@@ -42,7 +42,7 @@ const styles = theme => ({
     margin: [0, -15],
     padding: [0, 15],
   },
-  pieChart: {
+  overviewChart: {
     marginTop: -12,
   },
   paymentsPeriodSelect: {
@@ -90,12 +90,12 @@ const InlineWidget = ({ classes, size }) => (
     barsHeight={barsHeight(size)}
     barsWidth={size > 500 ? 516 : 468}
     contentClassName={classes.content}
+    overviewChartClassName={classes.overviewChart}
     paymentListClassName={classes.payments}
     paymentsPeriodClassName={classes.paymentsPeriodSelect}
-    pieChartClassName={classes.pieChart}
-    pieChartSize={size}
     showBarChart={size > 400}
     showCategoryCount={size > 400}
+    widgetSize={size}
   />
 )
 

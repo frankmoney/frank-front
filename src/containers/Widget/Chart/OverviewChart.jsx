@@ -22,6 +22,7 @@ const pieLegendMargin = R.cond([
 ])
 
 const pieSize = R.cond([
+  [R.equals(375), R.always(270)], // button widget size
   [R.equals(500), R.always(170)],
   [R.equals(625), R.always(220)],
   [R.equals(800), R.always(275)],
@@ -36,14 +37,16 @@ const styles = theme => ({
   },
   periodSelect: {
     display: 'flex',
+    flexShrink: 0,
     margin: [4, 0, 0, 1],
   },
   chart: {
-    left: ({ size }) => pieOffset(size),
+    left: ({ widgetSize }) => pieOffset(widgetSize),
   },
   legend: {
     position: 'relative',
-    left: ({ size }) => pieOffset(size) + pieLegendMargin(size),
+    left: ({ widgetSize }) =>
+      pieOffset(widgetSize) + pieLegendMargin(widgetSize),
     paddingBottom: 5,
   },
   legendItem: {
@@ -62,17 +65,19 @@ const styles = theme => ({
 })
 
 const OverviewChart = ({
+  categoryListClassName,
   categoryType,
-  className,
   classes,
+  className,
   data,
   dontWrapPiechart,
   onCategoryClick,
   onCategoryTypeChange,
   periodSelectClassName,
-  size,
+  pieClassName,
+  widgetSize,
 }) => {
-  const switcherLabel = size < 800 ? '% of' : '% of total'
+  const switcherLabel = widgetSize < 800 ? '% of' : '% of total'
   return (
     <>
       <ConnectedPeriodSelect
@@ -80,12 +85,11 @@ const OverviewChart = ({
       />
       <CategoryListPieChart
         categoryType={categoryType}
-        chartClassName={classes.chart}
-        chartSize={pieSize(size)}
+        chartClassName={cx(classes.chart, pieClassName)}
+        chartSize={pieSize(widgetSize)}
         className={cx(classes.root, className)}
         data={data}
-        hideChart={size === 400}
-        legendClassName={classes.legend}
+        legendClassName={cx(classes.legend, categoryListClassName)}
         legendIconClassName={classes.legendIcon}
         legendItemClassName={classes.legendItem}
         legendNameClassName={classes.legendItemFont}
@@ -93,7 +97,7 @@ const OverviewChart = ({
         noWrap={dontWrapPiechart}
         onCategoryClick={onCategoryClick}
         onCategoryTypeChange={onCategoryTypeChange}
-        switcherClassName={size === 500 && classes.switcher500}
+        switcherClassName={widgetSize === 500 && classes.switcher500}
         switcherLabel={switcherLabel}
       />
     </>
@@ -106,9 +110,11 @@ OverviewChart.propTypes = {
   dontWrapPiechart: PropTypes.bool,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
-  size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
+  widgetSize: PropTypes.oneOf([375, 400, 500, 625, 800]).isRequired,
   // Styles
+  categoryListClassName: PropTypes.string,
   periodSelectClassName: PropTypes.string,
+  pieClassName: PropTypes.string,
 }
 
 export default injectStyles(styles)(OverviewChart)

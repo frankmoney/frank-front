@@ -7,6 +7,7 @@ import Total from './Total'
 const styles = {
   root: {
     display: 'flex',
+    flexShrink: 0,
     margin: [3, 0, 22],
   },
 }
