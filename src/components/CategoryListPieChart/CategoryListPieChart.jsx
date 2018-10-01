@@ -35,6 +35,7 @@ class CategoryListPieChart extends React.PureComponent {
       legendItemClassName,
       legendNameClassName,
       legendValueClassName,
+      noWrap,
       onCategoryClick,
       onCategoryTypeChange,
       onPeriodChange,
@@ -49,14 +50,22 @@ class CategoryListPieChart extends React.PureComponent {
     const { items, other } = categories
     const pieData = other ? R.append(other, items) : items
 
+    const OptionalContainer = noWrap
+      ? ({ children }) => <>{children}</>
+      : ({ children }) => (
+          <div
+            className={cx(
+              classes.root,
+              hidePeriod && classes.hiddenPeriod,
+              className
+            )}
+          >
+            {children}
+          </div>
+        )
+
     return (
-      <div
-        className={cx(
-          classes.root,
-          hidePeriod && classes.hiddenPeriod,
-          className
-        )}
-      >
+      <OptionalContainer>
         {!hidePeriod && (
           <PeriodSelector
             className={cx(classes.periodSelect, periodSelectClassName)}
@@ -100,7 +109,7 @@ class CategoryListPieChart extends React.PureComponent {
           valueClassName={cx(classes.legendItemValue, legendValueClassName)}
           valueUnit="%"
         />
-      </div>
+      </OptionalContainer>
     )
   }
 }
@@ -116,6 +125,7 @@ CategoryListPieChart.propTypes = {
   legendItemClassName: PropTypes.string,
   legendNameClassName: PropTypes.string,
   legendValueClassName: PropTypes.string,
+  noWrap: PropTypes.bool,
   onCategoryClick: PropTypes.func, // category object in callback
   onCategoryTypeChange: PropTypes.func,
   onPeriodChange: PropTypes.func,

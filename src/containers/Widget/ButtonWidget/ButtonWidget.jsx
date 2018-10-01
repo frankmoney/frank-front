@@ -79,6 +79,7 @@ class ButtonWidget extends React.PureComponent {
           barsWidth={337}
           className={classes.contentRoot}
           contentClassName={classes.content}
+          dontWrapPiechart
           paymentListClassName={classes.payments}
           paymentsPeriodClassName={classes.period}
           pieChartSize={500} // TODO: work around the hardcode

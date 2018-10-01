@@ -33,6 +33,7 @@ const Widget = ({
   contentClassName,
   currentCategoryColor,
   currentCategoryName,
+  dontWrapPiechart,
   onCancelCategoryClick,
   onCategoryClick,
   onCategoryTypeChange,
@@ -83,6 +84,7 @@ const Widget = ({
       {overviewTab && (
         <OverviewTab
           data={pieData}
+          dontWrapPiechart={dontWrapPiechart}
           categoryType={categoryType}
           contentClassName={contentClassName}
           onCategoryClick={onCategoryClick}
@@ -126,6 +128,7 @@ Widget.propTypes = {
   barsFooterPadding: PropTypes.number.isRequired,
   barsHeight: PropTypes.number.isRequired,
   barsWidth: PropTypes.number.isRequired,
+  dontWrapPiechart: PropTypes.bool,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,

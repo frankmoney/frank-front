@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { pieDataProp } from 'data/models/charts'
-import OverviewChart, { Footer } from '../Chart'
+import OverviewChart, { Footer, LegendOnly } from '../Chart'
 import Totals from '../Totals'
 
 const OverviewTab = ({
@@ -9,6 +9,7 @@ const OverviewTab = ({
   categoryType,
   contentClassName,
   data,
+  dontWrapPiechart,
   onCategoryClick,
   onCategoryTypeChange,
   onPeriodChange,
@@ -23,16 +24,21 @@ const OverviewTab = ({
   return (
     <div className={contentClassName}>
       {showTotals && <Totals />}
-      <OverviewChart
-        categoryType={categoryType}
-        data={categories}
-        onCategoryClick={onCategoryClick}
-        onCategoryTypeChange={onCategoryTypeChange}
-        onPeriodChange={onPeriodChange}
-        period={period}
-        periods={periods}
-        size={size}
-      />
+      {size > 400 ? (
+        <OverviewChart
+          categoryType={categoryType}
+          data={categories}
+          dontWrapPiechart={dontWrapPiechart}
+          onCategoryClick={onCategoryClick}
+          onCategoryTypeChange={onCategoryTypeChange}
+          onPeriodChange={onPeriodChange}
+          period={period}
+          periods={periods}
+          size={size}
+        />
+      ) : (
+        <LegendOnly data={categories} onCategoryClick={onCategoryClick} />
+      )}
       <Footer
         paymentCount={paymentCount}
         categoryCount={categoryCount}
@@ -46,6 +52,7 @@ OverviewTab.propTypes = {
   categoryCount: PropTypes.number,
   categoryType: PropTypes.string,
   data: PropTypes.objectOf(pieDataProp),
+  dontWrapPiechart: PropTypes.bool,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,

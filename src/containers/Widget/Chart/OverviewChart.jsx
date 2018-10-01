@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryListPieChart from 'components/CategoryListPieChart'
 import { pieDataProp } from 'data/models/charts'
-import LegendOnly from './LegendOnly'
 
 const pieOffset = R.cond([
   [R.equals(500), R.always(6)],
@@ -58,10 +57,11 @@ const styles = theme => ({
   },
 })
 
-const ActualChart = ({
+const OverviewChart = ({
   categoryType,
   classes,
   data,
+  dontWrapPiechart,
   onCategoryClick,
   onCategoryTypeChange,
   onPeriodChange,
@@ -83,6 +83,7 @@ const ActualChart = ({
       legendItemClassName={classes.legendItem}
       legendNameClassName={classes.legendItemFont}
       legendValueClassName={classes.legendItemValue}
+      noWrap={dontWrapPiechart}
       onCategoryClick={onCategoryClick}
       onCategoryTypeChange={onCategoryTypeChange}
       onPeriodChange={onPeriodChange}
@@ -94,21 +95,10 @@ const ActualChart = ({
   )
 }
 
-const Chart = ({ categoryType, classes, size, ...props }) =>
-  size > 400 ? (
-    <ActualChart
-      size={size}
-      categoryType={categoryType}
-      classes={classes}
-      {...props}
-    />
-  ) : (
-    <LegendOnly {...props} />
-  )
-
-Chart.propTypes = {
+OverviewChart.propTypes = {
   categoryType: PropTypes.string.isRequired,
   data: pieDataProp.isRequired,
+  dontWrapPiechart: PropTypes.bool,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onPeriodChange: PropTypes.func.isRequired,
@@ -117,4 +107,4 @@ Chart.propTypes = {
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
 }
 
-export default injectStyles(styles)(Chart)
+export default injectStyles(styles)(OverviewChart)
