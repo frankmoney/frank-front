@@ -1,9 +1,11 @@
 import React from 'react'
 import * as R from 'ramda'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryListPieChart from 'components/CategoryListPieChart'
 import { pieDataProp } from 'data/models/charts'
+import ConnectedPeriodSelect from '../ConnectedPeriodSelect'
 
 const pieOffset = R.cond([
   [R.equals(500), R.always(6)],
@@ -27,12 +29,14 @@ const pieSize = R.cond([
 ])
 
 const styles = theme => ({
-  root: {
-    paddingTop: 20, // centering the chart vertically
-  },
+  root: {},
   switcher500: {
     fontSize: 15,
     whiteSpace: 'nowrap',
+  },
+  periodSelect: {
+    display: 'flex',
+    margin: [4, 0, 0, 1],
   },
   chart: {
     left: ({ size }) => pieOffset(size),
@@ -59,39 +63,40 @@ const styles = theme => ({
 
 const OverviewChart = ({
   categoryType,
+  className,
   classes,
   data,
   dontWrapPiechart,
   onCategoryClick,
   onCategoryTypeChange,
-  onPeriodChange,
-  period,
-  periods,
+  periodSelectClassName,
   size,
 }) => {
   const switcherLabel = size < 800 ? '% of' : '% of total'
   return (
-    <CategoryListPieChart
-      categoryType={categoryType}
-      chartClassName={classes.chart}
-      chartSize={pieSize(size)}
-      className={classes.root}
-      data={data}
-      hideChart={size === 400}
-      legendClassName={classes.legend}
-      legendIconClassName={classes.legendIcon}
-      legendItemClassName={classes.legendItem}
-      legendNameClassName={classes.legendItemFont}
-      legendValueClassName={classes.legendItemValue}
-      noWrap={dontWrapPiechart}
-      onCategoryClick={onCategoryClick}
-      onCategoryTypeChange={onCategoryTypeChange}
-      onPeriodChange={onPeriodChange}
-      period={period}
-      periods={periods}
-      switcherClassName={size === 500 && classes.switcher500}
-      switcherLabel={switcherLabel}
-    />
+    <>
+      <ConnectedPeriodSelect
+        className={cx(classes.periodSelect, periodSelectClassName)}
+      />
+      <CategoryListPieChart
+        categoryType={categoryType}
+        chartClassName={classes.chart}
+        chartSize={pieSize(size)}
+        className={cx(classes.root, className)}
+        data={data}
+        hideChart={size === 400}
+        legendClassName={classes.legend}
+        legendIconClassName={classes.legendIcon}
+        legendItemClassName={classes.legendItem}
+        legendNameClassName={classes.legendItemFont}
+        legendValueClassName={classes.legendItemValue}
+        noWrap={dontWrapPiechart}
+        onCategoryClick={onCategoryClick}
+        onCategoryTypeChange={onCategoryTypeChange}
+        switcherClassName={size === 500 && classes.switcher500}
+        switcherLabel={switcherLabel}
+      />
+    </>
   )
 }
 
@@ -101,10 +106,9 @@ OverviewChart.propTypes = {
   dontWrapPiechart: PropTypes.bool,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
-  onPeriodChange: PropTypes.func.isRequired,
-  period: PropTypes.string.isRequired,
-  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
+  // Styles
+  periodSelectClassName: PropTypes.string,
 }
 
 export default injectStyles(styles)(OverviewChart)

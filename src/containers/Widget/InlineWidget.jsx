@@ -42,6 +42,9 @@ const styles = theme => ({
     margin: [0, -15],
     padding: [0, 15],
   },
+  pieChart: {
+    marginTop: -12,
+  },
   paymentsPeriodSelect: {
     marginTop: 4,
     paddingLeft: 2,
@@ -74,25 +77,6 @@ const barsHeight = R.cond([
   [R.T, R.always(0)],
 ])
 
-// TODO: probably props should be more defensive. Full old list below:
-//       barsData,
-//       categoryCount,
-//       categoryType,
-//       classes,
-//       className,
-//       currentCategoryColor,
-//       currentCategoryName,
-//       entriesCount,
-//       onCategoryClick,
-//       onCancelCategoryClick,
-//       onCategoryTypeChange,
-//       onPeriodChange,
-//       onSeeAllClick,
-//       stories: Stories,
-//       period,
-//       periods,
-//       pieData,
-//       size,
 const InlineWidget = ({ classes, size }) => (
   <Widget
     className={cx(classes.root, {
@@ -108,6 +92,7 @@ const InlineWidget = ({ classes, size }) => (
     contentClassName={classes.content}
     paymentListClassName={classes.payments}
     paymentsPeriodClassName={classes.paymentsPeriodSelect}
+    pieChartClassName={classes.pieChart}
     pieChartSize={size}
     showBarChart={size > 400}
     showCategoryCount={size > 400}

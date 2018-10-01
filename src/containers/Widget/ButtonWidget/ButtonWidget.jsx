@@ -39,6 +39,8 @@ const styles = theme => ({
     padding: [4, 0, 11, 2],
   },
   content: {
+    display: 'flex',
+    flexDirection: 'column',
     margin: [0, -15],
     overflowY: 'scroll',
     padding: [0, 15],

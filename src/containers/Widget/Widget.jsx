@@ -14,8 +14,6 @@ import {
   currentCategoryColorSelector,
   currentCategoryNameSelector,
   paymentCountSelector,
-  periodSelector,
-  periodsSelector,
   pieChartDataSelector,
   tabSelector,
 } from './selectors'
@@ -37,7 +35,6 @@ const Widget = ({
   onCancelCategoryClick,
   onCategoryClick,
   onCategoryTypeChange,
-  onPeriodChange,
   onSeeAllClick,
   onTabSwitch,
   paymentCount,
@@ -46,8 +43,7 @@ const Widget = ({
   paymentClassName,
   paymentListClassName,
   paymentsPeriodClassName,
-  period,
-  periods,
+  pieChartClassName,
   pieChartSize,
   pieData,
   showBarChart,
@@ -86,15 +82,13 @@ const Widget = ({
           data={pieData}
           dontWrapPiechart={dontWrapPiechart}
           categoryType={categoryType}
+          chartClassName={pieChartClassName}
           contentClassName={contentClassName}
           onCategoryClick={onCategoryClick}
           onCategoryTypeChange={onCategoryTypeChange}
-          onPeriodChange={onPeriodChange}
           onSeeAllClick={onSeeAllClick}
           categoryCount={showCategoryCount ? categoryCount : null}
           paymentCount={paymentCount}
-          period={period}
-          periods={periods}
           size={pieChartSize}
           showTotals={showOverviewTotals}
         />
@@ -131,7 +125,6 @@ Widget.propTypes = {
   dontWrapPiechart: PropTypes.bool,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
-  onPeriodChange: PropTypes.func.isRequired,
   onSeeAllClick: PropTypes.func.isRequired,
   onTabSwitch: PropTypes.func.isRequired,
   pieChartSize: PropTypes.number.isRequired,
@@ -145,8 +138,6 @@ Widget.propTypes = {
   currentCategoryColor: PropTypes.string,
   currentCategoryName: PropTypes.string,
   paymentCount: PropTypes.number,
-  period: PropTypes.string.isRequired,
-  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   pieData: PropTypes.objectOf(pieDataProp),
   tab: PropTypes.oneOf(['overview', 'payments', 'stories', 'about']),
   // Styles
@@ -158,6 +149,7 @@ Widget.propTypes = {
   paymentClassName: PropTypes.string,
   paymentListClassName: PropTypes.string,
   paymentsPeriodClassName: PropTypes.string,
+  pieChartClassName: PropTypes.string,
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -167,8 +159,6 @@ const mapStateToProps = createStructuredSelector({
   currentCategoryColor: currentCategoryColorSelector,
   currentCategoryName: currentCategoryNameSelector,
   paymentCount: paymentCountSelector,
-  period: periodSelector,
-  periods: periodsSelector,
   pieData: pieChartDataSelector,
   tab: tabSelector,
 })
@@ -178,7 +168,6 @@ const mapDispatchToProps = R.partial(bindActionCreators, [
     onCategoryClick: ACTIONS.selectCategory,
     onCategoryTypeChange: ACTIONS.selectCategoryType,
     onCancelCategoryClick: ACTIONS.cancelCategory,
-    onPeriodChange: ACTIONS.selectPeriod,
     onSeeAllClick: ACTIONS.selectAllCategories,
     onTabSwitch: ACTIONS.switchTab,
   },

@@ -7,16 +7,14 @@ import Totals from '../Totals'
 const OverviewTab = ({
   categoryCount,
   categoryType,
+  chartClassName,
   contentClassName,
   data,
   dontWrapPiechart,
   onCategoryClick,
   onCategoryTypeChange,
-  onPeriodChange,
   onSeeAllClick,
   paymentCount,
-  period,
-  periods,
   size,
   showTotals,
 }) => {
@@ -27,13 +25,11 @@ const OverviewTab = ({
       {size > 400 ? (
         <OverviewChart
           categoryType={categoryType}
+          className={chartClassName}
           data={categories}
           dontWrapPiechart={dontWrapPiechart}
           onCategoryClick={onCategoryClick}
           onCategoryTypeChange={onCategoryTypeChange}
-          onPeriodChange={onPeriodChange}
-          period={period}
-          periods={periods}
           size={size}
         />
       ) : (
@@ -55,15 +51,13 @@ OverviewTab.propTypes = {
   dontWrapPiechart: PropTypes.bool,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
-  onPeriodChange: PropTypes.func.isRequired,
   onSeeAllClick: PropTypes.func.isRequired,
   paymentCount: PropTypes.number,
-  period: PropTypes.string.isRequired,
-  periods: PropTypes.arrayOf(PropTypes.string).isRequired,
   size: PropTypes.number.isRequired,
   showTotals: PropTypes.bool,
   // Styles
   contentClassName: PropTypes.string,
+  chartClassName: PropTypes.string,
 }
 
 export default OverviewTab

@@ -2,11 +2,7 @@ export default theme => ({
   root: {
     display: 'flex',
     flexGrow: 1,
-    position: 'relative',
     alignItems: 'center',
-  },
-  hiddenPeriod: {
-    paddingTop: 0,
   },
   periodSelect: {
     position: 'absolute',

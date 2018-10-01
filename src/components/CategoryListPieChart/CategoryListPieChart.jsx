@@ -8,7 +8,6 @@ import { pieDataProp } from 'data/models/charts'
 import CategoryList from 'components/CategoryList'
 import Pie from 'components/Charts/Pie'
 import CategoryTypeSelect from './CategoryTypeSelect'
-import PeriodSelector from './PeriodSelector'
 import styles from './CategoryListPieChart.jss'
 
 class CategoryListPieChart extends React.PureComponent {
@@ -29,7 +28,6 @@ class CategoryListPieChart extends React.PureComponent {
       className,
       data,
       hideChart,
-      hidePeriod,
       legendClassName,
       legendIconClassName,
       legendItemClassName,
@@ -38,10 +36,6 @@ class CategoryListPieChart extends React.PureComponent {
       noWrap,
       onCategoryClick,
       onCategoryTypeChange,
-      onPeriodChange,
-      period,
-      periods,
-      periodSelectClassName,
       switcherClassName,
       switcherLabel,
     } = this.props
@@ -53,27 +47,11 @@ class CategoryListPieChart extends React.PureComponent {
     const OptionalContainer = noWrap
       ? ({ children }) => <>{children}</>
       : ({ children }) => (
-          <div
-            className={cx(
-              classes.root,
-              hidePeriod && classes.hiddenPeriod,
-              className
-            )}
-          >
-            {children}
-          </div>
+          <div className={cx(classes.root, className)}>{children}</div>
         )
 
     return (
       <OptionalContainer>
-        {!hidePeriod && (
-          <PeriodSelector
-            className={cx(classes.periodSelect, periodSelectClassName)}
-            onChange={onPeriodChange}
-            value={period}
-            values={periods}
-          />
-        )}
         <div className={cx(classes.chartContainer, chartClassName)}>
           {!hideChart && (
             <Pie
@@ -119,20 +97,18 @@ CategoryListPieChart.propTypes = {
   chartSize: PropTypes.number.isRequired,
   data: pieDataProp.isRequired,
   hideChart: PropTypes.bool,
-  hidePeriod: PropTypes.bool,
+  noWrap: PropTypes.bool,
+  onCategoryClick: PropTypes.func, // category object in callback
+  onCategoryTypeChange: PropTypes.func,
+  switcherLabel: PropTypes.string,
+  // Styles
+  chartClassName: PropTypes.string,
   legendClassName: PropTypes.string,
   legendIconClassName: PropTypes.string,
   legendItemClassName: PropTypes.string,
   legendNameClassName: PropTypes.string,
   legendValueClassName: PropTypes.string,
-  noWrap: PropTypes.bool,
-  onCategoryClick: PropTypes.func, // category object in callback
-  onCategoryTypeChange: PropTypes.func,
-  onPeriodChange: PropTypes.func,
-  period: PropTypes.string,
-  periods: PropTypes.arrayOf(PropTypes.string),
   switcherClassName: PropTypes.string,
-  switcherLabel: PropTypes.string,
 }
 
 CategoryListPieChart.defaultProps = {

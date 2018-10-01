@@ -51,7 +51,6 @@ class ChartCard extends React.PureComponent {
               categoryType={categoryType}
               chartClassName={classes.chart}
               data={categories}
-              hidePeriod
               legendClassName={classes.legend}
               onCategoryClick={onCategoryClick}
               onCategoryTypeChange={onCategoryTypeChange}
