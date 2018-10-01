@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Bar from 'components/Charts/Bar'
+import { CategoryName, Header } from 'containers/Widget/Header'
+import Payments from 'containers/Widget/Payments'
+import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import { barDataProp } from 'data/models/charts'
-import ConnectedPeriodSelect from '../ConnectedPeriodSelect'
-import Payments from '../Payments'
-import { Header, CategoryName } from '../Header'
 
 const PaymentListTab = ({
   barChartClassName,

@@ -4,8 +4,8 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryListPieChart from 'components/CategoryListPieChart'
+import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import { pieDataProp } from 'data/models/charts'
-import ConnectedPeriodSelect from '../ConnectedPeriodSelect'
 
 const pieOffset = R.cond([
   [R.equals(500), R.always(6)],

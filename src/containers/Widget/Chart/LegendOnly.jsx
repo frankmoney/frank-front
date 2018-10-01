@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { limitCategoriesTo } from 'data/models/categories'
 import CategoryList from 'components/CategoryList'
+import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
+import ConnectedCategoryTypeSelect from 'containers/Widget/ConnectedCategoryTypeSelect'
+import { limitCategoriesTo } from 'data/models/categories'
 import { pieDataProp } from 'data/models/charts'
-import ConnectedPeriodSelect from '../ConnectedPeriodSelect'
-import ConnectedCategoryTypeSelect from '../ConnectedCategoryTypeSelect'
 
 const styles = theme => ({
   selectors: {
