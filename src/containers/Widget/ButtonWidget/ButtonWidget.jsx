@@ -99,11 +99,13 @@ class ButtonWidget extends React.PureComponent {
           className={classes.contentRoot}
           contentClassName={classes.content}
           dontWrapPiechart
-          OverviewFooterProps={{
-            className: classes.overviewFooter,
+          OverviewFooterClasses={{
             hideIcon: true,
             hideVerifiedBy: true,
-            seeAllClassName: classes.overviewFooterSeeAll,
+          }}
+          OverviewFooterProps={{
+            hideIcon: true,
+            hideVerifiedBy: true,
           }}
           paymentListClassName={classes.payments}
           paymentsPeriodClassName={classes.period}

@@ -77,12 +77,15 @@ const Footer = ({
 export const footerProps = {
   hideIcon: PropTypes.bool,
   hideVerifiedBy: PropTypes.bool,
-  //
+}
+
+export const footerClasses = {
   className: PropTypes.string,
   seeAllClassName: PropTypes.string,
 }
 
 Footer.propTypes = {
+  ...footerClasses,
   ...footerProps,
   categoryCount: PropTypes.number,
   paymentCount: PropTypes.number.isRequired,

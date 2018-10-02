@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import OverviewChart, { LegendOnly } from 'containers/Widget/Chart'
 import Totals from 'containers/Widget/Totals'
-import Footer, { footerProps } from 'containers/Widget/Footer'
+import Footer, { footerClasses, footerProps } from 'containers/Widget/Footer'
 import { pieDataProp } from 'data/models/charts'
 
 const OverviewTab = ({
@@ -13,6 +13,7 @@ const OverviewTab = ({
   contentClassName,
   data,
   dontWrapPiechart,
+  FooterClasses,
   FooterProps,
   onCategoryClick,
   onCategoryTypeChange,
@@ -45,6 +46,7 @@ const OverviewTab = ({
         categoryCount={categoryCount}
         onSeeAllClick={onSeeAllClick}
         paymentCount={paymentCount}
+        {...FooterClasses}
         {...FooterProps}
       />
     </div>
@@ -68,6 +70,7 @@ OverviewTab.propTypes = {
   contentClassName: PropTypes.string,
   pieClassName: PropTypes.string,
   //
+  FooterClasses: footerClasses,
   FooterProps: footerProps,
 }
 
