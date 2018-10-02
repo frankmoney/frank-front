@@ -50,7 +50,7 @@ const styles = theme => ({
   },
   overviewFooter: {
     ...theme.fontRegular(18, 26),
-    margin: [18, 0, 27],
+    margin: [18, 0, 13],
   },
   overviewFooterSeeAll: {
     flexGrow: 1,
@@ -59,7 +59,17 @@ const styles = theme => ({
   },
   categoryList: {
     order: 4,
+    paddingRight: 2,
     position: 'static',
+  },
+  categoryListItem: {
+    padding: [16, 0, 17],
+    '&:not(:last-child)': {
+      borderBottom: '1px solid #F2F2F4',
+    },
+  },
+  categoryListItemName: {
+    flexGrow: 1,
   },
   payments: {
     margin: [-3, -9, 0],
@@ -95,7 +105,11 @@ class ButtonWidget extends React.PureComponent {
           barsFooterPadding={12}
           barsHeight={196}
           barsWidth={337}
-          CategoryListClasses={{ root: classes.categoryList }}
+          CategoryListClasses={{
+            item: classes.categoryListItem,
+            name: classes.categoryListItemName,
+            root: classes.categoryList,
+          }}
           className={classes.contentRoot}
           contentClassName={classes.content}
           dontWrapPiechart
