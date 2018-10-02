@@ -98,21 +98,26 @@ const CategoryList = ({
   )
 }
 
-CategoryList.propTypes = {
-  activeKey: PropTypes.number,
+export const categoryListClasses = {
   activeLabelClassName: PropTypes.string,
-  data: categoriesProp,
+  className: PropTypes.string,
   iconClassName: PropTypes.string,
   itemClassName: PropTypes.string,
   nameClassName: PropTypes.string,
-  onCategoryClick: PropTypes.func,
-  onLabelMouseEnter: PropTypes.func,
-  onLabelMouseLeave: PropTypes.func,
   tooltipIconClassName: PropTypes.string,
   tooltipItemClassName: PropTypes.string,
   tooltipNameClassName: PropTypes.string,
   tooltipValueClassName: PropTypes.string,
   valueClassName: PropTypes.string,
+}
+
+CategoryList.propTypes = {
+  ...categoryListClasses,
+  activeKey: PropTypes.number,
+  data: categoriesProp,
+  onCategoryClick: PropTypes.func,
+  onLabelMouseEnter: PropTypes.func,
+  onLabelMouseLeave: PropTypes.func,
   valueUnit: PropTypes.string,
 }
 

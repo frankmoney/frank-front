@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import { limitCategoriesTo } from 'data/models/categories'
 import { pieDataProp } from 'data/models/charts'
-import CategoryList from 'components/CategoryList'
+import CategoryList, { categoryListClasses } from 'components/CategoryList'
 import Pie from 'components/Charts/Pie'
 import CategoryTypeSelect from './CategoryTypeSelect'
 import styles from './CategoryListPieChart.jss'
@@ -21,6 +21,7 @@ class CategoryListPieChart extends React.PureComponent {
 
   render() {
     const {
+      CategoryListClasses,
       categoryType,
       categoryTypeSelectClassName,
       categoryTypeSelectLabel,
@@ -29,11 +30,6 @@ class CategoryListPieChart extends React.PureComponent {
       classes,
       className,
       data,
-      legendClassName,
-      legendIconClassName,
-      legendItemClassName,
-      legendNameClassName,
-      legendValueClassName,
       noWrap,
       onCategoryClick,
       onCategoryTypeChange,
@@ -73,18 +69,32 @@ class CategoryListPieChart extends React.PureComponent {
         <CategoryList
           activeKey={this.state.activeKey}
           activeLabelClassName={classes.activeLegendItem}
-          className={cx(classes.legend, legendClassName, {
-            [classes.highlightedLegend]: this.state.activeKey !== null,
-          })}
-          iconClassName={cx(classes.legendIcon, legendIconClassName)}
-          itemClassName={cx(classes.legendItem, legendItemClassName)}
+          className={cx(
+            classes.legend,
+            R.prop('className', CategoryListClasses),
+            this.state.activeKey !== null && classes.highlightedLegend
+          )}
+          iconClassName={cx(
+            classes.legendIcon,
+            R.prop('iconClassName', CategoryListClasses)
+          )}
+          itemClassName={cx(
+            classes.legendItem,
+            R.prop('itemClassName', CategoryListClasses)
+          )}
           data={categories}
-          nameClassName={cx(classes.legendItemName, legendNameClassName)}
+          nameClassName={cx(
+            classes.legendItemName,
+            R.prop('nameClassName', CategoryListClasses)
+          )}
           onCategoryClick={onCategoryClick}
           onLabelMouseEnter={this.handleMouseOver}
           onLabelMouseLeave={this.handleMouseOut}
           tooltip
-          valueClassName={cx(classes.legendItemValue, legendValueClassName)}
+          valueClassName={cx(
+            classes.legendItemValue,
+            R.prop('valueClassName', CategoryListClasses)
+          )}
           valueUnit="%"
         />
       </OptionalContainer>
@@ -103,11 +113,8 @@ CategoryListPieChart.propTypes = {
   // Styles
   categoryTypeSelectClassName: PropTypes.string,
   chartClassName: PropTypes.string,
-  legendClassName: PropTypes.string,
-  legendIconClassName: PropTypes.string,
-  legendItemClassName: PropTypes.string,
-  legendNameClassName: PropTypes.string,
-  legendValueClassName: PropTypes.string,
+  //
+  CategoryListClasses: categoryListClasses,
 }
 
 CategoryListPieChart.defaultProps = {

@@ -99,11 +99,13 @@ const OverviewChart = ({
       chartSize={pieSize(widgetSize)}
       className={cx(classes.root, className)}
       data={data}
-      legendClassName={cx(classes.legend, categoryListClassName)}
-      legendIconClassName={classes.legendIcon}
-      legendItemClassName={classes.legendItem}
-      legendNameClassName={classes.legendItemFont}
-      legendValueClassName={classes.legendItemValue}
+      CategoryListClasses={{
+        className: cx(classes.legend, categoryListClassName),
+        iconClassName: classes.legendIcon,
+        itemClassName: classes.legendItem,
+        nameClassName: classes.legendItemFont,
+        valueClassName: classes.legendItemValue,
+      }}
       noWrap={dontWrapPiechart}
       onCategoryClick={onCategoryClick}
       onCategoryTypeChange={onCategoryTypeChange}

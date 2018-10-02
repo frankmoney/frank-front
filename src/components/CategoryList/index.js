@@ -1,1 +1,1 @@
-export default from './CategoryList'
+export default, { categoryListClasses } from './CategoryList'
