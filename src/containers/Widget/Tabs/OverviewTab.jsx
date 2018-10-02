@@ -45,9 +45,9 @@ const OverviewTab = ({
       )}
       <Footer
         categoryCount={categoryCount}
+        Classes={FooterClasses}
         onSeeAllClick={onSeeAllClick}
         paymentCount={paymentCount}
-        {...FooterClasses}
         {...FooterProps}
       />
     </div>

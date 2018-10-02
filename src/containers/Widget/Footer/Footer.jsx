@@ -38,6 +38,7 @@ const styles = {
 }
 
 const Footer = ({
+  Classes: { root: rootClassName, seeAll: seeAllClassName } = {},
   classes,
   className,
   hideIcon,
@@ -45,9 +46,8 @@ const Footer = ({
   paymentCount,
   categoryCount,
   onSeeAllClick,
-  seeAllClassName,
 }) => (
-  <div className={cx(classes.root, className)}>
+  <div className={cx(classes.root, rootClassName, className)}>
     {!hideIcon && <ChartIcon className={classes.icon} />}
     <span className={classes.number}>{paymentCount}</span>
     {' payments'}
@@ -79,14 +79,14 @@ export const footerProps = {
   hideVerifiedBy: PropTypes.bool,
 }
 
-export const footerClasses = {
-  className: PropTypes.string,
+export const footerClasses = PropTypes.shape({
+  root: PropTypes.string,
   seeAllClassName: PropTypes.string,
-}
+})
 
 Footer.propTypes = {
-  ...footerClasses,
   ...footerProps,
+  Classes: footerClasses,
   categoryCount: PropTypes.number,
   paymentCount: PropTypes.number.isRequired,
 }

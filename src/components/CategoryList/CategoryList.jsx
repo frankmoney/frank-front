@@ -48,7 +48,7 @@ const CategoryList = ({
     tooltipName: tooltipNameClassName,
     tooltipValue: tooltipValueClassName,
     value: valueClassName,
-  },
+  } = {},
   className,
   data: { items, other, tooltipItems },
   onCategoryClick,

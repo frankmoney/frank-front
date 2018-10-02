@@ -100,8 +100,8 @@ class ButtonWidget extends React.PureComponent {
           contentClassName={classes.content}
           dontWrapPiechart
           OverviewFooterClasses={{
-            hideIcon: true,
-            hideVerifiedBy: true,
+            root: classes.overviewFooter,
+            seeAll: classes.overviewFooterSeeAll,
           }}
           OverviewFooterProps={{
             hideIcon: true,
