@@ -20,6 +20,7 @@ const styles = {
   name: {},
   value: {
     marginLeft: 4,
+    opacity: 0.55,
   },
 }
 

@@ -1,16 +1,25 @@
 import React from 'react'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
+import { injectStyles } from '@frankmoney/ui'
 import Bar from 'components/Charts/Bar'
 import { CategoryName, Header } from 'containers/Widget/Header'
 import Payments from 'containers/Widget/Payments'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import { barDataProp } from 'data/models/charts'
 
+const styles = {
+  content: {
+    overflowY: 'scroll',
+  },
+}
+
 const PaymentListTab = ({
   barChartClassName,
   barsData,
   barsHeight,
   barsWidth,
+  classes,
   contentClassName,
   currentCategoryColor,
   currentCategoryName,
@@ -30,7 +39,7 @@ const PaymentListTab = ({
         onClick={() => onCancelCategoryClick()}
       />
     </Header>
-    <div className={contentClassName}>
+    <div className={cx(classes.content, contentClassName)}>
       {showBarChart && (
         <>
           <ConnectedPeriodSelect className={paymentsPeriodClassName} />
@@ -73,4 +82,4 @@ PaymentListTab.propTypes = {
   paymentsPeriodClassName: PropTypes.string,
 }
 
-export default PaymentListTab
+export default injectStyles(styles)(PaymentListTab)

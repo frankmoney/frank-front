@@ -4,11 +4,6 @@ export default theme => ({
     flexGrow: 1,
     alignItems: 'center',
   },
-  periodSelect: {
-    position: 'absolute',
-    top: 4,
-    left: 2,
-  },
   chartContainer: {
     height: ({ chartSize }) => chartSize,
     position: 'relative',
