@@ -7,6 +7,7 @@ import { limitCategoriesTo } from 'data/models/categories'
 import { pieDataProp } from 'data/models/charts'
 import CategoryList, { categoryListClasses } from 'components/CategoryList'
 import Pie from 'components/Charts/Pie'
+import injectClasses from 'utils/injectClasses'
 import CategoryTypeSelect from './CategoryTypeSelect'
 import styles from './CategoryListPieChart.jss'
 
@@ -68,33 +69,24 @@ class CategoryListPieChart extends React.PureComponent {
         </div>
         <CategoryList
           activeKey={this.state.activeKey}
-          activeLabelClassName={classes.activeLegendItem}
-          className={cx(
-            classes.legend,
-            R.prop('className', CategoryListClasses),
-            this.state.activeKey !== null && classes.highlightedLegend
-          )}
-          iconClassName={cx(
-            classes.legendIcon,
-            R.prop('iconClassName', CategoryListClasses)
-          )}
-          itemClassName={cx(
-            classes.legendItem,
-            R.prop('itemClassName', CategoryListClasses)
+          Classes={injectClasses(
+            {
+              icon: classes.legendIcon,
+              item: classes.legendItem,
+              name: classes.legendItemName,
+              root: cx(
+                classes.legend,
+                this.state.activeKey !== null && classes.highlightedLegend
+              ),
+              value: classes.legendItemValue,
+            },
+            CategoryListClasses
           )}
           data={categories}
-          nameClassName={cx(
-            classes.legendItemName,
-            R.prop('nameClassName', CategoryListClasses)
-          )}
           onCategoryClick={onCategoryClick}
           onLabelMouseEnter={this.handleMouseOver}
           onLabelMouseLeave={this.handleMouseOut}
           tooltip
-          valueClassName={cx(
-            classes.legendItemValue,
-            R.prop('valueClassName', CategoryListClasses)
-          )}
           valueUnit="%"
         />
       </OptionalContainer>

@@ -36,21 +36,24 @@ const styles = theme => ({
 
 const CategoryList = ({
   activeKey,
-  activeLabelClassName,
   classes,
+  Classes: {
+    activeLabel: activeLabelClassName,
+    icon: iconClassName,
+    item: itemClassName,
+    name: nameClassName,
+    root: rootClassName,
+    tooltipIcon: tooltipIconClassName,
+    tooltipItem: tooltipItemClassName,
+    tooltipName: tooltipNameClassName,
+    tooltipValue: tooltipValueClassName,
+    value: valueClassName,
+  },
   className,
   data: { items, other, tooltipItems },
-  iconClassName,
-  itemClassName,
-  nameClassName,
   onCategoryClick,
   onLabelMouseEnter,
   onLabelMouseLeave,
-  tooltipIconClassName,
-  tooltipItemClassName,
-  tooltipNameClassName,
-  tooltipValueClassName,
-  valueClassName,
   valueUnit,
 }) => {
   const renderItem = ({ key, ...otherProps }) => (
@@ -83,7 +86,7 @@ const CategoryList = ({
   )
 
   return (
-    <div className={className}>
+    <div className={cx(rootClassName, className)}>
       {R.map(renderItem, items)}
       {other && (
         <OtherCategories
@@ -98,22 +101,22 @@ const CategoryList = ({
   )
 }
 
-export const categoryListClasses = {
-  activeLabelClassName: PropTypes.string,
-  className: PropTypes.string,
-  iconClassName: PropTypes.string,
-  itemClassName: PropTypes.string,
-  nameClassName: PropTypes.string,
-  tooltipIconClassName: PropTypes.string,
-  tooltipItemClassName: PropTypes.string,
-  tooltipNameClassName: PropTypes.string,
-  tooltipValueClassName: PropTypes.string,
-  valueClassName: PropTypes.string,
-}
+export const categoryListClasses = PropTypes.shape({
+  activeLabel: PropTypes.string,
+  icon: PropTypes.string,
+  item: PropTypes.string,
+  name: PropTypes.string,
+  root: PropTypes.string,
+  tooltipIcon: PropTypes.string,
+  tooltipItem: PropTypes.string,
+  tooltipName: PropTypes.string,
+  tooltipValue: PropTypes.string,
+  value: PropTypes.string,
+})
 
 CategoryList.propTypes = {
-  ...categoryListClasses,
   activeKey: PropTypes.number,
+  Classes: categoryListClasses,
   data: categoriesProp,
   onCategoryClick: PropTypes.func,
   onLabelMouseEnter: PropTypes.func,

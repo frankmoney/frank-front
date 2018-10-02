@@ -103,11 +103,11 @@ const OverviewChart = ({
       data={data}
       CategoryListClasses={injectClasses(
         {
-          className: classes.legend,
-          iconClassName: classes.legendIcon,
-          itemClassName: classes.legendItem,
-          nameClassName: classes.legendItemFont,
-          valueClassName: classes.legendItemValue,
+          icon: classes.legendIcon,
+          item: classes.legendItem,
+          name: classes.legendItemFont,
+          root: classes.legend,
+          value: classes.legendItemValue,
         },
         CategoryListClasses
       )}

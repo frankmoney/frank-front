@@ -50,12 +50,14 @@ const RecipientCard = ({
     </div>
     <div className={classes.rightColumn}>
       <CategoryList
+        Classes={{
+          item: classes.listItem,
+          itemIcon: classes.listItemIcon,
+          name: classes.listItemName,
+          root: classes.list,
+          value: classes.listItemValue,
+        }}
         data={limitCategoriesTo(5)(categories)}
-        className={classes.list}
-        itemClassName={classes.listItem}
-        itemIconClassName={classes.listItemIcon}
-        nameClassName={classes.listItemName}
-        valueClassName={classes.listItemValue}
       />
       <div className={classes.lastDate}>
         <span className={classes.lastDateLabel}>Last payment</span>{' '}

@@ -50,14 +50,16 @@ const LegendOnly = ({ classes, data, onCategoryClick }) => {
         <ConnectedCategoryTypeSelect className={classes.categoryType} />
       </div>
       <CategoryList
-        className={classes.legend}
-        iconClassName={classes.legendIcon}
-        itemClassName={classes.legendItem}
+        Classes={{
+          icon: classes.legendIcon,
+          item: classes.legendItem,
+          name: classes.legendItemName,
+          root: classes.legend,
+          value: classes.legendItemValue,
+        }}
         data={limitedCategories}
-        nameClassName={classes.legendItemName}
         onCategoryClick={onCategoryClick}
         tooltip
-        valueClassName={classes.legendItemValue}
         valueUnit="%"
       />
     </>
