@@ -11,7 +11,7 @@ import injectClasses from 'utils/injectClasses'
 import CategoryTypeSelect from './CategoryTypeSelect'
 import styles from './CategoryListPieChart.jss'
 
-class CategoryListPieChart extends React.PureComponent {
+class CategoryListPieChartContents extends React.PureComponent {
   state = {
     activeKey: null,
   }
@@ -29,9 +29,7 @@ class CategoryListPieChart extends React.PureComponent {
       chartClassName,
       chartSize,
       classes,
-      className,
       data,
-      noWrap,
       onCategoryClick,
       onCategoryTypeChange,
     } = this.props
@@ -40,14 +38,8 @@ class CategoryListPieChart extends React.PureComponent {
     const { items, other } = categories
     const pieData = other ? R.append(other, items) : items
 
-    const OptionalContainer = noWrap
-      ? ({ children }) => <>{children}</>
-      : ({ children }) => (
-          <div className={cx(classes.root, className)}>{children}</div>
-        )
-
     return (
-      <OptionalContainer>
+      <>
         <div className={cx(classes.chartContainer, chartClassName)}>
           <Pie
             activeKey={this.state.activeKey}
@@ -71,6 +63,7 @@ class CategoryListPieChart extends React.PureComponent {
           activeKey={this.state.activeKey}
           Classes={injectClasses(
             {
+              activeLabel: classes.activeLegendItem,
               icon: classes.legendIcon,
               item: classes.legendItem,
               name: classes.legendItemName,
@@ -89,9 +82,18 @@ class CategoryListPieChart extends React.PureComponent {
           tooltip
           valueUnit="%"
         />
-      </OptionalContainer>
+      </>
     )
   }
+}
+
+const CategoryListPieChart = ({ classes, className, noWrap, ...props }) => {
+  const content = <CategoryListPieChartContents classes={classes} {...props} />
+  return noWrap ? (
+    content
+  ) : (
+    <div className={cx(classes.root, className)}>{content}</div>
+  )
 }
 
 CategoryListPieChart.propTypes = {

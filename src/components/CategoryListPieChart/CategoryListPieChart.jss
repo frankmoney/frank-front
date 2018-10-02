@@ -37,7 +37,7 @@ export default theme => ({
     '& > $legendItem': {
       opacity: 0.4,
     },
-    '&:hover > $legendItem, & > $activeLegendItem': {
+    '& > $activeLegendItem': {
       opacity: 1,
     },
   },
