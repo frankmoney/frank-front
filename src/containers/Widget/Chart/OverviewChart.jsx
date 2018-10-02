@@ -3,9 +3,11 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
+import { categoryListClasses } from 'components/CategoryList'
 import CategoryListPieChart from 'components/CategoryListPieChart'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import { pieDataProp } from 'data/models/charts'
+import injectClasses from 'utils/injectClasses'
 
 const pieOffset = R.cond([
   [R.equals(500), R.always(6)],
@@ -73,7 +75,7 @@ const styles = theme => ({
 })
 
 const OverviewChart = ({
-  categoryListClassName,
+  CategoryListClasses,
   categoryType,
   classes,
   className,
@@ -99,13 +101,16 @@ const OverviewChart = ({
       chartSize={pieSize(widgetSize)}
       className={cx(classes.root, className)}
       data={data}
-      CategoryListClasses={{
-        className: cx(classes.legend, categoryListClassName),
-        iconClassName: classes.legendIcon,
-        itemClassName: classes.legendItem,
-        nameClassName: classes.legendItemFont,
-        valueClassName: classes.legendItemValue,
-      }}
+      CategoryListClasses={injectClasses(
+        {
+          className: classes.legend,
+          iconClassName: classes.legendIcon,
+          itemClassName: classes.legendItem,
+          nameClassName: classes.legendItemFont,
+          valueClassName: classes.legendItemValue,
+        },
+        CategoryListClasses
+      )}
       noWrap={dontWrapPiechart}
       onCategoryClick={onCategoryClick}
       onCategoryTypeChange={onCategoryTypeChange}
@@ -121,9 +126,10 @@ OverviewChart.propTypes = {
   onCategoryTypeChange: PropTypes.func.isRequired,
   widgetSize: PropTypes.oneOf([375, 400, 500, 625, 800]).isRequired,
   // Styles
-  categoryListClassName: PropTypes.string,
   periodSelectClassName: PropTypes.string,
   pieClassName: PropTypes.string,
+  //
+  CategoryListClasses: categoryListClasses,
 }
 
 export default injectStyles(styles)(OverviewChart)

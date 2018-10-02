@@ -95,7 +95,7 @@ class ButtonWidget extends React.PureComponent {
           barsFooterPadding={12}
           barsHeight={196}
           barsWidth={337}
-          categoryListClassName={classes.categoryList}
+          CategoryListClasses={{ className: classes.categoryList }}
           className={classes.contentRoot}
           contentClassName={classes.content}
           dontWrapPiechart
