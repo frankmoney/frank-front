@@ -7,7 +7,7 @@ import { categoryListClasses } from 'components/CategoryList'
 import CategoryListPieChart from 'components/CategoryListPieChart'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import { pieDataProp } from 'data/models/charts'
-import injectClasses from 'utils/injectClasses'
+import combineClassNames from 'utils/combineClassNames'
 
 const pieOffset = R.cond([
   [R.equals(500), R.always(6)],
@@ -101,7 +101,7 @@ const OverviewChart = ({
       chartSize={pieSize(widgetSize)}
       className={cx(classes.root, className)}
       data={data}
-      CategoryListClasses={injectClasses(
+      CategoryListClasses={combineClassNames(
         {
           icon: classes.legendIcon,
           item: classes.legendItem,

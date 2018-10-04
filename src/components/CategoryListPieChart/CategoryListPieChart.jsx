@@ -7,7 +7,7 @@ import { limitCategoriesTo } from 'data/models/categories'
 import { pieDataProp } from 'data/models/charts'
 import CategoryList, { categoryListClasses } from 'components/CategoryList'
 import Pie from 'components/Charts/Pie'
-import injectClasses from 'utils/injectClasses'
+import combineClassNames from 'utils/combineClassNames'
 import CategoryTypeSelect from './CategoryTypeSelect'
 import styles from './CategoryListPieChart.jss'
 
@@ -61,7 +61,7 @@ class CategoryListPieChartContents extends React.PureComponent {
         </div>
         <CategoryList
           activeCategoryId={this.state.activeCategoryId}
-          Classes={injectClasses(
+          Classes={combineClassNames(
             {
               activeLabel: classes.activeLegendItem,
               icon: classes.legendIcon,
