@@ -35,7 +35,7 @@ const styles = theme => ({
 })
 
 const CategoryList = ({
-  activeKey,
+  activeCategoryId,
   classes,
   Classes: {
     activeLabel: activeLabelClassName,
@@ -58,7 +58,7 @@ const CategoryList = ({
 }) => {
   const renderItem = ({ key, ...otherProps }) => (
     <CategoryLabel
-      active={key === activeKey}
+      active={key === activeCategoryId}
       activeClassName={activeLabelClassName}
       className={cx(classes.item, itemClassName)}
       iconClassName={iconClassName}
@@ -115,7 +115,7 @@ export const categoryListClasses = PropTypes.shape({
 })
 
 CategoryList.propTypes = {
-  activeKey: PropTypes.number,
+  activeCategoryId: PropTypes.number,
   Classes: categoryListClasses,
   data: categoriesProp,
   onCategoryClick: PropTypes.func,

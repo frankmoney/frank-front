@@ -40,30 +40,38 @@ const injectActive = current => item =>
 
 class Pie extends React.Component {
   state = {
-    activeKey: null,
+    activeSegmentId: null,
     showTooltip: false,
   }
 
   handlePieEnter = (data, key) => {
-    this.setState({ activeKey: key, showTooltip: true })
+    this.setState({ activeSegmentId: key, showTooltip: true })
     if (this.props.onMouseEnter) {
-      this.props.onMouseEnter(key)
+      this.props.onSegmentMouseEnter(key)
     }
   }
 
   handlePieLeave = () => {
-    this.setState({ activeKey: null, showTooltip: false })
+    this.setState({ activeSegmentId: null, showTooltip: false })
     if (this.props.onMouseLeave) {
-      this.props.onMouseLeave()
+      this.props.onSegmentMouseLeave()
     }
   }
 
   render() {
-    const { activeKey, classes, className, data, size, onClick } = this.props
+    const {
+      activeSegmentId,
+      classes,
+      className,
+      data,
+      size,
+      onClick,
+    } = this.props
     const outerRadius = size / 2
     const innerRadius = outerRadius - RING_THICCNESS
 
-    const currentKey = activeKey === null ? this.state.activeKey : activeKey
+    const currentKey =
+      activeSegmentId === null ? this.state.activeSegmentId : activeSegmentId
     return (
       <div className={cx(classes.root, className)}>
         <ReChart
@@ -126,11 +134,11 @@ class Pie extends React.Component {
 }
 
 Pie.propTypes = {
-  activeKey: PropTypes.number,
+  activeSegmentId: PropTypes.number,
   data: pieDataProp.isRequired,
   onClick: PropTypes.func,
-  onMouseEnter: PropTypes.func,
-  onMouseLeave: PropTypes.func,
+  onSegmentMouseEnter: PropTypes.func,
+  onSegmentMouseLeave: PropTypes.func,
   size: PropTypes.number.isRequired,
 }
 

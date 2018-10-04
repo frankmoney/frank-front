@@ -13,12 +13,12 @@ import styles from './CategoryListPieChart.jss'
 
 class CategoryListPieChartContents extends React.PureComponent {
   state = {
-    activeKey: null,
+    activeCategoryId: null,
   }
 
-  handleMouseOver = key => this.setState({ activeKey: key })
+  handleMouseOver = id => this.setState({ activeCategoryId: id })
 
-  handleMouseOut = () => this.setState({ activeKey: null })
+  handleMouseOut = () => this.setState({ activeCategoryId: null })
 
   render() {
     const {
@@ -42,11 +42,11 @@ class CategoryListPieChartContents extends React.PureComponent {
       <>
         <div className={cx(classes.chartContainer, chartClassName)}>
           <Pie
-            activeKey={this.state.activeKey}
+            activeSegmentId={this.state.activeCategoryId}
             className={classes.chart}
             data={pieData}
-            onMouseEnter={this.handleMouseOver}
-            onMouseLeave={this.handleMouseOut}
+            onSegmentMouseEnter={this.handleMouseOver}
+            onSegmentMouseLeave={this.handleMouseOut}
             size={chartSize}
           />
           <CategoryTypeSelect
@@ -60,7 +60,7 @@ class CategoryListPieChartContents extends React.PureComponent {
           />
         </div>
         <CategoryList
-          activeKey={this.state.activeKey}
+          activeCategoryId={this.state.activeCategoryId}
           Classes={injectClasses(
             {
               activeLabel: classes.activeLegendItem,
@@ -69,7 +69,8 @@ class CategoryListPieChartContents extends React.PureComponent {
               name: classes.legendItemName,
               root: cx(
                 classes.legend,
-                this.state.activeKey !== null && classes.highlightedLegend
+                this.state.activeCategoryId !== null &&
+                  classes.highlightedLegend
               ),
               value: classes.legendItemValue,
             },
