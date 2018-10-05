@@ -9,12 +9,16 @@ export default {
     marginBottom: 39,
   },
   chart: {
-    left: 30,
+    marginRight: '11%',
   },
   legend: {
-    position: 'relative',
-    left: 90,
+    left: -26,
     paddingBottom: 5,
+  },
+  legendItem: {
+    '&:not(:last-child)': {
+      paddingBottom: 10,
+    },
   },
   bottomRow: {
     margin: [60, -CARD_PADDING, 0],

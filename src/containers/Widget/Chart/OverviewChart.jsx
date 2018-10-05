@@ -9,20 +9,6 @@ import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import { pieDataProp } from 'data/models/charts'
 import combineClassNames from 'utils/combineClassNames'
 
-const pieOffset = R.cond([
-  [R.equals(500), R.always(6)],
-  [R.equals(625), R.always(40)],
-  [R.equals(800), R.always(96)],
-  [R.T, R.always(0)],
-])
-
-const pieLegendMargin = R.cond([
-  [R.equals(500), R.always(25)],
-  [R.equals(625), R.always(30)],
-  [R.equals(800), R.always(40)],
-  [R.T, R.always(0)],
-])
-
 const pieSize = R.cond([
   [R.equals(375), R.always(270)], // button widget size
   [R.equals(500), R.always(170)],
@@ -40,27 +26,16 @@ const categoryTypeSelectLabel = R.cond([
 ])
 
 const styles = theme => ({
-  root: {},
+  root: {
+    paddingBottom: 5,
+  },
   categoryTypeSelect: {
     fontSize: 15,
-    whiteSpace: 'nowrap',
   },
   periodSelect: {
     display: 'flex',
     flexShrink: 0,
     margin: [4, 0, 0, 1],
-  },
-  chart: {
-    left: ({ widgetSize }) => pieOffset(widgetSize),
-  },
-  legend: {
-    position: 'relative',
-    left: ({ widgetSize }) =>
-      pieOffset(widgetSize) + pieLegendMargin(widgetSize),
-    paddingBottom: 5,
-  },
-  legendItem: {
-    padding: [2, 0],
   },
   legendItemFont: {
     ...theme.fontMedium(18, 26),
@@ -97,16 +72,14 @@ const OverviewChart = ({
         widgetSize === 500 && classes.categoryTypeSelect
       }
       categoryTypeSelectLabel={categoryTypeSelectLabel(widgetSize)}
-      chartClassName={cx(classes.chart, pieClassName)}
+      chartClassName={pieClassName}
       chartSize={pieSize(widgetSize)}
       className={cx(classes.root, className)}
       data={data}
       CategoryListClasses={combineClassNames(
         {
           icon: classes.legendIcon,
-          item: classes.legendItem,
           name: classes.legendItemFont,
-          root: classes.legend,
           value: classes.legendItemValue,
         },
         CategoryListClasses

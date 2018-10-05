@@ -13,17 +13,11 @@ const SEGMENTS_PADDING_ANGLE = 0.25
 const SIZE = 350
 
 const styles = {
-  root: {
-    display: 'inline-flex',
-  },
   ring: {
     cursor: 'pointer',
   },
   innerRing: {
     opacity: 0.1,
-  },
-  pizzaSlice: {
-    // opacity: 0, // not really needed
   },
 }
 
@@ -73,7 +67,7 @@ class Pie extends React.Component {
     const currentKey =
       activeSegmentId === null ? this.state.activeSegmentId : activeSegmentId
     return (
-      <div className={cx(classes.root, className)}>
+      <div className={className}>
         <ReChart
           height={size}
           margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
@@ -115,7 +109,6 @@ class Pie extends React.Component {
             )}
           </RePie>
           <RePie
-            className={classes.pizzaSlice}
             data={data}
             dataKey="value"
             endAngle={-630}

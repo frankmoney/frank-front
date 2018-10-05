@@ -52,6 +52,7 @@ class ChartCard extends React.PureComponent {
               chartClassName={classes.chart}
               CategoryListClasses={{
                 root: classes.legend,
+                item: classes.legendItem,
               }}
               data={categories}
               onCategoryClick={onCategoryClick}

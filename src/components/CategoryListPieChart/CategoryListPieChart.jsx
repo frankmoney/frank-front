@@ -43,7 +43,6 @@ class CategoryListPieChartContents extends React.PureComponent {
         <div className={cx(classes.chartContainer, chartClassName)}>
           <Pie
             activeSegmentId={this.state.activeCategoryId}
-            className={classes.chart}
             data={pieData}
             onSegmentMouseEnter={this.handleMouseOver}
             onSegmentMouseLeave={this.handleMouseOut}

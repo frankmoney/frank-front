@@ -1,30 +1,36 @@
 export default theme => ({
   root: {
-    display: 'flex',
-    flexGrow: 1,
     alignItems: 'center',
+    display: 'flex',
+    flex: [1, 0, 0],
+    justifyContent: 'center',
   },
   chartContainer: {
-    height: ({ chartSize }) => chartSize,
-    position: 'relative',
-    width: ({ chartSize }) => chartSize,
+    alignItems: 'center',
+    display: 'flex',
+    flex: [0, 0, 'auto'],
+    justifyContent: 'center',
+    marginRight: '7%',
   },
   categoryTypeSelect: {
-    left: '50%',
-    maxWidth: ({ chartSize }) => chartSize - 30 * 2,
+    paddingTop: 2,
     position: 'absolute',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '100%',
+    whiteSpace: 'nowrap',
   },
   legend: {
     cursor: 'default',
+    flex: [0, 0, 'auto'],
+    left: -12,
+    position: 'relative',
   },
   legendItem: {
     cursor: 'pointer',
-    padding: [5, 0],
+    '&:not(:last-child)': {
+      paddingBottom: 5,
+    },
   },
   legendIcon: {
+    flexShrink: 0,
     marginRight: 13,
   },
   legendItemName: {
