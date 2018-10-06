@@ -13,12 +13,12 @@ import styles from './CategoryListPieChart.jss'
 
 class CategoryListPieChartContents extends React.PureComponent {
   state = {
-    activeCategoryId: null,
+    activeCategoryIndex: null,
   }
 
-  handleMouseOver = id => this.setState({ activeCategoryId: id })
+  handleMouseOver = index => this.setState({ activeCategoryIndex: index })
 
-  handleMouseOut = () => this.setState({ activeCategoryId: null })
+  handleMouseOut = () => this.setState({ activeCategoryIndex: null })
 
   render() {
     const {
@@ -33,6 +33,7 @@ class CategoryListPieChartContents extends React.PureComponent {
       onCategoryClick,
       onCategoryTypeChange,
     } = this.props
+    const { activeCategoryIndex } = this.state
 
     const categories = limitCategoriesTo(5)(data)
     const { items, other } = categories
@@ -42,7 +43,7 @@ class CategoryListPieChartContents extends React.PureComponent {
       <>
         <div className={cx(classes.chartContainer, chartClassName)}>
           <Pie
-            activeSegmentId={this.state.activeCategoryId}
+            activeSegmentIndex={activeCategoryIndex}
             data={pieData}
             onSegmentMouseEnter={this.handleMouseOver}
             onSegmentMouseLeave={this.handleMouseOut}
@@ -59,7 +60,7 @@ class CategoryListPieChartContents extends React.PureComponent {
           />
         </div>
         <CategoryList
-          activeCategoryId={this.state.activeCategoryId}
+          activeCategoryIndex={activeCategoryIndex}
           Classes={combineClassNames(
             {
               activeLabel: classes.activeLegendItem,
@@ -68,8 +69,7 @@ class CategoryListPieChartContents extends React.PureComponent {
               name: classes.legendItemName,
               root: cx(
                 classes.legend,
-                this.state.activeCategoryId !== null &&
-                  classes.highlightedLegend
+                activeCategoryIndex !== null && classes.highlightedLegend
               ),
               value: classes.legendItemValue,
             },
@@ -109,10 +109,6 @@ CategoryListPieChart.propTypes = {
   chartClassName: PropTypes.string,
   //
   CategoryListClasses: categoryListClasses,
-}
-
-CategoryListPieChart.defaultProps = {
-  chartSize: 350,
 }
 
 export default injectStyles(styles)(CategoryListPieChart)

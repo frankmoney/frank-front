@@ -3,8 +3,7 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { categoriesProp } from 'data/models/categories'
-import CategoryLabel from 'components/CategoryLabel'
+import CategoryLabel, { categoryProps } from 'components/CategoryLabel'
 import OtherCategories from './OtherCategories'
 
 const styles = theme => ({
@@ -35,7 +34,7 @@ const styles = theme => ({
 })
 
 const CategoryList = ({
-  activeCategoryId,
+  activeCategoryIndex,
   classes,
   Classes: {
     activeLabel: activeLabelClassName,
@@ -56,28 +55,28 @@ const CategoryList = ({
   onLabelMouseLeave,
   valueUnit,
 }) => {
-  const renderItem = ({ key, ...otherProps }) => (
+  const renderItem = ({ index, ...otherProps }) => (
     <CategoryLabel
-      active={key === activeCategoryId}
+      active={index === activeCategoryIndex}
       activeClassName={activeLabelClassName}
       className={cx(classes.item, itemClassName)}
       iconClassName={iconClassName}
-      key={key}
+      key={index}
       nameClassName={nameClassName}
-      onClick={onCategoryClick && (() => onCategoryClick(items[key]))}
-      onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(key))}
-      onMouseLeave={onLabelMouseLeave && (() => onLabelMouseLeave(key))}
+      onClick={onCategoryClick && (() => onCategoryClick(items[index]))}
+      onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(index))}
+      onMouseLeave={onLabelMouseLeave && (() => onLabelMouseLeave(index))}
       valueClassName={valueClassName}
       valueUnit={valueUnit}
       {...otherProps}
     />
   )
 
-  const renderTooltipItem = ({ key, ...otherProps }) => (
+  const renderTooltipItem = ({ index, ...otherProps }) => (
     <CategoryLabel
       className={cx(classes.tooltipItem, tooltipItemClassName)}
       iconClassName={cx(classes.tooltipIcon, tooltipIconClassName)}
-      key={key}
+      key={index}
       nameClassName={cx(classes.tooltipName, tooltipNameClassName)}
       valueClassName={cx(classes.tooltipValue, tooltipValueClassName)}
       valueUnit={valueUnit}
@@ -90,7 +89,6 @@ const CategoryList = ({
       {R.map(renderItem, items)}
       {other && (
         <OtherCategories
-          key="other"
           categories={tooltipItems}
           renderTooltipItem={renderTooltipItem}
         >
@@ -114,10 +112,16 @@ export const categoryListClasses = PropTypes.shape({
   value: PropTypes.string,
 })
 
+const categoryShape = PropTypes.shape(categoryProps)
+
 CategoryList.propTypes = {
-  activeCategoryId: PropTypes.number,
+  activeCategoryIndex: PropTypes.number,
   Classes: categoryListClasses,
-  data: categoriesProp,
+  data: PropTypes.shape({
+    items: PropTypes.arrayOf(categoryShape),
+    other: categoryShape,
+    tooltipItems: PropTypes.arrayOf(categoryShape),
+  }),
   onCategoryClick: PropTypes.func,
   onLabelMouseEnter: PropTypes.func,
   onLabelMouseLeave: PropTypes.func,

@@ -2,15 +2,15 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { categoryProps } from 'data/models/categories'
 import HighlightText from 'components/HighlightText'
 import IconCircle from 'components/IconCircle'
 
 const styles = {
   root: {
+    alignItems: 'center',
     color: ({ color }) => color,
     display: 'flex',
-    alignItems: 'center',
+    outline: 'none',
   },
   icon: {
     height: 16,
@@ -25,23 +25,27 @@ const styles = {
 }
 
 const CategoryLabel = ({
-  id,
   active,
   activeClassName,
   classes,
   className,
-  color,
+  iconClassName,
   name,
   nameClassName,
-  iconClassName,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
   value,
   valueClassName,
   valueUnit,
-  ...otherProps
 }) => (
   <div
     className={cx(classes.root, active && activeClassName, className)}
-    {...otherProps}
+    onClick={onClick}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+    role="button"
+    tabIndex={0}
   >
     <IconCircle className={cx(classes.icon, iconClassName)} />
     <HighlightText className={cx(classes.name, nameClassName)} text={name} />
@@ -53,6 +57,13 @@ const CategoryLabel = ({
     )}
   </div>
 )
+
+export const categoryProps = {
+  color: PropTypes.string,
+  index: PropTypes.number,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.number,
+}
 
 CategoryLabel.propTypes = {
   ...categoryProps,
