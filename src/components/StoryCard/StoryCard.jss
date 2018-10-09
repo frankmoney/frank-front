@@ -30,11 +30,12 @@ export default theme => ({
   },
   title: {
     ...theme.fontSemibold(40, 46),
+    wordBreak: 'break-word',
     paddingRight: 130,
-    color: '#252B43',
-    transition: 'color 0.1s ease-out',
     marginBottom: 15,
     textDecoration: 'none',
+    transition: theme.transition('color 0.1s'),
+    color: '#252B43',
     '$storyCard:hover &': {
       color: '#484DE7',
     },

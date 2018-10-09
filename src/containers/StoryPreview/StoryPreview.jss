@@ -26,6 +26,7 @@ export default theme => ({
   },
   title: {
     ...theme.fontSemibold(40, 46),
+    wordBreak: 'break-word',
     color: '#252B43',
     marginBottom: 20,
     textDecoration: 'none',
@@ -36,6 +37,7 @@ export default theme => ({
   text: {
     margin: [40, 0],
     ...theme.fontRegular(20, 32),
+    wordBreak: 'break-word',
     fontFamily: 'inherit',
     color: 'rgba(37, 43, 67, 0.9)',
     textDecoration: 'none',
