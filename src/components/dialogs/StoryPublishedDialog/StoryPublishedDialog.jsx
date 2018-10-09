@@ -23,14 +23,20 @@ const styles = theme => ({
     marginTop: 24,
     marginBottom: 16,
   },
+  link: {
+    color: theme.colors.black,
+    '&:hover': {
+      color: theme.colors.blue,
+    },
+  },
 })
 
 const StoryPublishedDialog = ({ classes, url, ...dialogProps }) => (
   <PopupDialog title="The story was published" {...dialogProps}>
     <div className={classes.container}>
       <div className={classes.public}>Public page</div>
-      <LinkButton type="secondary" icon={PublicIcon}>
-        See the public page
+      <LinkButton className={classes.link} icon={PublicIcon}>
+        {url}
       </LinkButton>
       <div className={classes.share}>Share story</div>
       <ShareButtons url={url} />

@@ -81,7 +81,7 @@ export const saveButtonLabelSelector = createSelector(
 export const isPublishButtonDisabledSelector = createSelector(
   isPublishedSelector,
   hasUnpublishedDraftSelector,
-  (isPublished, hasUnpublishedDraft) => !hasUnpublishedDraft || isPublished
+  (isPublished, hasUnpublishedDraft) => !hasUnpublishedDraft && isPublished
 )
 
 export const publishButtonLabelSelector = createSelector(
