@@ -1,16 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { injectStyles } from '@frankmoney/ui'
 import { categoryListClasses } from 'components/CategoryList'
-import OverviewChart, { LegendOnly } from 'containers/Widget/Chart'
+import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
+import ConnectedCategoryTypeSelect from 'containers/Widget/ConnectedCategoryTypeSelect'
 import Totals from 'containers/Widget/Totals'
 import Footer, { footerClasses, footerProps } from 'containers/Widget/Footer'
 import { pieDataProp } from 'data/models/charts'
+import JustCategoryList from './JustCategoryList'
+import OverviewChart from './OverviewChart'
+
+const styles = {
+  selects: {
+    display: 'flex',
+    flexShrink: 0,
+    margin: [6, 0, -1, 2],
+  },
+  categoryType: {
+    marginLeft: 27,
+  },
+}
 
 const OverviewTab = ({
   categoryCount,
   CategoryListClasses,
   categoryType,
   chartClassName,
+  classes,
   contentClassName,
   data,
   dontWrapPiechart,
@@ -41,7 +57,16 @@ const OverviewTab = ({
           widgetSize={widgetSize}
         />
       ) : (
-        <LegendOnly data={categories} onCategoryClick={onCategoryClick} />
+        <>
+          <div className={classes.selects}>
+            <ConnectedPeriodSelect />
+            <ConnectedCategoryTypeSelect className={classes.categoryType} />
+          </div>
+          <JustCategoryList
+            data={categories}
+            onCategoryClick={onCategoryClick}
+          />
+        </>
       )}
       <Footer
         categoryCount={categoryCount}
@@ -75,4 +100,4 @@ OverviewTab.propTypes = {
   FooterProps: footerProps,
 }
 
-export default OverviewTab
+export default injectStyles(styles)(OverviewTab)

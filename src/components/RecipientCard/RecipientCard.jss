@@ -37,20 +37,6 @@ export default theme => ({
     color: 'rgba(37, 43, 67, 0.3)',
     paddingBottom: 2,
   },
-  list: {
-    paddingTop: 8,
-  },
-  listItemIcon: {
-    height: 12,
-    width: 12,
-  },
-  listItemName: {
-    ...theme.fontMedium(18, 28),
-  },
-  listItemValue: {
-    ...theme.fontRegular(18, 28),
-    color: '#BEBFC7',
-  },
   lastDate: {
     ...theme.fontRegular(18, 26),
     position: 'absolute',

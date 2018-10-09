@@ -3,11 +3,10 @@ import cx from 'classnames'
 import { format } from 'date-fns'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
-import CategoryList from 'components/CategoryList'
 import CurrencyDelta from 'components/CurrencyDelta'
 import TextWithEditableToggle from 'components/TextWithEditableToggle'
-import { limitCategoriesTo } from 'data/models/categories'
 import styles from './RecipientCard.jss'
+import RecipientCategoryList from './RecipientCategoryList'
 
 const formatDate = date => format(date, 'MMM D, YYYY')
 
@@ -49,16 +48,7 @@ const RecipientCard = ({
       </div>
     </div>
     <div className={classes.rightColumn}>
-      <CategoryList
-        Classes={{
-          item: classes.listItem,
-          itemIcon: classes.listItemIcon,
-          name: classes.listItemName,
-          root: classes.list,
-          value: classes.listItemValue,
-        }}
-        data={limitCategoriesTo(5)(categories)}
-      />
+      <RecipientCategoryList data={categories} />
       <div className={classes.lastDate}>
         <span className={classes.lastDateLabel}>Last payment</span>{' '}
         {formatDate(lastPaymentDate)}
