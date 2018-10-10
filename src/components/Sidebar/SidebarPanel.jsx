@@ -90,10 +90,3 @@ SidebarPanel.defaultProps = {
 }
 
 export default injectStyles(styles)(SidebarPanel)
-
-/*
-
-
-
-
- */

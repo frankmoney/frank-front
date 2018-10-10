@@ -1,5 +1,3 @@
-const BOTTOM_MENU_HEIGHT = 54
-
 export default {
   root: {
     position: 'relative',
@@ -67,16 +65,10 @@ export default {
     flexGrow: 0,
     flexShrink: 0,
   },
-  verifyEmail: {
-    marginBottom: 30 + BOTTOM_MENU_HEIGHT,
-  },
   bottomMenu: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-  },
-  tip: {
-    marginBottom: 20 + BOTTOM_MENU_HEIGHT,
   },
 }
