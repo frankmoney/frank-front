@@ -2,10 +2,8 @@ import React from 'react'
 import * as R from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
-import { compose, withPropsOnChange, branch, renderComponent } from 'recompose'
-import { reduxForm } from 'redux-form/immutable'
+import { compose, branch, renderComponent } from 'recompose'
 import reconnect from 'utils/reconnect'
-import { STEP_FORM } from '../../constants'
 import {
   credentialsFieldsSelector,
   isCredentialsCheckingSelector,

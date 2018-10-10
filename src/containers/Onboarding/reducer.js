@@ -134,6 +134,8 @@ export default handleActions(
     [ACTIONS.cancel]: state =>
       state.merge({
         loading: true,
+        loadingBack: false,
+        loadingNext: false,
       }),
     // [ACTIONS.goNext]: state =>
     //   state.update('currentStep', step => {

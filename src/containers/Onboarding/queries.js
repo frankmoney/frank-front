@@ -53,6 +53,7 @@ export default {
           challenges: $challenges
       ) {
         step
+        institution
         mfa
         accounts
       }

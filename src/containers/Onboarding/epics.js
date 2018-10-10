@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs'
 import { push as pushRoute } from 'react-router-redux'
 import * as USER_ACTIONS from 'redux/actions/user'
 import { ROUTES } from '../../const'
@@ -122,10 +123,14 @@ export const pollCredentialsWhileStatusIsCheckingEpic = (
     .map(ACTIONS.goNext.success)
 
 export const prevStepEpic = (action$, store, { graphql }) =>
-  action$
-    .ofType(ACTIONS.goBack)
-    .switchMap(() => graphql(QUERIES.goBack))
-    .map(ACTIONS.goBack.success)
+  action$.ofType(ACTIONS.goBack).switchMap(() => {
+    const state = store.getState()
+    const step = currentStepSelector(state)
+    if (step === 'credentials') {
+      return Promise.resolve(ACTIONS.cancel())
+    }
+    return graphql(QUERIES.goBack).then(ACTIONS.goBack.success)
+  })
 
 export const cancelEpic = (action$, store, { graphql }) =>
   action$
