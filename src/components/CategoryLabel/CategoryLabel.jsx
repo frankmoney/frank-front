@@ -59,7 +59,7 @@ const CategoryLabel = ({
   </div>
 )
 
-export const categoryProps = {
+export const categoryPropTypes = {
   color: PropTypes.string,
   index: PropTypes.number,
   name: PropTypes.string.isRequired,
@@ -67,7 +67,7 @@ export const categoryProps = {
 }
 
 CategoryLabel.propTypes = {
-  ...categoryProps,
+  ...categoryPropTypes,
   active: PropTypes.bool,
   activeClassName: PropTypes.string,
   iconClassName: PropTypes.string,

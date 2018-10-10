@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import CategoryLabel, { categoryProps } from 'components/CategoryLabel'
+import CategoryLabel, { categoryPropTypes } from 'components/CategoryLabel'
 import OtherCategories from './OtherCategories'
 
 const styles = theme => ({
@@ -143,7 +143,7 @@ const categoryListClasses = PropTypes.shape({
   value: PropTypes.string,
 })
 
-const categoryShape = PropTypes.shape(categoryProps)
+const categoryShape = PropTypes.shape(categoryPropTypes)
 
 export const categoryListProps = {
   activeCategoryIndex: PropTypes.number,
