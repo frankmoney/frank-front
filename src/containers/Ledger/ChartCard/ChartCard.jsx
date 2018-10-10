@@ -7,8 +7,9 @@ import CategoryListPieChart from 'components/CategoryListPieChart'
 import { barDataProp, pieDataProp } from 'data/models/charts'
 import BarChart from './BarChart'
 import ExpandRow from './ExpandRow'
-import Title from './Title'
+import LedgerCategoryList from './LedgerCategoryList'
 import styles from './ChartCard.jss'
+import Title from './Title'
 
 class ChartCard extends React.PureComponent {
   state = {
@@ -49,10 +50,7 @@ class ChartCard extends React.PureComponent {
           <>
             <CategoryListPieChart
               categoryType={categoryType}
-              CategoryListClasses={{
-                root: classes.legend,
-                item: classes.legendItem,
-              }}
+              CategoryList={LedgerCategoryList}
               chartClassName={classes.chart}
               chartSize={350}
               data={categories}

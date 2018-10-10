@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { categoryListClasses } from 'components/CategoryList'
 import { footerClasses, footerProps } from 'containers/Widget/Footer'
 import { barDataProp, pieDataProp } from 'data/models/charts'
 import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
@@ -28,7 +27,7 @@ const Widget = ({
   barsHeight,
   barsWidth,
   categoryCount,
-  CategoryListClasses,
+  CategoryList,
   categoryType,
   className,
   contentClassName,
@@ -86,7 +85,7 @@ const Widget = ({
       {overviewTab && (
         <OverviewTab
           categoryCount={showCategoryCount ? categoryCount : null}
-          CategoryListClasses={CategoryListClasses}
+          CategoryList={CategoryList}
           categoryType={categoryType}
           chartClassName={overviewChartClassName}
           contentClassName={contentClassName}
@@ -132,6 +131,7 @@ Widget.propTypes = {
   barsFooterPadding: PropTypes.number.isRequired,
   barsHeight: PropTypes.number.isRequired,
   barsWidth: PropTypes.number.isRequired,
+  CategoryList: PropTypes.element,
   dontWrapPiechart: PropTypes.bool,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
@@ -162,7 +162,6 @@ Widget.propTypes = {
   paymentsPeriodClassName: PropTypes.string,
   pieChartClassName: PropTypes.string,
   //
-  CategoryListClasses: categoryListClasses,
   OverviewFooterClasses: footerClasses,
   OverviewFooterProps: footerProps,
 }

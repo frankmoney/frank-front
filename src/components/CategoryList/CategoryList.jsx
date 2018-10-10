@@ -7,7 +7,31 @@ import CategoryLabel, { categoryProps } from 'components/CategoryLabel'
 import OtherCategories from './OtherCategories'
 
 const styles = theme => ({
-  item: {},
+  root: {
+    flex: [0, 0, 'auto'],
+    position: 'relative',
+  },
+  item: {
+    cursor: 'pointer',
+  },
+  icon: {
+    marginRight: 13,
+  },
+  name: {
+    ...theme.fontMedium(22, 26),
+  },
+  value: {
+    ...theme.fontRegular(22, 26),
+  },
+  highlighted: {
+    '& > $item': {
+      opacity: 0.4,
+    },
+    '& > $active': {
+      opacity: 1,
+    },
+  },
+  active: {},
   tooltipItem: {
     alignItems: 'center',
     display: 'flex',
@@ -37,7 +61,6 @@ const CategoryList = ({
   activeCategoryIndex,
   classes,
   Classes: {
-    activeLabel: activeLabelClassName,
     icon: iconClassName,
     item: itemClassName,
     name: nameClassName,
@@ -55,18 +78,20 @@ const CategoryList = ({
   onLabelMouseLeave,
   valueUnit,
 }) => {
+  const highlighted = R.not(R.isNil(activeCategoryIndex))
+
   const renderItem = ({ index, ...otherProps }) => (
     <CategoryLabel
       active={index === activeCategoryIndex}
-      activeClassName={activeLabelClassName}
+      activeClassName={classes.active}
       className={cx(classes.item, itemClassName)}
-      iconClassName={iconClassName}
+      iconClassName={cx(classes.icon, iconClassName)}
       key={index}
-      nameClassName={nameClassName}
+      nameClassName={cx(classes.name, nameClassName)}
       onClick={onCategoryClick && (() => onCategoryClick(items[index]))}
       onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(index))}
       onMouseLeave={onLabelMouseLeave && (() => onLabelMouseLeave(index))}
-      valueClassName={valueClassName}
+      valueClassName={cx(classes.value, valueClassName)}
       valueUnit={valueUnit}
       {...otherProps}
     />
@@ -85,7 +110,14 @@ const CategoryList = ({
   )
 
   return (
-    <div className={cx(rootClassName, className)}>
+    <div
+      className={cx(
+        classes.root,
+        highlighted && classes.highlighted,
+        rootClassName,
+        className
+      )}
+    >
       {R.map(renderItem, items)}
       {other && (
         <OtherCategories
@@ -99,8 +131,7 @@ const CategoryList = ({
   )
 }
 
-export const categoryListClasses = PropTypes.shape({
-  activeLabel: PropTypes.string,
+const categoryListClasses = PropTypes.shape({
   icon: PropTypes.string,
   item: PropTypes.string,
   name: PropTypes.string,
@@ -114,18 +145,24 @@ export const categoryListClasses = PropTypes.shape({
 
 const categoryShape = PropTypes.shape(categoryProps)
 
-CategoryList.propTypes = {
+export const categoryListProps = {
   activeCategoryIndex: PropTypes.number,
-  Classes: categoryListClasses,
-  data: PropTypes.shape({
-    items: PropTypes.arrayOf(categoryShape),
-    other: categoryShape,
-    tooltipItems: PropTypes.arrayOf(categoryShape),
-  }),
   onCategoryClick: PropTypes.func,
   onLabelMouseEnter: PropTypes.func,
   onLabelMouseLeave: PropTypes.func,
   valueUnit: PropTypes.string,
+}
+
+export const categoryListDataProps = PropTypes.shape({
+  items: PropTypes.arrayOf(categoryShape),
+  other: categoryShape,
+  tooltipItems: PropTypes.arrayOf(categoryShape),
+})
+
+CategoryList.propTypes = {
+  ...categoryListProps,
+  Classes: categoryListClasses,
+  data: categoryListDataProps,
 }
 
 export default injectStyles(styles)(CategoryList)

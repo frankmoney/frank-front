@@ -7,16 +7,15 @@ import { pieDataProp } from 'data/models/charts'
 
 const styles = theme => ({
   root: {
-    padding: [10, 2],
     display: 'flex',
+    flex: [1, 0, 'auto'],
     flexDirection: 'column',
-    flexGrow: 1,
-    flexShrink: 0,
+    padding: [13, 2],
   },
   item: {
-    display: 'flex',
-    padding: [4, 0],
-    cursor: 'pointer',
+    '&:not(:last-child)': {
+      paddingBottom: 9,
+    },
   },
   name: {
     ...theme.fontMedium(18, 26),
@@ -44,7 +43,6 @@ const JustCategoryList = ({ classes, data, onCategoryClick }) => {
       }}
       data={limitedCategories}
       onCategoryClick={onCategoryClick}
-      tooltip
       valueUnit="%"
     />
   )

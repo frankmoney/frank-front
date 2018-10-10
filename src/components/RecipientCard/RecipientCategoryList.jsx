@@ -26,7 +26,7 @@ const RecipientCategoryList = ({ classes, data }) => {
   return (
     <CategoryList
       Classes={{
-        itemIcon: classes.icon,
+        icon: classes.icon,
         name: classes.name,
         root: classes.root,
         value: classes.value,

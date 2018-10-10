@@ -11,15 +11,6 @@ export default {
   chart: {
     marginRight: '11%',
   },
-  legend: {
-    left: -26,
-    paddingBottom: 5,
-  },
-  legendItem: {
-    '&:not(:last-child)': {
-      paddingBottom: 10,
-    },
-  },
   bottomRow: {
     margin: [60, -CARD_PADDING, 0],
     borderTop: '1px solid rgba(0,0,0,0.1)',

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { categoryListClasses } from 'components/CategoryList'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import ConnectedCategoryTypeSelect from 'containers/Widget/ConnectedCategoryTypeSelect'
 import Totals from 'containers/Widget/Totals'
@@ -23,7 +22,7 @@ const styles = {
 
 const OverviewTab = ({
   categoryCount,
-  CategoryListClasses,
+  CategoryList,
   categoryType,
   chartClassName,
   classes,
@@ -46,7 +45,7 @@ const OverviewTab = ({
       {showTotals && <Totals />}
       {widgetSize !== 400 ? (
         <OverviewChart
-          CategoryListClasses={CategoryListClasses}
+          CategoryList={CategoryList}
           categoryType={categoryType}
           pieClassName={pieClassName}
           className={chartClassName}
@@ -81,6 +80,7 @@ const OverviewTab = ({
 
 OverviewTab.propTypes = {
   categoryCount: PropTypes.number,
+  CategoryList: PropTypes.element,
   categoryType: PropTypes.string,
   data: PropTypes.objectOf(pieDataProp),
   dontWrapPiechart: PropTypes.bool,
@@ -95,7 +95,6 @@ OverviewTab.propTypes = {
   contentClassName: PropTypes.string,
   pieClassName: PropTypes.string,
   //
-  CategoryListClasses: categoryListClasses,
   FooterClasses: footerClasses,
   FooterProps: footerProps,
 }

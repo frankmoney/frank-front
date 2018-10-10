@@ -13,6 +13,7 @@ const styles = {
     outline: 'none',
   },
   icon: {
+    flexShrink: 0,
     height: 16,
     width: 16,
     marginRight: 10,

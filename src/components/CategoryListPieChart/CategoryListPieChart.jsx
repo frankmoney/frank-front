@@ -5,9 +5,7 @@ import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import { limitCategoriesTo } from 'data/models/categories'
 import { pieDataProp } from 'data/models/charts'
-import CategoryList, { categoryListClasses } from 'components/CategoryList'
 import Pie from 'components/Charts/Pie'
-import combineClassNames from 'utils/combineClassNames'
 import CategoryTypeSelect from './CategoryTypeSelect'
 import styles from './CategoryListPieChart.jss'
 
@@ -22,7 +20,7 @@ class CategoryListPieChartContents extends React.PureComponent {
 
   render() {
     const {
-      CategoryListClasses,
+      CategoryList,
       categoryType,
       categoryTypeSelectClassName,
       categoryTypeSelectLabel,
@@ -61,25 +59,10 @@ class CategoryListPieChartContents extends React.PureComponent {
         </div>
         <CategoryList
           activeCategoryIndex={activeCategoryIndex}
-          Classes={combineClassNames(
-            {
-              activeLabel: classes.activeLegendItem,
-              icon: classes.legendIcon,
-              item: classes.legendItem,
-              name: classes.legendItemName,
-              root: cx(
-                classes.legend,
-                activeCategoryIndex !== null && classes.highlightedLegend
-              ),
-              value: classes.legendItemValue,
-            },
-            CategoryListClasses
-          )}
           data={categories}
           onCategoryClick={onCategoryClick}
           onLabelMouseEnter={this.handleMouseOver}
           onLabelMouseLeave={this.handleMouseOut}
-          tooltip
           valueUnit="%"
         />
       </>
@@ -97,6 +80,7 @@ const CategoryListPieChart = ({ classes, className, noWrap, ...props }) => {
 }
 
 CategoryListPieChart.propTypes = {
+  CategoryList: PropTypes.element.isRequired,
   categoryType: PropTypes.string.isRequired,
   categoryTypeSelectLabel: PropTypes.string,
   chartSize: PropTypes.number.isRequired,
@@ -107,8 +91,6 @@ CategoryListPieChart.propTypes = {
   // Styles
   categoryTypeSelectClassName: PropTypes.string,
   chartClassName: PropTypes.string,
-  //
-  CategoryListClasses: categoryListClasses,
 }
 
 export default injectStyles(styles)(CategoryListPieChart)

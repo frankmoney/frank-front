@@ -3,11 +3,10 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { categoryListClasses } from 'components/CategoryList'
 import CategoryListPieChart from 'components/CategoryListPieChart'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import { pieDataProp } from 'data/models/charts'
-import combineClassNames from 'utils/combineClassNames'
+import OverviewCategoryList from './OverviewCategoryList'
 
 const pieSize = R.cond([
   [R.equals(375), R.always(270)], // button widget size
@@ -25,7 +24,7 @@ const categoryTypeSelectLabel = R.cond([
   [R.T, R.always('FIX ME')],
 ])
 
-const styles = theme => ({
+const styles = {
   root: {
     paddingBottom: 5,
   },
@@ -37,20 +36,10 @@ const styles = theme => ({
     flexShrink: 0,
     margin: [4, 0, 0, 1],
   },
-  legendItemFont: {
-    ...theme.fontMedium(18, 26),
-  },
-  legendItemValue: {
-    ...theme.fontRegular(18, 26),
-  },
-  legendIcon: {
-    height: 14,
-    width: 14,
-  },
-})
+}
 
 const OverviewChart = ({
-  CategoryListClasses,
+  CategoryList,
   categoryType,
   classes,
   className,
@@ -67,6 +56,7 @@ const OverviewChart = ({
       className={cx(classes.periodSelect, periodSelectClassName)}
     />
     <CategoryListPieChart
+      CategoryList={CategoryList}
       categoryType={categoryType}
       categoryTypeSelectClassName={
         widgetSize === 500 && classes.categoryTypeSelect
@@ -76,14 +66,6 @@ const OverviewChart = ({
       chartSize={pieSize(widgetSize)}
       className={cx(classes.root, className)}
       data={data}
-      CategoryListClasses={combineClassNames(
-        {
-          icon: classes.legendIcon,
-          name: classes.legendItemFont,
-          value: classes.legendItemValue,
-        },
-        CategoryListClasses
-      )}
       noWrap={dontWrapPiechart}
       onCategoryClick={onCategoryClick}
       onCategoryTypeChange={onCategoryTypeChange}
@@ -92,6 +74,7 @@ const OverviewChart = ({
 )
 
 OverviewChart.propTypes = {
+  CategoryList: PropTypes.element,
   categoryType: PropTypes.string.isRequired,
   data: pieDataProp.isRequired,
   dontWrapPiechart: PropTypes.bool,
@@ -101,8 +84,10 @@ OverviewChart.propTypes = {
   // Styles
   periodSelectClassName: PropTypes.string,
   pieClassName: PropTypes.string,
-  //
-  CategoryListClasses: categoryListClasses,
+}
+
+OverviewChart.defaultProps = {
+  CategoryList: OverviewCategoryList,
 }
 
 export default injectStyles(styles)(OverviewChart)

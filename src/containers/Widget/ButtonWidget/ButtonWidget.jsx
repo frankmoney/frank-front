@@ -5,6 +5,7 @@ import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
 import Widget from '../Widget'
 import Expander from './Expander'
+import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
 const WIDTH = 375
 
@@ -47,6 +48,7 @@ const styles = theme => ({
   },
   pieChart: {
     margin: [15, 'auto'],
+    position: 'relative',
   },
   overviewFooter: {
     ...theme.fontRegular(18, 26),
@@ -56,20 +58,6 @@ const styles = theme => ({
     flexGrow: 1,
     marginRight: -2,
     textAlign: 'right',
-  },
-  categoryList: {
-    order: 4,
-    paddingRight: 2,
-    position: 'static',
-  },
-  categoryListItem: {
-    padding: [16, 0, 17],
-    '&:not(:last-child)': {
-      borderBottom: '1px solid #F2F2F4',
-    },
-  },
-  categoryListItemName: {
-    flexGrow: 1,
   },
   payments: {
     margin: [-3, -9, 0],
@@ -105,11 +93,7 @@ class ButtonWidget extends React.PureComponent {
           barsFooterPadding={12}
           barsHeight={196}
           barsWidth={337}
-          CategoryListClasses={{
-            item: classes.categoryListItem,
-            name: classes.categoryListItemName,
-            root: classes.categoryList,
-          }}
+          CategoryList={ButtonWidgetCategoryList}
           className={classes.contentRoot}
           contentClassName={classes.content}
           dontWrapPiechart
