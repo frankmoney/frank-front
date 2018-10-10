@@ -1,7 +1,7 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
-import { limitCategoriesTo } from 'data/models/categories'
+import { limitCategories } from 'components/CategoryListPieChart'
 import { pieDataProp } from 'data/models/charts'
 
 const styles = theme => ({
@@ -24,7 +24,7 @@ const styles = theme => ({
 })
 
 const RecipientCategoryList = ({ classes, data }) => {
-  const categories = limitCategoriesTo(5)(data)
+  const categories = limitCategories(5)(data)
   return (
     <CategoryList
       Classes={{

@@ -3,10 +3,10 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { limitCategoriesTo } from 'data/models/categories'
 import { pieDataProp } from 'data/models/charts'
 import Pie from 'components/Charts/Pie'
 import CategoryTypeSelect from './CategoryTypeSelect'
+import limitCategories from './utils'
 import styles from './CategoryListPieChart.jss'
 
 class CategoryListPieChartContents extends React.PureComponent {
@@ -33,7 +33,7 @@ class CategoryListPieChartContents extends React.PureComponent {
     } = this.props
     const { activeCategoryIndex } = this.state
 
-    const categories = limitCategoriesTo(5)(data)
+    const categories = limitCategories(5)(data)
     const { items, other } = categories
     const pieData = other ? R.append(other, items) : items
 

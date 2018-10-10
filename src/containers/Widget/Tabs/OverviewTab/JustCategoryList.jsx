@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
-import { limitCategoriesTo } from 'data/models/categories'
+import { limitCategories } from 'components/CategoryListPieChart'
 import { pieDataProp } from 'data/models/charts'
 
 const styles = theme => ({
@@ -31,7 +31,7 @@ const styles = theme => ({
 })
 
 const JustCategoryList = ({ classes, data, onCategoryClick }) => {
-  const limitedCategories = limitCategoriesTo(999)(data)
+  const limitedCategories = limitCategories(999)(data)
   return (
     <CategoryList
       Classes={{
