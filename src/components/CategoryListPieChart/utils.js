@@ -1,13 +1,9 @@
 import * as R from 'ramda'
 
-const OTHER_TEMPLATE = {
-  name: 'Other categories',
-  color: '#B3B3B3',
-}
+const INDEX_PROP = 'index'
+const VALUE_PROP = 'value'
 
-const PROP = 'value'
-
-const injectKey = R.addIndex(R.map)(R.flip(R.assoc('index')))
+const injectKey = R.addIndex(R.map)(R.flip(R.assoc(INDEX_PROP)))
 
 const sumProps = prop =>
   R.pipe(
@@ -21,21 +17,28 @@ const sortDescBy = prop =>
     R.reverse
   )
 
-const roundValues = R.over(R.lensProp(PROP), Math.round)
+const roundValues = R.over(R.lensProp(VALUE_PROP), Math.round)
+
+const mergeOthers = items => ({
+  name: 'Other categories',
+  color: '#B3B3B3',
+  [VALUE_PROP]: sumProps(VALUE_PROP)(items),
+  index: R.prop(INDEX_PROP, R.head(items)),
+})
 
 const doLimit = maxEntries =>
   R.pipe(
     R.splitAt(maxEntries - 1),
     ([items, others]) => ({
       items,
-      other: R.assoc(PROP, sumProps(PROP)(others), OTHER_TEMPLATE),
-      tooltipItems: others, // injectKey(rest),
+      other: mergeOthers(others),
+      tooltipItems: others,
     })
   )
 
 const limitCategories = maxEntries =>
   R.pipe(
-    sortDescBy(PROP),
+    sortDescBy(VALUE_PROP),
     injectKey,
     R.map(roundValues),
     R.ifElse(
