@@ -9,6 +9,7 @@ const styles = theme => ({
     paddingTop: 8,
   },
   icon: {
+    marginRight: 9,
     height: 12,
     width: 12,
   },
@@ -18,6 +19,7 @@ const styles = theme => ({
   value: {
     ...theme.fontRegular(18, 28),
     color: '#BEBFC7',
+    opacity: 1,
   },
 })
 
