@@ -117,4 +117,26 @@ export default {
       },
     },
   },
+  SidebarMenuItem: {
+    menuItem: {
+      color: colors.black,
+      opacity: props => (props.disabled ? 0.5 : 1),
+      '&:hover': {
+        color: '#4C51F3',
+      },
+      '&:not(:first-child)': {
+        marginTop: 10,
+      },
+    },
+    menuItemActive: {
+      color: '#4C51F3',
+    },
+    iconLeft: {
+      marginRight: 15,
+    },
+  },
+  SidebarBottomMenu: {
+    backgroundColor: '#FFF',
+    color: colors.black,
+  },
 }
