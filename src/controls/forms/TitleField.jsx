@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import { withProps } from 'recompose'
 import { Title as TitleIcon } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
 import { FieldWithIcon as FieldContainer } from 'components/Field'
@@ -15,11 +14,9 @@ const styles = theme => ({
   },
 })
 
-const TitleIconLabel = withProps({ iconComponent: TitleIcon })(FieldIcon)
-
 const TitleField = ({ classes, className, placeholder, ...props }) => (
   <FieldContainer
-    label={TitleIconLabel}
+    label={<FieldIcon iconComponent={TitleIcon} />}
     className={cx(classes.title, className)}
   >
     <TextBox

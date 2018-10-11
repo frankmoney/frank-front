@@ -6,6 +6,7 @@ export default createActions('storyEdit', {
   delete: true,
   publish: true,
   modifyStoryPaymentsList: false,
+  filterPayments: true,
   loadMorePayments: true,
   leave: false,
 })

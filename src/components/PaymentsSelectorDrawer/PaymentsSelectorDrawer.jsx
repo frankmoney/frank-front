@@ -7,6 +7,7 @@ import CurrencyProvider from 'components/CurrencyProvider'
 import Drawer from 'components/Drawer'
 import List from 'components/ListVirtualized'
 import { PaymentListRow, ROW_HEIGHT } from 'components/PaymentListRow'
+import { DateRangeField } from 'components/DrawerFilters'
 
 const style = theme => ({
   modeTitle: {},
@@ -63,6 +64,12 @@ class PaymentsSelectorDrawer extends React.PureComponent {
     }
   }
 
+  handleFilterChange = ({ from, to }) => {
+    if (this.props.onFilter) {
+      this.props.onFilter({ from, to })
+    }
+  }
+
   handleSelectPayment = payment => {
     const selectedIds = this.selectedPaymentsIdsSelector(this.state)
     this.setState({
@@ -103,6 +110,7 @@ class PaymentsSelectorDrawer extends React.PureComponent {
     const {
       classes,
       payments,
+      filter: { dateMin: from, dateMax: to },
       totalPagesCounter,
       loadedPagesCounter,
       onLoadMore,
@@ -122,7 +130,11 @@ class PaymentsSelectorDrawer extends React.PureComponent {
           <Drawer.Title className={classes.title}>Select payments</Drawer.Title>
         </Drawer.Header>
         <Drawer.Body className={classes.container}>
-          <div className={classes.filter} />
+          <DateRangeField
+            from={from}
+            to={to}
+            onChange={this.handleFilterChange}
+          />
           <div className={classes.listContainer}>
             <CurrencyProvider code={currencyCode}>
               <List

@@ -1,7 +1,7 @@
 import React from 'react'
 import { CheckedMenuItem } from '@frankmoney/components'
+import DrawerField from 'components/DrawerField'
 import SelectField from 'components/SelectField'
-import Field from './Field'
 
 const formatValue = value => {
   switch (value) {
@@ -26,7 +26,7 @@ const parseValue = value => {
 }
 
 const VerificationField = ({ value, onChange }) => (
-  <Field title="Verification">
+  <DrawerField title="Verification">
     <SelectField
       value={parseValue(value)}
       fullWidth
@@ -36,7 +36,7 @@ const VerificationField = ({ value, onChange }) => (
       <CheckedMenuItem value="verified">Verified only</CheckedMenuItem>
       <CheckedMenuItem value="not_verified">Not verified only</CheckedMenuItem>
     </SelectField>
-  </Field>
+  </DrawerField>
 )
 
 export default VerificationField

@@ -2,15 +2,15 @@ import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { DateSelect, CheckedMenuItem } from '@frankmoney/components'
 import * as D from 'date-fns'
+import DrawerField from 'components/DrawerField'
 import SelectField from 'components/SelectField'
-import Field from '../Field'
 import { DATE_FILTER } from './constants'
 
 const styles = {
   customDatesWrap: {
     marginTop: 30,
     display: 'flex',
-    width: 330,
+    width: 400,
   },
   customDateSelect: {
     flex: 1,
@@ -85,8 +85,10 @@ const DateRangeField = ({
     }
   }
 
+  console.log({ from, to, now })
+
   return (
-    <Field title="Date range">
+    <DrawerField title="Date range">
       <SelectField
         value={filterValue}
         fullWidth
@@ -135,7 +137,7 @@ const DateRangeField = ({
           />
         </div>
       )}
-    </Field>
+    </DrawerField>
   )
 }
 

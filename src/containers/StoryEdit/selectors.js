@@ -2,6 +2,7 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { formValueSelector, isValid, isDirty } from 'redux-form/immutable'
 import { createPlainObjectSelector } from '@frankmoney/utils'
+import { parseDate } from 'utils/dates'
 import { REDUCER_KEY } from './reducer'
 import { FORM_NAME } from './constants'
 
@@ -80,7 +81,7 @@ export const saveButtonLabelSelector = createSelector(
 export const isPublishButtonDisabledSelector = createSelector(
   isPublishedSelector,
   hasUnpublishedDraftSelector,
-  (isPublished, hasUnpublishedDraft) => !hasUnpublishedDraft || isPublished
+  (isPublished, hasUnpublishedDraft) => !hasUnpublishedDraft && isPublished
 )
 
 export const publishButtonLabelSelector = createSelector(
@@ -106,6 +107,19 @@ export const isDeleteButtonDisabledSelector = createSelector(
 
 export const storySelectedPaymentsSelector = createPlainObjectSelector(state =>
   storyEditFormValueSelector(state, 'payments')
+)
+
+export const paymentsFilterDateMinSelector = get('paymentsFilterDateMin')
+
+export const paymentsFilterDateMaxSelector = get('paymentsFilterDateMax')
+
+export const paymentsFiltersSelector = createSelector(
+  paymentsFilterDateMinSelector,
+  paymentsFilterDateMaxSelector,
+  (dateMin, dateMax) => ({
+    dateMin: dateMin || null,
+    dateMax: dateMax || null,
+  })
 )
 
 export const paymentsLoadedPagesCounterSelector = get(

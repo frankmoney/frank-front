@@ -1,7 +1,7 @@
 import React from 'react'
 import { TextField } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
-import Field from './Field'
+import DrawerField from 'components/DrawerField'
 
 const styles = {
   wrap: {
@@ -19,7 +19,7 @@ const parseNumber = value => {
 }
 
 const AmountField = ({ classes, from, to, onChange }) => (
-  <Field title="Amount">
+  <DrawerField title="Amount">
     <div className={classes.wrap}>
       <TextField
         value={from || ''}
@@ -40,7 +40,7 @@ const AmountField = ({ classes, from, to, onChange }) => (
         className={classes.field}
       />
     </div>
-  </Field>
+  </DrawerField>
 )
 
 export default injectStyles(styles)(AmountField)

@@ -1,6 +1,5 @@
 import React from 'react'
 import cx from 'classnames'
-import { withProps } from 'recompose'
 import { Subject as DescriptionIcon } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
 import { FieldWithIcon as FieldContainer } from 'components/Field'
@@ -15,13 +14,9 @@ const styles = theme => ({
   },
 })
 
-const DescriptionIconLabel = withProps({ iconComponent: DescriptionIcon })(
-  FieldIcon
-)
-
 const DescriptionField = ({ classes, className, placeholder, ...props }) => (
   <FieldContainer
-    label={DescriptionIconLabel}
+    label={<FieldIcon iconComponent={DescriptionIcon} />}
     className={cx(classes.description, className)}
   >
     <TextBox

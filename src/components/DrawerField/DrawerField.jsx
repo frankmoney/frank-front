@@ -8,10 +8,11 @@ const styles = theme => ({
   field: {
     display: 'flex',
     marginBottom: 30,
+    alignItems: 'baseline',
   },
   label: {
-    width: 200,
-    minWidth: 200,
+    width: 140,
+    minWidth: 140,
     marginBottom: 0,
   },
   labelTitle: {
