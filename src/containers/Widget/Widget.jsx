@@ -33,7 +33,6 @@ const Widget = ({
   contentClassName,
   currentCategoryColor,
   currentCategoryName,
-  dontWrapPiechart,
   onCancelCategoryClick,
   onCategoryClick,
   onCategoryTypeChange,
@@ -49,6 +48,7 @@ const Widget = ({
   paymentListClassName,
   paymentsPeriodClassName,
   pieChartClassName,
+  pieChartRootComponent,
   pieData,
   showBarChart,
   showCategoryCount,
@@ -90,7 +90,6 @@ const Widget = ({
           chartClassName={overviewChartClassName}
           contentClassName={contentClassName}
           data={pieData}
-          dontWrapPiechart={dontWrapPiechart}
           FooterClasses={OverviewFooterClasses}
           FooterProps={OverviewFooterProps}
           onCategoryClick={onCategoryClick}
@@ -98,6 +97,7 @@ const Widget = ({
           onSeeAllClick={onSeeAllClick}
           paymentCount={paymentCount}
           pieClassName={pieChartClassName}
+          pieChartRootComponent={pieChartRootComponent}
           showTotals={showOverviewTotals}
           widgetSize={widgetSize}
         />
@@ -132,11 +132,11 @@ Widget.propTypes = {
   barsHeight: PropTypes.number.isRequired,
   barsWidth: PropTypes.number.isRequired,
   CategoryList: PropTypes.element,
-  dontWrapPiechart: PropTypes.bool,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onSeeAllClick: PropTypes.func.isRequired,
   onTabSwitch: PropTypes.func.isRequired,
+  pieChartRootComponent: PropTypes.element,
   showBarChart: PropTypes.bool,
   showCategoryCount: PropTypes.bool,
   showOverviewTotals: PropTypes.bool,

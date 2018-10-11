@@ -28,13 +28,13 @@ const OverviewTab = ({
   classes,
   contentClassName,
   data,
-  dontWrapPiechart,
   FooterClasses,
   FooterProps,
   onCategoryClick,
   onCategoryTypeChange,
   onSeeAllClick,
   paymentCount,
+  pieChartRootComponent,
   pieClassName,
   showTotals,
   widgetSize,
@@ -50,7 +50,7 @@ const OverviewTab = ({
           pieClassName={pieClassName}
           className={chartClassName}
           data={categories}
-          dontWrapPiechart={dontWrapPiechart}
+          pieChartRootComponent={pieChartRootComponent}
           onCategoryClick={onCategoryClick}
           onCategoryTypeChange={onCategoryTypeChange}
           widgetSize={widgetSize}
@@ -83,11 +83,11 @@ OverviewTab.propTypes = {
   CategoryList: PropTypes.element,
   categoryType: PropTypes.string,
   data: PropTypes.objectOf(pieDataProp),
-  dontWrapPiechart: PropTypes.bool,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
   onSeeAllClick: PropTypes.func.isRequired,
   paymentCount: PropTypes.number,
+  pieChartRootComponent: PropTypes.element,
   showTotals: PropTypes.bool,
   widgetSize: PropTypes.number.isRequired,
   // Styles

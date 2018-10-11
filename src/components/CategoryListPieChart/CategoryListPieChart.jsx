@@ -9,7 +9,7 @@ import CategoryTypeSelect from './CategoryTypeSelect'
 import limitCategories from './utils'
 import styles from './CategoryListPieChart.jss'
 
-class CategoryListPieChartContents extends React.PureComponent {
+class CategoryListPieChart extends React.PureComponent {
   state = {
     activeCategoryIndex: null,
   }
@@ -27,6 +27,8 @@ class CategoryListPieChartContents extends React.PureComponent {
       chartClassName,
       chartSize,
       classes,
+      className,
+      component: Root,
       data,
       onCategoryClick,
       onCategoryTypeChange,
@@ -37,8 +39,12 @@ class CategoryListPieChartContents extends React.PureComponent {
     const { items, other } = categories
     const pieData = other ? R.append(other, items) : items
 
+    const rootProps =
+      Root === React.Fragment
+        ? undefined
+        : { className: cx(classes.root, className) }
     return (
-      <>
+      <Root {...rootProps}>
         <div className={cx(classes.chartContainer, chartClassName)}>
           <Pie
             activeSegmentIndex={activeCategoryIndex}
@@ -66,18 +72,9 @@ class CategoryListPieChartContents extends React.PureComponent {
           onLabelMouseLeave={this.handleMouseOut}
           valueUnit="%"
         />
-      </>
+      </Root>
     )
   }
-}
-
-const CategoryListPieChart = ({ classes, className, noWrap, ...props }) => {
-  const content = <CategoryListPieChartContents classes={classes} {...props} />
-  return noWrap ? (
-    content
-  ) : (
-    <div className={cx(classes.root, className)}>{content}</div>
-  )
 }
 
 CategoryListPieChart.propTypes = {
@@ -86,12 +83,15 @@ CategoryListPieChart.propTypes = {
   categoryTypeSelectLabel: PropTypes.string,
   chartSize: PropTypes.number.isRequired,
   data: pieDataProp.isRequired,
-  noWrap: PropTypes.bool,
   onCategoryClick: PropTypes.func, // category object in callback
   onCategoryTypeChange: PropTypes.func,
   // Styles
   categoryTypeSelectClassName: PropTypes.string,
   chartClassName: PropTypes.string,
+}
+
+CategoryListPieChart.defaultProps = {
+  component: 'div',
 }
 
 export default injectStyles(styles)(CategoryListPieChart)

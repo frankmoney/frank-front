@@ -96,7 +96,6 @@ class ButtonWidget extends React.PureComponent {
           CategoryList={ButtonWidgetCategoryList}
           className={classes.contentRoot}
           contentClassName={classes.content}
-          dontWrapPiechart
           OverviewFooterClasses={{
             root: classes.overviewFooter,
             seeAll: classes.overviewFooterSeeAll,
@@ -108,6 +107,7 @@ class ButtonWidget extends React.PureComponent {
           paymentListClassName={classes.payments}
           paymentsPeriodClassName={classes.period}
           pieChartClassName={classes.pieChart}
+          pieChartRootComponent={React.Fragment}
           showBarChart
           showCategoryCount
           showOverviewTotals

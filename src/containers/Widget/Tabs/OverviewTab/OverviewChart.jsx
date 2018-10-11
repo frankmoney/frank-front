@@ -44,10 +44,10 @@ const OverviewChart = ({
   classes,
   className,
   data,
-  dontWrapPiechart,
   onCategoryClick,
   onCategoryTypeChange,
   periodSelectClassName,
+  pieChartRootComponent,
   pieClassName,
   widgetSize,
 }) => (
@@ -66,7 +66,7 @@ const OverviewChart = ({
       chartSize={pieSize(widgetSize)}
       className={cx(classes.root, className)}
       data={data}
-      noWrap={dontWrapPiechart}
+      component={pieChartRootComponent}
       onCategoryClick={onCategoryClick}
       onCategoryTypeChange={onCategoryTypeChange}
     />
@@ -77,9 +77,9 @@ OverviewChart.propTypes = {
   CategoryList: PropTypes.element,
   categoryType: PropTypes.string.isRequired,
   data: pieDataProp.isRequired,
-  dontWrapPiechart: PropTypes.bool,
   onCategoryClick: PropTypes.func.isRequired,
   onCategoryTypeChange: PropTypes.func.isRequired,
+  pieChartRootComponent: PropTypes.element,
   widgetSize: PropTypes.oneOf([375, 400, 500, 625, 800]).isRequired,
   // Styles
   periodSelectClassName: PropTypes.string,
