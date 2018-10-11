@@ -112,6 +112,8 @@ export const pollCredentialsWhileStatusIsCheckingEpic = (
 ) =>
   action$
     .ofType(ACTIONS.goNext.success, ACTIONS.load.success)
+    // skip empty onboarding
+    .filter(({ payload }) => !!payload)
     .filter(
       ({ payload: { step, credentials, mfa } }) =>
         (step === 'credentials' &&
