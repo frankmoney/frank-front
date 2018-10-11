@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList, {
   categoryListProps,
@@ -32,6 +33,7 @@ const styles = theme => ({
 
 const ButtonWidgetCategoryList = ({
   classes,
+  className,
   data,
   //
   activeCategoryIndex,
@@ -48,7 +50,7 @@ const ButtonWidgetCategoryList = ({
       name: classes.name,
       value: classes.value,
     }}
-    className={classes.root}
+    className={cx(classes.root, className)}
     data={data}
     onCategoryClick={onCategoryClick}
     onLabelMouseEnter={onLabelMouseEnter}

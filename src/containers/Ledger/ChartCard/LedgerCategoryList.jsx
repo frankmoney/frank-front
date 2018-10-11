@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList, {
   categoryListProps,
@@ -19,6 +20,7 @@ const styles = {
 
 const LedgerCategoryList = ({
   classes,
+  className,
   data,
   //
   activeCategoryIndex,
@@ -29,7 +31,7 @@ const LedgerCategoryList = ({
 }) => (
   <CategoryList
     activeCategoryIndex={activeCategoryIndex}
-    className={classes.root}
+    className={cx(classes.root, className)}
     Classes={{ item: classes.item }}
     data={data}
     onCategoryClick={onCategoryClick}

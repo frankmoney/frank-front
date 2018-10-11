@@ -59,6 +59,7 @@ class CategoryListPieChartContents extends React.PureComponent {
         </div>
         <CategoryList
           activeCategoryIndex={activeCategoryIndex}
+          className={classes.categoryList}
           data={categories}
           onCategoryClick={onCategoryClick}
           onLabelMouseEnter={this.handleMouseOver}

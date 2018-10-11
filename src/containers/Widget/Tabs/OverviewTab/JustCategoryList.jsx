@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
@@ -30,7 +31,7 @@ const styles = theme => ({
   },
 })
 
-const JustCategoryList = ({ classes, data, onCategoryClick }) => {
+const JustCategoryList = ({ classes, className, data, onCategoryClick }) => {
   const limitedCategories = limitCategories(999)(data)
   return (
     <CategoryList
@@ -38,9 +39,9 @@ const JustCategoryList = ({ classes, data, onCategoryClick }) => {
         icon: classes.icon,
         item: classes.item,
         name: classes.name,
-        root: classes.root,
         value: classes.value,
       }}
+      className={cx(classes.root, className)}
       data={limitedCategories}
       onCategoryClick={onCategoryClick}
       valueUnit="%"

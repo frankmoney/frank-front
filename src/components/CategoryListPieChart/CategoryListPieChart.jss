@@ -17,4 +17,7 @@ export default {
     position: 'absolute',
     whiteSpace: 'nowrap',
   },
+  categoryList: {
+    flex: [0, 0, 'auto'],
+  },
 }

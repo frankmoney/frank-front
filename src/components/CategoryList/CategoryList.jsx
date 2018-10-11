@@ -8,7 +8,6 @@ import OtherCategories from './OtherCategories'
 
 const styles = theme => ({
   root: {
-    flex: [0, 0, 'auto'],
     position: 'relative',
   },
   item: {

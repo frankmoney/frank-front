@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
 import { limitCategories } from 'components/CategoryListPieChart'
@@ -23,16 +24,16 @@ const styles = theme => ({
   },
 })
 
-const RecipientCategoryList = ({ classes, data }) => {
+const RecipientCategoryList = ({ classes, className, data }) => {
   const categories = limitCategories(5)(data)
   return (
     <CategoryList
       Classes={{
         icon: classes.icon,
         name: classes.name,
-        root: classes.root,
         value: classes.value,
       }}
+      className={cx(classes.root, className)}
       data={categories}
     />
   )
