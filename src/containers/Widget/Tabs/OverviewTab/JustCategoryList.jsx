@@ -35,15 +35,13 @@ const JustCategoryList = ({ classes, className, data, onCategoryClick }) => {
   const limitedCategories = limitCategories(999)(data)
   return (
     <CategoryList
-      Classes={{
-        icon: classes.icon,
-        item: classes.item,
-        name: classes.name,
-        value: classes.value,
-      }}
       className={cx(classes.root, className)}
       data={limitedCategories}
+      iconClassName={classes.icon}
+      itemClassName={classes.item}
+      nameClassName={classes.name}
       onCategoryClick={onCategoryClick}
+      valueClassName={classes.value}
       valueUnit="%"
     />
   )

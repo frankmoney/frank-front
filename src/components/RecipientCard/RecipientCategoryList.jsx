@@ -28,13 +28,11 @@ const RecipientCategoryList = ({ classes, className, data }) => {
   const categories = limitCategories(5)(data)
   return (
     <CategoryList
-      Classes={{
-        icon: classes.icon,
-        name: classes.name,
-        value: classes.value,
-      }}
       className={cx(classes.root, className)}
       data={categories}
+      iconClassName={classes.icon}
+      nameClassName={classes.name}
+      valueClassName={classes.value}
     />
   )
 }

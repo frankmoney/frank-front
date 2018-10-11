@@ -32,8 +32,8 @@ const LedgerCategoryList = ({
   <CategoryList
     activeCategoryIndex={activeCategoryIndex}
     className={cx(classes.root, className)}
-    Classes={{ item: classes.item }}
     data={data}
+    itemClassName={classes.item}
     onCategoryClick={onCategoryClick}
     onLabelMouseEnter={onLabelMouseEnter}
     onLabelMouseLeave={onLabelMouseLeave}

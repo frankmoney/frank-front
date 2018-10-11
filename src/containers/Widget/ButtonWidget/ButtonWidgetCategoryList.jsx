@@ -44,17 +44,15 @@ const ButtonWidgetCategoryList = ({
 }) => (
   <CategoryList
     activeCategoryIndex={activeCategoryIndex}
-    Classes={{
-      icon: classes.icon,
-      item: classes.item,
-      name: classes.name,
-      value: classes.value,
-    }}
     className={cx(classes.root, className)}
     data={data}
+    iconClassName={classes.icon}
+    itemClassName={classes.item}
+    nameClassName={classes.name}
     onCategoryClick={onCategoryClick}
     onLabelMouseEnter={onLabelMouseEnter}
     onLabelMouseLeave={onLabelMouseLeave}
+    valueClassName={classes.value}
     valueUnit={valueUnit}
   />
 )

@@ -59,22 +59,15 @@ const styles = theme => ({
 const CategoryList = ({
   activeCategoryIndex,
   classes,
-  Classes: {
-    icon: iconClassName,
-    item: itemClassName,
-    name: nameClassName,
-    root: rootClassName,
-    tooltipIcon: tooltipIconClassName,
-    tooltipItem: tooltipItemClassName,
-    tooltipName: tooltipNameClassName,
-    tooltipValue: tooltipValueClassName,
-    value: valueClassName,
-  } = {},
   className,
   data: { items, other, tooltipItems },
+  iconClassName,
+  itemClassName,
+  nameClassName,
   onCategoryClick,
   onLabelMouseEnter,
   onLabelMouseLeave,
+  valueClassName,
   valueUnit,
 }) => {
   const highlighted = R.not(R.isNil(activeCategoryIndex))
@@ -98,11 +91,11 @@ const CategoryList = ({
 
   const renderTooltipItem = ({ index, ...otherProps }) => (
     <CategoryLabel
-      className={cx(classes.tooltipItem, tooltipItemClassName)}
-      iconClassName={cx(classes.tooltipIcon, tooltipIconClassName)}
+      className={classes.tooltipItem}
+      iconClassName={classes.tooltipIcon}
       key={index}
-      nameClassName={cx(classes.tooltipName, tooltipNameClassName)}
-      valueClassName={cx(classes.tooltipValue, tooltipValueClassName)}
+      nameClassName={classes.tooltipName}
+      valueClassName={classes.tooltipValue}
       valueUnit={valueUnit}
       {...otherProps}
     />
@@ -113,7 +106,6 @@ const CategoryList = ({
       className={cx(
         classes.root,
         highlighted && classes.highlighted,
-        rootClassName,
         className
       )}
     >
@@ -130,20 +122,6 @@ const CategoryList = ({
   )
 }
 
-const categoryListClasses = PropTypes.shape({
-  icon: PropTypes.string,
-  item: PropTypes.string,
-  name: PropTypes.string,
-  root: PropTypes.string,
-  tooltipIcon: PropTypes.string,
-  tooltipItem: PropTypes.string,
-  tooltipName: PropTypes.string,
-  tooltipValue: PropTypes.string,
-  value: PropTypes.string,
-})
-
-const categoryShape = PropTypes.shape(categoryPropTypes)
-
 export const categoryListProps = {
   activeCategoryIndex: PropTypes.number,
   onCategoryClick: PropTypes.func,
@@ -151,6 +129,8 @@ export const categoryListProps = {
   onLabelMouseLeave: PropTypes.func,
   valueUnit: PropTypes.string,
 }
+
+const categoryShape = PropTypes.shape(categoryPropTypes)
 
 export const categoryListDataProps = PropTypes.shape({
   items: PropTypes.arrayOf(categoryShape),
@@ -160,8 +140,12 @@ export const categoryListDataProps = PropTypes.shape({
 
 CategoryList.propTypes = {
   ...categoryListProps,
-  Classes: categoryListClasses,
   data: categoryListDataProps,
+  // Styles
+  iconClassName: PropTypes.string,
+  itemClassName: PropTypes.string,
+  nameClassName: PropTypes.string,
+  valueClassName: PropTypes.string,
 }
 
 export default injectStyles(styles)(CategoryList)
