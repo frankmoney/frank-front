@@ -5,7 +5,7 @@ import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryLabel from 'components/CategoryLabel'
 import OtherCategories from './OtherCategories'
-import styles from './CategoryList'
+import styles from './CategoryList.jss'
 import type { Props, Classes } from './types'
 
 const CategoryList = ({
