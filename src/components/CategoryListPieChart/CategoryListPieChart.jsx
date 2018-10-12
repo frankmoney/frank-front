@@ -1,3 +1,4 @@
+// @flow
 import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'

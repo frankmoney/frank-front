@@ -1,60 +1,12 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import CategoryLabel, { categoryPropTypes } from 'components/CategoryLabel'
+import CategoryLabel from 'components/CategoryLabel'
 import OtherCategories from './OtherCategories'
-
-const styles = theme => ({
-  root: {
-    position: 'relative',
-  },
-  item: {
-    cursor: 'pointer',
-  },
-  icon: {
-    marginRight: 13,
-  },
-  name: {
-    ...theme.fontMedium(22, 26),
-  },
-  value: {
-    ...theme.fontRegular(22, 26),
-  },
-  highlighted: {
-    '& > $item': {
-      opacity: 0.4,
-    },
-    '& > $active': {
-      opacity: 1,
-    },
-  },
-  active: {},
-  tooltipItem: {
-    alignItems: 'center',
-    display: 'flex',
-    '&:not(:first-child)': {
-      marginTop: 12,
-    },
-  },
-  tooltipIcon: {
-    height: 12,
-    width: 12,
-  },
-  tooltipName: {
-    flex: [1, 1],
-    paddingRight: 40,
-    ...theme.fontMedium(14, 16),
-    whiteSpace: 'nowrap',
-  },
-  tooltipValue: {
-    flex: [1, 1],
-    textAlign: 'right',
-    ...theme.fontMedium(14, 16),
-    color: 'black !important',
-  },
-})
+import styles from './CategoryList'
+import type { Props, Classes } from './types'
 
 const CategoryList = ({
   activeCategoryIndex,
@@ -69,7 +21,7 @@ const CategoryList = ({
   onLabelMouseLeave,
   valueClassName,
   valueUnit,
-}) => {
+}: Props & Classes) => {
   const highlighted = R.not(R.isNil(activeCategoryIndex))
 
   const renderItem = ({ index, ...otherProps }) => (
@@ -120,32 +72,6 @@ const CategoryList = ({
       )}
     </div>
   )
-}
-
-export const categoryListProps = {
-  activeCategoryIndex: PropTypes.number,
-  onCategoryClick: PropTypes.func,
-  onLabelMouseEnter: PropTypes.func,
-  onLabelMouseLeave: PropTypes.func,
-  valueUnit: PropTypes.string,
-}
-
-const categoryShape = PropTypes.shape(categoryPropTypes)
-
-export const categoryListDataProps = PropTypes.shape({
-  items: PropTypes.arrayOf(categoryShape),
-  other: categoryShape,
-  tooltipItems: PropTypes.arrayOf(categoryShape),
-})
-
-CategoryList.propTypes = {
-  ...categoryListProps,
-  data: categoryListDataProps,
-  // Styles
-  iconClassName: PropTypes.string,
-  itemClassName: PropTypes.string,
-  nameClassName: PropTypes.string,
-  valueClassName: PropTypes.string,
 }
 
 export default injectStyles(styles)(CategoryList)

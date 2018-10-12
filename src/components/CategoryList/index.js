@@ -1,4 +1,1 @@
-export default, {
-  categoryListProps,
-  categoryListDataProps,
-} from './CategoryList'
+export default from './CategoryList'

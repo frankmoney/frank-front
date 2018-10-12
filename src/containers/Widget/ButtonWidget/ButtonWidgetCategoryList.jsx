@@ -1,10 +1,9 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
-import CategoryList, {
-  categoryListProps,
-  categoryListDataProps,
-} from 'components/CategoryList'
+import CategoryList from 'components/CategoryList'
+import type { Props } from 'components/CategoryList/types'
 
 const styles = theme => ({
   root: {
@@ -41,7 +40,7 @@ const ButtonWidgetCategoryList = ({
   onLabelMouseEnter,
   onLabelMouseLeave,
   valueUnit,
-}) => (
+}: Props) => (
   <CategoryList
     activeCategoryIndex={activeCategoryIndex}
     className={cx(classes.root, className)}
@@ -56,10 +55,5 @@ const ButtonWidgetCategoryList = ({
     valueUnit={valueUnit}
   />
 )
-
-ButtonWidgetCategoryList.propTypes = {
-  ...categoryListProps,
-  data: categoryListDataProps.isRequired,
-}
 
 export default injectStyles(styles)(ButtonWidgetCategoryList)
