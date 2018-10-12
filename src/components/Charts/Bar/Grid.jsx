@@ -1,6 +1,6 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import DashedLine from './DashedLine'
 
@@ -14,6 +14,14 @@ const styles = {
   },
 }
 
+type Props = {
+  dual: boolean,
+  height: number,
+  hideBaseLine: boolean,
+  steps: number,
+  width: number,
+}
+
 const Grid = ({
   classes,
   className,
@@ -22,7 +30,7 @@ const Grid = ({
   hideBaseLine,
   steps,
   width,
-}) => {
+}: Props) => {
   const baseLine = dual ? Math.floor(height / 2) : height
   const dashedLines = []
   const step = Math.floor(baseLine / steps)
@@ -65,14 +73,6 @@ const Grid = ({
       )}
     </svg>
   )
-}
-
-Grid.propTypes = {
-  dual: PropTypes.bool.isRequired,
-  height: PropTypes.number.isRequired,
-  hideBaseLine: PropTypes.bool.isRequired,
-  steps: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
 }
 
 Grid.defaultProps = {

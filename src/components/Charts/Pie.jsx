@@ -1,10 +1,10 @@
+// @flow
 import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { Cell, PieChart as ReChart, Pie as RePie } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
-import { pieDataProp } from 'data/models/charts'
+import type { PieData } from './types'
 
 const DEFAULT_COLOR = '#B3B3B3'
 const INNER_RING_THICCNESS = 15
@@ -21,13 +21,32 @@ const styles = {
   },
 }
 
-const PieSlice = ({ color = DEFAULT_COLOR, index }) => (
-  <Cell fill={color} key={index} />
-)
+type Props = {
+  activeSegmentIndex: ?number,
+  data: PieData,
+  // onClick: // FIXME: not used now,
+  onSegmentMouseEnter: ?(number) => void,
+  onSegmentMouseLeave: ?() => void,
+  size: number,
+}
 
-const FatPieSlice = ({ color = DEFAULT_COLOR, active, index }) => (
-  <Cell fill={active ? color : 'none'} key={index} />
-)
+const PieSlice = ({
+  color = DEFAULT_COLOR,
+  index,
+}: {
+  color: string,
+  index: number,
+}) => <Cell fill={color} key={index} />
+
+const FatPieSlice = ({
+  color = DEFAULT_COLOR,
+  active,
+  index,
+}: {
+  active: boolean,
+  color: string,
+  index: number,
+}) => <Cell fill={active ? color : 'none'} key={index} />
 
 const injectActive = current => item =>
   R.assoc('active', current === null || R.propEq('index', current, item), item)
@@ -37,11 +56,11 @@ const Pie = ({
   classes,
   className,
   data,
-  onClick,
+  // onClick,
   onSegmentMouseEnter,
   onSegmentMouseLeave,
   size,
-}) => {
+}: Props) => {
   const outerRadius = size / 2
   const innerRadius = outerRadius - RING_THICCNESS
 
@@ -54,7 +73,7 @@ const Pie = ({
         height={size}
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         width={size}
-        onClick={onClick}
+        // onClick={onClick}
       >
         <RePie
           className={classes.ring}
@@ -105,15 +124,6 @@ const Pie = ({
       </ReChart>
     </div>
   )
-}
-
-Pie.propTypes = {
-  activeSegmentIndex: PropTypes.number,
-  data: pieDataProp.isRequired,
-  onClick: PropTypes.func,
-  onSegmentMouseEnter: PropTypes.func,
-  onSegmentMouseLeave: PropTypes.func,
-  size: PropTypes.number.isRequired,
 }
 
 Pie.defaultProps = {

@@ -4,8 +4,8 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryListPieChart from 'components/CategoryListPieChart'
+import { pieDataProp } from 'components/Charts/types'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
-import { pieDataProp } from 'data/models/charts'
 import OverviewCategoryList from './OverviewCategoryList'
 
 const pieSize = R.cond([

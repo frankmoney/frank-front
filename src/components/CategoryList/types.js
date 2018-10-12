@@ -13,8 +13,10 @@ export type CategoryListData = {
   tooltipItems: Array<Category>,
 }
 
+export type CategoryHandler = Category => void
+
 export type Handlers = {
-  onCategoryClick: ?(Category) => void,
+  onCategoryClick: ?CategoryHandler,
   onLabelMouseEnter: ?(number) => void,
   onLabelMouseLeave: ?(number) => void,
 }
