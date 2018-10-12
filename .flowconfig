@@ -3,7 +3,7 @@ build
 .*/node_modules/date-fns/
 
 [libs]
-
+flow-typed
 
 [include]
 src
@@ -16,8 +16,6 @@ module.system.node.resolve_dirname=.
 
 module.ignore_non_literal_requires=true
 
-esproposal.class_instance_fields=enable
-esproposal.class_static_fields=enable
 esproposal.optional_chaining=enable
 
 [lints]
@@ -30,3 +28,6 @@ sketchy-null-string=off
 unclear-type=off
 untyped-import=off
 untyped-type-import=off
+
+[version]
+^0.82.0
