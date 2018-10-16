@@ -7,7 +7,7 @@
     ["flow-react-proptypes"],
     ["@babel/plugin-proposal-export-default-from"],
     ["@babel/plugin-proposal-class-properties"],
-    ["@babel/plugin-syntax-optional-chaining"],    
+    ["@babel/plugin-syntax-optional-chaining"],
     ["transform-react-remove-prop-types"]
   ],
   "env": {
