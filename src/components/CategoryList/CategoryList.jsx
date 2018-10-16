@@ -1,98 +1,69 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { pieDataProp } from 'data/models/charts'
 import CategoryLabel from 'components/CategoryLabel'
-import limitCategories, { limitedCategoriesProps } from 'utils/limitCategories'
 import OtherCategories from './OtherCategories'
-
-const styles = theme => ({
-  item: {},
-  tooltipItem: {
-    alignItems: 'center',
-    display: 'flex',
-    '&:not(:first-child)': {
-      marginTop: 12,
-    },
-  },
-  tooltipIcon: {
-    height: 12,
-    width: 12,
-  },
-  tooltipName: {
-    flex: [1, 1],
-    paddingRight: 40,
-    ...theme.fontMedium(14, 16),
-    whiteSpace: 'nowrap',
-  },
-  tooltipValue: {
-    flex: [1, 1],
-    textAlign: 'right',
-    ...theme.fontMedium(14, 16),
-    color: 'black !important',
-  },
-})
+import styles from './CategoryList.jss'
+import type { Props, Classes } from './types'
 
 const CategoryList = ({
-  activeKey,
-  activeLabelClassName,
-  categories,
+  activeCategoryIndex,
   classes,
   className,
+  data: { items, other, tooltipItems },
   iconClassName,
   itemClassName,
-  limitedCategories,
   nameClassName,
+  onCategoryClick,
   onLabelMouseEnter,
   onLabelMouseLeave,
-  onLabelClick,
-  tooltipIconClassName,
-  tooltipItemClassName,
-  tooltipNameClassName,
-  tooltipValueClassName,
   valueClassName,
   valueUnit,
-}) => {
-  const renderItem = ({ key, ...otherProps }) => (
+}: Props & Classes) => {
+  const highlighted = R.not(R.isNil(activeCategoryIndex))
+
+  const renderItem = ({ index, ...otherProps }) => (
     <CategoryLabel
-      active={key === activeKey}
-      activeClassName={activeLabelClassName}
+      active={index === activeCategoryIndex}
+      activeClassName={classes.active}
       className={cx(classes.item, itemClassName)}
-      iconClassName={iconClassName}
-      key={key}
-      nameClassName={nameClassName}
-      onClick={onLabelClick && (() => onLabelClick(key))}
-      onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(key))}
-      onMouseLeave={onLabelMouseLeave && (() => onLabelMouseLeave(key))}
-      valueClassName={valueClassName}
+      iconClassName={cx(classes.icon, iconClassName)}
+      key={index}
+      nameClassName={cx(classes.name, nameClassName)}
+      onClick={onCategoryClick && (() => onCategoryClick(items[index]))}
+      onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(index))}
+      onMouseLeave={onLabelMouseLeave && (() => onLabelMouseLeave(index))}
+      valueClassName={cx(classes.value, valueClassName)}
       valueUnit={valueUnit}
       {...otherProps}
     />
   )
 
-  const renderTooltipItem = ({ key, ...otherProps }) => (
+  const renderTooltipItem = ({ index, ...otherProps }) => (
     <CategoryLabel
-      className={cx(classes.tooltipItem, tooltipItemClassName)}
-      iconClassName={cx(classes.tooltipIcon, tooltipIconClassName)}
-      key={key}
-      nameClassName={cx(classes.tooltipName, tooltipNameClassName)}
-      valueClassName={cx(classes.tooltipValue, tooltipValueClassName)}
+      className={classes.tooltipItem}
+      iconClassName={classes.tooltipIcon}
+      key={index}
+      nameClassName={classes.tooltipName}
+      valueClassName={classes.tooltipValue}
       valueUnit={valueUnit}
       {...otherProps}
     />
   )
-
-  const { items, other, tooltipItems } =
-    limitedCategories || limitCategories(categories)
 
   return (
-    <div className={className}>
+    <div
+      className={cx(
+        classes.root,
+        highlighted && classes.highlighted,
+        className
+      )}
+    >
       {R.map(renderItem, items)}
       {other && (
         <OtherCategories
-          key="other"
           categories={tooltipItems}
           renderTooltipItem={renderTooltipItem}
         >
@@ -101,24 +72,6 @@ const CategoryList = ({
       )}
     </div>
   )
-}
-
-CategoryList.propTypes = {
-  activeKey: PropTypes.number,
-  activeLabelClassName: PropTypes.string,
-  categories: pieDataProp,
-  iconClassName: PropTypes.string,
-  itemClassName: PropTypes.string,
-  limitedCategories: PropTypes.shape(limitedCategoriesProps),
-  nameClassName: PropTypes.string,
-  onLabelMouseEnter: PropTypes.func,
-  onLabelMouseLeave: PropTypes.func,
-  tooltipIconClassName: PropTypes.string,
-  tooltipItemClassName: PropTypes.string,
-  tooltipNameClassName: PropTypes.string,
-  tooltipValueClassName: PropTypes.string,
-  valueClassName: PropTypes.string,
-  valueUnit: PropTypes.string,
 }
 
 export default injectStyles(styles)(CategoryList)

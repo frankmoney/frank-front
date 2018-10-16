@@ -8,7 +8,7 @@ import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import CurrencyProvider from 'components/CurrencyProvider'
-import { paymentsSelector, showCategorySelector } from '../selectors'
+import { paymentsSelector, showCategoriesSelector } from '../selectors'
 import PaymentBlock from './PaymentBlock'
 import { paymentProps } from './Payment'
 
@@ -32,14 +32,30 @@ const groupPayments = R.pipe(
   }))
 )
 
-const Payments = ({ classes, className, data, showCategory }) => {
+const Payments = ({
+  blockClassName,
+  blockTitleClassName,
+  classes,
+  className,
+  data,
+  paymentClassName,
+  showCategories,
+}) => {
   const groups = groupPayments(data)
 
   return (
     <CurrencyProvider code="USD">
       <div className={cx(classes.root, className)}>
         {R.map(
-          group => <PaymentBlock showCategory={showCategory} {...group} />,
+          group => (
+            <PaymentBlock
+              className={blockClassName}
+              paymentClassName={paymentClassName}
+              showCategories={showCategories}
+              titleClassName={blockTitleClassName}
+              {...group}
+            />
+          ),
           groups
         )}
       </div>
@@ -49,12 +65,16 @@ const Payments = ({ classes, className, data, showCategory }) => {
 
 Payments.propTypes = {
   data: PropTypes.arrayOf(paymentProps).isRequired,
-  showCategory: PropTypes.bool,
+  showCategories: PropTypes.bool,
+  // Styles
+  blockClassName: PropTypes.string,
+  blockTitleClassName: PropTypes.string,
+  paymentClassName: PropTypes.string,
 }
 
 const mapStateToProps = createStructuredSelector({
   data: paymentsSelector,
-  showCategory: showCategorySelector,
+  showCategories: showCategoriesSelector,
 })
 
 export default compose(

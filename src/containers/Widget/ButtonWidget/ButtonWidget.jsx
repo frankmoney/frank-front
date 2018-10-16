@@ -3,12 +3,14 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
-import { Header, HeaderItem } from '../Header'
-import Footer from './Footer'
+import Widget from '../Widget'
+import Expander from './Expander'
+import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
 const WIDTH = 375
 
 const styles = theme => ({
+  // Wrapper
   root: {
     ...theme.fontRegular(16, 26),
     background: '#FFFFFF',
@@ -23,35 +25,61 @@ const styles = theme => ({
     position: 'relative',
     width: WIDTH,
   },
-  footer: {
+  expender: {
     margin: [0, -1],
     width: WIDTH,
+  },
+  // Actual widget content
+  contentRoot: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+  },
+  period: {
+    display: 'flex',
+    padding: [4, 0, 11, 2],
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: [0, -15],
+    overflowY: 'scroll',
+    padding: [0, 15],
+  },
+  pieChart: {
+    margin: [15, 'auto'],
+    position: 'relative',
+  },
+  overviewFooter: {
+    ...theme.fontRegular(18, 26),
+    margin: [18, 0, 13],
+  },
+  overviewFooterSeeAll: {
+    flexGrow: 1,
+    marginRight: -2,
+    textAlign: 'right',
+  },
+  payments: {
+    margin: [-3, -9, 0],
   },
 })
 
 class ButtonWidget extends React.PureComponent {
   state = {
     expanded: this.props.expanded,
-    tab: this.props.tab,
   }
 
   handleClose = () => this.setState({ expanded: false })
   handleOpen = () => this.setState({ expanded: true })
 
-  switchTab = tab => () => this.setState({ tab })
-
   render() {
-    const { charts: Charts, classes, className, stories: Stories } = this.props
-    const { expanded, tab } = this.state
-
-    const isPayments = tab === 'payments'
-    const isStories = tab === 'stories'
-    const isAbout = tab === 'about'
+    const { classes, className } = this.props
+    const { expanded } = this.state
 
     if (!expanded) {
       return (
-        <Footer
-          button
+        <Expander
+          closed
           onClick={this.handleOpen}
           title="We’re transparent"
           subtitle="See realtime report"
@@ -61,41 +89,38 @@ class ButtonWidget extends React.PureComponent {
 
     return (
       <div className={cx(classes.root, className)}>
-        <Header>
-          <HeaderItem
-            name="Payments"
-            active={isPayments}
-            onClick={this.switchTab('payments')}
-          />
-          <HeaderItem
-            name="Stories"
-            active={isStories}
-            onClick={this.switchTab('stories')}
-          />
-          <HeaderItem
-            name="About"
-            active={isAbout}
-            onClick={this.switchTab('about')}
-          />
-        </Header>
-        {isPayments && <Charts />}
-        {isStories && <Stories />}
-        {isAbout && <div>TODO</div>}
-        <Footer className={classes.footer} onClose={this.handleClose} />
+        <Widget
+          barsFooterPadding={12}
+          barsHeight={196}
+          barsWidth={337}
+          CategoryList={ButtonWidgetCategoryList}
+          className={classes.contentRoot}
+          contentClassName={classes.content}
+          OverviewFooterClasses={{
+            root: classes.overviewFooter,
+            seeAll: classes.overviewFooterSeeAll,
+          }}
+          OverviewFooterProps={{
+            hideIcon: true,
+            hideVerifiedBy: true,
+          }}
+          paymentListClassName={classes.payments}
+          paymentsPeriodClassName={classes.period}
+          pieChartClassName={classes.pieChart}
+          pieChartRootComponent={React.Fragment}
+          showBarChart
+          showCategoryCount
+          showOverviewTotals
+          widgetSize={WIDTH}
+        />
+        <Expander className={classes.expender} onClose={this.handleClose} />
       </div>
     )
   }
 }
 
 ButtonWidget.propTypes = {
-  charts: PropTypes.element,
-  expanded: PropTypes.bool,
-  stories: PropTypes.element,
-  tab: PropTypes.oneOf(['payments', 'stories', 'about']),
-}
-
-ButtonWidget.defaultProps = {
-  tab: 'stories',
+  expanded: PropTypes.bool, // demo flag
 }
 
 export default injectStyles(styles)(ButtonWidget)

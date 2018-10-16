@@ -8,6 +8,7 @@ import PIE_CHART_DATA from 'demo/Widgets/pieChartData.json'
 import * as ACTIONS from './actions'
 
 export const REDUCER_KEY = 'widget'
+const PAYMENTS_TAB = 'payments'
 
 const initialState = fromJS({
   barsData: BAR_CHART_DATA,
@@ -18,6 +19,7 @@ const initialState = fromJS({
   periods: ['All time', '2018', 'TBD'], // FIXME: placeholder
   pieData: convertGraphqlPieData(PIE_CHART_DATA),
   selectedAll: false,
+  tab: 'overview',
 })
 
 export default handleActions(
@@ -25,12 +27,18 @@ export default handleActions(
     [ACTIONS.selectCategoryType]: (state, { payload: categoryType }) =>
       state.merge({ categoryType }),
     [ACTIONS.selectCategory]: (state, { payload: category }) =>
-      state.merge({ currentCategory: category }),
+      state.merge({ currentCategory: category, tab: PAYMENTS_TAB }),
     [ACTIONS.cancelCategory]: state =>
-      state.merge({ currentCategory: null, selectedAll: false }),
+      state.merge({
+        currentCategory: null,
+        selectedAll: false,
+        tab: 'overview',
+      }),
     [ACTIONS.selectPeriod]: (state, { payload: period }) =>
       state.merge({ period }),
-    [ACTIONS.selectAllCategories]: state => state.merge({ selectedAll: true }),
+    [ACTIONS.selectAllCategories]: state =>
+      state.merge({ selectedAll: true, tab: PAYMENTS_TAB }),
+    [ACTIONS.switchTab]: (state, { payload: tab }) => state.merge({ tab }),
   },
   initialState
 )

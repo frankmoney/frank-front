@@ -1,7 +1,9 @@
+// @flow
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const DashedLine = ({ y, width }) => (
+type Props = { y: number, width: number }
+
+const DashedLine = ({ y, width }: Props) => (
   <line
     x1="0"
     x2={width}
@@ -12,10 +14,5 @@ const DashedLine = ({ y, width }) => (
     strokeDasharray="2"
   />
 )
-
-DashedLine.propTypes = {
-  y: PropTypes.number.isRequired,
-  width: PropTypes.number.isRequired,
-}
 
 export default DashedLine

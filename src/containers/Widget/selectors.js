@@ -27,6 +27,7 @@ export const barChartDataSelector = createPlainObjectSelector(get('barsData'))
 export const categoryTypeSelector = get('categoryType')
 export const periodSelector = get('period')
 export const periodsSelector = createPlainObjectSelector(get('periods'))
+export const tabSelector = get('tab')
 
 export const activeCategoriesSelector = createSelector(
   pieChartDataSelector,
@@ -37,12 +38,6 @@ export const activeCategoriesSelector = createSelector(
 export const categoryCountSelector = createSelector(
   activeCategoriesSelector,
   R.length
-)
-
-export const entriesCountSelector = createSelector(
-  categoryCountSelector,
-  // FIXME: placeholder
-  R.multiply(3)
 )
 
 const selectedAllCategories = get('selectedAll')
@@ -75,6 +70,11 @@ const currentCategoryIdSelector = createSelector(
 
 const rawPaymentsSelector = createPlainObjectSelector(get('payments'))
 
+export const paymentCountSelector = createSelector(
+  rawPaymentsSelector,
+  R.length
+)
+
 export const paymentsSelector = createSelector(
   rawPaymentsSelector,
   currentCategoryIdSelector,
@@ -85,7 +85,7 @@ export const paymentsSelector = createSelector(
       : R.filter(R.pathEq(['category', 'id'], categoryId))(items)
 )
 
-export const showCategorySelector = createSelector(
-  selectedCategorySelector,
+export const showCategoriesSelector = createSelector(
+  currentCategoryIdSelector,
   R.isNil
 )

@@ -2,8 +2,8 @@ import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
+import ChartIcon from 'containers/Widget/Footer/Chart.svg'
 import colors from 'styles/colors'
-import ChartIcon from '../Chart.svg'
 import CloseIcon from './Close.svg'
 
 const styles = theme => ({
@@ -19,7 +19,7 @@ const styles = theme => ({
     position: 'absolute',
     width: '100%',
   },
-  button: {
+  collapsed: {
     borderRadius: 8,
     cursor: 'pointer',
     position: 'relative',
@@ -30,16 +30,16 @@ const styles = theme => ({
     color: '#FFFFFF',
     marginRight: 19,
   },
-  footerTitle: {
+  title: {
     ...theme.fontMedium(16, 20),
     color: '#FFFFFF',
     position: 'relative',
     top: 1,
-    '$button &': {
+    '$collapsed &': {
       top: 0,
     },
   },
-  footerSubtitle: {
+  subtitle: {
     ...theme.fontRegular(14, 20),
     color: '#9295A1',
   },
@@ -54,10 +54,10 @@ const styles = theme => ({
   },
 })
 
-const Footer = ({
-  button,
+const Expander = ({
   classes,
   className,
+  closed,
   onClick,
   onClose,
   subtitle,
@@ -65,13 +65,13 @@ const Footer = ({
 }) => (
   // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
-    className={cx(classes.root, { [classes.button]: button }, className)}
+    className={cx(classes.root, { [classes.collapsed]: closed }, className)}
     onClick={onClick}
   >
     <ChartIcon className={classes.chartIcon} />
     <div>
-      <div className={classes.footerTitle}>{title || 'Real-time report'}</div>
-      <div className={classes.footerSubtitle}>
+      <div className={classes.title}>{title || 'Real-time report'}</div>
+      <div className={classes.subtitle}>
         {subtitle || (
           <>
             Verified by <span className={classes.frank}>Frank</span>
@@ -83,12 +83,12 @@ const Footer = ({
   </div>
 )
 
-Footer.propTypes = {
-  button: PropTypes.bool,
-  title: PropTypes.string,
-  subtitle: PropTypes.string,
-  onClose: PropTypes.func,
+Expander.propTypes = {
+  closed: PropTypes.bool.isRequired,
   onClick: PropTypes.func,
+  onClose: PropTypes.func,
+  subtitle: PropTypes.string,
+  title: PropTypes.string,
 }
 
-export default injectStyles(styles)(Footer)
+export default injectStyles(styles)(Expander)

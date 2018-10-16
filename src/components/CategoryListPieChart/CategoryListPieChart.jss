@@ -1,54 +1,23 @@
-export default theme => ({
+export default {
   root: {
-    display: 'flex',
-    flexGrow: 1,
-    position: 'relative',
     alignItems: 'center',
-  },
-  hiddenPeriod: {
-    paddingTop: 0,
-  },
-  periodSelect: {
-    position: 'absolute',
-    top: 4,
-    left: 2,
+    display: 'flex',
+    flex: [1, 0, 0],
+    justifyContent: 'center',
   },
   chartContainer: {
-    height: ({ chartSize }) => chartSize,
-    position: 'relative',
-    width: ({ chartSize }) => chartSize,
+    alignItems: 'center',
+    display: 'flex',
+    flex: [0, 0, 'auto'],
+    justifyContent: 'center',
+    marginRight: '7%',
   },
-  switcher: {
-    left: '50%',
-    maxWidth: ({ chartSize }) => chartSize - 30 * 2,
+  categoryTypeSelect: {
+    paddingTop: 2,
     position: 'absolute',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '100%',
+    whiteSpace: 'nowrap',
   },
-  legend: {
-    cursor: 'default',
+  categoryList: {
+    flex: [0, 0, 'auto'],
   },
-  legendItem: {
-    cursor: 'pointer',
-    padding: [5, 0],
-  },
-  legendIcon: {
-    marginRight: 13,
-  },
-  legendItemName: {
-    ...theme.fontMedium(22, 26),
-  },
-  legendItemValue: {
-    ...theme.fontRegular(22, 26),
-  },
-  highlightedLegend: {
-    '& > $legendItem': {
-      opacity: 0.4,
-    },
-    '&:hover > $legendItem, & > $activeLegendItem': {
-      opacity: 1,
-    },
-  },
-  activeLegendItem: {},
-})
+}

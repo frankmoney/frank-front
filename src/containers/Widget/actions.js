@@ -7,3 +7,5 @@ export const selectAllCategories = createAction('widget/select-all-categories')
 export const cancelCategory = createAction('widget/cancel-category')
 
 export const selectPeriod = createAction('widget/select-period')
+
+export const switchTab = createAction('widget/switch-tab')

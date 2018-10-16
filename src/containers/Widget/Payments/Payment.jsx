@@ -3,49 +3,58 @@ import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { format as formatDate } from 'date-fns'
 import { injectStyles } from '@frankmoney/ui'
+import { paymentProps } from 'data/models/payment'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
 
-const PADDING = 16
-
 const styles = theme => ({
   root: {
+    display: 'flex',
     margin: [0, 10],
-    padding: [PADDING, 0],
-    position: 'relative',
+    padding: [16, 0, 18],
     '&:not(:last-child)': {
       borderBottom: '1px solid #E9EAEC',
     },
   },
-  title: {
-    ...theme.fontMedium(16, 26),
+  left: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+  },
+  right: {
+    alignItems: 'flex-end',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  description: {
+    ...theme.fontRegular(18, 26),
+    color: '#8F93A4',
+  },
+  peerName: {
+    ...theme.fontMedium(16, 22),
+    marginTop: 6,
   },
   amount: {
-    position: 'absolute',
-    right: 0,
-    top: PADDING,
+    ...theme.fontRegular(18, 26),
+    display: 'flex',
+    flexWrap: 'nowrap',
   },
   amountValue: {
-    fontWeight: 500,
+    marginLeft: 4,
   },
   category: {
-    fontWeight: 500,
-    marginTop: 9,
+    ...theme.fontMedium(16, 22),
+    margin: [13, 0, 0, -1],
   },
   categoryIcon: {
     height: 12,
+    marginBottom: 2,
     width: 12,
-    marginBottom: -1,
-  },
-  description: {
-    color: '#8F93A4',
-    marginTop: 2,
   },
   date: {
+    ...theme.fontRegular(16, 22),
     color: '#BCBFC9',
-    position: 'absolute',
-    bottom: PADDING,
-    right: 0,
   },
 })
 
@@ -62,38 +71,32 @@ const Payment = ({
   const date = formatDate(postedOn, 'MMM D')
   return (
     <div className={cx(classes.root, className)}>
-      <div className={classes.title}>{peerName}</div>
-      <CurrencyDelta
-        className={classes.amount}
-        valueClassName={classes.amountValue}
-        value={amount}
-      />
-      <div className={classes.description}>
-        {description || 'Placeholder description..' // FIXME: properly handle empty description
-        }
+      <div className={classes.left}>
+        <div className={classes.description}>
+          {description || '[empty description. plz fix]'
+          // FIXME: remove dev placeholder
+          }
+        </div>
+        <div className={classes.peerName}>{peerName}</div>
+        {showCategory && (
+          <CategoryLabel
+            className={classes.category}
+            iconClassName={classes.categoryIcon}
+            color={color}
+            name={name}
+          />
+        )}
       </div>
-      <div className={classes.date}>{date}</div>
-      {showCategory && (
-        <CategoryLabel
-          className={classes.category}
-          iconClassName={classes.categoryIcon}
-          color={color}
-          name={name}
+      <div className={classes.right}>
+        <CurrencyDelta
+          className={classes.amount}
+          valueClassName={classes.amountValue}
+          value={amount}
         />
-      )}
+        <div className={classes.date}>{date}</div>
+      </div>
     </div>
   )
-}
-
-export const paymentProps = {
-  amount: PropTypes.number.isRequired,
-  category: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired,
-  }).isRequired,
-  description: PropTypes.string,
-  peerName: PropTypes.string.isRequired,
-  postedOn: PropTypes.string.isRequired,
 }
 
 Payment.propTypes = {

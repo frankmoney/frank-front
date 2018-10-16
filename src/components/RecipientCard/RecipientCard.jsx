@@ -3,23 +3,23 @@ import cx from 'classnames'
 import { format } from 'date-fns'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
-import CategoryList from 'components/CategoryList'
 import CurrencyDelta from 'components/CurrencyDelta'
 import TextWithEditableToggle from 'components/TextWithEditableToggle'
 import styles from './RecipientCard.jss'
+import RecipientCategoryList from './RecipientCategoryList'
 
 const formatDate = date => format(date, 'MMM D, YYYY')
 
 const RecipientCard = ({
+  categories,
   classes,
   className,
-  name,
-  paymentCount,
   lastPaymentDate,
+  name,
+  onEditName,
+  paymentCount,
   revenue,
   spending,
-  categories,
-  onEditName,
 }) => (
   <Paper className={cx(classes.paper, className)}>
     <div className={classes.leftColumn}>
@@ -48,14 +48,7 @@ const RecipientCard = ({
       </div>
     </div>
     <div className={classes.rightColumn}>
-      <CategoryList
-        categories={categories}
-        className={classes.list}
-        itemClassName={classes.listItem}
-        itemIconClassName={classes.listItemIcon}
-        nameClassName={classes.listItemName}
-        valueClassName={classes.listItemValue}
-      />
+      <RecipientCategoryList data={categories} />
       <div className={classes.lastDate}>
         <span className={classes.lastDateLabel}>Last payment</span>{' '}
         {formatDate(lastPaymentDate)}

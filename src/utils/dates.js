@@ -51,7 +51,7 @@ export const isCurrentYear = (date: Date) => {
   return D.getYear(date) === now.getFullYear()
 }
 
-export const findClosestHour24TimeSlot = (list, time: TimeString) =>
+export const findClosestHour24TimeSlot = (list: Array<any>, time: TimeString) =>
   D.closestIndexTo(parseList(parse24HourTime, list), parse24HourTime(time))
 
 export const fixHour12Time = R.pipe(

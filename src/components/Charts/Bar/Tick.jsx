@@ -1,11 +1,17 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
-import PropTypes from 'prop-types'
 
 const LEGEND_COLOR = '#808080'
 const LEGEND_SECOND_COLOR = '#B3B3B3'
 
-const Tick = ({ payload: { value }, x, y }) => {
+type Props = {
+  payload: { value: string },
+  x: number,
+  y: number,
+}
+
+const Tick = ({ payload: { value }, x, y }: Props) => {
   const [text, secondLine] = R.split(' ', value)
   return (
     <>
@@ -25,12 +31,6 @@ const Tick = ({ payload: { value }, x, y }) => {
       )}
     </>
   )
-}
-
-Tick.propTypes = {
-  payload: PropTypes.shape({ value: PropTypes.any.isRequired }).isRequired,
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
 }
 
 export default Tick

@@ -1,155 +1,98 @@
+// @flow
 import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { pieDataProp } from 'data/models/charts'
-import CategoryList from 'components/CategoryList'
-import DropdownSwitcher from 'components/DropdownSwitcher'
+import { pieDataProp } from 'components/Charts/types'
 import Pie from 'components/Charts/Pie'
-import { limitCategoriesTo, DEFAULT_LIMIT } from 'utils/limitCategories'
-import PeriodSelector from './PeriodSelector'
+import CategoryTypeSelect from './CategoryTypeSelect'
+import limitCategories from './utils'
 import styles from './CategoryListPieChart.jss'
-
-const CATEGORY_TYPES = [{ key: 'income' }, { key: 'spending' }]
-
-const roundValues = R.over(R.lensProp('value'), Math.round)
 
 class CategoryListPieChart extends React.PureComponent {
   state = {
-    activeKey: null,
+    activeCategoryIndex: null,
   }
 
-  handleMouseOver = key => this.setState({ activeKey: key })
+  handleMouseOver = index => this.setState({ activeCategoryIndex: index })
 
-  handleMouseOut = () => this.setState({ activeKey: null })
+  handleMouseOut = () => this.setState({ activeCategoryIndex: null })
 
   render() {
     const {
-      categoryLimit,
+      CategoryList,
       categoryType,
+      categoryTypeSelectClassName,
+      categoryTypeSelectLabel,
       chartClassName,
       chartSize,
       classes,
       className,
+      component: Root,
       data,
-      hideChart,
-      hidePeriod,
-      legendClassName,
-      legendIconClassName,
-      legendItemClassName,
-      legendNameClassName,
-      legendValueClassName,
       onCategoryClick,
       onCategoryTypeChange,
-      onPeriodChange,
-      period,
-      periods,
-      periodSelectClassName,
-      switcherClassName,
-      switcherLabel,
     } = this.props
+    const { activeCategoryIndex } = this.state
 
-    const handleChangeCategoryType =
-      onCategoryTypeChange &&
-      (event => onCategoryTypeChange(event.target.value))
-
-    const categories = data[categoryType] // TODO: use selector
-    const { items, other, tooltipItems } = limitCategoriesTo(categoryLimit)(
-      categories
-    )
-    const limitedCategories = {
-      items: R.map(roundValues, items),
-      other: other && roundValues(other),
-      tooltipItems: R.map(roundValues, tooltipItems),
-    }
+    const categories = limitCategories(5)(data)
+    const { items, other } = categories
     const pieData = other ? R.append(other, items) : items
 
-    const handleCategoryClick =
-      onCategoryClick && (key => onCategoryClick(items[key]))
-
+    const rootProps =
+      Root === React.Fragment
+        ? undefined
+        : { className: cx(classes.root, className) }
     return (
-      <div
-        className={cx(
-          classes.root,
-          hidePeriod && classes.hiddenPeriod,
-          className
-        )}
-      >
-        {!hidePeriod && (
-          <PeriodSelector
-            className={cx(classes.periodSelect, periodSelectClassName)}
-            onChange={onPeriodChange}
-            value={period}
-            values={periods}
-          />
-        )}
+      <Root {...rootProps}>
         <div className={cx(classes.chartContainer, chartClassName)}>
-          {!hideChart && (
-            <Pie
-              activeKey={this.state.activeKey}
-              className={classes.chart}
-              data={pieData}
-              onMouseEnter={this.handleMouseOver}
-              onMouseLeave={this.handleMouseOut}
-              size={chartSize}
-            />
-          )}
-          <DropdownSwitcher
-            className={cx(classes.switcher, switcherClassName)}
-            label={switcherLabel}
-            onChange={handleChangeCategoryType}
+          <Pie
+            activeSegmentIndex={activeCategoryIndex}
+            data={pieData}
+            onSegmentMouseEnter={this.handleMouseOver}
+            onSegmentMouseLeave={this.handleMouseOut}
+            size={chartSize}
+          />
+          <CategoryTypeSelect
+            className={cx(
+              classes.categoryTypeSelect,
+              categoryTypeSelectClassName
+            )}
+            label={categoryTypeSelectLabel}
+            onChange={onCategoryTypeChange}
             value={categoryType}
-            values={CATEGORY_TYPES}
           />
         </div>
         <CategoryList
-          activeKey={this.state.activeKey}
-          activeLabelClassName={classes.activeLegendItem}
-          className={cx(classes.legend, legendClassName, {
-            [classes.highlightedLegend]: this.state.activeKey !== null,
-          })}
-          iconClassName={cx(classes.legendIcon, legendIconClassName)}
-          itemClassName={cx(classes.legendItem, legendItemClassName)}
-          limitedCategories={limitedCategories}
-          nameClassName={cx(classes.legendItemName, legendNameClassName)}
-          onLabelClick={handleCategoryClick}
+          activeCategoryIndex={activeCategoryIndex}
+          className={classes.categoryList}
+          data={categories}
+          onCategoryClick={onCategoryClick}
           onLabelMouseEnter={this.handleMouseOver}
           onLabelMouseLeave={this.handleMouseOut}
-          tooltip
-          valueClassName={cx(classes.legendItemValue, legendValueClassName)}
           valueUnit="%"
         />
-      </div>
+      </Root>
     )
   }
 }
 
 CategoryListPieChart.propTypes = {
-  categoryLimit: PropTypes.number.isRequired,
+  CategoryList: PropTypes.element.isRequired,
   categoryType: PropTypes.string.isRequired,
+  categoryTypeSelectLabel: PropTypes.string,
   chartSize: PropTypes.number.isRequired,
-  data: pieDataProp,
-  hideChart: PropTypes.bool,
-  hidePeriod: PropTypes.bool,
-  legendClassName: PropTypes.string,
-  legendIconClassName: PropTypes.string,
-  legendItemClassName: PropTypes.string,
-  legendNameClassName: PropTypes.string,
-  legendValueClassName: PropTypes.string,
+  data: pieDataProp.isRequired,
   onCategoryClick: PropTypes.func, // category object in callback
   onCategoryTypeChange: PropTypes.func,
-  onPeriodChange: PropTypes.func,
-  period: PropTypes.string,
-  periods: PropTypes.arrayOf(PropTypes.string),
-  switcherClassName: PropTypes.string,
-  switcherLabel: PropTypes.string,
+  // Styles
+  categoryTypeSelectClassName: PropTypes.string,
+  chartClassName: PropTypes.string,
 }
 
 CategoryListPieChart.defaultProps = {
-  categoryLimit: DEFAULT_LIMIT,
-  chartSize: 350,
-  switcherLabel: '% of total',
+  component: 'div',
 }
 
 export default injectStyles(styles)(CategoryListPieChart)
