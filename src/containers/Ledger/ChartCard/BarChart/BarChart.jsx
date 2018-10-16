@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
@@ -5,7 +6,7 @@ import Bar, {
   POSITIVE_BAR_COLOR,
   PRIMARY_BAR_COLOR,
 } from 'components/Charts/Bar'
-import { barDataProp } from 'data/models/charts'
+import type { BarData } from 'components/Charts/types'
 import Checkbox from 'components/Checkbox'
 
 const MAX_ZEROES_TO_HIDE = 0.5
@@ -28,6 +29,10 @@ const styles = theme => ({
   },
 })
 
+type Props = {
+  data: ?BarData,
+}
+
 const countZeroes = prop =>
   R.pipe(
     R.countBy(R.prop(prop)),
@@ -40,7 +45,7 @@ const makePositive = R.map(({ date, negativeValue }) => ({
   value: negativeValue,
 }))
 
-class BarChart extends React.PureComponent {
+class BarChart extends React.PureComponent<Props> {
   state = {
     income: true,
     spending: true,
@@ -107,10 +112,6 @@ class BarChart extends React.PureComponent {
       </div>
     )
   }
-}
-
-BarChart.propTypes = {
-  data: barDataProp,
 }
 
 export default injectStyles(styles)(BarChart)

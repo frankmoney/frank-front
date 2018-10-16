@@ -1,10 +1,11 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
 import { limitCategories } from 'components/CategoryListPieChart'
-import { pieDataProp } from 'data/models/charts'
+import type { CategoryHandler } from 'components/CategoryList/types'
+import type { PieData } from 'components/Charts/types'
 
 const styles = theme => ({
   root: {
@@ -31,7 +32,17 @@ const styles = theme => ({
   },
 })
 
-const JustCategoryList = ({ classes, className, data, onCategoryClick }) => {
+type Props = {
+  data: PieData,
+  onCategoryClick: CategoryHandler,
+}
+
+const JustCategoryList = ({
+  classes,
+  className,
+  data,
+  onCategoryClick,
+}: Props) => {
   const limitedCategories = limitCategories(999)(data)
   return (
     <CategoryList
@@ -45,11 +56,6 @@ const JustCategoryList = ({ classes, className, data, onCategoryClick }) => {
       valueUnit="%"
     />
   )
-}
-
-JustCategoryList.propTypes = {
-  data: pieDataProp.isRequired,
-  onCategoryClick: PropTypes.func.isRequired,
 }
 
 export default injectStyles(styles)(JustCategoryList)

@@ -1,7 +1,7 @@
+// @flow
 import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import {
   Bar,
   BarChart as Chart,
@@ -10,9 +10,11 @@ import {
   XAxis,
 } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
+import type { BarData } from '../types'
 import Grid from './Grid'
 import Tick from './Tick'
 import Tooltip from './Tooltip'
+import type { LabelFormatter } from './TooltipLine'
 import { epsilon } from './TooltipLine'
 
 const BAR_CORNER_RADIUS = 3
@@ -40,10 +42,23 @@ const styles = {
   },
 }
 
-const negateWithEpsilon = x => (x === 0 ? -epsilon : -x)
+type Props = {
+  barColor: string,
+  data: BarData,
+  dual: ?boolean,
+  footerPadding: number,
+  height: number,
+  hideBaseLine: ?boolean,
+  labelKey: string,
+  positiveBarColor: string,
+  showBars: boolean,
+  width: number,
+}
+
+const negateWithEpsilon = (x: number) => (x === 0 ? -epsilon : -x)
 const fixNegative = R.over(R.lensProp('negativeValue'), negateWithEpsilon)
 
-const tooltipLabelFormatter = payload =>
+const tooltipLabelFormatter: LabelFormatter = payload =>
   payload.dataKey === NEGATIVE_VALUE_PROP ? 'Spending' : 'Income'
 
 const BarChart = ({
@@ -59,7 +74,7 @@ const BarChart = ({
   positiveBarColor,
   showBars,
   width,
-}) => {
+}: Props) => {
   const signedData = dual ? R.map(fixNegative, data) : data
   const barCount = R.length(data)
   const barWidth = (width - 2 * PADDING) / (2 * barCount - 1)
@@ -126,24 +141,6 @@ const BarChart = ({
       </Chart>
     </div>
   )
-}
-
-BarChart.propTypes = {
-  barColor: PropTypes.string,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string,
-      value: PropTypes.number.isRequired,
-    })
-  ).isRequired,
-  dual: PropTypes.bool,
-  footerPadding: PropTypes.number,
-  height: PropTypes.number,
-  hideBaseLine: PropTypes.bool,
-  labelKey: PropTypes.string,
-  positiveBarColor: PropTypes.string,
-  showBars: PropTypes.bool,
-  width: PropTypes.number,
 }
 
 BarChart.defaultProps = {

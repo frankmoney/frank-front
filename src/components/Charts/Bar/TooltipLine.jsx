@@ -1,6 +1,6 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
-import PropTypes from 'prop-types'
 import { formatCurrency } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import IconCircle from 'components/IconCircle'
@@ -21,11 +21,22 @@ const styles = theme => ({
   },
 })
 
+type Payload = any
+
+export type LabelFormatter = Payload => string
+
+type Props = {
+  color: ?any, // not defined in docs
+  key: ?string,
+  labelFormatter: LabelFormatter,
+  value: number,
+}
+
 export const epsilon = 2 ** -42
 
-const fixMinusZero = x => (x === -epsilon ? 0 : x)
+const fixMinusZero: number => number = x => (x === -epsilon ? 0 : x)
 
-const formatMoney = R.pipe(
+const formatMoney: number => string = R.pipe(
   fixMinusZero,
   x => ({ value: x, precision: 2 }),
   formatCurrency,
@@ -40,7 +51,7 @@ const TooltipLine = ({
   labelFormatter,
   value,
   ...payloadProps
-}) => (
+}: Props) => (
   <div className={classes.root} style={{ color }} key={key}>
     <div>
       <IconCircle className={classes.circle} />
@@ -49,11 +60,5 @@ const TooltipLine = ({
     {formatMoney(value)}
   </div>
 )
-
-TooltipLine.propTypes = {
-  key: PropTypes.string,
-  labelFormatter: PropTypes.func.isRequired,
-  value: PropTypes.number.isRequired,
-}
 
 export default injectStyles(styles)(TooltipLine)

@@ -1,9 +1,10 @@
+// @flow
 import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { pieDataProp } from 'data/models/charts'
+import { pieDataProp } from 'components/Charts/types'
 import Pie from 'components/Charts/Pie'
 import CategoryTypeSelect from './CategoryTypeSelect'
 import limitCategories from './utils'

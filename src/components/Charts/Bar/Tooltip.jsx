@@ -1,9 +1,10 @@
+// @flow
 import * as R from 'ramda'
 import React from 'react'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import { Paper } from '@frankmoney/components'
 import TooltipLine from './TooltipLine'
+import type { LabelFormatter, Payload } from './TooltipLine'
 
 const styles = theme => ({
   root: {
@@ -18,13 +19,18 @@ const styles = theme => ({
   },
 })
 
+type Props = {
+  labelFormatter: ?LabelFormatter,
+  payload: Payload,
+}
+
 const Tooltip = ({
   classes,
   labelFormatter,
   label, // passed by the the chart
   payload, // passed by the the chart
   style, // passed by the the chart
-}) => (
+}: Props) => (
   <Paper className={classes.root} style={style}>
     <div className={classes.header}>{label}</div>
     {R.addIndex(R.map)((item, index) => (
@@ -32,9 +38,5 @@ const Tooltip = ({
     ))(payload)}
   </Paper>
 )
-
-Tooltip.propTypes = {
-  labelFormatter: PropTypes.func.isRequired,
-}
 
 export default injectStyles(styles)(Tooltip)

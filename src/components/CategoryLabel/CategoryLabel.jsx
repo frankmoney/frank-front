@@ -1,6 +1,6 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import HighlightText from 'components/HighlightText'
 import IconCircle from 'components/IconCircle'
@@ -25,6 +25,21 @@ const styles = {
   },
 }
 
+type Classes = {
+  activeClassName: ?string,
+  iconClassName: ?string,
+  nameClassName: ?string,
+  valueClassName: ?string,
+}
+
+type Props = {
+  active: ?boolean,
+  color: ?string, // eslint-disable-line react/no-unused-prop-types
+  name: ?string,
+  value: ?number,
+  valueUnit: ?string,
+} & Classes
+
 const CategoryLabel = ({
   active,
   activeClassName,
@@ -39,7 +54,7 @@ const CategoryLabel = ({
   value,
   valueClassName,
   valueUnit,
-}) => (
+}: Props) => (
   <div
     className={cx(classes.root, active && activeClassName, className)}
     onClick={onClick}
@@ -58,22 +73,5 @@ const CategoryLabel = ({
     )}
   </div>
 )
-
-export const categoryPropTypes = {
-  color: PropTypes.string,
-  index: PropTypes.number,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.number,
-}
-
-CategoryLabel.propTypes = {
-  ...categoryPropTypes,
-  active: PropTypes.bool,
-  activeClassName: PropTypes.string,
-  iconClassName: PropTypes.string,
-  nameClassName: PropTypes.string,
-  valueClassName: PropTypes.string,
-  valueUnit: PropTypes.string,
-}
 
 export default injectStyles(styles)(CategoryLabel)

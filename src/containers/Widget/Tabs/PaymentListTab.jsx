@@ -1,18 +1,37 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import Bar from 'components/Charts/Bar'
+import type { BarData } from 'components/Charts/types'
 import { CategoryName, Header } from 'containers/Widget/Header'
 import Payments from 'containers/Widget/Payments'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
-import { barDataProp } from 'data/models/charts'
 
 const styles = {
   content: {
     overflowY: 'scroll',
   },
 }
+
+type Classes = {
+  barChartClassName: ?string,
+  contentClassName: ?string,
+  paymentBlockClassName: ?string,
+  paymentBlockTitleClassName: ?string,
+  paymentClassName: ?string,
+  paymentListClassName: ?string,
+  paymentsPeriodClassName: ?string,
+}
+
+type Props = {
+  barsData: ?BarData,
+  barsHeight: number,
+  barsWidth: number,
+  footerPadding: number,
+  onCancelCategoryClick: () => void,
+  showBarChart: boolean,
+} & Classes
 
 const PaymentListTab = ({
   barChartClassName,
@@ -31,7 +50,7 @@ const PaymentListTab = ({
   paymentListClassName,
   paymentsPeriodClassName,
   showBarChart,
-}) => (
+}: Props) => (
   <>
     <Header live={false}>
       <CategoryName
@@ -64,22 +83,5 @@ const PaymentListTab = ({
     </div>
   </>
 )
-
-PaymentListTab.propTypes = {
-  barsData: barDataProp,
-  barsHeight: PropTypes.number.isRequired,
-  barsWidth: PropTypes.number.isRequired,
-  footerPadding: PropTypes.number.isRequired,
-  onCancelCategoryClick: PropTypes.func.isRequired,
-  showBarChart: PropTypes.bool,
-  // Styles
-  barChartClassName: PropTypes.string,
-  contentClassName: PropTypes.string,
-  paymentBlockClassName: PropTypes.string,
-  paymentBlockTitleClassName: PropTypes.string,
-  paymentClassName: PropTypes.string,
-  paymentListClassName: PropTypes.string,
-  paymentsPeriodClassName: PropTypes.string,
-}
 
 export default injectStyles(styles)(PaymentListTab)

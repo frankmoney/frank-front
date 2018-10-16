@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { barDataProp, pieDataProp } from 'components/Charts/types'
 import { footerClasses, footerProps } from 'containers/Widget/Footer'
-import { barDataProp, pieDataProp } from 'data/models/charts'
 import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
 import { Header, HeaderItem } from './Header'
 import {
@@ -56,33 +56,33 @@ const Widget = ({
   tab,
   widgetSize,
 }) => {
-  const overviewTab = tab === 'overview'
-  const paymentListTab = tab === 'payments'
-  const storiesTab = tab === 'stories'
-  const aboutTab = tab === 'about'
+  const isOverviewTab = tab === 'overview'
+  const isPaymentListTab = tab === 'payments'
+  const isStoriesTab = tab === 'stories'
+  const isAboutTab = tab === 'about'
 
   return (
     <div className={className}>
-      {!paymentListTab && (
+      {!isPaymentListTab && (
         <Header>
           <HeaderItem
             name="Payments"
-            active={overviewTab}
+            active={isOverviewTab}
             onClick={() => onTabSwitch('overview')}
           />
           <HeaderItem
             name="Stories"
-            active={storiesTab}
+            active={isStoriesTab}
             onClick={() => onTabSwitch('stories')}
           />
           <HeaderItem
             name="About"
-            active={aboutTab}
+            active={isAboutTab}
             onClick={() => onTabSwitch('about')}
           />
         </Header>
       )}
-      {overviewTab && (
+      {isOverviewTab && (
         <OverviewTab
           categoryCount={showCategoryCount ? categoryCount : null}
           CategoryList={CategoryList}
@@ -102,7 +102,7 @@ const Widget = ({
           widgetSize={widgetSize}
         />
       )}
-      {paymentListTab && (
+      {isPaymentListTab && (
         <PaymentListTab
           barChartClassName={barChartClassName}
           barsData={barsData}
@@ -121,8 +121,8 @@ const Widget = ({
           showBarChart={showBarChart}
         />
       )}
-      {storiesTab && <StoriesTab />}
-      {aboutTab && <AboutTab />}
+      {isStoriesTab && <StoriesTab />}
+      {isAboutTab && <AboutTab />}
     </div>
   )
 }

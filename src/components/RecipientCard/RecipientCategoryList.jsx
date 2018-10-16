@@ -1,9 +1,10 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
 import { limitCategories } from 'components/CategoryListPieChart'
-import { pieDataProp } from 'data/models/charts'
+import type { PieData } from 'components/Charts/types'
 
 const styles = theme => ({
   root: {
@@ -24,7 +25,11 @@ const styles = theme => ({
   },
 })
 
-const RecipientCategoryList = ({ classes, className, data }) => {
+type Props = {
+  data: PieData,
+}
+
+const RecipientCategoryList = ({ classes, className, data }: Props) => {
   const categories = limitCategories(5)(data)
   return (
     <CategoryList
@@ -35,10 +40,6 @@ const RecipientCategoryList = ({ classes, className, data }) => {
       valueClassName={classes.value}
     />
   )
-}
-
-RecipientCategoryList.propTypes = {
-  data: pieDataProp.isRequired,
 }
 
 export default injectStyles(styles)(RecipientCategoryList)
