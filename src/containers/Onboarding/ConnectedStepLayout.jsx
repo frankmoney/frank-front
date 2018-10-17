@@ -16,7 +16,7 @@ export default reconnect(
     loadingBack: loadingBackSelector,
   },
   {
-    goNext: ACTIONS.goNext,
-    goBack: ACTIONS.goBack,
+    onNext: ACTIONS.goNext,
+    onBack: ACTIONS.goBack,
   }
 )(StepLayout)

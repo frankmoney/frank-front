@@ -19,9 +19,10 @@ const StepLayout = ({
   noFooter,
   footerText,
   footerButton,
+  centered,
   children,
 }) => (
-  <div className={cx(classes.root, className)}>
+  <div className={cx(classes.root, centered && classes.centered, className)}>
     <FrankLogo className={classes.logo} />
     <div className={classes.container}>{children}</div>
     {!noFooter && (
@@ -50,6 +51,7 @@ const StepLayout = ({
 StepLayout.defaultProps = {
   nextLabel: 'Continue',
   backLabel: 'Back',
+  centered: false,
 }
 
 export default injectStyles(styles)(StepLayout)

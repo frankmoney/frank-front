@@ -61,7 +61,7 @@ const styles = theme => ({
   orderedListNested: {},
 })
 
-const Terms = ({ className, classes, loading, ...props }) => (
+const Terms = ({ className, classes, ...props }) => (
   <StepLayout
     nextLabel="I agree to the Terms"
     canGoNext

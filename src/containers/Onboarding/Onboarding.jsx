@@ -1,10 +1,8 @@
 import React from 'react'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
-import { injectStyles } from '@frankmoney/ui'
 import { PageLoader } from '@frankmoney/components'
 import reconnect from 'utils/reconnect'
 import * as ACTIONS from './actions'
-import styles from './Onboarding.jss'
 import {
   currentStepSelector,
   loadingSelector,
@@ -53,6 +51,5 @@ export default compose(
     },
   }),
   branch(props => props.loading, renderComponent(PageLoader)),
-  branch(props => !props.termsAccepted, renderComponent(STEPS.Terms)),
-  injectStyles(styles)
+  branch(props => !props.termsAccepted, renderComponent(STEPS.Terms))
 )(Onboarding)

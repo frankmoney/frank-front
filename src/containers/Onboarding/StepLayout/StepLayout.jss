@@ -38,4 +38,11 @@ export default theme => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  centered: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    '& $container': {
+      justifyContent: 'center',
+    },
+  },
 })
