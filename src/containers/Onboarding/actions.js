@@ -35,3 +35,6 @@ export const accountSelect = createAction('onboarding/accounts/select')
 export const openInvite = createAction('onboarding/team/open-invite')
 export const closeInvite = createAction('onboarding/team/close-invite')
 export const submitInvite = createAction('onboarding/team/invite')
+
+// Step: Terms
+export const acceptTerms = createDeferredAction('onboarding/terms/accept')

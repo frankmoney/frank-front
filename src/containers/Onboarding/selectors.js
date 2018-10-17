@@ -11,6 +11,7 @@ export const loadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const loadingNextSelector = get('loadingNext')
 export const loadingBackSelector = get('loadingBack')
+export const termsAcceptedSelector = get('termsAccepted')
 export const currentStepSelector = get('currentStep')
 
 export const canGoBackSelector = createSelector(

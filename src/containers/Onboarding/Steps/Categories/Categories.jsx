@@ -5,7 +5,7 @@ import { Button } from '@frankmoney/components'
 import cx from 'classnames'
 import reconnect from 'utils/reconnect'
 import EditCategoryDialog from 'components/EditCategoryDialog'
-import StepLayout from '../../StepLayout'
+import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription from '../../StepDescription'
 import {

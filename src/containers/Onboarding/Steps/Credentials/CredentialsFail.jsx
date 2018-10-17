@@ -9,7 +9,7 @@ import {
 } from 'material-ui-icons'
 import reconnect from 'utils/reconnect'
 import { selectedBankWebsiteSelector } from '../../selectors'
-import StepLayout from '../../StepLayout'
+import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription from '../../StepDescription'
 import StepBankLogo from '../../StepBankLogo'

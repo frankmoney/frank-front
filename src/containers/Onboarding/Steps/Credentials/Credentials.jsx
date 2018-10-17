@@ -9,7 +9,7 @@ import {
   isCredentialsCheckingSelector,
   isCredentialsErrorSelector,
 } from '../../selectors'
-import StepLayout from '../../StepLayout'
+import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'
 import StepBankLogo from '../../StepBankLogo'
 import StepForm from '../../StepForm'

@@ -50,6 +50,7 @@ export const LS_FLAGS = {
   // UX Design: Every time after user (moderator) publish story, after redirect
   // to stories page - share dialog should be shown
   lastPublishedStoryUrl: 'ui/lastPublishedStoryUrl',
+  onboardingTermsAccepted: 'onboarding/terms-accepted',
 }
 
 export const ACCOUNT_COOKIE_NAME = 'account-id'

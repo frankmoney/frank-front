@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 import * as R from 'ramda'
 import { createStructuredSelector } from 'reselect'
 import SearchBar from 'components/SearchCard'
-import StepLayout from '../../StepLayout'
+import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription from '../../StepDescription'
 import {
