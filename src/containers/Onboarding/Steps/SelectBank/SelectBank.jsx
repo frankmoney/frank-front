@@ -38,7 +38,8 @@ const styles = theme => ({
   },
   placeholderLabel: {
     ...theme.fontRegular(22, 22),
-    color: 'rgba(0,0,0,0.5)',
+    color: '#252B43',
+    opacity: 0.5,
   },
   placeholderButton: {
     marginTop: 30,
