@@ -4,7 +4,7 @@ import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
 import { limitCategories } from 'components/CategoryListPieChart'
-import type { PieData } from 'components/Charts/types'
+import type { PieData } from 'components/Charts/Pie'
 
 const styles = theme => ({
   root: {

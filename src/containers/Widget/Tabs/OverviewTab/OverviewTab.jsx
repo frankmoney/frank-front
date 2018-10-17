@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { pieDataProp } from 'components/Charts/types'
+import { pieDataProp } from 'components/Charts/Pie'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import ConnectedCategoryTypeSelect from 'containers/Widget/ConnectedCategoryTypeSelect'
 import Totals from 'containers/Widget/Totals'

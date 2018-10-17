@@ -10,12 +10,12 @@ import {
   XAxis,
 } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
-import type { BarData } from '../types'
 import Grid from './Grid'
 import Tick from './Tick'
 import Tooltip from './Tooltip'
-import type { LabelFormatter } from './TooltipLine'
 import { epsilon } from './TooltipLine'
+import type { Props } from './Bar.flow'
+import type { LabelFormatter } from './TooltipLine'
 
 const BAR_CORNER_RADIUS = 3
 const BASE_LINE_OFFSET = 3
@@ -42,20 +42,7 @@ const styles = {
   },
 }
 
-type Props = {
-  barColor: string,
-  data: BarData,
-  dual: ?boolean,
-  footerPadding: number,
-  height: number,
-  hideBaseLine: ?boolean,
-  labelKey: string,
-  positiveBarColor: string,
-  showBars: boolean,
-  width: number,
-}
-
-const negateWithEpsilon = (x: number) => (x === 0 ? -epsilon : -x)
+const negateWithEpsilon = x => (x === 0 ? -epsilon : -x)
 const fixNegative = R.over(R.lensProp('negativeValue'), negateWithEpsilon)
 
 const tooltipLabelFormatter: LabelFormatter = payload =>

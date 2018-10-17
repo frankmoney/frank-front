@@ -5,8 +5,10 @@ import * as R from 'ramda'
 const LEGEND_COLOR = '#808080'
 const LEGEND_SECOND_COLOR = '#B3B3B3'
 
+type RechartsPayload = { value: string }
+
 type Props = {
-  payload: { value: string },
+  payload: RechartsPayload,
   x: number,
   y: number,
 }

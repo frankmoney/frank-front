@@ -4,6 +4,7 @@ import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import HighlightText from 'components/HighlightText'
 import IconCircle from 'components/IconCircle'
+import type { Props } from './CategoryLabel.flow'
 
 const styles = {
   root: {
@@ -24,21 +25,6 @@ const styles = {
     opacity: 0.55,
   },
 }
-
-type Classes = {
-  activeClassName: ?string,
-  iconClassName: ?string,
-  nameClassName: ?string,
-  valueClassName: ?string,
-}
-
-type Props = {
-  active: ?boolean,
-  color: ?string, // eslint-disable-line react/no-unused-prop-types
-  name: ?string,
-  value: ?number,
-  valueUnit: ?string,
-} & Classes
 
 const CategoryLabel = ({
   active,

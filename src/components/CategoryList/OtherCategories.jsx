@@ -1,3 +1,4 @@
+// @flow
 import React, { Fragment, cloneElement } from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { Popover } from 'material-ui'

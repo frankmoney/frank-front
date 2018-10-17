@@ -3,35 +3,16 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import Bar from 'components/Charts/Bar'
-import type { BarData } from 'components/Charts/types'
 import { CategoryName, Header } from 'containers/Widget/Header'
 import Payments from 'containers/Widget/Payments'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
+import type { Props } from './PaymentListTab.flow'
 
 const styles = {
   content: {
     overflowY: 'scroll',
   },
 }
-
-type Classes = {
-  barChartClassName: ?string,
-  contentClassName: ?string,
-  paymentBlockClassName: ?string,
-  paymentBlockTitleClassName: ?string,
-  paymentClassName: ?string,
-  paymentListClassName: ?string,
-  paymentsPeriodClassName: ?string,
-}
-
-type Props = {
-  barsData: ?BarData,
-  barsHeight: number,
-  barsWidth: number,
-  footerPadding: number,
-  onCancelCategoryClick: () => void,
-  showBarChart: boolean,
-} & Classes
 
 const PaymentListTab = ({
   barChartClassName,

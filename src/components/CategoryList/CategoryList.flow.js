@@ -13,23 +13,25 @@ export type CategoryListData = {
   tooltipItems: Array<Category>,
 }
 
-export type CategoryHandler = Category => void
+export type CategoryCb = Category => void
 
 export type Handlers = {
-  onCategoryClick: ?CategoryHandler,
+  onCategoryClick: ?CategoryCb,
   onLabelMouseEnter: ?(number) => void,
-  onLabelMouseLeave: ?(number) => void,
+  onLabelMouseLeave: ?() => void,
 }
 
-export type Props = {
+export type CategoryListProps = {
   activeCategoryIndex: ?number,
   data: CategoryListData,
   valueUnit: ?string,
 } & Handlers
 
-export type Classes = {
+type Classes = {
   iconClassName: ?string,
   itemClassName: ?string,
   nameClassName: ?string,
   valueClassName: ?string,
 }
+
+export type Props = CategoryListProps & Classes

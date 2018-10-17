@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import CategoryTypeSelect from 'components/CategoryListPieChart/CategoryTypeSelect'
+import CategoryTypeSelect from 'components/CategoryTypeSelect'
 import { categoryTypeSelector } from './selectors'
 import * as ACTIONS from './actions'
 

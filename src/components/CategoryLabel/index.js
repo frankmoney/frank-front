@@ -1,1 +1,1 @@
-export default, { categoryPropTypes } from './CategoryLabel'
+export default from './CategoryLabel'

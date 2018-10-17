@@ -1,9 +1,24 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
-import PropTypes from 'prop-types'
 import DropdownSwitcher from 'components/DropdownSwitcher'
 
-const CategoryTypeSelect = ({ className, label, onChange, value, values }) => {
+export type CategoryTypeSelectCb = string => void
+
+type Props = {
+  label: string,
+  onChange: CategoryTypeSelectCb,
+  value: string,
+  values: Array<string>,
+}
+
+const CategoryTypeSelect = ({
+  className,
+  label,
+  onChange,
+  value,
+  values,
+}: Props) => {
   const handleChange = onChange && (event => onChange(event.target.value))
   const keyedValues = R.map(R.objOf('key'))(values)
   return (
@@ -15,13 +30,6 @@ const CategoryTypeSelect = ({ className, label, onChange, value, values }) => {
       values={keyedValues}
     />
   )
-}
-
-CategoryTypeSelect.propTypes = {
-  label: PropTypes.string.isRequired,
-  onChange: PropTypes.func,
-  value: PropTypes.string.isRequired,
-  values: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 CategoryTypeSelect.defaultProps = {

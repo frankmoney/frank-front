@@ -9,13 +9,25 @@ type PieItem = {
 
 export type PieData = Array<PieItem>
 
-type BarItem = {
-  name: string,
-  negativeValue: number,
-  value: number,
+export type Props = {
+  activeSegmentIndex: ?number,
+  data: PieData,
+  // onClick: // FIXME: not used now,
+  onSegmentMouseEnter: ?(number) => void,
+  onSegmentMouseLeave: ?() => void,
+  size: number,
 }
 
-export type BarData = Array<BarItem>
+export type PieSliceProps = {
+  color: string,
+  index: number,
+}
+
+export type FatPieSliceProps = {
+  active: boolean,
+  color: string,
+  index: number,
+}
 
 // TODO: remove when migration is over
 export const pieDataProp = PropTypes.arrayOf(
@@ -23,13 +35,5 @@ export const pieDataProp = PropTypes.arrayOf(
     color: PropTypes.string,
     name: PropTypes.string.isRequired,
     value: PropTypes.number.isRequired,
-  })
-)
-
-export const barDataProp = PropTypes.arrayOf(
-  PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
-    negativeValue: PropTypes.number.isRequired,
   })
 )
