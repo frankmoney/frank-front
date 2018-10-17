@@ -80,17 +80,16 @@ const SelectBank = ({
         banks={banks}
       />
     )}
-    {loaded &&
+    {!!search &&
+      loaded &&
       banks.length === 0 && (
         <div className={classes.emptyPlaceholder}>
           <div className={classes.placeholderLabel}>Nothing found</div>
-          {!!search && (
-            <Button
-              className={classes.placeholderButton}
-              label="Reset"
-              onClick={onResetSearch}
-            />
-          )}
+          <Button
+            className={classes.placeholderButton}
+            label="Reset"
+            onClick={onResetSearch}
+          />
         </div>
       )}
   </StepLayout>

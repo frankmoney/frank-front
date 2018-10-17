@@ -89,7 +89,7 @@ class Field extends React.Component {
       // label should be here, but: https://github.com/w3c/html/issues/734
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div
-        className={cx(className, classes.root)}
+        className={cx(classes.root, className)}
         onClick={this.handleClick}
         onMouseDown={this.handleMouseDown}
         onMouseUp={this.handleMouseUp}

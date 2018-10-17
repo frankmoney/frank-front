@@ -2,9 +2,13 @@ import React from 'react'
 import * as R from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
 import { Spinner } from '@frankmoney/components'
-import { required, createValidateFromRules, TextField } from '@frankmoney/forms'
+import { required, createValidateFromRules } from '@frankmoney/forms'
 import { compose, withPropsOnChange, lifecycle } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
+import TextBoxField from 'components/forms/TextBoxField'
+import { Field } from 'components/Field'
+import reconnect from 'utils/reconnect'
+import * as ACTIONS from '../actions'
 import { STEP_FORM } from '../constants'
 import StepDescription from '../StepDescription/index'
 import { OptionsListItem } from '../OptionsList'
@@ -20,7 +24,6 @@ const styles = {
   field: {
     marginTop: 30,
     width: 370,
-    display: 'flex',
   },
   fieldImageWrap: {
     display: 'flex',
@@ -29,7 +32,8 @@ const styles = {
   },
   fieldImage: {},
   optionsField: {
-    composes: '$field',
+    marginTop: 30,
+    width: 370,
     display: 'block',
   },
   imageOptionsField: {},
@@ -47,8 +51,15 @@ const renderField = ({
   imageData,
   imageOptions,
   options,
+  onSubmit,
   idx,
 }) => {
+  const handleTextFieldKeyPress = event => {
+    if (event.key === 'Enter') {
+      onSubmit()
+    }
+  }
+
   if (type === 'OPTIONS') {
     return (
       <OptionsField
@@ -81,14 +92,16 @@ const renderField = ({
           <img className={classes.fieldImage} src={imageData} alt="mfa_image" />
         </div>
       )}
-      <TextField
-        className={classes.field}
-        autoFocus={idx === 0}
-        disabled={isChecking}
-        name={id}
-        label={label}
-        type={type === 'PASSWORD' ? 'password' : 'text'}
-      />
+      <Field stretch title={label} className={classes.field}>
+        <TextBoxField
+          name={id}
+          autoComplete={false}
+          type={type === 'PASSWORD' ? 'password' : 'text'}
+          autoFocus={idx === 0}
+          disabled={isChecking}
+          onKeyPress={handleTextFieldKeyPress}
+        />
+      </Field>
     </>
   )
 }
@@ -103,12 +116,12 @@ const renderMainLabel = fields => {
   return null
 }
 
-const StepForm = ({ classes, fields, isChecking }) => (
+const StepForm = ({ classes, fields, submit, isChecking }) => (
   <>
     {renderMainLabel(fields)}
     <div className={classes.form}>
       {fields.map((field, idx) =>
-        renderField({ ...field, classes, isChecking, idx })
+        renderField({ ...field, classes, onSubmit: submit, isChecking, idx })
       )}
     </div>
     {isChecking && <Spinner className={classes.spinner} />}
@@ -126,6 +139,7 @@ export default compose(
   withPropsOnChange(['fields'], ({ fields }) => ({
     validate: createAllFieldsRequiredValidation(fields),
   })),
+  reconnect(null, { onSubmit: ACTIONS.goNext }),
   reduxForm({
     form: STEP_FORM,
   }),

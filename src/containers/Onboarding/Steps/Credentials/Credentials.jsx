@@ -25,7 +25,7 @@ const Credentials = ({ className, classes, fields, isChecking }) => (
     className={cx(classes.root, className)}
     footerText={
       isChecking
-        ? 'Verifying credentials... It’s can last from 5 to 60 seconds.'
+        ? 'Verifying credentials... It’s can take up to 60 seconds.'
         : 'We never store account credentials'
     }
     backButtonText="Select another bank"

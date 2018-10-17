@@ -16,6 +16,7 @@ const styles = theme => ({
     border: 'none',
     ...theme.fontRegular(18, LINE_HEIGHT),
     fontFamily: 'inherit',
+    color: 'inherit',
     minHeight: props =>
       `${(props.minLines || 1) * LINE_HEIGHT + BOTTOM_PADDING}px`,
     borderBottom: ({ focus, disableUnderline }) =>
@@ -24,6 +25,14 @@ const styles = theme => ({
         : `1px solid ${focus ? theme.colors.blue : '#E4E5E9'}`,
     '&::placeholder': {
       color: 'rgba(37, 43, 67, 0.3)',
+    },
+  },
+  disableSafariAutoFill: {
+    '&::-webkit-contacts-auto-fill-button, &::-webkit-credentials-auto-fill-button': {
+      visibility: 'hidden',
+      pointerEvents: 'none',
+      position: 'absolute',
+      right: 0,
     },
   },
 })
@@ -38,28 +47,26 @@ const TextBox = ({
   expand,
   disableUnderline,
   minLines,
+  autoComplete,
   ...otherProps
 }) => {
+  const props = {
+    className: cx(
+      className,
+      autoComplete === false && classes.disableSafariAutoFill,
+      classes.root
+    ),
+    autoComplete: autoComplete ? null : 'off',
+    ...otherProps,
+  }
+
   switch (expand) {
     case 'vertically':
-      return (
-        <textarea
-          ref={controlRef}
-          className={cx(className, classes.root)}
-          value={value || ''}
-          {...otherProps}
-        />
-      )
+      return <textarea ref={controlRef} value={value || ''} {...props} />
 
     default:
       return (
-        <input
-          ref={controlRef}
-          className={cx(className, classes.root)}
-          type="text"
-          value={value || ''}
-          {...otherProps}
-        />
+        <input ref={controlRef} type="text" value={value || ''} {...props} />
       )
   }
 }
