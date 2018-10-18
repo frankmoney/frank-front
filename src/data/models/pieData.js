@@ -1,6 +1,8 @@
+// @flow
 import * as R from 'ramda'
+import type { PieData } from 'components/Charts/Pie'
 
-export const sumProp = propName =>
+export const sumProp = (propName: string) =>
   R.pipe(
     R.map(R.prop(propName)),
     R.sum
@@ -20,7 +22,15 @@ const sortByValueDescend = R.sortBy(
   )
 )
 
-export const remapPieData = (list, totalExpenses, totalIncome) =>
+export type GroupedPieData = { income: PieData, spending: PieData }
+
+type RemapPieDataFn = (Array<any>, number, number) => GroupedPieData
+
+export const remapPieData: RemapPieDataFn = (
+  list,
+  totalExpenses,
+  totalIncome
+) =>
   R.converge((...args) => R.zipObj(['income', 'spending'], args), [
     R.pipe(
       R.filter(({ income }) => income > 0),

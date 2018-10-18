@@ -1,8 +1,9 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import ChartIcon from 'containers/Widget/Footer/Chart.svg'
+import type { Props } from './Footer.flow'
 
 const styles = {
   root: {
@@ -46,12 +47,12 @@ const Footer = ({
   paymentCount,
   categoryCount,
   onSeeAllClick,
-}) => (
+}: Props) => (
   <div className={cx(classes.root, rootClassName, className)}>
     {!hideIcon && <ChartIcon className={classes.icon} />}
     <span className={classes.number}>{paymentCount}</span>
     {' payments'}
-    {categoryCount && (
+    {!!categoryCount && (
       <>
         {' in '}
         <span className={classes.number}>{categoryCount}</span>
@@ -73,22 +74,5 @@ const Footer = ({
     )}
   </div>
 )
-
-export const footerProps = {
-  hideIcon: PropTypes.bool,
-  hideVerifiedBy: PropTypes.bool,
-}
-
-export const footerClasses = PropTypes.shape({
-  root: PropTypes.string,
-  seeAllClassName: PropTypes.string,
-})
-
-Footer.propTypes = {
-  ...footerProps,
-  Classes: footerClasses,
-  categoryCount: PropTypes.number,
-  paymentCount: PropTypes.number.isRequired,
-}
 
 export default injectStyles(styles)(Footer)

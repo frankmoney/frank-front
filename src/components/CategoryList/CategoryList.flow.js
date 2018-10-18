@@ -14,6 +14,8 @@ export type CategoryListData = {|
 |}
 
 export type CategoryCb = Category => void
+type IndexCb = number => void
+type EmptyCb = () => void
 
 export type CategoryListProps = {|
   activeCategoryIndex: ?number,
@@ -21,8 +23,8 @@ export type CategoryListProps = {|
   valueUnit: ?string,
   // Handlers
   onCategoryClick: ?CategoryCb,
-  onLabelMouseEnter: ?(number) => void,
-  onLabelMouseLeave: ?() => void,
+  onLabelMouseEnter: ?IndexCb,
+  onLabelMouseLeave: ?EmptyCb,
   // Classes
   className: ?string,
 |}

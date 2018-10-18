@@ -78,6 +78,7 @@ const Grid = ({
 }
 
 Grid.defaultProps = {
+  dual: false,
   hideBaseLine: false,
   steps: 4,
 }

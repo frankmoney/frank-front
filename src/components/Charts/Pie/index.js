@@ -1,3 +1,3 @@
 // @flow
 export { default } from './Pie'
-export type * from './Pie.flow'
+export type { PieData } from './Pie.flow'

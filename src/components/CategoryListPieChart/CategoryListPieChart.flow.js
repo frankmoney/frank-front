@@ -1,15 +1,22 @@
 // @flow
 import * as React from 'react'
-import type { CategoryListProps, CategoryCb } from 'components/CategoryList'
-import type { PieData } from 'components/Charts/Pie'
+import type {
+  Category,
+  CategoryListProps,
+  CategoryCb,
+} from 'components/CategoryList'
+
+export type CategoryListComponent = React.ComponentType<CategoryListProps>
+
+export type CategoryListPieChartRootComponent = React.ComponentType<any>
 
 export type Props = {
-  CategoryList: React.ComponentType<CategoryListProps>,
+  CategoryList: CategoryListComponent,
   categoryType: string,
   categoryTypeSelectLabel: ?string,
   chartSize: number,
-  component: React.ComponentType<any>,
-  data: PieData,
+  component: CategoryListPieChartRootComponent,
+  data: Array<Category>,
   // Handlers
   onCategoryClick: ?CategoryCb,
   onCategoryTypeChange: ?CategoryCb,

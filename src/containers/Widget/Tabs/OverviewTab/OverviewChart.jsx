@@ -1,12 +1,12 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryListPieChart from 'components/CategoryListPieChart'
-import { pieDataProp } from 'components/Charts/Pie'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import OverviewCategoryList from './OverviewCategoryList'
+import type { Props } from './OverviewChart.flow'
 
 const pieSize = R.cond([
   [R.equals(375), R.always(270)], // button widget size
@@ -50,7 +50,7 @@ const OverviewChart = ({
   pieChartRootComponent,
   pieClassName,
   widgetSize,
-}) => (
+}: Props) => (
   <>
     <ConnectedPeriodSelect
       className={cx(classes.periodSelect, periodSelectClassName)}
@@ -72,19 +72,6 @@ const OverviewChart = ({
     />
   </>
 )
-
-OverviewChart.propTypes = {
-  CategoryList: PropTypes.element,
-  categoryType: PropTypes.string.isRequired,
-  data: pieDataProp.isRequired,
-  onCategoryClick: PropTypes.func.isRequired,
-  onCategoryTypeChange: PropTypes.func.isRequired,
-  pieChartRootComponent: PropTypes.element,
-  widgetSize: PropTypes.oneOf([375, 400, 500, 625, 800]).isRequired,
-  // Styles
-  periodSelectClassName: PropTypes.string,
-  pieClassName: PropTypes.string,
-}
 
 OverviewChart.defaultProps = {
   CategoryList: OverviewCategoryList,

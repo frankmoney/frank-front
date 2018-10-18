@@ -10,7 +10,7 @@ type Props = {
   label: React.Node,
   renderAccountMenuItems: () => Array<React.Node>,
   classes: Object,
-  className: string,
+  className: ?string,
   compact: boolean,
   onClick: ?() => void,
 }
