@@ -17,7 +17,7 @@ const styles = {
   },
 }
 
-type Props = CategoryListProps
+type Props = CategoryListProps & { classes: Object }
 
 const LedgerCategoryList = ({
   classes,

@@ -15,7 +15,7 @@ export type CategoryListData = {|
 
 export type CategoryCb = Category => void
 
-export type CategoryListProps = {
+export type CategoryListProps = {|
   activeCategoryIndex: ?number,
   data: CategoryListData,
   valueUnit: ?string,
@@ -24,11 +24,11 @@ export type CategoryListProps = {
   onLabelMouseEnter: ?(number) => void,
   onLabelMouseLeave: ?() => void,
   // Classes
-  classes: Object,
   className: ?string,
-}
+|}
 
 type Classes = {
+  classes: Object,
   iconClassName: ?string,
   itemClassName: ?string,
   nameClassName: ?string,
