@@ -17,7 +17,7 @@ export type Props = {
   // onClick: // FIXME: not used now,
   onSegmentMouseEnter: ?(number) => void,
   onSegmentMouseLeave: ?() => void,
-  // Classes
+  // Styles
   classes: Object,
   className: ?string,
 }

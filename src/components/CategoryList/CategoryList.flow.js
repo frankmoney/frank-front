@@ -25,7 +25,7 @@ export type CategoryListProps = {|
   onCategoryClick: ?CategoryCb,
   onLabelMouseEnter: ?IndexCb,
   onLabelMouseLeave: ?EmptyCb,
-  // Classes
+  // Styles
   className: ?string,
 |}
 

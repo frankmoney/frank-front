@@ -12,7 +12,7 @@ export type Props = {
   onClick: ?EmptyCb,
   onMouseEnter: ?EmptyCb,
   onMouseLeave: ?EmptyCb,
-  // Classes
+  // Styles
   classes: Object,
   className: ?string,
   activeClassName: ?string,

@@ -11,7 +11,7 @@ export type Props = {
   showBarChart: boolean,
   // Handlers
   onCancelCategoryClick: () => void,
-  // Classes
+  // Styles
   classes: Object,
   barChartClassName: ?string,
   contentClassName: ?string,

@@ -1,6 +1,6 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 
 const styles = {
@@ -25,9 +25,17 @@ const styles = {
   },
 }
 
+type Props = {
+  label: string,
+  value: number,
+  // Styles
+  classes: Object,
+  className: ?string,
+}
+
 const format = x => Math.round(x).toLocaleString('en-US')
 
-const Total = ({ className, classes, label, value }) => (
+const Total = ({ className, classes, label, value }: Props) => (
   <div className={cx(classes.root, className)}>
     {label}
     <span className={classes.value}>
@@ -35,10 +43,5 @@ const Total = ({ className, classes, label, value }) => (
     </span>
   </div>
 )
-
-Total.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
-}
 
 export default injectStyles(styles)(Total)
