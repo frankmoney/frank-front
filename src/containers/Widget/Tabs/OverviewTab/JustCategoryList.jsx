@@ -4,7 +4,8 @@ import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
 import { limitCategories } from 'components/CategoryListPieChart'
-import type { Category, CategoryCb } from 'components/CategoryList'
+import type { CategoryCb } from 'components/CategoryList'
+import type { Categories } from 'components/CategoryListPieChart'
 
 const styles = theme => ({
   root: {
@@ -34,7 +35,7 @@ const styles = theme => ({
 type Props = {|
   classes: Object,
   className: ?string,
-  data: Array<Category>,
+  data: Categories,
   onCategoryClick: CategoryCb,
 |}
 

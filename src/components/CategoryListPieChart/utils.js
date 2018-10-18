@@ -1,6 +1,6 @@
 // @flow
 import * as R from 'ramda'
-import type { Category, CategoryListData } from 'components/CategoryList'
+import type { LimitCategoriesFn } from './utils.flow'
 
 const INDEX_PROP = 'index'
 const VALUE_PROP = 'value'
@@ -37,8 +37,6 @@ const doLimit = maxEntries =>
       tooltipItems: others,
     })
   )
-
-export type LimitCategoriesFn = number => (Array<Category>) => CategoryListData
 
 const limitCategories: LimitCategoriesFn = maxEntries =>
   R.pipe(

@@ -1,7 +1,7 @@
 // @flow
 
 type BarItem = {
-  name: string,
+  name: ?string, // this is only a default key. it is actually the `labelKey`
   negativeValue: ?number,
   value: number,
 }

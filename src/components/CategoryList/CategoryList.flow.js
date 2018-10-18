@@ -1,11 +1,11 @@
 // @flow
 
-export type Category = {|
-  color: string,
-  index: number,
-  name: string,
-  value: number,
-|}
+export interface Category {
+  color: string;
+  index: number;
+  name: string;
+  value: number;
+}
 
 export type CategoryListData = {|
   items: Array<Category>,

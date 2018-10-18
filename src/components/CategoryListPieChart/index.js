@@ -5,4 +5,4 @@ export type {
   CategoryListPieChartRootComponent,
 } from './CategoryListPieChart.flow'
 export { default as limitCategories } from './utils'
-export type { LimitCategoriesFn } from './utils'
+export type { Categories, LimitCategoriesFn } from './utils.flow'
