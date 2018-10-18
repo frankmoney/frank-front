@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import * as R from 'ramda'
+import type { ContentRenderer } from 'recharts'
 
 const LEGEND_COLOR = '#808080'
 const LEGEND_SECOND_COLOR = '#B3B3B3'
@@ -13,7 +14,7 @@ type Props = {
   y: number,
 }
 
-const Tick = ({ payload: { value }, x, y }: Props) => {
+const Tick: ContentRenderer<Props> = ({ payload: { value }, x, y }: Props) => {
   const [text, secondLine] = R.split(' ', value)
   return (
     <>

@@ -11,6 +11,8 @@ export type BarData = Array<BarItem>
 
 export type Props = {
   barColor: string,
+  classes: Object,
+  className: ?string,
   data: BarData,
   dual: ?boolean,
   footerPadding: number,

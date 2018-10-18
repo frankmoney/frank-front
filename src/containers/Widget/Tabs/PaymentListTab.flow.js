@@ -1,7 +1,18 @@
 // @flow
 import type { BarData } from 'components/Charts/Bar'
 
-type Classes = {
+export type Props = {
+  currentCategoryColor: string,
+  currentCategoryName: string,
+  barsData: ?BarData,
+  barsHeight: number,
+  barsWidth: number,
+  footerPadding: number,
+  showBarChart: boolean,
+  // Handlers
+  onCancelCategoryClick: () => void,
+  // Classes
+  classes: Object,
   barChartClassName: ?string,
   contentClassName: ?string,
   paymentBlockClassName: ?string,
@@ -10,12 +21,3 @@ type Classes = {
   paymentListClassName: ?string,
   paymentsPeriodClassName: ?string,
 }
-
-export type Props = {
-  barsData: ?BarData,
-  barsHeight: number,
-  barsWidth: number,
-  footerPadding: number,
-  onCancelCategoryClick: () => void,
-  showBarChart: boolean,
-} & Classes

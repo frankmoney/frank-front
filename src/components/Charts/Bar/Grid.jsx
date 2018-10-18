@@ -15,6 +15,8 @@ const styles = {
 }
 
 type Props = {
+  classes: Object,
+  className: ?string,
   dual: boolean,
   height: number,
   hideBaseLine: boolean,

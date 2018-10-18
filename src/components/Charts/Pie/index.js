@@ -1,2 +1,3 @@
-export default from './Pie'
+// @flow
+export { default } from './Pie'
 export type * from './Pie.flow'

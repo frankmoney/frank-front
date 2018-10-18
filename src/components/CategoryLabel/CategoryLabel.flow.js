@@ -1,11 +1,6 @@
 // @flow
 
-type Classes = {
-  activeClassName: ?string,
-  iconClassName: ?string,
-  nameClassName: ?string,
-  valueClassName: ?string,
-}
+type EmptyCb = () => void
 
 export type Props = {
   active: ?boolean,
@@ -13,4 +8,15 @@ export type Props = {
   name: ?string,
   value: ?number,
   valueUnit: ?string,
-} & Classes
+  // Handlers
+  onClick: ?EmptyCb,
+  onMouseEnter: ?EmptyCb,
+  onMouseLeave: ?EmptyCb,
+  // Classes
+  classes: Object,
+  className: ?string,
+  activeClassName: ?string,
+  iconClassName: ?string,
+  nameClassName: ?string,
+  valueClassName: ?string,
+}

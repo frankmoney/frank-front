@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import * as R from 'ramda'
+import type { DataKey, LabelFormatter } from 'recharts'
 import { formatCurrency } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import IconCircle from 'components/IconCircle'
@@ -21,13 +22,10 @@ const styles = theme => ({
   },
 })
 
-type Payload = any
-
-export type LabelFormatter = Payload => string
-
 type Props = {
-  color: ?any, // not defined in docs
-  key: ?string,
+  classes: Object,
+  color: ?string,
+  key: ?DataKey,
   labelFormatter: LabelFormatter,
   value: number,
 }

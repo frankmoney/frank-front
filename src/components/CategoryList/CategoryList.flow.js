@@ -1,31 +1,32 @@
 // @flow
 
-type Category = {
+export type Category = {|
   color: string,
   index: number,
   name: string,
   value: number,
-}
+|}
 
-export type CategoryListData = {
+export type CategoryListData = {|
   items: Array<Category>,
   other: ?Category,
   tooltipItems: Array<Category>,
-}
+|}
 
 export type CategoryCb = Category => void
-
-export type Handlers = {
-  onCategoryClick: ?CategoryCb,
-  onLabelMouseEnter: ?(number) => void,
-  onLabelMouseLeave: ?() => void,
-}
 
 export type CategoryListProps = {
   activeCategoryIndex: ?number,
   data: CategoryListData,
   valueUnit: ?string,
-} & Handlers
+  // Handlers
+  onCategoryClick: ?CategoryCb,
+  onLabelMouseEnter: ?(number) => void,
+  onLabelMouseLeave: ?() => void,
+  // Classes
+  classes: Object,
+  className: ?string,
+}
 
 type Classes = {
   iconClassName: ?string,

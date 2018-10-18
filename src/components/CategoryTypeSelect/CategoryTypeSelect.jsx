@@ -6,6 +6,7 @@ import DropdownSwitcher from 'components/DropdownSwitcher'
 export type CategoryTypeSelectCb = string => void
 
 type Props = {
+  className: ?string,
   label: string,
   onChange: CategoryTypeSelectCb,
   value: string,

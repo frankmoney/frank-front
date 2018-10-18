@@ -12,10 +12,14 @@ export type PieData = Array<PieItem>
 export type Props = {
   activeSegmentIndex: ?number,
   data: PieData,
+  size: number,
+  // Handlers
   // onClick: // FIXME: not used now,
   onSegmentMouseEnter: ?(number) => void,
   onSegmentMouseLeave: ?() => void,
-  size: number,
+  // Classes
+  classes: Object,
+  className: ?string,
 }
 
 export type PieSliceProps = {

@@ -9,13 +9,13 @@ import {
   Tooltip as ReTooltip,
   XAxis,
 } from 'recharts'
+import type { LabelFormatter } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
 import Grid from './Grid'
 import Tick from './Tick'
 import Tooltip from './Tooltip'
 import { epsilon } from './TooltipLine'
 import type { Props } from './Bar.flow'
-import type { LabelFormatter } from './TooltipLine'
 
 const BAR_CORNER_RADIUS = 3
 const BASE_LINE_OFFSET = 3

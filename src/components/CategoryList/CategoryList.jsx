@@ -34,7 +34,7 @@ const CategoryList = ({
       nameClassName={cx(classes.name, nameClassName)}
       onClick={onCategoryClick && (() => onCategoryClick(items[index]))}
       onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(index))}
-      onMouseLeave={onLabelMouseLeave && (() => onLabelMouseLeave(index))}
+      onMouseLeave={onLabelMouseLeave}
       valueClassName={cx(classes.value, valueClassName)}
       valueUnit={valueUnit}
       {...otherProps}

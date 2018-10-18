@@ -33,6 +33,8 @@ const styles = theme => ({
 })
 
 type Props = {
+  classes: Object,
+  className: ?string,
   data: PieData,
   onCategoryClick: CategoryCb,
 }

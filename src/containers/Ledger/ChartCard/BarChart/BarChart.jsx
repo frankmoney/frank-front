@@ -30,7 +30,14 @@ const styles = theme => ({
 })
 
 type Props = {
+  classes: Object,
+  className: ?string,
   data: ?BarData,
+}
+
+type State = {
+  income: boolean,
+  spending: boolean,
 }
 
 const countZeroes = prop =>
@@ -45,7 +52,7 @@ const makePositive = R.map(({ date, negativeValue }) => ({
   value: negativeValue,
 }))
 
-class BarChart extends React.PureComponent<Props> {
+class BarChart extends React.PureComponent<Props, State> {
   state = {
     income: true,
     spending: true,
