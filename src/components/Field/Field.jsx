@@ -50,12 +50,14 @@ class Field extends React.Component {
     return this.props.onMouseUp && this.props.onMouseUp(...args)
   }
 
-  handleFocus = () => {
+  handleFocus = (...args) => {
     this.setState({ controlFocused: true })
+    return this.props.onFocus && this.props.onFocus(...args)
   }
 
-  handleBlur = () => {
+  handleBlur = (...args) => {
     this.setState({ controlFocused: false })
+    return this.props.onBlur && this.props.onBlur(...args)
   }
 
   render() {

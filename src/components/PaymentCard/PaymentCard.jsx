@@ -5,41 +5,44 @@ import {
   CheckedMenuItem,
   IconButton,
   Paper,
-  Switch,
 } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
 import format from 'date-fns/format'
-import CheckCircleIcon from 'material-ui-icons/CheckCircle'
-import CheckIcon from 'material-ui-icons/Check'
-import InfoIcon from 'material-ui-icons/InfoOutline'
-import ModeCommentIcon from 'material-ui-icons/ModeComment'
-import MoreHoriz from 'material-ui-icons/MoreHoriz'
+import {
+  Check as PublishIcon,
+  ModeComment as DiscussIcon,
+  MoreHoriz as MoreActionsButton,
+  FormatListBulleted as SimilarIcon,
+} from 'material-ui-icons'
 import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
 import { Field } from 'components/Field'
-import SelectField from 'components/SelectField'
-import TextBox from 'components/TextBox'
-import colors from 'styles/colors'
+import SuggestField from 'components/SuggestField'
 import styles from './PaymentCard.jss'
 
 const PaymentCard = ({
   classes,
   className,
-  createdAt,
-  categories,
-  peers,
+  postedOn,
   amount,
-  peerId,
-  peerName,
-  categoryAddedFromSimilar,
-  categoryId,
-  descriptionAddedFromSimilar,
+  bankIcon,
+  bankDescription,
+  peer: { id: peerId, name: peerName },
+  peerUpdatedBy,
+  categories,
+  category: { id: categoryId },
+  categoryUpdatedBy,
   description,
-  useForSimilar,
-  onPeerIdChange,
-  onPeerNameChange,
-  onCategoryIdChange,
+  descriptionUpdateBy,
+  similarCount,
+  searchingSuggestions,
+  suggestedPeers,
+  suggestedDescriptions,
+  onPeerSuggestionSearch,
+  onDescriptionSuggestionSearch,
+  onPeerChange,
+  onCategoryChange,
   onDescriptionChange,
   searchText,
   ...otherProps
@@ -47,105 +50,102 @@ const PaymentCard = ({
   <Paper className={cx(classes.root, className)} {...otherProps}>
     <div className={classes.header}>
       <div className={classes.createdAt}>
-        {format(createdAt, 'MMMM d, h:mmaa')}
+        {format(postedOn, 'MMMM d, YYYY')}
       </div>
-      <div className={classes.info}>
+      <div className={classes.amount}>
         <CurrencyDelta value={amount} />
-        <IconButton className={classes.infoButton} icon={InfoIcon} />
+      </div>
+    </div>
+    <div className={classes.bank}>
+      <div className={classes.bankIcon} />
+      <div className={classes.bankDescription}>
+        <span className={classes.bankDescriptionAccent}>
+          Banking description:{' '}
+        </span>
+        <span className={classes.bankDescriptionText}>
+          ONLINE INTERNATIONAL WIRE TRANSFER A/C: BANK HAPOALIM B M TEL-AVIV
+          ISRAEL REF: BUSINESS EXPENSES TRN: 4597800186ES 07/05 WIRE_OUTGOING
+        </span>
       </div>
     </div>
     <div className={classes.body}>
-      <div className={classes.recipient}>
-        <Field
-          className={classes.field}
-          title="Recipient"
-          hint={
-            peerId
-              ? 'Had been reviewed previously'
-              : "First-timer, please check if the name's correct"
-          }
-        >
-          {peerId ? (
-            <div className={classes.peerName}>
-              <SelectField
-                value={peerId}
-                fullWidth
-                onChange={event => onPeerIdChange(event.target.value)}
-              >
-                {peers.map(({ id, name }) => (
-                  <CheckedMenuItem className={classes.peerItem} value={id}>
-                    <CheckCircleIcon className={classes.peerItemIcon} />
-                    <div className={classes.peerItemName}>{name}</div>
-                  </CheckedMenuItem>
-                ))}
-              </SelectField>
-            </div>
-          ) : (
-            <TextBox
-              className={classes.peerTextBox}
-              value={peerName}
-              onChange={event => onPeerNameChange(event.target.value)}
-            />
-          )}
-        </Field>
-      </div>
-      <div className={classes.category}>
-        <Field
-          className={classes.field}
-          title="Category"
-          hint={categoryAddedFromSimilar && 'Added from similar payment'}
-        >
-          <CategorySelect
-            className={classes.categorySelect}
-            categories={categories}
-            value={categoryId}
-            fullWidth
-            onChange={event => onCategoryIdChange(event.target.value)}
+      <div className={classes.bodyRow}>
+        <div className={classes.recipient}>
+          <SuggestField
+            className={classes.field}
+            title="Recipient"
+            placeholder="Specify recipient..."
+            value={peerName}
+            getSuggestions={onPeerSuggestionSearch}
+            suggestions={suggestedPeers}
+            searching={searchingSuggestions === 'peers'}
+            suggestKeyName="name"
           />
-        </Field>
+        </div>
+        <div className={classes.category}>
+          <Field className={classes.field} title="Category" hint={''}>
+            <CategorySelect
+              className={classes.categorySelect}
+              categories={categories}
+              value={categoryId}
+              fullWidth
+              // onChange={event => onCategoryIdChange(event.target.value)}
+            />
+          </Field>
+        </div>
       </div>
-      <div className={classes.description}>
-        <Field
-          className={classes.field}
-          title="Description"
-          hint={descriptionAddedFromSimilar && 'Added from similar payment'}
-        >
-          <TextBox
-            className={classes.descriptionTextBox}
+      <div className={classes.bodyRow}>
+        <div className={classes.description}>
+          <SuggestField
+            className={classes.field}
+            title="Description"
+            placeholder="Start typing for suggestions..."
             expand="vertically"
             value={description}
-            onChange={event => onDescriptionChange(event.target.value)}
+            getSuggestions={onDescriptionSuggestionSearch}
+            suggestions={suggestedDescriptions}
+            searching={searchingSuggestions === 'descriptions'}
+            suggestKeyName="text"
           />
-        </Field>
+        </div>
       </div>
     </div>
     <div className={classes.footer}>
-      <div className={classes.useForSimilar}>
-        <div>
-          <Switch color={colors.green} checked={useForSimilar} />
-        </div>
-        <div className={classes.useForSimilarHint}>
-          Add same recipient, category and description for similar payments
-          automatically
-        </div>
+      <div className={classes.leftButtons}>
+        {similarCount > 0 ? (
+          <Button
+            className={classes.similarButton}
+            fat
+            type="secondary"
+            icon={SimilarIcon}
+          >
+            {similarCount} similar payment{similarCount > 1 && 's'}
+          </Button>
+        ) : (
+          'No similar payments found'
+        )}
       </div>
-      <div className={classes.buttons}>
-        <IconButton className={classes.moreButton} round icon={MoreHoriz} />
+      <div className={classes.rightButtons}>
+        <IconButton
+          className={classes.rightButton}
+          round
+          icon={MoreActionsButton}
+        />
         <Button
-          className={classes.discussButton}
+          className={classes.rightButton}
           fat
           type="secondary"
-          icon={ModeCommentIcon}
+          icon={DiscussIcon}
         >
           Discuss
         </Button>
         <Button
-          className={classes.doneButton}
+          className={classes.rightButton}
           fat
-          icon={CheckIcon}
+          icon={PublishIcon}
           type="primary"
         >
-          Done
+          Publish
         </Button>
       </div>
     </div>

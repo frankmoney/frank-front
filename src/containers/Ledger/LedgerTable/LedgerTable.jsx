@@ -1,24 +1,30 @@
 import * as R from 'ramda'
-import { connect } from 'react-redux'
-import { compose, mapProps, withStateHandlers } from 'recompose'
+import { compose, mapProps, withStateHandlers, withHandlers } from 'recompose'
 import { injectStyles } from '@frankmoney/ui'
 import { Table } from '@frankmoney/components'
 import {
   PaymentsTableRow,
   PaymentsTableDetailRow,
 } from 'components/PaymentsTable'
+import reconnect from 'utils/reconnect'
 import {
   dataSourceSelector,
   rowDataSelector,
   categoriesSelector,
-  allPeersSelector,
+  searchingSuggestionsSelector,
+  suggestedPeersSelector,
 } from '../selectors'
+import * as ACTIONS from '../actions'
 
 const ConnectedPaymentsTableDetailRow = compose(
-  connect(state => ({
-    categories: categoriesSelector(state),
-    peers: allPeersSelector(state),
-  })),
+  reconnect(
+    {
+      categories: categoriesSelector,
+      searchingSuggestions: searchingSuggestionsSelector,
+      suggestedPeers: suggestedPeersSelector,
+    },
+    { searchSuggestions: ACTIONS.searchSuggestions }
+  ),
   withStateHandlers(
     ({
       categories,
@@ -30,24 +36,30 @@ const ConnectedPaymentsTableDetailRow = compose(
       peerId: peer ? peer.id : '',
       peerName: peer ? peer.name : peerName || '',
       categoryId: category ? category.id : '-',
-      description,
-    }),
-    {
-      onPeerIdChange: ({ peers }) => peerId => {
-        const peer = R.find(R.propEq('id', peerId), peers)
-        return {
-          peerId: peer ? peer.id : '',
-          peerName: peer ? peer.name : '',
-        }
-      },
-      onPeerNameChange: () => peerName => ({ peerId: null, peerName }),
-      onCategoryIdChange: ({ categories }) => categoryId => {
-        const category = R.find(R.propEq('id', categoryId), categories)
-        return { categoryId: category ? category.id : '-' }
-      },
-      onDescriptionChange: () => description => ({ description }),
-    }
-  )
+      description: description || '',
+      similarCount: 10,
+    })
+  ),
+  withHandlers({
+    onPeerSuggestionSearch: ({ searchSuggestions }) => search => {
+      searchSuggestions({ search, peers: true })
+    },
+    onPeerChange: ({ peers }) => peerId => {
+      const peer = R.find(R.propEq('id', peerId), peers)
+      return {
+        peerId: peer ? peer.id : '',
+        peerName: peer ? peer.name : '',
+      }
+    },
+    onCategoryChange: ({ categories }) => categoryId => {
+      const category = R.find(R.propEq('id', categoryId), categories)
+      return { categoryId: category ? category.id : '-' }
+    },
+    onDescriptionSuggestionSearch: ({ searchSuggestions }) => search => {
+      searchSuggestions({ search, descriptions: true })
+    },
+    onDescriptionChange: () => description => ({ description }),
+  })
 )(PaymentsTableDetailRow)
 
 const styles = {

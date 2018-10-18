@@ -3,7 +3,6 @@ import { convertGraphqlPieData } from 'data/models/pieData'
 
 export default {
   buildQuery: ({
-    allPeers: includeAllPeers,
     totalCount: includeTotal,
     payments: includePayments,
     pieChart: includePie,
@@ -32,14 +31,7 @@ export default {
             color
           }`) ||
           ''}
-        
-        ${(includeAllPeers &&
-          `peers(sortBy: name_ASC, donors: true, recipients: true) {
-            id
-            name
-          }`) ||
-          ''}
-          
+                 
         ${categoryScoped ? 'category(id: $categoryId) {' : ''}
         
         ${(includePayments &&
@@ -118,7 +110,6 @@ export default {
       account: {
         categories,
         category,
-        peers,
         payments,
         countPayments,
         ledgerBarChart,
@@ -126,7 +117,6 @@ export default {
       },
     }) => ({
       categories: includeCategories ? categories : null,
-      allPeers: peers,
       payments: categoryScoped ? category.payments : payments,
       totalCount: (categoryScoped ? category.countPayments : countPayments)
         .value,
@@ -168,5 +158,53 @@ export default {
     }
     `,
     R.path(['account', 'countPayments', 'value']),
+  ],
+
+  getSuggestions: ({ peers: searchPeers, description: searchDescription }) => [
+    `
+    query(
+      $accountId: ID!
+      $search: String
+    ) {
+      account(id: $accountId) {
+        ${(searchPeers &&
+          `
+          peers(
+            sortBy: name_ASC
+            search: $search
+            donors: true
+            recipients: true
+          ) {
+            id
+            name
+            countPayments {
+              value
+            }
+          }
+          `) ||
+          ''}
+        ${(searchDescription &&
+          `
+          descriptions(
+            search: $search
+          ) {
+            id
+            text
+            countPayments {
+              value
+            }
+          }
+          `) ||
+          ''}
+      }
+    }
+    `,
+    ({ account: { peers, descriptions } }) => ({
+      peers: peers.map(({ countPayments: { value: count }, ...other }) => ({
+        ...other,
+        count,
+      })),
+      descriptions,
+    }),
   ],
 }

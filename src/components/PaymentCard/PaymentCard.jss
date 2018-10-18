@@ -6,7 +6,7 @@ export default theme => ({
   header: {
     display: 'flex',
     position: 'relative',
-    marginBottom: 43,
+    marginBottom: 37,
     ...theme.fontRegular(22),
   },
   createdAt: {
@@ -14,54 +14,53 @@ export default theme => ({
     color: '#20284A',
     opacity: 0.3,
   },
-  info: {
-    display: 'inline-flex',
+  amount: {
+    display: 'flex',
     textAlign: 'right',
     whiteSpace: 'nowrap',
   },
-  infoButton: {
-    color: '#D3D5D9',
-    display: 'inline-flex',
-    height: 22,
-    marginLeft: 12,
-    width: 22,
+  bank: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 44,
+  },
+  bankIcon: {
+    minWidth: 38,
+    minHeight: 38,
+    marginRight: 16,
+    backgroundColor: 'red',
+    borderRadius: 5,
+    overflow: 'hidden',
+  },
+  bankDescription: {
+    ...theme.fontRegular(13, 20),
+    color: theme.colors.black,
+  },
+  bankDescriptionAccent: {
+    fontWeight: 500,
+    opacity: 0.6,
+  },
+  bankDescriptionText: {
+    textTransform: 'uppercase',
+    opacity: 0.4,
   },
   body: {},
+  bodyRow: {
+    display: 'flex',
+    '&:first-child': {
+      marginBottom: 25,
+    },
+  },
   field: {
     display: 'block',
-    ...theme.fontRegular(14, 16),
+    width: '100%',
   },
   recipient: {
-    display: 'table-cell',
-    width: '50%',
-    minWidth: 400,
-    paddingRight: 20,
-  },
-  peerName: {
-    ...theme.fontMedium(22),
-  },
-  peerItem: {
     position: 'relative',
-  },
-  peerItemIcon: {
-    display: 'none',
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: 22,
-    height: 22,
-    color: theme.colors.green,
-    '$peerName &': {
-      display: 'block',
-    },
-  },
-  peerItemName: {
-    '$peerName &': {
-      paddingLeft: 30, // space for icon
-    },
-  },
-  peerTextBox: {
+    width: 365,
     ...theme.fontMedium(22, 30),
+    marginRight: 20,
   },
   category: {
     display: 'table-cell',
@@ -73,45 +72,31 @@ export default theme => ({
     ...theme.fontMedium(22, 26),
   },
   description: {
-    marginTop: 42,
-  },
-  descriptionTextBox: {
-    ...theme.fontRegular(22, 30),
+    flex: 'auto',
+    ...theme.fontRegular(22, 26),
   },
   footer: {
-    paddingTop: 56,
+    paddingTop: 54,
     display: 'flex',
+    alignItems: 'center',
     '&:after': {
       content: '" "',
       display: 'table',
       clear: 'both',
     },
   },
-  useForSimilar: {
-    display: 'flex',
-    flex: 1,
-    alignItems: 'center',
+  leftButtons: {
+    flex: 'auto',
+    ...theme.fontMedium(16, 22),
+    color: '#BCBFC9',
   },
-  useForSimilarHint: {
-    marginLeft: 15,
-    color: '#20284A',
-    opacity: 0.4,
-    ...theme.fontRegular(16, 22),
-  },
-  buttons: {
+  rightButtons: {
     display: 'flex',
     whiteSpace: 'nowrap',
   },
-  moreButton: {
-    marginLeft: 10,
-  },
-  discussButton: {
-    marginLeft: 10,
-  },
-  doneButton: {
-    marginLeft: 10,
-  },
-  buttonIcon: {
-    marginRight: 15,
+  rightButton: {
+    '&:not(:first-child)': {
+      marginLeft: 10,
+    },
   },
 })

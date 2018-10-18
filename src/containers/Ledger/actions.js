@@ -23,4 +23,8 @@ export const filtersApply = createAction('ledger/filters/apply')
 export const filtersReset = createAction('ledger/filters/reset')
 export const filtersClose = createAction('ledger/filters/close')
 
+export const searchSuggestions = createDeferredAction(
+  'ledger/card/search-suggestions'
+)
+
 export const leave = createAction('ledger/leave')

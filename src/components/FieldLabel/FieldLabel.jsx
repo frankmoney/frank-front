@@ -6,13 +6,13 @@ const styles = theme => ({
   root: {
     display: 'block',
     marginBottom: 14,
+    ...theme.fontRegular(14),
   },
   title: {
-    ...theme.fontRegular(14),
+    fontWeight: 500,
     color: ({ focus }) => (focus ? theme.colors.blue : 'rgba(32, 40, 74, 0.5)'),
   },
   hint: {
-    fontWeight: 400,
     paddingLeft: 8,
     color: ({ focus }) => (focus ? '#a4a6f3' : '#d5d7dd'),
   },
