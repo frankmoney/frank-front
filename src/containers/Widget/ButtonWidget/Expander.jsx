@@ -1,6 +1,6 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import ChartIcon from 'containers/Widget/Footer/Chart.svg'
 import colors from 'styles/colors'
@@ -54,6 +54,19 @@ const styles = theme => ({
   },
 })
 
+type EmptyCb = () => void
+
+type Props = {
+  closed: boolean,
+  onClick: ?EmptyCb,
+  onClose: ?EmptyCb,
+  subtitle: ?string,
+  title: ?string,
+  // Styles
+  classes: Object,
+  className: ?string,
+}
+
 const Expander = ({
   classes,
   className,
@@ -62,7 +75,7 @@ const Expander = ({
   onClose,
   subtitle,
   title,
-}) => (
+}: Props) => (
   // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
     className={cx(classes.root, { [classes.collapsed]: closed }, className)}
@@ -83,12 +96,8 @@ const Expander = ({
   </div>
 )
 
-Expander.propTypes = {
-  closed: PropTypes.bool.isRequired,
-  onClick: PropTypes.func,
-  onClose: PropTypes.func,
-  subtitle: PropTypes.string,
-  title: PropTypes.string,
+Expander.defaultProps = {
+  closed: false,
 }
 
 export default injectStyles(styles)(Expander)

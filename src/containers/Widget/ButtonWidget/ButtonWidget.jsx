@@ -1,9 +1,9 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
+import Widget from 'containers/Widget/Widget'
 import colors from 'styles/colors'
-import Widget from '../Widget'
 import Expander from './Expander'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
@@ -64,7 +64,20 @@ const styles = theme => ({
   },
 })
 
-class ButtonWidget extends React.PureComponent {
+type Props = {
+  expanded: boolean, // demo flag
+  // Styles
+  classes: Object,
+  className: ?string,
+}
+
+type State = { expanded: boolean }
+
+class ButtonWidget extends React.PureComponent<Props, State> {
+  static defaultProps = {
+    expanded: false,
+  }
+
   state = {
     expanded: this.props.expanded,
   }
@@ -117,10 +130,6 @@ class ButtonWidget extends React.PureComponent {
       </div>
     )
   }
-}
-
-ButtonWidget.propTypes = {
-  expanded: PropTypes.bool, // demo flag
 }
 
 export default injectStyles(styles)(ButtonWidget)
