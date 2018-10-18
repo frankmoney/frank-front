@@ -39,6 +39,7 @@ const styles = {
 }
 
 const Footer = ({
+  // $FlowFixMe // FIXME: get rid of this prop
   Classes: { root: rootClassName, seeAll: seeAllClassName } = {},
   classes,
   className,

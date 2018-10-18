@@ -1,9 +1,20 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
-import PropTypes from 'prop-types'
 import DropdownSwitcher from 'components/DropdownSwitcher'
 
-const PeriodSelect = ({ className, onChange, value, values }) => {
+export type Period = string
+
+export type OnChangeCb = Period => void
+
+type Props = {
+  value: Period,
+  values: Array<Period>,
+  onChange: ?OnChangeCb,
+  className: ?string,
+}
+
+const PeriodSelect = ({ className, onChange, value, values }: Props) => {
   const handlePeriodChange = onChange && (event => onChange(event.target.value))
   const keyedValues = R.map(R.objOf('key'))(values)
   return (
@@ -14,12 +25,6 @@ const PeriodSelect = ({ className, onChange, value, values }) => {
       values={keyedValues}
     />
   )
-}
-
-PeriodSelect.propTypes = {
-  onChange: PropTypes.func,
-  value: PropTypes.string.isRequired,
-  values: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 export default PeriodSelect
