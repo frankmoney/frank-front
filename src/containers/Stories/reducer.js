@@ -18,12 +18,15 @@ const defaultState = Immutable.fromJS({
   storiesCount: 0,
   shareDialogIsOpen: false,
   shareDialogUrl: null,
+  storyDeletedSnackBarIsOpen: false,
 })
 
 export default handleActions(
   {
     [ACTIONS.load]: state => state.merge({ loading: true }),
     [ACTIONS.load.success]: (state, { payload: { stories, totalCount } }) => {
+      // Check local storage if there was story which was published recently
+
       const { host } = window.location
       const publishedStoryUrl =
         host + storage.getItem(LS_FLAGS.lastPublishedStoryUrl)
@@ -32,6 +35,13 @@ export default handleActions(
       )
       storage.removeItem(LS_FLAGS.lastPublishedStoryUrl)
 
+      // Check local storage if there was story which was deleted recently
+
+      const storyDeletedSnackBarIsOpen = !!storage.getItem(
+        LS_FLAGS.selectedStoryWasDeleted
+      )
+      storage.removeItem(LS_FLAGS.selectedStoryWasDeleted)
+
       return state.merge({
         loading: false,
         loaded: true,
@@ -39,6 +49,7 @@ export default handleActions(
         storiesCount: totalCount,
         shareDialogIsOpen,
         shareDialogUrl: publishedStoryUrl,
+        storyDeletedSnackBarIsOpen,
       })
     },
     [ACTIONS.load.error]: state => state.merge({ loading: false }),

@@ -1,10 +1,7 @@
 import React from 'react'
-import {
-  FixedHeader,
-  BreadcrumbsItem,
-  PageLoader,
-} from '@frankmoney/components'
+import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
+import PageLoader from 'components/GrayPageLoader'
 import ListLayoutContent from 'components/ListLayoutContent'
 import Breadcrumbs from 'components/Breadcrumbs'
 import reconnect from 'utils/reconnect'

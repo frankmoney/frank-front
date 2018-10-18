@@ -1,12 +1,12 @@
 import React from 'react'
 import cx from 'classnames'
-import * as R from 'ramda'
-import { compose } from 'recompose'
+import { compose, withProps } from 'recompose'
 import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form-actions/immutable'
-import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { injectStyles } from '@frankmoney/ui'
+import { LeaveUnsavedFormPrompt } from '@frankmoney/webapp'
+import reconnect from 'utils/reconnect'
 import createUploaderField from 'controls/forms/createUploaderField'
 import TitleField from 'controls/forms/TitleField'
 import DescriptionField from 'controls/forms/DescriptionField'
@@ -15,6 +15,7 @@ import PaymentsSelectorDrawer from 'components/PaymentsSelectorDrawer'
 import {
   formInitialValuesSelector,
   paymentsSelector,
+  unsavedFormSelector,
   storySelectedPaymentsSelector,
   paymentsListUpdatingSelector,
   paymentsTotalPagesCounterSelector,
@@ -54,37 +55,37 @@ const styles = theme => ({
   },
 })
 
-const mapStateToPropsForDrawer = createStructuredSelector({
-  isUpdating: paymentsListUpdatingSelector,
-  payments: paymentsSelector,
-  filter: paymentsFiltersSelector,
-  selectedPayments: storySelectedPaymentsSelector,
-  totalPagesCounter: paymentsTotalPagesCounterSelector,
-  loadedPagesCounter: paymentsLoadedPagesCounterSelector,
-})
-
-const mapDispatchToPropsForDrawer = R.partial(bindActionCreators, [
+const ConnectedPaymentsSelectorDrawer = reconnect(
+  {
+    isUpdating: paymentsListUpdatingSelector,
+    payments: paymentsSelector,
+    filter: paymentsFiltersSelector,
+    selectedPayments: storySelectedPaymentsSelector,
+    totalPagesCounter: paymentsTotalPagesCounterSelector,
+    loadedPagesCounter: paymentsLoadedPagesCounterSelector,
+  },
   {
     onChange: ACTIONS.modifyStoryPaymentsList,
     onLoadMore: ACTIONS.loadMorePayments,
     onFilter: ACTIONS.filterPayments,
-  },
-])
-
-const ConnectedPaymentsSelectorDrawer = compose(
-  connect(
-    mapStateToPropsForDrawer,
-    mapDispatchToPropsForDrawer
-  )
+  }
 )(PaymentsSelectorDrawer)
 
-const ConnectedStoryPayments = compose(
-  connect(
-    createStructuredSelector({
-      payments: storySelectedPaymentsSelector,
-    })
-  )
+const ConnectedStoryPayments = connect(
+  createStructuredSelector({
+    payments: storySelectedPaymentsSelector,
+  })
 )(StoryPayments)
+
+const ConnectedLeaveUnsavedFormPrompt = compose(
+  connect(state => ({
+    when: unsavedFormSelector(state),
+  })),
+  withProps({
+    message:
+      'You will lose unsaved changes if you navigate away without saving. Would you like to continue?',
+  })
+)(LeaveUnsavedFormPrompt)
 
 class StoryEditForm extends React.PureComponent {
   state = {
@@ -125,6 +126,7 @@ class StoryEditForm extends React.PureComponent {
           open={isDrawerOpen}
           onClose={this.handleToggleDrawer}
         />
+        <ConnectedLeaveUnsavedFormPrompt />
       </div>
     )
   }

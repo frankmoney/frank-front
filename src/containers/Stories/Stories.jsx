@@ -15,16 +15,17 @@ import {
   FixedHeader,
   Breadcrumbs,
   BreadcrumbsItem,
-  PageLoader,
 } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
+import PageLoader from 'components/GrayPageLoader'
 import CurrencyProvider from 'components/CurrencyProvider'
 import StoryCard from 'components/StoryCard'
 import { ROUTES } from 'const'
 import NewButton from './NewButton'
 import ShareDialog from './ShareDialog'
+import StoryDeletedSnackbar from './StoryDeletedSnackbar'
 import {
   isLoadingSelector,
   hasNoStoriesSelector,
@@ -52,6 +53,7 @@ const Stories = ({ classes, noStories, stories, className }) => (
       </div>
     </div>
     <ShareDialog />
+    <StoryDeletedSnackbar />
   </CurrencyProvider>
 )
 

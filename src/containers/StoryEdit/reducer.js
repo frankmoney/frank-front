@@ -126,10 +126,12 @@ export default handleActions(
       state.merge({
         processing: true,
       }),
-    [ACTIONS.delete.success]: state =>
+    [ACTIONS.delete.success]: state => {
+      storage.setItem(LS_FLAGS.selectedStoryWasDeleted, true)
       state.merge({
         processing: false,
-      }),
+      })
+    },
     [ACTIONS.delete.error]: state =>
       state.merge({
         processing: false,

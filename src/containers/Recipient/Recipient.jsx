@@ -9,10 +9,10 @@ import { injectStyles } from '@frankmoney/ui'
 import {
   FixedHeader,
   Spinner,
-  PageLoader,
   BreadcrumbsItem,
   BreadcrumbsItemLink,
 } from '@frankmoney/components'
+import PageLoader from 'components/GrayPageLoader'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { ROUTES } from 'const'
 import {

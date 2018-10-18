@@ -107,7 +107,7 @@ export default {
   editPeerName: [
     `
       mutation($peerId: ID!, $name: String!) {
-        recipient: updatePeer(peerId: $peerId, update: { name: $name }) {
+        recipient: peerUpdate(peerId: $peerId, update: { name: $name }) {
           ${recipientDetails}
         }
       }

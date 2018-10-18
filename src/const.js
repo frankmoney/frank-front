@@ -50,6 +50,9 @@ export const LS_FLAGS = {
   // UX Design: Every time after user (moderator) publish story, after redirect
   // to stories page - share dialog should be shown
   lastPublishedStoryUrl: 'ui/lastPublishedStoryUrl',
+  // UX Design: Every time after user (moderator) delete story, after redirect
+  // to stories page - status snackbar should be shown
+  selectedStoryWasDeleted: 'ui/selectedStoryWasDeleted',
   onboardingTermsAccepted: 'onboarding/terms-accepted',
 }
 

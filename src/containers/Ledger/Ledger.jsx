@@ -4,13 +4,10 @@ import cx from 'classnames'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
-import {
-  FixedHeader,
-  BreadcrumbsItem,
-  PageLoader,
-} from '@frankmoney/components'
+import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
+import PageLoader from 'components/GrayPageLoader'
 import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Breadcrumbs from 'components/Breadcrumbs'

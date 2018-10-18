@@ -2,7 +2,6 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { formValueSelector, isValid, isDirty } from 'redux-form/immutable'
 import { createPlainObjectSelector } from '@frankmoney/utils'
-import { parseDate } from 'utils/dates'
 import { REDUCER_KEY } from './reducer'
 import { FORM_NAME } from './constants'
 
@@ -66,6 +65,8 @@ export const formInitialValuesSelector = createSelector(
 
 const storyEditFormValueSelector = formValueSelector(FORM_NAME)
 
+export const unsavedFormSelector = isDirty(FORM_NAME)
+
 export const isSaveButtonDisabledSelector = createSelector(
   isValid(FORM_NAME),
   isDirty(FORM_NAME),
@@ -79,9 +80,11 @@ export const saveButtonLabelSelector = createSelector(
 )
 
 export const isPublishButtonDisabledSelector = createSelector(
+  savedSelector,
   isPublishedSelector,
   hasUnpublishedDraftSelector,
-  (isPublished, hasUnpublishedDraft) => !hasUnpublishedDraft && isPublished
+  (saved, isPublished, hasUnpublishedDraft) =>
+    !saved || (!hasUnpublishedDraft && isPublished)
 )
 
 export const publishButtonLabelSelector = createSelector(
