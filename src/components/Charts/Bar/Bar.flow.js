@@ -1,9 +1,8 @@
 // @flow
-import PropTypes from 'prop-types'
 
 type BarItem = {
   name: string,
-  negativeValue: number,
+  negativeValue: ?number,
   value: number,
 }
 
@@ -23,12 +22,3 @@ export type Props = {
   showBars: boolean,
   width: number,
 }
-
-// TODO: remove when migration is over
-export const barDataProp = PropTypes.arrayOf(
-  PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
-    negativeValue: PropTypes.number.isRequired,
-  })
-)

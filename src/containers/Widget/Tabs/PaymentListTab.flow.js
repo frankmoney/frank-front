@@ -1,6 +1,8 @@
 // @flow
 import type { BarData } from 'components/Charts/Bar'
 
+type EmptyCb = () => void
+
 export type Props = {
   currentCategoryColor: string,
   currentCategoryName: string,
@@ -10,7 +12,7 @@ export type Props = {
   footerPadding: number,
   showBarChart: boolean,
   // Handlers
-  onCancelCategoryClick: () => void,
+  onCancelCategoryClick: EmptyCb,
   // Styles
   classes: Object,
   barChartClassName: ?string,

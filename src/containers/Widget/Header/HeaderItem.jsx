@@ -22,12 +22,13 @@ const styles = theme => ({
 })
 
 type EmptyCb = () => void
+type Key = string | number
 
 type Props = {
   active: boolean,
   classes: Object,
   className: ?string,
-  key: string | number,
+  key: ?Key,
   name: string,
   onClick: ?EmptyCb,
 }

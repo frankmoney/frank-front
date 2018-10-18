@@ -36,7 +36,7 @@ const PaymentListTab = ({
     <Header live={false}>
       <CategoryName
         name={currentCategoryName}
-        onClick={() => onCancelCategoryClick()}
+        onClick={onCancelCategoryClick}
       />
     </Header>
     <div className={cx(classes.content, contentClassName)}>

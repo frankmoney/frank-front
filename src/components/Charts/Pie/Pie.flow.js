@@ -1,5 +1,4 @@
 // @flow
-import PropTypes from 'prop-types'
 
 type PieItem = {
   color: ?string,
@@ -32,12 +31,3 @@ export type FatPieSliceProps = {
   color: string,
   index: number,
 }
-
-// TODO: remove when migration is over
-export const pieDataProp = PropTypes.arrayOf(
-  PropTypes.shape({
-    color: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
-  })
-)
