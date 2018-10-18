@@ -1,6 +1,6 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 
 const styles = theme => ({
@@ -21,7 +21,25 @@ const styles = theme => ({
   },
 })
 
-const HeaderItem = ({ active, classes, className, name, onClick, key }) => {
+type EmptyCb = () => void
+
+type Props = {
+  active: boolean,
+  classes: Object,
+  className: ?string,
+  key: string | number,
+  name: string,
+  onClick: ?EmptyCb,
+}
+
+const HeaderItem = ({
+  active,
+  classes,
+  className,
+  key,
+  name,
+  onClick,
+}: Props) => {
   const stateProps = active
     ? {}
     : {
@@ -38,12 +56,6 @@ const HeaderItem = ({ active, classes, className, name, onClick, key }) => {
       {name}
     </div>
   )
-}
-
-HeaderItem.propTypes = {
-  active: PropTypes.bool,
-  name: PropTypes.string,
-  onClick: PropTypes.func,
 }
 
 export default injectStyles(styles)(HeaderItem)

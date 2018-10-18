@@ -1,6 +1,6 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import LiveIndicator from './LiveIndicator'
 
@@ -14,17 +14,26 @@ const styles = {
   },
 }
 
-const Header = ({ classes, className, children, live, liveClassName }) => (
+type Props = {
+  children: React.Element<any>,
+  classes: Object,
+  className: ?string,
+  live: boolean,
+  liveClassName: ?string,
+}
+
+const Header = ({
+  classes,
+  className,
+  children,
+  live,
+  liveClassName,
+}: Props) => (
   <div className={cx(classes.root, className)}>
     {children}
     {live && <LiveIndicator className={cx(classes.live, liveClassName)} />}
   </div>
 )
-
-Header.propTypes = {
-  live: PropTypes.bool,
-  liveClassName: PropTypes.string,
-}
 
 Header.defaultProps = {
   live: true,
