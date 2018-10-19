@@ -36,6 +36,10 @@ const styles = theme => ({
       opacity: 1,
     },
   },
+  indicator: {
+    width: 14,
+    height: 14,
+  },
 })
 
 const CategoriesListItem = ({
@@ -50,6 +54,7 @@ const CategoriesListItem = ({
   <div className={cx(classes.root, className)}>
     <CategoryLabel
       className={classes.label}
+      iconClassName={classes.indicator}
       id={id}
       name={name}
       color={color}

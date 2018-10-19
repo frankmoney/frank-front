@@ -1,22 +1,18 @@
 import React from 'react'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
-import { connect } from 'react-redux'
-import * as R from 'ramda'
-import { bindActionCreators } from 'redux'
-import { injectStyles } from '@frankmoney/ui'
 import { PageLoader } from '@frankmoney/components'
-import { createStructuredSelector } from 'reselect'
+import reconnect from 'utils/reconnect'
 import * as ACTIONS from './actions'
-import styles from './Onboarding.jss'
 import {
   currentStepSelector,
   loadingSelector,
   loadedSelector,
+  termsAcceptedSelector,
 } from './selectors'
 import * as STEPS from './Steps'
 
 const Onboarding = ({ currentStep, ...props }) => {
-  const StepComponent = {
+  const componentByStep = {
     bank: STEPS.SelectBank,
     account: STEPS.SelectAccount,
     credentials: STEPS.Credentials,
@@ -24,28 +20,25 @@ const Onboarding = ({ currentStep, ...props }) => {
     accountInfo: STEPS.AccountInfo,
     categories: STEPS.Categories,
     team: STEPS.Team,
-  }[currentStep]
+  }
+
+  const StepComponent = componentByStep[currentStep]
 
   return <StepComponent {...props} />
 }
 
-const mapStateToProps = createStructuredSelector({
-  currentStep: currentStepSelector,
-  loading: loadingSelector,
-  loaded: loadedSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    load: ACTIONS.load,
-    leave: ACTIONS.leave,
-  },
-])
-
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
+  reconnect(
+    {
+      currentStep: currentStepSelector,
+      loading: loadingSelector,
+      loaded: loadedSelector,
+      termsAccepted: termsAcceptedSelector,
+    },
+    {
+      load: ACTIONS.load,
+      leave: ACTIONS.leave,
+    }
   ),
   lifecycle({
     componentWillMount() {
@@ -58,5 +51,5 @@ export default compose(
     },
   }),
   branch(props => props.loading, renderComponent(PageLoader)),
-  injectStyles(styles, { grid: true })
+  branch(props => !props.termsAccepted, renderComponent(STEPS.Terms))
 )(Onboarding)

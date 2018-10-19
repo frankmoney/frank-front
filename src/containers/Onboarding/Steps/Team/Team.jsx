@@ -4,7 +4,7 @@ import { injectStyles } from '@frankmoney/ui'
 import { compose } from 'recompose'
 import { GiantButton } from '@frankmoney/components'
 import reconnect from 'utils/reconnect'
-import StepLayout from '../../StepLayout'
+import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription from '../../StepDescription'
 import {

@@ -7,6 +7,7 @@ const styles = theme => ({
     ...theme.fontRegular(22, 34),
     marginTop: 25,
     textAlign: 'center',
+    color: 'rgba(32, 40, 74, 0.9)',
   },
 })
 

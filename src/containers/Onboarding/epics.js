@@ -1,7 +1,8 @@
-import { Observable } from 'rxjs'
+import { createDeferredAction } from '@frankmoney/utils'
+import storage from 'local-storage-fallback'
 import { push as pushRoute } from 'react-router-redux'
 import * as USER_ACTIONS from 'redux/actions/user'
-import { ROUTES } from '../../const'
+import { LS_FLAGS, ROUTES } from '../../const'
 import * as ACTIONS from './actions'
 import { CREDENTIALS_STATUS } from './constants'
 import QUERIES from './queries'
@@ -19,8 +20,13 @@ export const loadEpic = (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.load)
     .switchMap(() => graphql(QUERIES.getOnboardingSession))
-    // .map(() => ({ credentials: { status: 'success' } }))
-    .map(ACTIONS.load.success)
+    .map(session =>
+      ACTIONS.load.success({
+        session,
+        termsAccepted:
+          storage.getItem(LS_FLAGS.onboardingTermsAccepted) === 'true',
+      })
+    )
 
 export const loadBanksEpic = (action$, store, { graphql }) =>
   action$
@@ -139,3 +145,11 @@ export const cancelEpic = (action$, store, { graphql }) =>
     .ofType(ACTIONS.cancel)
     .switchMap(() => graphql(QUERIES.cancel))
     .map(ACTIONS.load)
+
+export const persistToLocalStorageAcceptedTerms = action$ =>
+  action$
+    .ofType(ACTIONS.acceptTerms)
+    .do(() => {
+      storage.setItem(LS_FLAGS.onboardingTermsAccepted, true)
+    })
+    .map(ACTIONS.acceptTerms.success)

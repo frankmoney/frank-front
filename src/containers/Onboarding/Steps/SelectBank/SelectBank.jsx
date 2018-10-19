@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux'
 import * as R from 'ramda'
 import { createStructuredSelector } from 'reselect'
 import SearchBar from 'components/SearchCard'
-import StepLayout from '../../StepLayout'
+import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription from '../../StepDescription'
 import {
@@ -38,7 +38,8 @@ const styles = theme => ({
   },
   placeholderLabel: {
     ...theme.fontRegular(22, 22),
-    color: 'rgba(0,0,0,0.5)',
+    color: '#252B43',
+    opacity: 0.5,
   },
   placeholderButton: {
     marginTop: 30,
@@ -80,17 +81,16 @@ const SelectBank = ({
         banks={banks}
       />
     )}
-    {loaded &&
+    {!!search &&
+      loaded &&
       banks.length === 0 && (
         <div className={classes.emptyPlaceholder}>
           <div className={classes.placeholderLabel}>Nothing found</div>
-          {!!search && (
-            <Button
-              className={classes.placeholderButton}
-              label="Reset"
-              onClick={onResetSearch}
-            />
-          )}
+          <Button
+            className={classes.placeholderButton}
+            label="Reset"
+            onClick={onResetSearch}
+          />
         </div>
       )}
   </StepLayout>

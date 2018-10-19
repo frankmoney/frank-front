@@ -18,6 +18,7 @@ const defaultState = {
   loadingNext: false,
   loadingBack: false,
   currentStep: null,
+  termsAccepted: false,
   stepData: {},
 }
 
@@ -107,11 +108,12 @@ export default handleActions(
       state.merge({
         loading: true,
       }),
-    [ACTIONS.load.success]: (state, { payload: session }) =>
+    [ACTIONS.load.success]: (state, { payload: { session, termsAccepted } }) =>
       state.merge({
-        ...getStepData(session),
+        ...getStepData(session, state),
         loading: false,
         loaded: true,
+        termsAccepted,
       }),
     [ACTIONS.goNext]: state =>
       state.merge({
@@ -120,7 +122,7 @@ export default handleActions(
     [ACTIONS.goNext.success]: (state, { payload: session }) =>
       state.merge({
         loadingNext: false,
-        ...getStepData(session),
+        ...getStepData(session, state),
       }),
     [ACTIONS.goBack]: state =>
       state.merge({
@@ -129,7 +131,7 @@ export default handleActions(
     [ACTIONS.goBack.success]: (state, { payload: session }) =>
       state.merge({
         loadingBack: false,
-        ...getStepData(session),
+        ...getStepData(session, state),
       }),
     [ACTIONS.cancel]: state =>
       state.merge({
@@ -137,29 +139,10 @@ export default handleActions(
         loadingBack: false,
         loadingNext: false,
       }),
-    // [ACTIONS.goNext]: state =>
-    //   state.update('currentStep', step => {
-    //     const idx = STEPS.indexOf(step)
-    //     if (idx === -1) {
-    //       return STEPS[0]
-    //       // reached end
-    //     } else if (idx === STEPS.length - 1) {
-    //       return step
-    //     }
-    //     return STEPS[idx + 1]
-    //   }),
-    // [ACTIONS.goBack]: state =>
-    //   state.update('currentStep', step => {
-    //     const idx = STEPS.indexOf(step)
-    //     if (idx === -1) {
-    //       return STEPS[0]
-    //       // we are at the start
-    //     } else if (idx === 0) {
-    //       return step
-    //     }
-    //     return STEPS[idx - 1]
-    //   }),
-
+    [ACTIONS.acceptTerms]: state =>
+      state.merge({
+        termsAccepted: true,
+      }),
     //
     // BANK
     //

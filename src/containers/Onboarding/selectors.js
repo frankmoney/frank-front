@@ -11,6 +11,7 @@ export const loadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const loadingNextSelector = get('loadingNext')
 export const loadingBackSelector = get('loadingBack')
+export const termsAcceptedSelector = get('termsAccepted')
 export const currentStepSelector = get('currentStep')
 
 export const canGoBackSelector = createSelector(
@@ -93,11 +94,8 @@ export const selectedAccountIdSelector = get('stepData', 'selectedAccountId')
 
 // Step: AccountInfo
 const isAccountInfoFormValid = isFormValid(ACCOUNT_FORM)
-export const accountInfoInitialValuesSelector = createSelector(
-  get('stepData', 'accountName'),
-  get('stepData', 'accountDescription'),
-  (name, description) => ({ name, description })
-)
+export const accountInfoInitialValuesSelector = R.always({})
+
 export const accountInfoFormSelector = createPlainObjectSelector(
   getFormValues(ACCOUNT_FORM)
 )

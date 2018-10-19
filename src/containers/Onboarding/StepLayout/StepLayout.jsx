@@ -1,20 +1,8 @@
-import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
-import { compose } from 'recompose'
-import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import { Button } from '@frankmoney/components'
-import { bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
 import FrankLogo from 'components/Logo'
-import * as ACTIONS from '../actions'
-import {
-  canGoBackSelector,
-  canGoNextSelector,
-  loadingBackSelector,
-  loadingNextSelector,
-} from '../selectors'
 import styles from './StepLayout.jss'
 
 const StepLayout = ({
@@ -24,20 +12,23 @@ const StepLayout = ({
   canGoNext,
   loadingNext,
   loadingBack,
-  goNext,
-  goBack,
+  nextLabel,
+  backLabel,
+  onNext,
+  onBack,
   noFooter,
   footerText,
   footerButton,
+  centered,
   children,
 }) => (
-  <div className={cx(classes.root, className)}>
+  <div className={cx(classes.root, centered && classes.centered, className)}>
     <FrankLogo className={classes.logo} />
     <div className={classes.container}>{children}</div>
     {!noFooter && (
       <div className={classes.footer}>
         {canGoBack ? (
-          <Button label="Back" onClick={goBack} loading={loadingBack} />
+          <Button label={backLabel} onClick={onBack} loading={loadingBack} />
         ) : (
           <div />
         )}
@@ -46,35 +37,21 @@ const StepLayout = ({
           <div className={classes.footerButtonWrap}>{footerButton}</div>
         )}
         <Button
-          label="Continue"
+          label={nextLabel}
           type="primary"
           disabled={!canGoNext}
           loading={loadingNext}
-          onClick={goNext}
+          onClick={onNext}
         />
       </div>
     )}
   </div>
 )
 
-const mapStateToProps = createStructuredSelector({
-  canGoBack: canGoBackSelector,
-  canGoNext: canGoNextSelector,
-  loadingNext: loadingNextSelector,
-  loadingBack: loadingBackSelector,
-})
+StepLayout.defaultProps = {
+  nextLabel: 'Continue',
+  backLabel: 'Back',
+  centered: false,
+}
 
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    goNext: ACTIONS.goNext,
-    goBack: ACTIONS.goBack,
-  },
-])
-
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  injectStyles(styles, { grid: true })
-)(StepLayout)
+export default injectStyles(styles)(StepLayout)

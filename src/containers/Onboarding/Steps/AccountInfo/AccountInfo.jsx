@@ -8,7 +8,7 @@ import reconnect from 'utils/reconnect'
 import TitleTextField from 'controls/forms/TitleField'
 import DescriptionTextField from 'controls/forms/DescriptionField'
 import { accountInfoInitialValuesSelector } from '../../selectors'
-import StepLayout from '../../StepLayout'
+import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription, { Em } from '../../StepDescription'
 import { ACCOUNT_FORM } from '../../constants'
@@ -20,10 +20,12 @@ const styles = {
   titleField: {
     marginTop: 50,
     width: 775,
+    color: '#252B43',
   },
   descriptionField: {
     marginTop: 45,
     width: 775,
+    color: 'rgba(37, 43, 67, 0.9)',
   },
 }
 
@@ -47,6 +49,7 @@ const AccountInfo = ({ className, classes }) => (
       name="name"
       placeholder="Account name..."
       validate={validation.name}
+      autoFocus
     />
     <DescriptionTextField
       className={classes.descriptionField}
