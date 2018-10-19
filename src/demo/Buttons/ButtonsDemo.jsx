@@ -1,8 +1,9 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
-import { CheckCircle, MoreHoriz } from 'material-ui-icons'
+import { CheckCircle, MoreHoriz, ChatBubble } from 'material-ui-icons'
 import Title from 'containers/Ledger/ChartCard/Title'
 import Button, { IconButton } from 'components/kit/Button'
+import ToggleButton from 'components/kit/ToggleButton'
 
 const styles = {
   demo: {
@@ -16,6 +17,8 @@ const styles = {
     },
   },
   row: {
+    display: 'flex',
+    alignItems: 'center',
     '& > *': {
       marginRight: 20,
     },
@@ -188,6 +191,7 @@ const ButtonsDemo = ({ classes }) => (
         loading
       />
     </div>
+    <Title>Icon Buttons</Title>
     <div className={classes.row}>
       <IconButton icon={<MoreHoriz />} />
       <IconButton icon={<MoreHoriz />} hover />
@@ -208,6 +212,18 @@ const ButtonsDemo = ({ classes }) => (
       <IconButton icon={<MoreHoriz />} color="lightBlue" active />
       <IconButton icon={<MoreHoriz />} color="lightBlue" disabled />
       <IconButton icon={<MoreHoriz />} color="lightBlue" loading />
+    </div>
+    <Title>Toggle Buttons</Title>
+    <div className={classes.row}>
+      <ToggleButton label="Submit" icon={<ChatBubble />} />
+      <ToggleButton
+        defaultOn
+        colorOn="green"
+        label="Submit"
+        icon={<ChatBubble />}
+      />
+      <ToggleButton.Icon icon={<MoreHoriz />} />
+      <ToggleButton.Icon defaultOn colorOn="lightGreen" icon={<MoreHoriz />} />
     </div>
   </div>
 )

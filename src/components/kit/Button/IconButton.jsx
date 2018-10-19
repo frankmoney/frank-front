@@ -6,7 +6,7 @@ import { Spinner } from '@frankmoney/components'
 import ButtonBase from './ButtonBase'
 import styles from './IconButton.jss'
 
-type ButtonColor =
+type IconButtonColor =
   | 'red'
   | 'green'
   | 'blue'
