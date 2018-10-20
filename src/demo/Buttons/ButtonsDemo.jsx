@@ -1,19 +1,39 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
-import { CheckCircle, Check, MoreHoriz, ChatBubble } from 'material-ui-icons'
-import Title from 'containers/Ledger/ChartCard/Title'
+import {
+  CheckCircle,
+  Check,
+  MoreHoriz,
+  ChatBubble,
+  List,
+} from 'material-ui-icons'
 import Button, { IconButton } from 'components/kit/Button'
 import ToggleButton from 'components/kit/ToggleButton'
 
 const styles = {
   demo: {
     alignItems: 'center',
-    background: '#EBEBEB',
+    background: '#fff',
     display: 'flex',
     flexDirection: 'column',
     paddingBottom: 100,
+    paddingTop: 100,
+    '& > h1': {
+      marginTop: 70,
+      marginBottom: 70,
+      fontSize: 60,
+      lineHeight: 60,
+      fontWeight: 500,
+      '&:first-child': {
+        marginTop: 0,
+      },
+    },
     '& > h2': {
-      marginTop: 50,
+      marginTop: 80,
+      marginBottom: 60,
+      fontSize: 40,
+      lineHeight: 50,
+      fontWeight: 500,
     },
   },
   row: {
@@ -32,7 +52,7 @@ const styles = {
 
 const ButtonsDemo = ({ classes }) => (
   <div className={classes.demo}>
-    <Title>Buttons</Title>
+    <h1>Button</h1>
     <div className={classes.row}>
       <Button className={classes.button} label="Submit" color="green" />
       <Button className={classes.button} label="Submit" color="green" hover />
@@ -192,7 +212,7 @@ const ButtonsDemo = ({ classes }) => (
         loading
       />
     </div>
-    <Title>Icon Buttons</Title>
+    <h2>IconButton</h2>
     <div className={classes.row}>
       <IconButton icon={<MoreHoriz />} />
       <IconButton icon={<MoreHoriz />} hover />
@@ -214,7 +234,7 @@ const ButtonsDemo = ({ classes }) => (
       <IconButton icon={<MoreHoriz />} color="lightBlue" disabled />
       <IconButton icon={<MoreHoriz />} color="lightBlue" loading />
     </div>
-    <Title>Toggle Buttons</Title>
+    <h2>ToggleButton</h2>
     <div className={classes.row}>
       <ToggleButton label="Submit" icon={<ChatBubble />} />
       <ToggleButton
@@ -226,7 +246,7 @@ const ButtonsDemo = ({ classes }) => (
       <ToggleButton.Icon icon={<MoreHoriz />} />
       <ToggleButton.Icon defaultOn colorOn="lightGreen" icon={<MoreHoriz />} />
     </div>
-    <Title>Different Buttons</Title>
+    <h2>Different Buttons</h2>
     <div className={classes.row}>
       <Button
         className={classes.button}
@@ -246,6 +266,7 @@ const ButtonsDemo = ({ classes }) => (
         icon={<ChatBubble />}
         counter={99}
       />
+      <Button label="839 similar payments" icon={<List />} />
     </div>
   </div>
 )

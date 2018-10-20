@@ -30,7 +30,7 @@ export default [
   //   exact: true,
   // },
   {
-    component: withDemoLayout(ButtonsDemo),
+    component: ButtonsDemo,
     path: ROUTES.demo.buttons,
     exact: true,
   },
