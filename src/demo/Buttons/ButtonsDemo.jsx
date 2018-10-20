@@ -1,6 +1,6 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
-import { CheckCircle, MoreHoriz, ChatBubble } from 'material-ui-icons'
+import { CheckCircle, Check, MoreHoriz, ChatBubble } from 'material-ui-icons'
 import Title from 'containers/Ledger/ChartCard/Title'
 import Button, { IconButton } from 'components/kit/Button'
 import ToggleButton from 'components/kit/ToggleButton'
@@ -19,6 +19,7 @@ const styles = {
   row: {
     display: 'flex',
     alignItems: 'center',
+    width: 900,
     '& > *': {
       marginRight: 20,
     },
@@ -224,6 +225,27 @@ const ButtonsDemo = ({ classes }) => (
       />
       <ToggleButton.Icon icon={<MoreHoriz />} />
       <ToggleButton.Icon defaultOn colorOn="lightGreen" icon={<MoreHoriz />} />
+    </div>
+    <Title>Different Buttons</Title>
+    <div className={classes.row}>
+      <Button
+        className={classes.button}
+        label="Publish"
+        color="green"
+        icon={<Check />}
+      />
+      <Button
+        className={classes.button}
+        label="Discuss"
+        icon={<ChatBubble />}
+        counter={2}
+      />
+      <Button
+        className={classes.button}
+        label="Discuss"
+        icon={<ChatBubble />}
+        counter={99}
+      />
     </div>
   </div>
 )

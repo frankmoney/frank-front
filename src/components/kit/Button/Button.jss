@@ -61,7 +61,7 @@ export default theme => ({
   },
 
   counter: {
-    marginLeft: 12,
-    marginTop: -1,
+    marginLeft: 10,
+    flexShrink: 0,
   },
 })
