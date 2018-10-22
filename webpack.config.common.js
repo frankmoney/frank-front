@@ -2,17 +2,18 @@ const path = require('path')
 const webpack = require('webpack')
 const AssetsPlugin = require('assets-webpack-plugin')
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
-
-const nodeEnv = process.env.NODE_ENV || 'development'
-const publicPath = process.env.PUBLIC_PATH || '/assets/'
-const sourcePath = path.join(__dirname, './src')
-const buildPath = path.join(__dirname, 'build', 'client')
-
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+// Config
 const {
   graphqlEndpointPath,
   apiEndpointPath,
   wsEndpointPath,
 } = require('./config')
+
+const nodeEnv = process.env.NODE_ENV || 'development'
+const publicPath = process.env.PUBLIC_PATH || '/assets/'
+const sourcePath = path.join(__dirname, './src')
+const buildPath = path.join(__dirname, 'build', 'client')
 
 module.exports = {
   name: 'client',
@@ -71,6 +72,7 @@ module.exports = {
     ],
   },
   plugins: [
+    new CleanWebpackPlugin([buildPath]),
     new webpack.DefinePlugin({
       __SERVER: false,
       __CLIENT: true,
