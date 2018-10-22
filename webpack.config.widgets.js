@@ -1,17 +1,17 @@
 const { resolve } = require('path')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const common = require('./webpack.config.common')
 
 const sourcePath = resolve(__dirname, './src')
 const buildPath = resolve(__dirname, 'build', 'client')
-const widgetsPath = resolve(sourcePath, 'demo', 'Widgets', 'static')
+const widgetsPath = resolve(sourcePath, 'widgets')
 
 const config = {
   name: 'client',
   devtool: 'cheap-module-eval-source-map',
   entry: {
-    widget: [resolve(sourcePath, 'widget.js')],
+    widget: [resolve(widgetsPath, 'main.jsx')],
+    loader: [resolve(widgetsPath, 'loader.js')],
   },
   output: {
     path: buildPath,
@@ -26,10 +26,10 @@ const config = {
   },
   module: common.module,
   plugins: [
-    new CleanWebpackPlugin([buildPath]),
     new HtmlWebpackPlugin({
       title: 'Widgets demo',
-      template: resolve(widgetsPath, 'index.html'),
+      template: resolve(widgetsPath, 'static', 'index.html'),
+      chunks: ['loader'],
     }),
   ],
 }
