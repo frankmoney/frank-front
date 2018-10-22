@@ -7,16 +7,16 @@ export default {
     query(
       $accountId: ID!
     ) {
-      account(id: $accountId) {
+      account(pid: $accountId) {
         stories {
-          id
+          id: pid
           isPublished
           data: draftData {
             title
             body
             coverImage
             paymentsDateRange
-            countPayments { value }
+            countPayments
           }  
         }
       }

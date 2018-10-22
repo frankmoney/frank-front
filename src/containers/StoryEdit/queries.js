@@ -2,13 +2,13 @@ import { mapStory } from 'data/models/story'
 
 const paymentScheme = `
   {
-    id
+    id: pid
     postedOn
     amount
     peerName
     description
     category {
-      id
+      id: pid
       name
       color
     }
@@ -28,14 +28,14 @@ const storyDataScheme = (type = 'draft') => `
 `
 
 const storyQuery = (type = 'draft') => `
-  story(id: $storyId) { 
+  story(pid: $storyId) { 
     ${storyDataScheme(type)}
   }
 `
 
 const paymentsQuery = `
       payments(
-        first: $first
+        take: $first
         skip: $skip
         postedOnMin: $dateMin
         postedOnMax: $dateMax
@@ -46,9 +46,7 @@ const totalCountQuery = `
     countPayments(
       postedOnMin: $dateMin
       postedOnMax: $dateMax
-    ) {
-      value
-    }
+    )
 `
 
 export default {
@@ -66,7 +64,7 @@ export default {
       $dateMin: Date
       $dateMax: Date
     ) {
-      account(id: $accountId) {
+      account(pid: $accountId) {
         ${(includePayments && paymentsQuery) || ''}
         ${(includeTotal && totalCountQuery) || ''}
       }
@@ -76,7 +74,7 @@ export default {
     ({ account: { payments, countPayments }, story }) => ({
       story: story && mapStory(story),
       payments,
-      totalCount: countPayments && countPayments.value,
+      totalCount: countPayments,
     }),
   ],
   storyСreateOrUpdate: ({ isNew }) => [
@@ -107,7 +105,7 @@ export default {
     `
     mutation($accountId: ID!, $storyId: ID!) {
       story: storyDelete(accountId: $accountId, storyId: $storyId) {
-        id
+        id: pid
       }
     }
     `,
@@ -121,7 +119,7 @@ export default {
         storyId: $storyId,
         isPublished: $isPublished
       ) {
-        id
+        id: pid
         isPublished
         hasUnpublishedDraft
       }

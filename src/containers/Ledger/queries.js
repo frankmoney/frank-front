@@ -24,10 +24,10 @@ export default {
       $verified: Boolean
       ${categoryScoped ? '$categoryId: ID!,' : ''}
     ) {
-      account(id: $accountId) {
+      account(pid: $accountId) {
         ${(includeCategories &&
           `categories {
-            id
+            id: pid
             name
             color
           }`) ||
@@ -35,16 +35,16 @@ export default {
         
         ${(includeAllPeers &&
           `peers(sortBy: name_ASC, donors: true, recipients: true) {
-            id
+            id: pid
             name
           }`) ||
           ''}
           
-        ${categoryScoped ? 'category(id: $categoryId) {' : ''}
+        ${categoryScoped ? 'category(pid: $categoryId) {' : ''}
         
         ${(includePayments &&
           `payments(
-            first: $first
+            take: $first
             skip: $skip
             search: $search
             postedOnMin: $dateMin
@@ -53,17 +53,17 @@ export default {
             amountMax: $amountMax
             verified: $verified
           ) {
-            id
+            id: pid
             postedOn
             amount
             peerName
             peer {
-              id
+              id: pid
               name
             }
             description
             category {
-              id
+              id: pid
               name
               color
             }
@@ -78,9 +78,7 @@ export default {
             amountMin: $amountMin
             amountMax: $amountMax
             verified: $verified
-          ) {
-            value
-          }`) ||
+          )`) ||
           ''}
           
         ${(includeBars &&
@@ -102,7 +100,7 @@ export default {
           `ledgerPieChart {
             items {
               category {
-                id
+                id: pid
                 name
                 color
               }
@@ -128,8 +126,7 @@ export default {
       categories: includeCategories ? categories : null,
       allPeers: peers,
       payments: categoryScoped ? category.payments : payments,
-      totalCount: (categoryScoped ? category.countPayments : countPayments)
-        .value,
+      totalCount: categoryScoped ? category.countPayments : countPayments,
       barChart: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).items.map(
             ({ date, revenue, spending }) => ({
@@ -153,7 +150,7 @@ export default {
       $amountMax: Float,
       $verified: Boolean,
     ) {
-      account(id: $accountId) {
+      account(pid: $accountId) {
         countPayments(
           postedOnMin: $dateMin
           postedOnMax: $dateMax
@@ -161,12 +158,10 @@ export default {
           amountMax: $amountMax
           verified: $verified
           search: $search
-        ) {
-          value
-        }
+        )
       }
     }
     `,
-    R.path(['account', 'countPayments', 'value']),
+    R.path(['account', 'countPayments']),
   ],
 }

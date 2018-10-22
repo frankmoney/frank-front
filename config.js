@@ -3,7 +3,7 @@ module.exports = {
   host: process.env.HOST || '0.0.0.0',
   port: process.env.PORT || 33307,
   backendUrl,
-  graphqlEndpointPath: '/graphql/v1',
+  graphqlEndpointPath: '',
   apiEndpointPath: '/api',
   authCookieName: 'currentUser',
 }
