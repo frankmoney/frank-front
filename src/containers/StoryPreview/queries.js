@@ -2,7 +2,7 @@ import { mapStory } from 'data/models/story'
 
 const paymentScheme = `
   {
-    id
+    id: pid
     postedOn
     amount
     peerName
@@ -22,13 +22,13 @@ export default {
       $storyId: ID!
     ) {
       story(id: $storyId) {
-        id
+        id: pid
         data: draftData {
           title
           body
           coverImage
           payments ${paymentScheme}
-          countPayments { value }
+          countPayments
           paymentsDateRange
         }
       }

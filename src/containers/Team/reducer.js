@@ -25,9 +25,9 @@ const teamReducer = handleActions(
       state.merge({
         loaded: true,
         loading: false,
-        profiles: R.fromPairs([self, ...others].map(x => [x.id, x])),
-        ownProfileId: self.id,
-        otherProfileIds: others.map(R.prop('id')),
+        profiles: R.fromPairs([self, ...others].map(x => [x.pid, x])),
+        ownProfilePid: self.pid,
+        otherProfilePids: others.map(R.prop('pid')),
       }),
 
     [ACTIONS.openInviteDrawer]: state => state.set('inviteDrawerOpen', true),
@@ -39,8 +39,8 @@ const teamReducer = handleActions(
 
     [ACTIONS.invite]: state => state.set('inviteDrawerOpen', false),
 
-    [ACTIONS.updateRole]: (state, { payload: { id, role } }) =>
-      state.setIn(['profiles', id, 'role'], role),
+    [ACTIONS.updateRole]: (state, { payload: { pid, role } }) =>
+      state.setIn(['profiles', pid, 'role'], role),
 
     [ACTIONS.leave]: () => initialState,
   },

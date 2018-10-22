@@ -64,12 +64,12 @@ export default compose(
   reconnect(null, { remove: ACTIONS.remove, updateRole: ACTIONS.updateRole }),
   withPropsOnChange(
     ['profile', 'remove', 'updateRole'],
-    ({ profile: { id }, remove, updateRole }) => ({
+    ({ profile: { pid }, remove, updateRole }) => ({
       onMenuSelectChange: role => {
         if (role === deleteRoleSelectValue) {
-          remove({ id })
+          remove({ pid })
         } else {
-          updateRole({ id, role })
+          updateRole({ pid, role })
         }
       },
     })

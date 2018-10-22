@@ -4,16 +4,16 @@ const team = [
   `
   query {
     accounts {
-      id
+      pid
       name
     }
   
     team {
-      id
+      pid
       name
       
       members {
-        id
+        pid
         self
         email
         lastName
@@ -44,9 +44,9 @@ const team = [
 
 const updateRole = [
   `
-  mutation($id: ID!, $role: TeamMemberRole!) {
-    teamMemberUpdateRole(id: $id, role: $role) {
-      id
+  mutation($pid: ID!, $role: TeamMemberRole!) {
+    teamMemberUpdateRole(pid: $pid, role: $role) {
+      pid
       email
       lastName
       firstName
@@ -68,7 +68,7 @@ const changePassword = [
   `
   mutation($password: String!) {
     meChangePassword(password: $password) {
-      id
+      pid
     }
   }
   `,
