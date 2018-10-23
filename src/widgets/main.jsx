@@ -1,13 +1,11 @@
+/* eslint-disable no-console */
 import React from 'react'
 import ReactDOM from 'react-dom'
 
 console.log('this is widget.js')
 
-const App = el => {
-  console.log('widget app')
-  ReactDOM.render(<h1>This is widget content</h1>, el)
-}
+const ApplicationComponent = () => <h1>This is widget react content</h1>
 
-window.Frank = {
-  renderWidget: App,
-}
+console.log('render main.jsx')
+const el = document.getElementById('root')
+ReactDOM.render(<ApplicationComponent />, el)
