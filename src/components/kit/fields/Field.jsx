@@ -7,14 +7,14 @@ import FloatingLabel from './FloatingLabel'
 import Label from './Label'
 import Placeholder from './Placeholder'
 import Underline from './Underline'
-import Error from './Error'
+import ValidationLabel from './ValidationLabel'
 import FieldContext from './FieldContext'
 import styles from './Field.jss'
 
 type Props = {
   larger?: boolean,
   error?: string,
-  invalid?: boolean,
+  hint?: string,
   focus?: boolean,
   disabled?: boolean,
   loading?: boolean,
@@ -97,7 +97,7 @@ class Field extends React.Component<Props> {
 
   getState = (state = this.state) => ({
     focus: this.isControlledFocus ? this.props.focus : state.focus,
-    invalid: this.props.invalid,
+    invalid: !!this.props.error,
     disabled: this.props.disabled,
     loading: this.props.loading,
     filled: this.state.filled,
@@ -109,17 +109,17 @@ class Field extends React.Component<Props> {
       className,
       floatingLabel,
       larger,
-      invalid,
       loading,
       loadingText,
       label,
       error,
+      hint,
       disabled,
       placeholder,
       children,
     } = this.props
     const control = React.Children.only(children)
-    const { focus, filled } = this.getState()
+    const { focus, invalid, filled } = this.getState()
 
     return (
       <FieldContext.Provider value={this.getState()}>
@@ -137,7 +137,11 @@ class Field extends React.Component<Props> {
           {floatingLabel && (
             <FloatingLabel larger={larger}>{floatingLabel}</FloatingLabel>
           )}
-          {error && <Error className={classes.error}>{error}</Error>}
+          {(error || hint) && (
+            <ValidationLabel invalid={invalid} className={classes.rightLabel}>
+              {error || hint}
+            </ValidationLabel>
+          )}
           {label && <Label className={classes.label}>{label}</Label>}
           {React.cloneElement(control, {
             className: classes.control,

@@ -45,6 +45,7 @@ const Playground = ({
   larger,
   disabled,
   multiline,
+  hint,
   onFocus,
   onBlur,
   onChange,
@@ -56,6 +57,7 @@ const Playground = ({
   toggleFloating,
   toggleLarger,
   toggleMultiline,
+  toggleHint,
   className,
 }) => {
   const Opt = ({ label, on, onToggle }) => (
@@ -78,6 +80,7 @@ const Playground = ({
         invalid={error}
         disabled={disabled}
         loading={loading}
+        hint={hint && '140 symbols left'}
       >
         <TextBox
           value={value}
@@ -113,6 +116,7 @@ const Playground = ({
             on={!!value}
             onToggle={() => onChange(value ? '' : 'Tom')}
           />
+          <Opt label="Has hint" on={hint} onToggle={toggleHint} />
         </div>
       </div>
     </div>
@@ -137,6 +141,7 @@ export default compose(
         disabled: !props.disabled,
       }),
       toggleFilled: props => () => ({ filled: !props.filled }),
+      toggleHint: props => () => ({ hint: !props.hint }),
       togglePlaceholder: props => () => ({ placeholder: !props.placeholder }),
       toggleLoading: props => () => ({ loading: !props.loading }),
       toggleFloating: props => () => ({ floatingLabel: !props.floatingLabel }),

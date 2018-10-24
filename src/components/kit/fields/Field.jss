@@ -2,6 +2,8 @@ export const TEXT_TOP_PADDING = 22
 export const TEXT_TOP_PADDING_LARGER = 26
 export const FONT_SIZE = 18
 export const FONT_SIZE_LARGER = 22
+export const LABEL_FONT_SIZE = 14
+export const LABEL_TOP = 2
 
 export default {
   root: {
@@ -25,7 +27,7 @@ export default {
   },
   label: {
     position: 'absolute',
-    top: 0,
+    top: LABEL_TOP,
     left: 0,
   },
   placeholder: {
@@ -55,6 +57,10 @@ export default {
   spinner: {
     marginRight: 8,
   },
-  error: {},
+  rightLabel: {
+    position: 'absolute',
+    right: 0,
+    top: LABEL_TOP,
+  },
   control: {},
 }
