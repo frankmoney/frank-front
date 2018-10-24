@@ -10,7 +10,7 @@ import Label from 'components/kit/fields/Label'
 const styles = {
   root: {},
   field: {
-    width: 300,
+    width: 340,
   },
   options: {
     marginTop: 40,
@@ -18,7 +18,7 @@ const styles = {
     alignItems: 'flex-start',
   },
   col: {
-    width: 150,
+    width: 170,
   },
   opt: {
     display: 'flex',
@@ -45,6 +45,7 @@ const Playground = ({
   larger,
   disabled,
   multiline,
+  additionalLabel,
   hint,
   onFocus,
   onBlur,
@@ -58,6 +59,7 @@ const Playground = ({
   toggleLarger,
   toggleMultiline,
   toggleHint,
+  toggleAdditionalLabel,
   className,
 }) => {
   const Opt = ({ label, on, onToggle }) => (
@@ -73,6 +75,7 @@ const Playground = ({
         larger={larger}
         className={classes.field}
         label={!floatingLabel && 'Name'}
+        additionalLabel={additionalLabel && 'Should be fancy'}
         floatingLabel={floatingLabel && 'Name'}
         placeholder={placeholder && 'Frank Sinatra'}
         focus={focus}
@@ -112,11 +115,16 @@ const Playground = ({
           />
           <Opt label="Larger" on={larger} onToggle={toggleLarger} />
           <Opt
-            label="Has value"
+            label="Value"
             on={!!value}
             onToggle={() => onChange(value ? '' : 'Tom')}
           />
-          <Opt label="Has hint" on={hint} onToggle={toggleHint} />
+          <Opt label="Hint" on={hint} onToggle={toggleHint} />
+          <Opt
+            label="Additional label"
+            on={additionalLabel}
+            onToggle={toggleAdditionalLabel}
+          />
         </div>
       </div>
     </div>
@@ -142,6 +150,9 @@ export default compose(
       }),
       toggleFilled: props => () => ({ filled: !props.filled }),
       toggleHint: props => () => ({ hint: !props.hint }),
+      toggleAdditionalLabel: props => () => ({
+        additionalLabel: !props.additionalLabel,
+      }),
       togglePlaceholder: props => () => ({ placeholder: !props.placeholder }),
       toggleLoading: props => () => ({ loading: !props.loading }),
       toggleFloating: props => () => ({ floatingLabel: !props.floatingLabel }),

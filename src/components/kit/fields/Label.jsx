@@ -27,6 +27,11 @@ const styles = {
   disabled: {
     color: 'rgba(37, 43, 67, 0.3)',
   },
+  additionalText: {
+    fontWeight: 400,
+    marginLeft: 8,
+    opacity: 0.6,
+  },
 }
 
 const Label = ({
@@ -37,6 +42,7 @@ const Label = ({
   disabled,
   className,
   children,
+  additionalText,
 }) => (
   <FieldContext.Consumer>
     {field => (
@@ -51,6 +57,9 @@ const Label = ({
         )}
       >
         {children}
+        {additionalText && (
+          <span className={classes.additionalText}>{additionalText}</span>
+        )}
       </label>
     )}
   </FieldContext.Consumer>

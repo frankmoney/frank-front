@@ -102,6 +102,36 @@ const FieldsDemo = ({ classes }) => {
           <TextBox defaultValue="Tom" />
         </Field>
       </div>
+      <h1>Additional label</h1>
+      {states}
+      <div className={classes.row}>
+        <Field label="Name" additionalLabel="Additional label">
+          <TextBox />
+        </Field>
+        <Field label="Name" additionalLabel="Additional label" focus>
+          <TextBox />
+        </Field>
+        <Field label="Name" additionalLabel="Additional label">
+          <TextBox defaultValue="Nick" />
+        </Field>
+        <Field
+          label="Name"
+          additionalLabel="Additional label"
+          error="Gay name"
+          invalid
+        >
+          <TextBox defaultValue="Tom" />
+        </Field>
+        <Field
+          label="Name"
+          additionalLabel="Additional label"
+          error="Gay name"
+          invalid
+          focus
+        >
+          <TextBox defaultValue="Tom" />
+        </Field>
+      </div>
       <h2>Floating label</h2>
       {states}
       <div className={classes.row}>

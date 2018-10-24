@@ -15,6 +15,9 @@ type Props = {
   larger?: boolean,
   error?: string,
   hint?: string,
+  label?: string,
+  floatingLabel?: string,
+  additionalLabel?: string,
   focus?: boolean,
   disabled?: boolean,
   loading?: boolean,
@@ -112,6 +115,7 @@ class Field extends React.Component<Props> {
       loading,
       loadingText,
       label,
+      additionalLabel,
       error,
       hint,
       disabled,
@@ -142,7 +146,14 @@ class Field extends React.Component<Props> {
               {error || hint}
             </ValidationLabel>
           )}
-          {label && <Label className={classes.label}>{label}</Label>}
+          {label && (
+            <Label
+              className={classes.label}
+              additionalText={!error && !hint && additionalLabel}
+            >
+              {label}
+            </Label>
+          )}
           {React.cloneElement(control, {
             className: classes.control,
             controlRef: this.handleControlRef,
