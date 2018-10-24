@@ -29,7 +29,15 @@ const config = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
-  module: common.module,
+  module: {
+    rules: [
+      ...common.module.rules,
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
   plugins: [
     new webpack.DefinePlugin({
       __API_URL: JSON.stringify(apiEndpointPath),

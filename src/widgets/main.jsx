@@ -13,6 +13,7 @@ import widgetDataReducer, {
   REDUCER_KEY as widgetDataKey,
 } from 'containers/Widget/reducer'
 import createTheme from 'styles/createTheme'
+import 'minireset.css'
 
 const WidgetDemo = () => <InlineWidget size={400} />
 
