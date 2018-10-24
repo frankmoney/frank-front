@@ -5,8 +5,7 @@ export default theme => ({
     display: 'flex',
   },
   symbol: {
-    width: 26,
-    height: 26,
+    fontSize: '1.3em',
     marginRight: 8,
   },
   counter: {
@@ -14,6 +13,6 @@ export default theme => ({
     marginRight: 20,
   },
   dateRange: {
-    color: 'rgba(37, 43, 67, 0.3)',
+    opacity: 0.5,
   },
 })

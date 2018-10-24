@@ -34,8 +34,7 @@ const StoryCard = ({
       <div className={classes.title}>{title}</div>
       {paymentsCount > 0 && (
         <StoryPaymentsStats
-          className={classes.stats}
-          paymentsCurrency={paymentsCurrency}
+          classNames={{ root: classes.stats }}
           paymentsCount={paymentsCount}
           paymentsDateRange={paymentsDateRange}
         />

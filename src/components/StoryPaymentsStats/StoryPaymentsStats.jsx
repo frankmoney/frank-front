@@ -7,15 +7,21 @@ import styles from './StoryPaymentsStats.jss'
 
 const StoryPaymentsStats = ({
   classes,
-  className,
+  classNames: {
+    root: rootClassName,
+    symbol: symbolClassName,
+    counter: counterClassName,
+  } = {},
   paymentsCount,
   paymentsDateRange,
 }) => (
-  <div className={cx(classes.container, className)}>
+  <div className={cx(classes.container, rootClassName)}>
     <CurrencyContext.Consumer>
-      {(context = {}) => <context.icon className={classes.symbol} />}
+      {(context = {}) => (
+        <context.icon className={cx(classes.symbol, symbolClassName)} />
+      )}
     </CurrencyContext.Consumer>
-    <span className={classes.counter}>
+    <span className={cx(classes.counter, counterClassName)}>
       {`${paymentsCount} payment${paymentsCount > 1 ? 's' : ''} `}
     </span>
     <span className={classes.dateRange}>

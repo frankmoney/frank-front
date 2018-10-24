@@ -91,3 +91,5 @@ export const showCategoriesSelector = createSelector(
   currentCategoryIdSelector,
   R.isNil
 )
+
+export const storiesSelector = createPlainObjectSelector(get('stories'))

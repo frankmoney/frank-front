@@ -1,10 +1,13 @@
+import * as R from 'ramda'
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import { convertGraphqlPieData } from 'data/models/pieData'
+import { mapStory } from 'data/models/story'
 // FIXME: static data
 import BAR_CHART_DATA from 'demo/Widgets/barChartData.json'
 import PAYMENTS_DATA from 'demo/Widgets/paymentsData.json'
 import PIE_CHART_DATA from 'demo/Widgets/pieChartData.json'
+import STORIES_DATA from 'demo/Widgets/storiesData.json'
 import * as ACTIONS from './actions'
 
 export const REDUCER_KEY = 'widget'
@@ -19,6 +22,7 @@ const initialState = fromJS({
   periods: ['All time', '2018', 'TBD'], // FIXME: placeholder
   pieData: convertGraphqlPieData(PIE_CHART_DATA),
   selectedAll: false,
+  stories: R.map(mapStory, STORIES_DATA),
   tab: 'overview',
 })
 

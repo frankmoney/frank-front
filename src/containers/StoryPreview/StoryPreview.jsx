@@ -44,7 +44,7 @@ const StoryPreview = ({
         {title && <div className={classes.title}>{title}</div>}
         {paymentsCount > 0 && (
           <StoryPaymentsStats
-            className={classes.stats}
+            classNames={{ root: classes.stats }}
             paymentsCount={paymentsCount}
             paymentsDateRange={paymentsDateRange}
           />

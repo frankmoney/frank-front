@@ -15,6 +15,7 @@ import {
   paymentCountSelector,
   pieChartDataSelector,
   tabSelector,
+  storiesSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 import type { Props } from './Widget.flow'
@@ -52,6 +53,9 @@ const Widget = ({
   showBarChart,
   showCategoryCount,
   showOverviewTotals,
+  stories,
+  storiesClassName,
+  storyClassNames,
   tab,
   widgetSize,
 }: Props) => {
@@ -120,7 +124,13 @@ const Widget = ({
           showBarChart={showBarChart}
         />
       )}
-      {isStoriesTab && <StoriesTab />}
+      {isStoriesTab && (
+        <StoriesTab
+          data={stories}
+          className={storiesClassName}
+          storyClassNames={storyClassNames}
+        />
+      )}
       {isAboutTab && <AboutTab />}
     </div>
   )
@@ -134,6 +144,7 @@ const mapStateToProps = createStructuredSelector({
   currentCategoryName: currentCategoryNameSelector,
   paymentCount: paymentCountSelector,
   pieData: pieChartDataSelector,
+  stories: storiesSelector,
   tab: tabSelector,
 })
 

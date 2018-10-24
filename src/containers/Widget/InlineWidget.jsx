@@ -67,6 +67,108 @@ const styles = theme => ({
       width: 'auto',
     },
   },
+  stories: {
+    overflowY: 'scroll',
+    margin: [0, -18],
+    padding: [0, 18],
+  },
+  storyRoot: {
+    marginBottom: 20,
+    borderRadius: 5,
+    overflow: 'hidden',
+    boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.1)',
+    '$size400 &, $size500 &': {
+      flexDirection: 'row',
+    },
+    '$size625 &, $size800 &': {
+      flexDirection: 'row-reverse',
+      flex: [1, 1],
+    },
+    '$size400 &': {
+      minHeight: 168,
+    },
+    '$size500 &': {
+      minHeight: 212,
+    },
+  },
+  storyWithImage: {
+    '$size400 &, $size500 &': {
+      boxShadow: 'unset',
+    },
+  },
+  storyImage: {
+    '$size400 &, $size500 &': {
+      position: 'absolute',
+      '&::before': {
+        display: 'block',
+        content: '" "',
+        position: 'absolute',
+        backgroundColor: 'black',
+        opacity: 0.3,
+        width: '100%',
+        height: '100%',
+      },
+    },
+    '$size625 &, $size800 &': {
+      height: 'unset',
+    },
+  },
+  storyTitle: {
+    ...theme.fontSemibold(22, 26),
+    marginBottom: 10,
+    '$size400 $storyWithImage &, $size500 $storyWithImage &': {
+      color: 'white',
+    },
+    '$size400 &': {
+      padding: [20, 20],
+    },
+    '$size500 &': {
+      padding: [20, 20],
+      ...theme.fontSemibold(26, 30),
+    },
+    '$size625 &': {
+      padding: [20, 20, 0],
+    },
+    '$size800 &': {
+      padding: [20, 20, 0],
+    },
+  },
+  storyStats: {
+    ...theme.fontRegular(16, 30),
+    '$size400 &, $size500 &': {
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+    },
+    '$size400 $storyWithImage &, $size500 $storyWithImage &': {
+      color: 'white',
+    },
+    '$size400 &': {
+      padding: [20, 15],
+    },
+    '$size500 &': {
+      padding: [20, 15],
+    },
+    '$size625 &': {
+      padding: [20, 15],
+    },
+    '$size800 &': {
+      padding: [20, 15],
+    },
+  },
+  storyText: {
+    '$size400 &, $size500 &': {
+      display: 'none',
+    },
+    '$size625 &': {
+      padding: [0, 20],
+      marginBottom: 20,
+    },
+    '$size800 &': {
+      padding: [0, 20],
+      marginBottom: 20,
+    },
+  },
 })
 
 type Props = {
@@ -98,6 +200,15 @@ const InlineWidget = ({ classes, size }: Props) => (
     paymentsPeriodClassName={classes.paymentsPeriodSelect}
     showBarChart={size > 400}
     showCategoryCount={size > 400}
+    storiesClassName={classes.stories}
+    storyClassNames={{
+      root: classes.storyRoot,
+      image: classes.storyImage,
+      withImage: classes.storyWithImage,
+      title: classes.storyTitle,
+      text: classes.storyText,
+      stats: classes.storyStats,
+    }}
     widgetSize={size}
   />
 )

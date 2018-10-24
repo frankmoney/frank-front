@@ -62,6 +62,27 @@ const styles = theme => ({
   payments: {
     margin: [-3, -9, 0],
   },
+  stories: {
+    overflowY: 'scroll',
+    marginRight: -20,
+    paddingRight: 20,
+  },
+  storyRoot: {
+    marginBottom: 30,
+  },
+  storyImage: {
+    borderRadius: 5,
+    marginBottom: 15,
+    overflow: 'hidden',
+  },
+  storyTitle: {
+    ...theme.fontSemibold(22, 28),
+    marginBottom: 10,
+  },
+  storyStats: {
+    ...theme.fontRegular(16, 30),
+    marginBottom: 10,
+  },
 })
 
 type Props = {
@@ -124,6 +145,13 @@ class ButtonWidget extends React.PureComponent<Props, State> {
           showBarChart
           showCategoryCount
           showOverviewTotals
+          storiesClassName={classes.stories}
+          storyClassNames={{
+            root: classes.storyRoot,
+            image: classes.storyImage,
+            title: classes.storyTitle,
+            stats: classes.storyStats,
+          }}
           widgetSize={WIDTH}
         />
         <Expander className={classes.expender} onClose={this.handleClose} />
