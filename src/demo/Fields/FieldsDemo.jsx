@@ -150,20 +150,29 @@ const FieldsDemo = ({ classes }) => {
         </Field>
       </div>
       <h2>Placeholders</h2>
-      {states}
+      <div className={classes.states}>
+        <div>Normal floating</div>
+        <div>Focus floating</div>
+        <div>Normal fixed</div>
+        <div>Focus fixed</div>
+        <div>Multiline</div>
+      </div>
       <div className={classes.row}>
         <Field floatingLabel="Floating label" placeholder="Type your name">
-          <TextBox multiLine />
+          <TextBox />
         </Field>
         <Field
           floatingLabel="Floating label"
           placeholder="Type your name"
           focus
         >
-          <TextBox multiLine />
+          <TextBox />
         </Field>
         <Field label="Fixed label" placeholder="Type your name">
-          <TextBox multiLine />
+          <TextBox />
+        </Field>
+        <Field label="Fixed label" placeholder="Type your name" focus>
+          <TextBox />
         </Field>
         <Field
           label="Multiline"

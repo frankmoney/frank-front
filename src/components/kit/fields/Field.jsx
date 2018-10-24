@@ -23,7 +23,8 @@ type Props = {
 const styles = {
   root: {
     position: 'relative',
-    paddingTop: 28,
+    paddingTop: 22,
+    paddingBottom: 5,
     fontSize: 18,
     lineHeight: 26,
     minHeight: 60,
@@ -32,6 +33,12 @@ const styles = {
   larger: {
     minHeight: 70,
     fontSize: 22,
+    lineHeight: 30,
+    paddingTop: 26,
+    paddingBottom: 6,
+    '& $placeholder': {
+      top: 28,
+    },
   },
   label: {
     position: 'absolute',
@@ -40,7 +47,7 @@ const styles = {
   },
   placeholder: {
     position: 'absolute',
-    top: 28,
+    top: 22,
     left: 0,
     right: 0,
     display: 'flex',
@@ -191,8 +198,8 @@ class Field extends React.Component<Props> {
             onFocus: combineCallbacks(this.handleFocus, control.props.onFocus),
             onBlur: combineCallbacks(this.handleBlur, control.props.onBlur),
             onChange: combineCallbacks(
-              control.props.onChange,
-              this.hanleChange
+              this.handleChange,
+              control.props.onChange
             ),
             disabled: disabled || loading,
           })}
@@ -211,7 +218,9 @@ class Field extends React.Component<Props> {
             )}
           {loading && (
             <Placeholder className={classes.placeholder}>
-              {loading && <Spinner className={classes.spinner} size={18} />}
+              {loading && (
+                <Spinner className={classes.spinner} size={larger ? 20 : 18} />
+              )}
               {loading && loadingText}
             </Placeholder>
           )}

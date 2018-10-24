@@ -17,6 +17,7 @@ const styles = theme => ({
     fontSize: 'inherit',
     fontFamily: 'inherit',
     lineHeight: 'inherit',
+    letterSpacing: 'inherit',
     ...mixins.placeholder({
       color: '#20284A',
       opacity: 0.2,
@@ -39,6 +40,15 @@ class Input extends React.Component {
     if (this.props.multiLine) {
       // eslint-disable-next-line react/no-find-dom-node
       adjustTextareaSize(findDOMNode(this), this.props)
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.multiLine !== this.props.multiLine) {
+      if (this.props.multiLine) {
+        // eslint-disable-next-line react/no-find-dom-node
+        adjustTextareaSize(findDOMNode(this), this.props)
+      }
     }
   }
 
