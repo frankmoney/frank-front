@@ -13,7 +13,7 @@ export default {
     fontSize: 18,
     lineHeight: 26,
     minHeight: 60,
-    letterSpacing: '-0.025em',
+    letterSpacing: '-0.02em',
   },
   larger: {
     minHeight: 70,

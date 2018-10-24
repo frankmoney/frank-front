@@ -10,6 +10,7 @@ const styles = {
   demo: {
     alignItems: 'center',
     background: '#fff',
+    color: '#252B43',
     display: 'flex',
     flexDirection: 'column',
     paddingBottom: 100,
