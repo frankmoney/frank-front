@@ -43,7 +43,7 @@ export default {
   },
   disabled: {
     pointerEvents: 'none',
-    '& $error': {
+    '& $rightLabel': {
       opacity: 0,
     },
   },
