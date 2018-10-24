@@ -1,3 +1,4 @@
+// @flow
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import { convertGraphqlPieData } from 'data/models/pieData'

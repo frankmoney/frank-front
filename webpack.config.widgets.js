@@ -21,6 +21,9 @@ const config = {
   },
   devServer: {
     port: 33307,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
   },
   context: sourcePath,
   resolve: {
