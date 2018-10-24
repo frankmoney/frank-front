@@ -15,7 +15,11 @@ import widgetDataReducer, {
 import createTheme from 'styles/createTheme'
 import 'minireset.css'
 
-const WidgetDemo = () => <InlineWidget size={400} />
+type Props = {
+  size: number,
+}
+
+const WidgetDemo = ({ size }: Props) => <InlineWidget size={size} />
 
 const jss = createJSS()
 
@@ -30,12 +34,12 @@ const store = createStore(
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
-const Application = () => (
+const Application = ({ size }: Props) => (
   <JssProvider jss={jss}>
     <ThemeProvider frankTheme={frankTheme} muiTheme={muiTheme}>
       <StoreProvider store={store}>
         <GridSystemProvider>
-          <WidgetDemo />
+          <WidgetDemo size={size} />
         </GridSystemProvider>
       </StoreProvider>
     </ThemeProvider>
@@ -45,5 +49,7 @@ const Application = () => (
 const el = document.getElementById('root')
 if (el) {
   console.log('render main.jsx') // eslint-disable-line no-console
-  ReactDOM.render(<Application />, el)
+  const size = parseInt(el.getAttribute('data-frank-size'), 10) || 400
+  console.log('size', size) // eslint-disable-line no-console
+  ReactDOM.render(<Application size={size} />, el)
 }

@@ -1,9 +1,8 @@
 // @flow
 /* eslint-disable no-console */
 
-const widgetHtml = `
-    <h2>This is widget static content</h2>
-    <div id="root">this is react placeholder</div>
+const widgetHtml = size => `
+    <div id="root" data-frank-size="${size}">[react root]</div>
     <script src="/widget.js"></script>
 `
 
@@ -17,19 +16,19 @@ const insertIframe = (el: Element, width: number, height: number) => {
   iframe.height = `${height}`
   iframe.sandbox.add('allow-scripts')
   // $FlowFixMe: flow reports `srcdoc` as missing
-  iframe.srcdoc = widgetHtml
+  iframe.srcdoc = widgetHtml(width)
   el.replaceWith(iframe)
 }
 
 const widgetSizes = {
-  '1': [400, 275],
-  '2': [500, 345],
+  '400': [400, 275],
+  '500': [500, 345],
 }
 
 const placeholders = document.querySelectorAll('[data-frank-widget]')
 placeholders.forEach(el => {
   console.log('processing widget placeholder')
-  const size = el.getAttribute('data-frank-size') || '1'
+  const size = el.getAttribute('data-frank-size') || '400'
   const [width, height] = widgetSizes[size]
   insertIframe(el, width, height)
 })
