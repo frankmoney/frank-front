@@ -3,7 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
-import type { Props } from 'components/CategoryList/types'
+import type { CategoryListProps } from 'components/CategoryList'
 
 const styles = theme => ({
   root: {
@@ -29,6 +29,8 @@ const styles = theme => ({
     ...theme.fontRegular(18, 26),
   },
 })
+
+type Props = CategoryListProps & { classes: Object }
 
 const ButtonWidgetCategoryList = ({
   classes,

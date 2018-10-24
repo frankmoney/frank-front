@@ -1,6 +1,8 @@
+// @flow
 import React, { Fragment, cloneElement } from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { Popover } from 'material-ui'
+import type { Props, State } from './OtherCategories.flow'
 
 const styles = {
   tooltip: {
@@ -23,7 +25,7 @@ const popoverProps = {
   getContentAnchorEl: null,
 }
 
-class OtherCategories extends React.PureComponent {
+class OtherCategories extends React.PureComponent<Props, State> {
   state = {
     anchorEl: null,
   }

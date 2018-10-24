@@ -1,7 +1,7 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import colors from 'styles/colors'
 import Widget from './Widget'
@@ -69,6 +69,11 @@ const styles = theme => ({
   },
 })
 
+type Props = {
+  size: 400 | 500 | 625 | 800,
+  classes: Object,
+}
+
 const barsHeight = R.cond([
   [R.equals(500), R.always(146)],
   [R.equals(625), R.always(198)],
@@ -76,7 +81,7 @@ const barsHeight = R.cond([
   [R.T, R.always(0)],
 ])
 
-const InlineWidget = ({ classes, size }) => (
+const InlineWidget = ({ classes, size }: Props) => (
   <Widget
     className={cx(classes.root, {
       [classes.size400]: size === 400,
@@ -96,9 +101,5 @@ const InlineWidget = ({ classes, size }) => (
     widgetSize={size}
   />
 )
-
-InlineWidget.propTypes = {
-  size: PropTypes.oneOf([400, 500, 625, 800]).isRequired,
-}
 
 export default injectStyles(styles)(InlineWidget)

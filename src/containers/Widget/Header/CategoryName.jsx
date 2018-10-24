@@ -1,6 +1,6 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { ArrowBack as IconArrowBack } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
 
@@ -22,7 +22,17 @@ const styles = theme => ({
   },
 })
 
-const CategoryName = ({ classes, className, name, onClick }) => (
+type EmptyCb = () => void
+
+type Props = {
+  name: string,
+  onClick: ?EmptyCb,
+  // Styles
+  classes: Object,
+  className: ?string,
+}
+
+const CategoryName = ({ classes, className, name, onClick }: Props) => (
   <div
     className={cx(classes.root, className)}
     onClick={onClick}
@@ -33,10 +43,5 @@ const CategoryName = ({ classes, className, name, onClick }) => (
     <div className={classes.title}>{name}</div>
   </div>
 )
-
-CategoryName.propTypes = {
-  name: PropTypes.string,
-  onClick: PropTypes.func,
-}
 
 export default injectStyles(styles)(CategoryName)

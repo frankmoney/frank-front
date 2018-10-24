@@ -1,10 +1,12 @@
+// @flow
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
+import type { Store } from 'redux'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { remapPieData, sumProp } from 'data/models/pieData'
 import { REDUCER_KEY } from './reducer'
 
-const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
+const get = (...prop) => (store: Store) => store.getIn([REDUCER_KEY, ...prop])
 
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
 const totalExpensesSelector = createSelector(
