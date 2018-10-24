@@ -6,7 +6,7 @@ import { injectStyles } from '@frankmoney/ui'
 import CategoryLabel from 'components/CategoryLabel'
 import OtherCategories from './OtherCategories'
 import styles from './CategoryList.jss'
-import type { Props, Classes } from './types'
+import type { Props } from './CategoryList.flow'
 
 const CategoryList = ({
   activeCategoryIndex,
@@ -21,7 +21,7 @@ const CategoryList = ({
   onLabelMouseLeave,
   valueClassName,
   valueUnit,
-}: Props & Classes) => {
+}: Props) => {
   const highlighted = R.not(R.isNil(activeCategoryIndex))
 
   const renderItem = ({ index, ...otherProps }) => (
@@ -34,7 +34,7 @@ const CategoryList = ({
       nameClassName={cx(classes.name, nameClassName)}
       onClick={onCategoryClick && (() => onCategoryClick(items[index]))}
       onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(index))}
-      onMouseLeave={onLabelMouseLeave && (() => onLabelMouseLeave(index))}
+      onMouseLeave={onLabelMouseLeave}
       valueClassName={cx(classes.value, valueClassName)}
       valueUnit={valueUnit}
       {...otherProps}

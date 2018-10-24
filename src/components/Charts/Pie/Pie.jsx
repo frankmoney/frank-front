@@ -4,7 +4,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Cell, PieChart as ReChart, Pie as RePie } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
-import type { PieData } from './types'
+import type { Props, PieSliceProps, FatPieSliceProps } from './Pie.flow'
 
 const DEFAULT_COLOR = '#B3B3B3'
 const INNER_RING_THICCNESS = 15
@@ -21,32 +21,15 @@ const styles = {
   },
 }
 
-type Props = {
-  activeSegmentIndex: ?number,
-  data: PieData,
-  // onClick: // FIXME: not used now,
-  onSegmentMouseEnter: ?(number) => void,
-  onSegmentMouseLeave: ?() => void,
-  size: number,
-}
-
-const PieSlice = ({
-  color = DEFAULT_COLOR,
-  index,
-}: {
-  color: string,
-  index: number,
-}) => <Cell fill={color} key={index} />
+const PieSlice = ({ color = DEFAULT_COLOR, index }: PieSliceProps) => (
+  <Cell fill={color} key={index} />
+)
 
 const FatPieSlice = ({
   color = DEFAULT_COLOR,
   active,
   index,
-}: {
-  active: boolean,
-  color: string,
-  index: number,
-}) => <Cell fill={active ? color : 'none'} key={index} />
+}: FatPieSliceProps) => <Cell fill={active ? color : 'none'} key={index} />
 
 const injectActive = current => item =>
   R.assoc('active', current === null || R.propEq('index', current, item), item)

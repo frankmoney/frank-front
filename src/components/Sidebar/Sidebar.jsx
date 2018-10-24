@@ -5,6 +5,16 @@ import React from 'react'
 import { SidebarProvider } from '@frankmoney/components'
 import SidebarContainer from './SidebarContainer'
 
+type EmptyCb = () => void
+
+type Props = {
+  onToggleOpen: ?EmptyCb,
+  onToggleOverlay: ?EmptyCb,
+  open: boolean,
+  overlayOn: boolean,
+  width: ?number,
+}
+
 const Sidebar = ({
   open,
   overlayOn,
@@ -12,7 +22,7 @@ const Sidebar = ({
   onToggleOpen,
   onToggleOverlay,
   ...props
-}) => (
+}: Props) => (
   <SidebarProvider
     open={open}
     overlayOn={overlayOn}

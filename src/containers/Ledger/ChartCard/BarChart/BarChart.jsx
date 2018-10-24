@@ -6,7 +6,7 @@ import Bar, {
   POSITIVE_BAR_COLOR,
   PRIMARY_BAR_COLOR,
 } from 'components/Charts/Bar'
-import type { BarData } from 'components/Charts/types'
+import type { BarData } from 'components/Charts/Bar'
 import Checkbox from 'components/Checkbox'
 
 const MAX_ZEROES_TO_HIDE = 0.5
@@ -30,7 +30,14 @@ const styles = theme => ({
 })
 
 type Props = {
+  classes: Object,
+  className: ?string,
   data: ?BarData,
+}
+
+type State = {
+  income: boolean,
+  spending: boolean,
 }
 
 const countZeroes = prop =>
@@ -45,7 +52,7 @@ const makePositive = R.map(({ date, negativeValue }) => ({
   value: negativeValue,
 }))
 
-class BarChart extends React.PureComponent<Props> {
+class BarChart extends React.PureComponent<Props, State> {
   state = {
     income: true,
     spending: true,

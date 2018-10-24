@@ -1,11 +1,11 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { format as formatDate } from 'date-fns'
 import { injectStyles } from '@frankmoney/ui'
-import { paymentProps } from 'data/models/payment'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
+import type { Props } from './Payment.flow'
 
 const styles = theme => ({
   root: {
@@ -67,7 +67,7 @@ const Payment = ({
   peerName,
   postedOn,
   showCategory,
-}) => {
+}: Props) => {
   const date = formatDate(postedOn, 'MMM D')
   return (
     <div className={cx(classes.root, className)}>
@@ -97,11 +97,6 @@ const Payment = ({
       </div>
     </div>
   )
-}
-
-Payment.propTypes = {
-  ...paymentProps,
-  showCategory: PropTypes.bool,
 }
 
 export default injectStyles(styles)(Payment)

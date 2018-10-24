@@ -1,12 +1,14 @@
 // @flow
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from 'react'
+import * as React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import Fade from 'material-ui/transitions/Fade'
 import SidebarPanel from './SidebarPanel'
 import styles, { TOGGLE_DURATION } from './SidebarContainer.jss'
 
 type Props = {
+  children: React.Node,
+  classes: Object,
   overlayOn: boolean,
   open: boolean,
   // sidebar panel width

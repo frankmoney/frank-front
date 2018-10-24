@@ -1,9 +1,10 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import Payment, { paymentProps } from './Payment'
+import Payment from './Payment'
+import type { PaymentProps } from './Payment.flow'
 
 const styles = theme => ({
   root: {},
@@ -15,6 +16,17 @@ const styles = theme => ({
   },
 })
 
+type Props = {
+  title: string,
+  items: Array<PaymentProps>,
+  showCategories: boolean,
+  // Styles
+  classes: Object,
+  className: ?string,
+  paymentClassName: ?string,
+  titleClassName: ?string,
+}
+
 const PaymentBlock = ({
   classes,
   className,
@@ -23,7 +35,7 @@ const PaymentBlock = ({
   showCategories,
   title,
   titleClassName,
-}) => (
+}: Props) => (
   <div className={cx(classes.root, className)}>
     <div className={cx(classes.title, titleClassName)}>{title}</div>
     {R.map(
@@ -39,14 +51,5 @@ const PaymentBlock = ({
     )}
   </div>
 )
-
-PaymentBlock.propTypes = {
-  title: PropTypes.string.isRequired,
-  items: PropTypes.arrayOf(paymentProps).isRequired,
-  showCategories: PropTypes.bool,
-  // Styles
-  paymentClassName: PropTypes.string,
-  titleClassName: PropTypes.string,
-}
 
 export default injectStyles(styles)(PaymentBlock)

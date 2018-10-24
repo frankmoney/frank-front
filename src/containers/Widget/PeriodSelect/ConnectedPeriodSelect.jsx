@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import { createStructuredSelector } from 'reselect'
@@ -6,8 +7,21 @@ import { connect } from 'react-redux'
 import * as ACTIONS from 'containers/Widget/actions'
 import { periodSelector, periodsSelector } from 'containers/Widget/selectors'
 import PeriodSelector from './PeriodSelect'
+import type { Period, OnChangeCb } from './PeriodSelect'
 
-const ConnectedPeriodSelect = ({ className, onChange, period, periods }) => (
+type Props = {
+  period: Period,
+  periods: Array<Period>,
+  onChange: ?OnChangeCb,
+  className: ?string,
+}
+
+const ConnectedPeriodSelect = ({
+  className,
+  onChange,
+  period,
+  periods,
+}: Props) => (
   <PeriodSelector
     className={className}
     onChange={onChange}

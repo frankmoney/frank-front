@@ -2,15 +2,18 @@
 import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
-import { pieDataProp } from 'components/Charts/types'
+import CategoryTypeSelect from 'components/CategoryTypeSelect'
 import Pie from 'components/Charts/Pie'
-import CategoryTypeSelect from './CategoryTypeSelect'
 import limitCategories from './utils'
 import styles from './CategoryListPieChart.jss'
+import type { Props, State } from './CategoryListPieChart.flow'
 
-class CategoryListPieChart extends React.PureComponent {
+class CategoryListPieChart extends React.PureComponent<Props, State> {
+  static defaultProps = {
+    component: 'div',
+  }
+
   state = {
     activeCategoryIndex: null,
   }
@@ -76,23 +79,6 @@ class CategoryListPieChart extends React.PureComponent {
       </Root>
     )
   }
-}
-
-CategoryListPieChart.propTypes = {
-  CategoryList: PropTypes.element.isRequired,
-  categoryType: PropTypes.string.isRequired,
-  categoryTypeSelectLabel: PropTypes.string,
-  chartSize: PropTypes.number.isRequired,
-  data: pieDataProp.isRequired,
-  onCategoryClick: PropTypes.func, // category object in callback
-  onCategoryTypeChange: PropTypes.func,
-  // Styles
-  categoryTypeSelectClassName: PropTypes.string,
-  chartClassName: PropTypes.string,
-}
-
-CategoryListPieChart.defaultProps = {
-  component: 'div',
 }
 
 export default injectStyles(styles)(CategoryListPieChart)
