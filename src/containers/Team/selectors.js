@@ -11,8 +11,8 @@ const getters = {
   inviteDrawerOpen: getter('inviteDrawerOpen'),
   changePasswordPopupOpen: getter('changePasswordPopupOpen'),
   profiles: getter('profiles'),
-  ownProfileId: getter('ownProfileId'),
-  otherProfileIds: getter('otherProfileIds'),
+  ownProfilePid: getter('ownProfilePid'),
+  otherProfilePids: getter('otherProfilePids'),
 }
 
 export const loadedSelector = getters.loaded
@@ -24,16 +24,16 @@ export const changePasswordPopupOpen = getters.changePasswordPopupOpen
 export const ownProfileSelector = createPlainObjectSelector(
   createSelector(
     getters.profiles,
-    getters.ownProfileId,
-    (profiles, id) => profiles && profiles.get(id)
+    getters.ownProfilePid,
+    (profiles, pid) => profiles && profiles.get(pid)
   )
 )
 
 export const otherProfilesSelector = createPlainObjectSelector(
   createSelector(
     getters.profiles,
-    getters.otherProfileIds,
-    (profiles, ids) => ids && ids.map(id => profiles.get(id))
+    getters.otherProfilePids,
+    (profiles, pids) => pids && pids.map(pid => profiles.get(pid))
   )
 )
 

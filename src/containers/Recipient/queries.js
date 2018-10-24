@@ -1,37 +1,25 @@
 import * as R from 'ramda'
 import { SORT_BY_DEFAULT } from './constants'
 
-const mapCategory = ({ countPayments: { value }, ...category }) => ({
+const mapCategory = ({ countPayments, ...category }) => ({
   ...category,
-  value,
+  value: countPayments,
 })
 
 const recipientDetails = `
-    id
+    id: pid
     name
     categories {
-      id
+      id: pid
       name
       color
-      countPayments {
-        value
-      }
+      countPayments
     }
-    countPayments {
-      value
-    }
-    total {
-      value
-    }
-    revenue {
-      value
-    }
-    spending {
-      value
-    }
-    lastPaymentOn {
-      value
-    }
+    countPayments
+    countTotal
+    countRevenue
+    countSpending
+    lastPaymentOn
   `
 
 export default {
@@ -47,24 +35,24 @@ export default {
       ${includePayments ? '$first: Int' : ''}
       ${includePayments ? '$skip: Int' : ''}
     ) {
-      account(id: $accountId) {
-        peer(id: $peerId) {
+      account(pid: $accountId) {
+        peer(pid: $peerId) {
           ${includeRecipientInfo ? recipientDetails : ''}
           
           ${(includePayments &&
             `payments(
-              first: $first
+              take: $first
               skip: $skip
               sortBy: ${
                 sortBy === SORT_BY_DEFAULT ? 'postedOn_DESC' : 'amount_DESC'
               }
             ) {
-              id
+              id: pid
               postedOn
               amount
               description
               category {
-                id
+                id: pid
                 name
                 color
               }
@@ -82,9 +70,9 @@ export default {
           categories,
           payments,
           countPayments,
-          total,
-          revenue: { value: revenue },
-          spending: { value: spending },
+          countTotal,
+          countRevenue,
+          countSpending,
           lastPaymentOn,
         },
       },
@@ -94,33 +82,24 @@ export default {
             id,
             name,
             categories: R.map(mapCategory, categories),
-            total: total.value,
-            revenue,
-            spending: -spending,
-            lastPaymentDate: lastPaymentOn.value,
+            total: countTotal,
+            revenue: countRevenue,
+            spending: -countSpending,
+            lastPaymentDate: lastPaymentOn,
           }
         : null,
       payments,
-      paymentCount: includeRecipientInfo ? countPayments.value : null,
+      paymentCount: includeRecipientInfo ? countPayments : null,
     }),
   ],
   editPeerName: [
     `
       mutation($peerId: ID!, $name: String!) {
-        recipient: updatePeer(peerId: $peerId, update: { name: $name }) {
-          ${recipientDetails}
+        recipient: peerUpdate(pid: $peerId, update: { name: $name }) {
+          name
         }
       }
     `,
-    ({
-      recipient: { payments, categories, paymentCount, spendings, ...other },
-    }) => ({
-      recipient: {
-        ...other,
-        spendings: -spendings,
-        categories: R.map(mapCategory, categories),
-      },
-      paymentCount,
-    }),
+    R.identity,
   ],
 }

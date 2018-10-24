@@ -6,19 +6,24 @@ import config from '../../config'
 import initRoutes from './router'
 
 const isProd = process.env.NODE_ENV === 'production'
-const findUser = ({ graphqlClient, req }) =>
-  graphqlClient(`{
-  me {
-    id
-    email
-    lastName
-    firstName
-  }
-  accounts {
-  id
-  name
-  }
-}`).then(
+const findUser = ({ graphqlClient, req }) => {
+  return Promise.resolve(null)
+  const promise = graphqlClient(
+    `{
+      me {
+        id: pid
+        email
+        lastName
+        firstName
+      }
+      accounts {
+        id: pid
+        name
+      }
+    }`
+  )
+
+  return promise.then(
     ({ me: user, accounts }) =>
       user && {
         ...user,
@@ -31,6 +36,7 @@ const findUser = ({ graphqlClient, req }) =>
             : null),
       }
   )
+}
 
 const server = new Server({
   ...config,

@@ -42,6 +42,8 @@ export const ROUTES = {
       type3: '/demo/drawers/type-3',
       type4: '/demo/drawers/type-4',
     },
+    buttons: '/demo/buttons',
+    fields: '/demo/fields',
     widgets: '/demo/widgets',
   },
 }

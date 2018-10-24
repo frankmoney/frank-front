@@ -15,6 +15,7 @@ import {
 } from '@frankmoney/components'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { ROUTES } from 'const'
+import { currentAccountIdSelector } from 'redux/selectors/user'
 import {
   recipientSelector,
   isLoadingSelector,
@@ -78,6 +79,7 @@ const mapStateToProps = createStructuredSelector({
   listIsUpdating: listIsUpdatingSelector,
   recipient: recipientSelector,
   paymentCount: paymentCountSelector,
+  accountId: currentAccountIdSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
@@ -96,7 +98,7 @@ export default compose(
     componentWillMount() {
       if (!this.props.loaded) {
         this.props.load({
-          accountId: 'cjkgy7pcv3p8b0716u58tsymo',
+          accountId: this.props.accountId,
           peerId: this.props.peerId,
         })
       }

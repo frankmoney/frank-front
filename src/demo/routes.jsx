@@ -5,6 +5,8 @@ import Helmet from 'react-helmet'
 import { BASE_TITLE, ROUTES } from 'const'
 import CommentsDemo from './CommentsDemo'
 import ComponentsDemo from './ComponentsDemo'
+import ButtonsDemo from './Buttons'
+import FieldsDemo from './Fields'
 import DemoLayout from './DemoLayout'
 import DrawerDemo from './DrawerDemo'
 import WidgetDemo from './Widgets'
@@ -28,6 +30,11 @@ export default [
   //   path: ROUTES.demo.components,
   //   exact: true,
   // },
+  {
+    component: ButtonsDemo,
+    path: ROUTES.demo.buttons,
+    exact: true,
+  },
   {
     component: withDemoLayout(DrawerDemo),
     path: ROUTES.demo.drawers.root,
@@ -68,6 +75,11 @@ export default [
   {
     component: withDemoLayout(CommentsDemo),
     path: ROUTES.demo.comments,
+    exact: true,
+  },
+  {
+    component: FieldsDemo,
+    path: ROUTES.demo.fields,
     exact: true,
   },
   {

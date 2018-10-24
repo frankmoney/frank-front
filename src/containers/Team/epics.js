@@ -10,8 +10,8 @@ export const loadEpic = (action$, store, { graphql }) =>
 export const updateRoleEpic = (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.updateRole)
-    .switchMap(({ payload: { id, role } }) =>
-      graphql(QUERIES.updateRole, { id, role })
+    .switchMap(({ payload: { pid, role } }) =>
+      graphql(QUERIES.updateRole, { pid, role })
     )
     .map(ACTIONS.updateRole.success)
 

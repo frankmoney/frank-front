@@ -6,49 +6,37 @@ export default {
       $search: String
       $first: Int
       $skip: Int
-      $donors: Boolean
-      $recipients: Boolean
+      $donors: Boolean!
+      $recipients: Boolean!
       $sortBy: PeersOrder!
     ) {
-      account(id: $accountId) {
+      account(pid: $accountId) {
         peers(
-          first: $first
+          take: $first
           skip: $skip
           search: $search
           donors: $donors
           recipients: $recipients
           sortBy: $sortBy
         ) {
-          id
+          id: pid
           name
-          revenue {
-            value
-          }
-          spending {
-            value
-          }
-          total {
-            value
-          }
+          countRevenue
+          countSpending
+          countTotal
           categories {
-            id
+            id: pid
             name
             color
           }
-          countPayments {
-            value
-          }
-          lastPaymentOn {
-            value
-          }
+          countPayments
+          lastPaymentOn
         }
         countPeers(
           search: $search
           donors: $donors
           recipients: $recipients
-        ) {
-          value
-        }
+        )
       }
     }
     `,
@@ -57,24 +45,24 @@ export default {
         ({
           id,
           name,
-          revenue: { value: revenue },
-          spending: { value: spending },
-          total: { value: total },
+          countRevenue,
+          countSpending,
+          countTotal,
           categories,
           countPayments,
           lastPaymentOn,
         }) => ({
           id,
           name,
-          revenue,
-          spending: -spending,
-          total,
+          revenue: countRevenue,
+          spending: -countSpending,
+          total: countTotal,
           categories,
-          paymentCount: countPayments.value,
-          lastPaymentDate: lastPaymentOn.value,
+          paymentCount: countPayments,
+          lastPaymentDate: lastPaymentOn,
         })
       ),
-      totalCount: countPeers.value,
+      totalCount: countPeers,
     }),
   ],
 }
