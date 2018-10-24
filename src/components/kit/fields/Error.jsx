@@ -15,11 +15,8 @@ const styles = {
   active: {},
 }
 
-const Error = ({ classes, name, active, className, children }) => (
-  <div
-    htmlFor={name}
-    className={cx(classes.root, active && classes.active, className)}
-  >
+const Error = ({ classes, active, className, children }) => (
+  <div className={cx(classes.root, active && classes.active, className)}>
     {children}
   </div>
 )

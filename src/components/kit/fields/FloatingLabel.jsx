@@ -2,6 +2,14 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import FieldContext from './FieldContext'
+import {
+  FONT_SIZE,
+  FONT_SIZE_LARGER,
+  TEXT_TOP_PADDING,
+  TEXT_TOP_PADDING_LARGER,
+} from './Field.jss'
+
+const LABEL_FONT_SIZE = 14
 
 const styles = {
   root: {
@@ -9,16 +17,23 @@ const styles = {
     position: 'absolute',
     top: 0,
     left: 0,
-    transform: 'translate(0, 29px) scale(1)',
+    fontSize: LABEL_FONT_SIZE,
+    transform: `translate(0, 19px) scale(${FONT_SIZE /
+      LABEL_FONT_SIZE})`,
     transformOrigin: 'top left',
     transition:
       'color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms, font-weight 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms',
     cursor: 'text',
   },
-  floated: {
-    transform: 'translate(0, 0) scale(0.63)',
+  shrink: {
+    transform: `translate(0,2px) scale(1)!important`,
     fontWeight: 500,
     color: 'rgba(37, 43, 67, 0.5)',
+    lineHeight: LABEL_FONT_SIZE,
+  },
+  larger: {
+    transform: `translate(0, 18px) scale(${FONT_SIZE_LARGER /
+      LABEL_FONT_SIZE})`,
   },
   active: {
     '&:not($disabled)': {
@@ -44,6 +59,7 @@ const FloatingLabel = ({
   floated,
   disabled,
   className,
+  larger,
   children,
 }) => (
   <FieldContext.Consumer>
@@ -54,7 +70,8 @@ const FloatingLabel = ({
           classes.root,
           (active || field.focus) && classes.active,
           field.invalid && field.focus && classes.invalid,
-          (floated || (field.focus || field.filled)) && classes.floated,
+          larger && classes.larger,
+          (floated || (field.focus || field.filled)) && classes.shrink,
           (disabled || field.disabled) && classes.disabled,
           className
         )}

@@ -9,6 +9,7 @@ import Placeholder from './Placeholder'
 import Underline from './Underline'
 import Error from './Error'
 import FieldContext from './FieldContext'
+import styles from './Field.jss'
 
 type Props = {
   larger?: boolean,
@@ -18,62 +19,6 @@ type Props = {
   disabled?: boolean,
   loading?: boolean,
   loadingText: string,
-}
-
-const styles = {
-  root: {
-    position: 'relative',
-    paddingTop: 22,
-    paddingBottom: 5,
-    fontSize: 18,
-    lineHeight: 26,
-    minHeight: 60,
-    letterSpacing: '-0.025em',
-  },
-  larger: {
-    minHeight: 70,
-    fontSize: 22,
-    lineHeight: 30,
-    paddingTop: 26,
-    paddingBottom: 6,
-    '& $placeholder': {
-      top: 28,
-    },
-  },
-  label: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-  },
-  placeholder: {
-    position: 'absolute',
-    top: 22,
-    left: 0,
-    right: 0,
-    display: 'flex',
-    alignItems: 'center',
-  },
-  placeholderOff: {
-    opacity: 0,
-  },
-  disabled: {
-    pointerEvents: 'none',
-    '& $error': {
-      opacity: 0,
-    },
-  },
-  loading: {
-    composes: '$disabled',
-    // prevent tab and focus
-    '& $control': {
-      visibility: 'collapse',
-    },
-  },
-  spinner: {
-    marginRight: 8,
-  },
-  error: {},
-  control: {},
 }
 
 const combineCallbacks = (...cb) => (...args) =>
@@ -189,7 +134,9 @@ class Field extends React.Component<Props> {
             className
           )}
         >
-          {floatingLabel && <FloatingLabel>{floatingLabel}</FloatingLabel>}
+          {floatingLabel && (
+            <FloatingLabel larger={larger}>{floatingLabel}</FloatingLabel>
+          )}
           {error && <Error className={classes.error}>{error}</Error>}
           {label && <Label className={classes.label}>{label}</Label>}
           {React.cloneElement(control, {
