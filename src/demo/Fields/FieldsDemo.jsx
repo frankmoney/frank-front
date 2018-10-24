@@ -95,10 +95,10 @@ const FieldsDemo = ({ classes }) => {
         <Field label="Name">
           <TextBox defaultValue="Nick" />
         </Field>
-        <Field label="Name" error="Gay name" invalid>
+        <Field label="Name" error="Error" invalid>
           <TextBox defaultValue="Tom" />
         </Field>
-        <Field label="Name" error="Gay name" invalid focus>
+        <Field label="Name" error="Error" invalid focus>
           <TextBox defaultValue="Tom" />
         </Field>
       </div>
@@ -117,7 +117,7 @@ const FieldsDemo = ({ classes }) => {
         <Field
           label="Name"
           additionalLabel="Additional label"
-          error="Gay name"
+          error="Error"
           invalid
         >
           <TextBox defaultValue="Tom" />
@@ -125,7 +125,7 @@ const FieldsDemo = ({ classes }) => {
         <Field
           label="Name"
           additionalLabel="Additional label"
-          error="Gay name"
+          error="Error"
           invalid
           focus
         >
@@ -144,10 +144,10 @@ const FieldsDemo = ({ classes }) => {
         <Field floatingLabel="Name">
           <TextBox defaultValue="Nick" />
         </Field>
-        <Field floatingLabel="Name" error="Gay name" invalid>
+        <Field floatingLabel="Name" error="Error" invalid>
           <TextBox defaultValue="Tom" />
         </Field>
-        <Field floatingLabel="Name" error="Gay name" invalid focus>
+        <Field floatingLabel="Name" error="Error" invalid focus>
           <TextBox defaultValue="Tom" />
         </Field>
       </div>
@@ -166,13 +166,13 @@ const FieldsDemo = ({ classes }) => {
             defaultValue="One solution is to reset the key to a random value or auto incrementing"
           />
         </Field>
-        <Field label="Fixed label" invalid error="No homo">
+        <Field label="Fixed label" invalid error="Error">
           <TextBox
             multiLine
             defaultValue="One solution is to reset the key to a random value or auto incrementing"
           />
         </Field>
-        <Field label="Fixed label" invalid focus error="No homo">
+        <Field label="Fixed label" invalid focus error="Error">
           <TextBox
             multiLine
             defaultValue="One solution is to reset the key to a random value or auto incrementing"
@@ -225,7 +225,7 @@ const FieldsDemo = ({ classes }) => {
         </Field>
         <Field
           label="Name"
-          error="Gay name"
+          error="Error"
           larger
           invalid
           placeholder="Frank Sinatra"
@@ -234,7 +234,7 @@ const FieldsDemo = ({ classes }) => {
         </Field>
         <Field
           label="Name"
-          error="Gay name"
+          error="Error"
           larger
           invalid
           focus
@@ -261,7 +261,7 @@ const FieldsDemo = ({ classes }) => {
           larger
           placeholder="Frank Sinatra"
           invalid
-          error="No homo"
+          error="Error"
         >
           <TextBox
             multiLine
@@ -274,7 +274,7 @@ const FieldsDemo = ({ classes }) => {
           larger
           invalid
           focus
-          error="No homo"
+          error="Error"
         >
           <TextBox
             multiLine
@@ -310,7 +310,7 @@ const FieldsDemo = ({ classes }) => {
               </Field>
               <Field
                 label="Fixed label"
-                error="Gay name"
+                error="Error"
                 invalid
                 disabled={disabled}
               >
@@ -333,7 +333,7 @@ const FieldsDemo = ({ classes }) => {
               </Field>
               <Field
                 floatingLabel="Floating label"
-                error="Gay name"
+                error="Error"
                 invalid
                 disabled={disabled}
               >

@@ -32,8 +32,6 @@ const styles = {
   },
 }
 
-const checkGay = name => ['tom'].includes(name.toLowerCase())
-
 const Playground = ({
   classes,
   value,
@@ -79,7 +77,7 @@ const Playground = ({
         floatingLabel={floatingLabel && 'Name'}
         placeholder={placeholder && 'Frank Sinatra'}
         focus={focus}
-        error={error && (checkGay(value) ? 'Check another gay' : 'Not a gay')}
+        error={error && 'Error'}
         invalid={error}
         disabled={disabled}
         loading={loading}
