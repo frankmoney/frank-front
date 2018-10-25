@@ -18,6 +18,9 @@ const styles = {
     '&:not($disabled)': {
       color: '#4C51F3',
     },
+    '& $additionalText': {
+      color: 'rgba(72, 77, 231, 0.5)',
+    },
   },
   invalid: {
     '&:not($disabled)': {
@@ -29,8 +32,8 @@ const styles = {
   },
   additionalText: {
     fontWeight: 400,
-    marginLeft: 8,
-    opacity: 0.6,
+    marginLeft: 5,
+    color: 'rgba(37, 43, 67, 0.3)',
   },
 }
 

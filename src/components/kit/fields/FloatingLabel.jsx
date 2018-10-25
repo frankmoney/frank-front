@@ -40,7 +40,7 @@ const styles = {
     },
   },
   disabled: {
-    '&$floated': {
+    '&$shrink': {
       color: 'rgba(37, 43, 67, 0.3)',
     },
   },
@@ -50,7 +50,7 @@ const FloatingLabel = ({
   classes,
   name,
   active,
-  floated,
+  shrink,
   disabled,
   className,
   larger,
@@ -65,7 +65,7 @@ const FloatingLabel = ({
           (active || field.focus) && classes.active,
           field.invalid && field.focus && classes.invalid,
           larger && classes.larger,
-          (floated || (field.focus || field.filled)) && classes.shrink,
+          (shrink || (field.focus || field.filled)) && classes.shrink,
           (disabled || field.disabled) && classes.disabled,
           className
         )}
