@@ -23,6 +23,7 @@ const Placeholder = ({
   active,
   className,
   children,
+  theme,
   ...otherProps
 }) => (
   <span

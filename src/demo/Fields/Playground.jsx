@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { compose, withStateHandlers } from 'recompose'
 import Field from 'components/kit/fields/Field'
-import TextBox from 'components/kit/fields/TextBox'
+import TextBox from 'components/kit/TextBox'
 import Switch from 'components/kit/Switch'
 import Label from 'components/kit/fields/Label'
 

@@ -64,6 +64,7 @@ class Input extends React.Component {
     const {
       classes,
       className,
+      theme,
       value,
       focus,
       controlRef,

@@ -1,6 +1,6 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
-import TextBox from 'components/kit/fields/TextBox'
+import TextBox from 'components/kit/TextBox'
 import Field from 'components/kit/fields/Field'
 import SwitchBase from 'components/kit/SwitchBase'
 import Switch from 'components/kit/Switch'

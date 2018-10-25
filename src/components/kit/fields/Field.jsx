@@ -138,9 +138,10 @@ class Field extends React.Component<Props> {
             className
           )}
         >
-          {floatingLabel && (
-            <FloatingLabel larger={larger}>{floatingLabel}</FloatingLabel>
-          )}
+          {!loading &&
+            floatingLabel && (
+              <FloatingLabel larger={larger}>{floatingLabel}</FloatingLabel>
+            )}
           {(error || hint) && (
             <ValidationLabel invalid={invalid} className={classes.rightLabel}>
               {error || hint}
