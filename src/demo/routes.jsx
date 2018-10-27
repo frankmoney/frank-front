@@ -7,6 +7,7 @@ import CommentsDemo from './CommentsDemo'
 import ComponentsDemo from './ComponentsDemo'
 import ButtonsDemo from './Buttons'
 import FieldsDemo from './Fields'
+import PopupsDemo from './Popups'
 import DemoLayout from './DemoLayout'
 import DrawerDemo from './DrawerDemo'
 import WidgetDemo from './Widgets'
@@ -80,6 +81,11 @@ export default [
   {
     component: FieldsDemo,
     path: ROUTES.demo.fields,
+    exact: true,
+  },
+  {
+    component: PopupsDemo,
+    path: ROUTES.demo.popups,
     exact: true,
   },
   {

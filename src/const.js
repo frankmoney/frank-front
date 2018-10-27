@@ -44,6 +44,7 @@ export const ROUTES = {
     },
     buttons: '/demo/buttons',
     fields: '/demo/fields',
+    popups: '/demo/popups',
     widgets: '/demo/widgets',
   },
 }
