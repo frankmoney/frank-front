@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
-import ListItemContext from './context'
+import Context from './context'
 
 const styles = theme => ({
   root: {
@@ -21,11 +21,11 @@ const styles = theme => ({
 })
 
 const PrimaryText = ({ classes, className, children, icon }) => (
-  <ListItemContext.Consumer>
+  <Context.Consumer>
     {({ selected }) => (
       <span
         className={cx(classes.root, selected && classes.selected, className)}
-      >s
+      >
         {icon &&
           React.cloneElement(icon, {
             className: cx(icon.props.className, classes.icon),
@@ -33,7 +33,7 @@ const PrimaryText = ({ classes, className, children, icon }) => (
         {children}
       </span>
     )}
-  </ListItemContext.Consumer>
+  </Context.Consumer>
 )
 
 export default injectStyles(styles)(PrimaryText)

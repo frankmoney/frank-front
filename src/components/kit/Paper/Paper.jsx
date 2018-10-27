@@ -3,10 +3,8 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 
-type Type = 'card' | 'list' | 'modal' | 'tooltip' | 'popup' | 'drawer'
-
 type Props = {
-  type: Type,
+  type: 'card' | 'list' | 'modal' | 'tooltip' | 'popup' | 'drawer',
 }
 
 const styles = {
