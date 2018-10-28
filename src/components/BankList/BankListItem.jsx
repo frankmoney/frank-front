@@ -5,12 +5,14 @@ import { Check } from 'material-ui-icons'
 import { getHostname } from 'utils/url'
 import BankLogo from 'components/BankLogo'
 
+const ITEM_HEIGHT = 90
+
 const styles = theme => ({
   bank: {
     display: 'flex',
     alignItems: 'center',
     position: 'relative',
-    height: 90,
+    height: ITEM_HEIGHT,
     borderRadius: 8,
     padding: [0, 20],
     transition: theme.transition('background-color'),
@@ -91,5 +93,7 @@ const BankListItem = ({
     {selected && <Check className={classes.check} />}
   </div>
 )
+
+BankListItem.height = ITEM_HEIGHT
 
 export default injectStyles(styles)(BankListItem)

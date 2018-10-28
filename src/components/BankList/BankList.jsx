@@ -7,6 +7,10 @@ import BankListItem from './BankListItem'
 const styles = {
   root: {
     width: 740,
+    maxHeight: props =>
+      props.maxVisibleItems
+        ? props.maxVisibleItems * BankListItem.height
+        : 'auto',
   },
 }
 
@@ -18,6 +22,7 @@ const BankList = ({
   selectedId,
   onBankSelect,
   banks,
+  maxVisibleItems,
   selectListProps = {},
   ...otherProps
 }) => (

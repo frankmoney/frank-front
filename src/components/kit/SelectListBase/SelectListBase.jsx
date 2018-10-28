@@ -217,7 +217,6 @@ class SelectListBase extends React.Component<Props> {
   }
 
   setActiveElement = (element, callback) => {
-    console.log('active', element)
     // TODO controlled activeElement state
     if (this.state.activeElement !== element) {
       this.setState({ activeElement: element }, callback)
@@ -275,7 +274,10 @@ class SelectListBase extends React.Component<Props> {
     if (this.props.autoFocus) {
       this.focus()
     } else if (typeof this.value !== 'undefined') {
-      this.scrollToElementIfInvisible(this.itemElementsByValue[this.value])
+      const selectedElement = this.itemElementsByValue[this.value]
+      this.setActiveElement(selectedElement, () => {
+        this.scrollToElementIfInvisible(this.state.activeElement)
+      })
     }
   }
 

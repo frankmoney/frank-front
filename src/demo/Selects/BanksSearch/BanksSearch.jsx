@@ -34,7 +34,7 @@ const BanksSearch = ({
       className={classes.list}
       defaultSelectedId="usaa"
       banks={banks}
-      style={{ maxHeight: 400 }}
+      maxVisibleItems={5}
       selectListProps={{ ref: handleListRef }}
     />
   </div>
