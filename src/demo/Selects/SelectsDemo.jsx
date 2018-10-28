@@ -94,11 +94,11 @@ const SelectsDemo = ({ classes }) => (
     </div>
     <h2>Any appearance same logic</h2>
     <div className={classes.rowCentered}>
-      <OptionsList defaultValue="2">
-        <OptionsList.Item primaryText="Potato" value="1" />
-        <OptionsList.Item primaryText="Tomato" value="2" />
-        <OptionsList.Item primaryText="Peach" value="3" />
-        <OptionsList.Item primaryText="Apple" value="4" />
+      <OptionsList defaultValue={2}>
+        <OptionsList.Item primaryText="Potato" value={1} />
+        <OptionsList.Item primaryText="Tomato" value={2} />
+        <OptionsList.Item primaryText="Peach" value={3} />
+        <OptionsList.Item primaryText="Apple" value={4} />
       </OptionsList>
     </div>
     <h2>Dynamic items and overflow</h2>

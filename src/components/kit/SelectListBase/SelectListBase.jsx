@@ -35,8 +35,7 @@ class SelectListBase extends React.Component<Props> {
   }
 
   containerElement: ?Element = null
-  itemElements: Array<Element> = []
-  itemElementsByValue: { [string]: Element } = {}
+  itemElementsByValue: Map<any, Element> = new Map()
 
   get isControlledValue() {
     return typeof this.props.value !== 'undefined'
@@ -69,7 +68,7 @@ class SelectListBase extends React.Component<Props> {
       const selected = typeof this.value !== 'undefined' && value === this.value
       const active =
         !!state.activeElement &&
-        this.itemElementsByValue[value] === state.activeElement
+        this.itemElementsByValue.get(value) === state.activeElement
 
       return {
         ...props,
@@ -90,7 +89,7 @@ class SelectListBase extends React.Component<Props> {
   })
 
   getItemValue = itemElement => {
-    const found = Object.entries(this.itemElementsByValue).find(
+    const found = [...this.itemElementsByValue].find(
       ([_, elem]) => elem === itemElement
     )
 
@@ -133,12 +132,12 @@ class SelectListBase extends React.Component<Props> {
     if (itemRef) {
       const el = findDOMNode(itemRef)
       // this.itemElements.push(el)
-      this.itemElementsByValue[value] = el
+      this.itemElementsByValue.set(value, el)
     } else {
-      const el = this.itemElementsByValue[value]
+      const el = this.itemElementsByValue.get(value)
       if (el) {
         // this.itemElements = this.itemElements.filter(x => x !== el)
-        delete this.itemElementsByValue[value]
+        delete this.itemElementsByValue.get(value)
         // если выбранного элемента нет в дереве, то снимаем выбор
         if (typeof this.value !== 'undefined' && this.value === value) {
           this.select(null)
@@ -183,7 +182,7 @@ class SelectListBase extends React.Component<Props> {
     this.containerElement.focus()
     if (!this.state.activeElement) {
       if (this.value) {
-        this.setActiveElement(this.itemElementsByValue[this.value])
+        this.setActiveElement(this.itemElementsByValue.get(this.value))
       } else {
         this.setActiveElement(this.itemElements[0])
       }
@@ -274,10 +273,8 @@ class SelectListBase extends React.Component<Props> {
     if (this.props.autoFocus) {
       this.focus()
     } else if (typeof this.value !== 'undefined') {
-      const selectedElement = this.itemElementsByValue[this.value]
-      this.setActiveElement(selectedElement, () => {
-        this.scrollToElementIfInvisible(this.state.activeElement)
-      })
+      const selectedElement = this.itemElementsByValue.get(this.value)
+      this.scrollToElementIfInvisible(selectedElement)
     }
   }
 
