@@ -4,6 +4,7 @@ import Paper from 'components/kit/Paper'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import Menu from 'components/kit/Menu'
 import OptionsList from 'components/kit/OptionsList'
+import BanksSearch from './BanksSearch/BanksSearch'
 
 const styles = {
   demo: {
@@ -93,12 +94,16 @@ const SelectsDemo = ({ classes }) => (
     </div>
     <h2>Any appearance same logic</h2>
     <div className={classes.rowCentered}>
-      <OptionsList>
+      <OptionsList defaultValue="2">
         <OptionsList.Item primaryText="Potato" value="1" />
         <OptionsList.Item primaryText="Tomato" value="2" />
         <OptionsList.Item primaryText="Peach" value="3" />
         <OptionsList.Item primaryText="Apple" value="4" />
       </OptionsList>
+    </div>
+    <h2>Dynamic items and overflow</h2>
+    <div className={classes.rowCentered}>
+      <BanksSearch />
     </div>
   </div>
 )

@@ -2,16 +2,19 @@
 /* eslint-disable react/no-find-dom-node */
 import React from 'react'
 import { findDOMNode } from 'react-dom'
+import * as R from 'ramda'
 import chainCallbacks from 'utils/dom/chainCallbacks'
+import isElementVisible from 'utils/dom/isElementVisible'
 import Context from './SelectListContext'
 
 type Props = {
   autoFocus?: boolean,
+  scrollContainer?: Element | Window,
 }
 
 const MENU_STYLE = {
   outline: 'none', // remove focus outline.
-  overflow: 'hidden', // cut menuitem background edges
+  overflow: 'auto', // cut menuitem background edges
 }
 
 const DEFAULT_ITEM_STYLE = {
@@ -60,8 +63,9 @@ class SelectListBase extends React.Component<Props> {
         props.onMouseLeave
       ),
       onKeyDown: chainCallbacks(this.handleContainerKeyDown, props.onKeyDown),
+      onFocus: chainCallbacks(this.handleContainerFocus, props.onFocus),
     }),
-    getItemProps: ({ value, ...props } = {}) => {
+    getItemProps: ({ value, index, ...props } = {}) => {
       const selected = typeof this.value !== 'undefined' && value === this.value
       const active =
         !!state.activeElement &&
@@ -74,8 +78,10 @@ class SelectListBase extends React.Component<Props> {
           ...(selected ? SELECTED_ITEM_STYLE : DEFAULT_ITEM_STYLE),
           ...props.style,
         },
+        'data-select-role': 'item',
+        'data-select-value': value,
         active,
-        ref: r => this.handleItemRef(r, value),
+        ref: this.getItemRefHandler(value),
         onMouseEnter: chainCallbacks(this.handleMouseEnter, props.onMouseEnter),
         onMouseLeave: chainCallbacks(this.handleMouseLeave, props.onMouseLeave),
         onClick: chainCallbacks(this.handleClick, props.onClick),
@@ -90,6 +96,25 @@ class SelectListBase extends React.Component<Props> {
 
     return found && found[0]
   }
+
+  // очень важно сохранять реф на каждый айтем,
+  // чтобы не происходил mount/unmount всех айтемов при каждом изменении стейта листа
+  getItemRefHandler = R.memoizeWith(R.identity, value => ref =>
+    this.handleItemRef(ref, value)
+  )
+
+  getNextItem = elem =>
+    elem
+      ? elem.nextElementSibling || this.containerElement.children[0]
+      : this.containerElement.children[0]
+
+  getPrevItem = elem =>
+    elem
+      ? elem.previousElementSibling ||
+        this.containerElement.children[
+          this.containerElement.children.length - 1
+        ]
+      : this.containerElement.children[0]
 
   handleClick = event => {
     event.stopPropagation()
@@ -107,8 +132,18 @@ class SelectListBase extends React.Component<Props> {
   handleItemRef = (itemRef, value) => {
     if (itemRef) {
       const el = findDOMNode(itemRef)
-      this.itemElements.push(el)
+      // this.itemElements.push(el)
       this.itemElementsByValue[value] = el
+    } else {
+      const el = this.itemElementsByValue[value]
+      if (el) {
+        // this.itemElements = this.itemElements.filter(x => x !== el)
+        delete this.itemElementsByValue[value]
+        // если выбранного элемента нет в дереве, то снимаем выбор
+        if (typeof this.value !== 'undefined' && this.value === value) {
+          this.select(null)
+        }
+      }
     }
   }
 
@@ -141,6 +176,8 @@ class SelectListBase extends React.Component<Props> {
         break
     }
   }
+
+  handleContainerFocus = () => {}
 
   focus = () => {
     this.containerElement.focus()
@@ -179,45 +216,66 @@ class SelectListBase extends React.Component<Props> {
     }
   }
 
-  setActiveElement = element => {
+  setActiveElement = (element, callback) => {
+    console.log('active', element)
     // TODO controlled activeElement state
     if (this.state.activeElement !== element) {
-      // console.log('active', element);
-      this.setState({ activeElement: element })
+      this.setState({ activeElement: element }, callback)
     }
   }
 
-  setNextActiveElement = () => {
-    let nextIdx = 0
-    if (this.state.activeElement) {
-      const idx = this.itemElements.indexOf(this.state.activeElement)
-      if (idx !== -1 && idx < this.itemElements.length - 1) {
-        nextIdx = idx + 1
+  setNextActiveElement = callback => {
+    this.setActiveElement(this.getNextItem(this.state.activeElement), () => {
+      this.scrollToElementIfInvisible(this.state.activeElement)
+      if (typeof callback === 'function') {
+        callback()
       }
-    }
-
-    this.setActiveElement(this.itemElements[nextIdx])
+    })
   }
 
-  setPrevActiveElement = () => {
-    let nextIdx = 0
-    if (this.state.activeElement) {
-      const idx = this.itemElements.indexOf(this.state.activeElement)
-      if (idx !== -1) {
-        if (idx === 0) {
-          nextIdx = this.itemElements.length - 1
-        } else {
-          nextIdx = idx - 1
-        }
+  setPrevActiveElement = callback => {
+    this.setActiveElement(this.getPrevItem(this.state.activeElement), () => {
+      this.scrollToElementIfInvisible(this.state.activeElement)
+      if (typeof callback === 'function') {
+        callback()
       }
+    })
+  }
+
+  scrollToElementIfInvisible = element => {
+    if (!element) {
+      return
     }
 
-    this.setActiveElement(this.itemElements[nextIdx])
+    const container = this.props.scrollContainer || this.containerElement
+    const elementRect = element.getBoundingClientRect()
+    if (!isElementVisible(element, container, ['top'])) {
+      if (container === window) {
+        window.scrollTo(0, window.pageYOffset + elementRect.top)
+      } else {
+        container.scrollTop +=
+          elementRect.top - container.getBoundingClientRect().top
+      }
+    } else if (!isElementVisible(element, container, ['bottom'])) {
+      if (container === window) {
+        const windowHeight =
+          window.innerHeight || document.documentElement.clientHeight
+        window.scrollTo(
+          0,
+          window.pageYOffset + (elementRect.bottom - windowHeight)
+        )
+      } else {
+        container.scrollTop +=
+          elementRect.bottom - container.getBoundingClientRect().bottom
+      }
+    }
   }
 
   componentDidMount() {
     if (this.props.autoFocus) {
       this.focus()
+    } else if (typeof this.value !== 'undefined') {
+      this.scrollToElementIfInvisible(this.itemElementsByValue[this.value])
     }
   }
 

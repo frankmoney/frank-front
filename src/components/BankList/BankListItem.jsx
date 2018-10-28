@@ -6,9 +6,6 @@ import { getHostname } from 'utils/url'
 import BankLogo from 'components/BankLogo'
 
 const styles = theme => ({
-  root: {
-    width: 740,
-  },
   bank: {
     display: 'flex',
     alignItems: 'center',
@@ -18,9 +15,6 @@ const styles = theme => ({
     padding: [0, 20],
     transition: theme.transition('background-color'),
     cursor: 'pointer',
-    '&:hover:not($bankSelected)': {
-      backgroundColor: 'rgba(37, 43, 67, 0.04)',
-    },
   },
   logo: {
     width: 50,
@@ -47,7 +41,7 @@ const styles = theme => ({
     width: 21,
     color: '#fff',
   },
-  bankSelected: {
+  selected: {
     cursor: 'unset',
     backgroundColor: '#20284A',
     boxShadow: '0px 2px 10px rgba(47, 60, 113, 0.25)',
@@ -61,25 +55,41 @@ const styles = theme => ({
       visible: 'visible',
     },
   },
+  active: {
+    '&:not($selected)': {
+      backgroundColor: 'rgba(37, 43, 67, 0.04)',
+    },
+  },
 })
 
-const BankList = ({ className, classes, selectedId, onBankSelect, banks }) => (
-  <div className={cx(classes.root, className)}>
-    {banks.map(({ code: id, name, mediumLogoUrl: logoUrl, url: website }) => (
-      <div
-        className={cx(classes.bank, selectedId === id && classes.bankSelected)}
-        key={id}
-        onClick={() => onBankSelect(id)}
-      >
-        <BankLogo src={logoUrl} alt={name} className={classes.logo} />
-        <div className={classes.name}>{name}</div>
-        <a href={website} target="_blank" className={classes.website}>
-          {getHostname(website)}
-        </a>
-        <Check className={classes.check} />
-      </div>
-    ))}
+const BankListItem = ({
+  className,
+  classes,
+  theme,
+  selected,
+  active,
+  id,
+  name,
+  logoUrl,
+  website,
+  ...otherProps
+}) => (
+  <div
+    className={cx(
+      classes.bank,
+      selected && classes.selected,
+      active && classes.active,
+      className
+    )}
+    {...otherProps}
+  >
+    <BankLogo src={logoUrl} alt={name} className={classes.logo} />
+    <div className={classes.name}>{name}</div>
+    <a href={website} target="_blank" className={classes.website}>
+      {getHostname(website)}
+    </a>
+    {selected && <Check className={classes.check} />}
   </div>
 )
 
-export default injectStyles(styles)(BankList)
+export default injectStyles(styles)(BankListItem)
