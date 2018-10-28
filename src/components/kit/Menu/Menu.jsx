@@ -1,6 +1,7 @@
 import React from 'react'
 import Paper from 'components/kit/Paper'
 import SelectListBase from 'components/kit/SelectListBase'
+import MenuTitle from './MenuTitle'
 
 const Menu = ({
   value,
@@ -8,6 +9,7 @@ const Menu = ({
   defaultValue,
   autoFocus,
   children,
+  title,
   ...props
 }) => (
   <SelectListBase
@@ -18,6 +20,7 @@ const Menu = ({
   >
     {({ getContainerProps }) => (
       <Paper type="list" {...getContainerProps(props)}>
+        {title && <MenuTitle>{title}</MenuTitle>}
         {children}
       </Paper>
     )}

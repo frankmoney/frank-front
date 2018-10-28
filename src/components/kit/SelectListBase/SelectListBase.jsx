@@ -10,6 +10,7 @@ import Context from './SelectListContext'
 type Props = {
   autoFocus?: boolean,
   scrollContainer?: Element | Window,
+  onSelectElement?: Element => void,
 }
 
 const MENU_STYLE = {
@@ -23,7 +24,40 @@ const DEFAULT_ITEM_STYLE = {
 
 const SELECTED_ITEM_STYLE = {
   cursor: 'default',
-  pointerEvents: 'none',
+  // pointerEvents: 'none',
+}
+
+const memoize = fn => {
+  const map = new Map()
+  return value => {
+    if (map.has(value)) {
+      return map.get(value)
+    }
+    const result = fn(value)
+    map.set(value, result)
+
+    return result
+  }
+}
+
+const getNextListItem = (list, item) => {
+  const idx = Array.prototype.indexOf.call(list, item)
+  if (idx === -1) {
+    return list[0]
+  } else if (idx < list.length - 1) {
+    return list[idx + 1]
+  }
+  return list[0]
+}
+
+const getPrevListItem = (list, item) => {
+  const idx = Array.prototype.indexOf.call(list, item)
+  if (idx === -1) {
+    return list[0]
+  } else if (idx > 0) {
+    return list[idx - 1]
+  }
+  return list[list.length - 1]
 }
 
 class SelectListBase extends React.Component<Props> {
@@ -36,6 +70,7 @@ class SelectListBase extends React.Component<Props> {
 
   containerElement: ?Element = null
   itemElementsByValue: Map<any, Element> = new Map()
+  itemElementsByCallback: Map<Function, Element> = new Map()
 
   get isControlledValue() {
     return typeof this.props.value !== 'undefined'
@@ -64,11 +99,19 @@ class SelectListBase extends React.Component<Props> {
       onKeyDown: chainCallbacks(this.handleContainerKeyDown, props.onKeyDown),
       onFocus: chainCallbacks(this.handleContainerFocus, props.onFocus),
     }),
-    getItemProps: ({ value, index, ...props } = {}) => {
+    getItemProps: ({ value, onSelect, ...props } = {}) => {
+      const hasCallback = typeof onSelect === 'function'
+
+      if (R.isNil(value) && !hasCallback) {
+        throw new Error(
+          'getItemProps should receive either value or onSelect props'
+        )
+      }
       const selected = typeof this.value !== 'undefined' && value === this.value
       const active =
         !!state.activeElement &&
-        this.itemElementsByValue.get(value) === state.activeElement
+        (this.itemElementsByValue.get(value) === state.activeElement ||
+          this.itemElementsByCallback.get(onSelect) === state.activeElement)
 
       return {
         ...props,
@@ -80,7 +123,7 @@ class SelectListBase extends React.Component<Props> {
         'data-select-role': 'item',
         'data-select-value': value,
         active,
-        ref: this.getItemRefHandler(value),
+        ref: this.getItemRefHandler(hasCallback ? onSelect : value),
         onMouseEnter: chainCallbacks(this.handleMouseEnter, props.onMouseEnter),
         onMouseLeave: chainCallbacks(this.handleMouseLeave, props.onMouseLeave),
         onClick: chainCallbacks(this.handleClick, props.onClick),
@@ -96,54 +139,61 @@ class SelectListBase extends React.Component<Props> {
     return found && found[0]
   }
 
+  getItemCallback = itemElement => {
+    const found = [...this.itemElementsByCallback].find(
+      ([_, elem]) => elem === itemElement
+    )
+
+    return found && found[0]
+  }
+
   // очень важно сохранять реф на каждый айтем,
   // чтобы не происходил mount/unmount всех айтемов при каждом изменении стейта листа
-  getItemRefHandler = R.memoizeWith(R.identity, value => ref =>
-    this.handleItemRef(ref, value)
+  getItemRefHandler = memoize(valueOrCallback => ref =>
+    typeof valueOrCallback === 'function'
+      ? this.handleCallbackItemRef(ref, valueOrCallback)
+      : this.handleValueItemRef(ref, valueOrCallback)
   )
 
   getNextItem = elem =>
-    elem
-      ? elem.nextElementSibling || this.containerElement.children[0]
-      : this.containerElement.children[0]
+    getNextListItem(
+      this.containerElement.querySelectorAll('*[data-select-role=item]'),
+      elem
+    )
 
   getPrevItem = elem =>
-    elem
-      ? elem.previousElementSibling ||
-        this.containerElement.children[
-          this.containerElement.children.length - 1
-        ]
-      : this.containerElement.children[0]
+    getPrevListItem(
+      this.containerElement.querySelectorAll('*[data-select-role=item]'),
+      elem
+    )
 
   handleClick = event => {
     event.stopPropagation()
-    const value = this.getItemValue(event.currentTarget)
-
-    if (value) {
-      this.select(value)
-    }
+    this.selectElement(event.currentTarget)
   }
 
   handleContainerRef = containerRef => {
     this.containerElement = findDOMNode(containerRef)
   }
 
-  handleItemRef = (itemRef, value) => {
+  handleValueItemRef = (itemRef, value) => {
     if (itemRef) {
       const el = findDOMNode(itemRef)
-      // this.itemElements.push(el)
       this.itemElementsByValue.set(value, el)
     } else {
       const el = this.itemElementsByValue.get(value)
       if (el) {
-        // this.itemElements = this.itemElements.filter(x => x !== el)
-        delete this.itemElementsByValue.get(value)
+        this.itemElementsByValue.delete(value)
         // если выбранного элемента нет в дереве, то снимаем выбор
         if (typeof this.value !== 'undefined' && this.value === value) {
           this.select(null)
         }
       }
     }
+  }
+
+  handleCallbackItemRef = (itemRef, callback) => {
+    this.itemElementsByCallback.set(callback, findDOMNode(itemRef))
   }
 
   handleMouseEnter = event => {
@@ -189,6 +239,23 @@ class SelectListBase extends React.Component<Props> {
     }
   }
 
+  selectElement = element => {
+    if (!element) {
+      this.select(null)
+      return
+    }
+
+    const value = this.getItemValue(element)
+    if (!R.isNil(value)) {
+      this.select(value)
+    }
+
+    const callback = this.getItemCallback(element)
+    if (typeof callback === 'function') {
+      callback()
+    }
+  }
+
   select = value => {
     if (this.isControlledValue) {
       if (typeof this.props.onChange === 'function') {
@@ -208,11 +275,7 @@ class SelectListBase extends React.Component<Props> {
       return
     }
 
-    const value = this.getItemValue(this.state.activeElement)
-
-    if (value) {
-      this.select(value)
-    }
+    this.selectElement(this.state.activeElement)
   }
 
   setActiveElement = (element, callback) => {

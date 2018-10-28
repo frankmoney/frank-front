@@ -73,7 +73,7 @@ MenuItem.defaultProps = {
 
 const StyledMenuItem = injectStyles(styles)(MenuItem)
 
-const SelectMenuItem = ({ onSelect, ...props }) => (
+const SelectMenuItem = props => (
   <SelectListBase.Consumer>
     {({ getItemProps }) => <StyledMenuItem {...getItemProps(props)} />}
   </SelectListBase.Consumer>

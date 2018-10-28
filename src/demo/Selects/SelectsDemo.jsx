@@ -81,7 +81,7 @@ const SelectsDemo = ({ classes }) => (
     <h2>Hover and selection logic</h2>
     <div className={classes.rowCentered}>
       <div className={classes.rowContent}>
-        <Menu defaultValue="manager" autoFocus style={{ width: 200 }}>
+        <Menu defaultValue="manager" style={{ width: 200 }}>
           <MenuItem value="admin" label="Administrator" />
           <MenuItem value="manager" label="Manager" />
           <MenuItem value="observer" label="Observer" />
@@ -91,6 +91,15 @@ const SelectsDemo = ({ classes }) => (
           keys
         </div>
       </div>
+    </div>
+    <h2>Mix with non selectable items</h2>
+    <div className={classes.rowCentered}>
+      <Menu defaultValue="manager" title="Choose role" style={{ width: 200 }}>
+        <MenuItem value="admin" label="Administrator" />
+        <MenuItem value="manager" label="Manager" />
+        <MenuItem value="observer" label="Observer" />
+        <MenuItem color="red" label="Remove" onSelect={() => alert('remove')} />
+      </Menu>
     </div>
     <h2>Any appearance same logic</h2>
     <div className={classes.rowCentered}>
