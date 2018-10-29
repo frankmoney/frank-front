@@ -1,4 +1,6 @@
+// @flow
 import * as R from 'ramda'
+import type { LimitCategoriesFn } from './utils.flow'
 
 const INDEX_PROP = 'index'
 const VALUE_PROP = 'value'
@@ -36,7 +38,7 @@ const doLimit = maxEntries =>
     })
   )
 
-const limitCategories = maxEntries =>
+const limitCategories: LimitCategoriesFn = maxEntries =>
   R.pipe(
     sortDescBy(VALUE_PROP),
     injectKey,

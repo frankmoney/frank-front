@@ -1,6 +1,6 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { injectStyles } from '@frankmoney/ui'
 import Total from './Total'
 
@@ -12,7 +12,15 @@ const styles = {
   },
 }
 
-const Totals = ({ className, classes, income, spending }) => {
+type Props = {
+  income: number,
+  spending: number,
+  // Styles
+  classes: Object,
+  className: ?string,
+}
+
+const Totals = ({ className, classes, income, spending }: Props) => {
   const total = income - spending
 
   return (
@@ -22,11 +30,6 @@ const Totals = ({ className, classes, income, spending }) => {
       <Total label="Total" value={total} />
     </div>
   )
-}
-
-Totals.propTypes = {
-  income: PropTypes.number.isRequired,
-  spending: PropTypes.number.isRequired,
 }
 
 Totals.defaultProps = {

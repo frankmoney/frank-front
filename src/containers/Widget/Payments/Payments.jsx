@@ -1,16 +1,19 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import D from 'date-fns/fp'
 import { compose } from 'recompose'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import CurrencyProvider from 'components/CurrencyProvider'
-import { paymentsSelector, showCategoriesSelector } from '../selectors'
+import {
+  paymentsSelector,
+  showCategoriesSelector,
+} from 'containers/Widget/selectors'
 import PaymentBlock from './PaymentBlock'
-import { paymentProps } from './Payment'
+import type { PaymentProps } from './Payment.flow'
 
 const styles = {
   root: {},
@@ -32,6 +35,17 @@ const groupPayments = R.pipe(
   }))
 )
 
+type Props = {
+  data: Array<PaymentProps>,
+  showCategories: boolean,
+  // Styles
+  classes: Object,
+  className: ?string,
+  blockClassName: ?string,
+  blockTitleClassName: ?string,
+  paymentClassName: ?string,
+}
+
 const Payments = ({
   blockClassName,
   blockTitleClassName,
@@ -40,7 +54,7 @@ const Payments = ({
   data,
   paymentClassName,
   showCategories,
-}) => {
+}: Props) => {
   const groups = groupPayments(data)
 
   return (
@@ -61,15 +75,6 @@ const Payments = ({
       </div>
     </CurrencyProvider>
   )
-}
-
-Payments.propTypes = {
-  data: PropTypes.arrayOf(paymentProps).isRequired,
-  showCategories: PropTypes.bool,
-  // Styles
-  blockClassName: PropTypes.string,
-  blockTitleClassName: PropTypes.string,
-  paymentClassName: PropTypes.string,
 }
 
 const mapStateToProps = createStructuredSelector({

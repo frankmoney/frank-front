@@ -25,7 +25,7 @@ const PrimaryText = ({ classes, className, children, icon }) => (
     {({ selected }) => (
       <span
         className={cx(classes.root, selected && classes.selected, className)}
-      >
+      >s
         {icon &&
           React.cloneElement(icon, {
             className: cx(icon.props.className, classes.icon),

@@ -3,8 +3,8 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
+import type { Categories } from 'components/CategoryListPieChart'
 import { limitCategories } from 'components/CategoryListPieChart'
-import type { PieData } from 'components/Charts/types'
 
 const styles = theme => ({
   root: {
@@ -26,7 +26,9 @@ const styles = theme => ({
 })
 
 type Props = {
-  data: PieData,
+  classes: Object,
+  className: ?string,
+  data: Categories,
 }
 
 const RecipientCategoryList = ({ classes, className, data }: Props) => {

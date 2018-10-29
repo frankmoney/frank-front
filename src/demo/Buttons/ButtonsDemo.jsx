@@ -73,78 +73,6 @@ const ButtonsDemo = ({ classes }) => (
       <Button className={classes.button} label="Submit" color="gray" loading />
     </div>
     <div className={classes.row}>
-      <Button
-        className={classes.button}
-        label="Submit"
-        color="green"
-        icon={<CheckCircle />}
-      />
-      <Button
-        className={classes.button}
-        label="Submit"
-        color="green"
-        icon={<CheckCircle />}
-        hover
-      />
-      <Button
-        className={classes.button}
-        label="Submit"
-        color="green"
-        icon={<CheckCircle />}
-        active
-      />
-      <Button
-        className={classes.button}
-        label="Submit"
-        color="green"
-        icon={<CheckCircle />}
-        disabled
-      />
-      <Button
-        className={classes.button}
-        label="Submit"
-        color="green"
-        icon={<CheckCircle />}
-        loading
-      />
-    </div>
-    <div className={classes.row}>
-      <Button
-        className={classes.button}
-        label="Submit"
-        color="gray"
-        icon={<CheckCircle />}
-      />
-      <Button
-        className={classes.button}
-        label="Submit"
-        color="gray"
-        icon={<CheckCircle />}
-        hover
-      />
-      <Button
-        className={classes.button}
-        label="Submit"
-        color="gray"
-        icon={<CheckCircle />}
-        active
-      />
-      <Button
-        className={classes.button}
-        label="Submit"
-        color="gray"
-        icon={<CheckCircle />}
-        disabled
-      />
-      <Button
-        className={classes.button}
-        label="Submit"
-        color="gray"
-        icon={<CheckCircle />}
-        loading
-      />
-    </div>
-    <div className={classes.row}>
       <Button className={classes.button} label="Submit" color="red" />
       <Button className={classes.button} label="Submit" color="red" hover />
       <Button className={classes.button} label="Submit" color="red" active />
@@ -212,6 +140,78 @@ const ButtonsDemo = ({ classes }) => (
         loading
       />
     </div>
+    <div className={classes.row}>
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="green"
+        icon={<CheckCircle />}
+      />
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="green"
+        icon={<CheckCircle />}
+        hover
+      />
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="green"
+        icon={<CheckCircle />}
+        active
+      />
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="green"
+        icon={<CheckCircle />}
+        disabled
+      />
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="green"
+        icon={<CheckCircle />}
+        loading
+      />
+    </div>
+    <div className={classes.row}>
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="gray"
+        icon={<CheckCircle />}
+      />
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="gray"
+        icon={<CheckCircle />}
+        hover
+      />
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="gray"
+        icon={<CheckCircle />}
+        active
+      />
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="gray"
+        icon={<CheckCircle />}
+        disabled
+      />
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="gray"
+        icon={<CheckCircle />}
+        loading
+      />
+    </div>0
     <h2>IconButton</h2>
     <div className={classes.row}>
       <IconButton icon={<MoreHoriz />} />

@@ -1,10 +1,8 @@
 const path = require('path')
 const merge = require('webpack-merge')
-const common = require('./webpack.config.common')
-const WriteFilePlugin = require('write-file-webpack-plugin') // here so you can see what chunks are built
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-//   .BundleAnalyzerPlugin
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
+const WriteFilePlugin = require('write-file-webpack-plugin') // here so you can see what chunks are built
+const common = require('./webpack.config.common')
 
 module.exports = merge(common, {
   devtool: 'source-map',

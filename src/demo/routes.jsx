@@ -6,6 +6,9 @@ import { BASE_TITLE, ROUTES } from 'const'
 import CommentsDemo from './CommentsDemo'
 import ComponentsDemo from './ComponentsDemo'
 import ButtonsDemo from './Buttons'
+import SelectsDemo from './Selects'
+import FieldsDemo from './Fields'
+import PopupsDemo from './Popups'
 import DemoLayout from './DemoLayout'
 import DrawerDemo from './DrawerDemo'
 import WidgetDemo from './Widgets'
@@ -74,6 +77,21 @@ export default [
   {
     component: withDemoLayout(CommentsDemo),
     path: ROUTES.demo.comments,
+    exact: true,
+  },
+  {
+    component: FieldsDemo,
+    path: ROUTES.demo.fields,
+    exact: true,
+  },
+  {
+    component: PopupsDemo,
+    path: ROUTES.demo.popups,
+    exact: true,
+  },
+  {
+    component: SelectsDemo,
+    path: ROUTES.demo.selects,
     exact: true,
   },
   {

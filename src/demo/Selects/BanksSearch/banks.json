@@ -1,0 +1,146 @@
+[
+  {
+    "code": "mxbank",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-1572a04c-912b-59bf-5841-332c7dfafaef_100x100.png",
+    "name": "MX Bank",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-1572a04c-912b-59bf-5841-332c7dfafaef_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "https://www.mx.com"
+  },
+  {
+    "code": "bank_of_america",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-6bf65f32-858e-b2e0-6030-f8f191196452_100x100.png",
+    "name": "Bank of America",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-6bf65f32-858e-b2e0-6030-f8f191196452_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "https://www.bankofamerica.com/"
+  },
+  {
+    "code": "wells_fargo",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-a4b1697f-f956-e651-5f8e-e4072166408c_100x100.png",
+    "name": "Wells Fargo",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-a4b1697f-f956-e651-5f8e-e4072166408c_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "https://online.wellsfargo.com"
+  },
+  {
+    "code": "us_bank",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-076d457f-b1a7-ea3f-1d46-a7e53ac69a6b_100x100.png",
+    "name": "US Bank",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-076d457f-b1a7-ea3f-1d46-a7e53ac69a6b_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "https://www.usbank.com/index.html"
+  },
+  {
+    "code": "chase",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/default_100x100.png",
+    "name": "Chase Bank",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/default_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "https://www.chase.com/"
+  },
+  {
+    "code": "amex",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-c1fe4896-a540-2b70-92ae-b8343c33c744_100x100.png",
+    "name": "American Express Credit Card",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-c1fe4896-a540-2b70-92ae-b8343c33c744_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "http://www.americanexpress.com"
+  },
+  {
+    "code": "citibank",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-529918d9-8655-b609-33fe-17a66144ef23_100x100.png",
+    "name": "Citibank Credit Cards",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-529918d9-8655-b609-33fe-17a66144ef23_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "https://www.citi.com/credit-cards/citi.action"
+  },
+  {
+    "code": "paypal",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-99867f5d-8094-e478-17c8-fdc379957629_100x100.png",
+    "name": "PayPal",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-99867f5d-8094-e478-17c8-fdc379957629_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "http://www.paypal.com"
+  },
+  {
+    "code": "discover_card",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-4a3fdaaf-ab50-430c-713f-c3b0abc844a9_100x100.png",
+    "name": "Discover Credit Card",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-4a3fdaaf-ab50-430c-713f-c3b0abc844a9_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "https://www.discover.com"
+  },
+  {
+    "code": "usaa",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-c40f4b59-8f25-6af5-b523-f7a04e95a315_100x100.png",
+    "name": "USAA",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-c40f4b59-8f25-6af5-b523-f7a04e95a315_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "www.usaa.com"
+  },
+  {
+    "code": "td_bank",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/default_100x100.png",
+    "name": "TD Bank USA",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/default_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "http://www.tdbank.com/"
+  },
+  {
+    "code": "bb&t",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-8ea878b5-9edd-3f9b-9200-d3ffd028526f_100x100.png",
+    "name": "BB&T - Online Banking",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-8ea878b5-9edd-3f9b-9200-d3ffd028526f_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "http://www.bbt.com"
+  },
+  {
+    "code": "pnc_bank",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-5a95b9f6-d6ec-28a1-b188-7273c3b73983_100x100.png",
+    "name": "PNC Bank",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-5a95b9f6-d6ec-28a1-b188-7273c3b73983_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "http://www.pnc.com/"
+  },
+  {
+    "code": "suntrust",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-66a28d4d-2806-e7df-dd89-14eaf557558d_100x100.png",
+    "name": "SunTrust Bank",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-66a28d4d-2806-e7df-dd89-14eaf557558d_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "http://www.suntrust.com/"
+  },
+  {
+    "code": "navy_fed_cu",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/default_100x100.png",
+    "name": "Navy Federal Credit Union",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/default_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "http://www.navyfcu.org/"
+  },
+  {
+    "code": "68556",
+    "mediumLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/100x100/INS-1d6527eb-477a-b2fe-c26d-1831bb5a962c_100x100.png",
+    "name": "Zions Bank - Personal (Finicity)",
+    "smallLogoUrl": "https://content.moneydesktop.com/storage/MD_Assets/Ipad%20Logos/50x50/INS-1d6527eb-477a-b2fe-c26d-1831bb5a962c_50x50.png",
+    "supportsAccountIdentification": false,
+    "supportsAccountVerification": false,
+    "url": "http://www.zionsbank.com/"
+  }
+]

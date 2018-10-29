@@ -15,6 +15,8 @@ const styles = {
 }
 
 type Props = {
+  classes: Object,
+  className: ?string,
   dual: boolean,
   height: number,
   hideBaseLine: boolean,
@@ -76,6 +78,7 @@ const Grid = ({
 }
 
 Grid.defaultProps = {
+  dual: false,
   hideBaseLine: false,
   steps: 4,
 }

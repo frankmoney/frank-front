@@ -1,11 +1,9 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
-import PropTypes from 'prop-types'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { barDataProp, pieDataProp } from 'components/Charts/types'
-import { footerClasses, footerProps } from 'containers/Widget/Footer'
 import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
 import { Header, HeaderItem } from './Header'
 import {
@@ -19,6 +17,7 @@ import {
   tabSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
+import type { Props } from './Widget.flow'
 
 const Widget = ({
   barChartClassName,
@@ -55,7 +54,7 @@ const Widget = ({
   showOverviewTotals,
   tab,
   widgetSize,
-}) => {
+}: Props) => {
   const isOverviewTab = tab === 'overview'
   const isPaymentListTab = tab === 'payments'
   const isStoriesTab = tab === 'stories'
@@ -125,45 +124,6 @@ const Widget = ({
       {isAboutTab && <AboutTab />}
     </div>
   )
-}
-
-Widget.propTypes = {
-  barsFooterPadding: PropTypes.number.isRequired,
-  barsHeight: PropTypes.number.isRequired,
-  barsWidth: PropTypes.number.isRequired,
-  CategoryList: PropTypes.element,
-  onCategoryClick: PropTypes.func.isRequired,
-  onCategoryTypeChange: PropTypes.func.isRequired,
-  onSeeAllClick: PropTypes.func.isRequired,
-  onTabSwitch: PropTypes.func.isRequired,
-  pieChartRootComponent: PropTypes.element,
-  showBarChart: PropTypes.bool,
-  showCategoryCount: PropTypes.bool,
-  showOverviewTotals: PropTypes.bool,
-  widgetSize: PropTypes.number.isRequired,
-  // Selectors
-  barsData: barDataProp,
-  categoryCount: PropTypes.number,
-  categoryType: PropTypes.string,
-  currentCategoryColor: PropTypes.string,
-  currentCategoryName: PropTypes.string,
-  paymentCount: PropTypes.number,
-  pieData: PropTypes.objectOf(pieDataProp),
-  tab: PropTypes.oneOf(['overview', 'payments', 'stories', 'about']),
-  // Styles
-  barChartClassName: PropTypes.string,
-  className: PropTypes.string,
-  contentClassName: PropTypes.string,
-  overviewChartClassName: PropTypes.string,
-  paymentBlockClassName: PropTypes.string,
-  paymentBlockTitleClassName: PropTypes.string,
-  paymentClassName: PropTypes.string,
-  paymentListClassName: PropTypes.string,
-  paymentsPeriodClassName: PropTypes.string,
-  pieChartClassName: PropTypes.string,
-  //
-  OverviewFooterClasses: footerClasses,
-  OverviewFooterProps: footerProps,
 }
 
 const mapStateToProps = createStructuredSelector({
