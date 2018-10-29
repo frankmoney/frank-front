@@ -1,130 +1,217 @@
-import { mapStory } from 'data/models/story'
+const storyFields = `
+  pid
+  title
+  publishedAt
+`
 
-const paymentScheme = `
-  {
+const storyDraftFields = `
+  pid
+  title
+  cover
+  body
+  published
+  publishedAt
+`
+
+const paymentFields = `
+  pid
+  id: pid
+  postedOn
+  amount
+  description
+  peerName
+  peer {
     id: pid
-    postedOn
-    amount
-    peerName
-    description
-    category {
-      id: pid
-      name
-      color
-    }
+    name
   }
-  `
-
-const storyDataScheme = (type = 'draft') => `
-  id
-  isPublished,
-  hasUnpublishedDraft,
-  data: ${type === 'draft' ? 'draftData' : 'publicData'} {
-    title
-    body
-    coverImage
-    payments ${paymentScheme}
+  category {
+    id: pid
+    name
+    color
   }
-`
-
-const storyQuery = (type = 'draft') => `
-  story(pid: $storyId) { 
-    ${storyDataScheme(type)}
-  }
-`
-
-const paymentsQuery = `
-      payments(
-        take: $first
-        skip: $skip
-        postedOnMin: $dateMin
-        postedOnMax: $dateMax
-      ) ${paymentScheme}
-`
-
-const totalCountQuery = `
-    countPayments(
-      postedOnMin: $dateMin
-      postedOnMax: $dateMax
-    )
 `
 
 export default {
-  getStoryAndPaymentsAndTotalCount: ({
-    storyId,
-    totalCount: includeTotal,
-    payments: includePayments,
-  }) => [
+  getPayments: [
     `
     query(
-      $accountId: ID!
-      ${(storyId && `$storyId: ID!`) || ''}
-      $first: Int!
+      $accountPid: ID!
+      $postedOnMin: Date
+      $postedOnMax: Date
+      $take: Int
       $skip: Int
-      $dateMin: Date
-      $dateMax: Date
     ) {
-      account(pid: $accountId) {
-        ${(includePayments && paymentsQuery) || ''}
-        ${(includeTotal && totalCountQuery) || ''}
+      account(pid: $accountPid) {
+        payments(
+          sortBy: amount_DESC
+          postedOnMin: $postedOnMin
+          postedOnMax: $postedOnMax
+          take: $take
+          skip: $skip
+        ) {
+          ${paymentFields}
+        }
       }
-      ${(storyId && storyQuery()) || ''}
     }
     `,
-    ({ account: { payments, countPayments }, story }) => ({
-      story: story && mapStory(story),
-      payments,
-      totalCount: countPayments,
-    }),
+    ({ account: { payments } }) => payments,
   ],
-  storyСreateOrUpdate: ({ isNew }) => [
+  countPayments: [
+    `
+    query(
+      $accountPid: ID!
+      $postedOnMin: Date
+      $postedOnMax: Date
+    ) {
+      account(pid: $accountPid) {
+        countPayments(
+          postedOnMin: $postedOnMin
+          postedOnMax: $postedOnMax
+        )
+      }
+    }
+    `,
+    ({ account: { countPayments } }) => countPayments,
+  ],
+  getStory: [
+    `
+    query(
+      $accountPid: ID!
+      $storyPid: ID!
+    ) {
+      account(pid: $accountPid) {
+        story(pid: $storyPid) {
+          ${storyFields}
+          draft {
+            ${storyDraftFields}
+            payments(
+              sortBy: amount_DESC
+            ) {
+              ${paymentFields}
+            }
+          }
+        }
+      }
+    }
+    `,
+    ({ account: { story } }) => story,
+  ],
+  createStory: [
     `
     mutation(
-      $accountId: ID!
-      ${(!isNew && '$storyId: ID!') || ''}
-      $title: String!
-      $body: JSON!
-      $coverImage: JSON
-      $paymentsIds: [ID!]
+      $accountPid: ID!
+      $title: String
+      $cover: JSON
+      $body: JSON
+      $paymentPids: [ID!]
     ) {
-      story: ${isNew ? `storyCreate` : `storyUpdate`}(
-        accountId: $accountId
-        ${(!isNew && 'storyId: $storyId') || ''}
+      storyCreate(
+        accountPid: $accountPid
         title: $title
+        cover: $cover
         body: $body
-        coverImage: $coverImage
-        paymentsIds: $paymentsIds
+        paymentPids: $paymentPids
       ) {
-        ${storyDataScheme()}
+        ${storyFields}
+        draft {
+          ${storyDraftFields}
+          payments(
+            sortBy: amount_DESC
+          ) {
+            ${paymentFields}
+          }
+        }
       }
     }
     `,
-    ({ story }) => ({ story: story && mapStory(story) }),
+    ({ storyCreate }) => storyCreate,
   ],
-  storyDelete: [
+  deleteStory: [
     `
-    mutation($accountId: ID!, $storyId: ID!) {
-      story: storyDelete(accountId: $accountId, storyId: $storyId) {
-        id: pid
+    mutation(
+      $storyPid: ID!
+    ) {
+      storyDelete(pid: $storyPid) {
+        pid
       }
     }
     `,
-    ({ story }) => ({ story }),
+    () => null,
   ],
-  storyPublish: [
+  unpublishStory: [
     `
-    mutation($accountId: ID!, $storyId: ID!, $isPublished: Boolean!) {
-      story: storyPublish(
-        accountId: $accountId,
-        storyId: $storyId,
-        isPublished: $isPublished
+    mutation(
+      $storyPid: ID!
+    ) {
+      storyUnpublish(pid: $storyPid) {
+        ${storyFields}
+        draft {
+          ${storyDraftFields}
+          payments(
+            sortBy: amount_DESC
+          ) {
+            ${paymentFields}
+          }
+        }
+      }
+    }
+    `,
+    ({ storyUnpublish }) => storyUnpublish,
+  ],
+  updateStoryDraft: [
+    `
+    mutation(
+      $pid: ID!
+      $title: String
+      $cover: JSON
+      $body: JSON
+      $paymentPids: [ID!]
+    ) {
+      storyDraftUpdate(
+        pid: $pid
+        title: $title
+        cover: $cover
+        body: $body
+        paymentPids: $paymentPids
       ) {
-        id: pid
-        isPublished
-        hasUnpublishedDraft
+        story {
+          ${storyFields}
+          draft {
+            ${storyDraftFields}
+            payments(
+              sortBy: amount_DESC
+            ) {
+              ${paymentFields}
+            }
+          }
+        }
       }
     }
     `,
-    ({ story }) => ({ story }),
+    ({ storyDraftUpdate: { story } }) => story,
+  ],
+  publishStoryDraft: [
+    `
+    mutation(
+      $draftPid: ID!
+    ) {
+      storyDraftPublish(
+        pid: $draftPid
+      ) {
+        story {
+          ${storyFields}
+          draft {
+            ${storyDraftFields}
+            payments(
+              sortBy: amount_DESC
+            ) {
+              ${paymentFields}
+            }
+          }
+        }
+      }
+    }
+    `,
+    ({ storyDraftPublish: { story } }) => story,
   ],
 }

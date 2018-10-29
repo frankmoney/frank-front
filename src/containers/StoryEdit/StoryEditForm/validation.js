@@ -11,7 +11,7 @@ const validateFilesIsLoaded = R.ifElse(
 
 const validations = {
   payments: [required, minItems(1)],
-  coverImage: [validateFilesIsLoaded],
+  cover: [validateFilesIsLoaded],
 }
 
 export const validate = createValidateFromRules(validations)

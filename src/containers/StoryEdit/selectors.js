@@ -2,7 +2,6 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { formValueSelector, isValid, isDirty } from 'redux-form/immutable'
 import { createPlainObjectSelector } from '@frankmoney/utils'
-import { parseDate } from 'utils/dates'
 import { REDUCER_KEY } from './reducer'
 import { FORM_NAME } from './constants'
 
@@ -18,31 +17,48 @@ export const isProcessingSelector = get('processing')
 
 export const storySelector = createPlainObjectSelector(get('story'))
 
-export const isNewStorySelector = createSelector(storySelector, R.isNil)
+export const draftSelector = createSelector(storySelector, R.prop('draft'))
+
+export const isDirtySelector = isDirty(FORM_NAME)
+
+export const isNewStorySelector = createSelector(
+  storySelector,
+  R.pipe(
+    R.prop('pid'),
+    R.isNil
+  )
+)
 
 export const isPublishedSelector = createSelector(
   storySelector,
-  R.ifElse(R.isNil, R.always(false), R.prop('isPublished'))
+  R.ifElse(R.isNil, R.always(false), R.prop('publishedAt'))
+)
+
+export const isDraftPublishedSelector = createSelector(
+  draftSelector,
+  R.prop('published')
 )
 
 export const hasUnpublishedDraftSelector = createSelector(
-  storySelector,
-  R.ifElse(R.isNil, R.always(false), R.prop('hasUnpublishedDraft'))
+  draftSelector,
+  R.pipe(
+    R.prop('published'),
+    R.not
+  )
 )
 
 export const formInitialValuesSelector = createSelector(
-  storySelector,
+  draftSelector,
   R.ifElse(
     R.complement(R.isNil),
-    story => {
-      const values = R.pick(['coverImage', 'title', 'body', 'payments'])(story)
+    draft => {
+      const values = R.pick(['cover', 'title', 'body', 'payments'])(draft)
 
-      if (!values.coverImage) {
-        values.coverImage = []
+      if (!values.cover) {
+        values.cover = []
       } else {
-        values.coverCrop =
-          values.coverImage.crop && values.coverImage.crop.sized
-        values.coverImage = [values.coverImage]
+        values.coverCrop = values.cover.crop && values.cover.crop.sized
+        values.cover = [values.cover]
       }
 
       if (!values.body) {
@@ -59,7 +75,7 @@ export const formInitialValuesSelector = createSelector(
     },
     () => ({
       payments: [],
-      coverImage: [],
+      cover: [],
     })
   )
 )
@@ -69,7 +85,8 @@ const storyEditFormValueSelector = formValueSelector(FORM_NAME)
 export const isSaveButtonDisabledSelector = createSelector(
   isValid(FORM_NAME),
   isDirty(FORM_NAME),
-  (valid, dirty) => !dirty || !(valid && dirty)
+  isProcessingSelector,
+  (valid, dirty, processing) => processing || !dirty || !(valid && dirty)
 )
 
 export const saveButtonLabelSelector = createSelector(
@@ -79,22 +96,30 @@ export const saveButtonLabelSelector = createSelector(
 )
 
 export const isPublishButtonDisabledSelector = createSelector(
-  isPublishedSelector,
-  hasUnpublishedDraftSelector,
-  (isPublished, hasUnpublishedDraft) => !hasUnpublishedDraft && isPublished
+  isValid(FORM_NAME),
+  isDirty(FORM_NAME),
+  isSavingSelector,
+  isProcessingSelector,
+  isDraftPublishedSelector,
+  (valid, dirty, saving, processing, published) => {
+    if (saving || processing) {
+      return true
+    }
+    if (published) {
+      return !dirty || !valid
+    }
+    return dirty ? !valid : false
+  }
 )
 
 export const publishButtonLabelSelector = createSelector(
   isValid(FORM_NAME),
   isDirty(FORM_NAME),
-  savedSelector,
   isPublishedSelector,
-  hasUnpublishedDraftSelector,
-  (valid, dirty, saved, isPublished, hasUnpublishedDraft) => {
-    if (isPublished) {
-      return hasUnpublishedDraft || (!saved && valid && dirty)
-        ? 'Republish'
-        : 'Published'
+  isDraftPublishedSelector,
+  (valid, dirty, storyPublished, draftPublished) => {
+    if (storyPublished) {
+      return draftPublished && !dirty ? 'Published' : 'Republish'
     }
     return 'Publish'
   }

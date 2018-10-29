@@ -1,6 +1,3 @@
-import * as R from 'ramda'
-import { mapStory } from 'data/models/story'
-
 export default {
   getStories: [
     `
@@ -8,22 +5,22 @@ export default {
       $accountId: ID!
     ) {
       account(pid: $accountId) {
-        stories {
-          id: pid
-          isPublished
-          data: draftData {
+        stories(
+          sortBy: publishedAt_DESC
+        ) {
+          pid
+          draft {
             title
+            cover
             body
-            coverImage
+            published
+            paymentsCount: countPayments
             paymentsDateRange
-            countPayments
-          }  
+          }
         }
       }
     }
     `,
-    ({ account: { stories } }) => ({
-      stories: R.map(mapStory, stories),
-    }),
+    ({ account: { stories } }) => ({ stories }),
   ],
 }

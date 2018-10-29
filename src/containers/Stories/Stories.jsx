@@ -33,9 +33,9 @@ import {
 import * as ACTIONS from './actions'
 import styles from './Stories.jss'
 
-const LinkedStoryCard = withProps(({ id }) => ({
+const LinkedStoryCard = withProps(({ pid }) => ({
   component: Link,
-  to: createRouteUrl(ROUTES.stories.storyPreview, { id }),
+  to: createRouteUrl(ROUTES.stories.storyPreview, { id: pid }),
 }))(StoryCard)
 
 const Stories = ({ classes, noStories, stories, className }) => (
@@ -48,7 +48,7 @@ const Stories = ({ classes, noStories, stories, className }) => (
       </FixedHeader>
       <div className={classes.container}>
         <NewButton />
-        {!noStories && stories.map(story => <LinkedStoryCard {...story} />)}
+        {!noStories && stories.map(story => <LinkedStoryCard {...story.draft} pid={story.pid} />)}
       </div>
     </div>
     <ShareDialog />

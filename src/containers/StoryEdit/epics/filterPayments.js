@@ -1,36 +1,32 @@
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import ACTIONS from '../actions'
 import QUERIES from '../queries'
-import {
-  paymentsFiltersSelector,
-  paymentsLoadedPagesCounterSelector,
-} from '../selectors'
+import { paymentsFiltersSelector } from '../selectors'
 import { PAGE_SIZE } from '../constants'
 
 export default (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.filterPayments)
-    .switchMap(() => {
+    .switchMap(async () => {
       const state = store.getState()
-      const page = paymentsLoadedPagesCounterSelector(state)
-      const { dateMin, dateMax } = paymentsFiltersSelector(state)
+      const accountPid = currentAccountIdSelector(state)
+      const {
+        dateMin: postedOnMin,
+        dateMax: postedOnMax,
+      } = paymentsFiltersSelector(state)
 
-      console.log('ACTIONS.filterPayments')
-      console.log({ dateMin, dateMax })
-
-      return graphql(
-        QUERIES.getStoryAndPaymentsAndTotalCount({
-          payments: true,
-          totalCount: true,
+      const result = await Promise.all([
+        graphql(QUERIES.getPayments, { accountPid, postedOnMin, postedOnMax }),
+        graphql(QUERIES.countPayments, {
+          accountPid,
+          postedOnMin,
+          postedOnMax,
+          take: PAGE_SIZE,
         }),
-        {
-          accountId: currentAccountIdSelector(store.getState()),
-          first: PAGE_SIZE,
-          skip: page * PAGE_SIZE,
-          dateMin,
-          dateMax,
-          verified: true,
-        }
-      )
+      ])
+
+      const [payments, totalCount] = result
+
+      return { payments, totalCount }
     })
     .map(ACTIONS.filterPayments.success)

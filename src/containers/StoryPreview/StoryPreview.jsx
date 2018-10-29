@@ -18,12 +18,14 @@ const StoryPreview = ({
   classes,
   className,
   story: {
-    coverImage,
-    payments,
-    paymentsCount,
-    paymentsDateRange,
-    title,
-    body: { text },
+    draft: {
+      title,
+      cover,
+      body: { text },
+      payments,
+      paymentsCount,
+      paymentsDateRange,
+    },
   },
 }) => (
   <div className={cx(classes.storyPreviewPage, className)}>
@@ -31,11 +33,11 @@ const StoryPreview = ({
       <HeaderBarButtons />
     </FixedHeader>
     <div className={classes.container}>
-      {coverImage && (
+      {cover && (
         <div className={classes.imageContainer}>
           <img
             className={classes.coverImage}
-            src={coverImage.thumbs.sized}
+            src={cover.thumbs.sized}
             alt="story cover"
           />
         </div>

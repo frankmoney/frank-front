@@ -2,28 +2,27 @@ import { currentAccountIdSelector } from 'redux/selectors/user'
 import ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
 import QUERIES from '../queries'
-import { paymentsLoadedPagesCounterSelector } from '../selectors'
 
 export default (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.load)
-    .switchMap(({ payload: storyId }) => {
+    .switchMap(async ({ payload: storyPid }) => {
       const state = store.getState()
-      const page = paymentsLoadedPagesCounterSelector(state)
+      const accountPid = currentAccountIdSelector(state)
 
-      return graphql(
-        QUERIES.getStoryAndPaymentsAndTotalCount({
-          storyId,
-          payments: true,
-          totalCount: true,
+      const result = await Promise.all([
+        graphql(QUERIES.getPayments, {
+          accountPid,
+          take: PAGE_SIZE,
         }),
-        {
-          accountId: currentAccountIdSelector(store.getState()),
-          storyId,
-          first: PAGE_SIZE,
-          skip: page * PAGE_SIZE,
-          verified: true,
-        }
-      )
+        graphql(QUERIES.countPayments, { accountPid }),
+        storyPid
+          ? graphql(QUERIES.getStory, { accountPid, storyPid })
+          : Promise.resolve({}),
+      ])
+
+      const [payments, totalCount, story] = result
+
+      return { payments, totalCount, story }
     })
     .map(ACTIONS.load.success)
