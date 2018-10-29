@@ -3,7 +3,7 @@ import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
 import { Check } from 'material-ui-icons'
 import { getHostname } from 'utils/url'
-import BankLogo from '../../../BankLogo'
+import BankLogo from 'components/BankLogo'
 
 const styles = theme => ({
   root: {

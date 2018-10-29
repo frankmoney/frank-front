@@ -22,6 +22,7 @@ const BaseButton = ({
   onBlur,
   onClick,
   onFocus,
+  onMouseEnter,
   onMouseLeave,
   onMouseOver,
   onTouchEnd,
@@ -34,6 +35,7 @@ const BaseButton = ({
     className={className}
     onClick={onClick}
     onMouseOver={onMouseOver}
+    onMouseEnter={onMouseEnter}
     onMouseLeave={onMouseLeave}
     onFocus={onFocus}
     onBlur={onBlur}

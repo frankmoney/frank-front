@@ -7,7 +7,6 @@ import initRoutes from './router'
 
 const isProd = process.env.NODE_ENV === 'production'
 const findUser = ({ graphqlClient, req }) => {
-  return Promise.resolve(null)
   const promise = graphqlClient(
     `{
       me {

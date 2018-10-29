@@ -3,14 +3,14 @@ import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { compose, withStateHandlers } from 'recompose'
 import Field from 'components/kit/fields/Field'
-import TextBox from 'components/kit/fields/TextBox'
+import TextBox from 'components/kit/TextBox'
 import Switch from 'components/kit/Switch'
 import Label from 'components/kit/fields/Label'
 
 const styles = {
   root: {},
   field: {
-    width: 300,
+    width: 340,
   },
   options: {
     marginTop: 40,
@@ -18,7 +18,7 @@ const styles = {
     alignItems: 'flex-start',
   },
   col: {
-    width: 150,
+    width: 170,
   },
   opt: {
     display: 'flex',
@@ -32,8 +32,6 @@ const styles = {
   },
 }
 
-const checkGay = name => ['tom'].includes(name.toLowerCase())
-
 const Playground = ({
   classes,
   value,
@@ -45,6 +43,8 @@ const Playground = ({
   larger,
   disabled,
   multiline,
+  additionalLabel,
+  hint,
   onFocus,
   onBlur,
   onChange,
@@ -56,6 +56,8 @@ const Playground = ({
   toggleFloating,
   toggleLarger,
   toggleMultiline,
+  toggleHint,
+  toggleAdditionalLabel,
   className,
 }) => {
   const Opt = ({ label, on, onToggle }) => (
@@ -71,13 +73,15 @@ const Playground = ({
         larger={larger}
         className={classes.field}
         label={!floatingLabel && 'Name'}
+        additionalLabel={additionalLabel && 'Should be fancy'}
         floatingLabel={floatingLabel && 'Name'}
         placeholder={placeholder && 'Frank Sinatra'}
         focus={focus}
-        error={error && (checkGay(value) ? 'Check another gay' : 'Not a gay')}
+        error={error && 'Error'}
         invalid={error}
         disabled={disabled}
         loading={loading}
+        hint={hint && '140 symbols left'}
       >
         <TextBox
           value={value}
@@ -109,9 +113,15 @@ const Playground = ({
           />
           <Opt label="Larger" on={larger} onToggle={toggleLarger} />
           <Opt
-            label="Has value"
+            label="Value"
             on={!!value}
             onToggle={() => onChange(value ? '' : 'Tom')}
+          />
+          <Opt label="Hint" on={hint} onToggle={toggleHint} />
+          <Opt
+            label="Additional label"
+            on={additionalLabel}
+            onToggle={toggleAdditionalLabel}
           />
         </div>
       </div>
@@ -137,6 +147,10 @@ export default compose(
         disabled: !props.disabled,
       }),
       toggleFilled: props => () => ({ filled: !props.filled }),
+      toggleHint: props => () => ({ hint: !props.hint }),
+      toggleAdditionalLabel: props => () => ({
+        additionalLabel: !props.additionalLabel,
+      }),
       togglePlaceholder: props => () => ({ placeholder: !props.placeholder }),
       toggleLoading: props => () => ({ loading: !props.loading }),
       toggleFloating: props => () => ({ floatingLabel: !props.floatingLabel }),

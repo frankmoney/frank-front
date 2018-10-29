@@ -1,6 +1,6 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
-import TextBox from 'components/kit/fields/TextBox'
+import TextBox from 'components/kit/TextBox'
 import Field from 'components/kit/fields/Field'
 import SwitchBase from 'components/kit/SwitchBase'
 import Switch from 'components/kit/Switch'
@@ -10,6 +10,7 @@ const styles = {
   demo: {
     alignItems: 'center',
     background: '#fff',
+    color: '#252B43',
     display: 'flex',
     flexDirection: 'column',
     paddingBottom: 100,
@@ -95,10 +96,40 @@ const FieldsDemo = ({ classes }) => {
         <Field label="Name">
           <TextBox defaultValue="Nick" />
         </Field>
-        <Field label="Name" error="Gay name" invalid>
+        <Field label="Name" error="Error" invalid>
           <TextBox defaultValue="Tom" />
         </Field>
-        <Field label="Name" error="Gay name" invalid focus>
+        <Field label="Name" error="Error" invalid focus>
+          <TextBox defaultValue="Tom" />
+        </Field>
+      </div>
+      <h1>Additional label</h1>
+      {states}
+      <div className={classes.row}>
+        <Field label="Name" additionalLabel="Additional label">
+          <TextBox />
+        </Field>
+        <Field label="Name" additionalLabel="Additional label" focus>
+          <TextBox />
+        </Field>
+        <Field label="Name" additionalLabel="Additional label">
+          <TextBox defaultValue="Nick" />
+        </Field>
+        <Field
+          label="Name"
+          additionalLabel="Additional label"
+          error="Error"
+          invalid
+        >
+          <TextBox defaultValue="Tom" />
+        </Field>
+        <Field
+          label="Name"
+          additionalLabel="Additional label"
+          error="Error"
+          invalid
+          focus
+        >
           <TextBox defaultValue="Tom" />
         </Field>
       </div>
@@ -114,10 +145,10 @@ const FieldsDemo = ({ classes }) => {
         <Field floatingLabel="Name">
           <TextBox defaultValue="Nick" />
         </Field>
-        <Field floatingLabel="Name" error="Gay name" invalid>
+        <Field floatingLabel="Name" error="Error" invalid>
           <TextBox defaultValue="Tom" />
         </Field>
-        <Field floatingLabel="Name" error="Gay name" invalid focus>
+        <Field floatingLabel="Name" error="Error" invalid focus>
           <TextBox defaultValue="Tom" />
         </Field>
       </div>
@@ -136,13 +167,13 @@ const FieldsDemo = ({ classes }) => {
             defaultValue="One solution is to reset the key to a random value or auto incrementing"
           />
         </Field>
-        <Field label="Fixed label" invalid error="No homo">
+        <Field label="Fixed label" invalid error="Error">
           <TextBox
             multiLine
             defaultValue="One solution is to reset the key to a random value or auto incrementing"
           />
         </Field>
-        <Field label="Fixed label" invalid focus error="No homo">
+        <Field label="Fixed label" invalid focus error="Error">
           <TextBox
             multiLine
             defaultValue="One solution is to reset the key to a random value or auto incrementing"
@@ -150,20 +181,29 @@ const FieldsDemo = ({ classes }) => {
         </Field>
       </div>
       <h2>Placeholders</h2>
-      {states}
+      <div className={classes.states}>
+        <div>Normal floating</div>
+        <div>Focus floating</div>
+        <div>Normal fixed</div>
+        <div>Focus fixed</div>
+        <div>Multiline</div>
+      </div>
       <div className={classes.row}>
         <Field floatingLabel="Floating label" placeholder="Type your name">
-          <TextBox multiLine />
+          <TextBox />
         </Field>
         <Field
           floatingLabel="Floating label"
           placeholder="Type your name"
           focus
         >
-          <TextBox multiLine />
+          <TextBox />
         </Field>
         <Field label="Fixed label" placeholder="Type your name">
-          <TextBox multiLine />
+          <TextBox />
+        </Field>
+        <Field label="Fixed label" placeholder="Type your name" focus>
+          <TextBox />
         </Field>
         <Field
           label="Multiline"
@@ -186,7 +226,7 @@ const FieldsDemo = ({ classes }) => {
         </Field>
         <Field
           label="Name"
-          error="Gay name"
+          error="Error"
           larger
           invalid
           placeholder="Frank Sinatra"
@@ -195,7 +235,7 @@ const FieldsDemo = ({ classes }) => {
         </Field>
         <Field
           label="Name"
-          error="Gay name"
+          error="Error"
           larger
           invalid
           focus
@@ -222,7 +262,7 @@ const FieldsDemo = ({ classes }) => {
           larger
           placeholder="Frank Sinatra"
           invalid
-          error="No homo"
+          error="Error"
         >
           <TextBox
             multiLine
@@ -235,7 +275,7 @@ const FieldsDemo = ({ classes }) => {
           larger
           invalid
           focus
-          error="No homo"
+          error="Error"
         >
           <TextBox
             multiLine
@@ -271,7 +311,7 @@ const FieldsDemo = ({ classes }) => {
               </Field>
               <Field
                 label="Fixed label"
-                error="Gay name"
+                error="Error"
                 invalid
                 disabled={disabled}
               >
@@ -294,7 +334,7 @@ const FieldsDemo = ({ classes }) => {
               </Field>
               <Field
                 floatingLabel="Floating label"
-                error="Gay name"
+                error="Error"
                 invalid
                 disabled={disabled}
               >

@@ -4,15 +4,17 @@ import { injectStyles } from '@frankmoney/ui'
 
 const styles = theme => ({
   root: {
-    color: '#20284A',
-    opacity: 0.2,
+    color: 'rgba(37, 43, 67, 0.2)',
     whiteSpace: 'wrap',
-    transition: theme.transition('opacity'),
+    transition: [theme.transition('opacity'), theme.transition('color')].join(
+      ','
+    ),
     font: 'inherit',
     pointerEvents: 'none',
+    opacity: 1,
   },
   active: {
-    opacity: 0.1,
+    color: 'rgba(37, 43, 67, 0.1)',
   },
 })
 
@@ -21,6 +23,7 @@ const Placeholder = ({
   active,
   className,
   children,
+  theme,
   ...otherProps
 }) => (
   <span

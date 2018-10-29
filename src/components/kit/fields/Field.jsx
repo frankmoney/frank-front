@@ -7,66 +7,21 @@ import FloatingLabel from './FloatingLabel'
 import Label from './Label'
 import Placeholder from './Placeholder'
 import Underline from './Underline'
-import Error from './Error'
+import ValidationLabel from './ValidationLabel'
 import FieldContext from './FieldContext'
+import styles from './Field.jss'
 
 type Props = {
   larger?: boolean,
   error?: string,
-  invalid?: boolean,
+  hint?: string,
+  label?: string,
+  floatingLabel?: string,
+  additionalLabel?: string,
   focus?: boolean,
   disabled?: boolean,
   loading?: boolean,
   loadingText: string,
-}
-
-const styles = {
-  root: {
-    position: 'relative',
-    paddingTop: 28,
-    fontSize: 18,
-    lineHeight: 26,
-    minHeight: 60,
-    letterSpacing: '-0.025em',
-  },
-  larger: {
-    minHeight: 70,
-    fontSize: 22,
-  },
-  label: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-  },
-  placeholder: {
-    position: 'absolute',
-    top: 28,
-    left: 0,
-    right: 0,
-    display: 'flex',
-    alignItems: 'center',
-  },
-  placeholderOff: {
-    opacity: 0,
-  },
-  disabled: {
-    pointerEvents: 'none',
-    '& $error': {
-      opacity: 0,
-    },
-  },
-  loading: {
-    composes: '$disabled',
-    // prevent tab and focus
-    '& $control': {
-      visibility: 'collapse',
-    },
-  },
-  spinner: {
-    marginRight: 8,
-  },
-  error: {},
-  control: {},
 }
 
 const combineCallbacks = (...cb) => (...args) =>
@@ -145,7 +100,7 @@ class Field extends React.Component<Props> {
 
   getState = (state = this.state) => ({
     focus: this.isControlledFocus ? this.props.focus : state.focus,
-    invalid: this.props.invalid,
+    invalid: !!this.props.error,
     disabled: this.props.disabled,
     loading: this.props.loading,
     filled: this.state.filled,
@@ -157,17 +112,18 @@ class Field extends React.Component<Props> {
       className,
       floatingLabel,
       larger,
-      invalid,
       loading,
       loadingText,
       label,
+      additionalLabel,
       error,
+      hint,
       disabled,
       placeholder,
       children,
     } = this.props
     const control = React.Children.only(children)
-    const { focus, filled } = this.getState()
+    const { focus, invalid, filled } = this.getState()
 
     return (
       <FieldContext.Provider value={this.getState()}>
@@ -182,17 +138,31 @@ class Field extends React.Component<Props> {
             className
           )}
         >
-          {floatingLabel && <FloatingLabel>{floatingLabel}</FloatingLabel>}
-          {error && <Error className={classes.error}>{error}</Error>}
-          {label && <Label className={classes.label}>{label}</Label>}
+          {!loading &&
+            floatingLabel && (
+              <FloatingLabel larger={larger}>{floatingLabel}</FloatingLabel>
+            )}
+          {(error || hint) && (
+            <ValidationLabel invalid={invalid} className={classes.rightLabel}>
+              {error || hint}
+            </ValidationLabel>
+          )}
+          {label && (
+            <Label
+              className={classes.label}
+              additionalText={!error && !hint && additionalLabel}
+            >
+              {label}
+            </Label>
+          )}
           {React.cloneElement(control, {
             className: classes.control,
             controlRef: this.handleControlRef,
             onFocus: combineCallbacks(this.handleFocus, control.props.onFocus),
             onBlur: combineCallbacks(this.handleBlur, control.props.onBlur),
             onChange: combineCallbacks(
-              control.props.onChange,
-              this.hanleChange
+              this.handleChange,
+              control.props.onChange
             ),
             disabled: disabled || loading,
           })}
@@ -211,7 +181,9 @@ class Field extends React.Component<Props> {
             )}
           {loading && (
             <Placeholder className={classes.placeholder}>
-              {loading && <Spinner className={classes.spinner} size={18} />}
+              {loading && (
+                <Spinner className={classes.spinner} size={larger ? 20 : 18} />
+              )}
               {loading && loadingText}
             </Placeholder>
           )}
