@@ -15,7 +15,7 @@ const ARROW_WIDTH = 24
 const ARROW_HEIGHT = 12
 const OFFSET = 18
 
-const styles = {
+const styles = theme => ({
   root: {
     position: 'relative',
   },
@@ -24,40 +24,34 @@ const styles = {
     width: ARROW_WIDTH,
     height: ARROW_HEIGHT,
     pointerEvents: 'none',
+    fill: 'currentColor',
+    color: 'white',
   },
   up: {
     '& $arrow': {
       top: -ARROW_HEIGHT,
-      '& $arrowIcon': {
-        filter: `none`,
-      },
+      filter: `none`,
     },
   },
   down: {
     '& $arrow': {
       bottom: -ARROW_HEIGHT,
       transform: 'rotate(180deg)',
-      '& $arrowIcon': {
-        filter: `drop-shadow(0px -5px 3px rgba(0, 0, 0, 0.12));`,
-      },
+      filter: `drop-shadow(0px -5px 3px rgba(0, 0, 0, 0.12));`,
     },
   },
   left: {
     '& $arrow': {
       left: -ARROW_HEIGHT * 1.5, // +0.5 изза поворота
       transform: 'rotate(-90deg)',
-      '& $arrowIcon': {
-        filter: `drop-shadow(0px -3px 2px rgba(0, 0, 0, 0.1))`,
-      },
+      filter: `drop-shadow(0px -3px 2px rgba(0, 0, 0, 0.1))`,
     },
   },
   right: {
     '& $arrow': {
       right: -ARROW_HEIGHT * 1.5, // +0.5 изза поворота
       transform: 'rotate(90deg)',
-      '& $arrowIcon': {
-        filter: `drop-shadow(0px -3px 2px rgba(0, 0, 0, 0.1))`,
-      },
+      filter: `drop-shadow(0px -3px 2px rgba(0, 0, 0, 0.1))`,
     },
   },
   center: {
@@ -84,8 +78,7 @@ const styles = {
       bottom: OFFSET,
     },
   },
-  arrowIcon: {},
-}
+})
 
 const ArrowPaper = ({
   children,
@@ -104,9 +97,7 @@ const ArrowPaper = ({
     {...otherProps}
   >
     {children}
-    <div ref={arrowRef} className={classes.arrow} {...arrowProps}>
-      <Arrow className={classes.arrowIcon} />
-    </div>
+    <Arrow ref={arrowRef} className={classes.arrow} {...arrowProps} />
   </Paper>
 )
 

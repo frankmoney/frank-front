@@ -4,14 +4,44 @@ import React from 'react'
 import { findDOMNode } from 'react-dom'
 import positionElement from 'utils/dom/positionElement'
 
-type Props = {
+type RefHandler = (React.ComponentType | Element) => void
+
+type ArrowProps = {
+  ref: RefHandler,
+}
+
+type AnchorProps = {
+  ref: RefHandler,
+}
+
+type PopupProps = {
+  ref: RefHandler,
+  style: Object,
+}
+
+export type Props = {
   defaultOpen?: boolean,
   open?: boolean,
   place?: 'up' | 'down' | 'left' | 'right',
   align?: 'start' | 'center' | 'end',
   distance?: number,
   alignmentOffset?: number,
+  onClose: () => void,
 }
+
+export type RenderProps = {
+  open: boolean,
+  close: () => void,
+  show: () => void,
+  toggle: () => void,
+  popupEl: Element,
+  anchorEl: Element,
+  getArrowProps: Object => ArrowProps,
+  getAnchorProps: Object => AnchorProps,
+  getPopupProps: Object => PopupProps,
+}
+
+type getRenderPropsFn = () => RenderProps
 
 class PopupBase extends React.Component<Props> {
   static defaultProps = {
@@ -26,21 +56,40 @@ class PopupBase extends React.Component<Props> {
     return typeof this.props.open !== 'undefined'
   }
 
-  open = () => {
+  get isOpen() {
+    return this.isControlled ? this.props.open : this.state.open
+  }
+
+  open = callback => {
     if (!this.isControlled) {
-      this.setState({ open: true })
+      this.setState({ open: true }, () => {
+        if (typeof callback === 'function') {
+          callback()
+        }
+      })
     }
   }
 
-  close = () => {
+  close = callback => {
     if (!this.isControlled) {
-      this.setState({ open: false })
+      this.setState({ open: false }, () => {
+        if (typeof this.props.onClose === 'function') {
+          this.props.onClose()
+        }
+        if (typeof callback === 'function') {
+          callback()
+        }
+      })
     }
   }
 
-  toggle = () => {
+  toggle = callback => {
     if (!this.isControlled) {
-      this.setState(state => ({ open: !state.open }))
+      if (this.isOpen) {
+        this.close(callback)
+      } else {
+        this.open(callback)
+      }
     }
   }
 
@@ -72,7 +121,7 @@ class PopupBase extends React.Component<Props> {
 
   _getPopupPositionStyles = state => {
     const { popupEl, anchorEl, arrowEl } = state
-    const open = this.isControlled ? this.props.open : this.state.open
+    const open = this.isOpen
 
     const { align, distance, place, alignmentOffset } = this.props
     const defaultStyles = {
@@ -114,8 +163,8 @@ class PopupBase extends React.Component<Props> {
     return popupStyles
   }
 
-  getRenderProps = () => ({
-    open: this.isControlled ? this.props.open : this.state.open,
+  getRenderProps: getRenderPropsFn = () => ({
+    open: this.isOpen,
     close: this.close,
     show: this.open,
     toggle: this.toggle,

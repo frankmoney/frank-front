@@ -9,16 +9,17 @@ import Context from './SelectListContext'
 
 type Value = any
 
-type Props = {
+export type Props = {
   value?: Value | Array<Value>,
   defaultValue?: Value | Array<Value>,
   onChange?: (Value | Array<Value>) => void,
   autoFocus?: boolean,
+  activeOnFocus?: boolean,
   scrollContainer?: Element | Window,
-  onSelectElement?: Element => void,
   multiple?: boolean,
   // ставит активный элемент при фокусе
-  activeOnFocus?: boolean,
+  onSelectElement?: Element => void,
+  onActiveElementChange: (?Element, number, Array<Element>) => void,
 }
 
 const MENU_STYLE = {
@@ -120,7 +121,7 @@ class SelectListBase extends React.Component<Props> {
         ...props.style,
       },
       tabIndex: -1,
-      ref: chainCallbacks(this.handleContainerRef, props.ref),
+      ref: this.getContainerRefHandler(props.ref),
       onMouseLeave: chainCallbacks(
         this.handleContainerMouseLeave,
         props.onMouseLeave
@@ -186,27 +187,30 @@ class SelectListBase extends React.Component<Props> {
       : this.handleValueItemRef(ref, valueOrCallback)
   )
 
+  getContainerRefHandler = memoize(refHandler =>
+    chainCallbacks(refHandler, this.handleContainerRef)
+  )
+
+  getListItems = () =>
+    this.containerElement.querySelectorAll('*[data-select-role=item]')
+
   getTopViewportItem = () => {
     const scrollRect = this.scrollContainer.getBoundingClientRect()
-    return [
-      ...this.containerElement.querySelectorAll('*[data-select-role=item]'),
-    ].find(el => scrollRect.top <= el.getBoundingClientRect().top)
+    return [...this.getListItems()].find(
+      el => scrollRect.top <= el.getBoundingClientRect().top
+    )
   }
+
+  getItemIndex = elem => Array.prototype.indexOf.call(this.getListItems(), elem)
 
   getNextItem = elem =>
     elem
-      ? getNextListItem(
-          this.containerElement.querySelectorAll('*[data-select-role=item]'),
-          elem
-        )
+      ? getNextListItem(this.getListItems(), elem)
       : this.getTopViewportItem()
 
   getPrevItem = elem =>
     elem
-      ? getPrevListItem(
-          this.containerElement.querySelectorAll('*[data-select-role=item]'),
-          elem
-        )
+      ? getPrevListItem(this.getListItems(), elem)
       : this.getTopViewportItem()
 
   handleClick = event => {
@@ -357,7 +361,18 @@ class SelectListBase extends React.Component<Props> {
   setActiveElement = (element, callback) => {
     // TODO controlled activeElement state
     if (this.state.activeElement !== element) {
-      this.setState({ activeElement: element }, callback)
+      this.setState({ activeElement: element }, () => {
+        if (typeof this.props.onActiveElementChange === 'function') {
+          this.props.onActiveElementChange(
+            element,
+            this.getItemIndex(element),
+            [...this.getListItems()]
+          )
+        }
+        if (typeof callback === 'function') {
+          callback()
+        }
+      })
     }
   }
 
