@@ -45,6 +45,7 @@ export const ROUTES = {
     buttons: '/demo/buttons',
     fields: '/demo/fields',
     popups: '/demo/popups',
+    selectLists: '/demo/select-lists',
     selects: '/demo/selects',
     widgets: '/demo/widgets',
   },

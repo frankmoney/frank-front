@@ -6,6 +6,7 @@ import { BASE_TITLE, ROUTES } from 'const'
 import CommentsDemo from './CommentsDemo'
 import ComponentsDemo from './ComponentsDemo'
 import ButtonsDemo from './Buttons'
+import SelectListsDemo from './SelectLists'
 import SelectsDemo from './Selects'
 import FieldsDemo from './Fields'
 import PopupsDemo from './Popups'
@@ -92,6 +93,11 @@ export default [
   {
     component: SelectsDemo,
     path: ROUTES.demo.selects,
+    exact: true,
+  },
+  {
+    component: SelectListsDemo,
+    path: ROUTES.demo.selectLists,
     exact: true,
   },
   {

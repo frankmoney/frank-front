@@ -1,6 +1,6 @@
 import React from 'react'
 import { withProps } from 'recompose'
-import { Menu } from 'components/kit/Menu'
+import MenuItem from 'components/kit/Menu/MenuItem'
 
 const renderCategoryIcon = ({ color }) => (
   <div
@@ -14,4 +14,4 @@ const renderCategoryIcon = ({ color }) => (
   />
 )
 
-export default withProps({ renderIcon: renderCategoryIcon })(Menu.Item)
+export default withProps({ renderIcon: renderCategoryIcon })(MenuItem)
