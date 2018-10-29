@@ -15,7 +15,7 @@ const initialState = fromJS({
   saving: false,
   processing: false,
   saved: false,
-  story: {},
+  story: null,
   payments: [],
   paymentsLoadedPagesCount: 0,
   paymentsFilterDateMin: null,
@@ -36,7 +36,7 @@ export default handleActions(
       state.merge({
         loading: false,
         loaded: true,
-        saved: !!story,
+        saved: story && story.pid,
         story: fromJS(story),
         payments: fromJS(payments),
         paymentsLoadedPagesCount: 1,
@@ -105,20 +105,29 @@ export default handleActions(
         processing: true,
       }),
     [ACTIONS.publish.success]: (state, { payload: { story } }) => {
-      if (story.isPublished) {
-        storage.setItem(
-          LS_FLAGS.lastPublishedStoryUrl,
-          createRouteUrl(ROUTES.stories.storyPreview, { id: story.id })
-        )
-      }
-      return state
-        .merge({
-          processing: false,
-        })
-        .mergeIn(['story', 'isPublished'], story.isPublished)
-        .mergeIn(['story', 'hasUnpublishedDraft'], story.hasUnpublishedDraft)
+      storage.setItem(
+        LS_FLAGS.lastPublishedStoryUrl,
+        createRouteUrl(ROUTES.stories.storyPreview, { id: story.pid })
+      )
+
+      return state.merge({
+        processing: false,
+      })
     },
     [ACTIONS.publish.error]: state =>
+      state.merge({
+        processing: false,
+      }),
+    [ACTIONS.unpublish]: state =>
+      state.merge({
+        processing: true,
+      }),
+    [ACTIONS.unpublish.success]: (state, { payload: { story } }) =>
+      state.merge({
+        processing: false,
+        story: fromJS(story),
+      }),
+    [ACTIONS.unpublish.error]: state =>
       state.merge({
         processing: false,
       }),

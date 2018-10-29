@@ -9,23 +9,23 @@ const StoryCard = ({
   classes,
   className,
   component: RootElement,
-  coverImage,
-  paymentsCurrency,
-  paymentsCount,
-  paymentsDateRange,
   title,
+  cover,
   body: { text },
   published,
+  paymentsCount,
+  paymentsDateRange,
+  paymentsCurrency,
   ...otherProps
 }) => (
   <RootElement
-    className={cx(classes.storyCard, !coverImage && classes.noImage, className)}
+    className={cx(classes.storyCard, !cover && classes.noImage, className)}
     {...otherProps}
   >
-    {coverImage && (
+    {cover && (
       <img
         className={classes.coverImage}
-        src={coverImage.thumbs.sized}
+        src={cover.thumbs.sized}
         alt="event"
       />
     )}

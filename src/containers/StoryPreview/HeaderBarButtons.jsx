@@ -35,27 +35,30 @@ const styles = theme => ({
 const HeaderBarButtons = ({
   classes,
   className,
-  story: { id, publishedDate },
+  story: {
+    pid,
+    publishedAt,
+    draft: { published },
+  },
 }) => (
   <div className={cx(classes.container, className)}>
-    {publishedDate ? (
+    {!published && <div className={classes.draft}>Draft</div>}
+    {publishedAt && (
       <>
         <div className={classes.published}>
-          Published {formatFullDate(publishedDate)}
+          Published {formatFullDate(publishedAt)}
         </div>
         <LinkButton type="secondary" icon={PublicIcon}>
           See the public page
         </LinkButton>
       </>
-    ) : (
-      <div className={classes.draft}>Draft</div>
     )}
     <Button
       className={classes.discussButton}
       fat
       type="secondary"
       icon={EditIcon}
-      href={createRouteUrl(ROUTES.stories.storyEdit, { id })}
+      href={createRouteUrl(ROUTES.stories.storyEdit, { id: pid })}
     >
       Edit story
     </Button>
