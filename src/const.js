@@ -7,27 +7,40 @@ export const ROUTES = {
     recoverPassword: '/recover-password',
     logout: '/logout',
   },
-  inbox: {
-    root: '/inbox',
+  manage: {
+    inbox: {
+      root: 'manage/inbox',
+    },
+    ledger: {
+      root: 'manage/ledger',
+    },
+    stories: {
+      root: 'manage/stories',
+      storyPreview: 'manage/story/:id?',
+      storyEdit: 'manage/story/:id?/edit',
+      storyNew: 'manage/story/new',
+    },
+    directory: {
+      root: 'manage/directory',
+      recipient: 'manage/directory/:id?',
+    },
+    team: {
+      root: 'manage/team',
+    },
+    onboarding: {
+      root: '/onboarding',
+    },
   },
-  ledger: {
-    root: '/ledger',
-  },
-  stories: {
-    root: '/stories',
-    storyPreview: '/story/:id?',
-    storyEdit: '/story/:id?/edit',
-    storyNew: '/story/new',
-  },
-  directory: {
-    root: '/directory',
-    recipient: '/directory/:id?',
-  },
-  team: {
-    root: '/team',
-  },
-  onboarding: {
-    root: '/onboarding',
+  public: {
+    ledger: {
+      root: '/account/:id?',
+    },
+    stories: {
+      root: '/account/:id?/stories',
+    },
+    story: {
+      root: '/account/:accountId?/stories/:storyId?',
+    },
   },
   demo: {
     root: '/demo',
