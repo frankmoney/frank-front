@@ -1,5 +1,6 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
+import { Public as PublicIcon } from 'material-ui-icons'
 import Paper from 'components/kit/Paper'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import Menu from 'components/kit/Menu'
@@ -60,6 +61,18 @@ const styles = {
   },
 }
 
+const renderCategoryIcon = ({ color }) => (
+  <div
+    style={{
+      borderRadius: '50%',
+      height: 14,
+      width: 14,
+      marginRight: 14,
+      backgroundColor: color,
+    }}
+  />
+)
+
 const SelectsDemo = ({ classes }) => (
   <div className={classes.demo}>
     <h1>Menu</h1>
@@ -75,6 +88,30 @@ const SelectsDemo = ({ classes }) => (
           <MenuItem label="Normal" color="#28B15C" />
           <MenuItem selected label="Selected" color="#28B15C" />
           <MenuItem active label="Active" color="#28B15C" />
+        </Paper>
+        <Paper type="list" style={{ width: 200 }}>
+          <MenuItem icon={<PublicIcon />} label="Normal" />
+          <MenuItem selected icon={<PublicIcon />} label="Selected" />
+          <MenuItem active icon={<PublicIcon />} label="Active" />
+        </Paper>
+        <Paper type="list" style={{ width: 200 }}>
+          <MenuItem
+            label="Normal"
+            color="#8725FB"
+            renderIcon={renderCategoryIcon}
+          />
+          <MenuItem
+            selected
+            label="Selected"
+            color="#E34498"
+            renderIcon={renderCategoryIcon}
+          />
+          <MenuItem
+            active
+            label="Active"
+            color="#F2733D"
+            renderIcon={renderCategoryIcon}
+          />
         </Paper>
       </div>
     </div>
@@ -98,7 +135,11 @@ const SelectsDemo = ({ classes }) => (
         <MenuItem value="admin" label="Administrator" />
         <MenuItem value="manager" label="Manager" />
         <MenuItem value="observer" label="Observer" />
-        <MenuItem color="red" label="Remove" onSelect={() => alert('remove')} />
+        <MenuItem
+          color="red"
+          label="Delete user"
+          onSelect={() => alert('user has been deleted!')}
+        />
       </Menu>
     </div>
     <h2>Any appearance same logic</h2>

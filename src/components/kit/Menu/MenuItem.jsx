@@ -12,6 +12,8 @@ type Props = {
   active?: boolean,
   // eslint-disable-next-line react/no-unused-prop-types
   color?: string,
+  icon?: ?Element,
+  renderIcon?: Props => Element,
 }
 
 const styles = theme => ({
@@ -29,6 +31,16 @@ const styles = theme => ({
   },
   label: {
     ...theme.fontRegular(18),
+  },
+  hasLabelIcon: {
+    '& $label': {
+      display: 'flex',
+      alignItems: 'center',
+    },
+  },
+  labelIcon: {
+    width: 22,
+    marginRight: 12,
   },
   check: {
     width: 24,
@@ -54,19 +66,32 @@ const MenuItem = ({
   selected,
   active,
   label,
+  color,
+  icon,
+  renderIcon,
   theme,
   ...otherProps
 }: Props) => (
   <div
     className={cx(
       classes.root,
+      (icon || typeof renderIcon === 'function') && classes.hasLabelIcon,
       selected && classes.selected,
       active && classes.active,
       className
     )}
     {...otherProps}
   >
-    <div className={classes.label}>{label}</div>
+    <div className={classes.label}>
+      {icon &&
+        React.cloneElement(icon, {
+          className: cx(icon.props.className, classes.labelIcon),
+        })}
+      {!icon &&
+        typeof renderIcon === 'function' &&
+        renderIcon({ selected, active, color })}
+      {label}
+    </div>
     {selected && <CheckCircle className={classes.check} />}
   </div>
 )
