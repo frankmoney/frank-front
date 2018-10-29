@@ -1,10 +1,18 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 
-type Props = {
-  type: 'card' | 'list' | 'modal' | 'tooltip' | 'popup' | 'drawer',
+type PaperType = 'card' | 'list' | 'modal' | 'tooltip' | 'popup' | 'drawer'
+
+export interface PaperProps {
+  type: PaperType;
+}
+
+type Props = PaperProps & {
+  children?: React.Node,
+  classes: Object,
+  className?: string,
 }
 
 const styles = {

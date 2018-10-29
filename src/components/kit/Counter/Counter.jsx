@@ -1,10 +1,14 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 
 type Props = {
   label: string,
+  //
+  children?: React.Node,
+  classes: Object,
+  className?: string,
 }
 
 const styles = theme => ({

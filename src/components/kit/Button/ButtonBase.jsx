@@ -1,19 +1,25 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 
 type DOMEventHandler = Event => void
 
-type Props = {
-  component: string | React.ComponentType,
-  onBlur: DOMEventHandler,
-  onClick: DOMEventHandler,
-  onFocus: DOMEventHandler,
-  onMouseLeave: DOMEventHandler,
-  onMouseOver: DOMEventHandler,
-  onTouchEnd: DOMEventHandler,
-  onTouchStart: DOMEventHandler,
+export interface ButtonBaseProps {
+  component: string | React.ComponentType<any>;
+  onBlur: DOMEventHandler;
+  onClick: DOMEventHandler;
+  onFocus: DOMEventHandler;
+  onMouseEnter: DOMEventHandler;
+  onMouseLeave: DOMEventHandler;
+  onMouseOver: DOMEventHandler;
+  onTouchEnd: DOMEventHandler;
+  onTouchStart: DOMEventHandler;
 }
 
+type Props = ButtonBaseProps & {
+  children?: React.Node,
+  className?: string,
+  href?: string,
+}
 const BaseButton = ({
   children,
   className,

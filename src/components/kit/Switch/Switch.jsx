@@ -77,7 +77,7 @@ const styles = theme => ({
   },
 })
 
-type Props = {
+type Props = {|
   name?: string,
   color?: string,
   onChange?: Function,
@@ -86,17 +86,20 @@ type Props = {
   disabled?: boolean,
   parentHovered?: boolean,
   inputRef: ?Function,
-  inputProps: {},
-}
+  inputProps?: Object,
+  //
+  classes?: Object,
+  className?: string,
+|}
 
 let SwitchUncontrolled = ({
+  checked,
   classes,
   className,
-  inputRef,
-  name,
-  checked,
   disabled,
   inputProps,
+  inputRef,
+  name,
   onToggle,
 }) => (
   <label className={cx(classes.root, className)}>
@@ -123,15 +126,12 @@ SwitchUncontrolled = injectStyles(styles, { inject: ['theme', 'classes'] })(
   SwitchUncontrolled
 )
 
-export default class Switch extends React.Component<Props> {
-  render() {
-    const { checked, defaultChecked, onChange, ...props } = this.props
-    return (
-      <SwitchBase on={checked} defaultOn={defaultChecked} onToggle={onChange}>
-        {({ on, toggle }) => (
-          <SwitchUncontrolled checked={on} onToggle={toggle} {...props} />
-        )}
-      </SwitchBase>
-    )
-  }
-}
+const Switch = ({ checked, defaultChecked, onChange, ...props }: Props) => (
+  <SwitchBase on={checked} defaultOn={defaultChecked} onToggle={onChange}>
+    {({ on, toggle }) => (
+      <SwitchUncontrolled checked={on} onToggle={toggle} {...props} />
+    )}
+  </SwitchBase>
+)
+
+export default Switch

@@ -3,12 +3,16 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import Paper from 'components/kit/Paper'
+import type { PaperProps } from 'components/kit/Paper'
 import Arrow from './arrow.svg'
 
-type Props = {
-  direction: 'up' | 'left' | 'right' | 'down',
+type Props = PaperProps & {
   align: 'center' | 'start' | 'end',
   arrowRef: Element => void,
+  direction: 'up' | 'left' | 'right' | 'down',
+  //
+  classes: Object,
+  className?: string,
 }
 
 const ARROW_WIDTH = 24
