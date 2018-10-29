@@ -3,6 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { CheckCircle } from 'material-ui-icons'
+import Color from 'color-js'
 import SelectListBase from 'components/kit/SelectListBase'
 
 type Props = {
@@ -40,7 +41,10 @@ const styles = theme => ({
     },
   },
   active: {
-    background: 'rgba(37, 43, 67, 0.04)',
+    background: props =>
+      props.color
+        ? Color(props.color).setAlpha(0.06)
+        : 'rgba(37, 43, 67, 0.04)',
   },
 })
 
