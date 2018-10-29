@@ -5,6 +5,7 @@ import Paper from 'components/kit/Paper'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import Menu from 'components/kit/Menu'
 import OptionsList from 'components/kit/OptionsList'
+import CategoryMenuItem from 'components/CategoryMenuItem'
 import BanksSearch from './BanksSearch/BanksSearch'
 
 const styles = {
@@ -61,18 +62,6 @@ const styles = {
   },
 }
 
-const renderCategoryIcon = ({ color }) => (
-  <div
-    style={{
-      borderRadius: '50%',
-      height: 14,
-      width: 14,
-      marginRight: 14,
-      backgroundColor: color,
-    }}
-  />
-)
-
 const SelectsDemo = ({ classes }) => (
   <div className={classes.demo}>
     <h1>Menu</h1>
@@ -95,23 +84,9 @@ const SelectsDemo = ({ classes }) => (
           <MenuItem active icon={<PublicIcon />} label="Active" />
         </Paper>
         <Paper type="list" style={{ width: 200 }}>
-          <MenuItem
-            label="Normal"
-            color="#8725FB"
-            renderIcon={renderCategoryIcon}
-          />
-          <MenuItem
-            selected
-            label="Selected"
-            color="#E34498"
-            renderIcon={renderCategoryIcon}
-          />
-          <MenuItem
-            active
-            label="Active"
-            color="#F2733D"
-            renderIcon={renderCategoryIcon}
-          />
+          <CategoryMenuItem label="Normal" color="#8725FB" />
+          <CategoryMenuItem selected label="Selected" color="#E34498" />
+          <CategoryMenuItem active label="Active" color="#F2733D" />
         </Paper>
       </div>
     </div>
