@@ -96,10 +96,17 @@ class HeaderBarButtons extends React.PureComponent {
   }
 
   handleDialogConfirmClick = type => {
-    if (type === 'delete') {
-      this.props.delete()
-    } else {
-      this.props.publish(type === 'publish')
+    // eslint-disable-next-line default-case
+    switch (type) {
+      case 'delete':
+        this.props.delete()
+        break
+      case 'publish':
+        this.props.publish()
+        break
+      case 'unpublish':
+        this.props.unpublish()
+        break
     }
   }
 
@@ -193,8 +200,9 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = R.partial(bindActionCreators, [
   {
     createOrUpdate: ACTIONS.createOrUpdate,
-    publish: ACTIONS.publish,
     delete: ACTIONS.delete,
+    publish: ACTIONS.publish,
+    unpublish: ACTIONS.unpublish,
   },
 ])
 

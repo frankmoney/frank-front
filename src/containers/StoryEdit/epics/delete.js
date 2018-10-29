@@ -1,6 +1,5 @@
 import { replace as replaceLocation } from 'react-router-redux'
 import { createRouteUrl } from '@frankmoney/utils'
-import { currentAccountIdSelector } from 'redux/selectors/user'
 import { ROUTES } from 'const'
 import ACTIONS from '../actions'
 import QUERIES from '../queries'
@@ -11,13 +10,9 @@ export default (action$, store, { graphql }) =>
     .ofType(ACTIONS.delete)
     .switchMap(() => {
       const state = store.getState()
-      const accountId = currentAccountIdSelector(state)
-      const storyId = storySelector(state).id
+      const storyPid = storySelector(state).pid
 
-      return graphql(QUERIES.storyDelete, {
-        accountId,
-        storyId,
-      })
+      return graphql(QUERIES.deleteStory, { storyPid })
     })
     .mergeMap(() => [
       ACTIONS.delete.success(),

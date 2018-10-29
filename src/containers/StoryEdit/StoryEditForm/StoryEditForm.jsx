@@ -102,7 +102,7 @@ class StoryEditForm extends React.PureComponent {
     return (
       <div className={cx(classes.container, className)}>
         <CoverField
-          name="coverImage"
+          name="cover"
           buttonLabel="Add a cover photo"
           hint="optional, 1000+ pixels wide, no text over image"
           className={classes.coverImageUploader}
