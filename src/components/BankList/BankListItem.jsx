@@ -35,7 +35,6 @@ const styles = theme => ({
     textDecoration: 'none',
   },
   check: {
-    visible: 'collapse',
     position: 'absolute',
     right: 20,
     top: '50%',
@@ -52,9 +51,6 @@ const styles = theme => ({
     },
     '& $website': {
       color: '#fff',
-    },
-    '& $check': {
-      visible: 'visible',
     },
   },
   active: {

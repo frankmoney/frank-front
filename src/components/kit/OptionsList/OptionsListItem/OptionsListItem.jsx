@@ -1,5 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
+import { Check } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
 import PrimaryText from './PrimaryText'
 import Context from './context'
@@ -7,6 +8,7 @@ import Context from './context'
 const styles = theme => ({
   root: {
     display: 'block', // override if root component set to 'a' for example
+    position: 'relative',
     borderRadius: 8,
     padding: [12, 15],
     background: 'rgba(32, 40, 74, 0.04)',
@@ -29,6 +31,14 @@ const styles = theme => ({
     '&:not($selected)': {
       background: 'rgba(32, 40, 74, 0.1)',
     },
+  },
+  check: {
+    position: 'absolute',
+    right: 20,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    width: 21,
+    color: '#fff',
   },
 })
 
@@ -59,6 +69,7 @@ const OptionsListItem = ({
         <PrimaryText icon={primaryTextIcon}>{primaryText}</PrimaryText>
       )}
       {children}
+      {selected && <Check className={classes.check} />}
     </Root>
   </Context.Provider>
 )
