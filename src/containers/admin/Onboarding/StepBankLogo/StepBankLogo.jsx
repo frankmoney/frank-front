@@ -4,7 +4,7 @@ import cx from 'classnames'
 import { connect } from 'react-redux'
 import { compose } from 'recompose'
 import { createStructuredSelector } from 'reselect'
-import BankLogo from '../../../components/BankLogo'
+import BankLogo from 'components/BankLogo'
 import {
   selectedBankLogoSelector,
   selectedBankNameSelector,
