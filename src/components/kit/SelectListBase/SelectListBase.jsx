@@ -7,10 +7,16 @@ import chainCallbacks from 'utils/dom/chainCallbacks'
 import isElementVisible from 'utils/dom/isElementVisible'
 import Context from './SelectListContext'
 
+type Value = any
+
 type Props = {
+  value?: Value | Array<Value>,
+  defaultValue?: Value | Array<Value>,
+  onChange?: (Value | Array<Value>) => void,
   autoFocus?: boolean,
   scrollContainer?: Element | Window,
   onSelectElement?: Element => void,
+  multiple?: boolean,
 }
 
 const MENU_STYLE = {
@@ -60,11 +66,18 @@ const getPrevListItem = (list, item) => {
   return list[list.length - 1]
 }
 
+const normalizeArray = R.pipe(
+  R.defaultTo([]),
+  R.when(x => !(x instanceof Array), x => [x])
+)
+
 class SelectListBase extends React.Component<Props> {
   static Consumer = Context.Consumer
 
   state = {
-    value: this.props.defaultValue,
+    value: this.props.multiple
+      ? normalizeArray(this.props.defaultValue)
+      : this.props.defaultValue,
     activeElement: null,
   }
 
@@ -80,9 +93,23 @@ class SelectListBase extends React.Component<Props> {
     return this.isControlledValue ? this.props.value : this.state.value
   }
 
+  get hasValue() {
+    return this.props.multiple
+      ? !R.isNil(this.value) && this.value.length > 0
+      : !R.isNil(this.value)
+  }
+
+  get scrollContainer() {
+    return this.props.scrollContainer || this.containerElement
+  }
+
+  checkValueIsSelected = value =>
+    this.hasValue &&
+    (this.props.multiple ? this.value.includes(value) : value === this.value)
+
   getRenderProps = (state = this.state) => ({
     value: this.value,
-    select: this.select,
+    select: this.setValue,
     activeElement: state.activeElement,
     getContainerProps: (props = {}) => ({
       ...props,
@@ -107,7 +134,9 @@ class SelectListBase extends React.Component<Props> {
           'getItemProps should receive either value or onSelect props'
         )
       }
-      const selected = typeof this.value !== 'undefined' && value === this.value
+
+      const selected = this.checkValueIsSelected(value)
+
       const active =
         !!state.activeElement &&
         (this.itemElementsByValue.get(value) === state.activeElement ||
@@ -155,17 +184,28 @@ class SelectListBase extends React.Component<Props> {
       : this.handleValueItemRef(ref, valueOrCallback)
   )
 
+  getTopViewportItem = () => {
+    const scrollRect = this.scrollContainer.getBoundingClientRect()
+    return [
+      ...this.containerElement.querySelectorAll('*[data-select-role=item]'),
+    ].find(el => scrollRect.top <= el.getBoundingClientRect().top)
+  }
+
   getNextItem = elem =>
-    getNextListItem(
-      this.containerElement.querySelectorAll('*[data-select-role=item]'),
-      elem
-    )
+    elem
+      ? getNextListItem(
+          this.containerElement.querySelectorAll('*[data-select-role=item]'),
+          elem
+        )
+      : this.getTopViewportItem()
 
   getPrevItem = elem =>
-    getPrevListItem(
-      this.containerElement.querySelectorAll('*[data-select-role=item]'),
-      elem
-    )
+    elem
+      ? getPrevListItem(
+          this.containerElement.querySelectorAll('*[data-select-role=item]'),
+          elem
+        )
+      : this.getTopViewportItem()
 
   handleClick = event => {
     event.stopPropagation()
@@ -185,8 +225,8 @@ class SelectListBase extends React.Component<Props> {
       if (el) {
         this.itemElementsByValue.delete(value)
         // если выбранного элемента нет в дереве, то снимаем выбор
-        if (typeof this.value !== 'undefined' && this.value === value) {
-          this.select(null)
+        if (this.checkValueIsSelected(value)) {
+          this.deselectValue(value)
         }
       }
     }
@@ -202,7 +242,9 @@ class SelectListBase extends React.Component<Props> {
   }
 
   handleContainerMouseLeave = () => {
-    this.setActiveElement(null)
+    if (!this.disablePointerEvents) {
+      this.setActiveElement(null)
+    }
   }
 
   handleContainerKeyDown = event => {
@@ -231,23 +273,31 @@ class SelectListBase extends React.Component<Props> {
   focus = () => {
     this.containerElement.focus()
     if (!this.state.activeElement) {
-      if (this.value) {
-        this.setActiveElement(this.itemElementsByValue.get(this.value))
+      if (this.hasValue) {
+        const firstValue = this.props.multiple ? this.value[0] : this.value
+        this.setActiveElement(this.itemElementsByValue.get(firstValue))
       } else {
-        this.setActiveElement(this.itemElements[0])
+        this.setActiveElement(this.getTopViewportItem())
       }
     }
   }
 
   selectElement = element => {
     if (!element) {
-      this.select(null)
+      this.setValue(null)
       return
     }
 
     const value = this.getItemValue(element)
     if (!R.isNil(value)) {
-      this.select(value)
+      if (this.checkValueIsSelected(value)) {
+        // пока только мультиселект может убирать выбранные элементы
+        if (this.props.multiple) {
+          this.deselectValue(value)
+        }
+      } else {
+        this.selectValue(value)
+      }
     }
 
     const callback = this.getItemCallback(element)
@@ -256,7 +306,25 @@ class SelectListBase extends React.Component<Props> {
     }
   }
 
-  select = value => {
+  deselectValue = value => {
+    if (this.props.multiple) {
+      this.setValue(this.value.filter(x => x !== value))
+    } else if (this.value === value) {
+      this.setValue(null)
+    }
+  }
+
+  selectValue = value => {
+    this.setValue(
+      this.props.multiple
+        ? R.isNil(value)
+          ? []
+          : [...this.value, value]
+        : value
+    )
+  }
+
+  setValue = value => {
     if (this.isControlledValue) {
       if (typeof this.props.onChange === 'function') {
         this.props.onChange(value)
@@ -285,6 +353,15 @@ class SelectListBase extends React.Component<Props> {
     }
   }
 
+  scrollInitialViewport = callback => {
+    if (this.hasValue) {
+      const firstValue = this.props.multiple ? this.value[0] : this.value
+      const selectedElement = this.itemElementsByValue.get(firstValue)
+      this.scrollToElementIfInvisible(selectedElement)
+    }
+    callback()
+  }
+
   setNextActiveElement = callback => {
     this.setActiveElement(this.getNextItem(this.state.activeElement), () => {
       this.scrollToElementIfInvisible(this.state.activeElement)
@@ -308,21 +385,23 @@ class SelectListBase extends React.Component<Props> {
       return
     }
 
-    const scrollContainer = this.props.scrollContainer || this.containerElement
+    const scrollContainer = this.scrollContainer
     const elementRect = element.getBoundingClientRect()
 
     // прекращаем интеракции с мышью до момента пока юзер не сдвинет курсор
     // это необходимо чтобы предотвращать перескакивание ховера во врема подскрола
     const disablePointerEvents = () => {
-      if (this.containerElement.style.pointerEvents !== 'none') {
+      if (!this.disablePointerEvents) {
         document.body.addEventListener(
           'mousemove',
           () => {
             this.containerElement.style.pointerEvents = 'auto'
+            this.disablePointerEvents = false
           },
           { once: true }
         )
         this.containerElement.style.pointerEvents = 'none'
+        this.disablePointerEvents = true
       }
     }
 
@@ -351,12 +430,11 @@ class SelectListBase extends React.Component<Props> {
   }
 
   componentDidMount() {
-    if (this.props.autoFocus) {
-      this.focus()
-    } else if (typeof this.value !== 'undefined') {
-      const selectedElement = this.itemElementsByValue.get(this.value)
-      this.scrollToElementIfInvisible(selectedElement)
-    }
+    this.scrollInitialViewport(() => {
+      if (this.props.autoFocus) {
+        this.focus()
+      }
+    })
   }
 
   render() {

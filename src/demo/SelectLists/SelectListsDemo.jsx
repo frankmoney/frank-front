@@ -7,6 +7,7 @@ import Menu from 'components/kit/Menu'
 import OptionsList from 'components/kit/OptionsList'
 import CategoryMenuItem from 'components/CategoryMenuItem'
 import BanksSearch from './BanksSearch/BanksSearch'
+import BanksMenu from './BanksSearch/StubBanksMenu'
 
 const styles = {
   demo: {
@@ -94,15 +95,22 @@ const SelectListsDemo = ({ classes }) => (
     <div className={classes.rowCentered}>
       <div className={classes.rowContent}>
         <Menu defaultValue="manager" style={{ width: 200 }}>
-          <MenuItem value="admin" label="Administrator" />
-          <MenuItem value="manager" label="Manager" />
-          <MenuItem value="observer" label="Observer" />
+          <MenuItem
+            value="admin"
+            label="Administrator Administrator Administrator"
+          />
+          <MenuItem value="manager" label="Manager Manager Manager" />
+          <MenuItem value="observer" label="Observer Observer Observer" />
         </Menu>
         <div className={classes.hints} style={{ width: 200 }}>
           Try combination both hover and <b>Up</b>/<b>Down</b> or <b>Enter</b>{' '}
           keys
         </div>
       </div>
+    </div>
+    <h2>Max visible items</h2>
+    <div className={classes.rowCentered}>
+      <BanksMenu maxVisibleItems={5} style={{ width: 300 }} />
     </div>
     <h2>Mix with non selectable items</h2>
     <div className={classes.rowCentered}>

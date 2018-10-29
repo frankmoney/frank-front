@@ -16,6 +16,7 @@ const styles = theme => ({
     cursor: 'pointer',
     color: '#20284A',
     textDecoration: 'none',
+    userSelect: 'none',
     '&:not($selected):active': {
       background: 'rgba(32, 40, 74, 0.15)',
     },

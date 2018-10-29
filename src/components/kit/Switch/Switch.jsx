@@ -78,13 +78,13 @@ const styles = theme => ({
 })
 
 type Props = {
-  name: string,
-  color: string,
-  onChange: Function,
-  checked: ?boolean,
+  name?: string,
+  color?: string,
+  onChange?: Function,
+  checked?: boolean,
   defaultChecked?: boolean,
-  disabled: ?boolean,
-  parentHovered: ?boolean,
+  disabled?: boolean,
+  parentHovered?: boolean,
   inputRef: ?Function,
   inputProps: {},
 }

@@ -9,7 +9,10 @@ const Menu = ({
   defaultValue,
   autoFocus,
   children,
+  style,
   title,
+  maxVisibleItems,
+  multiple,
   ...props
 }) => (
   <SelectListBase
@@ -17,9 +20,19 @@ const Menu = ({
     value={value}
     onChange={onChange}
     autoFocus={autoFocus}
+    multiple={multiple}
   >
     {({ getContainerProps }) => (
-      <Paper type="list" {...getContainerProps(props)}>
+      <Paper
+        type="list"
+        {...getContainerProps({
+          ...props,
+          style: {
+            ...style,
+            maxHeight: maxVisibleItems ? maxVisibleItems * 50 : 'auto',
+          },
+        })}
+      >
         {title && <MenuTitle>{title}</MenuTitle>}
         {children}
       </Paper>

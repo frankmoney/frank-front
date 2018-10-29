@@ -57,8 +57,13 @@ const styles = {
 
 const SelectListsDemo = ({ classes }) => (
   <div className={classes.demo}>
-    <h1>Menu</h1>
-    <h2>Menu item states</h2>
+    <h1>ButtonMenu</h1>
+    <div className={classes.rowCentered}>
+      {/*<ButtonMenu>*/}
+        {/*<ButtonMenu.Item label="Publish"/>*/}
+        {/*<ButtonMenu.Item color label="Delete"/>*/}
+      {/*</ButtonMenu>*/}
+    </div>
   </div>
 )
 

@@ -27,10 +27,14 @@ const styles = theme => ({
     transition: theme.transition('background-color'),
     color: props => props.color,
     outline: 'none',
+    userSelect: 'none',
     cursor: 'pointer',
   },
   label: {
-    ...theme.fontRegular(18),
+    ...theme.fontMedium(18, 26),
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
   hasLabelIcon: {
     '& $label': {
@@ -49,7 +53,7 @@ const styles = theme => ({
   selected: {
     cursor: 'default',
     '& $label': {
-      ...theme.fontMedium(18),
+      marginRight: 10,
     },
   },
   active: {
@@ -70,6 +74,7 @@ const MenuItem = ({
   icon,
   renderIcon,
   theme,
+  renderCheck,
   ...otherProps
 }: Props) => (
   <div
@@ -92,7 +97,9 @@ const MenuItem = ({
         renderIcon({ selected, active, color })}
       {label}
     </div>
-    {selected && <CheckCircle className={classes.check} />}
+    {!renderCheck && selected && <CheckCircle className={classes.check} />}
+    {typeof renderCheck === 'function' &&
+      renderCheck({ selected, active, color })}
   </div>
 )
 
