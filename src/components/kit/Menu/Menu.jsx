@@ -13,6 +13,7 @@ const Menu = ({
   title,
   maxVisibleItems,
   multiple,
+  onSelectElement,
   ...props
 }) => (
   <SelectListBase
@@ -21,6 +22,7 @@ const Menu = ({
     onChange={onChange}
     autoFocus={autoFocus}
     multiple={multiple}
+    onSelectElement={onSelectElement}
   >
     {({ getContainerProps }) => (
       <Paper

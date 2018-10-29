@@ -304,6 +304,10 @@ class SelectListBase extends React.Component<Props> {
     if (typeof callback === 'function') {
       callback()
     }
+
+    if (typeof this.props.onSelectElement === 'function') {
+      this.props.onSelectElement()
+    }
   }
 
   deselectValue = value => {
