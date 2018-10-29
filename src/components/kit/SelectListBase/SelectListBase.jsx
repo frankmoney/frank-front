@@ -17,6 +17,8 @@ type Props = {
   scrollContainer?: Element | Window,
   onSelectElement?: Element => void,
   multiple?: boolean,
+  // ставит активный элемент при фокусе
+  activeOnFocus?: boolean,
 }
 
 const MENU_STYLE = {
@@ -272,12 +274,14 @@ class SelectListBase extends React.Component<Props> {
 
   focus = () => {
     this.containerElement.focus()
-    if (!this.state.activeElement) {
-      if (this.hasValue) {
-        const firstValue = this.props.multiple ? this.value[0] : this.value
-        this.setActiveElement(this.itemElementsByValue.get(firstValue))
-      } else {
-        this.setActiveElement(this.getTopViewportItem())
+    if (this.props.activeOnFocus) {
+      if (!this.state.activeElement) {
+        if (this.hasValue) {
+          const firstValue = this.props.multiple ? this.value[0] : this.value
+          this.setActiveElement(this.itemElementsByValue.get(firstValue))
+        } else {
+          this.setActiveElement(this.getTopViewportItem())
+        }
       }
     }
   }

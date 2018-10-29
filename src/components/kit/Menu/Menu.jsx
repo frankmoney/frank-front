@@ -13,6 +13,7 @@ const Menu = ({
   title,
   maxVisibleItems,
   multiple,
+  activeOnFocus,
   onSelectElement,
   ...props
 }) => (
@@ -21,6 +22,7 @@ const Menu = ({
     value={value}
     onChange={onChange}
     autoFocus={autoFocus}
+    activeOnFocus={activeOnFocus}
     multiple={multiple}
     onSelectElement={onSelectElement}
   >
