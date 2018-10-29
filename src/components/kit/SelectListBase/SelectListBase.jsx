@@ -308,17 +308,35 @@ class SelectListBase extends React.Component<Props> {
       return
     }
 
-    const container = this.props.scrollContainer || this.containerElement
+    const scrollContainer = this.props.scrollContainer || this.containerElement
     const elementRect = element.getBoundingClientRect()
-    if (!isElementVisible(element, container, ['top'])) {
-      if (container === window) {
+
+    // прекращаем интеракции с мышью до момента пока юзер не сдвинет курсор
+    // это необходимо чтобы предотвращать перескакивание ховера во врема подскрола
+    const disablePointerEvents = () => {
+      if (this.containerElement.style.pointerEvents !== 'none') {
+        document.body.addEventListener(
+          'mousemove',
+          () => {
+            this.containerElement.style.pointerEvents = 'auto'
+          },
+          { once: true }
+        )
+        this.containerElement.style.pointerEvents = 'none'
+      }
+    }
+
+    if (!isElementVisible(element, scrollContainer, ['top'])) {
+      disablePointerEvents()
+      if (scrollContainer === window) {
         window.scrollTo(0, window.pageYOffset + elementRect.top)
       } else {
-        container.scrollTop +=
-          elementRect.top - container.getBoundingClientRect().top
+        scrollContainer.scrollTop +=
+          elementRect.top - scrollContainer.getBoundingClientRect().top
       }
-    } else if (!isElementVisible(element, container, ['bottom'])) {
-      if (container === window) {
+    } else if (!isElementVisible(element, scrollContainer, ['bottom'])) {
+      disablePointerEvents()
+      if (scrollContainer === window) {
         const windowHeight =
           window.innerHeight || document.documentElement.clientHeight
         window.scrollTo(
@@ -326,8 +344,8 @@ class SelectListBase extends React.Component<Props> {
           window.pageYOffset + (elementRect.bottom - windowHeight)
         )
       } else {
-        container.scrollTop +=
-          elementRect.bottom - container.getBoundingClientRect().bottom
+        scrollContainer.scrollTop +=
+          elementRect.bottom - scrollContainer.getBoundingClientRect().bottom
       }
     }
   }
