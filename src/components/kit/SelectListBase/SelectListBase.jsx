@@ -225,7 +225,7 @@ class SelectListBase extends React.Component<Props> {
       const el = findDOMNode(itemRef)
       this.itemElementsByValue.set(value, el)
       // мы должны очищать значение только когда пропадают айтемы в списке а не в результате анмаунта всего списка
-    } else if (!this._isUnmounting) {
+    } else if (!this.unmounted) {
       const el = this.itemElementsByValue.get(value)
       if (el) {
         this.itemElementsByValue.delete(value)
@@ -292,6 +292,9 @@ class SelectListBase extends React.Component<Props> {
   selectElement = element => {
     if (!element) {
       this.setValue(null)
+      if (typeof this.props.onSelectElement === 'function') {
+        this.props.onSelectElement(null)
+      }
       return
     }
 
@@ -313,7 +316,7 @@ class SelectListBase extends React.Component<Props> {
     }
 
     if (typeof this.props.onSelectElement === 'function') {
-      this.props.onSelectElement()
+      this.props.onSelectElement(element)
     }
   }
 
@@ -460,7 +463,7 @@ class SelectListBase extends React.Component<Props> {
   }
 
   componentWillUnmount() {
-    this._isUnmounting = true
+    this.unmounted = true
   }
 
   render() {

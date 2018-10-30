@@ -13,6 +13,10 @@ const styles = {
     width: '100vw',
     background: props =>
       props.transparent ? 'transparent' : 'rgba(0,0,0,0.2)',
+    // Remove grey highlight
+    WebkitTapHighlightColor: 'transparent',
+    // Disable scroll capabilities.
+    touchAction: 'none',
   },
 }
 
@@ -24,7 +28,11 @@ const Backdrop = ({
   children,
   ...otherProps
 }) => (
-  <div className={cx(classes.root, className)} {...otherProps}>
+  <div
+    aria-hidden="true"
+    className={cx(classes.root, className)}
+    {...otherProps}
+  >
     {children}
   </div>
 )

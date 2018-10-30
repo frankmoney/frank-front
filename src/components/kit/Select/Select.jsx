@@ -1,12 +1,13 @@
+/* eslint-disable react/no-find-dom-node */
 // @flow
 import React from 'react'
 import { createPortal, findDOMNode } from 'react-dom'
-import Backdrop from 'components/kit/Backdrop'
+import EventListener from 'react-event-listener'
 import Menu from 'components/kit/Menu'
-import Button from 'components/kit/Button'
 import ArrowMenu from 'components/kit/ArrowMenu'
 import PopupBase from 'components/kit/PopupBase'
-import SelectValue from './SelectValue'
+import ClickAwayListener from 'components/kit/helpers/ClickAwayListener'
+import FocusTrap from 'components/kit/helpers/FocusTrap'
 
 const REVERSE_DIRECTION = {
   up: 'down',
@@ -20,6 +21,9 @@ export type Props = {
   align?: 'start' | 'center' | 'end',
   alignByArrow?: boolean,
   arrowAt?: 'start' | 'center' | 'end',
+  dropdownWidth?: number,
+  stretchDropdown?: boolean,
+  formatValue: any => any,
 }
 
 const DEFAULT_WIDTH = 250
@@ -27,8 +31,10 @@ const DEFAULT_WIDTH = 250
 class Select extends React.Component<Props> {
   static defaultProps = {
     direction: 'down',
-    align: 'center',
+    align: 'start',
     alignByArrow: false,
+    dropdownWidth: DEFAULT_WIDTH,
+    selectedElementText: null,
   }
 
   state = {
@@ -42,7 +48,6 @@ class Select extends React.Component<Props> {
   }
 
   handleInputRef = ref => {
-    console.log(ref)
     this.input = ref
   }
 
@@ -54,6 +59,12 @@ class Select extends React.Component<Props> {
     this.setState({
       value,
       open: this.props.multiple ? this.state.open : false,
+    })
+  }
+
+  handleSelectElement = element => {
+    this.setState({
+      selectedElementText: element ? element.innerText : null,
     })
   }
 
@@ -90,11 +101,16 @@ class Select extends React.Component<Props> {
   }
 
   focus = () => {
+    console.log(findDOMNode(this.input))
     findDOMNode(this.input).focus()
   }
 
   getRenderProps = (state = this.state) => ({
     value: state.value,
+    valueFormatted:
+      typeof this.props.formatValue === 'function'
+        ? this.props.formatValue(state.value)
+        : state.selectedElementText,
     active: state.open || state.focused,
     toggle: this.handleTogglePopup,
     select: this.handleChange,
@@ -112,12 +128,12 @@ class Select extends React.Component<Props> {
   componentDidMount() {
     if (this.props.autoFocus) {
       this.focus()
-      // todo focus input
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.open !== this.state.open && !this.state.open) {
+      console.log('return focus')
       this.focus()
     }
   }
@@ -130,8 +146,11 @@ class Select extends React.Component<Props> {
       alignByArrow,
       children,
       multiple,
+      dropdownWidth,
+      stretchDropdown,
+      formatValue,
       menuProps = {},
-      renderInput,
+      renderControl,
       onClose,
       ...otherProps
     } = this.props
@@ -147,7 +166,6 @@ class Select extends React.Component<Props> {
         align={align}
         alignByArrow={alignByArrow}
         distance={hasArrow ? 15 : 8}
-        {...otherProps}
       >
         {popupState => {
           const {
@@ -169,35 +187,43 @@ class Select extends React.Component<Props> {
 
           return (
             <>
-              {renderInput({
+              {renderControl({
+                ...otherProps,
                 getAnchorProps,
                 ...this.getRenderProps(this.state),
               })}
               {open &&
                 createPortal(
-                  <Backdrop
-                    transparent
-                    onClick={close}
-                    onKeyDown={this.handleBackdropKeyDown}
-                  >
-                    <MenuComponent
-                      autoFocus
-                      value={this.state.value}
-                      onChange={this.handleChange}
-                      multiple={multiple}
-                      listRef={this.handleListRef}
-                      {...arrowMenuProps}
-                      {...getPopupProps({
-                        ...menuProps,
-                        style: {
-                          ...menuProps.style,
-                          width: anchorEl.clientWidth,
-                        },
-                      })}
-                    >
-                      {children}
-                    </MenuComponent>
-                  </Backdrop>,
+                  <ClickAwayListener onClickAway={close}>
+                    <FocusTrap>
+                      <MenuComponent
+                        autoFocus
+                        value={this.state.value}
+                        onChange={this.handleChange}
+                        onSelectElement={
+                          !formatValue && this.handleSelectElement
+                        }
+                        multiple={multiple}
+                        listRef={this.handleListRef}
+                        {...arrowMenuProps}
+                        {...getPopupProps({
+                          ...menuProps,
+                          style: {
+                            ...menuProps.style,
+                            width: stretchDropdown
+                              ? anchorEl.clientWidth
+                              : dropdownWidth,
+                          },
+                        })}
+                      >
+                        {children}
+                      </MenuComponent>
+                    </FocusTrap>
+                    <EventListener
+                      target="document"
+                      onKeyDown={this.handleBackdropKeyDown}
+                    />
+                  </ClickAwayListener>,
                   document.body
                 )}
             </>

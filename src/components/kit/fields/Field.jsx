@@ -21,7 +21,8 @@ type Props = {
   focus?: boolean,
   disabled?: boolean,
   loading?: boolean,
-  loadingText: string,
+  loadingText?: string,
+  placeholder?: string,
 }
 
 const combineCallbacks = (...cb) => (...args) =>
