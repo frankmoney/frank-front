@@ -31,7 +31,7 @@ export type Props = {|
   place?: 'up' | 'down' | 'left' | 'right',
 |}
 
-export type RenderProps = {
+export type PopupRenderProps = {
   open: boolean,
   close: () => void,
   show: () => void,
@@ -43,7 +43,7 @@ export type RenderProps = {
   getPopupProps: Object => PopupProps,
 }
 
-type getRenderPropsFn = () => RenderProps
+type getRenderPropsFn = () => PopupRenderProps
 
 class PopupBase extends React.Component<Props> {
   static defaultProps = {

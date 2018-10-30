@@ -6,9 +6,7 @@ import Color from 'color-js'
 import SelectListBase from 'components/kit/SelectListBase'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-export type Props = {|
-  ...InjectStylesProps,
-  //
+export type MenuItemProps = {|
   label: string,
   selected?: boolean,
   active?: boolean,
@@ -17,6 +15,11 @@ export type Props = {|
   color?: string,
   icon?: React.Element<any>,
   renderIcon?: any => React.Node,
+|}
+
+type Props = {|
+  ...MenuItemProps,
+  ...InjectStylesProps,
 |}
 
 const getActiveBackgroundColor = ({ color }) =>
@@ -118,7 +121,7 @@ MenuItem.defaultProps = {
 
 const StyledMenuItem = injectStyles(styles)(MenuItem)
 
-const SelectMenuItem = (props: Props) => (
+const SelectMenuItem = (props: MenuItemProps) => (
   <SelectListBase.Consumer>
     {({ getItemProps }) => <StyledMenuItem {...getItemProps(props)} />}
   </SelectListBase.Consumer>

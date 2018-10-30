@@ -10,7 +10,7 @@ import Context from './SelectListContext'
 type Val = any
 type Value = Val | Array<Val>
 
-export type Props = {|
+export type SelectListBaseProps = {|
   activeOnFocus?: boolean,
   autoFocus?: boolean,
   children?: React.Node,
@@ -23,6 +23,8 @@ export type Props = {|
   onSelectElement?: Element => void,
   onActiveElementChange: (?Element, number, Array<Element>) => void,
 |}
+
+type Props = SelectListBaseProps
 
 const MENU_STYLE = {
   outline: 'none', // remove focus outline.

@@ -13,11 +13,16 @@ const REVERSE_DIRECTION = {
   right: 'left',
 }
 
-export type Props = {|
+export type DropdownMenuProps = {|
   direction: 'up' | 'down',
   align?: 'start' | 'center' | 'end',
   alignByArrow?: boolean,
   arrowAt?: 'start' | 'center' | 'end',
+|}
+
+type Props = {|
+  ...DropdownMenuProps,
+  //
   children?: React.Element<any>,
 |}
 

@@ -1,8 +1,9 @@
 // @flow
 import * as React from 'react'
-import DropdownMenu from 'components/kit/DropdownMenu'
-import type { Props as DropdownMenuProps } from 'components/kit/DropdownMenu'
-import type { RenderProps as PopupRenderProps } from 'components/kit/PopupBase'
+import DropdownMenu, {
+  type DropdownMenuProps,
+} from 'components/kit/DropdownMenu'
+import type { PopupRenderProps } from 'components/kit/PopupBase'
 
 type Props = {|
   ...DropdownMenuProps,

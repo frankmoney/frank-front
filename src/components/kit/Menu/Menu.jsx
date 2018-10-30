@@ -1,18 +1,19 @@
 // @flow
 import * as React from 'react'
 import Paper from 'components/kit/Paper'
-import SelectListBase from 'components/kit/SelectListBase'
-import type { Props as SelectListProps } from 'components/kit/SelectListBase'
+import SelectListBase, {
+  type SelectListBaseProps,
+} from 'components/kit/SelectListBase'
 import MenuTitle, { MENU_TITLE_HEIGHT } from './MenuTitle'
 import { MENU_ITEM_HEIGHT } from './MenuItem'
-import type { Props as MenuItemProps } from './MenuItem'
+import type { MenuItemProps } from './MenuItem'
 
 const MenuPaper = React.forwardRef((props, ref) => (
   <Paper type="list" ref={ref} {...props} />
 ))
 
 type Props = {|
-  ...SelectListProps,
+  ...SelectListBaseProps,
   //
   title?: React.Node,
   maxVisibleItems?: number,
