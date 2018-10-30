@@ -45,14 +45,17 @@ class Field extends React.Component<Props, State> {
     filled: this.isFilledDefault,
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isFilledDefault() {
     return !!this.controlProps.value || !!this.controlProps.defaultValue
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get controlProps() {
     return React.Children.only(this.props.children).props
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlledFocus() {
     return typeof this.props.focus !== 'undefined'
   }

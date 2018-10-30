@@ -54,10 +54,12 @@ class PopupBase extends React.Component<Props> {
     offset: 0,
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlled() {
     return typeof this.props.open !== 'undefined'
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isOpen() {
     return this.isControlled ? this.props.open : this.state.open
   }

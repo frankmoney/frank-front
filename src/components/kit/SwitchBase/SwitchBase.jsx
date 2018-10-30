@@ -25,7 +25,7 @@ export default class SwitchBase extends React.Component<Props, State> {
     on: this.props.defaultOn,
   }
 
-  // flowlint unsafe-getters-setters:off
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlled() {
     return typeof this.props.on !== 'undefined'
   }

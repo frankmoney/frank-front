@@ -87,20 +87,24 @@ class SelectListBase extends React.Component<Props> {
   itemElementsByValue: Map<any, Element> = new Map()
   itemElementsByCallback: Map<Function, Element> = new Map()
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlledValue() {
     return typeof this.props.value !== 'undefined'
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get value() {
     return this.isControlledValue ? this.props.value : this.state.value
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get hasValue() {
     return this.props.multiple
       ? !R.isNil(this.value) && this.value.length > 0
       : !R.isNil(this.value)
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get scrollContainer() {
     return this.props.scrollContainer || this.containerElement
   }
