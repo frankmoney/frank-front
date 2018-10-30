@@ -99,7 +99,7 @@ const ArrowPaper = ({
   ...otherProps
 }: Props) => (
   <Paper
-    type="popup"
+    type="menu"
     className={cx(classes.root, classes[direction], classes[align], className)}
     {...otherProps}
   >

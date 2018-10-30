@@ -4,7 +4,7 @@ import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 
 type Props = {
-  type: 'card' | 'list' | 'modal' | 'tooltip' | 'popup' | 'drawer',
+  type: 'card' | 'list' | 'modal' | 'tooltip' | 'menu' | 'drawer',
 }
 
 const styles = {
@@ -23,7 +23,7 @@ const styles = {
   tooltip: {
     boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)',
   },
-  popup: {
+  menu: {
     boxShadow:
       '0px 5px 10px rgba(0, 0, 0, 0.15), 0px 0px 0px 1px rgba(37, 43, 67, 0.1)',
   },

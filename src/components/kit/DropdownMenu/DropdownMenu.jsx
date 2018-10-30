@@ -31,12 +31,6 @@ class DropdownMenu extends React.Component<Props> {
     alignByArrow: false,
   }
 
-  handleClose = () => {
-    // if (this.state.arrowColor) {
-    //   this.setState({ arrowColor: null })
-    // }
-  }
-
   render() {
     const {
       direction,
@@ -45,8 +39,8 @@ class DropdownMenu extends React.Component<Props> {
       alignByArrow,
       children,
       menuProps = { style: { width: DEFAULT_WIDTH } },
-      popup,
-      renderPopup,
+      menu,
+      renderMenuContent,
       onClose,
       ...otherProps
     } = this.props
@@ -60,7 +54,6 @@ class DropdownMenu extends React.Component<Props> {
         align={align}
         alignByArrow={alignByArrow}
         distance={15}
-        onClose={this.handleClose}
         {...otherProps}
       >
         {popupState => {
@@ -86,7 +79,7 @@ class DropdownMenu extends React.Component<Props> {
                       {...arrowMenuProps}
                       {...getPopupProps(menuProps)}
                     >
-                      {popup || renderPopup(popupState)}
+                      {menu || renderMenuContent(popupState)}
                     </MenuComponent>
                   </Backdrop>,
                   document.body

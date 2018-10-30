@@ -37,7 +37,7 @@ const ButtonMenu = ({
 
   return (
     <DropdownMenu
-      popup={children}
+      menu={children}
       direction={direction}
       align={align}
       arrowAt={arrowAt}
