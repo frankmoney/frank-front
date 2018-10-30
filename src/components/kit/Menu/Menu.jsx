@@ -39,11 +39,13 @@ const Menu = React.forwardRef(
       scrollContainer,
       onSelectElement,
       onActiveElementChange,
+      listRef,
       ...props
     }: Props,
     ref
   ) => (
     <SelectListBase
+      ref={listRef}
       defaultValue={defaultValue}
       value={value}
       onChange={onChange}

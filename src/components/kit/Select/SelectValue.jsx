@@ -5,25 +5,50 @@ import { ArrowDropDown } from 'material-ui-icons'
 
 const styles = theme => ({
   root: {
-    color: 'rgba(37, 43, 67, 0.7)',
-    height: 40,
-    display: 'flex',
+    color: '#20284A',
+    display: props => (props.stretch ? 'flex' : 'inline-flex'),
+    justifyContent: 'space-between',
     alignItems: 'center',
     cursor: 'pointer',
+    outline: 'none',
   },
   value: {
-    ...theme.fontMedium(18, 26),
+    ...theme.fontRegular(18, 26),
   },
   arrow: {
     marginLeft: 5,
+    color: 'rgba(37, 43, 67, 0.2)',
+  },
+  active: {
+    '& $arrow': {
+      color: '#4C51F3',
+    },
   },
 })
 
-const SelectValue = ({ classes, className, theme, value, ...otherProps }) => (
-  <div className={cx(classes.root, className)} {...otherProps}>
-    <div className={classes.value}>{value}</div>
-    <ArrowDropDown className={classes.arrow} />
-  </div>
-)
+class SelectValue extends React.Component {
+  render() {
+    const {
+      classes,
+      className,
+      theme,
+      value,
+      stretch,
+      controlRef,
+      active,
+      ...otherProps
+    } = this.props
+    return (
+      <div
+        ref={controlRef}
+        className={cx(classes.root, active && classes.active, className)}
+        {...otherProps}
+      >
+        <div className={classes.value}>{value}</div>
+        <ArrowDropDown className={classes.arrow} />
+      </div>
+    )
+  }
+}
 
 export default injectStyles(styles)(SelectValue)

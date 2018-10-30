@@ -4,10 +4,11 @@ import React from 'react'
 import * as R from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
 import Select from 'components/kit/Select'
+import SelectValue from 'components/kit/Select/SelectValue'
 import ButtonMenu from 'components/kit/ButtonMenu'
 import MenuItem from 'components/kit/Menu/MenuItem'
+import Field from 'components/kit/fields/Field'
 import ToggleButton from 'components/kit/ToggleButton'
-import Menu from '../../components/kit/Menu'
 
 const styles = {
   demo: {
@@ -80,7 +81,26 @@ export const ROLE_TEXT = {
   observer: 'Observer',
 }
 
-const renderSelectValue = value => ROLE_TEXT[value]
+const renderSelectValue = ({ value, getAnchorProps, getInputProps }) => (
+  <SelectValue value={ROLE_TEXT[value]} {...getAnchorProps(getInputProps())} />
+)
+const renderFieldValue = ({
+  value,
+  getAnchorProps,
+  active,
+  getInputProps,
+}) => (
+  <Field floatingLabel="Role" {...getAnchorProps()} focus={active}>
+    <SelectValue
+      stretch
+      active={active}
+      style={{ width: 270 }}
+      value={ROLE_TEXT[value]}
+      {...getInputProps()}
+    />
+  </Field>
+)
+
 const renderMultiSelectValue = values =>
   !values || values.length === 0
     ? 'None selected'
@@ -97,25 +117,21 @@ const SelectListsDemo = ({ classes }) => (
     </div>
     <h1>Select</h1>
     <div className={classes.row}>
-      <Select
-        defaultValue="manager"
-        align="start"
-        renderValue={renderSelectValue}
-      >
+      <Select align="start" renderInput={renderFieldValue}>
         <MenuItem value="admin" label="Administrator" />
         <MenuItem value="manager" label="Manager" />
         <MenuItem value="observer" label="Observer" />
       </Select>
-      <Select
-        defaultValue={['manager', 'observer']}
-        multiple
-        align="start"
-        renderValue={renderMultiSelectValue}
-      >
-        <MenuItem value="admin" label="Administrator" />
-        <MenuItem value="manager" label="Manager" />
-        <MenuItem value="observer" label="Observer" />
-      </Select>
+      {/* <Select */}
+      {/* defaultValue={['manager', 'observer']} */}
+      {/* multiple */}
+      {/* align="start" */}
+      {/* renderValue={renderMultiSelectValue} */}
+      {/* > */}
+      {/* <MenuItem value="admin" label="Administrator" /> */}
+      {/* <MenuItem value="manager" label="Manager" /> */}
+      {/* <MenuItem value="observer" label="Observer" /> */}
+      {/* </Select> */}
     </div>
   </div>
 )
