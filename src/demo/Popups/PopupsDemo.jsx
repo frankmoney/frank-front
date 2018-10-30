@@ -97,7 +97,13 @@ const DropdownButton = ({ classes, place, arrowAlign, align = 'center' }) => {
   const PaperComponent = arrowAlign ? ArrowPaper : Paper
 
   return (
-    <Popup defaultOpen place={place} align={align} distance={15}>
+    <Popup
+      defaultOpen
+      place={place}
+      align={align}
+      alignByArrow={!!arrowAlign}
+      distance={15}
+    >
       {({ open, toggle, getAnchorProps, getPopupProps, getArrowProps }) => (
         <>
           <ToggleButton.Icon

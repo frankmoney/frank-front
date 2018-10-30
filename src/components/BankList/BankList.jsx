@@ -7,6 +7,7 @@ import BankListItem from './BankListItem'
 const styles = {
   root: {
     width: 740,
+    overflow: 'auto',
     maxHeight: props =>
       props.maxVisibleItems
         ? props.maxVisibleItems * BankListItem.height

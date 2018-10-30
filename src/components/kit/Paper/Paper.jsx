@@ -3,7 +3,7 @@ import * as React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 
-type PaperType = 'card' | 'list' | 'modal' | 'tooltip' | 'popup' | 'drawer'
+type PaperType = 'card' | 'list' | 'modal' | 'tooltip' | 'menu' | 'drawer'
 
 export interface PaperProps {
   type: PaperType;
@@ -19,6 +19,7 @@ const styles = {
   root: {
     background: '#fff',
     borderRadius: 8,
+    overflow: 'auto',
   },
   card: {
     boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',
@@ -30,7 +31,7 @@ const styles = {
   tooltip: {
     boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)',
   },
-  popup: {
+  menu: {
     boxShadow:
       '0px 5px 10px rgba(0, 0, 0, 0.15), 0px 0px 0px 1px rgba(37, 43, 67, 0.1)',
   },
