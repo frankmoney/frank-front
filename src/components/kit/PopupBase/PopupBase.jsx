@@ -24,6 +24,8 @@ export type Props = {
   open?: boolean,
   place?: 'up' | 'down' | 'left' | 'right',
   align?: 'start' | 'center' | 'end',
+  // в этом случае попап будет равняться стрелкой по анкору
+  alignByArrow?: boolean,
   distance?: number,
   alignmentOffset?: number,
   onClose: () => void,
@@ -105,6 +107,7 @@ class PopupBase extends React.Component<Props> {
   }
 
   handleArrowRef = ref => {
+    console.log('handleArrowRef', findDOMNode(ref))
     this.setState({ arrowEl: findDOMNode(ref) })
   }
 
@@ -152,7 +155,7 @@ class PopupBase extends React.Component<Props> {
       ? positionElement({
           element: popupEl,
           anchorElement: anchorEl,
-          arrowElement: arrowEl,
+          arrowElement: this.props.alignByArrow ? arrowEl : null,
           preferredPlacement: `${place}-${normalizedAlign}`,
           autoReposition: false,
           alignmentOffset,

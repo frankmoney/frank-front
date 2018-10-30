@@ -3,7 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import Paper from 'components/kit/Paper'
-import Arrow from './arrow.svg'
+import Arrow from './Arrow'
 
 type Props = {
   direction: 'up' | 'left' | 'right' | 'down',
@@ -85,7 +85,6 @@ const ArrowPaper = ({
   classes,
   direction,
   align,
-  arrowRef,
   arrowProps,
   className,
   theme,
@@ -97,7 +96,7 @@ const ArrowPaper = ({
     {...otherProps}
   >
     {children}
-    <Arrow ref={arrowRef} className={classes.arrow} {...arrowProps} />
+    <Arrow className={classes.arrow} {...arrowProps} />
   </Paper>
 )
 

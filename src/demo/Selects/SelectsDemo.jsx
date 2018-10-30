@@ -63,27 +63,22 @@ const styles = {
 
 const fakeAction = R.memoizeWith(R.identity, msg => () => alert(msg))
 
+const renderEllipsisButton = popupState => (
+  <ToggleButton.Icon
+    icon={<MoreHoriz />}
+    on={popupState.open}
+    onClick={popupState.toggle}
+    {...popupState.getAnchorProps()}
+  />
+)
+
 const SelectListsDemo = ({ classes }) => (
   <div className={classes.demo}>
     <h1>ButtonMenu</h1>
     <div className={classes.rowCentered}>
-      <ButtonMenu
-        arrow
-        renderButton={({ open, toggle, getAnchorProps }) => (
-          <ToggleButton.Icon
-            icon={<MoreHoriz />}
-            on={open}
-            onClick={toggle}
-            {...getAnchorProps()}
-          />
-        )}
-      >
-        <MenuItem
-          color="#E34498"
-          onSelect={fakeAction('published')}
-          label="Publish"
-        />
-        <MenuItem color="red" onSelect={fakeAction('deleted')} label="Delete" />
+      <ButtonMenu arrowEnd alignByArrow renderButton={renderEllipsisButton}>
+        <MenuItem label="Publish" onSelect={fakeAction('published')} />
+        <MenuItem color="red" label="Delete" onSelect={fakeAction('deleted')} />
       </ButtonMenu>
     </div>
   </div>

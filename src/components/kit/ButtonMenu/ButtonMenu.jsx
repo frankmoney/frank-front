@@ -8,37 +8,40 @@ type Props = {
   renderButton: PopupRenderProps => React.ReactElement,
   alignStart?: boolean,
   alignEnd?: boolean,
-  alignCenter?: boolean,
   up?: boolean,
   down?: boolean,
+  arrowStart?: boolean,
+  arrowEnd?: boolean,
+  alignByArrow?: boolean,
 } & DropdownMenuProps
 
 const ButtonMenu = ({
   renderButton,
   alignStart,
   alignEnd,
-  alignCenter,
+  arrowEnd,
+  arrowStart,
   up,
   down,
   align: alignProp,
   direction: directionProp,
+  arrowAt: arrowAtProp,
+  alignByArrow,
   children,
   ...otherProps
 }: Props) => {
   const direction = up ? 'up' : down ? 'down' : directionProp
-  const align = alignStart
-    ? 'start'
-    : alignCenter
-      ? 'center'
-      : alignEnd
-        ? 'end'
-        : alignProp
+  const align = alignStart ? 'start' : alignEnd ? 'end' : alignProp || 'center'
+
+  const arrowAt = arrowStart ? 'start' : arrowEnd ? 'end' : arrowAtProp
 
   return (
     <DropdownMenu
       popup={children}
       direction={direction}
       align={align}
+      arrowAt={arrowAt}
+      alignByArrow={alignByArrow}
       {...otherProps}
     >
       {renderButton}

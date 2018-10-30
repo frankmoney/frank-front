@@ -154,6 +154,7 @@ export function getPlacementStyle({
 
   if (arrowElement) {
     const arrowRect = arrowElement.getBoundingClientRect()
+
     switch (placementInfo.alignment) {
       case 'center':
         placementStyle.left =

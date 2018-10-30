@@ -17,12 +17,15 @@ const REVERSE_DIRECTION = {
 export type Props = {
   direction?: 'up' | 'down',
   align?: 'start' | 'center' | 'end',
+  alignByArrow?: boolean,
+  arrowAt?: 'start' | 'center' | 'end',
 }
 
 class DropdownMenu extends React.Component<Props> {
   static defaultProps = {
     direction: 'down',
     align: 'center',
+    alignByArrow: false,
   }
 
   state = {
@@ -55,8 +58,9 @@ class DropdownMenu extends React.Component<Props> {
   render() {
     const {
       direction,
-      arrow,
       align,
+      arrowAt,
+      alignByArrow,
       children,
       // todo inherit parent border radius. impl Paper.Content with PaperContext
       menuProps = { style: { width: 250, borderRadius: 8 } },
@@ -68,12 +72,13 @@ class DropdownMenu extends React.Component<Props> {
 
     const { arrowColor } = this.state
 
-    const PaperComponent = arrow ? ArrowPaper : Paper
+    const PaperComponent = arrowAt ? ArrowPaper : Paper
 
     return (
       <PopupBase
         place={direction}
         align={align}
+        alignByArrow={alignByArrow}
         distance={15}
         onClose={this.handleClose}
         {...otherProps}
@@ -90,10 +95,11 @@ class DropdownMenu extends React.Component<Props> {
                     <PaperComponent
                       {...getPopupProps()}
                       arrowProps={
-                        arrow && getArrowProps({ style: { color: arrowColor } })
+                        arrowAt &&
+                        getArrowProps({ style: { color: arrowColor } })
                       }
                       direction={REVERSE_DIRECTION[direction]}
-                      align={align}
+                      align={arrowAt}
                     >
                       <Menu
                         autoFocus
@@ -101,7 +107,7 @@ class DropdownMenu extends React.Component<Props> {
                         {...menuProps}
                         onSelectElement={close}
                         onActiveElementChange={
-                          arrow && this.handleChangeActiveItem
+                          arrowAt && this.handleChangeActiveItem
                         }
                         menuItemProps={{ noAnimation: true }}
                       >
