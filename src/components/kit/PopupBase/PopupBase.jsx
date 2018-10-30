@@ -19,6 +19,8 @@ type PopupProps = {|
   style: Object,
 |}
 
+type EmptyCb = () => void
+
 export type Props = {|
   align?: 'start' | 'center' | 'end',
   alignByArrow?: boolean, // в этом случае попап будет равняться стрелкой по анкору
@@ -26,16 +28,17 @@ export type Props = {|
   children: React.StatelessFunctionalComponent<any>,
   defaultOpen?: boolean,
   distance?: number,
-  onClose: () => void,
+  onClose: EmptyCb,
+  onChangeOpen?: EmptyCb,
   open?: boolean,
   place?: 'up' | 'down' | 'left' | 'right',
 |}
 
 export type PopupRenderProps = {
   open: boolean,
-  close: () => void,
-  show: () => void,
-  toggle: () => void,
+  close: EmptyCb,
+  show: EmptyCb,
+  toggle: EmptyCb,
   popupEl: Element,
   anchorEl: Element,
   getArrowProps: Object => ArrowProps,
@@ -70,7 +73,12 @@ class PopupBase extends React.Component<Props> {
         if (typeof callback === 'function') {
           callback()
         }
+        if (typeof this.props.onChangeOpen === 'function') {
+          this.props.onChangeOpen(this.state.open)
+        }
       })
+    } else if (typeof this.props.onChangeOpen === 'function') {
+      this.props.onChangeOpen(true)
     }
   }
 
@@ -80,20 +88,28 @@ class PopupBase extends React.Component<Props> {
         if (typeof this.props.onClose === 'function') {
           this.props.onClose()
         }
+        if (typeof this.props.onChangeOpen === 'function') {
+          this.props.onChangeOpen(this.state.open)
+        }
         if (typeof callback === 'function') {
           callback()
         }
       })
+    } else {
+      if (typeof this.props.onClose === 'function') {
+        this.props.onClose()
+      }
+      if (typeof this.props.onChangeOpen === 'function') {
+        this.props.onChangeOpen(false)
+      }
     }
   }
 
   toggle = callback => {
-    if (!this.isControlled) {
-      if (this.isOpen) {
-        this.close(callback)
-      } else {
-        this.open(callback)
-      }
+    if (this.isOpen) {
+      this.close(callback)
+    } else {
+      this.open(callback)
     }
   }
 
@@ -109,7 +125,6 @@ class PopupBase extends React.Component<Props> {
   }
 
   handleArrowRef = ref => {
-    console.log('handleArrowRef', findDOMNode(ref))
     this.setState({ arrowEl: findDOMNode(ref) })
   }
 

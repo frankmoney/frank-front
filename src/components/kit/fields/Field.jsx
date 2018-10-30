@@ -86,6 +86,9 @@ class Field extends React.Component<Props, State> {
 
   handleControlRef = control => {
     this.control = control
+    if (typeof this.controlProps.controlRef === 'function') {
+      this.controlProps.controlRef(control)
+    }
   }
 
   handleChange = value => {
@@ -131,6 +134,7 @@ class Field extends React.Component<Props, State> {
       hint,
       disabled,
       placeholder,
+      style,
       children,
     } = this.props
     const control = React.Children.only(children)
@@ -148,6 +152,7 @@ class Field extends React.Component<Props, State> {
             loading && classes.loading,
             className
           )}
+          style={style}
         >
           {!loading &&
             floatingLabel && (
