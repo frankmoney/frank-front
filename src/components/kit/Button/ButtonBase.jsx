@@ -57,7 +57,6 @@ const BaseButton = ({
 
 BaseButton.defaultProps = {
   component: 'div',
-  targetBlank: false,
 }
 
 export default BaseButton
