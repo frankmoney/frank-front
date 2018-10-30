@@ -29,12 +29,15 @@ export type CategoryListProps = {|
   className: ?string,
 |}
 
-type Classes = {
+type Classes = {|
   classes: Object,
   iconClassName: ?string,
   itemClassName: ?string,
   nameClassName: ?string,
   valueClassName: ?string,
-}
+|}
 
-export type Props = CategoryListProps & Classes
+export type Props = {
+  ...CategoryListProps,
+  ...Classes,
+}

@@ -2,9 +2,9 @@
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import HighlightText from 'components/HighlightText'
 import IconCircle from 'components/IconCircle'
+import { injectStyles } from 'utils/styles'
 import type { Props } from './CategoryLabel.flow'
 
 const styles = {
