@@ -2,8 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
-import Paper from 'components/kit/Paper'
-import type { PaperProps } from 'components/kit/Paper'
+import Paper, { type PaperProps } from 'components/kit/Paper'
 import Arrow from './arrow.svg'
 
 type Props = PaperProps & {

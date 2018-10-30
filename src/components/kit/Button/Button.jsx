@@ -4,8 +4,7 @@ import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { Spinner } from '@frankmoney/components'
 import Counter from 'components/kit/Counter'
-import ButtonBase from './ButtonBase'
-import type { ButtonBaseProps } from './ButtonBase'
+import ButtonBase, { type ButtonBaseProps } from './ButtonBase'
 import styles from './Button.jss'
 
 type ButtonColor =

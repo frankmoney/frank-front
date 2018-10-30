@@ -3,9 +3,11 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import CategoryList from 'components/CategoryList'
-import { limitCategories } from 'components/CategoryListPieChart'
+import {
+  limitCategories,
+  type Categories,
+} from 'components/CategoryListPieChart'
 import type { CategoryCb } from 'components/CategoryList'
-import type { Categories } from 'components/CategoryListPieChart'
 
 const styles = theme => ({
   root: {

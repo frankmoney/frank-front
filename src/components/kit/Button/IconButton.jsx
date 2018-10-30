@@ -3,8 +3,7 @@ import * as React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { Spinner } from '@frankmoney/components'
-import ButtonBase from './ButtonBase'
-import type { ButtonBaseProps } from './ButtonBase'
+import ButtonBase, { type ButtonBaseProps } from './ButtonBase'
 import styles from './IconButton.jss'
 
 type IconButtonColor =

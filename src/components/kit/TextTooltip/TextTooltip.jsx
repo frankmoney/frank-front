@@ -1,8 +1,7 @@
 // @flow
 import * as React from 'react'
 import { createPortal } from 'react-dom'
-import TooltipBase from 'components/kit/TooltipBase'
-import type { TooltipBaseProps } from 'components/kit/TooltipBase'
+import TooltipBase, { type TooltipBaseProps } from 'components/kit/TooltipBase'
 import TextTooltipDumb from './TextTooltipDumb'
 
 type Props = {
