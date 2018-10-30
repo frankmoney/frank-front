@@ -81,6 +81,10 @@ export const ROLE_TEXT = {
 }
 
 const renderSelectValue = value => ROLE_TEXT[value]
+const renderMultiSelectValue = values =>
+  !values || values.length === 0
+    ? 'None selected'
+    : values.map(value => ROLE_TEXT[value]).join(',')
 
 const SelectListsDemo = ({ classes }) => (
   <div className={classes.demo}>
@@ -97,6 +101,16 @@ const SelectListsDemo = ({ classes }) => (
         defaultValue="manager"
         align="start"
         renderValue={renderSelectValue}
+      >
+        <MenuItem value="admin" label="Administrator" />
+        <MenuItem value="manager" label="Manager" />
+        <MenuItem value="observer" label="Observer" />
+      </Select>
+      <Select
+        defaultValue={['manager', 'observer']}
+        multiple
+        align="start"
+        renderValue={renderMultiSelectValue}
       >
         <MenuItem value="admin" label="Administrator" />
         <MenuItem value="manager" label="Manager" />

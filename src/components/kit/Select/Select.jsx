@@ -38,7 +38,10 @@ class Select extends React.Component<Props> {
   }
 
   handleChange = value => {
-    this.setState({ value, open: false })
+    this.setState({
+      value,
+      open: this.props.multiple ? this.state.open : false,
+    })
   }
 
   handleTogglePopup = open => {
@@ -52,6 +55,7 @@ class Select extends React.Component<Props> {
       arrowAt,
       alignByArrow,
       children,
+      multiple,
       menuProps = { style: { width: DEFAULT_WIDTH } },
       renderValue,
       onClose,
@@ -109,6 +113,7 @@ class Select extends React.Component<Props> {
                       autoFocus
                       value={this.state.value}
                       onChange={this.handleChange}
+                      multiple={multiple}
                       {...arrowMenuProps}
                       {...getPopupProps(menuProps)}
                     >
