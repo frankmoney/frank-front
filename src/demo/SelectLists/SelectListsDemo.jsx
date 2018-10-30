@@ -4,6 +4,7 @@ import { Public as PublicIcon } from 'material-ui-icons'
 import Paper from 'components/kit/Paper'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import Menu from 'components/kit/Menu'
+import ArrowMenu from 'components/kit/ArrowMenu'
 import OptionsList from 'components/kit/OptionsList'
 import CategoryMenuItem from 'components/CategoryMenuItem'
 import BanksSearch from './BanksSearch/BanksSearch'
@@ -114,7 +115,11 @@ const SelectListsDemo = ({ classes }) => (
     </div>
     <h2>Mix with non selectable items</h2>
     <div className={classes.rowCentered}>
-      <Menu defaultValue="manager" title="Choose role" style={{ width: 200 }}>
+      <ArrowMenu
+        defaultValue="manager"
+        title="Choose role"
+        style={{ width: 200 }}
+      >
         <MenuItem value="admin" label="Administrator" />
         <MenuItem value="manager" label="Manager" />
         <MenuItem value="observer" label="Observer" />
@@ -123,7 +128,7 @@ const SelectListsDemo = ({ classes }) => (
           label="Delete user"
           onSelect={() => alert('user has been deleted!')}
         />
-      </Menu>
+      </ArrowMenu>
     </div>
     <h2>Any appearance same logic</h2>
     <div className={classes.rowCentered}>

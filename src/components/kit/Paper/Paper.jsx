@@ -11,6 +11,7 @@ const styles = {
   root: {
     background: '#fff',
     borderRadius: 8,
+    overflow: 'auto',
   },
   card: {
     boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',

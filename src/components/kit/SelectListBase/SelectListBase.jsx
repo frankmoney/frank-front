@@ -24,7 +24,6 @@ export type Props = {
 
 const MENU_STYLE = {
   outline: 'none', // remove focus outline.
-  overflow: 'auto', // cut menuitem background edges
 }
 
 const DEFAULT_ITEM_STYLE = {
@@ -33,7 +32,6 @@ const DEFAULT_ITEM_STYLE = {
 
 const SELECTED_ITEM_STYLE = {
   cursor: 'default',
-  // pointerEvents: 'none',
 }
 
 const memoize = fn => {

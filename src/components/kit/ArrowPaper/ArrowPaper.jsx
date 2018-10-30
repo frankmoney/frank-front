@@ -8,16 +8,24 @@ import Arrow from './Arrow'
 type Props = {
   direction: 'up' | 'left' | 'right' | 'down',
   align: 'center' | 'start' | 'end',
-  arrowRef: Element => void,
+  arrowProps: Object,
 }
 
 const ARROW_WIDTH = 24
 const ARROW_HEIGHT = 12
 const OFFSET = 18
 
-const styles = theme => ({
+export const DEFAULT_DIRECTION = 'down'
+export const DEFAULT_ALIGN = 'center'
+
+const styles = {
   root: {
     position: 'relative',
+    overflow: 'unset',
+  },
+  content: {
+    overflow: 'auto',
+    borderRadius: 8,
   },
   arrow: {
     position: 'absolute',
@@ -78,7 +86,7 @@ const styles = theme => ({
       bottom: OFFSET,
     },
   },
-})
+}
 
 const ArrowPaper = ({
   children,
@@ -95,14 +103,14 @@ const ArrowPaper = ({
     className={cx(classes.root, classes[direction], classes[align], className)}
     {...otherProps}
   >
-    {children}
+    <div className={classes.content}>{children}</div>
     <Arrow className={classes.arrow} {...arrowProps} />
   </Paper>
 )
 
 ArrowPaper.defaultProps = {
-  direction: 'down',
-  align: 'center',
+  direction: DEFAULT_DIRECTION,
+  align: DEFAULT_ALIGN,
 }
 
 export default injectStyles(styles)(ArrowPaper)
