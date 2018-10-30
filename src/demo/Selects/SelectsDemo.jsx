@@ -105,7 +105,7 @@ const SelectListsDemo = ({ classes }) => (
         formatValue={commaSeparatedValue}
         stretchDropdown
         label="Roles"
-        placeholder="Select many role"
+        placeholder="Select multiple roles"
       >
         <MenuItem value="admin" label="Administrator" />
         <MenuItem value="manager" label="Manager" />
