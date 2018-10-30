@@ -28,7 +28,8 @@ export type Props = {
   alignByArrow?: boolean,
   distance?: number,
   alignmentOffset?: number,
-  onClose: () => void,
+  onClose?: () => void,
+  onChangeOpen?: () => void,
 }
 
 export type RenderProps = {
@@ -68,7 +69,12 @@ class PopupBase extends React.Component<Props> {
         if (typeof callback === 'function') {
           callback()
         }
+        if (typeof this.props.onChangeOpen === 'function') {
+          this.props.onChangeOpen(this.state.open)
+        }
       })
+    } else if (typeof this.props.onChangeOpen === 'function') {
+      this.props.onChangeOpen(true)
     }
   }
 
@@ -78,20 +84,28 @@ class PopupBase extends React.Component<Props> {
         if (typeof this.props.onClose === 'function') {
           this.props.onClose()
         }
+        if (typeof this.props.onChangeOpen === 'function') {
+          this.props.onChangeOpen(this.state.open)
+        }
         if (typeof callback === 'function') {
           callback()
         }
       })
+    } else {
+      if (typeof this.props.onClose === 'function') {
+        this.props.onClose()
+      }
+      if (typeof this.props.onChangeOpen === 'function') {
+        this.props.onChangeOpen(false)
+      }
     }
   }
 
   toggle = callback => {
-    if (!this.isControlled) {
-      if (this.isOpen) {
-        this.close(callback)
-      } else {
-        this.open(callback)
-      }
+    if (this.isOpen) {
+      this.close(callback)
+    } else {
+      this.open(callback)
     }
   }
 
@@ -107,7 +121,6 @@ class PopupBase extends React.Component<Props> {
   }
 
   handleArrowRef = ref => {
-    console.log('handleArrowRef', findDOMNode(ref))
     this.setState({ arrowEl: findDOMNode(ref) })
   }
 

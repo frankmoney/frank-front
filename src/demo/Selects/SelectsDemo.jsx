@@ -3,9 +3,11 @@ import { MoreHoriz } from 'material-ui-icons'
 import React from 'react'
 import * as R from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
+import Select from 'components/kit/Select'
 import ButtonMenu from 'components/kit/ButtonMenu'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import ToggleButton from 'components/kit/ToggleButton'
+import Menu from '../../components/kit/Menu'
 
 const styles = {
   demo: {
@@ -72,6 +74,14 @@ const renderEllipsisButton = popupState => (
   />
 )
 
+export const ROLE_TEXT = {
+  admin: 'Administrator',
+  manager: 'Manager',
+  observer: 'Observer',
+}
+
+const renderSelectValue = value => ROLE_TEXT[value]
+
 const SelectListsDemo = ({ classes }) => (
   <div className={classes.demo}>
     <h1>ButtonMenu</h1>
@@ -80,6 +90,18 @@ const SelectListsDemo = ({ classes }) => (
         <MenuItem label="Publish" onSelect={fakeAction('published')} />
         <MenuItem color="red" label="Delete" onSelect={fakeAction('deleted')} />
       </ButtonMenu>
+    </div>
+    <h1>Select</h1>
+    <div className={classes.row}>
+      <Select
+        defaultValue="manager"
+        align="start"
+        renderValue={renderSelectValue}
+      >
+        <MenuItem value="admin" label="Administrator" />
+        <MenuItem value="manager" label="Manager" />
+        <MenuItem value="observer" label="Observer" />
+      </Select>
     </div>
   </div>
 )
