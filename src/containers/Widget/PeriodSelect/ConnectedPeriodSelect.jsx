@@ -8,12 +8,12 @@ import * as ACTIONS from 'containers/Widget/actions'
 import { periodSelector, periodsSelector } from 'containers/Widget/selectors'
 import PeriodSelector, { type Period, type OnChangeCb } from './PeriodSelect'
 
-type Props = {
+type Props = {|
   period: Period,
   periods: Array<Period>,
   onChange: ?OnChangeCb,
   className: ?string,
-}
+|}
 
 const ConnectedPeriodSelect = ({
   className,

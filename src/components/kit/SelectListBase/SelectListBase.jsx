@@ -7,12 +7,13 @@ import chainCallbacks from 'utils/dom/chainCallbacks'
 import isElementVisible from 'utils/dom/isElementVisible'
 import Context from './SelectListContext'
 
-type Value = any
+type Val = any
+type Value = Val | Array<Val>
 
-export type Props = {
-  value?: Value | Array<Value>,
-  defaultValue?: Value | Array<Value>,
-  onChange?: (Value | Array<Value>) => void,
+export type Props = {|
+  value?: Value,
+  defaultValue?: Value,
+  onChange?: Value => void,
   autoFocus?: boolean,
   activeOnFocus?: boolean,
   scrollContainer?: Element | Window,
@@ -20,7 +21,7 @@ export type Props = {
   // ставит активный элемент при фокусе
   onSelectElement?: Element => void,
   onActiveElementChange: (?Element, number, Array<Element>) => void,
-}
+|}
 
 const MENU_STYLE = {
   outline: 'none', // remove focus outline.

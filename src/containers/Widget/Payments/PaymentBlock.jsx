@@ -2,7 +2,7 @@
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Payment from './Payment'
 import type { PaymentProps } from './Payment.flow'
 
@@ -16,16 +16,16 @@ const styles = theme => ({
   },
 })
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
   title: string,
   items: Array<PaymentProps>,
   showCategories: boolean,
   // Styles
-  classes: Object,
-  className: ?string,
   paymentClassName: ?string,
   titleClassName: ?string,
-}
+|}
 
 const PaymentBlock = ({
   classes,

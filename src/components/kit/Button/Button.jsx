@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { Spinner } from '@frankmoney/components'
 import Counter from 'components/kit/Counter'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import ButtonBase, { type ButtonBaseProps } from './ButtonBase'
 import styles from './Button.jss'
 
@@ -15,11 +15,14 @@ type ButtonColor =
   | 'lightBlue'
   | 'lightGreen'
 
-type ButtonMixins = {
+type ButtonMixins = {|
   icon?: string,
-}
+|}
 
-type Props = ButtonBaseProps & {
+type Props = {|
+  ...ButtonBaseProps,
+  ...InjectStylesProps,
+  //
   active?: boolean,
   color: ButtonColor,
   counter?: string | number,
@@ -29,10 +32,7 @@ type Props = ButtonBaseProps & {
   label: string,
   loading: boolean,
   Mixins?: ButtonMixins,
-  //
-  classes: Object,
-  className?: string,
-}
+|}
 
 const Button = ({
   children,

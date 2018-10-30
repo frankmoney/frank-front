@@ -1,33 +1,36 @@
 // @flow
+import type { InjectStylesProps } from 'utils/styles'
 
-type PieItem = {
+type PieItem = {|
   color: ?string,
   name: string,
   value: number,
-}
+|}
 
 export type PieData = Array<PieItem>
 
-export type Props = {
+type EmptyCb = () => void
+type NumberCb = number => void
+
+export type Props = {|
+  ...InjectStylesProps,
+  //
   activeSegmentIndex: ?number,
   data: PieData,
   size: number,
   // Handlers
   // onClick: // FIXME: not used now,
-  onSegmentMouseEnter: ?(number) => void,
-  onSegmentMouseLeave: ?() => void,
-  // Styles
-  classes: Object,
-  className: ?string,
-}
+  onSegmentMouseEnter?: NumberCb,
+  onSegmentMouseLeave?: EmptyCb,
+|}
 
-export type PieSliceProps = {
+export type PieSliceProps = {|
   color: string,
   index: number,
-}
+|}
 
-export type FatPieSliceProps = {
+export type FatPieSliceProps = {|
   active: boolean,
   color: string,
   index: number,
-}
+|}

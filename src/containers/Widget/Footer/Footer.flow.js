@@ -1,4 +1,5 @@
 // @flow
+import type { InjectStylesProps } from 'utils/styles'
 
 export type FooterClasses = {|
   root: ?string,
@@ -12,10 +13,11 @@ export type FooterProps = {|
 
 type EmptyCb = () => void
 
-export type Props = FooterProps & {|
+export type Props = {|
+  ...FooterProps,
+  ...InjectStylesProps,
+  //
   Classes: ?FooterClasses,
-  classes: Object,
-  className: ?string,
   onSeeAllClick: ?EmptyCb,
   categoryCount: ?number,
   paymentCount: number,

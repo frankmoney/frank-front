@@ -6,10 +6,13 @@ import type {
 import type { CategoryCb } from 'components/CategoryList'
 import type { FooterClasses, FooterProps } from 'containers/Widget/Footer'
 import type { GroupedPieData } from 'data/models/pieData'
+import type { InjectStylesProps } from 'utils/styles'
 
 type EmptyCb = () => void
 
 export type Props = {|
+  ...InjectStylesProps,
+  //
   categoryCount: ?number,
   CategoryList: ?CategoryListComponent,
   categoryType: string,
@@ -23,8 +26,6 @@ export type Props = {|
   onCategoryTypeChange: CategoryCb,
   onSeeAllClick: EmptyCb,
   // Styles
-  classes: Object,
-  className: ?string,
   chartClassName: ?string,
   contentClassName: ?string,
   periodSelectClassName: ?string,

@@ -7,12 +7,12 @@ export type Period = string
 
 export type OnChangeCb = Period => void
 
-type Props = {
+type Props = {|
   value: Period,
   values: Array<Period>,
   onChange: ?OnChangeCb,
   className: ?string,
-}
+|}
 
 const PeriodSelect = ({ className, onChange, value, values }: Props) => {
   const handlePeriodChange = onChange && (event => onChange(event.target.value))

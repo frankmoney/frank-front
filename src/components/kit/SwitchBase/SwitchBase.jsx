@@ -1,16 +1,16 @@
 // @flow
 import * as React from 'react'
 
-type Props = {
+type Props = {|
   children?: React.Node,
   defaultOn: boolean,
   on?: boolean,
   onToggle: boolean => void,
-}
+|}
 
-type State = {
+type State = {|
   on: boolean,
-}
+|}
 
 const SwitchContext = React.createContext({})
 

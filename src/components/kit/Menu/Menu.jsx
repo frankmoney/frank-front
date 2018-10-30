@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import Paper from 'components/kit/Paper'
 import SelectListBase from 'components/kit/SelectListBase'
 import type { Props as SelectListProps } from 'components/kit/SelectListBase'
@@ -11,11 +11,13 @@ const MenuPaper = React.forwardRef((props, ref) => (
   <Paper type="list" ref={ref} {...props} />
 ))
 
-type Props = {
-  title?: ?(string | React.ReactElement),
+type Props = {|
+  ...SelectListProps,
+  //
+  title?: React.Node,
   maxVisibleItems?: number,
   menuItemProps?: ?MenuItemProps,
-} & SelectListProps
+|}
 
 const calcMaxHeight = ({ maxVisibleItems, title }) =>
   typeof maxVisibleItems === 'number'

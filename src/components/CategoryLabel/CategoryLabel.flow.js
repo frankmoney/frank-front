@@ -4,6 +4,8 @@ import type { InjectStylesProps } from 'utils/styles'
 type EmptyCb = () => void
 
 export type Props = {|
+  ...InjectStylesProps,
+  //
   active: ?boolean,
   color: ?string,
   name: ?string,
@@ -14,7 +16,6 @@ export type Props = {|
   onMouseEnter: ?EmptyCb,
   onMouseLeave: ?EmptyCb,
   // Styles
-  ...InjectStylesProps,
   activeClassName: ?string,
   iconClassName: ?string,
   nameClassName: ?string,

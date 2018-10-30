@@ -1,17 +1,17 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import Paper, { type PaperProps } from 'components/kit/Paper'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Arrow from './Arrow'
 
-type Props = PaperProps & {
+type Props = {|
+  ...PaperProps,
+  ...InjectStylesProps,
+  //
   align: 'center' | 'start' | 'end',
   arrowProps: Object,
-  //
-  classes: Object,
-  className?: string,
-}
+|}
 
 const ARROW_WIDTH = 24
 const ARROW_HEIGHT = 12

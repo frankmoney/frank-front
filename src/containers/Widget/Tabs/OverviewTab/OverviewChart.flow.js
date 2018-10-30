@@ -4,8 +4,11 @@ import type {
   CategoryListPieChartRootComponent,
 } from 'components/CategoryListPieChart'
 import type { Category, CategoryCb } from 'components/CategoryList'
+import type { InjectStylesProps } from 'utils/styles'
 
-export type Props = {
+export type Props = {|
+  ...InjectStylesProps,
+  //
   CategoryList: ?CategoryListComponent,
   categoryType: string,
   data: Array<Category>,
@@ -14,8 +17,6 @@ export type Props = {
   pieChartRootComponent: ?CategoryListPieChartRootComponent,
   widgetSize: 375 | 500 | 625 | 800,
   // Styles
-  classes: Object,
-  className: ?string,
   periodSelectClassName: ?string,
   pieClassName: ?string,
-}
+|}

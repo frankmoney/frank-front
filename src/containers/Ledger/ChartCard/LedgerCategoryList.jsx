@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import CategoryList, { type CategoryListProps } from 'components/CategoryList'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
   root: {
@@ -16,7 +16,10 @@ const styles = {
   },
 }
 
-type Props = CategoryListProps & { classes: Object }
+type Props = {|
+  ...CategoryListProps,
+  ...InjectStylesProps,
+|}
 
 const LedgerCategoryList = ({
   classes,

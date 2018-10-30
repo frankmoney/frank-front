@@ -1,19 +1,20 @@
 // @flow
 import * as React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 type PaperType = 'card' | 'list' | 'modal' | 'tooltip' | 'menu' | 'drawer'
 
-export interface PaperProps {
-  type: PaperType;
-}
+export type PaperProps = {|
+  type: PaperType,
+|}
 
-type Props = PaperProps & {
+type Props = {|
+  ...PaperProps,
+  ...InjectStylesProps,
+  //
   children?: React.Node,
-  classes: Object,
-  className?: string,
-}
+|}
 
 const styles = {
   root: {

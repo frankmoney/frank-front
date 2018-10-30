@@ -22,7 +22,7 @@ const sortByValueDescend = R.sortBy(
   )
 )
 
-export type GroupedPieData = { income: PieData, spending: PieData }
+export type GroupedPieData = {| income: PieData, spending: PieData |}
 
 type RemapPieDataFn = (Array<any>, number, number) => GroupedPieData
 

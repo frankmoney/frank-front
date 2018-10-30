@@ -3,21 +3,23 @@ import * as React from 'react'
 import PopupBase from 'components/kit/PopupBase/index'
 import chainCallbacks from 'utils/dom/chainCallbacks'
 
-export interface TooltipBaseProps {
-  closeTimeout?: number;
-  defaultOpen?: boolean;
-  defaultVisible: boolean;
-  popupAccessible?: boolean;
-}
+export type TooltipBaseProps = {|
+  closeTimeout?: number,
+  defaultOpen?: boolean,
+  defaultVisible: boolean,
+  popupAccessible?: boolean,
+|}
 
-type Props = TooltipBaseProps & {
+type Props = {|
+  ...TooltipBaseProps,
+  //
   children: React.ComponentType<any>,
   open?: boolean,
-}
+|}
 
-type State = {
+type State = {|
   visible: boolean,
-}
+|}
 
 type TimeoutID = any // FIXME: upgrade eslint-plugin-flowtype
 

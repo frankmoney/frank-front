@@ -2,9 +2,9 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import Color from 'color-js'
 import SwitchBase from 'components/kit/SwitchBase'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const getBarColor = ({ color, checked, hovered, parentHovered }) =>
   checked || hovered || parentHovered
@@ -78,6 +78,8 @@ const styles = theme => ({
 })
 
 type Props = {|
+  ...InjectStylesProps,
+  //
   name?: string,
   color?: string,
   onChange?: Function,
@@ -87,9 +89,6 @@ type Props = {|
   parentHovered?: boolean,
   inputRef: ?Function,
   inputProps?: Object,
-  //
-  classes?: Object,
-  className?: string,
 |}
 
 let SwitchUncontrolled = ({

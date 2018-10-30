@@ -1,8 +1,8 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { Spinner } from '@frankmoney/components'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import FloatingLabel from './FloatingLabel'
 import Label from './Label'
 import Placeholder from './Placeholder'
@@ -11,7 +11,10 @@ import ValidationLabel from './ValidationLabel'
 import FieldContext from './FieldContext'
 import styles from './Field.jss'
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
+  children?: React.Element<any>,
   larger?: boolean,
   error?: string,
   hint?: string,
@@ -22,12 +25,17 @@ type Props = {
   disabled?: boolean,
   loading?: boolean,
   loadingText: string,
-}
+|}
+
+type State = {|
+  focus?: boolean,
+  filled?: boolean,
+|}
 
 const combineCallbacks = (...cb) => (...args) =>
   cb.forEach(fn => fn && fn(...args))
 
-class Field extends React.Component<Props> {
+class Field extends React.Component<Props, State> {
   static defaultProps = {
     loadingText: 'Loading',
   }

@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import ChartIcon from 'containers/Widget/Footer/Chart.svg'
 import colors from 'styles/colors'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import CloseIcon from './Close.svg'
 
 const styles = theme => ({
@@ -56,16 +56,15 @@ const styles = theme => ({
 
 type EmptyCb = () => void
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
   closed: boolean,
-  onClick: ?EmptyCb,
-  onClose: ?EmptyCb,
-  subtitle: ?string,
-  title: ?string,
-  // Styles
-  classes: Object,
-  className: ?string,
-}
+  onClick?: EmptyCb,
+  onClose?: EmptyCb,
+  subtitle?: string,
+  title?: string,
+|}
 
 const Expander = ({
   classes,

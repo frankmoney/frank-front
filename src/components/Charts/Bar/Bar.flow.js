@@ -1,17 +1,18 @@
 // @flow
+import type { InjectStylesProps } from 'utils/styles'
 
-type BarItem = {
+type BarItem = {|
   name: ?string, // this is only a default key. it is actually the `labelKey`
   negativeValue: ?number,
   value: number,
-}
+|}
 
 export type BarData = Array<BarItem>
 
-export type Props = {
+export type Props = {|
+  ...InjectStylesProps,
+  //
   barColor: string,
-  classes: Object,
-  className: ?string,
   data: BarData,
   dual: ?boolean,
   footerPadding: number,
@@ -21,4 +22,4 @@ export type Props = {
   positiveBarColor: string,
   showBars: boolean,
   width: number,
-}
+|}

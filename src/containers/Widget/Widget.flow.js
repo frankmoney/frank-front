@@ -11,7 +11,7 @@ import type { GroupedPieData } from 'data/models/pieData'
 type EmptyCb = () => void
 type TabSwitchCb = string => void
 
-export type Props = {
+export type Props = {|
   barsFooterPadding: number,
   barsHeight: number,
   barsWidth: number,
@@ -50,4 +50,4 @@ export type Props = {
   //
   OverviewFooterClasses: ?FooterClasses,
   OverviewFooterProps: ?FooterProps,
-}
+|}

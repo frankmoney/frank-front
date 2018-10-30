@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = theme => ({
   item: {
@@ -24,14 +24,14 @@ const styles = theme => ({
 type EmptyCb = () => void
 type Key = string | number
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
   active: boolean,
-  classes: Object,
-  className: ?string,
   key: ?Key,
   name: string,
   onClick: ?EmptyCb,
-}
+|}
 
 const HeaderItem = ({
   active,

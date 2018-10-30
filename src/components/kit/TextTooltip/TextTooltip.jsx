@@ -4,10 +4,12 @@ import { createPortal } from 'react-dom'
 import TooltipBase, { type TooltipBaseProps } from 'components/kit/TooltipBase'
 import TextTooltipDumb from './TextTooltipDumb'
 
-type Props = {
+type Props = {|
+  ...TooltipBaseProps,
+  //
   text: string,
   children: React.Element<any>,
-} & TooltipBaseProps
+|}
 
 const TextTooltip = ({ children, text, ...otherProps }: Props) => (
   <TooltipBase distance={4} {...otherProps}>

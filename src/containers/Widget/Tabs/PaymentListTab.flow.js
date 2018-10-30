@@ -1,9 +1,12 @@
 // @flow
 import type { BarData } from 'components/Charts/Bar'
+import type { InjectStylesProps } from 'utils/styles'
 
 type EmptyCb = () => void
 
-export type Props = {
+export type Props = {|
+  ...InjectStylesProps,
+  //
   currentCategoryColor: string,
   currentCategoryName: string,
   barsData: ?BarData,
@@ -14,7 +17,6 @@ export type Props = {
   // Handlers
   onCancelCategoryClick: EmptyCb,
   // Styles
-  classes: Object,
   barChartClassName: ?string,
   contentClassName: ?string,
   paymentBlockClassName: ?string,
@@ -22,4 +24,4 @@ export type Props = {
   paymentClassName: ?string,
   paymentListClassName: ?string,
   paymentsPeriodClassName: ?string,
-}
+|}

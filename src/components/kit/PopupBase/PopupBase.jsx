@@ -1,25 +1,25 @@
-/* eslint-disable react/no-find-dom-node */
 // @flow
-import React from 'react'
+/* eslint-disable react/no-find-dom-node */
+import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import positionElement from 'utils/dom/positionElement'
 
-type RefHandler = (React.ComponentType | Element) => void
+type RefHandler = (React.ComponentType<any> | Element) => void
 
-type ArrowProps = {
+type ArrowProps = {|
   ref: RefHandler,
-}
+|}
 
-type AnchorProps = {
+type AnchorProps = {|
   ref: RefHandler,
-}
+|}
 
-type PopupProps = {
+type PopupProps = {|
   ref: RefHandler,
   style: Object,
-}
+|}
 
-export type Props = {
+export type Props = {|
   defaultOpen?: boolean,
   open?: boolean,
   place?: 'up' | 'down' | 'left' | 'right',
@@ -29,7 +29,7 @@ export type Props = {
   distance?: number,
   alignmentOffset?: number,
   onClose: () => void,
-}
+|}
 
 export type RenderProps = {
   open: boolean,
