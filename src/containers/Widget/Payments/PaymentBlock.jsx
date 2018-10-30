@@ -23,8 +23,8 @@ type Props = {|
   items: Array<PaymentProps>,
   showCategories: boolean,
   // Styles
-  paymentClassName: ?string,
-  titleClassName: ?string,
+  paymentClassName?: string,
+  titleClassName?: string,
 |}
 
 const PaymentBlock = ({

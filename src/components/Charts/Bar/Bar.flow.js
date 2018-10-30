@@ -2,8 +2,8 @@
 import type { InjectStylesProps } from 'utils/styles'
 
 type BarItem = {|
-  name: ?string, // this is only a default key. it is actually the `labelKey`
-  negativeValue: ?number,
+  name?: string, // this is only a default key. it is actually the `labelKey`
+  negativeValue?: number,
   value: number,
 |}
 
@@ -14,10 +14,10 @@ export type Props = {|
   //
   barColor: string,
   data: BarData,
-  dual: ?boolean,
+  dual?: boolean,
   footerPadding: number,
   height: number,
-  hideBaseLine: ?boolean,
+  hideBaseLine?: boolean,
   labelKey: string,
   positiveBarColor: string,
   showBars: boolean,

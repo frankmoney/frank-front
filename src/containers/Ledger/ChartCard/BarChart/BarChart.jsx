@@ -32,7 +32,7 @@ const styles = theme => ({
 type Props = {|
   ...InjectStylesProps,
   //
-  data: ?BarData,
+  data?: BarData,
 |}
 
 type State = {|

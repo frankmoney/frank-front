@@ -16,7 +16,7 @@ type Props = {|
   //
   title?: React.Node,
   maxVisibleItems?: number,
-  menuItemProps?: ?MenuItemProps,
+  menuItemProps?: MenuItemProps,
 |}
 
 const calcMaxHeight = ({ maxVisibleItems, title }) =>

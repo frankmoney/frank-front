@@ -8,10 +8,10 @@ export type Period = string
 export type OnChangeCb = Period => void
 
 type Props = {|
+  className?: string,
+  onChange?: OnChangeCb,
   value: Period,
   values: Array<Period>,
-  onChange: ?OnChangeCb,
-  className: ?string,
 |}
 
 const PeriodSelect = ({ className, onChange, value, values }: Props) => {

@@ -2,7 +2,7 @@
 import type { InjectStylesProps } from 'utils/styles'
 
 type PieItem = {|
-  color: ?string,
+  color?: string,
   name: string,
   value: number,
 |}
@@ -15,7 +15,7 @@ type NumberCb = number => void
 export type Props = {|
   ...InjectStylesProps,
   //
-  activeSegmentIndex: ?number,
+  activeSegmentIndex?: number,
   data: PieData,
   size: number,
   // Handlers

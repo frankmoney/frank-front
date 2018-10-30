@@ -13,16 +13,16 @@ export type Props = {|
   //
   CategoryList: CategoryListComponent,
   categoryType: string,
-  categoryTypeSelectLabel: ?string,
+  categoryTypeSelectLabel?: string,
   chartSize: number,
   component: CategoryListPieChartRootComponent,
   data: Categories,
   // Handlers
-  onCategoryClick: ?CategoryCb,
-  onCategoryTypeChange: ?CategoryCb,
+  onCategoryClick?: CategoryCb,
+  onCategoryTypeChange?: CategoryCb,
   // Styles
-  categoryTypeSelectClassName: ?string,
-  chartClassName: ?string,
+  categoryTypeSelectClassName?: string,
+  chartClassName?: string,
 |}
 
 export type State = {|

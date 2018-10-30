@@ -14,7 +14,7 @@ export type Props = {|
 |}
 
 type State = {|
-  arrowColor: ?any, // TODO: fix the type
+  arrowColor: ?any, // TODO: fix the type afrer fixing the props ^^
 |}
 
 class DropdownMenu extends React.Component<Props, State> {

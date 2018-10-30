@@ -13,24 +13,24 @@ type EmptyCb = () => void
 export type Props = {|
   ...InjectStylesProps,
   //
-  categoryCount: ?number,
-  CategoryList: ?CategoryListComponent,
+  categoryCount?: number,
+  CategoryList?: CategoryListComponent,
   categoryType: string,
   data: GroupedPieData,
-  paymentCount: ?number,
-  pieChartRootComponent: ?CategoryListPieChartRootComponent,
-  showTotals: ?boolean,
+  paymentCount?: number,
+  pieChartRootComponent?: CategoryListPieChartRootComponent,
+  showTotals?: boolean,
   widgetSize: 375 | 400 | 500 | 625 | 800,
   // Handlers
   onCategoryClick: CategoryCb,
   onCategoryTypeChange: CategoryCb,
   onSeeAllClick: EmptyCb,
   // Styles
-  chartClassName: ?string,
-  contentClassName: ?string,
-  periodSelectClassName: ?string,
-  pieClassName: ?string,
+  chartClassName?: string,
+  contentClassName?: string,
+  periodSelectClassName?: string,
+  pieClassName?: string,
   //
-  FooterClasses: ?FooterClasses,
-  FooterProps: ?FooterProps,
+  FooterClasses?: FooterClasses,
+  FooterProps?: FooterProps,
 |}

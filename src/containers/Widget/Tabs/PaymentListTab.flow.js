@@ -9,7 +9,7 @@ export type Props = {|
   //
   currentCategoryColor: string,
   currentCategoryName: string,
-  barsData: ?BarData,
+  barsData?: BarData,
   barsHeight: number,
   barsWidth: number,
   footerPadding: number,
@@ -17,11 +17,11 @@ export type Props = {|
   // Handlers
   onCancelCategoryClick: EmptyCb,
   // Styles
-  barChartClassName: ?string,
-  contentClassName: ?string,
-  paymentBlockClassName: ?string,
-  paymentBlockTitleClassName: ?string,
-  paymentClassName: ?string,
-  paymentListClassName: ?string,
-  paymentsPeriodClassName: ?string,
+  barChartClassName?: string,
+  contentClassName?: string,
+  paymentBlockClassName?: string,
+  paymentBlockTitleClassName?: string,
+  paymentClassName?: string,
+  paymentListClassName?: string,
+  paymentsPeriodClassName?: string,
 |}

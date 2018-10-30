@@ -19,7 +19,7 @@ type Props = {|
   //
   children?: React.Node,
   live: boolean,
-  liveClassName: ?string,
+  liveClassName?: string,
 |}
 
 const Header = ({

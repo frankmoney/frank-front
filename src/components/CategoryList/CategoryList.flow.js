@@ -20,21 +20,21 @@ type EmptyCb = () => void
 export type CategoryListProps = {|
   activeCategoryIndex: ?number,
   data: CategoryListData,
-  valueUnit: ?string,
+  valueUnit?: string,
   // Handlers
-  onCategoryClick: ?CategoryCb,
-  onLabelMouseEnter: ?IndexCb,
-  onLabelMouseLeave: ?EmptyCb,
+  onCategoryClick?: CategoryCb,
+  onLabelMouseEnter?: IndexCb,
+  onLabelMouseLeave?: EmptyCb,
   // Styles
-  className: ?string,
+  className?: string,
 |}
 
 type Classes = {|
   classes: Object,
-  iconClassName: ?string,
-  itemClassName: ?string,
-  nameClassName: ?string,
-  valueClassName: ?string,
+  iconClassName?: string,
+  itemClassName?: string,
+  nameClassName?: string,
+  valueClassName?: string,
 |}
 
 export type Props = {

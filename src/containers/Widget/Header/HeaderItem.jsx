@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
@@ -22,15 +22,14 @@ const styles = theme => ({
 })
 
 type EmptyCb = () => void
-type Key = string | number
 
 type Props = {|
   ...InjectStylesProps,
   //
   active: boolean,
-  key: ?Key,
+  key?: React.Key,
   name: string,
-  onClick: ?EmptyCb,
+  onClick?: EmptyCb,
 |}
 
 const HeaderItem = ({

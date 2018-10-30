@@ -9,10 +9,10 @@ import { periodSelector, periodsSelector } from 'containers/Widget/selectors'
 import PeriodSelector, { type Period, type OnChangeCb } from './PeriodSelect'
 
 type Props = {|
+  className?: string,
+  onChange?: OnChangeCb,
   period: Period,
   periods: Array<Period>,
-  onChange: ?OnChangeCb,
-  className: ?string,
 |}
 
 const ConnectedPeriodSelect = ({

@@ -87,7 +87,7 @@ type Props = {|
   defaultChecked?: boolean,
   disabled?: boolean,
   parentHovered?: boolean,
-  inputRef: ?Function,
+  inputRef?: ?Function,
   inputProps?: Object,
 |}
 

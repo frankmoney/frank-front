@@ -2,13 +2,13 @@
 import type { InjectStylesProps } from 'utils/styles'
 
 export type FooterClasses = {|
-  root: ?string,
-  seeAll: ?string,
+  root: string,
+  seeAll: string,
 |}
 
 export type FooterProps = {|
-  hideIcon: ?boolean,
-  hideVerifiedBy: ?boolean,
+  hideIcon?: boolean,
+  hideVerifiedBy?: boolean,
 |}
 
 type EmptyCb = () => void
@@ -18,7 +18,7 @@ export type Props = {|
   ...InjectStylesProps,
   //
   Classes: ?FooterClasses,
-  onSeeAllClick: ?EmptyCb,
-  categoryCount: ?number,
-  paymentCount: number,
+  onSeeAllClick?: EmptyCb,
+  categoryCount?: number,
+  paymentCount?: number,
 |}
