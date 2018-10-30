@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import { createPortal } from 'react-dom'
 import Backdrop from 'components/kit/Backdrop'
 import Menu from 'components/kit/Menu'
@@ -14,10 +14,11 @@ const REVERSE_DIRECTION = {
 }
 
 export type Props = {|
-  direction?: 'up' | 'down',
+  direction: 'up' | 'down',
   align?: 'start' | 'center' | 'end',
   alignByArrow?: boolean,
   arrowAt?: 'start' | 'center' | 'end',
+  children?: React.Element<any>,
 |}
 
 const DEFAULT_WIDTH = 250

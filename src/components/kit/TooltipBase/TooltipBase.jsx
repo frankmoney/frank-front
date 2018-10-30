@@ -13,7 +13,7 @@ export type TooltipBaseProps = {|
 type Props = {|
   ...TooltipBaseProps,
   //
-  children: React.ComponentType<any>,
+  children: React.StatelessFunctionalComponent<any>,
   open?: boolean,
 |}
 

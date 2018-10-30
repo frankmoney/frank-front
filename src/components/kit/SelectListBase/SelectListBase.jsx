@@ -1,6 +1,6 @@
 // @flow
 /* eslint-disable react/no-find-dom-node */
-import React from 'react'
+import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import * as R from 'ramda'
 import chainCallbacks from 'utils/dom/chainCallbacks'
@@ -11,13 +11,14 @@ type Val = any
 type Value = Val | Array<Val>
 
 export type Props = {|
-  value?: Value,
-  defaultValue?: Value,
-  onChange?: Value => void,
-  autoFocus?: boolean,
   activeOnFocus?: boolean,
-  scrollContainer?: Element | Window,
+  autoFocus?: boolean,
+  children?: React.Node,
+  defaultValue?: Value,
   multiple?: boolean,
+  onChange?: Value => void,
+  scrollContainer?: Element | Window,
+  value?: Value,
   // ставит активный элемент при фокусе
   onSelectElement?: Element => void,
   onActiveElementChange: (?Element, number, Array<Element>) => void,

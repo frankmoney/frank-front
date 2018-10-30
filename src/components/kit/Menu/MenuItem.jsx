@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
 import { CheckCircle } from 'material-ui-icons'
 import Color from 'color-js'
@@ -15,8 +15,8 @@ export type Props = {|
   noAnimation?: boolean,
   renderCheck?: boolean,
   color?: string,
-  icon?: ?Element,
-  renderIcon?: Props => Element,
+  icon?: React.Element<any>,
+  renderIcon?: any => React.Node,
 |}
 
 const getActiveBackgroundColor = ({ color }) =>
@@ -118,7 +118,7 @@ MenuItem.defaultProps = {
 
 const StyledMenuItem = injectStyles(styles)(MenuItem)
 
-const SelectMenuItem = props => (
+const SelectMenuItem = (props: Props) => (
   <SelectListBase.Consumer>
     {({ getItemProps }) => <StyledMenuItem {...getItemProps(props)} />}
   </SelectListBase.Consumer>

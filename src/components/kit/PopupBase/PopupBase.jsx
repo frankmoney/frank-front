@@ -20,15 +20,15 @@ type PopupProps = {|
 |}
 
 export type Props = {|
+  align?: 'start' | 'center' | 'end',
+  alignByArrow?: boolean, // в этом случае попап будет равняться стрелкой по анкору
+  alignmentOffset?: number,
+  children: React.StatelessFunctionalComponent<any>,
   defaultOpen?: boolean,
+  distance?: number,
+  onClose: () => void,
   open?: boolean,
   place?: 'up' | 'down' | 'left' | 'right',
-  align?: 'start' | 'center' | 'end',
-  // в этом случае попап будет равняться стрелкой по анкору
-  alignByArrow?: boolean,
-  distance?: number,
-  alignmentOffset?: number,
-  onClose: () => void,
 |}
 
 export type RenderProps = {
