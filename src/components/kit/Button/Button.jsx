@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react'
 import cx from 'classnames'
-import { Spinner } from '@frankmoney/components'
 import Counter from 'components/kit/Counter'
+import Spinner from 'components/kit/Spinner'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import ButtonBase, { type ButtonBaseProps } from './ButtonBase'
 import styles from './Button.jss'
@@ -78,7 +78,7 @@ const Button = ({
     {typeof counter !== 'undefined' && (
       <Counter className={classes.counter}>{counter}</Counter>
     )}
-    {loading && <Spinner className={classes.spinner} size={20} />}
+    {loading && <Spinner className={classes.spinner} size={45} />}
   </ButtonBase>
 )
 
