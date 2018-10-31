@@ -3,11 +3,9 @@ import { MoreHoriz } from 'material-ui-icons'
 import React from 'react'
 import * as R from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
-import Select from 'components/kit/Select'
-import SelectValue from 'components/kit/Select/SelectValue'
 import ButtonMenu from 'components/kit/ButtonMenu'
 import MenuItem from 'components/kit/Menu/MenuItem'
-import Field from 'components/kit/fields/Field'
+import SelectField from 'components/kit/SelectField'
 import ToggleButton from 'components/kit/ToggleButton'
 
 const styles = {
@@ -81,29 +79,9 @@ export const ROLE_TEXT = {
   observer: 'Observer',
 }
 
-const renderSelectValue = ({ value, getAnchorProps, getInputProps }) => (
-  <SelectValue value={ROLE_TEXT[value]} {...getAnchorProps(getInputProps())} />
-)
-const renderFieldValue = ({
-  value,
-  getAnchorProps,
-  active,
-  getInputProps,
-}) => (
-  <Field floatingLabel="Role" {...getAnchorProps()} focus={active}>
-    <SelectValue
-      stretch
-      active={active}
-      style={{ width: 270 }}
-      value={ROLE_TEXT[value]}
-      {...getInputProps()}
-    />
-  </Field>
-)
-
-const renderMultiSelectValue = values =>
+const commaSeparatedValue = values =>
   !values || values.length === 0
-    ? 'None selected'
+    ? ''
     : values.map(value => ROLE_TEXT[value]).join(',')
 
 const SelectListsDemo = ({ classes }) => (
@@ -117,21 +95,22 @@ const SelectListsDemo = ({ classes }) => (
     </div>
     <h1>Select</h1>
     <div className={classes.row}>
-      <Select align="start" renderInput={renderFieldValue}>
+      <SelectField stretchDropdown label="Role" placeholder="Select team role">
         <MenuItem value="admin" label="Administrator" />
         <MenuItem value="manager" label="Manager" />
         <MenuItem value="observer" label="Observer" />
-      </Select>
-      {/* <Select */}
-      {/* defaultValue={['manager', 'observer']} */}
-      {/* multiple */}
-      {/* align="start" */}
-      {/* renderValue={renderMultiSelectValue} */}
-      {/* > */}
-      {/* <MenuItem value="admin" label="Administrator" /> */}
-      {/* <MenuItem value="manager" label="Manager" /> */}
-      {/* <MenuItem value="observer" label="Observer" /> */}
-      {/* </Select> */}
+      </SelectField>
+      <SelectField
+        multiple
+        formatValue={commaSeparatedValue}
+        stretchDropdown
+        label="Roles"
+        placeholder="Select multiple roles"
+      >
+        <MenuItem value="admin" label="Administrator" />
+        <MenuItem value="manager" label="Manager" />
+        <MenuItem value="observer" label="Observer" />
+      </SelectField>
     </div>
   </div>
 )

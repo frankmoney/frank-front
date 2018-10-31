@@ -14,17 +14,18 @@ import styles from './Field.jss'
 type Props = {|
   ...InjectStylesProps,
   //
+  additionalLabel?: string,
   children?: React.Element<any>,
-  larger?: boolean,
+  disabled?: boolean,
   error?: string,
+  floatingLabel?: string,
+  focus?: boolean,
   hint?: string,
   label?: string,
-  floatingLabel?: string,
-  additionalLabel?: string,
-  focus?: boolean,
-  disabled?: boolean,
+  larger?: boolean,
   loading?: boolean,
-  loadingText: string,
+  loadingText?: string,
+  placeholder?: string,
 |}
 
 type State = {|
