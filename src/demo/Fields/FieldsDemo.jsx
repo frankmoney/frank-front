@@ -1,9 +1,11 @@
 import React from 'react'
+import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
+import Checkbox from 'components/kit/Checkbox'
+import Switch from 'components/kit/Switch'
+import SwitchBase from 'components/kit/SwitchBase'
 import TextBox from 'components/kit/TextBox'
 import Field from 'components/kit/fields/Field'
-import SwitchBase from 'components/kit/SwitchBase'
-import Switch from 'components/kit/Switch'
 import Playground from './Playground'
 
 const styles = {
@@ -50,6 +52,9 @@ const styles = {
     },
     marginBottom: 50,
   },
+  centered: {
+    justifyContent: 'center',
+  },
   states: {
     display: 'flex',
     alignItems: 'flex-start',
@@ -83,6 +88,12 @@ const FieldsDemo = ({ classes }) => {
     <div className={classes.demo}>
       <div className={classes.playgroundWrap}>
         <Playground className={classes.playground} />
+      </div>
+      <h1>Checkbox</h1>
+      <div className={cx(classes.row, classes.centered)}>
+        <Checkbox />
+        <Checkbox defaultChecked />
+        <Checkbox disabled />
       </div>
       <h1>TextBox</h1>
       {states}
