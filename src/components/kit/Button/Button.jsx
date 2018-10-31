@@ -78,7 +78,7 @@ const Button = ({
     {typeof counter !== 'undefined' && (
       <Counter className={classes.counter}>{counter}</Counter>
     )}
-    {loading && <Spinner className={classes.spinner} size={45} />}
+    {loading && <Spinner className={classes.spinner} size={20} />}
   </ButtonBase>
 )
 

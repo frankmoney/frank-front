@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import cx from 'classnames'
-import { Spinner } from '@frankmoney/components'
+import Spinner from 'components/kit/Spinner'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import FloatingLabel from './FloatingLabel'
 import Label from './Label'

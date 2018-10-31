@@ -32,6 +32,7 @@ const Spinner = ({ className, size }: Props) => {
       height={size}
       viewBox="0 0 46 46"
       preserveAspectRatio="xMidYMid"
+      color="#606874"
     >
       <g transform="rotate(0 23 23)">
         <rect
@@ -263,6 +264,10 @@ const Spinner = ({ className, size }: Props) => {
       </g>
     </svg>
   )
+}
+
+Spinner.defaultProps = {
+  size: 20,
 }
 
 export default Spinner

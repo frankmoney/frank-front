@@ -8,11 +8,11 @@ import { createStructuredSelector } from 'reselect'
 import { injectStyles } from '@frankmoney/ui'
 import {
   FixedHeader,
-  Spinner,
   PageLoader,
   BreadcrumbsItem,
   BreadcrumbsItemLink,
 } from '@frankmoney/components'
+import Spinner from 'components/kit/Spinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import { ROUTES } from 'const'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -59,7 +59,7 @@ class Recipient extends React.PureComponent {
 
           {listIsUpdating && (
             <div className={classes.listLoaderWrap}>
-              <Spinner className={classes.loader} />
+              <Spinner className={classes.loader} size={45} />
             </div>
           )}
           {!listIsUpdating && <RecipientTable />}
