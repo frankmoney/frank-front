@@ -1,9 +1,10 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import Button, { IconButton } from 'components/kit/Button'
 import SwitchBase from 'components/kit/SwitchBase'
 
 const withToggle = (ButtonComponent, defaultOffColor, defaultOnColor) =>
+  // $FlowFixMe: forwardRef is not supported in flow out of the box yet
   React.forwardRef(
     (
       {

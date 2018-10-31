@@ -2,9 +2,9 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import Color from 'color-js'
 import SwitchBase from 'components/kit/SwitchBase'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const getBarColor = ({ color, checked, hovered, parentHovered }) =>
   checked || hovered || parentHovered
@@ -77,7 +77,9 @@ const styles = theme => ({
   },
 })
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
   name?: string,
   color?: string,
   onChange?: Function,
@@ -85,18 +87,18 @@ type Props = {
   defaultChecked?: boolean,
   disabled?: boolean,
   parentHovered?: boolean,
-  inputRef: ?Function,
-  inputProps: {},
-}
+  inputRef?: ?Function,
+  inputProps?: Object,
+|}
 
 let SwitchUncontrolled = ({
+  checked,
   classes,
   className,
-  inputRef,
-  name,
-  checked,
   disabled,
   inputProps,
+  inputRef,
+  name,
   onToggle,
 }) => (
   <label className={cx(classes.root, className)}>
@@ -123,15 +125,12 @@ SwitchUncontrolled = injectStyles(styles, { inject: ['theme', 'classes'] })(
   SwitchUncontrolled
 )
 
-export default class Switch extends React.Component<Props> {
-  render() {
-    const { checked, defaultChecked, onChange, ...props } = this.props
-    return (
-      <SwitchBase on={checked} defaultOn={defaultChecked} onToggle={onChange}>
-        {({ on, toggle }) => (
-          <SwitchUncontrolled checked={on} onToggle={toggle} {...props} />
-        )}
-      </SwitchBase>
-    )
-  }
-}
+const Switch = ({ checked, defaultChecked, onChange, ...props }: Props) => (
+  <SwitchBase on={checked} defaultOn={defaultChecked} onToggle={onChange}>
+    {({ on, toggle }) => (
+      <SwitchUncontrolled checked={on} onToggle={toggle} {...props} />
+    )}
+  </SwitchBase>
+)
+
+export default Switch

@@ -6,12 +6,12 @@ import type { ContentRenderer } from 'recharts'
 const LEGEND_COLOR = '#808080'
 const LEGEND_SECOND_COLOR = '#B3B3B3'
 
-type RechartsPayload = { value: string }
+interface RechartsPayload { value: string }
 
-type Props = {
-  payload: RechartsPayload,
-  x: number,
-  y: number,
+interface Props {
+  payload: RechartsPayload;
+  x: number;
+  y: number;
 }
 
 const Tick: ContentRenderer<Props> = ({ payload: { value }, x, y }: Props) => {

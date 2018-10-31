@@ -1,15 +1,17 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
-import Paper from 'components/kit/Paper'
+import Paper, { type PaperProps } from 'components/kit/Paper'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Arrow from './Arrow'
 
-type Props = {
-  direction: 'up' | 'left' | 'right' | 'down',
+type Props = {|
+  ...PaperProps,
+  ...InjectStylesProps,
+  //
   align: 'center' | 'start' | 'end',
   arrowProps: Object,
-}
+|}
 
 const ARROW_WIDTH = 24
 const ARROW_HEIGHT = 12
@@ -50,14 +52,14 @@ const styles = {
   },
   left: {
     '& $arrow': {
-      left: -ARROW_HEIGHT * 1.5, // +0.5 изза поворота
+      left: -ARROW_HEIGHT * 1.5, // +0.5 из-за поворота
       transform: 'rotate(-90deg)',
       filter: `drop-shadow(0px -3px 2px rgba(0, 0, 0, 0.1))`,
     },
   },
   right: {
     '& $arrow': {
-      right: -ARROW_HEIGHT * 1.5, // +0.5 изза поворота
+      right: -ARROW_HEIGHT * 1.5, // +0.5 из-за поворота
       transform: 'rotate(90deg)',
       filter: `drop-shadow(0px -3px 2px rgba(0, 0, 0, 0.1))`,
     },

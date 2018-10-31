@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Total from './Total'
 
 const styles = {
@@ -12,13 +12,12 @@ const styles = {
   },
 }
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
   income: number,
   spending: number,
-  // Styles
-  classes: Object,
-  className: ?string,
-}
+|}
 
 const Totals = ({ className, classes, income, spending }: Props) => {
   const total = income - spending

@@ -4,7 +4,7 @@ import type { CategoryListData } from 'components/CategoryList'
 interface CategoryLike {
   name: string;
   value: number;
-  color: ?string;
+  color?: string;
 }
 
 export type Categories = Array<CategoryLike>

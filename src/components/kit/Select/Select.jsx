@@ -16,7 +16,7 @@ const REVERSE_DIRECTION = {
   right: 'left',
 }
 
-export type Props = {
+export type Props = {|
   direction?: 'up' | 'down',
   align?: 'start' | 'center' | 'end',
   alignByArrow?: boolean,
@@ -24,7 +24,7 @@ export type Props = {
   dropdownWidth?: number,
   stretchDropdown?: boolean,
   formatValue: any => any,
-}
+|}
 
 const DEFAULT_WIDTH = 250
 

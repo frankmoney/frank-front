@@ -1,13 +1,13 @@
 // @flow
 import React from 'react'
 import * as R from 'ramda'
-import { injectStyles } from '@frankmoney/ui'
 import Bar, {
   POSITIVE_BAR_COLOR,
   PRIMARY_BAR_COLOR,
+  type BarData,
 } from 'components/Charts/Bar'
-import type { BarData } from 'components/Charts/Bar'
 import Checkbox from 'components/Checkbox'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const MAX_ZEROES_TO_HIDE = 0.5
 
@@ -29,16 +29,16 @@ const styles = theme => ({
   },
 })
 
-type Props = {
-  classes: Object,
-  className: ?string,
-  data: ?BarData,
-}
+type Props = {|
+  ...InjectStylesProps,
+  //
+  data?: BarData,
+|}
 
-type State = {
+type State = {|
   income: boolean,
   spending: boolean,
-}
+|}
 
 const countZeroes = prop =>
   R.pipe(

@@ -1,11 +1,9 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import { createPortal } from 'react-dom'
-import ArrowPaper from 'components/kit/ArrowPaper'
 import Backdrop from 'components/kit/Backdrop'
 import Menu from 'components/kit/Menu'
 import ArrowMenu from 'components/kit/ArrowMenu'
-import Paper from 'components/kit/Paper'
 import PopupBase from 'components/kit/PopupBase'
 
 const REVERSE_DIRECTION = {
@@ -15,12 +13,18 @@ const REVERSE_DIRECTION = {
   right: 'left',
 }
 
-export type Props = {
-  direction?: 'up' | 'down',
+export type DropdownMenuProps = {|
+  direction: 'up' | 'down',
   align?: 'start' | 'center' | 'end',
   alignByArrow?: boolean,
   arrowAt?: 'start' | 'center' | 'end',
-}
+|}
+
+type Props = {|
+  ...DropdownMenuProps,
+  //
+  children?: React.Element<any>,
+|}
 
 const DEFAULT_WIDTH = 250
 

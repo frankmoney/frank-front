@@ -1,26 +1,30 @@
 // @flow
 /* eslint-disable react/no-find-dom-node */
-import React from 'react'
+import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import * as R from 'ramda'
 import chainCallbacks from 'utils/dom/chainCallbacks'
 import isElementVisible from 'utils/dom/isElementVisible'
 import Context from './SelectListContext'
 
-type Value = any
+type Val = any
+type Value = Val | Array<Val>
 
-export type Props = {
-  value?: Value | Array<Value>,
-  defaultValue?: Value | Array<Value>,
-  onChange?: (Value | Array<Value>) => void,
-  autoFocus?: boolean,
+export type SelectListBaseProps = {|
   activeOnFocus?: boolean,
-  scrollContainer?: Element | Window,
+  autoFocus?: boolean,
+  children?: React.Node,
+  defaultValue?: Value,
   multiple?: boolean,
+  onChange?: Value => void,
+  scrollContainer?: Element | Window,
+  value?: Value,
   // ставит активный элемент при фокусе
   onSelectElement?: Element => void,
   onActiveElementChange: (?Element, number, Array<Element>) => void,
-}
+|}
+
+type Props = SelectListBaseProps
 
 const MENU_STYLE = {
   outline: 'none', // remove focus outline.
@@ -86,20 +90,24 @@ class SelectListBase extends React.Component<Props> {
   itemElementsByValue: Map<any, Element> = new Map()
   itemElementsByCallback: Map<Function, Element> = new Map()
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlledValue() {
     return typeof this.props.value !== 'undefined'
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get value() {
     return this.isControlledValue ? this.props.value : this.state.value
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get hasValue() {
     return this.props.multiple
       ? !R.isNil(this.value) && this.value.length > 0
       : !R.isNil(this.value)
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get scrollContainer() {
     return this.props.scrollContainer || this.containerElement
   }

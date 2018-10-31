@@ -1,9 +1,9 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { Spinner } from '@frankmoney/components'
-import ButtonBase from './ButtonBase'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import ButtonBase, { type ButtonBaseProps } from './ButtonBase'
 import styles from './IconButton.jss'
 
 type IconButtonColor =
@@ -14,13 +14,17 @@ type IconButtonColor =
   | 'lightBlue'
   | 'lightGreen'
 
-type Props = {
+type Props = {|
+  ...ButtonBaseProps,
+  ...InjectStylesProps,
+  //
   active?: boolean,
   disabled?: boolean,
   hover?: boolean,
-  icon: React.ReactNode,
+  icon: React.Node,
   color: IconButtonColor,
-}
+  loading?: boolean,
+|}
 
 const IconButton = ({
   children,

@@ -1,8 +1,8 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { Spinner } from '@frankmoney/components'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import FloatingLabel from './FloatingLabel'
 import Label from './Label'
 import Placeholder from './Placeholder'
@@ -11,24 +11,32 @@ import ValidationLabel from './ValidationLabel'
 import FieldContext from './FieldContext'
 import styles from './Field.jss'
 
-type Props = {
-  larger?: boolean,
+type Props = {|
+  ...InjectStylesProps,
+  //
+  additionalLabel?: string,
+  children?: React.Element<any>,
+  disabled?: boolean,
   error?: string,
+  floatingLabel?: string,
+  focus?: boolean,
   hint?: string,
   label?: string,
-  floatingLabel?: string,
-  additionalLabel?: string,
-  focus?: boolean,
-  disabled?: boolean,
+  larger?: boolean,
   loading?: boolean,
   loadingText?: string,
   placeholder?: string,
-}
+|}
+
+type State = {|
+  focus?: boolean,
+  filled?: boolean,
+|}
 
 const combineCallbacks = (...cb) => (...args) =>
   cb.forEach(fn => fn && fn(...args))
 
-class Field extends React.Component<Props> {
+class Field extends React.Component<Props, State> {
   static defaultProps = {
     loadingText: 'Loading',
   }
@@ -38,14 +46,17 @@ class Field extends React.Component<Props> {
     filled: this.isFilledDefault,
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isFilledDefault() {
     return !!this.controlProps.value || !!this.controlProps.defaultValue
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get controlProps() {
     return React.Children.only(this.props.children).props
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlledFocus() {
     return typeof this.props.focus !== 'undefined'
   }

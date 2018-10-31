@@ -1,14 +1,15 @@
 // @flow
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import * as React from 'react'
-import { injectStyles } from '@frankmoney/ui'
 import Fade from 'material-ui/transitions/Fade'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import SidebarPanel from './SidebarPanel'
 import styles, { TOGGLE_DURATION } from './SidebarContainer.jss'
 
-type Props = {
-  children: React.Node,
-  classes: Object,
+type Props = {|
+  ...InjectStylesProps,
+  //
+  children?: React.Node,
   overlayOn: boolean,
   open: boolean,
   // sidebar panel width
@@ -20,9 +21,9 @@ type Props = {
   AccountsSwitchMenuComponent?: () => Element,
   renderGlobalMenuItems?: () => Array<Element>,
   BottomMenuComponent?: () => Element,
-}
+|}
 
-class SidebarContainer extends React.Component<Props, void> {
+class SidebarContainer extends React.Component<Props> {
   static defaultProps = {
     minContentWidth: 1000,
     isFixed: true,

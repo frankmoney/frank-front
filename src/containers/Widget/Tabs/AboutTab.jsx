@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Totals from '../Totals'
 
 const styles = theme => ({
@@ -21,10 +21,9 @@ const styles = theme => ({
   },
 })
 
-type Props = {
-  classes: Object,
-  className: ?string,
-}
+type Props = {|
+  ...InjectStylesProps,
+|}
 
 const AboutTab = ({ classes, className }: Props) => (
   <div className={cx(classes.root, className)}>

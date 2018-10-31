@@ -2,7 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { ArrowBack as IconArrowBack } from 'material-ui-icons'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = theme => ({
   root: {
@@ -24,13 +24,12 @@ const styles = theme => ({
 
 type EmptyCb = () => void
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
   name: string,
-  onClick: ?EmptyCb,
-  // Styles
-  classes: Object,
-  className: ?string,
-}
+  onClick?: EmptyCb,
+|}
 
 const CategoryName = ({ classes, className, name, onClick }: Props) => (
   <div

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import DashedLine from './DashedLine'
 
 const BASE_LINE_COLOR = '#E5E5E5'
@@ -14,15 +14,15 @@ const styles = {
   },
 }
 
-type Props = {
-  classes: Object,
-  className: ?string,
+type Props = {|
+  ...InjectStylesProps,
+  //
   dual: boolean,
   height: number,
   hideBaseLine: boolean,
   steps: number,
   width: number,
-}
+|}
 
 const Grid = ({
   classes,

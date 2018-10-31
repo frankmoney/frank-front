@@ -1,13 +1,20 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 
-type Props = {
+type Props = {|
+  children?: React.Node,
+  defaultOn: boolean,
   on?: boolean,
   onToggle: boolean => void,
-}
+|}
+
+type State = {|
+  on: boolean,
+|}
 
 const SwitchContext = React.createContext({})
 
-export default class SwitchBase extends React.Component<Props> {
+export default class SwitchBase extends React.Component<Props, State> {
   static Consumer = SwitchContext.Consumer
 
   static defaultProps = {
@@ -18,11 +25,12 @@ export default class SwitchBase extends React.Component<Props> {
     on: this.props.defaultOn,
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlled() {
     return typeof this.props.on !== 'undefined'
   }
 
-  getState = (state = this.state) => ({
+  getState = (state: State = this.state) => ({
     on: this.isControlled ? this.props.on : state.on,
     toggle: this.toggle,
   })

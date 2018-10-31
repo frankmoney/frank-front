@@ -1,42 +1,44 @@
-/* eslint-disable react/no-find-dom-node */
 // @flow
-import React from 'react'
+/* eslint-disable react/no-find-dom-node */
+import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import positionElement from 'utils/dom/positionElement'
 
-type RefHandler = (React.ComponentType | Element) => void
+type RefHandler = (React.ComponentType<any> | Element) => void
 
-type ArrowProps = {
+type ArrowProps = {|
   ref: RefHandler,
-}
+|}
 
-type AnchorProps = {
+type AnchorProps = {|
   ref: RefHandler,
-}
+|}
 
-type PopupProps = {
+type PopupProps = {|
   ref: RefHandler,
   style: Object,
-}
+|}
 
-export type Props = {
+type EmptyCb = () => void
+
+export type Props = {|
+  align?: 'start' | 'center' | 'end',
+  alignByArrow?: boolean, // в этом случае попап будет равняться стрелкой по анкору
+  alignmentOffset?: number,
+  children: React.StatelessFunctionalComponent<any>,
   defaultOpen?: boolean,
+  distance?: number,
+  onClose: EmptyCb,
+  onChangeOpen?: EmptyCb,
   open?: boolean,
   place?: 'up' | 'down' | 'left' | 'right',
-  align?: 'start' | 'center' | 'end',
-  // в этом случае попап будет равняться стрелкой по анкору
-  alignByArrow?: boolean,
-  distance?: number,
-  alignmentOffset?: number,
-  onClose?: () => void,
-  onChangeOpen?: () => void,
-}
+|}
 
-export type RenderProps = {
+export type PopupRenderProps = {
   open: boolean,
-  close: () => void,
-  show: () => void,
-  toggle: () => void,
+  close: EmptyCb,
+  show: EmptyCb,
+  toggle: EmptyCb,
   popupEl: Element,
   anchorEl: Element,
   getArrowProps: Object => ArrowProps,
@@ -44,7 +46,7 @@ export type RenderProps = {
   getPopupProps: Object => PopupProps,
 }
 
-type getRenderPropsFn = () => RenderProps
+type getRenderPropsFn = () => PopupRenderProps
 
 class PopupBase extends React.Component<Props> {
   static defaultProps = {
@@ -55,10 +57,12 @@ class PopupBase extends React.Component<Props> {
     offset: 0,
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlled() {
     return typeof this.props.open !== 'undefined'
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isOpen() {
     return this.isControlled ? this.props.open : this.state.open
   }

@@ -2,28 +2,29 @@
 import * as React from 'react'
 import type { CategoryListProps, CategoryCb } from 'components/CategoryList'
 import type { Categories } from 'components/CategoryListPieChart'
+import type { InjectStylesProps } from 'utils/styles'
 
 export type CategoryListComponent = React.ComponentType<CategoryListProps>
 
 export type CategoryListPieChartRootComponent = React.ComponentType<any>
 
-export type Props = {
+export type Props = {|
+  ...InjectStylesProps,
+  //
   CategoryList: CategoryListComponent,
   categoryType: string,
-  categoryTypeSelectLabel: ?string,
+  categoryTypeSelectLabel?: string,
   chartSize: number,
   component: CategoryListPieChartRootComponent,
   data: Categories,
   // Handlers
-  onCategoryClick: ?CategoryCb,
-  onCategoryTypeChange: ?CategoryCb,
+  onCategoryClick?: CategoryCb,
+  onCategoryTypeChange?: CategoryCb,
   // Styles
-  classes: Object,
-  className: ?string,
-  categoryTypeSelectClassName: ?string,
-  chartClassName: ?string,
-}
+  categoryTypeSelectClassName?: string,
+  chartClassName?: string,
+|}
 
-export type State = {
+export type State = {|
   activeCategoryIndex: ?number,
-}
+|}
