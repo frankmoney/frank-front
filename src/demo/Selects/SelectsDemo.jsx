@@ -1,14 +1,11 @@
+// @flow
 import { MoreHoriz } from 'material-ui-icons'
-import { createPortal } from 'react-dom'
 import React from 'react'
 import * as R from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
-import Backdrop from 'components/kit/Backdrop'
-import ArrowPaper from 'components/kit/ArrowPaper'
-import Menu from 'components/kit/Menu/Menu'
+import ButtonMenu from 'components/kit/ButtonMenu'
 import MenuItem from 'components/kit/Menu/MenuItem'
-import Paper from 'components/kit/Paper'
-import PopupBase from 'components/kit/PopupBase'
+import SelectField from 'components/kit/SelectField'
 import ToggleButton from 'components/kit/ToggleButton'
 
 const styles = {
@@ -65,91 +62,55 @@ const styles = {
   },
 }
 
-const REVERSE_DIRECTION = {
-  up: 'down',
-  down: 'up',
-  left: 'right',
-  right: 'left',
-}
+const fakeAction = R.memoizeWith(R.identity, msg => () => alert(msg))
 
-const PaperPopup = ({
-  place,
-  arrow,
-  align = 'center',
-  popup,
-  children,
-  renderPopup,
-}) => {
-  const PaperComponent = arrow ? ArrowPaper : Paper
-
-  return (
-    <PopupBase place={place} align={align} distance={15}>
-      {popupProps => {
-        const { open, close, getPopupProps, getArrowProps } = popupProps
-        return (
-          <>
-            {typeof children === 'function' && children(popupProps)}
-            {open &&
-              createPortal(
-                <Backdrop transparent onClick={close}>
-                  <PaperComponent
-                    {...getPopupProps()}
-                    arrowProps={arrow && getArrowProps()}
-                    direction={REVERSE_DIRECTION[place]}
-                    align={align}
-                  >
-                    {popup || renderPopup(popupProps)}
-                  </PaperComponent>
-                </Backdrop>,
-                document.body
-              )}
-          </>
-        )
-      }}
-    </PopupBase>
-  )
-}
-
-const ButtonMenu = ({
-  classes,
-  children,
-  menuProps = { style: { width: 250 } },
-  popupProps,
-  ...props
-}) => (
-  <PaperPopup
-    renderPopup={({ close }) => (
-      <Menu autoFocus {...menuProps} onSelectElement={close}>
-        {children}
-      </Menu>
-    )}
-    {...popupProps}
-  >
-    {({ open, toggle, getAnchorProps }) => (
-      <ToggleButton.Icon
-        icon={<MoreHoriz />}
-        on={open}
-        onClick={toggle}
-        {...getAnchorProps(props)}
-      />
-    )}
-  </PaperPopup>
+const renderEllipsisButton = popupState => (
+  <ToggleButton.Icon
+    icon={<MoreHoriz />}
+    on={popupState.open}
+    onClick={popupState.toggle}
+    {...popupState.getAnchorProps()}
+  />
 )
 
-const alertMessage = R.memoizeWith(R.identity, msg => () => alert(msg))
+export const ROLE_TEXT = {
+  admin: 'Administrator',
+  manager: 'Manager',
+  observer: 'Observer',
+}
+
+const commaSeparatedValue = values =>
+  !values || values.length === 0
+    ? ''
+    : values.map(value => ROLE_TEXT[value]).join(',')
 
 const SelectListsDemo = ({ classes }) => (
   <div className={classes.demo}>
     <h1>ButtonMenu</h1>
     <div className={classes.rowCentered}>
-      <ButtonMenu>
-        <MenuItem onSelect={alertMessage('published')} label="Publish" />
-        <MenuItem
-          color="red"
-          onSelect={alertMessage('deleted')}
-          label="Delete"
-        />
+      <ButtonMenu arrowEnd alignByArrow renderButton={renderEllipsisButton}>
+        <MenuItem label="Publish" onSelect={fakeAction('published')} />
+        <MenuItem color="red" label="Delete" onSelect={fakeAction('deleted')} />
       </ButtonMenu>
+    </div>
+    <h1>Select</h1>
+    <div className={classes.row}>
+      <SelectField stretchDropdown label="Role" placeholder="Select team role">
+        <MenuItem value="admin" label="Administrator" />
+        <MenuItem value="manager" label="Manager" />
+        <MenuItem value="observer" label="Observer" />
+      </SelectField>
+      <SelectField
+        multiple
+        formatValue={commaSeparatedValue}
+        stretchDropdown
+        label="Roles"
+        placeholder="Select multiple roles"
+      >
+        <MenuItem value="admin" label="Administrator" />
+        <MenuItem value="manager" label="Manager" />
+        <MenuItem value="observer" label="Observer" />
+      </SelectField>
     </div>
   </div>
 )

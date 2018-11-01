@@ -10,7 +10,10 @@ const styles = {
 }
 
 class Field extends React.Component {
-  state = { fieldFocused: false, controlFocused: false }
+  state = {
+    fieldFocused: false,
+    controlFocused: false,
+  }
 
   childrenRef = children => {
     this.children = children

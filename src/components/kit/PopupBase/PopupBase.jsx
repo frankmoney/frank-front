@@ -1,17 +1,52 @@
-/* eslint-disable react/no-find-dom-node */
 // @flow
-import React from 'react'
+/* eslint-disable react/no-find-dom-node */
+import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import positionElement from 'utils/dom/positionElement'
 
-type Props = {
+type RefHandler = (React.ComponentType<any> | Element) => void
+
+type ArrowProps = {|
+  ref: RefHandler,
+|}
+
+type AnchorProps = {|
+  ref: RefHandler,
+|}
+
+type PopupProps = {|
+  ref: RefHandler,
+  style: Object,
+|}
+
+type EmptyCb = () => void
+
+export type Props = {|
+  align?: 'start' | 'center' | 'end',
+  alignByArrow?: boolean, // в этом случае попап будет равняться стрелкой по анкору
+  alignmentOffset?: number,
+  children: React.StatelessFunctionalComponent<any>,
   defaultOpen?: boolean,
+  distance?: number,
+  onClose: EmptyCb,
+  onChangeOpen?: EmptyCb,
   open?: boolean,
   place?: 'up' | 'down' | 'left' | 'right',
-  align?: 'start' | 'center' | 'end',
-  distance?: number,
-  alignmentOffset?: number,
+|}
+
+export type PopupRenderProps = {
+  open: boolean,
+  close: EmptyCb,
+  show: EmptyCb,
+  toggle: EmptyCb,
+  popupEl: Element,
+  anchorEl: Element,
+  getArrowProps: Object => ArrowProps,
+  getAnchorProps: Object => AnchorProps,
+  getPopupProps: Object => PopupProps,
 }
+
+type getRenderPropsFn = () => PopupRenderProps
 
 class PopupBase extends React.Component<Props> {
   static defaultProps = {
@@ -22,25 +57,59 @@ class PopupBase extends React.Component<Props> {
     offset: 0,
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlled() {
     return typeof this.props.open !== 'undefined'
   }
 
-  open = () => {
+  // flowlint-next-line unsafe-getters-setters:off
+  get isOpen() {
+    return this.isControlled ? this.props.open : this.state.open
+  }
+
+  open = callback => {
     if (!this.isControlled) {
-      this.setState({ open: true })
+      this.setState({ open: true }, () => {
+        if (typeof callback === 'function') {
+          callback()
+        }
+        if (typeof this.props.onChangeOpen === 'function') {
+          this.props.onChangeOpen(this.state.open)
+        }
+      })
+    } else if (typeof this.props.onChangeOpen === 'function') {
+      this.props.onChangeOpen(true)
     }
   }
 
-  close = () => {
+  close = callback => {
     if (!this.isControlled) {
-      this.setState({ open: false })
+      this.setState({ open: false }, () => {
+        if (typeof this.props.onClose === 'function') {
+          this.props.onClose()
+        }
+        if (typeof this.props.onChangeOpen === 'function') {
+          this.props.onChangeOpen(this.state.open)
+        }
+        if (typeof callback === 'function') {
+          callback()
+        }
+      })
+    } else {
+      if (typeof this.props.onClose === 'function') {
+        this.props.onClose()
+      }
+      if (typeof this.props.onChangeOpen === 'function') {
+        this.props.onChangeOpen(false)
+      }
     }
   }
 
-  toggle = () => {
-    if (!this.isControlled) {
-      this.setState(state => ({ open: !state.open }))
+  toggle = callback => {
+    if (this.isOpen) {
+      this.close(callback)
+    } else {
+      this.open(callback)
     }
   }
 
@@ -72,7 +141,7 @@ class PopupBase extends React.Component<Props> {
 
   _getPopupPositionStyles = state => {
     const { popupEl, anchorEl, arrowEl } = state
-    const open = this.isControlled ? this.props.open : this.state.open
+    const open = this.isOpen
 
     const { align, distance, place, alignmentOffset } = this.props
     const defaultStyles = {
@@ -103,7 +172,7 @@ class PopupBase extends React.Component<Props> {
       ? positionElement({
           element: popupEl,
           anchorElement: anchorEl,
-          arrowElement: arrowEl,
+          arrowElement: this.props.alignByArrow ? arrowEl : null,
           preferredPlacement: `${place}-${normalizedAlign}`,
           autoReposition: false,
           alignmentOffset,
@@ -114,8 +183,8 @@ class PopupBase extends React.Component<Props> {
     return popupStyles
   }
 
-  getRenderProps = () => ({
-    open: this.isControlled ? this.props.open : this.state.open,
+  getRenderProps: getRenderPropsFn = () => ({
+    open: this.isOpen,
     close: this.close,
     show: this.open,
     toggle: this.toggle,

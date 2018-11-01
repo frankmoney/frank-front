@@ -2,7 +2,7 @@
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import colors from 'styles/colors'
 import Widget from './Widget'
 
@@ -69,10 +69,13 @@ const styles = theme => ({
   },
 })
 
-type Props = {
-  size: 400 | 500 | 625 | 800,
-  classes: Object,
-}
+type InlineWidgetSize = 400 | 500 | 625 | 800
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  size: InlineWidgetSize,
+|}
 
 const barsHeight = R.cond([
   [R.equals(500), R.always(146)],

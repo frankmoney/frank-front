@@ -6,12 +6,12 @@ import D from 'date-fns/fp'
 import { compose } from 'recompose'
 import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
-import { injectStyles } from '@frankmoney/ui'
 import CurrencyProvider from 'components/CurrencyProvider'
 import {
   paymentsSelector,
   showCategoriesSelector,
 } from 'containers/Widget/selectors'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import PaymentBlock from './PaymentBlock'
 import type { PaymentProps } from './Payment.flow'
 
@@ -35,16 +35,16 @@ const groupPayments = R.pipe(
   }))
 )
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
   data: Array<PaymentProps>,
   showCategories: boolean,
   // Styles
-  classes: Object,
-  className: ?string,
-  blockClassName: ?string,
-  blockTitleClassName: ?string,
-  paymentClassName: ?string,
-}
+  blockClassName?: string,
+  blockTitleClassName?: string,
+  paymentClassName?: string,
+|}
 
 const Payments = ({
   blockClassName,

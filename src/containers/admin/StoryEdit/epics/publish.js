@@ -1,14 +1,10 @@
-import { replace as replaceLocation } from 'react-router-redux'
-import { createRouteUrl } from '@frankmoney/utils'
-import { currentAccountIdSelector } from 'redux/selectors/user'
-import { ROUTES } from 'const'
 import ACTIONS from '../actions'
-import QUERIES from '../queries'
-import { storySelector } from '../selectors'
 
-export default (action$, store, { graphql }) =>
+export default action$ =>
   action$
     .ofType(ACTIONS.publish)
+    .map(() => ACTIONS.createOrUpdate({ publish: true }))
+/*
     .switchMap(({ payload: isPublished }) => {
       const state = store.getState()
       const accountId = currentAccountIdSelector(state)
@@ -29,3 +25,4 @@ export default (action$, store, { graphql }) =>
             ]
           : [ACTIONS.publish.success(data)]
     )
+*/

@@ -1,30 +1,42 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { CheckCircle } from 'material-ui-icons'
 import Color from 'color-js'
 import SelectListBase from 'components/kit/SelectListBase'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-type Props = {
+export type MenuItemProps = {|
   label: string,
   selected?: boolean,
   active?: boolean,
-  // eslint-disable-next-line react/no-unused-prop-types
+  noAnimation?: boolean,
+  renderCheck?: boolean,
   color?: string,
-  icon?: ?Element,
-  renderIcon?: Props => Element,
-}
+  icon?: React.Element<any>,
+  renderIcon?: any => React.Node,
+|}
+
+type Props = {|
+  ...MenuItemProps,
+  ...InjectStylesProps,
+|}
+
+const getActiveBackgroundColor = ({ color }) =>
+  color ? Color('#fff').blend(Color(color), 0.06) : '#f2f2f4' // rgba(37, 43, 67, 0.04)
+
+export const MENU_ITEM_HEIGHT = 50
 
 const styles = theme => ({
   root: {
-    height: 50,
+    height: MENU_ITEM_HEIGHT,
     padding: [0, 15],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     background: 'transparent',
-    transition: theme.transition('background-color'),
+    transition: props =>
+      props.noAnimation ? 'none' : theme.transition('background-color'),
     color: props => props.color,
     outline: 'none',
     userSelect: 'none',
@@ -57,10 +69,7 @@ const styles = theme => ({
     },
   },
   active: {
-    background: props =>
-      props.color
-        ? Color(props.color).setAlpha(0.06)
-        : 'rgba(37, 43, 67, 0.04)',
+    background: getActiveBackgroundColor,
   },
 })
 
@@ -72,6 +81,7 @@ const MenuItem = ({
   label,
   color,
   icon,
+  noAnimation,
   renderIcon,
   theme,
   renderCheck,
@@ -85,6 +95,7 @@ const MenuItem = ({
       active && classes.active,
       className
     )}
+    data-active-color={getActiveBackgroundColor({ color })}
     {...otherProps}
   >
     <div className={classes.label}>
@@ -105,11 +116,12 @@ const MenuItem = ({
 
 MenuItem.defaultProps = {
   color: '#252B43',
+  noAnimation: false,
 }
 
 const StyledMenuItem = injectStyles(styles)(MenuItem)
 
-const SelectMenuItem = props => (
+const SelectMenuItem = (props: MenuItemProps) => (
   <SelectListBase.Consumer>
     {({ getItemProps }) => <StyledMenuItem {...getItemProps(props)} />}
   </SelectListBase.Consumer>

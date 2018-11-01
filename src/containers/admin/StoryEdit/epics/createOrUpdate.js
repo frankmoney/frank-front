@@ -1,10 +1,17 @@
+import { createRouteUrl } from '@frankmoney/utils'
 import * as R from 'ramda'
+import { replace as replaceLocation } from 'react-router-redux'
 import { getFormValues } from 'redux-form/immutable'
 import { currentAccountIdSelector } from 'redux/selectors/user'
+import { ROUTES } from 'const'
 import createFilesApi from 'data/api/files'
 import ACTIONS from '../actions'
 import QUERIES from '../queries'
-import { isNewStorySelector, storySelector } from '../selectors'
+import {
+  isDirtySelector,
+  isNewStorySelector,
+  storySelector,
+} from '../selectors'
 import { FORM_NAME } from '../constants'
 
 const cropCoverImage = async (httpClient, { image, crop }) => {
@@ -48,45 +55,72 @@ const cropCoverImage = async (httpClient, { image, crop }) => {
 export default (action$, store, { http: httpClient, graphql }) =>
   action$
     .ofType(ACTIONS.createOrUpdate)
-    .switchMapFromPromise(async () => {
+    .switchMapFromPromise(async ({ payload }) => {
       const state = store.getState()
-      const accountId = currentAccountIdSelector(state)
       const isNew = isNewStorySelector(state)
-      const storyId = !isNew && storySelector(state).id
+      const isDirty = isDirtySelector(state)
 
-      const {
-        title,
-        description,
-        coverImage,
-        coverCrop,
-        payments,
-      } = getFormValues(FORM_NAME)(state).toJS()
+      let story = storySelector(state)
 
-      const serializeImage = R.omit(['loading'])
-      const croppedCover =
-        coverImage && coverImage.length
-          ? JSON.stringify(
-              await cropCoverImage(httpClient, {
-                image: serializeImage(coverImage[0]),
-                crop: coverCrop,
-              })
-            )
-          : null
+      if (isNew || isDirty) {
+        const formValues = getFormValues(FORM_NAME)(state).toJS()
 
-      const storyData = {
-        accountId,
-        storyId,
-        title: title || '',
-        body: JSON.stringify(description ? { text: description } : {}),
-        coverImage: croppedCover,
-        paymentsIds: payments && R.map(R.prop('id'), payments),
+        const { title, description, cover, coverCrop, payments } = formValues
+
+        const body = JSON.stringify(description ? { text: description } : {})
+
+        const serializeImage = R.omit(['loading'])
+        const croppedCover =
+          cover && cover.length
+            ? JSON.stringify(
+                await cropCoverImage(httpClient, {
+                  image: serializeImage(cover[0]),
+                  crop: coverCrop,
+                })
+              )
+            : null
+
+        const paymentPids = payments && payments.map(R.prop('pid'))
+
+        const queryArgs = {
+          title,
+          cover: croppedCover,
+          body,
+          paymentPids,
+        }
+
+        if (isNew) {
+          const accountPid = currentAccountIdSelector(state)
+
+          story = await graphql(QUERIES.createStory, {
+            ...queryArgs,
+            accountPid,
+          })
+        } else {
+          const pid = storySelector(state).draft.pid
+
+          story = await graphql(QUERIES.updateStoryDraft, {
+            ...queryArgs,
+            pid,
+          })
+        }
       }
 
-      return graphql(
-        QUERIES.storyСreateOrUpdate({
-          isNew,
-        }),
-        storyData
-      )
+      if (payload && payload.publish) {
+        const draftPid = story.draft.pid
+
+        story = await graphql(QUERIES.publishStoryDraft, { draftPid })
+      }
+
+      return {
+        story,
+        published: payload && payload.publish,
+      }
     })
-    .map(ACTIONS.createOrUpdate.success)
+    .mergeMap(({ story, published }) =>
+      R.filter(R.identity, [
+        ACTIONS.createOrUpdate.success({ story }),
+        published && ACTIONS.publish.success({ story }),
+        published && replaceLocation(createRouteUrl(ROUTES.stories.root)),
+      ])
+    )

@@ -5,6 +5,7 @@ export default createActions('adminStoryEdit', {
   createOrUpdate: true,
   delete: true,
   publish: true,
+  unpublish: true,
   modifyStoryPaymentsList: false,
   filterPayments: true,
   loadMorePayments: true,

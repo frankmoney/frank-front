@@ -1,63 +1,67 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
-import Paper from 'components/kit/Paper'
-import Arrow from './arrow.svg'
+import Paper, { type PaperProps } from 'components/kit/Paper'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import Arrow from './Arrow'
 
-type Props = {
-  direction: 'up' | 'left' | 'right' | 'down',
+type Props = {|
+  ...PaperProps,
+  ...InjectStylesProps,
+  //
   align: 'center' | 'start' | 'end',
-  arrowRef: Element => void,
-}
+  arrowProps: Object,
+|}
 
 const ARROW_WIDTH = 24
 const ARROW_HEIGHT = 12
 const OFFSET = 18
 
+export const DEFAULT_DIRECTION = 'down'
+export const DEFAULT_ALIGN = 'center'
+
 const styles = {
   root: {
     position: 'relative',
+    overflow: 'unset',
+  },
+  content: {
+    overflow: 'auto',
+    borderRadius: 8,
   },
   arrow: {
     position: 'absolute',
     width: ARROW_WIDTH,
     height: ARROW_HEIGHT,
     pointerEvents: 'none',
+    fill: 'currentColor',
+    color: 'white',
   },
   up: {
     '& $arrow': {
       top: -ARROW_HEIGHT,
-      '& $arrowIcon': {
-        filter: `none`,
-      },
+      filter: `none`,
     },
   },
   down: {
     '& $arrow': {
       bottom: -ARROW_HEIGHT,
       transform: 'rotate(180deg)',
-      '& $arrowIcon': {
-        filter: `drop-shadow(0px -5px 3px rgba(0, 0, 0, 0.12));`,
-      },
+      filter: `drop-shadow(0px -5px 3px rgba(0, 0, 0, 0.12));`,
     },
   },
   left: {
     '& $arrow': {
-      left: -ARROW_HEIGHT * 1.5, // +0.5 изза поворота
+      left: -ARROW_HEIGHT * 1.5, // +0.5 из-за поворота
       transform: 'rotate(-90deg)',
-      '& $arrowIcon': {
-        filter: `drop-shadow(0px -3px 2px rgba(0, 0, 0, 0.1))`,
-      },
+      filter: `drop-shadow(0px -3px 2px rgba(0, 0, 0, 0.1))`,
     },
   },
   right: {
     '& $arrow': {
-      right: -ARROW_HEIGHT * 1.5, // +0.5 изза поворота
+      right: -ARROW_HEIGHT * 1.5, // +0.5 из-за поворота
       transform: 'rotate(90deg)',
-      '& $arrowIcon': {
-        filter: `drop-shadow(0px -3px 2px rgba(0, 0, 0, 0.1))`,
-      },
+      filter: `drop-shadow(0px -3px 2px rgba(0, 0, 0, 0.1))`,
     },
   },
   center: {
@@ -84,7 +88,6 @@ const styles = {
       bottom: OFFSET,
     },
   },
-  arrowIcon: {},
 }
 
 const ArrowPaper = ({
@@ -92,27 +95,24 @@ const ArrowPaper = ({
   classes,
   direction,
   align,
-  arrowRef,
   arrowProps,
   className,
   theme,
   ...otherProps
 }: Props) => (
   <Paper
-    type="popup"
+    type="menu"
     className={cx(classes.root, classes[direction], classes[align], className)}
     {...otherProps}
   >
-    {children}
-    <div ref={arrowRef} className={classes.arrow} {...arrowProps}>
-      <Arrow className={classes.arrowIcon} />
-    </div>
+    <div className={classes.content}>{children}</div>
+    <Arrow className={classes.arrow} {...arrowProps} />
   </Paper>
 )
 
 ArrowPaper.defaultProps = {
-  direction: 'down',
-  align: 'center',
+  direction: DEFAULT_DIRECTION,
+  align: DEFAULT_ALIGN,
 }
 
 export default injectStyles(styles)(ArrowPaper)

@@ -24,6 +24,7 @@ module.exports = {
   },
   rules: {
     "jsx-a11y/no-static-element-interactions": "warn",
+    'no-nested-ternary': 0,
     'import/extensions': 0,
     'import/no-extraneous-dependencies': 1,
     'import/order': 1,

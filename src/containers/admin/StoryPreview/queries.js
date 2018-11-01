@@ -1,39 +1,71 @@
-import { mapStory } from 'data/models/story'
+const storyFields = `
+  pid
+  publishedAt
+`
 
-const paymentScheme = `
-  {
+const storyDraftFields = `
+  pid
+  title
+  cover
+  body
+  published
+  publishedAt
+`
+
+const paymentFields = `
+  id: pid
+  postedOn
+  amount
+  description
+  peerName
+  peer {
     id: pid
-    postedOn
-    amount
-    peerName
-    description
-    category {
-      id
-      name
-      color
-    }
+    name
   }
-  `
+  category {
+    id: pid
+    name
+    color
+  }
+`
 
 export default {
   getStory: [
     `
     query(
-      $storyId: ID!
+      $accountPid: ID!
+      $storyPid: ID!
     ) {
-      story(id: $storyId) {
-        id: pid
-        data: draftData {
-          title
-          body
-          coverImage
-          payments ${paymentScheme}
-          countPayments
-          paymentsDateRange
+      account(pid: $accountPid) {
+        story(pid: $storyPid) {
+          ${storyFields}
+          draft {
+            ${storyDraftFields}
+            payments(
+              sortBy: amount_DESC
+            ) {
+              ${paymentFields}
+            }
+            countPayments
+            paymentsDateRange
+          }
         }
       }
     }
     `,
-    ({ story }) => ({ story: mapStory(story) }),
+    ({
+      account: {
+        story: {
+          draft: { countPayments, ...draft },
+          ...story
+        },
+      },
+    }) => ({
+      ...story,
+      draft: {
+        ...draft,
+        paymentsCount: countPayments,
+      },
+    }),
   ],
 }

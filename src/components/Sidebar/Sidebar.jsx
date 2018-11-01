@@ -7,13 +7,13 @@ import SidebarContainer from './SidebarContainer'
 
 type EmptyCb = () => void
 
-type Props = {
-  onToggleOpen: ?EmptyCb,
-  onToggleOverlay: ?EmptyCb,
+type Props = {|
+  onToggleOpen?: EmptyCb,
+  onToggleOverlay?: EmptyCb,
   open: boolean,
   overlayOn: boolean,
-  width: ?number,
-}
+  width?: number,
+|}
 
 const Sidebar = ({
   open,

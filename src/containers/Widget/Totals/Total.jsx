@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
   root: {
@@ -25,13 +25,12 @@ const styles = {
   },
 }
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
   label: string,
   value: number,
-  // Styles
-  classes: Object,
-  className: ?string,
-}
+|}
 
 const format = x => Math.round(x).toLocaleString('en-US')
 

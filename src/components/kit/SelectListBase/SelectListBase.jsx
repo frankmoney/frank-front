@@ -1,27 +1,33 @@
 // @flow
 /* eslint-disable react/no-find-dom-node */
-import React from 'react'
+import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import * as R from 'ramda'
 import chainCallbacks from 'utils/dom/chainCallbacks'
 import isElementVisible from 'utils/dom/isElementVisible'
 import Context from './SelectListContext'
 
-type Value = any
+type Val = any
+type Value = Val | Array<Val>
 
-type Props = {
-  value?: Value | Array<Value>,
-  defaultValue?: Value | Array<Value>,
-  onChange?: (Value | Array<Value>) => void,
+export type SelectListBaseProps = {|
+  activeOnFocus?: boolean,
   autoFocus?: boolean,
-  scrollContainer?: Element | Window,
-  onSelectElement?: Element => void,
+  children?: React.Node,
+  defaultValue?: Value,
   multiple?: boolean,
-}
+  onChange?: Value => void,
+  scrollContainer?: Element | Window,
+  value?: Value,
+  // ставит активный элемент при фокусе
+  onSelectElement?: Element => void,
+  onActiveElementChange: (?Element, number, Array<Element>) => void,
+|}
+
+type Props = SelectListBaseProps
 
 const MENU_STYLE = {
   outline: 'none', // remove focus outline.
-  overflow: 'auto', // cut menuitem background edges
 }
 
 const DEFAULT_ITEM_STYLE = {
@@ -30,7 +36,6 @@ const DEFAULT_ITEM_STYLE = {
 
 const SELECTED_ITEM_STYLE = {
   cursor: 'default',
-  // pointerEvents: 'none',
 }
 
 const memoize = fn => {
@@ -85,20 +90,24 @@ class SelectListBase extends React.Component<Props> {
   itemElementsByValue: Map<any, Element> = new Map()
   itemElementsByCallback: Map<Function, Element> = new Map()
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlledValue() {
     return typeof this.props.value !== 'undefined'
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get value() {
     return this.isControlledValue ? this.props.value : this.state.value
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get hasValue() {
     return this.props.multiple
       ? !R.isNil(this.value) && this.value.length > 0
       : !R.isNil(this.value)
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get scrollContainer() {
     return this.props.scrollContainer || this.containerElement
   }
@@ -118,7 +127,7 @@ class SelectListBase extends React.Component<Props> {
         ...props.style,
       },
       tabIndex: -1,
-      ref: chainCallbacks(this.handleContainerRef, props.ref),
+      ref: this.getContainerRefHandler(props.ref),
       onMouseLeave: chainCallbacks(
         this.handleContainerMouseLeave,
         props.onMouseLeave
@@ -184,27 +193,30 @@ class SelectListBase extends React.Component<Props> {
       : this.handleValueItemRef(ref, valueOrCallback)
   )
 
+  getContainerRefHandler = memoize(refHandler =>
+    chainCallbacks(refHandler, this.handleContainerRef)
+  )
+
+  getListItems = () =>
+    this.containerElement.querySelectorAll('*[data-select-role=item]')
+
   getTopViewportItem = () => {
     const scrollRect = this.scrollContainer.getBoundingClientRect()
-    return [
-      ...this.containerElement.querySelectorAll('*[data-select-role=item]'),
-    ].find(el => scrollRect.top <= el.getBoundingClientRect().top)
+    return [...this.getListItems()].find(
+      el => scrollRect.top <= el.getBoundingClientRect().top
+    )
   }
+
+  getItemIndex = elem => Array.prototype.indexOf.call(this.getListItems(), elem)
 
   getNextItem = elem =>
     elem
-      ? getNextListItem(
-          this.containerElement.querySelectorAll('*[data-select-role=item]'),
-          elem
-        )
+      ? getNextListItem(this.getListItems(), elem)
       : this.getTopViewportItem()
 
   getPrevItem = elem =>
     elem
-      ? getPrevListItem(
-          this.containerElement.querySelectorAll('*[data-select-role=item]'),
-          elem
-        )
+      ? getPrevListItem(this.getListItems(), elem)
       : this.getTopViewportItem()
 
   handleClick = event => {
@@ -220,7 +232,8 @@ class SelectListBase extends React.Component<Props> {
     if (itemRef) {
       const el = findDOMNode(itemRef)
       this.itemElementsByValue.set(value, el)
-    } else {
+      // мы должны очищать значение только когда пропадают айтемы в списке а не в результате анмаунта всего списка
+    } else if (!this.unmounted) {
       const el = this.itemElementsByValue.get(value)
       if (el) {
         this.itemElementsByValue.delete(value)
@@ -272,12 +285,14 @@ class SelectListBase extends React.Component<Props> {
 
   focus = () => {
     this.containerElement.focus()
-    if (!this.state.activeElement) {
-      if (this.hasValue) {
-        const firstValue = this.props.multiple ? this.value[0] : this.value
-        this.setActiveElement(this.itemElementsByValue.get(firstValue))
-      } else {
-        this.setActiveElement(this.getTopViewportItem())
+    if (this.props.activeOnFocus) {
+      if (!this.state.activeElement) {
+        if (this.hasValue) {
+          const firstValue = this.props.multiple ? this.value[0] : this.value
+          this.setActiveElement(this.itemElementsByValue.get(firstValue))
+        } else {
+          this.setActiveElement(this.getTopViewportItem())
+        }
       }
     }
   }
@@ -285,6 +300,9 @@ class SelectListBase extends React.Component<Props> {
   selectElement = element => {
     if (!element) {
       this.setValue(null)
+      if (typeof this.props.onSelectElement === 'function') {
+        this.props.onSelectElement(null)
+      }
       return
     }
 
@@ -306,7 +324,7 @@ class SelectListBase extends React.Component<Props> {
     }
 
     if (typeof this.props.onSelectElement === 'function') {
-      this.props.onSelectElement()
+      this.props.onSelectElement(element)
     }
   }
 
@@ -353,7 +371,18 @@ class SelectListBase extends React.Component<Props> {
   setActiveElement = (element, callback) => {
     // TODO controlled activeElement state
     if (this.state.activeElement !== element) {
-      this.setState({ activeElement: element }, callback)
+      this.setState({ activeElement: element }, () => {
+        if (typeof this.props.onActiveElementChange === 'function') {
+          this.props.onActiveElementChange(
+            element,
+            this.getItemIndex(element),
+            [...this.getListItems()]
+          )
+        }
+        if (typeof callback === 'function') {
+          callback()
+        }
+      })
     }
   }
 
@@ -439,6 +468,10 @@ class SelectListBase extends React.Component<Props> {
         this.focus()
       }
     })
+  }
+
+  componentWillUnmount() {
+    this.unmounted = true
   }
 
   render() {

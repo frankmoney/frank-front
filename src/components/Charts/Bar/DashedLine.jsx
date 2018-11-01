@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 
-type Props = { y: number, width: number }
+type Props = {| y: number, width: number |}
 
 const DashedLine = ({ y, width }: Props) => (
   <line

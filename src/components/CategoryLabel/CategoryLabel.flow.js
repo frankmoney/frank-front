@@ -1,22 +1,23 @@
 // @flow
+import type { InjectStylesProps } from 'utils/styles'
 
 type EmptyCb = () => void
 
-export type Props = {
-  active: ?boolean,
-  color: ?string,
-  name: ?string,
-  value: ?number,
-  valueUnit: ?string,
+export type Props = {|
+  ...InjectStylesProps,
+  //
+  active?: boolean,
+  color?: string,
+  name?: string,
+  value?: number,
+  valueUnit?: string,
   // Handlers
-  onClick: ?EmptyCb,
-  onMouseEnter: ?EmptyCb,
-  onMouseLeave: ?EmptyCb,
+  onClick?: EmptyCb,
+  onMouseEnter?: EmptyCb,
+  onMouseLeave?: EmptyCb,
   // Styles
-  classes: Object,
-  className: ?string,
-  activeClassName: ?string,
-  iconClassName: ?string,
-  nameClassName: ?string,
-  valueClassName: ?string,
-}
+  activeClassName?: string,
+  iconClassName?: string,
+  nameClassName?: string,
+  valueClassName?: string,
+|}

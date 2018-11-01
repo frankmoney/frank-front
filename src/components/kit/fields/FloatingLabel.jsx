@@ -18,12 +18,14 @@ const styles = {
     transition:
       'color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms, font-weight 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms',
     cursor: 'text',
+    pointerEvents: 'none',
   },
   shrink: {
     transform: `translate(0,${LABEL_TOP}px) scale(1)!important`,
     fontWeight: 500,
     color: 'rgba(37, 43, 67, 0.5)',
     lineHeight: LABEL_FONT_SIZE,
+    pointerEvents: 'auto',
   },
   larger: {
     transform: `translate(0, 18px) scale(${FONT_SIZE_LARGER /
