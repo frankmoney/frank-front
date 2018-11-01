@@ -1,18 +1,14 @@
 // @flow
 import * as React from 'react'
 import cx from 'classnames'
-import { Spinner } from '@frankmoney/components'
+import { Spinner } from '@frankmoney/components' // TODO: replace with the kit version
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import ButtonBase, { type ButtonBaseProps } from './ButtonBase'
-import styles from './IconButton.jss'
+import styles from './TextButton.jss'
 
-type TextButtonColor =
-  | 'red'
-  | 'green'
-  | 'blue'
-  | 'gray'
-  | 'lightBlue'
-  | 'lightGreen'
+type TextButtonColor = 'black' | 'blue' | 'gray' | 'lightBlue'
+
+type TextButtonSize = 16 | 18
 
 type Props = {|
   ...ButtonBaseProps,
@@ -22,53 +18,57 @@ type Props = {|
   color: TextButtonColor,
   disabled?: boolean,
   hover?: boolean,
-  icon: React.Node,
+  label: string,
   loading?: boolean,
+  size: TextButtonSize,
+  thin?: boolean,
 |}
 
-const IconButton = ({
-  children,
+const TextButton = ({
   classes,
   className,
   // states
   active,
   disabled,
   hover,
-  loading,
   // content
-  icon,
   color,
+  label,
+  loading,
+  size,
+  thin,
   ...baseButtonProps
 }: Props) => (
   <ButtonBase
     className={cx(
       classes.root,
       {
-        [classes.green]: color === 'green',
-        [classes.gray]: color === 'gray',
+        [classes.larger]: size === 18,
+        [classes.thin]: thin,
+        [classes.black]: color === 'black',
         [classes.blue]: color === 'blue',
         [classes.lightBlue]: color === 'lightBlue',
-        [classes.lightGreen]: color === 'lightGreen',
-        [classes.disabled]: disabled,
-        [classes.loading]: loading,
+        [classes.gray]: color === 'gray',
         [classes.active]: active,
         [classes.hover]: hover,
+        [classes.disabled]: disabled,
+        [classes.loading]: loading,
       },
       className
     )}
     {...baseButtonProps}
   >
-    {icon}
+    <span>{label}</span>
     {loading && <Spinner className={classes.spinner} size={20} />}
   </ButtonBase>
 )
 
-IconButton.defaultProps = {
+TextButton.defaultProps = {
   active: false,
   disabled: false,
   hover: false,
-  loading: false,
-  color: 'gray',
+  color: 'black',
+  size: 16,
 }
 
-export default injectStyles(styles)(IconButton)
+export default injectStyles(styles)(TextButton)

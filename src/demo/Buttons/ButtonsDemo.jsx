@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
 import {
   CheckCircle,
   Check,
@@ -8,8 +7,9 @@ import {
   ChatBubble,
   List,
 } from 'material-ui-icons'
-import Button, { IconButton } from 'components/kit/Button'
+import Button, { IconButton, TextButton } from 'components/kit/Button'
 import ToggleButton from 'components/kit/ToggleButton'
+import { injectStyles } from 'utils/styles'
 
 const styles = {
   demo: {
@@ -40,7 +40,7 @@ const styles = {
   row: {
     display: 'flex',
     alignItems: 'center',
-    width: 900,
+    minWidth: 400,
     '& > *': {
       marginRight: 20,
     },
@@ -212,7 +212,7 @@ const ButtonsDemo = ({ classes }) => (
         icon={<CheckCircle />}
         loading
       />
-    </div>0
+    </div>
     <h2>IconButton</h2>
     <div className={classes.row}>
       <IconButton icon={<MoreHoriz />} />
@@ -246,6 +246,35 @@ const ButtonsDemo = ({ classes }) => (
       />
       <ToggleButton.Icon icon={<MoreHoriz />} />
       <ToggleButton.Icon defaultOn colorOn="lightGreen" icon={<MoreHoriz />} />
+    </div>
+    <h2>TextButton</h2>
+    <div className={classes.row}>
+      <TextButton label="Button" />
+      <TextButton label="Button" hover />
+      <TextButton label="Button" active />
+      <TextButton label="Button" disabled />
+      <TextButton label="Button" loading />
+    </div>
+    <div className={classes.row}>
+      <TextButton label="Button" color="blue" />
+      <TextButton label="Button" color="blue" hover />
+      <TextButton label="Button" color="blue" active />
+      <TextButton label="Button" color="blue" disabled />
+      <TextButton label="Button" color="blue" loading />
+    </div>
+    <div className={classes.row}>
+      <TextButton label="Button" color="lightBlue" size={18} />
+      <TextButton label="Button" color="lightBlue" size={18} hover />
+      <TextButton label="Button" color="lightBlue" size={18} active />
+      <TextButton label="Button" color="lightBlue" size={18} disabled />
+      <TextButton label="Button" color="lightBlue" size={18} loading />
+    </div>
+    <div className={classes.row}>
+      <TextButton label="Button" color="gray" thin />
+      <TextButton label="Button" color="gray" thin hover />
+      <TextButton label="Button" color="gray" thin active />
+      <TextButton label="Button" color="gray" thin disabled />
+      <TextButton label="Button" color="gray" thin loading />
     </div>
     <h2>Different Buttons</h2>
     <div className={classes.row}>
