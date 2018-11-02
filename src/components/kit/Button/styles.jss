@@ -3,6 +3,7 @@ const DISABLED_COLORS = {
   color: 'rgba(37, 43, 67, 0.2)',
 }
 
+// eslint-disable-next-line import/prefer-default-export
 export const applyColors = theme => ({
   green: {
     backgroundColor: '#21CB61',
