@@ -182,21 +182,21 @@ const ButtonsDemo = ({ classes }) => (
       />
     </Row>
     <h2>IconButton</h2>
-    <Row>
+    <Row centered>
       <IconButton icon={<MoreHoriz />} />
       <IconButton icon={<MoreHoriz />} hover />
       <IconButton icon={<MoreHoriz />} active />
       <IconButton icon={<MoreHoriz />} disabled />
       <IconButton icon={<MoreHoriz />} loading />
     </Row>
-    <Row>
+    <Row centered>
       <IconButton icon={<MoreHoriz />} color="lightGreen" />
       <IconButton icon={<MoreHoriz />} color="lightGreen" hover />
       <IconButton icon={<MoreHoriz />} color="lightGreen" active />
       <IconButton icon={<MoreHoriz />} color="lightGreen" disabled />
       <IconButton icon={<MoreHoriz />} color="lightGreen" loading />
     </Row>
-    <Row>
+    <Row centered>
       <IconButton icon={<MoreHoriz />} color="lightBlue" />
       <IconButton icon={<MoreHoriz />} color="lightBlue" hover />
       <IconButton icon={<MoreHoriz />} color="lightBlue" active />
@@ -245,7 +245,7 @@ const ButtonsDemo = ({ classes }) => (
       <TextButton label="Button" color="gray" loading />
     </Row>
     <h2>Spinner</h2>
-    <Row>
+    <Row centered>
       <Spinner size={45} />
       <Spinner size={25} />
       <Spinner />

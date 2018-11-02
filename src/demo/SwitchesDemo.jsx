@@ -4,16 +4,12 @@ import { injectStyles } from '@frankmoney/ui'
 import Demo, { Row } from 'demo/Demo'
 import Checkbox from 'components/kit/Checkbox'
 
-const styles = {
-  centered: {
-    justifyContent: 'center',
-  },
-}
+const styles = {}
 
-const SwitchesDemo = ({ classes }) => (
+const SwitchesDemo = () => (
   <Demo>
     <h1>Checkbox</h1>
-    <Row className={classes.centered}>
+    <Row centered>
       <Checkbox />
       <Checkbox defaultChecked />
       <Checkbox disabled />

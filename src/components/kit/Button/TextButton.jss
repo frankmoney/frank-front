@@ -1,9 +1,12 @@
+const CLICK_PADDING = 4
+
 export default theme => ({
   root: {
-    ...theme.fontMedium(16, 36),
+    ...theme.fontMedium(16),
     alignItems: 'center',
     cursor: 'pointer',
     display: 'inline-flex',
+    padding: CLICK_PADDING,
     position: 'relative',
     transition: theme.transition('color'),
     userSelect: 'none',
@@ -12,7 +15,7 @@ export default theme => ({
     },
   },
   larger: {
-    fontSize: 18,
+    ...theme.fontMedium(18),
   },
   hover: {},
   active: {},
