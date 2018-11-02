@@ -9,6 +9,7 @@ import {
   List,
 } from 'material-ui-icons'
 import Button, { IconButton } from 'components/kit/Button'
+import Spinner from 'components/kit/Spinner'
 import ToggleButton from 'components/kit/ToggleButton'
 
 const styles = {
@@ -40,7 +41,7 @@ const styles = {
   row: {
     display: 'flex',
     alignItems: 'center',
-    width: 900,
+    minWidth: 400,
     '& > *': {
       marginRight: 20,
     },
@@ -212,7 +213,7 @@ const ButtonsDemo = ({ classes }) => (
         icon={<CheckCircle />}
         loading
       />
-    </div>0
+    </div>
     <h2>IconButton</h2>
     <div className={classes.row}>
       <IconButton icon={<MoreHoriz />} />
@@ -246,6 +247,13 @@ const ButtonsDemo = ({ classes }) => (
       />
       <ToggleButton.Icon icon={<MoreHoriz />} />
       <ToggleButton.Icon defaultOn colorOn="lightGreen" icon={<MoreHoriz />} />
+    </div>
+    <h2>Spinner</h2>
+    <div className={classes.row}>
+      <Spinner size={45} />
+      <Spinner size={25} />
+      <Spinner />
+      <Spinner size={18} />
     </div>
     <h2>Different Buttons</h2>
     <div className={classes.row}>
