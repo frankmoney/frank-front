@@ -1,11 +1,11 @@
 import React from 'react'
 import * as R from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
-import { Spinner } from '@frankmoney/components'
 import { required, createValidateFromRules } from '@frankmoney/forms'
 import { compose, withPropsOnChange, lifecycle } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
 import TextBoxField from 'components/forms/TextBoxField'
+import Spinner from 'components/kit/Spinner'
 import { Field } from 'components/Field'
 import reconnect from 'utils/reconnect'
 import * as ACTIONS from '../actions'
@@ -124,7 +124,7 @@ const StepForm = ({ classes, fields, submit, isChecking }) => (
         renderField({ ...field, classes, onSubmit: submit, isChecking, idx })
       )}
     </div>
-    {isChecking && <Spinner className={classes.spinner} />}
+    {isChecking && <Spinner className={classes.spinner} size={45} />}
   </>
 )
 

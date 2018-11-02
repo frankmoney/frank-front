@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import cx from 'classnames'
-import { Spinner } from '@frankmoney/components' // TODO: replace with the kit version
+import Spinner from 'components/kit/Spinner'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import ButtonBase, { type ButtonBaseProps } from './ButtonBase'
 import styles from './TextButton.jss'
