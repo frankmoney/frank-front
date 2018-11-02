@@ -14,9 +14,6 @@ export default theme => ({
   larger: {
     fontSize: 18,
   },
-  thin: {
-    fontWeight: 400,
-  },
   hover: {},
   active: {},
 

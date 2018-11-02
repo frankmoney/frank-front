@@ -231,18 +231,18 @@ const ButtonsDemo = ({ classes }) => (
       <TextButton label="Button" color="blue" loading />
     </Row>
     <Row>
-      <TextButton label="Button" color="lightBlue" size={18} />
-      <TextButton label="Button" color="lightBlue" size={18} hover />
-      <TextButton label="Button" color="lightBlue" size={18} active />
-      <TextButton label="Button" color="lightBlue" size={18} disabled />
-      <TextButton label="Button" color="lightBlue" size={18} loading />
+      <TextButton label="Button" color="lightBlue" larger />
+      <TextButton label="Button" color="lightBlue" larger hover />
+      <TextButton label="Button" color="lightBlue" larger active />
+      <TextButton label="Button" color="lightBlue" larger disabled />
+      <TextButton label="Button" color="lightBlue" larger loading />
     </Row>
     <Row>
-      <TextButton label="Button" color="gray" thin />
-      <TextButton label="Button" color="gray" thin hover />
-      <TextButton label="Button" color="gray" thin active />
-      <TextButton label="Button" color="gray" thin disabled />
-      <TextButton label="Button" color="gray" thin loading />
+      <TextButton label="Button" color="gray" />
+      <TextButton label="Button" color="gray" hover />
+      <TextButton label="Button" color="gray" active />
+      <TextButton label="Button" color="gray" disabled />
+      <TextButton label="Button" color="gray" loading />
     </Row>
     <h2>Spinner</h2>
     <Row>

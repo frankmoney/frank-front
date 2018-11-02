@@ -8,8 +8,6 @@ import styles from './TextButton.jss'
 
 type TextButtonColor = 'black' | 'blue' | 'gray' | 'lightBlue'
 
-type TextButtonSize = 16 | 18
-
 type Props = {|
   ...ButtonBaseProps,
   ...InjectStylesProps,
@@ -19,9 +17,8 @@ type Props = {|
   disabled?: boolean,
   hover?: boolean,
   label: string,
+  larger?: boolean,
   loading?: boolean,
-  size: TextButtonSize,
-  thin?: boolean,
 |}
 
 const TextButton = ({
@@ -34,17 +31,15 @@ const TextButton = ({
   // content
   color,
   label,
+  larger,
   loading,
-  size,
-  thin,
   ...baseButtonProps
 }: Props) => (
   <ButtonBase
     className={cx(
       classes.root,
       {
-        [classes.larger]: size === 18,
-        [classes.thin]: thin,
+        [classes.larger]: larger,
         [classes.black]: color === 'black',
         [classes.blue]: color === 'blue',
         [classes.lightBlue]: color === 'lightBlue',
@@ -68,7 +63,6 @@ TextButton.defaultProps = {
   disabled: false,
   hover: false,
   color: 'black',
-  size: 16,
 }
 
 export default injectStyles(styles)(TextButton)
