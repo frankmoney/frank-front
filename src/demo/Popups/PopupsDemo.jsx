@@ -1,7 +1,9 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { injectStyles } from '@frankmoney/ui'
 import { MoreHoriz } from 'material-ui-icons'
+import Demo from 'demo/Demo'
 import Paper from 'components/kit/Paper'
 import Button from 'components/kit/Button'
 import ArrowPaper from 'components/kit/ArrowPaper'
@@ -9,35 +11,8 @@ import Popup from 'components/kit/PopupBase'
 import TextTooltip from 'components/kit/TextTooltip'
 import ToggleButton from 'components/kit/ToggleButton'
 import TooltipBase from 'components/kit/TooltipBase'
-import DemoMenu from 'demo/DemoMenu'
 
 const styles = {
-  demo: {
-    alignItems: 'center',
-    background: '#fff',
-    display: 'flex',
-    color: '#252B43',
-    flexDirection: 'column',
-    paddingBottom: 300,
-    paddingTop: 100,
-    '& > h1': {
-      marginTop: 70,
-      marginBottom: 70,
-      fontSize: 60,
-      lineHeight: 60,
-      fontWeight: 500,
-      '&:first-child': {
-        marginTop: 0,
-      },
-    },
-    '& > h2': {
-      marginTop: 80,
-      marginBottom: 60,
-      fontSize: 40,
-      lineHeight: 50,
-      fontWeight: 500,
-    },
-  },
   row: {
     display: 'flex',
     alignItems: 'center',
@@ -81,7 +56,7 @@ const styles = {
   },
 }
 
-class Portal extends React.Component {
+class Portal extends React.Component<any> {
   render() {
     return createPortal(this.props.children, document.body)
   }
@@ -177,8 +152,7 @@ const CustomTooltipButton = ({ place = 'up', align = 'center' }) => (
 )
 
 const PopupsDemo = ({ classes }) => (
-  <div className={classes.demo}>
-    <DemoMenu />
+  <Demo>
     <h1>Paper</h1>
     <div className={classes.row}>
       <Paper className={classes.paper} type="card">
@@ -285,7 +259,7 @@ const PopupsDemo = ({ classes }) => (
       <TooltipButton place="up" align="end" defaultVisible />
       <CustomTooltipButton />
     </div>
-  </div>
+  </Demo>
 )
 
 export default injectStyles(styles)(PopupsDemo)

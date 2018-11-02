@@ -7,36 +7,11 @@ import Menu from 'components/kit/Menu'
 import ArrowMenu from 'components/kit/ArrowMenu'
 import OptionsList from 'components/kit/OptionsList'
 import CategoryMenuItem from 'components/CategoryMenuItem'
-import DemoMenu from 'demo/DemoMenu'
+import Demo from 'demo/Demo'
 import BanksSearch from './BanksSearch/BanksSearch'
 import BanksMenu from './BanksSearch/StubBanksMenu'
 
 const styles = {
-  demo: {
-    alignItems: 'center',
-    background: '#fff',
-    display: 'flex',
-    color: '#252B43',
-    flexDirection: 'column',
-    width: 900,
-    margin: '0 auto',
-    paddingBottom: 300,
-    paddingTop: 140,
-    '& > h1': {
-      fontSize: 60,
-      lineHeight: 60,
-      fontWeight: 500,
-      '&:first-child': {
-        marginTop: 0,
-      },
-    },
-    '& > h2': {
-      marginBottom: 50,
-      fontSize: 40,
-      lineHeight: 50,
-      fontWeight: 500,
-    },
-  },
   hints: {
     fontSize: 16,
     lineHeight: 24,
@@ -66,8 +41,7 @@ const styles = {
 }
 
 const SelectListsDemo = ({ classes }) => (
-  <div className={classes.demo}>
-    <DemoMenu />
+  <Demo>
     <h1>Menu</h1>
     <h2>Menu item states</h2>
     <div className={classes.rowCentered}>
@@ -145,7 +119,7 @@ const SelectListsDemo = ({ classes }) => (
     <div className={classes.rowCentered}>
       <BanksSearch />
     </div>
-  </div>
+  </Demo>
 )
 
 export default injectStyles(styles)(SelectListsDemo)
