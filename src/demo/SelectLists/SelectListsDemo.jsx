@@ -7,6 +7,7 @@ import Menu from 'components/kit/Menu'
 import ArrowMenu from 'components/kit/ArrowMenu'
 import OptionsList from 'components/kit/OptionsList'
 import CategoryMenuItem from 'components/CategoryMenuItem'
+import DemoMenu from 'demo/DemoMenu'
 import BanksSearch from './BanksSearch/BanksSearch'
 import BanksMenu from './BanksSearch/StubBanksMenu'
 
@@ -66,6 +67,7 @@ const styles = {
 
 const SelectListsDemo = ({ classes }) => (
   <div className={classes.demo}>
+    <DemoMenu />
     <h1>Menu</h1>
     <h2>Menu item states</h2>
     <div className={classes.rowCentered}>

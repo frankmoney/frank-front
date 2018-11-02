@@ -9,6 +9,7 @@ import Popup from 'components/kit/PopupBase'
 import TextTooltip from 'components/kit/TextTooltip'
 import ToggleButton from 'components/kit/ToggleButton'
 import TooltipBase from 'components/kit/TooltipBase'
+import DemoMenu from 'demo/DemoMenu'
 
 const styles = {
   demo: {
@@ -177,6 +178,7 @@ const CustomTooltipButton = ({ place = 'up', align = 'center' }) => (
 
 const PopupsDemo = ({ classes }) => (
   <div className={classes.demo}>
+    <DemoMenu />
     <h1>Paper</h1>
     <div className={classes.row}>
       <Paper className={classes.paper} type="card">

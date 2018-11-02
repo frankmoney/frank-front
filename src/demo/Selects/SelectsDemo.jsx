@@ -7,6 +7,7 @@ import ButtonMenu from 'components/kit/ButtonMenu'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import SelectField from 'components/kit/SelectField'
 import ToggleButton from 'components/kit/ToggleButton'
+import DemoMenu from 'demo/DemoMenu'
 
 const styles = {
   demo: {
@@ -86,6 +87,7 @@ const commaSeparatedValue = values =>
 
 const SelectListsDemo = ({ classes }) => (
   <div className={classes.demo}>
+    <DemoMenu />
     <h1>ButtonMenu</h1>
     <div className={classes.rowCentered}>
       <ButtonMenu arrowEnd alignByArrow renderButton={renderEllipsisButton}>

@@ -11,6 +11,7 @@ import {
 import Button, { IconButton } from 'components/kit/Button'
 import Spinner from 'components/kit/Spinner'
 import ToggleButton from 'components/kit/ToggleButton'
+import DemoMenu from 'demo/DemoMenu'
 
 const styles = {
   demo: {
@@ -54,6 +55,7 @@ const styles = {
 
 const ButtonsDemo = ({ classes }) => (
   <div className={classes.demo}>
+    <DemoMenu />
     <h1>Button</h1>
     <div className={classes.row}>
       <Button className={classes.button} label="Submit" color="green" />

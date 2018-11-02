@@ -6,6 +6,7 @@ import Switch from 'components/kit/Switch'
 import SwitchBase from 'components/kit/SwitchBase'
 import TextBox from 'components/kit/TextBox'
 import Field from 'components/kit/fields/Field'
+import DemoMenu from 'demo/DemoMenu'
 import Playground from './Playground'
 
 const styles = {
@@ -86,6 +87,7 @@ const FieldsDemo = ({ classes }) => {
 
   return (
     <div className={classes.demo}>
+      <DemoMenu />
       <div className={classes.playgroundWrap}>
         <Playground className={classes.playground} />
       </div>
