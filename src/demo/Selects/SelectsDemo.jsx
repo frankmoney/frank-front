@@ -9,11 +9,7 @@ import ToggleButton from 'components/kit/ToggleButton'
 import Demo, { Row } from 'demo/Demo'
 import { injectStyles } from 'utils/styles'
 
-const styles = {
-  centered: {
-    justifyContent: 'space-around',
-  },
-}
+const styles = {}
 
 const fakeAction = R.memoizeWith(R.identity, msg => () => alert(msg))
 
@@ -37,10 +33,10 @@ const commaSeparatedValue = values =>
     ? ''
     : values.map(value => ROLE_TEXT[value]).join(',')
 
-const SelectListsDemo = ({ classes }) => (
+const SelectListsDemo = () => (
   <Demo>
     <h1>ButtonMenu</h1>
-    <Row className={classes.centered}>
+    <Row centered>
       <ButtonMenu arrowEnd alignByArrow renderButton={renderEllipsisButton}>
         <MenuItem label="Publish" onSelect={fakeAction('published')} />
         <MenuItem color="red" label="Delete" onSelect={fakeAction('deleted')} />

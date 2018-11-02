@@ -35,7 +35,6 @@ type Props = {|
 |}
 
 const Button = ({
-  children,
   classes,
   className,
   Mixins,

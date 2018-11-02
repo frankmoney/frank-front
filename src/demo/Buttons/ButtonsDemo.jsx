@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
 import {
   CheckCircle,
   Check,
@@ -8,9 +7,10 @@ import {
   ChatBubble,
   List,
 } from 'material-ui-icons'
-import Button, { IconButton } from 'components/kit/Button'
+import Button, { IconButton, TextButton } from 'components/kit/Button'
 import Spinner from 'components/kit/Spinner'
 import ToggleButton from 'components/kit/ToggleButton'
+import { injectStyles } from 'utils/styles'
 import Demo, { Row } from 'demo/Demo'
 
 const styles = {
@@ -182,21 +182,21 @@ const ButtonsDemo = ({ classes }) => (
       />
     </Row>
     <h2>IconButton</h2>
-    <Row>
+    <Row centered>
       <IconButton icon={<MoreHoriz />} />
       <IconButton icon={<MoreHoriz />} hover />
       <IconButton icon={<MoreHoriz />} active />
       <IconButton icon={<MoreHoriz />} disabled />
       <IconButton icon={<MoreHoriz />} loading />
     </Row>
-    <Row>
+    <Row centered>
       <IconButton icon={<MoreHoriz />} color="lightGreen" />
       <IconButton icon={<MoreHoriz />} color="lightGreen" hover />
       <IconButton icon={<MoreHoriz />} color="lightGreen" active />
       <IconButton icon={<MoreHoriz />} color="lightGreen" disabled />
       <IconButton icon={<MoreHoriz />} color="lightGreen" loading />
     </Row>
-    <Row>
+    <Row centered>
       <IconButton icon={<MoreHoriz />} color="lightBlue" />
       <IconButton icon={<MoreHoriz />} color="lightBlue" hover />
       <IconButton icon={<MoreHoriz />} color="lightBlue" active />
@@ -215,8 +215,37 @@ const ButtonsDemo = ({ classes }) => (
       <ToggleButton.Icon icon={<MoreHoriz />} />
       <ToggleButton.Icon defaultOn colorOn="lightGreen" icon={<MoreHoriz />} />
     </Row>
-    <h2>Spinner</h2>
+    <h2>TextButton</h2>
     <Row>
+      <TextButton label="Button" />
+      <TextButton label="Button" hover />
+      <TextButton label="Button" active />
+      <TextButton label="Button" disabled />
+      <TextButton label="Button" loading />
+    </Row>
+    <Row>
+      <TextButton label="Button" color="blue" />
+      <TextButton label="Button" color="blue" hover />
+      <TextButton label="Button" color="blue" active />
+      <TextButton label="Button" color="blue" disabled />
+      <TextButton label="Button" color="blue" loading />
+    </Row>
+    <Row>
+      <TextButton label="Button" color="lightBlue" larger />
+      <TextButton label="Button" color="lightBlue" larger hover />
+      <TextButton label="Button" color="lightBlue" larger active />
+      <TextButton label="Button" color="lightBlue" larger disabled />
+      <TextButton label="Button" color="lightBlue" larger loading />
+    </Row>
+    <Row>
+      <TextButton label="Button" color="gray" />
+      <TextButton label="Button" color="gray" hover />
+      <TextButton label="Button" color="gray" active />
+      <TextButton label="Button" color="gray" disabled />
+      <TextButton label="Button" color="gray" loading />
+    </Row>
+    <h2>Spinner</h2>
+    <Row centered>
       <Spinner size={45} />
       <Spinner size={25} />
       <Spinner />
