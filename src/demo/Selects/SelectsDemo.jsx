@@ -2,6 +2,7 @@
 import { MoreHoriz } from 'material-ui-icons'
 import React from 'react'
 import * as R from 'ramda'
+import FilterSelect from 'components/kit/FilterSelect'
 import ButtonMenu from 'components/kit/ButtonMenu'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import SelectField from 'components/kit/SelectField'
@@ -60,6 +61,14 @@ const SelectListsDemo = () => (
         <MenuItem value="manager" label="Manager" />
         <MenuItem value="observer" label="Observer" />
       </SelectField>
+    </Row>
+    <h1>Filter Select</h1>
+    <Row centered>
+      <FilterSelect defaultValue="date">
+        <MenuItem value="date" label="Date" />
+        <MenuItem value="name" label="Name" />
+        <MenuItem value="total" label="Total" />
+      </FilterSelect>
     </Row>
   </Demo>
 )
