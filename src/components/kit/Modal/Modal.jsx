@@ -51,7 +51,11 @@ class Modal extends React.Component<ModalProps> {
   }
 
   handleDocumentKeyDown = event => {
-    if (event.key === 'Escape' && !this.props.disableCloseOnEscape) {
+    if (
+      event.key === 'Escape' &&
+      !this.props.disableCloseOnEscape &&
+      !event.defaultPrevented
+    ) {
       event.preventDefault()
       event.stopPropagation()
       if (typeof this.props.onClose === 'function') {

@@ -18,6 +18,7 @@ const styles = {
     left: 0,
     height: '100%',
     width: '100%',
+    zIndex: -1,
     background: props =>
       props.transparent ? 'transparent' : 'rgba(0,0,0,0.2)',
     // Remove grey highlight
@@ -37,7 +38,6 @@ const Backdrop = ({
 }) => (
   <div
     aria-hidden="true"
-    tabIndex={-1}
     className={cx(classes.root, className)}
     {...otherProps}
   >
