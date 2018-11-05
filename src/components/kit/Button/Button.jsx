@@ -1,10 +1,10 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
-import { Spinner } from '@frankmoney/components'
 import Counter from 'components/kit/Counter'
-import ButtonBase from './ButtonBase'
+import Spinner from 'components/kit/Spinner'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import ButtonBase, { type ButtonBaseProps } from './ButtonBase'
 import styles from './Button.jss'
 
 type ButtonColor =
@@ -15,23 +15,30 @@ type ButtonColor =
   | 'lightBlue'
   | 'lightGreen'
 
-type ButtonMixins = {
+type ButtonMixins = {|
   icon?: string,
-}
+|}
 
-type Props = {
+export type ButtonProps = {|
+  ...ButtonBaseProps,
+  //
   active?: boolean,
+  color: ButtonColor,
+  counter?: string | number,
   disabled?: boolean,
   hover?: boolean,
-  counter?: string | number,
-  icon?: React.ReactNode,
-  color: ButtonColor,
+  icon?: React.Element<any>,
   label: string,
+  loading: boolean,
   Mixins?: ButtonMixins,
-}
+|}
+
+type Props = {|
+  ...ButtonProps,
+  ...InjectStylesProps,
+|}
 
 const Button = ({
-  children,
   classes,
   className,
   Mixins,
@@ -68,7 +75,7 @@ const Button = ({
   >
     {icon &&
       React.cloneElement(icon, {
-        className: cx(classes.icon, Mixins.icon),
+        className: cx(classes.icon, Mixins && Mixins.icon),
       })}
     <div className={classes.label}>{label}</div>
     {typeof counter !== 'undefined' && (

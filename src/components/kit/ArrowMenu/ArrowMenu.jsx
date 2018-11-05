@@ -1,18 +1,23 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import ArrowPaper, {
   DEFAULT_ALIGN,
   DEFAULT_DIRECTION,
 } from 'components/kit/ArrowPaper'
 import Menu from 'components/kit/Menu'
 
-// todo merge from ArrowPaper and MenuProps props
-export type Props = {
+// TODO: merge from ArrowPaper and MenuProps props
+export type Props = {|
   direction: 'up' | 'left' | 'right' | 'down',
   align: 'center' | 'start' | 'end',
-}
+  children?: React.Node,
+|}
 
-class DropdownMenu extends React.Component<Props> {
+type State = {|
+  arrowColor: ?any, // TODO: fix the type afrer fixing the props ^^
+|}
+
+class DropdownMenu extends React.Component<Props, State> {
   static defaultProps = {
     direction: DEFAULT_DIRECTION,
     align: DEFAULT_ALIGN,

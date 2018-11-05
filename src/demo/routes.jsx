@@ -1,20 +1,21 @@
+// @flow
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { compose, withProps } from 'recompose'
 import Helmet from 'react-helmet'
 import { BASE_TITLE, ROUTES } from 'const'
-import CommentsDemo from './CommentsDemo'
-import ComponentsDemo from './ComponentsDemo'
 import ButtonsDemo from './Buttons'
-import SelectListsDemo from './SelectLists'
-import SelectsDemo from './Selects'
-import FieldsDemo from './Fields'
-import PopupsDemo from './Popups'
+import CommentsDemo from './CommentsDemo'
 import DemoLayout from './DemoLayout'
 import DrawerDemo from './DrawerDemo'
+import FieldsDemo from './Fields'
+import PopupsDemo from './Popups'
+import SelectListsDemo from './SelectLists'
+import SelectsDemo from './Selects'
+import SwitchesDemo from './SwitchesDemo'
 import WidgetDemo from './Widgets'
 
-const withDemoLayout = Component => props => (
+const withDemoLayout = Component => (props: Object) => (
   <DemoLayout>
     <Component {...props} />
     <Helmet title={`${BASE_TITLE} – Demo`} />
@@ -98,6 +99,11 @@ export default [
   {
     component: SelectListsDemo,
     path: ROUTES.demo.selectLists,
+    exact: true,
+  },
+  {
+    component: SwitchesDemo,
+    path: ROUTES.demo.switches,
     exact: true,
   },
   {

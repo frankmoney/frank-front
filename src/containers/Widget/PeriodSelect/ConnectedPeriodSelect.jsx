@@ -6,15 +6,14 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as ACTIONS from 'containers/Widget/actions'
 import { periodSelector, periodsSelector } from 'containers/Widget/selectors'
-import PeriodSelector from './PeriodSelect'
-import type { Period, OnChangeCb } from './PeriodSelect'
+import PeriodSelector, { type Period, type OnChangeCb } from './PeriodSelect'
 
-type Props = {
+type Props = {|
+  className?: string,
+  onChange?: OnChangeCb,
   period: Period,
   periods: Array<Period>,
-  onChange: ?OnChangeCb,
-  className: ?string,
-}
+|}
 
 const ConnectedPeriodSelect = ({
   className,

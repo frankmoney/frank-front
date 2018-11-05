@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import Widget from 'containers/Widget/Widget'
 import colors from 'styles/colors'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Expander from './Expander'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
@@ -64,14 +64,13 @@ const styles = theme => ({
   },
 })
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
   expanded: boolean, // demo flag
-  // Styles
-  classes: Object,
-  className: ?string,
-}
+|}
 
-type State = { expanded: boolean }
+type State = {| expanded: boolean |}
 
 class ButtonWidget extends React.PureComponent<Props, State> {
   static defaultProps = {

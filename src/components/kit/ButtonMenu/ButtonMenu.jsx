@@ -1,19 +1,22 @@
 // @flow
-import React from 'react'
-import DropdownMenu from 'components/kit/DropdownMenu'
-import type { Props as DropdownMenuProps } from 'components/kit/DropdownMenu'
-import type { RenderProps as PopupRenderProps } from 'components/kit/PopupBase'
+import * as React from 'react'
+import DropdownMenu, {
+  type DropdownMenuProps,
+} from 'components/kit/DropdownMenu'
+import type { PopupRenderProps } from 'components/kit/PopupBase'
 
-type Props = {
-  renderButton: PopupRenderProps => React.ReactElement,
-  alignStart?: boolean,
-  alignEnd?: boolean,
-  up?: boolean,
-  down?: boolean,
-  arrowStart?: boolean,
-  arrowEnd?: boolean,
+type Props = {|
+  ...DropdownMenuProps,
+  //
   alignByArrow?: boolean,
-} & DropdownMenuProps
+  alignEnd?: boolean,
+  alignStart?: boolean,
+  arrowEnd?: boolean,
+  arrowStart?: boolean,
+  down?: boolean,
+  renderButton: PopupRenderProps => React.Node,
+  up?: boolean,
+|}
 
 const ButtonMenu = ({
   renderButton,

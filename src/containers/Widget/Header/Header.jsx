@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import LiveIndicator from './LiveIndicator'
 
 const styles = {
@@ -14,13 +14,13 @@ const styles = {
   },
 }
 
-type Props = {
-  children: React.Element<any>,
-  classes: Object,
-  className: ?string,
+type Props = {|
+  ...InjectStylesProps,
+  //
+  children?: React.Node,
   live: boolean,
-  liveClassName: ?string,
-}
+  liveClassName?: string,
+|}
 
 const Header = ({
   classes,

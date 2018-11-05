@@ -3,8 +3,8 @@ import React from 'react'
 import * as R from 'ramda'
 import type { DataKey, LabelFormatter } from 'recharts'
 import { formatCurrency } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
 import IconCircle from 'components/IconCircle'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = theme => ({
   root: {
@@ -22,13 +22,14 @@ const styles = theme => ({
   },
 })
 
-type Props = {
-  classes: Object,
-  color: ?string,
-  key: ?DataKey,
+type Props = {|
+  ...InjectStylesProps,
+  //
+  color?: string,
+  key?: DataKey,
   labelFormatter: LabelFormatter,
   value: number,
-}
+|}
 
 export const epsilon = 2 ** -42
 

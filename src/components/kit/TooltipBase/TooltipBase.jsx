@@ -1,15 +1,29 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import PopupBase from 'components/kit/PopupBase/index'
 import chainCallbacks from 'utils/dom/chainCallbacks'
 
-export type Props = {
-  defaultVisible?: boolean,
-  popupAccessible?: boolean,
+export type TooltipBaseProps = {|
   closeTimeout?: number,
-}
+  defaultOpen?: boolean,
+  defaultVisible: boolean,
+  popupAccessible?: boolean,
+|}
 
-class TooltipBase extends React.Component<Props> {
+type Props = {|
+  ...TooltipBaseProps,
+  //
+  children: React.StatelessFunctionalComponent<any>,
+  open?: boolean,
+|}
+
+type State = {|
+  visible: boolean,
+|}
+
+type TimeoutID = any // FIXME: upgrade eslint-plugin-flowtype
+
+class TooltipBase extends React.Component<Props, State> {
   static defaultProps = {
     defaultVisible: false,
     closeTimeout: 200,
@@ -18,17 +32,6 @@ class TooltipBase extends React.Component<Props> {
 
   state = {
     visible: this.props.defaultVisible,
-  }
-
-  handleMouseIn = () => {
-    clearTimeout(this.outTimeout)
-    this.setState({ visible: true })
-  }
-
-  handleMouseOut = () => {
-    this.outTimeout = setTimeout(() => {
-      this.setState({ visible: false })
-    }, this.props.popupAccessible ? this.props.closeTimeout : 0)
   }
 
   getState = ({
@@ -60,6 +63,19 @@ class TooltipBase extends React.Component<Props> {
       }),
     ...popupProps,
   })
+
+  outTimeout: TimeoutID
+
+  handleMouseIn = () => {
+    clearTimeout(this.outTimeout)
+    this.setState({ visible: true })
+  }
+
+  handleMouseOut = () => {
+    this.outTimeout = setTimeout(() => {
+      this.setState({ visible: false })
+    }, this.props.popupAccessible ? this.props.closeTimeout : 0)
+  }
 
   render() {
     const { children, open, defaultOpen, ...otherProps } = this.props

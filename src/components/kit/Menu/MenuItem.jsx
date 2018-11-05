@@ -1,21 +1,26 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { CheckCircle } from 'material-ui-icons'
 import Color from 'color-js'
 import SelectListBase from 'components/kit/SelectListBase'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-export type Props = {
+export type MenuItemProps = {|
   label: string,
   selected?: boolean,
   active?: boolean,
   noAnimation?: boolean,
-  // eslint-disable-next-line react/no-unused-prop-types
+  renderCheck?: boolean,
   color?: string,
-  icon?: ?Element,
-  renderIcon?: Props => Element,
-}
+  icon?: React.Element<any>,
+  renderIcon?: any => React.Node,
+|}
+
+type Props = {|
+  ...MenuItemProps,
+  ...InjectStylesProps,
+|}
 
 const getActiveBackgroundColor = ({ color }) =>
   color ? Color('#fff').blend(Color(color), 0.06) : '#f2f2f4' // rgba(37, 43, 67, 0.04)
@@ -116,7 +121,7 @@ MenuItem.defaultProps = {
 
 const StyledMenuItem = injectStyles(styles)(MenuItem)
 
-const SelectMenuItem = props => (
+const SelectMenuItem = (props: MenuItemProps) => (
   <SelectListBase.Consumer>
     {({ getItemProps }) => <StyledMenuItem {...getItemProps(props)} />}
   </SelectListBase.Consumer>

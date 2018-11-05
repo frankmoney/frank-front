@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import Modal from 'components/kit/Modal'
 import Menu from 'components/kit/Menu'
 import ArrowMenu from 'components/kit/ArrowMenu'
@@ -12,12 +12,18 @@ const REVERSE_DIRECTION = {
   right: 'left',
 }
 
-export type Props = {
-  direction?: 'up' | 'down',
+export type DropdownMenuProps = {|
+  direction: 'up' | 'down',
   align?: 'start' | 'center' | 'end',
   alignByArrow?: boolean,
   arrowAt?: 'start' | 'center' | 'end',
-}
+|}
+
+type Props = {|
+  ...DropdownMenuProps,
+  //
+  children?: React.Element<any>,
+|}
 
 const DEFAULT_WIDTH = 250
 

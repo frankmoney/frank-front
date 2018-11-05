@@ -1,38 +1,13 @@
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
+import Demo, { Row } from 'demo/Demo'
+import Switch from 'components/kit/Switch'
+import SwitchBase from 'components/kit/SwitchBase'
 import TextBox from 'components/kit/TextBox'
 import Field from 'components/kit/fields/Field'
-import SwitchBase from 'components/kit/SwitchBase'
-import Switch from 'components/kit/Switch'
+import { injectStyles } from 'utils/styles'
 import Playground from './Playground'
 
 const styles = {
-  demo: {
-    alignItems: 'center',
-    background: '#fff',
-    color: '#252B43',
-    display: 'flex',
-    flexDirection: 'column',
-    paddingBottom: 100,
-    paddingTop: 100,
-    '& > h1': {
-      marginTop: 70,
-      marginBottom: 110,
-      fontSize: 60,
-      lineHeight: 60,
-      fontWeight: 500,
-      '&:first-child': {
-        marginTop: 0,
-      },
-    },
-    '& > h2': {
-      marginTop: 80,
-      marginBottom: 60,
-      fontSize: 40,
-      lineHeight: 50,
-      fontWeight: 500,
-    },
-  },
   playgroundWrap: {
     height: '60vh',
     display: 'flex',
@@ -41,15 +16,6 @@ const styles = {
     width: '100%',
   },
   playground: {},
-  row: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    width: 900,
-    '& > *': {
-      marginRight: 20,
-    },
-    marginBottom: 50,
-  },
   states: {
     display: 'flex',
     alignItems: 'flex-start',
@@ -80,13 +46,13 @@ const FieldsDemo = ({ classes }) => {
   )
 
   return (
-    <div className={classes.demo}>
+    <Demo>
       <div className={classes.playgroundWrap}>
         <Playground className={classes.playground} />
       </div>
       <h1>TextBox</h1>
       {states}
-      <div className={classes.row}>
+      <Row>
         <Field label="Name">
           <TextBox />
         </Field>
@@ -102,10 +68,10 @@ const FieldsDemo = ({ classes }) => {
         <Field label="Name" error="Error" invalid focus>
           <TextBox defaultValue="Tom" />
         </Field>
-      </div>
+      </Row>
       <h1>Additional label</h1>
       {states}
-      <div className={classes.row}>
+      <Row>
         <Field label="Name" additionalLabel="Additional label">
           <TextBox />
         </Field>
@@ -132,10 +98,10 @@ const FieldsDemo = ({ classes }) => {
         >
           <TextBox defaultValue="Tom" />
         </Field>
-      </div>
+      </Row>
       <h2>Floating label</h2>
       {states}
-      <div className={classes.row}>
+      <Row>
         <Field floatingLabel="Name">
           <TextBox />
         </Field>
@@ -151,10 +117,10 @@ const FieldsDemo = ({ classes }) => {
         <Field floatingLabel="Name" error="Error" invalid focus>
           <TextBox defaultValue="Tom" />
         </Field>
-      </div>
+      </Row>
       <h2>Multiline</h2>
       {states}
-      <div className={classes.row}>
+      <Row>
         <Field label="Fixed label">
           <TextBox multiLine />
         </Field>
@@ -179,7 +145,7 @@ const FieldsDemo = ({ classes }) => {
             defaultValue="One solution is to reset the key to a random value or auto incrementing"
           />
         </Field>
-      </div>
+      </Row>
       <h2>Placeholders</h2>
       <div className={classes.states}>
         <div>Normal floating</div>
@@ -188,7 +154,7 @@ const FieldsDemo = ({ classes }) => {
         <div>Focus fixed</div>
         <div>Multiline</div>
       </div>
-      <div className={classes.row}>
+      <Row>
         <Field floatingLabel="Floating label" placeholder="Type your name">
           <TextBox />
         </Field>
@@ -211,10 +177,10 @@ const FieldsDemo = ({ classes }) => {
         >
           <TextBox minLines={3} multiLine />
         </Field>
-      </div>
+      </Row>
       <h2>Larger size</h2>
       {states}
-      <div className={classes.row}>
+      <Row>
         <Field label="Name" larger placeholder="Frank Sinatra">
           <TextBox />
         </Field>
@@ -243,8 +209,8 @@ const FieldsDemo = ({ classes }) => {
         >
           <TextBox defaultValue="Tom" />
         </Field>
-      </div>
-      <div className={classes.row}>
+      </Row>
+      <Row>
         <Field label="Fixed label" larger placeholder="Frank Sinatra">
           <TextBox multiLine />
         </Field>
@@ -282,7 +248,7 @@ const FieldsDemo = ({ classes }) => {
             defaultValue="One solution is to reset the key to a random value or auto incrementing"
           />
         </Field>
-      </div>
+      </Row>
       <SwitchBase defaultOn>
         {({ on: disabled, toggle }) => (
           <>
@@ -295,7 +261,7 @@ const FieldsDemo = ({ classes }) => {
               <div>Filled</div>
               <div>Error</div>
             </div>
-            <div className={classes.row}>
+            <Row>
               <Field label="Fixed label" disabled={disabled}>
                 <TextBox />
               </Field>
@@ -317,8 +283,8 @@ const FieldsDemo = ({ classes }) => {
               >
                 <TextBox defaultValue="Tom" />
               </Field>
-            </div>
-            <div className={classes.row}>
+            </Row>
+            <Row>
               <Field floatingLabel="Floating label" disabled={disabled}>
                 <TextBox />
               </Field>
@@ -340,7 +306,7 @@ const FieldsDemo = ({ classes }) => {
               >
                 <TextBox defaultValue="Tom" />
               </Field>
-            </div>
+            </Row>
           </>
         )}
       </SwitchBase>
@@ -356,7 +322,7 @@ const FieldsDemo = ({ classes }) => {
               <div>Error</div>
               <div>Filled</div>
             </div>
-            <div className={classes.row}>
+            <Row>
               <Field label="Fixed label" loading={loading}>
                 <TextBox />
               </Field>
@@ -384,11 +350,11 @@ const FieldsDemo = ({ classes }) => {
               >
                 <TextBox defaultValue="Nick" />
               </Field>
-            </div>
+            </Row>
           </>
         )}
       </SwitchBase>
-    </div>
+    </Demo>
   )
 }
 
