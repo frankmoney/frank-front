@@ -19,9 +19,8 @@ type ButtonMixins = {|
   icon?: string,
 |}
 
-type Props = {|
+export type ButtonProps = {|
   ...ButtonBaseProps,
-  ...InjectStylesProps,
   //
   active?: boolean,
   color: ButtonColor,
@@ -32,6 +31,11 @@ type Props = {|
   label: string,
   loading: boolean,
   Mixins?: ButtonMixins,
+|}
+
+type Props = {|
+  ...ButtonProps,
+  ...InjectStylesProps,
 |}
 
 const Button = ({

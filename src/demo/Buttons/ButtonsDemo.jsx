@@ -7,7 +7,11 @@ import {
   ChatBubble,
   List,
 } from 'material-ui-icons'
-import Button, { IconButton, TextButton } from 'components/kit/Button'
+import Button, {
+  IconButton,
+  SocialButton,
+  TextButton,
+} from 'components/kit/Button'
 import Spinner from 'components/kit/Spinner'
 import ToggleButton from 'components/kit/ToggleButton'
 import { injectStyles } from 'utils/styles'
@@ -250,6 +254,32 @@ const ButtonsDemo = ({ classes }) => (
       <Spinner size={25} />
       <Spinner />
       <Spinner size={18} />
+    </Row>
+    <h2>SocialButton</h2>
+    <Row centered>
+      <SocialButton type="facebook" />
+      <SocialButton type="facebook" hover />
+      <SocialButton type="facebook" active />
+    </Row>
+    <Row centered>
+      <SocialButton type="twitter" />
+      <SocialButton type="twitter" hover />
+      <SocialButton type="twitter" active />
+    </Row>
+    <Row centered>
+      <SocialButton type="email" />
+      <SocialButton type="email" hover />
+      <SocialButton type="email" active />
+    </Row>
+    <Row centered>
+      <SocialButton type="facebook" large />
+      <SocialButton type="facebook" large hover />
+      <SocialButton type="facebook" large active />
+    </Row>
+    <Row centered>
+      <SocialButton type="twitter" large />
+      <SocialButton type="twitter" large hover />
+      <SocialButton type="twitter" large active />
     </Row>
     <h2>Different Buttons</h2>
     <Row>
