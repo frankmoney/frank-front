@@ -1,7 +1,7 @@
-/* eslint-disable consistent-return,jsx-a11y/label-has-for */
-import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
+// @flow
+import * as React from 'react'
 import cx from 'classnames'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Input from './Input'
 
 const styles = {
@@ -11,7 +11,36 @@ const styles = {
   },
 }
 
-class TextBox extends React.Component {
+type Value = string | number
+
+type OnChangeCb = any => void
+
+type UnusedProps = {|
+  focus?: any,
+|}
+
+type Props = {|
+  ...InjectStylesProps,
+  ...UnusedProps, // FIXME
+  //
+  autoFocus?: boolean,
+  controlRef?: ?Function,
+  defaultValue?: Value,
+  id?: string,
+  name?: string,
+  onChange?: OnChangeCb,
+  value?: Value,
+|}
+
+interface Control {
+  focus: () => void;
+}
+
+type State = {|
+  value?: Value,
+|}
+
+class TextBox extends React.Component<Props, State> {
   static defaultProps = {
     defaultValue: '',
   }
@@ -26,10 +55,12 @@ class TextBox extends React.Component {
     }
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlled() {
     return typeof this.props.value !== 'undefined'
   }
 
+  // eslint-disable-next-line consistent-return
   handleChange = event => {
     const value = event.target.value
 
@@ -45,6 +76,8 @@ class TextBox extends React.Component {
       }
     })
   }
+
+  control: Control
 
   handleInputRef = control => {
     this.control = control
@@ -71,8 +104,10 @@ class TextBox extends React.Component {
       defaultValue,
       autoFocus,
       controlRef,
-      focus,
       onChange,
+      // Omit
+      focus,
+      //
       ...otherProps
     } = this.props
 
