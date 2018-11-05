@@ -1,15 +1,16 @@
-export default {
+export default theme => ({
   root: {
-    paddingLeft: 40,
+    ...theme.fontMedium(16),
+    display: 'inline-flex',
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingBottom: 2,
   },
   hover: {},
   active: {},
-  icon: {
-    transform: 'none',
-    top: 'unset',
-    width: 'unset',
-    height: 'unset',
-  },
+  icon: {},
+  label: {},
 
   facebook: {
     border: '1px solid #E3EBFF',
@@ -45,24 +46,37 @@ export default {
   small: {
     width: 110,
     height: 40,
+    paddingRight: 21,
     background: 'none',
+
     '&:hover, &$hover': {
       background: 'none',
     },
     '&:active, &$active': {
       background: 'none',
     },
-    '& $icon': {
-      left: 12,
-      maxWidth: 20,
-      maxHeight: 20,
+
+    '&$facebook': {
+      paddingLeft: 11,
+    },
+    '&$twitter': {
+      paddingLeft: 12,
+    },
+    '&$email': {
+      paddingLeft: 12,
+      '& > $icon': {
+        width: 20,
+        height: 20,
+      },
     },
   },
   large: {
     width: 140,
     height: 50,
+    paddingRight: 37,
     color: '#797D8B',
     background: '#F6F7F7',
+
     border: 'none',
     '&:hover, &$hover': {
       color: '#252B43',
@@ -73,8 +87,14 @@ export default {
       background: '#EEEEF0',
     },
     '& $icon': {
-      left: 20,
       transform: 'scale(1.18)',
     },
+
+    '&$facebook': {
+      paddingLeft: 18,
+    },
+    '&$twitter': {
+      paddingLeft: 20,
+    },
   },
-}
+})

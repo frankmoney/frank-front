@@ -3,17 +3,19 @@ import React from 'react'
 import cx from 'classnames'
 import { Email as EmailIcon } from 'material-ui-icons'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import Button, { type ButtonProps } from 'components/kit/Button'
-import styles from './SocialButton.jss'
+import ButtonBase, { type ButtonBaseProps } from '../ButtonBase'
 import FacebookIcon from './facebook.svg'
 import TwitterIcon from './twitter.svg'
+import styles from './SocialButton.jss'
 
 type SocialButtonType = 'facebook' | 'twitter' | 'email'
 
 type Props = {|
-  ...ButtonProps,
+  ...ButtonBaseProps,
   ...InjectStylesProps,
   //
+  active?: boolean,
+  hover?: boolean,
   large?: boolean,
   type: SocialButtonType,
 |}
@@ -44,7 +46,7 @@ const SocialButton = ({
 }: Props) => {
   const { label, icon: Icon } = propsByType[type]
   return (
-    <Button
+    <ButtonBase
       className={cx(
         classes.root,
         {
@@ -58,11 +60,11 @@ const SocialButton = ({
         },
         className
       )}
-      icon={<Icon />}
-      label={label}
-      Mixins={{ icon: classes.icon }}
       {...baseButtonProps}
-    />
+    >
+      <Icon className={classes.icon} />
+      <div className={classes.label}>{label}</div>
+    </ButtonBase>
   )
 }
 
