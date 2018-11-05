@@ -1,10 +1,17 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 
+type Props = {
+  transparent?: boolean,
+}
+
+export type BackdropProps = Props
+
 const styles = {
   root: {
-    position: 'absolute',
+    position: 'fixed',
     top: 0,
     right: 0,
     bottom: 0,
@@ -30,6 +37,7 @@ const Backdrop = ({
 }) => (
   <div
     aria-hidden="true"
+    tabIndex={-1}
     className={cx(classes.root, className)}
     {...otherProps}
   >
