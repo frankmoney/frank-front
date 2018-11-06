@@ -64,6 +64,17 @@ const updateRole = [
   R.prop('teamMemberUpdateRole'),
 ]
 
+const changeAvatar = [
+  `
+  mutation($avatar: JSON) {
+    meChangeAvatar(avatar: $avatar) {
+      pid
+    }
+  }
+  `,
+  R.prop('meChangeAvatar'),
+]
+
 const changePassword = [
   `
   mutation($password: String!) {
@@ -78,5 +89,6 @@ const changePassword = [
 export default {
   team,
   updateRole,
+  changeAvatar,
   changePassword,
 }
