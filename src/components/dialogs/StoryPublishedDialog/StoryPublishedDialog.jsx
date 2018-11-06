@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { Public as PublicIcon } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'

@@ -1,8 +1,9 @@
+// @flow
 import React from 'react'
 import { compose, withState, withHandlers } from 'recompose'
-import { injectStyles } from '@frankmoney/ui'
-import { Button } from '@frankmoney/components'
+import Button from 'components/kit/Button'
 import TextBox from 'components/TextBox'
+import { injectStyles } from 'utils/styles'
 
 const styles = theme => ({
   root: {
@@ -21,12 +22,12 @@ const styles = theme => ({
     marginBottom: 50,
   },
   title: {
-    ...theme.fontRegular(36),
+    ...theme.fontRegular(30),
     flexShrink: 0,
     marginRight: 30,
   },
   email: {
-    ...theme.fontRegular(32),
+    ...theme.fontRegular(30),
     position: 'relative',
     top: 9,
   },
@@ -74,15 +75,18 @@ const Login = ({
       </div>
       <Button
         className={classes.submit}
-        fat
-        type="primary"
         label={hasProblem ? 'Let me in' : 'GO DEEPER'}
         onClick={handleSubmit}
         disabled={!email}
       />
       {!hasProblem && (
         <div className={classes.problemsWrap}>
-          <div className={classes.problemsLabel} onClick={handleProblem}>
+          <div
+            className={classes.problemsLabel}
+            onClick={handleProblem}
+            role="link"
+            tabIndex={0}
+          >
             Not gay?
           </div>
         </div>
@@ -93,7 +97,11 @@ const Login = ({
 
 export default compose(
   injectStyles(styles),
-  withState('hasProblem', 'setProblem', () => ls.getItem('gay_problems')),
+  withState('hasProblem', 'setProblem', () => {
+    if (ls) {
+      ls.getItem('gay_problems')
+    }
+  }),
   withState('email', 'setEmail', ''),
   withHandlers({
     handleSubmit: props => () => {
@@ -101,7 +109,9 @@ export default compose(
     },
     handleProblem: props => () => {
       props.setProblem(true)
-      ls.setItem('gay_problems', true)
+      if (ls) {
+        ls.setItem('gay_problems', true)
+      }
     },
   })
 )(Login)
