@@ -24,6 +24,12 @@ module.exports = {
   },
   rules: {
     "jsx-a11y/no-static-element-interactions": "off", // we are suppressing those everywhere anyway
+    "jsx-a11y/label-has-for": ["warn", {
+      "required": {
+        "every": ["nesting"]
+      },
+      "allowChildren": true,
+    }],
     'no-nested-ternary': 0,
     'import/extensions': 0,
     'import/no-extraneous-dependencies': 1,
