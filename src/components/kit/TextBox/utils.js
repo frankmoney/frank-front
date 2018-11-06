@@ -1,4 +1,16 @@
-export const adjustTextareaSize = (element, { minLines = 0 }) => {
+// @flow
+
+export type TextareaProps = {
+  +minLines?: number,
+}
+
+type TextArea = any // FIXME: HTMLTextAreaElement?
+
+// eslint-disable-next-line import/prefer-default-export
+export const adjustTextareaSize = (
+  element: TextArea,
+  { minLines = 0 }: TextareaProps
+) => {
   /* eslint-disable no-param-reassign */
   const scrollTop = element.scrollTop
   const minHeight =

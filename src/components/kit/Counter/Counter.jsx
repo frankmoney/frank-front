@@ -6,7 +6,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 type Props = {|
   ...InjectStylesProps,
   //
-  label: string,
+  label?: string,
   children?: React.Node,
 |}
 

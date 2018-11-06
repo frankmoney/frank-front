@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
-import { createPortal } from 'react-dom'
-import Backdrop from 'components/kit/Backdrop'
+import Modal from 'components/kit/Modal'
 import Menu from 'components/kit/Menu'
 import ArrowMenu from 'components/kit/ArrowMenu'
 import PopupBase from 'components/kit/PopupBase'
@@ -54,6 +53,7 @@ class DropdownMenu extends React.Component<Props> {
 
     return (
       <PopupBase
+        enableViewportOffset
         place={direction}
         align={align}
         alignByArrow={alignByArrow}
@@ -74,20 +74,15 @@ class DropdownMenu extends React.Component<Props> {
           return (
             <>
               {typeof children === 'function' && children(popupState)}
-              {open &&
-                createPortal(
-                  <Backdrop transparent onClick={close}>
-                    <MenuComponent
-                      autoFocus
-                      onSelectElement={close}
-                      {...arrowMenuProps}
-                      {...getPopupProps(menuProps)}
-                    >
-                      {menu || renderMenuContent(popupState)}
-                    </MenuComponent>
-                  </Backdrop>,
-                  document.body
-                )}
+              <Modal open={open} invisibleBackdrop onClose={close}>
+                <MenuComponent
+                  onSelectElement={close}
+                  {...arrowMenuProps}
+                  {...getPopupProps(menuProps)}
+                >
+                  {menu || renderMenuContent(popupState)}
+                </MenuComponent>
+              </Modal>
             </>
           )
         }}

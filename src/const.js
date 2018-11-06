@@ -60,6 +60,7 @@ export const ROUTES = {
     popups: '/demo/popups',
     selectLists: '/demo/select-lists',
     selects: '/demo/selects',
+    switches: '/demo/switches',
     widgets: '/demo/widgets',
   },
 }

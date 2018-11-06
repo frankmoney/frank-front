@@ -45,6 +45,7 @@ export default {
         
         ${(includePayments &&
           `payments(
+            sortBy: postedOn_DESC
             take: $first
             skip: $skip
             search: $search

@@ -32,6 +32,7 @@ export type Props = {|
   onChangeOpen?: EmptyCb,
   open?: boolean,
   place?: 'up' | 'down' | 'left' | 'right',
+  enableViewportOffset?: boolean,
 |}
 
 export type PopupRenderProps = {
@@ -179,6 +180,10 @@ class PopupBase extends React.Component<Props> {
           distance,
         })
       : defaultStyles
+
+    if (open && this.props.enableViewportOffset) {
+      popupStyles.top -= window.scrollY
+    }
 
     return popupStyles
   }

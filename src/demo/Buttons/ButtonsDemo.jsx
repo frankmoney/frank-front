@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
 import {
   CheckCircle,
   Check,
@@ -8,53 +7,26 @@ import {
   ChatBubble,
   List,
 } from 'material-ui-icons'
-import Button, { IconButton } from 'components/kit/Button'
+import Button, {
+  IconButton,
+  SocialButton,
+  TextButton,
+} from 'components/kit/Button'
+import Spinner from 'components/kit/Spinner'
 import ToggleButton from 'components/kit/ToggleButton'
+import { injectStyles } from 'utils/styles'
+import Demo, { Row } from 'demo/Demo'
 
 const styles = {
-  demo: {
-    alignItems: 'center',
-    background: '#fff',
-    display: 'flex',
-    flexDirection: 'column',
-    paddingBottom: 100,
-    paddingTop: 100,
-    '& > h1': {
-      marginTop: 70,
-      marginBottom: 70,
-      fontSize: 60,
-      lineHeight: 60,
-      fontWeight: 500,
-      '&:first-child': {
-        marginTop: 0,
-      },
-    },
-    '& > h2': {
-      marginTop: 80,
-      marginBottom: 60,
-      fontSize: 40,
-      lineHeight: 50,
-      fontWeight: 500,
-    },
-  },
-  row: {
-    display: 'flex',
-    alignItems: 'center',
-    width: 900,
-    '& > *': {
-      marginRight: 20,
-    },
-    marginBottom: 20,
-  },
   button: {
     width: 160,
   },
 }
 
 const ButtonsDemo = ({ classes }) => (
-  <div className={classes.demo}>
+  <Demo>
     <h1>Button</h1>
-    <div className={classes.row}>
+    <Row>
       <Button className={classes.button} label="Submit" color="green" />
       <Button className={classes.button} label="Submit" color="green" hover />
       <Button className={classes.button} label="Submit" color="green" active />
@@ -65,29 +37,29 @@ const ButtonsDemo = ({ classes }) => (
         disabled
       />
       <Button className={classes.button} label="Submit" color="green" loading />
-    </div>
-    <div className={classes.row}>
+    </Row>
+    <Row>
       <Button className={classes.button} label="Submit" color="gray" />
       <Button className={classes.button} label="Submit" color="gray" hover />
       <Button className={classes.button} label="Submit" color="gray" active />
       <Button className={classes.button} label="Submit" color="gray" disabled />
       <Button className={classes.button} label="Submit" color="gray" loading />
-    </div>
-    <div className={classes.row}>
+    </Row>
+    <Row>
       <Button className={classes.button} label="Submit" color="red" />
       <Button className={classes.button} label="Submit" color="red" hover />
       <Button className={classes.button} label="Submit" color="red" active />
       <Button className={classes.button} label="Submit" color="red" disabled />
       <Button className={classes.button} label="Submit" color="red" loading />
-    </div>
-    <div className={classes.row}>
+    </Row>
+    <Row>
       <Button className={classes.button} label="Submit" color="blue" />
       <Button className={classes.button} label="Submit" color="blue" hover />
       <Button className={classes.button} label="Submit" color="blue" active />
       <Button className={classes.button} label="Submit" color="blue" disabled />
       <Button className={classes.button} label="Submit" color="blue" loading />
-    </div>
-    <div className={classes.row}>
+    </Row>
+    <Row>
       <Button className={classes.button} label="Submit" color="lightBlue" />
       <Button
         className={classes.button}
@@ -113,8 +85,8 @@ const ButtonsDemo = ({ classes }) => (
         color="lightBlue"
         loading
       />
-    </div>
-    <div className={classes.row}>
+    </Row>
+    <Row>
       <Button className={classes.button} label="Submit" color="lightGreen" />
       <Button
         className={classes.button}
@@ -140,8 +112,8 @@ const ButtonsDemo = ({ classes }) => (
         color="lightGreen"
         loading
       />
-    </div>
-    <div className={classes.row}>
+    </Row>
+    <Row>
       <Button
         className={classes.button}
         label="Submit"
@@ -176,8 +148,8 @@ const ButtonsDemo = ({ classes }) => (
         icon={<CheckCircle />}
         loading
       />
-    </div>
-    <div className={classes.row}>
+    </Row>
+    <Row>
       <Button
         className={classes.button}
         label="Submit"
@@ -212,31 +184,31 @@ const ButtonsDemo = ({ classes }) => (
         icon={<CheckCircle />}
         loading
       />
-    </div>0
+    </Row>
     <h2>IconButton</h2>
-    <div className={classes.row}>
+    <Row centered>
       <IconButton icon={<MoreHoriz />} />
       <IconButton icon={<MoreHoriz />} hover />
       <IconButton icon={<MoreHoriz />} active />
       <IconButton icon={<MoreHoriz />} disabled />
       <IconButton icon={<MoreHoriz />} loading />
-    </div>
-    <div className={classes.row}>
+    </Row>
+    <Row centered>
       <IconButton icon={<MoreHoriz />} color="lightGreen" />
       <IconButton icon={<MoreHoriz />} color="lightGreen" hover />
       <IconButton icon={<MoreHoriz />} color="lightGreen" active />
       <IconButton icon={<MoreHoriz />} color="lightGreen" disabled />
       <IconButton icon={<MoreHoriz />} color="lightGreen" loading />
-    </div>
-    <div className={classes.row}>
+    </Row>
+    <Row centered>
       <IconButton icon={<MoreHoriz />} color="lightBlue" />
       <IconButton icon={<MoreHoriz />} color="lightBlue" hover />
       <IconButton icon={<MoreHoriz />} color="lightBlue" active />
       <IconButton icon={<MoreHoriz />} color="lightBlue" disabled />
       <IconButton icon={<MoreHoriz />} color="lightBlue" loading />
-    </div>
+    </Row>
     <h2>ToggleButton</h2>
-    <div className={classes.row}>
+    <Row>
       <ToggleButton label="Submit" icon={<ChatBubble />} />
       <ToggleButton
         defaultOn
@@ -246,9 +218,71 @@ const ButtonsDemo = ({ classes }) => (
       />
       <ToggleButton.Icon icon={<MoreHoriz />} />
       <ToggleButton.Icon defaultOn colorOn="lightGreen" icon={<MoreHoriz />} />
-    </div>
+    </Row>
+    <h2>TextButton</h2>
+    <Row>
+      <TextButton label="Button" />
+      <TextButton label="Button" hover />
+      <TextButton label="Button" active />
+      <TextButton label="Button" disabled />
+      <TextButton label="Button" loading />
+    </Row>
+    <Row>
+      <TextButton label="Button" color="blue" />
+      <TextButton label="Button" color="blue" hover />
+      <TextButton label="Button" color="blue" active />
+      <TextButton label="Button" color="blue" disabled />
+      <TextButton label="Button" color="blue" loading />
+    </Row>
+    <Row>
+      <TextButton label="Button" color="lightBlue" larger />
+      <TextButton label="Button" color="lightBlue" larger hover />
+      <TextButton label="Button" color="lightBlue" larger active />
+      <TextButton label="Button" color="lightBlue" larger disabled />
+      <TextButton label="Button" color="lightBlue" larger loading />
+    </Row>
+    <Row>
+      <TextButton label="Button" color="gray" />
+      <TextButton label="Button" color="gray" hover />
+      <TextButton label="Button" color="gray" active />
+      <TextButton label="Button" color="gray" disabled />
+      <TextButton label="Button" color="gray" loading />
+    </Row>
+    <h2>Spinner</h2>
+    <Row centered>
+      <Spinner size={45} />
+      <Spinner size={25} />
+      <Spinner />
+      <Spinner size={18} />
+    </Row>
+    <h2>SocialButton</h2>
+    <Row centered>
+      <SocialButton type="facebook" />
+      <SocialButton type="facebook" hover />
+      <SocialButton type="facebook" active />
+    </Row>
+    <Row centered>
+      <SocialButton type="twitter" />
+      <SocialButton type="twitter" hover />
+      <SocialButton type="twitter" active />
+    </Row>
+    <Row centered>
+      <SocialButton type="email" />
+      <SocialButton type="email" hover />
+      <SocialButton type="email" active />
+    </Row>
+    <Row centered>
+      <SocialButton type="facebook" large />
+      <SocialButton type="facebook" large hover />
+      <SocialButton type="facebook" large active />
+    </Row>
+    <Row centered>
+      <SocialButton type="twitter" large />
+      <SocialButton type="twitter" large hover />
+      <SocialButton type="twitter" large active />
+    </Row>
     <h2>Different Buttons</h2>
-    <div className={classes.row}>
+    <Row>
       <Button
         className={classes.button}
         label="Publish"
@@ -268,8 +302,8 @@ const ButtonsDemo = ({ classes }) => (
         counter={99}
       />
       <Button label="839 similar payments" icon={<List />} />
-    </div>
-  </div>
+    </Row>
+  </Demo>
 )
 
 export default injectStyles(styles)(ButtonsDemo)
