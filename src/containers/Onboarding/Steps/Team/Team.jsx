@@ -1,8 +1,9 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { compose } from 'recompose'
 import { GiantButton } from '@frankmoney/components'
+import { injectStyles } from 'utils/styles'
 import reconnect from 'utils/reconnect'
 import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'

@@ -1,9 +1,10 @@
+// @flow
 import React from 'react'
-import { Button } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
-import SendIcon from 'material-ui-icons/Send'
 import { compose } from 'recompose'
+import SendIcon from 'material-ui-icons/Send'
 import Drawer from 'components/Drawer/index'
+import Button from 'components/kit/Button'
+import { injectStyles } from 'utils/styles'
 import EmailField from './EmailField'
 import RoleField from './RoleField'
 import NoteField from './NoteField'
@@ -44,10 +45,8 @@ const Invite = ({
         your teammate accepts your invitation
       </div>
       <Button
-        fat
-        type="primary"
         label="Send invitation"
-        icon={SendIcon}
+        icon={<SendIcon />}
         disabled={invalid}
         onClick={onSubmit}
       />

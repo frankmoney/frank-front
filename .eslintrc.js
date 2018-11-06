@@ -23,7 +23,7 @@ module.exports = {
     }
   },
   rules: {
-    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/no-static-element-interactions": "off", // we are suppressing those everywhere anyway
     'no-nested-ternary': 0,
     'import/extensions': 0,
     'import/no-extraneous-dependencies': 1,

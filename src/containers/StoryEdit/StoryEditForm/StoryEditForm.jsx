@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
 import * as R from 'ramda'
@@ -6,12 +7,12 @@ import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form-actions/immutable'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import { injectStyles } from '@frankmoney/ui'
 import createUploaderField from 'controls/forms/createUploaderField'
 import TitleField from 'controls/forms/TitleField'
 import DescriptionField from 'controls/forms/DescriptionField'
 import StoryPayments from 'components/StoryPayments'
 import PaymentsSelectorDrawer from 'components/PaymentsSelectorDrawer'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import {
   formInitialValuesSelector,
   paymentsSelector,
@@ -86,7 +87,15 @@ const ConnectedStoryPayments = compose(
   )
 )(StoryPayments)
 
-class StoryEditForm extends React.PureComponent {
+type Props = {|
+  ...InjectStylesProps,
+|}
+
+type State = {|
+  isDrawerOpen: boolean,
+|}
+
+class StoryEditForm extends React.PureComponent<Props, State> {
   state = {
     isDrawerOpen: false,
   }

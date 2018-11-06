@@ -1,13 +1,13 @@
 import React from 'react'
-import { Button } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
 import { compose } from 'recompose'
 import Drawer from 'components/Drawer'
+import Button from 'components/kit/Button'
 import {
   DateRangeField,
   AmountField,
   VerificationField,
 } from 'components/DrawerFilters'
+import { injectStyles } from 'utils/styles'
 
 const styles = theme => ({
   footer: {
@@ -18,6 +18,7 @@ const styles = theme => ({
   },
   footerButton: {
     marginLeft: 10,
+    width: 120,
   },
 })
 
@@ -102,19 +103,16 @@ class LedgerFilterDrawer extends React.Component {
           </span>
           <div>
             <Button
-              className={classes.footerButton}
-              fat
-              type="secondary"
               label="Reset"
               onClick={onReset}
+              className={classes.footerButton}
             />
             <Button
-              className={classes.footerButton}
-              fat
-              type="primary"
+              color="green"
               label="Apply"
               onClick={this.handleApply}
               disabled={totalCountEstimating || !loaded}
+              className={classes.footerButton}
             />
           </div>
         </Drawer.Footer>

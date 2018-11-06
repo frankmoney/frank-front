@@ -1,11 +1,12 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { Button } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Drawer from 'components/Drawer'
 import List from 'components/ListVirtualized'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { PaymentListRow, ROW_HEIGHT } from 'components/PaymentListRow'
 import { DateRangeField } from 'components/DrawerFilters'
 
@@ -43,9 +44,36 @@ const style = theme => ({
   },
 })
 
+type Payment = Object // FIXME: SelectedPayment type
+
+type EmptyCb = () => void
+type OnChangeCb = (Array<Payment>) => void
+
+type Filter = { dateMin: string, dateMax: string }
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  currencyCode?: string,
+  filter: Filter,
+  loadedPagesCounter: number,
+  onChange: OnChangeCb,
+  onClose: EmptyCb,
+  onFilter?: Function,
+  onLoadMore?: Function,
+  open?: boolean,
+  payments: Array<Payment>,
+  selectedPayments: Array<Payment>,
+  totalPagesCounter: number,
+|}
+
+type State = {|
+  selectedPayments: Array<Payment>,
+|}
+
 const getId = R.prop('id')
 
-class PaymentsSelectorDrawer extends React.PureComponent {
+class PaymentsSelectorDrawer extends React.PureComponent<Props, State> {
   state = {
     selectedPayments: [],
   }
@@ -116,13 +144,14 @@ class PaymentsSelectorDrawer extends React.PureComponent {
       onLoadMore,
       currencyCode = 'USD',
       onChange,
+      onClose,
       ...otherProps
     } = this.props
 
     const { selectedPayments } = this.state
 
     return (
-      <Drawer onClose={this.handleClose} {...otherProps}>
+      <Drawer onClose={onClose} {...otherProps}>
         <Drawer.Header
           className={classes.header}
           buttons={<Drawer.CloseButton />}
