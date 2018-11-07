@@ -2,7 +2,9 @@
 import React from 'react'
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
-import CurrencyProvider from 'components/CurrencyProvider'
+import CurrencyProvider, {
+  type CurrencyCode,
+} from 'components/CurrencyProvider'
 import Drawer from 'components/Drawer'
 import Button from 'components/kit/Button'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -52,12 +54,13 @@ type Payment = Object // FIXME: SelectedPayment type
 type EmptyCb = () => void
 type OnChangeCb = (Array<Payment>) => void
 
-type Filter = { dateMin: string, dateMax: string }
+type FilterDate = string | Date
+type Filter = { dateMin?: FilterDate, dateMax?: FilterDate }
 
 type Props = {|
   ...InjectStylesProps,
   //
-  currencyCode?: string,
+  currencyCode?: CurrencyCode,
   filter: Filter,
   loadedPagesCounter: number,
   onChange: OnChangeCb,

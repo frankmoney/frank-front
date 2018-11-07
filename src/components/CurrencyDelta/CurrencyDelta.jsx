@@ -35,13 +35,22 @@ const styles = {
   },
 }
 
-type Props = {|
+type CommonProps = {|
   ...InjectStylesProps,
   //
-  formatter: CurrencyFormatter,
   symbol?: string,
   value?: number,
   valueClassName?: string,
+|}
+
+type RenderProps = {|
+  ...CommonProps,
+  formatter: CurrencyFormatter,
+|}
+
+type Props = {|
+  ...CommonProps,
+  formatter?: CurrencyFormatter,
 |}
 
 const render = ({
@@ -51,7 +60,7 @@ const render = ({
   symbol,
   value,
   valueClassName,
-}: Props) => (
+}: RenderProps) => (
   <div className={cx(classes.root, className)}>
     <div
       className={classes.sign}

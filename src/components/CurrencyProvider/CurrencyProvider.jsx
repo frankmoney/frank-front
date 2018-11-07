@@ -17,14 +17,14 @@ const CURRENCY_INFO = {
   },
 }
 
-type CurrencyCode = 'USD' | 'RUB'
+export type CurrencyCode = 'USD' | 'RUB'
 
 export type CurrencyFormatter = (number, number, boolean) => string
 
 type Props = {|
-  code: CurrencyCode,
-  formatter: CurrencyFormatter,
   children: React.Node,
+  code: CurrencyCode,
+  formatter?: CurrencyFormatter,
 |}
 
 export const defaultFormatter: CurrencyFormatter = (
