@@ -2,8 +2,9 @@
 import React from 'react'
 import cx from 'classnames'
 import { Checkbox } from 'material-ui'
+import { MoreHoriz as ShowMoreIcon } from 'material-ui-icons'
 import CurrencyDelta from 'components/CurrencyDelta'
-import LoadMoreButton from 'components/LoadMoreButton'
+import Button from 'components/kit/Button'
 import { formatDate, type DateDefaultString } from 'utils/datesLight'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
@@ -35,17 +36,21 @@ const styles = theme => ({
   date: {
     textAlign: 'right',
   },
+  showMoreButton: {
+    width: '100%',
+    marginTop: 5,
+  },
 })
 
 type Props = {|
   ...InjectStylesProps,
   //
-  amount: number,
+  amount?: number,
   lastItem?: boolean,
   loadMore: boolean,
   onLoadMore?: () => void,
   onToggle: () => void,
-  peerName: string,
+  peerName?: string,
   postedOn?: DateDefaultString,
   selectable?: boolean,
   selected?: boolean,
@@ -86,8 +91,10 @@ class PaymentListRow extends React.PureComponent<Props, State> {
         {!postedOn &&
           loadMore && (
             <div className={classes.loadMoreItem} style={style}>
-              <LoadMoreButton
+              <Button
+                icon={<ShowMoreIcon />}
                 label="Show 30 more payments"
+                className={classes.showMoreButton}
                 onClick={onLoadMore}
               />
             </div>
