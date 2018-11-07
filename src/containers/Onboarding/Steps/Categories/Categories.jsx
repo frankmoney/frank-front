@@ -1,10 +1,11 @@
+// @flow
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
-import { compose } from 'recompose'
-import { Button } from '@frankmoney/components'
 import cx from 'classnames'
-import reconnect from 'utils/reconnect'
+import { compose } from 'recompose'
+import Button from 'components/kit/Button'
 import EditCategoryDialog from 'components/EditCategoryDialog'
+import reconnect from 'utils/reconnect'
+import { injectStyles } from 'utils/styles'
 import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription from '../../StepDescription'
@@ -43,6 +44,7 @@ const Categories = ({
     className={cx(classes.root, className)}
     footerButton={
       <Button
+        color="blue"
         className={classes.addCategoryButton}
         label="Add new category"
         onClick={onAddCategory}

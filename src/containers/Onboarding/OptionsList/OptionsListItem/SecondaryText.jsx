@@ -1,6 +1,7 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles } from 'utils/styles'
 import ListItemContext from './context'
 
 const styles = theme => ({

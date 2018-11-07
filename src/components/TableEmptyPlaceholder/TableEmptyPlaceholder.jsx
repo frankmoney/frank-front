@@ -1,6 +1,7 @@
+// @flow
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
-import { Button } from '@frankmoney/components'
+import Button from 'components/kit/Button'
+import { injectStyles } from 'utils/styles'
 
 const styles = theme => ({
   root: {
@@ -18,20 +19,13 @@ const styles = theme => ({
   },
   resetButton: {
     width: 131,
-    backgroundColor: 'rgba(37, 43, 67, 0.07)',
   },
 })
 
 const TableEmptyPlaceholder = ({ classes, text, onReset }) => (
   <div className={classes.root}>
     <div className={classes.label}>No {text} found</div>
-    <Button
-      className={classes.resetButton}
-      fat
-      type="secondary"
-      label="Reset"
-      onClick={onReset}
-    />
+    <Button className={classes.resetButton} label="Reset" onClick={onReset} />
   </div>
 )
 
