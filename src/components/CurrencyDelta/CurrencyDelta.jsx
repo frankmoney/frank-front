@@ -1,12 +1,17 @@
-/* eslint-disable react/no-danger */
+// @flow
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
-import cx from 'classnames'
 import * as R from 'ramda'
-import { defaultFormatter } from 'components/CurrencyProvider'
+import cx from 'classnames'
+import {
+  defaultFormatter,
+  type CurrencyFormatter,
+} from 'components/CurrencyProvider'
 import CurrencyContext from 'contexts/CurrencyContext'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-const isNegative = value => !R.isNil(value) && value.toString()[0] === '-'
+const isNegative: (?number) => boolean = value =>
+  // $FlowFixMe: value is not undefined at the point of toString
+  !R.isNil(value) && value.toString()[0] === '-'
 
 const styles = {
   negative: {},
@@ -30,6 +35,15 @@ const styles = {
   },
 }
 
+type Props = {|
+  ...InjectStylesProps,
+  //
+  formatter: CurrencyFormatter,
+  symbol?: string,
+  value?: number,
+  valueClassName?: string,
+|}
+
 const render = ({
   classes,
   className,
@@ -37,7 +51,7 @@ const render = ({
   symbol,
   value,
   valueClassName,
-}) => (
+}: Props) => (
   <div className={cx(classes.root, className)}>
     <div
       className={classes.sign}
@@ -66,7 +80,7 @@ const CurrencyDelta = ({
   symbol,
   value,
   valueClassName,
-}) => (
+}: Props) => (
   <CurrencyContext.Consumer>
     {(context = {}) =>
       render({

@@ -1,10 +1,11 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { Checkbox } from 'material-ui'
 import CurrencyDelta from 'components/CurrencyDelta'
 import LoadMoreButton from 'components/LoadMoreButton'
-import { formatDate } from 'utils/datesLight'
+import { formatDate, type DateDefaultString } from 'utils/datesLight'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 export const ROW_HEIGHT = 55
 
@@ -36,7 +37,26 @@ const styles = theme => ({
   },
 })
 
-class RecipientRow extends React.PureComponent {
+type Props = {|
+  ...InjectStylesProps,
+  //
+  amount: number,
+  lastItem?: boolean,
+  loadMore: boolean,
+  onLoadMore?: () => void,
+  onToggle: () => void,
+  peerName: string,
+  postedOn?: DateDefaultString,
+  selectable?: boolean,
+  selected?: boolean,
+  style?: any,
+|}
+
+type State = {|
+  checked?: boolean,
+|}
+
+class PaymentListRow extends React.PureComponent<Props, State> {
   state = {
     checked: this.props.selected,
   }
@@ -48,15 +68,15 @@ class RecipientRow extends React.PureComponent {
 
   render() {
     const {
+      amount,
       classes,
-      style,
       lastItem,
       loadMore,
-      peerName,
-      amount,
-      postedOn,
       onLoadMore,
+      peerName,
+      postedOn,
       selectable,
+      style,
     } = this.props
 
     const { checked } = this.state
@@ -96,4 +116,4 @@ class RecipientRow extends React.PureComponent {
   }
 }
 
-export default injectStyles(styles)(RecipientRow)
+export default injectStyles(styles)(PaymentListRow)

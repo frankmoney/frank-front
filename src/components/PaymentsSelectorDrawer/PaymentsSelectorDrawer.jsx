@@ -2,13 +2,13 @@
 import React from 'react'
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
-import { Button } from '@frankmoney/components'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Drawer from 'components/Drawer'
-import List from 'components/ListVirtualized'
+import Button from 'components/kit/Button'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { PaymentListRow, ROW_HEIGHT } from 'components/PaymentListRow'
 import { DateRangeField } from 'components/DrawerFilters'
+import List from './ListVirtualized'
 
 const style = theme => ({
   modeTitle: {},
@@ -42,6 +42,9 @@ const style = theme => ({
     color: '#252B43',
     ...theme.fontMedium(16, 26),
   },
+  attachPaymentsButton: {
+    width: 150,
+  },
 })
 
 type Payment = Object // FIXME: SelectedPayment type
@@ -60,7 +63,7 @@ type Props = {|
   onChange: OnChangeCb,
   onClose: EmptyCb,
   onFilter?: Function,
-  onLoadMore?: Function,
+  onLoadMore?: () => void,
   open?: boolean,
   payments: Array<Payment>,
   selectedPayments: Array<Payment>,
@@ -178,8 +181,8 @@ class PaymentsSelectorDrawer extends React.PureComponent<Props, State> {
         <Drawer.Footer className={classes.footer}>
           {selectedPayments.length} payments
           <Button
-            fat
-            type="primary"
+            color="green"
+            className={classes.attachPaymentsButton}
             label="Attach"
             onClick={this.handleAttachClick}
           />
