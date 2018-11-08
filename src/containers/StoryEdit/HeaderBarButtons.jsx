@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
@@ -10,14 +11,11 @@ import {
   Check as PublishIcon,
   Close as UnpublishIcon,
 } from 'material-ui-icons'
-import {
-  Button,
-  IconButton,
-  CustomMenuItem as MenuItem,
-} from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
+import { CustomMenuItem as MenuItem } from '@frankmoney/components'
 import StoryConfirmDialog from 'components/dialogs/StoryConfirmDialog'
 import MoreActionsButton from 'components/MoreActionsButton'
+import Button, { IconButton } from 'components/kit/Button'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import {
   isSavingSelector,
   savedSelector,
@@ -55,6 +53,12 @@ const styles = {
     height: 22,
     paddingRight: 11,
   },
+  saveButton: {
+    width: 87,
+  },
+  publishButton: {
+    width: 130,
+  },
 }
 
 const SaveButton = compose(
@@ -62,7 +66,7 @@ const SaveButton = compose(
     state => ({
       disabled: isSaveButtonDisabledSelector(state),
       loading: isSavingSelector(state),
-      children: saveButtonLabelSelector(state),
+      label: saveButtonLabelSelector(state),
     }),
     dispatch => ({ onClick: () => dispatch(ACTIONS.createOrUpdate()) })
   )
@@ -71,7 +75,7 @@ const SaveButton = compose(
 const PublishButton = compose(
   connect(state => ({
     disabled: isPublishButtonDisabledSelector(state),
-    children: publishButtonLabelSelector(state),
+    label: publishButtonLabelSelector(state),
   }))
 )(Button)
 
@@ -81,7 +85,26 @@ const DeleteButton = compose(
   }))
 )(IconButton)
 
-class HeaderBarButtons extends React.PureComponent {
+type ConfirmDialogType = 'delete' | 'publish' | 'unpublish'
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  delete: Function,
+  isPublished?: boolean | string, // TODO: fix those selectors
+  processing?: boolean,
+  publish: Function,
+  saved?: string, // why?
+  unpublish: Function,
+|}
+
+type State = {|
+  confirmDialogType: ?ConfirmDialogType,
+  isConfirmDialogOpen: boolean,
+  isDrawerOpen: boolean,
+|}
+
+class HeaderBarButtons extends React.PureComponent<Props, State> {
   state = {
     isDrawerOpen: false,
     confirmDialogType: null,
@@ -141,11 +164,11 @@ class HeaderBarButtons extends React.PureComponent {
 
     return (
       <div className={cx(classes.container, className)}>
-        <SaveButton fat type="secondary" />
+        <SaveButton className={classes.saveButton} />
         <PublishButton
-          fat
-          type="primary"
-          icon={PublishIcon}
+          className={classes.publishButton}
+          color="green"
+          icon={<PublishIcon />}
           onClick={() => this.handleToggleConfirmDialog('publish')}
         />
         {saved &&
@@ -166,9 +189,7 @@ class HeaderBarButtons extends React.PureComponent {
             </MoreActionsButton>
           ) : (
             <DeleteButton
-              round
-              type="secondary"
-              icon={RemoveIcon}
+              icon={<RemoveIcon />}
               onClick={() => this.handleToggleConfirmDialog('delete')}
             />
           ))}
