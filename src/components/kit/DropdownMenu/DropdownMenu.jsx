@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react'
-import { createPortal } from 'react-dom'
 import Backdrop from 'components/kit/Backdrop'
 import Menu from 'components/kit/Menu'
 import ArrowMenu from 'components/kit/ArrowMenu'
 import PopupBase from 'components/kit/PopupBase'
+import createPortalInBody from 'utils/dom/createPortal'
 
 const REVERSE_DIRECTION = {
   up: 'down',
@@ -75,7 +75,7 @@ class DropdownMenu extends React.Component<Props> {
             <>
               {typeof children === 'function' && children(popupState)}
               {open &&
-                createPortal(
+                createPortalInBody(
                   <Backdrop transparent onClick={close}>
                     <MenuComponent
                       autoFocus
@@ -85,8 +85,7 @@ class DropdownMenu extends React.Component<Props> {
                     >
                       {menu || renderMenuContent(popupState)}
                     </MenuComponent>
-                  </Backdrop>,
-                  document.body
+                  </Backdrop>
                 )}
             </>
           )

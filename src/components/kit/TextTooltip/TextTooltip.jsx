@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import { createPortal } from 'react-dom'
+import createPortalInBody from 'utils/dom/createPortal'
 import TooltipBase, { type TooltipBaseProps } from 'components/kit/TooltipBase'
 import TextTooltipDumb from './TextTooltipDumb'
 
@@ -17,9 +17,8 @@ const TextTooltip = ({ children, text, ...otherProps }: Props) => (
       <>
         {React.cloneElement(React.Children.only(children), getTargetProps())}
         {open &&
-          createPortal(
-            <TextTooltipDumb {...getTooltipProps()}>{text}</TextTooltipDumb>,
-            document.body
+          createPortalInBody(
+            <TextTooltipDumb {...getTooltipProps()}>{text}</TextTooltipDumb>
           )}
       </>
     )}

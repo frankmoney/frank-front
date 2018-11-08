@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import { createPortal } from 'react-dom'
 import { MoreHoriz } from 'material-ui-icons'
 import Demo from 'demo/Demo'
 import Paper from 'components/kit/Paper'
@@ -10,6 +9,7 @@ import Popup from 'components/kit/PopupBase'
 import TextTooltip from 'components/kit/TextTooltip'
 import ToggleButton from 'components/kit/ToggleButton'
 import TooltipBase from 'components/kit/TooltipBase'
+import createPortalInBody from 'utils/dom/createPortal'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
@@ -58,8 +58,7 @@ const styles = {
 
 class Portal extends React.Component<any> {
   render() {
-    // $FlowFixMe: nullable document.body
-    return createPortal(this.props.children, document.body)
+    return createPortalInBody(this.props.children)
   }
 }
 

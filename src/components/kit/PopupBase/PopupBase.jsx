@@ -1,5 +1,4 @@
 // @flow
-/* eslint-disable react/no-find-dom-node */
 import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import positionElement from 'utils/dom/positionElement'
@@ -21,26 +20,28 @@ type PopupProps = {|
 
 type EmptyCb = () => void
 
-export type Props = {|
+type Props = {|
   align?: 'start' | 'center' | 'end',
   alignByArrow?: boolean, // в этом случае попап будет равняться стрелкой по анкору
   alignmentOffset?: number,
   children: React.StatelessFunctionalComponent<any>,
-  defaultOpen?: boolean,
+  defaultOpen: boolean,
   distance?: number,
-  onClose: EmptyCb,
-  onChangeOpen?: EmptyCb,
-  open?: boolean,
+  onClose?: EmptyCb,
+  onChangeOpen?: boolean => void,
+  open: boolean,
   place?: 'up' | 'down' | 'left' | 'right',
 |}
+
+type El = Element | Text
 
 export type PopupRenderProps = {
   open: boolean,
   close: EmptyCb,
   show: EmptyCb,
   toggle: EmptyCb,
-  popupEl: Element,
-  anchorEl: Element,
+  popupEl: ?El,
+  anchorEl: ?El,
   getArrowProps: Object => ArrowProps,
   getAnchorProps: Object => AnchorProps,
   getPopupProps: Object => PopupProps,
@@ -48,13 +49,27 @@ export type PopupRenderProps = {
 
 type getRenderPropsFn = () => PopupRenderProps
 
-class PopupBase extends React.Component<Props> {
+type State = {|
+  anchorEl: ?El,
+  arrowEl: ?El,
+  open: boolean,
+  popupEl: ?El,
+|}
+
+class PopupBase extends React.Component<Props, State> {
   static defaultProps = {
     place: 'down',
     align: 'center',
     defaultOpen: false,
     alignmentOffset: 0,
     offset: 0,
+  }
+
+  state = {
+    open: this.props.defaultOpen,
+    anchorEl: null,
+    popupEl: null,
+    arrowEl: null,
   }
 
   // flowlint-next-line unsafe-getters-setters:off
@@ -66,6 +81,31 @@ class PopupBase extends React.Component<Props> {
   get isOpen() {
     return this.isControlled ? this.props.open : this.state.open
   }
+
+  getRenderProps: getRenderPropsFn = () => ({
+    open: this.isOpen,
+    close: this.close,
+    show: this.open,
+    toggle: this.toggle,
+    popupEl: this.state.popupEl,
+    anchorEl: this.state.anchorEl,
+    getArrowProps: (props = {}) => ({
+      ...props,
+      ref: this.handleArrowRef,
+    }),
+    getAnchorProps: (props = {}) => ({
+      ...props,
+      ref: this.handleAnchorRef,
+    }),
+    getPopupProps: (props = {}) => ({
+      ...props,
+      ref: this.handlePopupRef,
+      style: Object.assign(
+        this._getPopupPositionStyles(this.state),
+        props.style
+      ),
+    }),
+  })
 
   open = callback => {
     if (!this.isControlled) {
@@ -113,22 +153,18 @@ class PopupBase extends React.Component<Props> {
     }
   }
 
-  state = {
-    open: this.props.defaultOpen,
-    anchorEl: null,
-    popupEl: null,
-    arrowEl: null,
-  }
-
   handleAnchorRef = ref => {
+    // eslint-disable-next-line react/no-find-dom-node
     this.setState({ anchorEl: findDOMNode(ref) })
   }
 
   handleArrowRef = ref => {
+    // eslint-disable-next-line react/no-find-dom-node
     this.setState({ arrowEl: findDOMNode(ref) })
   }
 
   handlePopupRef = ref => {
+    // eslint-disable-next-line react/no-find-dom-node
     this.setState({ popupEl: findDOMNode(ref) }, () => {
       this.forceUpdate()
     })
@@ -139,7 +175,7 @@ class PopupBase extends React.Component<Props> {
     this.setState({ popupStyles })
   }
 
-  _getPopupPositionStyles = state => {
+  _getPopupPositionStyles = (state: State) => {
     const { popupEl, anchorEl, arrowEl } = state
     const open = this.isOpen
 
@@ -182,31 +218,6 @@ class PopupBase extends React.Component<Props> {
 
     return popupStyles
   }
-
-  getRenderProps: getRenderPropsFn = () => ({
-    open: this.isOpen,
-    close: this.close,
-    show: this.open,
-    toggle: this.toggle,
-    popupEl: this.state.popupEl,
-    anchorEl: this.state.anchorEl,
-    getArrowProps: (props = {}) => ({
-      ...props,
-      ref: this.handleArrowRef,
-    }),
-    getAnchorProps: (props = {}) => ({
-      ...props,
-      ref: this.handleAnchorRef,
-    }),
-    getPopupProps: (props = {}) => ({
-      ...props,
-      ref: this.handlePopupRef,
-      style: Object.assign(
-        this._getPopupPositionStyles(this.state),
-        props.style
-      ),
-    }),
-  })
 
   render() {
     const { children } = this.props

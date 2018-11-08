@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import PopupBase from 'components/kit/PopupBase/index'
+import PopupBase from 'components/kit/PopupBase'
 import chainCallbacks from 'utils/dom/chainCallbacks'
 
 export type TooltipBaseProps = {|
