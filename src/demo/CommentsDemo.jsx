@@ -1,10 +1,11 @@
 import React from 'react'
 import cx from 'classnames'
 import IconComment from 'material-ui-icons/ModeComment'
-import { Button, Paper } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
 import Comments from 'components/Comments'
+import Button from 'components/kit/Button'
+import Paper from 'components/kit/Paper'
 import Title from 'containers/admin/Ledger/ChartCard/Title'
+import { injectStyles } from 'utils/styles'
 
 const styles = theme => ({
   root: {
@@ -12,17 +13,15 @@ const styles = theme => ({
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
+    backgroundColor: '#E5E5E5',
   },
   card: {
     marginTop: 35,
+    padding: [40, 30],
     width: 850,
     '&:last-child': {
       marginBottom: 180,
     },
-  },
-  inboxCard: {
-    paddingTop: 40,
-    paddingBottom: 40,
   },
   cardBody: {
     display: 'flex',
@@ -31,12 +30,8 @@ const styles = theme => ({
   },
 })
 
-const Demo = injectStyles(styles)(({ classes, children }) => (
-  <div className={classes.root}>{children}</div>
-))
-
 const DemoCard = injectStyles(styles)(({ children, classes, className }) => (
-  <Paper className={cx(classes.card, classes.inboxCard, className)}>
+  <Paper className={cx(classes.card, className)} type="card">
     {children}
   </Paper>
 ))
@@ -85,14 +80,13 @@ class CommentsDemo extends React.Component {
   render() {
     const { classes } = this.props
     return (
-      <Demo>
+      <div className={classes.root}>
         <DemoCard>
           <Title>Comments</Title>
           <div className={classes.cardBody}>
             {this.state.firstBlockOpen ? 'Open' : 'Closed'}
             <Button
-              fat
-              icon={IconComment}
+              icon={<IconComment />}
               label="Discuss"
               onClick={this.toggleFirstBlockComments}
             />
@@ -126,7 +120,7 @@ class CommentsDemo extends React.Component {
             canPost={false}
           />
         </DemoCard>
-      </Demo>
+      </div>
     )
   }
 }

@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
@@ -5,20 +6,25 @@ import { compose, lifecycle, branch, renderComponent } from 'recompose'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { injectStyles } from '@frankmoney/ui'
 import {
   PageLoader,
   FixedHeader,
   Breadcrumbs,
   BreadcrumbsItem,
 } from '@frankmoney/components'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import HeaderBarButtons from './HeaderBarButtons'
 import { isNewStorySelector, loadedSelector } from './selectors'
 import ACTIONS from './actions'
 import StoryEditForm from './StoryEditForm'
 import styles from './StoryEdit.jss'
 
-const StoryEdit = ({ classes, className, isNew }) => (
+type Props = {|
+  ...InjectStylesProps,
+  isNew?: boolean,
+|}
+
+const StoryEdit = ({ classes, className, isNew }: Props) => (
   <div className={cx(classes.root, className)}>
     <FixedHeader>
       <Breadcrumbs>

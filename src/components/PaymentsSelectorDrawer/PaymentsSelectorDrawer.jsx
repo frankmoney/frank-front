@@ -1,13 +1,16 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
-import { Button } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
-import CurrencyProvider from 'components/CurrencyProvider'
+import CurrencyProvider, {
+  type CurrencyCode,
+} from 'components/CurrencyProvider'
 import Drawer from 'components/Drawer'
-import List from 'components/ListVirtualized'
+import Button from 'components/kit/Button'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { PaymentListRow, ROW_HEIGHT } from 'components/PaymentListRow'
 import { DateRangeField } from 'components/DrawerFilters'
+import List from './ListVirtualized'
 
 const style = theme => ({
   modeTitle: {},
@@ -41,11 +44,42 @@ const style = theme => ({
     color: '#252B43',
     ...theme.fontMedium(16, 26),
   },
+  attachPaymentsButton: {
+    width: 150,
+  },
 })
+
+type Payment = Object // FIXME: SelectedPayment type
+
+type EmptyCb = () => void
+type OnChangeCb = (Array<Payment>) => void
+
+type FilterDate = string | Date
+type Filter = { dateMin?: FilterDate, dateMax?: FilterDate }
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  currencyCode?: CurrencyCode,
+  filter: Filter,
+  loadedPagesCounter: number,
+  onChange: OnChangeCb,
+  onClose: EmptyCb,
+  onFilter?: Function,
+  onLoadMore?: () => void,
+  open?: boolean,
+  payments: Array<Payment>,
+  selectedPayments: Array<Payment>,
+  totalPagesCounter: number,
+|}
+
+type State = {|
+  selectedPayments: Array<Payment>,
+|}
 
 const getId = R.prop('id')
 
-class PaymentsSelectorDrawer extends React.PureComponent {
+class PaymentsSelectorDrawer extends React.PureComponent<Props, State> {
   state = {
     selectedPayments: [],
   }
@@ -116,13 +150,14 @@ class PaymentsSelectorDrawer extends React.PureComponent {
       onLoadMore,
       currencyCode = 'USD',
       onChange,
+      onClose,
       ...otherProps
     } = this.props
 
     const { selectedPayments } = this.state
 
     return (
-      <Drawer onClose={this.handleClose} {...otherProps}>
+      <Drawer onClose={onClose} {...otherProps}>
         <Drawer.Header
           className={classes.header}
           buttons={<Drawer.CloseButton />}
@@ -149,8 +184,8 @@ class PaymentsSelectorDrawer extends React.PureComponent {
         <Drawer.Footer className={classes.footer}>
           {selectedPayments.length} payments
           <Button
-            fat
-            type="primary"
+            color="green"
+            className={classes.attachPaymentsButton}
             label="Attach"
             onClick={this.handleAttachClick}
           />

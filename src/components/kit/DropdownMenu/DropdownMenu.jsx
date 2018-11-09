@@ -1,8 +1,8 @@
 // @flow
 import * as React from 'react'
-import Modal from 'components/kit/Modal'
-import Menu from 'components/kit/Menu'
 import ArrowMenu from 'components/kit/ArrowMenu'
+import Menu from 'components/kit/Menu'
+import Modal from 'components/kit/Modal'
 import PopupBase from 'components/kit/PopupBase'
 
 const REVERSE_DIRECTION = {

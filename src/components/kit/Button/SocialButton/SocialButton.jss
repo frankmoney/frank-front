@@ -1,11 +1,16 @@
 export default theme => ({
   root: {
     ...theme.fontMedium(16),
-    display: 'inline-flex',
-    borderRadius: 5,
     alignItems: 'center',
+    borderRadius: 5,
+    cursor: 'pointer',
+    display: 'inline-flex',
     justifyContent: 'space-between',
     paddingBottom: 2,
+    userSelect: 'none',
+    '&:focus': {
+      outline: 0,
+    },
   },
   hover: {},
   active: {},

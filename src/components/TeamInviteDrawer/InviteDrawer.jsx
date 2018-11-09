@@ -1,5 +1,5 @@
 import React from 'react'
-import Drawer from 'components/Drawer/index'
+import Drawer from 'components/Drawer'
 import Invite from './Invite'
 
 const InviteDrawer = ({

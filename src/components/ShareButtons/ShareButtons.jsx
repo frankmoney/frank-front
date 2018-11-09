@@ -1,10 +1,9 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
 import { FacebookShareButton, TwitterShareButton } from 'react-share'
-import { injectStyles } from '@frankmoney/ui'
-import { Button } from '@frankmoney/components'
-import TwitterIcon from './TwitterIcon'
-import FacebookIcon from './FacebookIcon'
+import { SocialButton } from 'components/kit/Button'
+import { injectStyles } from 'utils/styles'
 
 const styles = {
   container: {
@@ -13,32 +12,15 @@ const styles = {
       marginLeft: 10,
     },
   },
-  button: {
-    width: 140,
-  },
 }
 
 const ShareButtons = ({ classes, className, url }) => (
   <div className={cx(classes.container, className)}>
     <FacebookShareButton url={url}>
-      <Button
-        fat
-        type="secondary"
-        className={classes.button}
-        icon={FacebookIcon}
-      >
-        Share
-      </Button>
+      <SocialButton type="facebook" large />
     </FacebookShareButton>
     <TwitterShareButton url={url}>
-      <Button
-        fat
-        type="secondary"
-        className={classes.button}
-        icon={TwitterIcon}
-      >
-        Tweet
-      </Button>
+      <SocialButton type="twitter" large />
     </TwitterShareButton>
   </div>
 )

@@ -1,25 +1,64 @@
-/* eslint-disable jsx-a11y/label-has-for */
 // @flow
 import React from 'react'
 import cx from 'classnames'
 import Color from 'color-js'
-import SwitchBase from 'components/kit/SwitchBase'
+import SwitchBase, { type OnChangeCb } from 'components/kit/SwitchBase'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-const getBarColor = ({ color, checked, hovered, parentHovered }) =>
-  checked || hovered || parentHovered
-    ? Color(color).setAlpha(parentHovered && !hovered && !checked ? 0.2 : 1)
-    : 'rgba(0,0,0,0.15)'
+type FlagProps = {|
+  checked?: boolean,
+  disabled?: boolean,
+|}
 
-const getRailsColor = ({ color, checked, parentHovered, hovered }) =>
-  checked || hovered || parentHovered
-    ? Color(color).setAlpha(0.1)
-    : 'rgba(0,0,0,0.05)'
+type StylingProps = {|
+  ...FlagProps,
+  color?: string,
+  hover?: boolean,
+  parentHover?: boolean,
+|}
 
+type Props = {|
+  ...InjectStylesProps,
+  ...StylingProps,
+  //
+  defaultChecked?: boolean,
+  inputProps?: Object,
+  inputRef?: ?Function,
+  name?: string,
+  onChange?: OnChangeCb,
+|}
+
+const GRAY_RAIL_COLOR = 'rgba(37, 43, 67, 0.08)'
 const WIDTH = 40
 const HEIGHT = 20
 const BORDER_RADIUS = 23
 const BAR_WIDTH = 25
+
+const getBarColor = ({
+  checked,
+  color,
+  disabled,
+  hover,
+  parentHover,
+}: StylingProps) => {
+  const hovered = parentHover || hover
+  return disabled
+    ? GRAY_RAIL_COLOR
+    : checked
+      ? hovered
+        ? Color(color)
+            .darkenByAmount(0.04)
+            .saturateByAmount(0.005)
+        : color
+      : Color(GRAY_RAIL_COLOR).setAlpha(hovered ? 0.25 : 0.15)
+}
+
+const getRailsColor = ({ checked, color, disabled }: StylingProps) =>
+  disabled
+    ? GRAY_RAIL_COLOR
+    : checked
+      ? Color(color).setAlpha(0.1)
+      : GRAY_RAIL_COLOR
 
 const styles = theme => ({
   root: {
@@ -29,16 +68,25 @@ const styles = theme => ({
     cursor: 'pointer',
     userSelect: 'none',
     display: 'inline-block',
-    '&:hover': {
+    '&:hover, $hover': {
       '& $bar': {
-        backgroundColor: props =>
-          getBarColor({ ...props, hovered: true, theme }),
+        backgroundColor: props => getBarColor({ ...props, hover: true }),
       },
       '& $rail': {
-        backgroundColor: props =>
-          getRailsColor({ ...props, hovered: true, theme }),
+        backgroundColor: props => getRailsColor({ ...props, hover: true }),
       },
     },
+  },
+  checked: {
+    '& > $bar': {
+      boxShadow: props =>
+        props.disabled ? 'none' : '0px 2px 5px rgba(0, 0, 0, 0.2)',
+    },
+  },
+  hover: {},
+  disabled: {
+    cursor: 'default',
+    pointerEvents: 'none',
   },
   bar: {
     position: 'absolute',
@@ -51,8 +99,6 @@ const styles = theme => ({
     transform: props =>
       props.checked ? `translateX(${WIDTH - BAR_WIDTH}px)` : 'translateX(0)',
     transition: theme.transition('all'),
-    boxShadow: props =>
-      props.checked ? '0px 2px 5px rgba(0, 0, 0, 0.2)' : 'none',
   },
   rail: {
     position: 'absolute',
@@ -77,38 +123,35 @@ const styles = theme => ({
   },
 })
 
-type Props = {|
-  ...InjectStylesProps,
-  //
-  name?: string,
-  color?: string,
-  onChange?: Function,
-  checked?: boolean,
-  defaultChecked?: boolean,
-  disabled?: boolean,
-  parentHovered?: boolean,
-  inputRef?: ?Function,
-  inputProps?: Object,
-|}
-
 let SwitchUncontrolled = ({
   checked,
   classes,
   className,
   disabled,
+  hover,
   inputProps,
   inputRef,
   name,
-  onToggle,
-}) => (
-  <label className={cx(classes.root, className)}>
+  onChange,
+}: Props) => (
+  <label
+    className={cx(
+      classes.root,
+      {
+        [classes.checked]: checked,
+        [classes.hover]: hover,
+        [classes.disabled]: disabled,
+      },
+      className
+    )}
+  >
     <div className={classes.bar} />
     <div className={classes.rail} />
     <input
       type="checkbox"
       name={name}
       checked={checked}
-      onChange={!disabled && onToggle}
+      onChange={disabled ? undefined : onChange}
       className={classes.input}
       disabled={disabled}
       ref={inputRef}
@@ -128,7 +171,7 @@ SwitchUncontrolled = injectStyles(styles, { inject: ['theme', 'classes'] })(
 const Switch = ({ checked, defaultChecked, onChange, ...props }: Props) => (
   <SwitchBase on={checked} defaultOn={defaultChecked} onToggle={onChange}>
     {({ on, toggle }) => (
-      <SwitchUncontrolled checked={on} onToggle={toggle} {...props} />
+      <SwitchUncontrolled checked={on} onChange={toggle} {...props} />
     )}
   </SwitchBase>
 )

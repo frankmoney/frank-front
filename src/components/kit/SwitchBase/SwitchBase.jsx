@@ -1,16 +1,23 @@
 // @flow
 import * as React from 'react'
 
-type Props = {|
-  children?: React.Node,
-  defaultOn: boolean,
-  on?: boolean,
-  onToggle: boolean => void,
+export type OnChangeCb = boolean => void
+
+export type SwitchBaseChildrenProps = {|
+  on: boolean,
+  toggle: OnChangeCb,
 |}
 
-type State = {|
-  on: boolean,
+type SFC<T> = (props: T) => React.Node
+
+type Props = {|
+  children?: SFC<SwitchBaseChildrenProps> | string,
+  defaultOn: boolean,
+  on?: boolean,
+  onToggle?: OnChangeCb,
 |}
+
+type State = SwitchBaseChildrenProps
 
 const SwitchContext = React.createContext({})
 
@@ -21,8 +28,9 @@ export default class SwitchBase extends React.Component<Props, State> {
     defaultOn: false,
   }
 
-  state = {
+  state: State = {
     on: this.props.defaultOn,
+    toggle: this.toggle,
   }
 
   // flowlint-next-line unsafe-getters-setters:off
@@ -30,8 +38,8 @@ export default class SwitchBase extends React.Component<Props, State> {
     return typeof this.props.on !== 'undefined'
   }
 
-  getState = (state: State = this.state) => ({
-    on: this.isControlled ? this.props.on : state.on,
+  getState = (state: State) => ({
+    on: this.isControlled ? !!this.props.on : state.on,
     toggle: this.toggle,
   })
 
@@ -52,7 +60,7 @@ export default class SwitchBase extends React.Component<Props, State> {
 
   render() {
     const { children } = this.props
-    const state = this.getState()
+    const state = this.getState(this.state)
 
     return (
       <SwitchContext.Provider value={state}>

@@ -1,2 +1,3 @@
-export default from './CurrencyProvider'
-export * from './CurrencyProvider'
+// flow
+export default, { defaultFormatter } from './CurrencyProvider'
+export type { CurrencyCode, CurrencyFormatter } from './CurrencyProvider'
