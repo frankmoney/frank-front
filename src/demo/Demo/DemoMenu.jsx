@@ -6,11 +6,15 @@ import { injectStyles } from 'utils/styles'
 const styles = {
   root: {
     position: 'fixed',
-    left: 0,
+    right: 0,
     top: 0,
     display: 'flex',
     flexDirection: 'column',
     margin: 10,
+    opacity: 0.2,
+    '&:hover': {
+      opacity: 1,
+    },
   },
   title: {
     fontSize: 20,
@@ -30,7 +34,6 @@ const styles = {
 
 const DemoMenu = ({ classes }) => (
   <div className={classes.root}>
-    <h2 className={classes.title}>Demo</h2>
     <a href={ROUTES.demo.buttons} className={classes.link}>
       Buttons
     </a>

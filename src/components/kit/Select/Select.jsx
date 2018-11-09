@@ -1,13 +1,10 @@
 // @flow
 import * as React from 'react'
 import { findDOMNode } from 'react-dom'
-import EventListener from 'react-event-listener'
 import Menu from 'components/kit/Menu'
+import Modal from 'components/kit/Modal'
 import ArrowMenu from 'components/kit/ArrowMenu'
 import PopupBase from 'components/kit/PopupBase'
-import ClickAwayListener from 'components/kit/helpers/ClickAwayListener'
-import FocusTrap from 'components/kit/helpers/FocusTrap'
-import createPortalInBody from 'utils/dom/createPortal'
 
 const REVERSE_DIRECTION = {
   up: 'down',
@@ -126,30 +123,13 @@ class Select extends React.Component<Props, State> {
     }
   }
 
-  handleBackdropKeyDown = event => {
-    if (event.key === 'Escape') {
-      event.preventDefault()
-      event.stopPropagation()
-      this.handleTogglePopup(false)
-    }
-  }
-
   focus = () => {
-    // eslint-disable-next-line react/no-find-dom-node
-    console.log(findDOMNode(this.input))
     // eslint-disable-next-line react/no-find-dom-node
     findDOMNode(this.input).focus()
   }
 
   componentDidMount() {
     if (this.props.autoFocus) {
-      this.focus()
-    }
-  }
-
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    if (prevState.open !== this.state.open && !this.state.open) {
-      console.log('return focus')
       this.focus()
     }
   }
@@ -176,6 +156,7 @@ class Select extends React.Component<Props, State> {
 
     return (
       <PopupBase
+        enableViewportOffset
         open={this.state.open}
         onChangeOpen={this.handleTogglePopup}
         place={direction}
@@ -208,39 +189,28 @@ class Select extends React.Component<Props, State> {
                 getAnchorProps,
                 ...this.getRenderProps(this.state),
               })}
-              {open &&
-                createPortalInBody(
-                  <ClickAwayListener onClickAway={close}>
-                    <FocusTrap>
-                      <MenuComponent
-                        autoFocus
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        onSelectElement={
-                          !formatValue && this.handleSelectElement
-                        }
-                        multiple={multiple}
-                        listRef={this.handleListRef}
-                        {...arrowMenuProps}
-                        {...getPopupProps({
-                          ...menuProps,
-                          style: {
-                            ...menuProps.style,
-                            width: stretchDropdown
-                              ? anchorEl.clientWidth
-                              : dropdownWidth,
-                          },
-                        })}
-                      >
-                        {children}
-                      </MenuComponent>
-                    </FocusTrap>
-                    <EventListener
-                      target="document"
-                      onKeyDown={this.handleBackdropKeyDown}
-                    />
-                  </ClickAwayListener>
-                )}
+              <Modal open={open} invisibleBackdrop onClose={close}>
+                <MenuComponent
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                  onSelectElement={!formatValue && this.handleSelectElement}
+                  multiple={multiple}
+                  listRef={this.handleListRef}
+                  {...arrowMenuProps}
+                  {...getPopupProps({
+                    ...menuProps,
+                    style: {
+                      ...menuProps.style,
+                      width:
+                        open && stretchDropdown
+                          ? anchorEl.clientWidth
+                          : dropdownWidth,
+                    },
+                  })}
+                >
+                  {children}
+                </MenuComponent>
+              </Modal>
             </>
           )
         }}

@@ -1,9 +1,10 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import mixins from 'styles/mixins'
-import { adjustTextareaSize } from './utils'
+import { adjustTextareaSize, type TextareaProps } from './utils'
 
 const styles = theme => ({
   root: {
@@ -35,7 +36,28 @@ const styles = theme => ({
   },
 })
 
-class Input extends React.Component {
+type OnChangeCb = any => void
+
+type UnusedProps = {|
+  focus?: any,
+  theme?: any,
+|}
+
+type Props = {|
+  ...InjectStylesProps,
+  ...$Exact<TextareaProps>,
+  ...UnusedProps, // FIXME
+  //
+  children?: React.Node,
+  controlRef?: ?Function,
+  id?: string,
+  multiLine?: boolean,
+  name?: string,
+  onChange: OnChangeCb,
+  value?: string | number,
+|}
+
+class Input extends React.Component<Props> {
   componentDidMount() {
     if (this.props.multiLine) {
       // eslint-disable-next-line react/no-find-dom-node
@@ -62,16 +84,18 @@ class Input extends React.Component {
 
   render() {
     const {
+      children,
       classes,
       className,
-      theme,
-      value,
-      focus,
       controlRef,
-      children,
       multiLine,
-      minLines,
       onChange,
+      value,
+      // Omit (?) // TODO: fix unused props
+      focus,
+      theme,
+      minLines,
+      //
       ...otherProps
     } = this.props
 

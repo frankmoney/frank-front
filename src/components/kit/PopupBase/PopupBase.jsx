@@ -31,6 +31,7 @@ type Props = {|
   onChangeOpen?: boolean => void,
   open: boolean,
   place?: 'up' | 'down' | 'left' | 'right',
+  enableViewportOffset?: boolean,
 |}
 
 type El = Element | Text
@@ -215,6 +216,10 @@ class PopupBase extends React.Component<Props, State> {
           distance,
         })
       : defaultStyles
+
+    if (open && this.props.enableViewportOffset) {
+      popupStyles.top -= window.scrollY
+    }
 
     return popupStyles
   }
