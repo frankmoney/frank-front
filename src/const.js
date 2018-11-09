@@ -9,23 +9,23 @@ export const ROUTES = {
   },
   manage: {
     inbox: {
-      root: 'manage/inbox',
+      root: '/manage/inbox',
     },
     ledger: {
-      root: 'manage/ledger',
+      root: '/manage/ledger',
     },
     stories: {
-      root: 'manage/stories',
-      storyPreview: 'manage/story/:id?',
-      storyEdit: 'manage/story/:id?/edit',
-      storyNew: 'manage/story/new',
+      root: '/manage/stories',
+      storyPreview: '/manage/story/:id?',
+      storyEdit: '/manage/story/:id?/edit',
+      storyNew: '/manage/story/new',
     },
     directory: {
-      root: 'manage/directory',
-      recipient: 'manage/directory/:id?',
+      root: '/manage/directory',
+      recipient: '/manage/directory/:id?',
     },
     team: {
-      root: 'manage/team',
+      root: '/manage/team',
     },
     onboarding: {
       root: '/onboarding',
@@ -33,13 +33,15 @@ export const ROUTES = {
   },
   public: {
     ledger: {
-      root: '/account/:id?',
-    },
-    stories: {
-      root: '/account/:id?/stories',
+      idRoot: '/account/:accountId?',
+      idRootTab: '/account/:accountId/:tab(stories)?',
+      stories: '/account/:accountId?/stories',
     },
     story: {
       root: '/account/:accountId?/stories/:storyId?',
+    },
+    payment: {
+      root: '/account/:accountId?/payments/:paymentId?',
     },
   },
   demo: {

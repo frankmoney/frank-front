@@ -7,6 +7,7 @@ import { Sort as IconFilter } from 'material-ui-icons'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
+import LedgerFilterDrawer from 'components/drawers/LedgerFilterDrawer'
 import * as ACTIONS from '../actions'
 import {
   filtersDataSelector,
@@ -16,7 +17,6 @@ import {
   isFiltersOpenSelector,
   paymentsTotalCountSelector,
 } from '../selectors'
-import LedgerFilterDrawer from './LedgerFilterDrawer'
 
 const styles = theme => ({
   root: {

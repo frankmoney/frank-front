@@ -6,8 +6,10 @@ import * as publicLedgerEpics from 'containers/public/Ledger/epics'
 import * as directoryEpics from 'containers/admin/Directory/epics'
 import * as recipientEpics from 'containers/admin/Recipient/epics'
 import * as storiesEpics from 'containers/admin/Stories/epics'
-import * as storyPreviewEpics from 'containers/admin/StoryPreview/epics'
+import * as adminStoryEpics from 'containers/admin/Story/epics'
+import * as publicStoryEpics from 'containers/public/Story/epics'
 import * as storyEditEpics from 'containers/admin/StoryEdit/epics'
+import * as publicPaymentEpics from 'containers/public/Payment/epics'
 import * as teamEpics from 'containers/admin/Team/epics'
 
 export default createRootEpic([
@@ -18,7 +20,9 @@ export default createRootEpic([
   directoryEpics,
   recipientEpics,
   storiesEpics,
-  storyPreviewEpics,
+  adminStoryEpics,
+  publicStoryEpics,
   storyEditEpics,
+  publicPaymentEpics,
   teamEpics,
 ])

@@ -75,7 +75,7 @@ export default handleActions(
       state.merge({
         paymentsListLoading: true,
       }),
-    [ACTIONS.loadMorePayments.success]: (state, { payload: { payments } }) =>
+    [ACTIONS.loadMorePayments.success]: (state, { payload: payments }) =>
       state
         .merge({
           paymentsListLoading: false,

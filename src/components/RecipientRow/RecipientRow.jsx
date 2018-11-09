@@ -9,7 +9,7 @@ import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
 import ListWithOverflow from 'components/ListWithOverflow'
 import HighlightText from 'components/HighlightText'
-import { ROUTES } from '../../const'
+import { ROUTES } from 'const'
 
 const styles = theme => ({
   root: {

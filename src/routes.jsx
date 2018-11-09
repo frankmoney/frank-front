@@ -18,7 +18,7 @@ export default [
     path: ROUTES.auth.login,
     exact: true,
   },
-  // ...adminRoutes,
+  ...adminRoutes,
   ...publicRoutes,
   ...demoRoutes,
   {

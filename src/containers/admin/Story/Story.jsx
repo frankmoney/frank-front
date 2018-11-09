@@ -11,10 +11,10 @@ import StoryPaymentsStats from 'components/StoryPaymentsStats'
 import StoryPayments from 'components/StoryPayments'
 import { isLoadedSelector, storySelector } from './selectors'
 import ACTIONS from './actions'
-import styles from './StoryPreview.jss'
+import styles from './Story.jss'
 import HeaderBarButtons from './HeaderBarButtons'
 
-const StoryPreview = ({
+const Story = ({
   classes,
   className,
   story: {
@@ -87,4 +87,4 @@ export default compose(
   }),
   branch(props => !props.isLoaded, renderComponent(PageLoader)),
   injectStyles(styles, { fixedGrid: true })
-)(StoryPreview)
+)(Story)

@@ -14,7 +14,6 @@ const storyDraftFields = `
 `
 
 const paymentFields = `
-  pid
   id: pid
   postedOn
   amount
@@ -43,7 +42,7 @@ export default {
     ) {
       account(pid: $accountPid) {
         payments(
-          sortBy: amount_DESC
+          sortBy: postedOn_DESC
           postedOnMin: $postedOnMin
           postedOnMax: $postedOnMax
           take: $take
@@ -85,7 +84,7 @@ export default {
           draft {
             ${storyDraftFields}
             payments(
-              sortBy: amount_DESC
+              sortBy: postedOn_DESC
             ) {
               ${paymentFields}
             }

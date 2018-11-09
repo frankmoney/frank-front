@@ -1,30 +1,43 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { currentUserSelector } from '@frankmoney/webapp'
-import { compose, withProps, branch, renderComponent } from 'recompose'
-import { Redirect } from 'react-router-dom'
-import Helmet from 'react-helmet'
+import { compose, withProps } from 'recompose'
 import Ledger from 'containers/public/Ledger'
-import Layout from 'components/Layout'
-import { BASE_TITLE, ROUTES } from 'const'
-
-const withLayout = Component => props => (
-  <Layout>
-    <Component {...props} />
-    <Helmet title={BASE_TITLE} />
-  </Layout>
-)
+import Story from 'containers/public/Story'
+import Payment from 'containers/public/Payment'
+import { ROUTES } from 'const'
 
 const ComposedLedger = compose(
   withProps(props => ({
-    accountId: props.match.params.id,
+    accountId: props.match.params.accountId,
   }))
 )(Ledger)
+
+const ComposedStory = compose(
+  withProps(props => ({
+    accountId: props.match.params.accountId,
+    storyId: props.match.params.storyId,
+  }))
+)(Story)
+
+const ComposedPayment = compose(
+  withProps(props => ({
+    accountId: props.match.params.accountId,
+    paymentId: props.match.params.paymentId,
+  }))
+)(Payment)
 
 export default [
   {
     component: ComposedLedger,
-    path: ROUTES.public.ledger.root,
+    path: ROUTES.public.ledger.idRootTab,
+    exact: true,
+  },
+  {
+    component: ComposedStory,
+    path: ROUTES.public.story.root,
+    exact: true,
+  },
+  {
+    component: ComposedPayment,
+    path: ROUTES.public.payment.root,
     exact: true,
   },
 ]

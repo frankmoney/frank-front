@@ -17,12 +17,18 @@ import recipientReducer, {
 import storiesReducer, {
   REDUCER_KEY as storiesKey,
 } from 'containers/admin/Stories/reducer'
-import storyPreviewReducer, {
-  REDUCER_KEY as storyPreviewKey,
-} from 'containers/admin/StoryPreview/reducer'
+import adminStoryReducer, {
+  REDUCER_KEY as adminStoryKey,
+} from 'containers/admin/Story/reducer'
+import publicStoryReducer, {
+  REDUCER_KEY as publicStoryKey,
+} from 'containers/public/Story/reducer'
 import storyEditReducer, {
   REDUCER_KEY as storyEditKey,
 } from 'containers/admin/StoryEdit/reducer'
+import publicPaymentReducer, {
+  REDUCER_KEY as publicPaymentKey,
+} from 'containers/public/Payment/reducer'
 import teamReducer, { name as teamKey } from 'containers/admin/Team/reducer'
 import onboardingReducer, {
   REDUCER_KEY as onboardingKey,
@@ -34,8 +40,10 @@ export default createReducer({
   [directoryKey]: directoryReducer,
   [recipientKey]: recipientReducer,
   [storiesKey]: storiesReducer,
-  [storyPreviewKey]: storyPreviewReducer,
+  [adminStoryKey]: adminStoryReducer,
+  [publicStoryKey]: publicStoryReducer,
   [storyEditKey]: storyEditReducer,
+  [publicPaymentKey]: publicPaymentReducer,
   [teamKey]: teamReducer,
   [teamKey]: teamReducer,
   [widgetDataKey]: widgetDataReducer,

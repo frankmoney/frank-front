@@ -48,7 +48,10 @@ const Stories = ({ classes, noStories, stories, className }) => (
       </FixedHeader>
       <div className={classes.container}>
         <NewButton />
-        {!noStories && stories.map(story => <LinkedStoryCard {...story.draft} pid={story.pid} />)}
+        {!noStories &&
+          stories.map(story => (
+            <LinkedStoryCard {...story.draft} pid={story.pid} />
+          ))}
       </div>
     </div>
     <ShareDialog />

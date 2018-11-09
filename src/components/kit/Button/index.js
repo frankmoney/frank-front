@@ -1,4 +1,5 @@
 export default from './Button'
 export IconButton from './IconButton'
+export IconPlainButton from './IconPlainButton'
 export SocialButton from './SocialButton'
 export TextButton from './TextButton'

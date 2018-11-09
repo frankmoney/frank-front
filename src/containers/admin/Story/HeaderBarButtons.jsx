@@ -58,9 +58,7 @@ const HeaderBarButtons = ({
       fat
       type="secondary"
       icon={EditIcon}
-
       href={createRouteUrl(ROUTES.manage.stories.storyEdit, { id: pid })}
-
     >
       Edit story
     </Button>
