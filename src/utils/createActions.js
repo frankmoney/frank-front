@@ -1,7 +1,11 @@
+// @flow
 import * as R from 'ramda'
-import createActionFactory from './createActionFactory'
+import createActionFactory, { type ActionFunction } from './createActionFactory'
 
-const createActions = (prefix, descriptors) => {
+type Descriptors = { [string]: boolean }
+type Actions = { [string]: ActionFunction }
+
+const createActions = (prefix: string, descriptors: Descriptors): Actions => {
   const factory = createActionFactory(prefix)
   return R.pipe(
     Object.keys,

@@ -1,6 +1,5 @@
-/* eslint-disable react/no-find-dom-node */
 // @flow
-import React from 'react'
+import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import Menu from 'components/kit/Menu'
 import Modal from 'components/kit/Modal'
@@ -14,19 +13,33 @@ const REVERSE_DIRECTION = {
   right: 'left',
 }
 
+type Value = any // FIXME
+
 export type Props = {|
-  direction?: 'up' | 'down',
   align?: 'start' | 'center' | 'end',
   alignByArrow?: boolean,
   arrowAt?: 'start' | 'center' | 'end',
+  autoFocus?: boolean,
+  children?: React.Node,
+  defaultFocused?: boolean,
+  defaultOpen?: boolean,
+  defaultValue?: Value,
+  direction?: 'up' | 'down',
   dropdownWidth?: number,
+  formatValue: Value => any,
   stretchDropdown?: boolean,
-  formatValue: any => any,
+|}
+
+type State = {|
+  open?: boolean,
+  focused?: boolean,
+  value?: Value,
+  selectedElementText?: ?string,
 |}
 
 const DEFAULT_WIDTH = 250
 
-class Select extends React.Component<Props> {
+class Select extends React.Component<Props, State> {
   static defaultProps = {
     direction: 'down',
     align: 'start',
@@ -40,6 +53,26 @@ class Select extends React.Component<Props> {
     open: this.props.defaultOpen,
     focused: this.props.defaultFocused,
   }
+
+  getRenderProps = (state: State = this.state) => ({
+    value: state.value,
+    valueFormatted:
+      typeof this.props.formatValue === 'function'
+        ? this.props.formatValue(state.value)
+        : state.selectedElementText,
+    active: state.open || state.focused,
+    toggle: this.handleTogglePopup,
+    select: this.handleChange,
+    getInputProps: (props = {}) => ({
+      ...props,
+      controlRef: this.handleInputRef,
+      tabIndex: 0,
+      onClick: this.handleInputClick,
+      onFocus: this.handleInputFocus,
+      onBlur: this.handleInputBlur,
+      onKeyDown: this.handleKeyDown,
+    }),
+  })
 
   handleListRef = ref => {
     this.list = ref
@@ -66,7 +99,7 @@ class Select extends React.Component<Props> {
     })
   }
 
-  handleTogglePopup = open => {
+  handleTogglePopup = (open: boolean) => {
     this.setState({ open })
   }
 
@@ -80,10 +113,10 @@ class Select extends React.Component<Props> {
 
   handleKeyDown = event => {
     if (event.key === 'ArrowDown') {
-      event.preventDefault() // prefent move caret to end
+      event.preventDefault() // prevent move caret to end
       this.list.setNextActiveElement()
     } else if (event.key === 'ArrowUp') {
-      event.preventDefault() // prefent move caret to start
+      event.preventDefault() // prevent move caret to start
       this.list.setPrevActiveElement()
     } else if (event.key === 'Enter') {
       this.setState({ open: true })
@@ -91,28 +124,9 @@ class Select extends React.Component<Props> {
   }
 
   focus = () => {
+    // eslint-disable-next-line react/no-find-dom-node
     findDOMNode(this.input).focus()
   }
-
-  getRenderProps = (state = this.state) => ({
-    value: state.value,
-    valueFormatted:
-      typeof this.props.formatValue === 'function'
-        ? this.props.formatValue(state.value)
-        : state.selectedElementText,
-    active: state.open || state.focused,
-    toggle: this.handleTogglePopup,
-    select: this.handleChange,
-    getInputProps: (props = {}) => ({
-      ...props,
-      controlRef: this.handleInputRef,
-      tabIndex: 0,
-      onClick: this.handleInputClick,
-      onFocus: this.handleInputFocus,
-      onBlur: this.handleInputBlur,
-      onKeyDown: this.handleKeyDown,
-    }),
-  })
 
   componentDidMount() {
     if (this.props.autoFocus) {

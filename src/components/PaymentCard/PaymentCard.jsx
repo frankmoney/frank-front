@@ -1,13 +1,6 @@
+// @flow
 // spellchecker:ignore mmaa
 import React from 'react'
-import {
-  Button,
-  CheckedMenuItem,
-  IconButton,
-  Paper,
-  Switch,
-} from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
 import format from 'date-fns/format'
 import CheckCircleIcon from 'material-ui-icons/CheckCircle'
@@ -15,12 +8,17 @@ import CheckIcon from 'material-ui-icons/Check'
 import InfoIcon from 'material-ui-icons/InfoOutline'
 import ModeCommentIcon from 'material-ui-icons/ModeComment'
 import MoreHoriz from 'material-ui-icons/MoreHoriz'
+import { CheckedMenuItem } from '@frankmoney/components'
 import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
 import { Field } from 'components/Field'
 import SelectField from 'components/SelectField'
 import TextBox from 'components/TextBox'
-import colors from 'styles/colors'
+import Button, { IconButton } from 'components/kit/Button'
+import Paper from 'components/kit/Paper'
+import Switch from 'components/kit/Switch'
+import ToggleButton from 'components/kit/ToggleButton'
+import { injectStyles } from 'utils/styles'
 import styles from './PaymentCard.jss'
 
 const PaymentCard = ({
@@ -44,7 +42,7 @@ const PaymentCard = ({
   searchText,
   ...otherProps
 }) => (
-  <Paper className={cx(classes.root, className)} {...otherProps}>
+  <Paper type="card" className={cx(classes.root, className)} {...otherProps}>
     <div className={classes.header}>
       <div className={classes.createdAt}>
         {format(createdAt, 'MMMM d, h:mmaa')}
@@ -122,7 +120,7 @@ const PaymentCard = ({
     <div className={classes.footer}>
       <div className={classes.useForSimilar}>
         <div>
-          <Switch color={colors.green} checked={useForSimilar} />
+          <Switch checked={useForSimilar} />
         </div>
         <div className={classes.useForSimilarHint}>
           Add same recipient, category and description for similar payments
@@ -130,23 +128,9 @@ const PaymentCard = ({
         </div>
       </div>
       <div className={classes.buttons}>
-        <IconButton className={classes.moreButton} round icon={MoreHoriz} />
-        <Button
-          className={classes.discussButton}
-          fat
-          type="secondary"
-          icon={ModeCommentIcon}
-        >
-          Discuss
-        </Button>
-        <Button
-          className={classes.doneButton}
-          fat
-          icon={CheckIcon}
-          type="primary"
-        >
-          Done
-        </Button>
+        <IconButton icon={<MoreHoriz />} />
+        <ToggleButton icon={<ModeCommentIcon />} label="Discuss" />
+        <Button icon={<CheckIcon />} color="green" label="Done" />
       </div>
     </div>
   </Paper>

@@ -1,7 +1,8 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { AutoSizer, List } from 'react-virtualized'
+import { injectStyles } from 'utils/styles'
 
 const styles = {
   list: {

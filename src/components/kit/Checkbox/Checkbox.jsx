@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import cx from 'classnames'
-import SwitchBase from 'components/kit/SwitchBase'
+import SwitchBase, { type OnChangeCb } from 'components/kit/SwitchBase'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import CheckIcon from './check.svg'
 
@@ -57,7 +57,7 @@ type Props = {|
   inputProps?: Object,
   inputRef?: ?Function,
   name?: string,
-  onChange?: Function,
+  onChange?: OnChangeCb,
 |}
 
 let InternalCheckbox = ({
@@ -68,8 +68,8 @@ let InternalCheckbox = ({
   inputProps,
   inputRef,
   name,
-  onToggle,
-}) => (
+  onChange,
+}: Props) => (
   <div
     className={cx(
       classes.root,
@@ -84,7 +84,7 @@ let InternalCheckbox = ({
       className={classes.input}
       disabled={disabled}
       name={name}
-      onChange={!disabled && onToggle}
+      onChange={disabled ? undefined : onChange}
       ref={inputRef}
       type="checkbox"
       {...inputProps}
@@ -97,7 +97,7 @@ InternalCheckbox = injectStyles(styles)(InternalCheckbox)
 const Checkbox = ({ checked, defaultChecked, onChange, ...props }: Props) => (
   <SwitchBase on={checked} defaultOn={defaultChecked} onToggle={onChange}>
     {({ on, toggle }) => (
-      <InternalCheckbox checked={on} onToggle={toggle} {...props} />
+      <InternalCheckbox checked={on} onChange={toggle} {...props} />
     )}
   </SwitchBase>
 )

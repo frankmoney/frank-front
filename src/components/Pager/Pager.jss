@@ -22,7 +22,7 @@ export default theme => ({
     '&:not(:last-child)': {
       marginRight: 5,
     },
-    '&:not($current)': {
+    '&:not($pageCurrent)': {
       cursor: 'pointer',
       '&:hover': {
         color: '#000',
@@ -34,6 +34,7 @@ export default theme => ({
   pageCurrent: {
     backgroundColor: '#fff',
     boxShadow: '0 1px 2px 0 rgba(0,0,0,0.10)',
+    cursor: 'default',
   },
   pageNum: {},
 

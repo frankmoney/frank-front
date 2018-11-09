@@ -77,7 +77,7 @@ export default [
     exact: true,
   },
   {
-    component: withDemoLayout(CommentsDemo),
+    component: CommentsDemo,
     path: ROUTES.demo.comments,
     exact: true,
   },

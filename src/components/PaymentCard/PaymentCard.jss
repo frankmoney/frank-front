@@ -1,7 +1,6 @@
 export default theme => ({
   root: {
-    paddingTop: 40,
-    paddingBottom: 40,
+    padding: [40, 30],
   },
   header: {
     display: 'flex',
@@ -101,17 +100,8 @@ export default theme => ({
   buttons: {
     display: 'flex',
     whiteSpace: 'nowrap',
-  },
-  moreButton: {
-    marginLeft: 10,
-  },
-  discussButton: {
-    marginLeft: 10,
-  },
-  doneButton: {
-    marginLeft: 10,
-  },
-  buttonIcon: {
-    marginRight: 15,
+    '& > *': {
+      marginLeft: 10,
+    },
   },
 })

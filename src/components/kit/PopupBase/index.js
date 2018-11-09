@@ -1,2 +1,3 @@
-export default from './PopupBase'
-export type * from './PopupBase'
+// @flow
+export { default } from './PopupBase'
+export type { PopupRenderProps } from './PopupBase'

@@ -1,12 +1,12 @@
-import * as R from 'ramda'
 import React from 'react'
+import * as R from 'ramda'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { compose } from 'recompose'
 import { Sort as IconFilter } from 'material-ui-icons'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
+import { injectStyles } from 'utils/styles'
 import * as ACTIONS from '../actions'
 import {
   filtersDataSelector,

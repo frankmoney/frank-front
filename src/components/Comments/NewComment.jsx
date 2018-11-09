@@ -1,14 +1,10 @@
-import React from 'react'
+// @flow
+import * as React from 'react'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import { Cancel as IconCancel } from 'material-ui-icons'
-import { injectStyles } from '@frankmoney/ui'
-import {
-  IconButton,
-  TextButton,
-  TextField,
-  Tooltip,
-} from '@frankmoney/components'
+import { IconButton, TextField, Tooltip } from '@frankmoney/components'
+import { TextButton } from 'components/kit/Button'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import CommentBase from './CommentBase'
 import IconAt from './IconAt.svg'
 
@@ -37,29 +33,34 @@ const styles = theme => ({
     position: 'relative',
     right: 2,
     top: -3,
-    visibility: 'hidden',
+    // visibility: 'hidden',
     width: 120,
   },
   visible: {
-    visibility: 'unset',
-  },
-  buttonSend: {
-    ...theme.fontMedium(18, 26),
-    color: '#7A7DE7',
-    textTransform: 'none',
-    '&:hover, &:active': {
-      color: theme.colors.blue,
-    },
+    // visibility: 'unset',
   },
   buttonMention: {},
   buttonCancel: {},
 })
 
-class NewComment extends React.Component {
-  propTypes = {
-    onSend: PropTypes.func.isRequired,
-  }
+type CommentText = string
 
+type User = { picture: string } // move out
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  key?: React.Key,
+  onSend: CommentText => void,
+  user: User,
+|}
+
+type State = {|
+  focus: boolean,
+  value: CommentText,
+|}
+
+class NewComment extends React.Component<Props, State> {
   state = {
     focus: false,
     value: '',
@@ -103,8 +104,9 @@ class NewComment extends React.Component {
           >
             <TextButton
               label="Send"
+              color="lightBlue"
+              larger
               onClick={this.handleSend}
-              className={classes.buttonSend}
             />
             <Tooltip text="Mention" placement="top">
               <IconButton icon={IconAt} className={classes.buttonMention} />

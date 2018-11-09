@@ -1,8 +1,9 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
-import { Button } from '@frankmoney/components'
+import Button from 'components/kit/Button'
 import FrankLogo from 'components/Logo'
+import { injectStyles } from 'utils/styles'
 import styles from './StepLayout.jss'
 
 const StepLayout = ({
@@ -38,7 +39,7 @@ const StepLayout = ({
         )}
         <Button
           label={nextLabel}
-          type="primary"
+          color="green"
           disabled={!canGoNext}
           loading={loadingNext}
           onClick={onNext}

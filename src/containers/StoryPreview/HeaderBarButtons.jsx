@@ -1,12 +1,15 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { Edit as EditIcon, Public as PublicIcon } from 'material-ui-icons'
-import { Button, LinkButton } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
+import { LinkButton } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
+import Button from 'components/kit/Button'
 import { formatFullDate } from 'utils/datesLight'
+import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import { storySelector } from './selectors'
 
@@ -29,6 +32,12 @@ const styles = theme => ({
   draft: {
     ...theme.fontRegular(16),
     color: '#FF3939',
+  },
+  editButton: {
+    textDecoration: 'none',
+    '& > *': {
+      width: 140,
+    },
   },
 })
 
@@ -53,15 +62,12 @@ const HeaderBarButtons = ({
         </LinkButton>
       </>
     )}
-    <Button
-      className={classes.discussButton}
-      fat
-      type="secondary"
-      icon={EditIcon}
-      href={createRouteUrl(ROUTES.stories.storyEdit, { id: pid })}
+    <Link
+      to={createRouteUrl(ROUTES.stories.storyEdit, { id: pid })}
+      className={classes.editButton}
     >
-      Edit story
-    </Button>
+      <Button label="Edit story" icon={<EditIcon />} />
+    </Link>
   </div>
 )
 
