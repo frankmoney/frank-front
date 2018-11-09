@@ -5,7 +5,6 @@ export loadInitialFiltersAfterDrawerOpen from './loadInitialFiltersAfterDrawerOp
 export loadInitialFiltersFromUrl from './loadInitialFiltersFromUrl'
 export reloadResultsWhenUrlChange from './reloadResultsWhenUrlChange'
 export reloadAfterChangeAccount from './reloadAfterChangeAccount'
-export updateUrlWhenTypingSearch from './updateUrlWhenTypingSearch'
 export updateUrlWhenApplyFilters from './updateUrlWhenApplyFilters'
 export updateUrlWhenSelectPage from './updateUrlWhenSelectPage'
 export updateUrlWhenSelectCategory from './updateUrlWhenSelectCategory'
