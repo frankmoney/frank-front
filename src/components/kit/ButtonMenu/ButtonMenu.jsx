@@ -1,36 +1,38 @@
 // @flow
 import * as React from 'react'
 import DropdownMenu, {
+  type DropdownMenuChildren,
+  type DropdownMenuDirection,
   type DropdownMenuProps,
 } from 'components/kit/DropdownMenu'
-import type { PopupRenderProps } from 'components/kit/PopupBase'
 
 type Props = {|
   ...DropdownMenuProps,
   //
-  alignByArrow?: boolean,
   alignEnd?: boolean,
   alignStart?: boolean,
   arrowEnd?: boolean,
   arrowStart?: boolean,
+  children?: DropdownMenuChildren,
+  direction?: DropdownMenuDirection,
   down?: boolean,
-  renderButton: PopupRenderProps => React.Node,
+  renderButton: DropdownMenuChildren,
   up?: boolean,
 |}
 
 const ButtonMenu = ({
-  renderButton,
-  alignStart,
+  align: alignProp,
+  alignByArrow,
   alignEnd,
+  alignStart,
+  arrowAt: arrowAtProp,
   arrowEnd,
   arrowStart,
-  up,
-  down,
-  align: alignProp,
-  direction: directionProp,
-  arrowAt: arrowAtProp,
-  alignByArrow,
   children,
+  direction: directionProp,
+  down,
+  renderButton,
+  up,
   ...otherProps
 }: Props) => {
   const direction = up ? 'up' : down ? 'down' : directionProp

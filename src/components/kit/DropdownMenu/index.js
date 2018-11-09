@@ -1,2 +1,7 @@
-export default from './DropdownMenu'
-export type * from './DropdownMenu'
+// @flow
+export { default } from './DropdownMenu'
+export type {
+  DropdownMenuChildren,
+  DropdownMenuDirection,
+  DropdownMenuProps,
+} from './DropdownMenu'

@@ -1,1 +1,2 @@
-export default from './Select'
+// @flow
+export { default } from './Select'

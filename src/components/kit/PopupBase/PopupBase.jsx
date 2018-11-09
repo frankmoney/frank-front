@@ -5,8 +5,9 @@ import positionElement from 'utils/dom/positionElement'
 
 type RefHandler = (React.ComponentType<any> | Element) => void
 
-type ArrowProps = {|
+export type PopupArrowProps = {|
   ref: RefHandler,
+  style?: Object,
 |}
 
 type AnchorProps = {|
@@ -15,13 +16,16 @@ type AnchorProps = {|
 
 type PopupProps = {|
   ref: RefHandler,
-  style: Object,
+  style?: Object,
 |}
 
 type EmptyCb = () => void
 
+export type PopupAlign = 'start' | 'center' | 'end'
+export type PopupPosition = 'up' | 'down' | 'left' | 'right'
+
 type Props = {|
-  align?: 'start' | 'center' | 'end',
+  align: PopupAlign,
   alignByArrow?: boolean, // в этом случае попап будет равняться стрелкой по анкору
   alignmentOffset?: number,
   children: React.StatelessFunctionalComponent<any>,
@@ -29,21 +33,21 @@ type Props = {|
   distance?: number,
   onClose?: EmptyCb,
   onChangeOpen?: boolean => void,
-  open: boolean,
-  place?: 'up' | 'down' | 'left' | 'right',
+  open?: boolean,
+  place: PopupPosition,
   enableViewportOffset?: boolean,
 |}
 
 type El = Element | Text
 
 export type PopupRenderProps = {
-  open: boolean,
+  open?: boolean,
   close: EmptyCb,
   show: EmptyCb,
   toggle: EmptyCb,
   popupEl: ?El,
   anchorEl: ?El,
-  getArrowProps: Object => ArrowProps,
+  getArrowProps: Object => PopupArrowProps,
   getAnchorProps: Object => AnchorProps,
   getPopupProps: Object => PopupProps,
 }
@@ -63,7 +67,6 @@ class PopupBase extends React.Component<Props, State> {
     align: 'center',
     defaultOpen: false,
     alignmentOffset: 0,
-    offset: 0,
   }
 
   state = {

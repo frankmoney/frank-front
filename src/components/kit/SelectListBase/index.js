@@ -1,2 +1,3 @@
-export default from './SelectListBase'
-export type * from './SelectListBase'
+// @flow
+export { default } from './SelectListBase'
+export type { SelectListBaseProps } from './SelectListBase'

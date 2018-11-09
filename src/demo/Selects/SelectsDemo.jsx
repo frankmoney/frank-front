@@ -1,7 +1,7 @@
 // @flow
-import { MoreHoriz } from 'material-ui-icons'
 import React from 'react'
 import * as R from 'ramda'
+import { MoreHoriz } from 'material-ui-icons'
 import { toRenderProps, withState } from 'recompose'
 import FilterSelect from 'components/kit/FilterSelect'
 import ButtonMenu from 'components/kit/ButtonMenu'
@@ -12,10 +12,8 @@ import MenuItem from 'components/kit/Menu/MenuItem'
 import SelectField from 'components/kit/SelectField'
 import ToggleButton from 'components/kit/ToggleButton'
 import Demo, { Row } from 'demo/Demo'
-import { injectStyles } from 'utils/styles'
 
-const styles = {}
-
+// eslint-disable-next-line no-alert
 const fakeAction = R.memoizeWith(R.identity, msg => () => alert(msg))
 
 const renderEllipsisButton = popupState => (
@@ -40,7 +38,7 @@ const commaSeparatedValue = values =>
 
 const ModalState = toRenderProps(withState('open', 'toggle', false))
 
-const SelectListsDemo = () => (
+const SelectsDemo = () => (
   <Demo>
     <h1>ButtonMenu</h1>
     <Row centered>
@@ -146,4 +144,4 @@ const SelectListsDemo = () => (
   </Demo>
 )
 
-export default injectStyles(styles)(SelectListsDemo)
+export default SelectsDemo

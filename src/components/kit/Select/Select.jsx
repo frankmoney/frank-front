@@ -4,9 +4,14 @@ import { findDOMNode } from 'react-dom'
 import Menu from 'components/kit/Menu'
 import Modal from 'components/kit/Modal'
 import ArrowMenu from 'components/kit/ArrowMenu'
-import PopupBase from 'components/kit/PopupBase'
+import PopupBase, {
+  type PopupAlign,
+  type PopupPosition,
+} from 'components/kit/PopupBase'
 
-const REVERSE_DIRECTION = {
+type Direction = PopupPosition
+
+const REVERSE_DIRECTION: { [Direction]: Direction } = {
   up: 'down',
   down: 'up',
   left: 'right',
@@ -15,16 +20,22 @@ const REVERSE_DIRECTION = {
 
 type Value = any // FIXME
 
+type OmittedProps = {|
+  onClose?: Function, // why?
+|}
+
 export type Props = {|
-  align?: 'start' | 'center' | 'end',
+  ...OmittedProps,
+  //
+  align: PopupAlign,
   alignByArrow?: boolean,
-  arrowAt?: 'start' | 'center' | 'end',
+  arrowAt?: PopupAlign,
   autoFocus?: boolean,
   children?: React.Node,
   defaultFocused?: boolean,
   defaultOpen?: boolean,
   defaultValue?: Value,
-  direction?: 'up' | 'down',
+  direction: Direction,
   dropdownWidth?: number,
   formatValue: Value => any,
   stretchDropdown?: boolean,
@@ -52,6 +63,12 @@ class Select extends React.Component<Props, State> {
     value: this.props.defaultValue,
     open: this.props.defaultOpen,
     focused: this.props.defaultFocused,
+  }
+
+  componentDidMount() {
+    if (this.props.autoFocus) {
+      this.focus()
+    }
   }
 
   getRenderProps = (state: State = this.state) => ({
@@ -126,12 +143,6 @@ class Select extends React.Component<Props, State> {
   focus = () => {
     // eslint-disable-next-line react/no-find-dom-node
     findDOMNode(this.input).focus()
-  }
-
-  componentDidMount() {
-    if (this.props.autoFocus) {
-      this.focus()
-    }
   }
 
   render() {
