@@ -1,9 +1,11 @@
 // @flow
 import * as React from 'react'
-import DropdownMenu, {
-  type DropdownMenuChildren,
-  type DropdownMenuDirection,
-  type DropdownMenuProps,
+import DropdownMenu from 'components/kit/DropdownMenu'
+import type {
+  DropdownMenuChildren,
+  DropdownMenuChildrenRenderer,
+  DropdownMenuDirection,
+  DropdownMenuProps,
 } from 'components/kit/DropdownMenu'
 
 type Props = {|
@@ -16,7 +18,7 @@ type Props = {|
   children?: DropdownMenuChildren,
   direction?: DropdownMenuDirection,
   down?: boolean,
-  renderButton: DropdownMenuChildren,
+  renderButton: DropdownMenuChildrenRenderer,
   up?: boolean,
 |}
 
