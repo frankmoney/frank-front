@@ -24,11 +24,9 @@ export type DropdownMenuProps = {|
   arrowAt?: 'start' | 'center' | 'end',
 |}
 
-type DropdownMenuChildrenRenderer = PopupRenderProps => React.Node
+export type DropdownMenuChildrenRenderer = PopupRenderProps => React.Node
 
-export type DropdownMenuChildren =
-  | React.Element<any>
-  | DropdownMenuChildrenRenderer
+export type DropdownMenuChildren = React.Node | DropdownMenuChildrenRenderer
 
 type OmittedProps = {|
   onClose?: Function, // why?
