@@ -11,10 +11,10 @@ import {
   Check as PublishIcon,
   Close as UnpublishIcon,
 } from 'material-ui-icons'
-import { CustomMenuItem as MenuItem } from '@frankmoney/components'
 import StoryConfirmDialog from 'components/dialogs/StoryConfirmDialog'
-import MoreActionsButton from 'components/MoreActionsButton'
 import Button, { IconButton } from 'components/kit/Button'
+import MenuItem from 'components/kit/Menu/MenuItem'
+import EllipsisButtonMenu from 'components/EllipsisButtonMenu'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import {
   isSavingSelector,
@@ -45,18 +45,10 @@ const styles = {
   removeButton: {
     padding: '0 26px !important',
   },
-  menuItem: {
-    justifyContent: 'unset',
-  },
-  menuIcon: {
-    width: 22,
-    height: 22,
-    paddingRight: 11,
-  },
   saveButton: {
     width: 87,
   },
-  publishButton: {
+  unpublishedButton: {
     width: 130,
   },
 }
@@ -106,12 +98,12 @@ type State = {|
 
 class HeaderBarButtons extends React.PureComponent<Props, State> {
   state = {
-    isDrawerOpen: false,
     confirmDialogType: null,
     isConfirmDialogOpen: false,
+    isDrawerOpen: false,
   }
 
-  handleToggleConfirmDialog = type => {
+  handleToggleConfirmDialog = type => () => {
     this.setState({
       confirmDialogType: type,
       isConfirmDialogOpen: !this.state.isConfirmDialogOpen,
@@ -166,27 +158,25 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
       <div className={cx(classes.container, className)}>
         <SaveButton className={classes.saveButton} />
         <PublishButton
-          className={classes.publishButton}
+          className={!isPublished && classes.unpublishedButton}
           color="green"
           icon={<PublishIcon />}
-          onClick={() => this.handleToggleConfirmDialog('publish')}
+          onClick={this.handleToggleConfirmDialog('publish')}
         />
         {saved &&
           (isPublished ? (
-            <MoreActionsButton>
+            <EllipsisButtonMenu>
               <MenuItem
-                className={classes.menuItem}
-                onClick={() => this.handleToggleConfirmDialog('unpublish')}
-              >
-                <UnpublishIcon className={classes.menuIcon} /> Unpublish
-              </MenuItem>
+                onSelect={this.handleToggleConfirmDialog('unpublish')}
+                icon={<UnpublishIcon />}
+                label="Unpublish"
+              />
               <MenuItem
-                className={classes.menuItem}
-                onClick={() => this.handleToggleConfirmDialog('delete')}
-              >
-                <RemoveIcon className={classes.menuIcon} /> Delete
-              </MenuItem>
-            </MoreActionsButton>
+                onSelect={this.handleToggleConfirmDialog('delete')}
+                icon={<RemoveIcon />}
+                label="Delete"
+              />
+            </EllipsisButtonMenu>
           ) : (
             <DeleteButton
               icon={<RemoveIcon />}
