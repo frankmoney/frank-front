@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
 import MoreOptionsIcon from 'material-ui-icons/MoreHoriz'
 import ButtonMenu from 'components/kit/ButtonMenu'

@@ -38,6 +38,7 @@ type Props = {|
   //
   children?: DropdownMenuChildren,
   direction: DropdownMenuDirection,
+  enableViewportOffset: boolean,
   menu?: DropdownMenuChildren,
   menuProps?: Object, // FIXME
   renderMenuContent?: DropdownMenuChildrenRenderer,
