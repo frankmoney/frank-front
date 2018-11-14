@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
 import MoreOptionsIcon from 'material-ui-icons/MoreHoriz'
 import ButtonMenu from 'components/kit/ButtonMenu'
@@ -19,10 +19,13 @@ type Props = {|
   children: DropdownMenuChildren,
 |}
 
-const EllipsisButtonMenu = ({ children }: Props) => (
-  <ButtonMenu arrowEnd alignByArrow renderButton={renderEllipsisButton}>
-    {children}
-  </ButtonMenu>
+const EllipsisButtonMenu = (props: Props) => (
+  <ButtonMenu
+    arrowEnd
+    alignByArrow
+    renderButton={renderEllipsisButton}
+    {...props}
+  />
 )
 
 export default EllipsisButtonMenu

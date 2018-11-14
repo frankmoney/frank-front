@@ -38,6 +38,7 @@ type Props = {|
   //
   children?: DropdownMenuChildren,
   direction: DropdownMenuDirection,
+  enableViewportOffset: boolean,
   menu?: DropdownMenuChildren,
   menuProps?: Object, // FIXME
   renderMenuContent?: DropdownMenuChildrenRenderer,
@@ -50,6 +51,7 @@ class DropdownMenu extends React.Component<Props> {
     direction: 'down',
     align: 'center',
     alignByArrow: false,
+    enableViewportOffset: true,
   }
 
   render() {
@@ -71,7 +73,6 @@ class DropdownMenu extends React.Component<Props> {
 
     return (
       <PopupBase
-        enableViewportOffset
         place={direction}
         align={align}
         alignByArrow={alignByArrow}

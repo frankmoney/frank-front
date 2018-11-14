@@ -35,8 +35,8 @@ function setContainerStyle(data, container) {
     // Use computed style, here to get the real padding to add our scrollbar width.
     style.paddingRight = `${getPaddingRight(container) + scrollbarSize}px`
 
-    // .mui-fixed is a global helper.
-    const fixedNodes = ownerDocument(container).querySelectorAll('.mui-fixed')
+    // .ui-fixed is a global helper.
+    const fixedNodes = ownerDocument(container).querySelectorAll('.ui-fixed')
     for (let i = 0; i < fixedNodes.length; i += 1) {
       const paddingRight = getPaddingRight(fixedNodes[i])
       data.prevPaddings.push(paddingRight)
@@ -55,7 +55,7 @@ function removeContainerStyle(data) {
   })
 
   const fixedNodes = ownerDocument(data.container).querySelectorAll(
-    '.mui-fixed'
+    '.ui-fixed'
   )
   for (let i = 0; i < fixedNodes.length; i += 1) {
     fixedNodes[i].style.paddingRight = `${data.prevPaddings[i]}px`
