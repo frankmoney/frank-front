@@ -1,8 +1,8 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
-import { GiantButton } from '@frankmoney/components'
-import { Add as AddIcon } from 'material-ui-icons'
+import { BigButton } from 'components/kit/Button'
+import { injectStyles } from 'utils/styles'
 import VerifiedByFrank from './Verified'
 import ManageButton from './ManageButton'
 import List from './PaymentsList'
@@ -19,7 +19,7 @@ const StoryPayments = ({ classes, className, payments, readOnly, onEdit }) => (
         <List payments={payments} className={classes.list} />
       </div>
     ) : (
-      <GiantButton label="Add payments" icon={AddIcon} onClick={onEdit} />
+      <BigButton label="Add payments" onClick={onEdit} />
     )}
   </>
 )

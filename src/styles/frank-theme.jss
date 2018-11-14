@@ -57,22 +57,6 @@ export default {
       },
     },
   },
-  GiantButton: {
-    root: {
-      fontSize: 18,
-      fontWeight: 500,
-      color: '#fff',
-      backgroundColor: '#4C51F3',
-      '&:hover, &:active': {
-        backgroundColor: '#4C51F3',
-      },
-    },
-  },
-  IconButton: {
-    round: {
-      color: colors.black,
-    },
-  },
   Paper: {
     paper: {
       background: '#fff',

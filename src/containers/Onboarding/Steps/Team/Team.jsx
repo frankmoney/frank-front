@@ -2,7 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
-import { GiantButton } from '@frankmoney/components'
+import { BigButton } from 'components/kit/Button'
 import { injectStyles } from 'utils/styles'
 import reconnect from 'utils/reconnect'
 import StepLayout from '../../ConnectedStepLayout'
@@ -41,9 +41,11 @@ const Team = ({
       Invite your team members and assign roles to work together faster<br />
       and avoid bottlenecks in your workflow
     </StepDescription>
-    <GiantButton className={classes.inviteButton} onClick={onAddMemberClick}>
-      Invite a teammate
-    </GiantButton>
+    <BigButton
+      className={classes.inviteButton}
+      onClick={onAddMemberClick}
+      label="Invite a teammate"
+    />
     <Invites className={classes.list} invites={members} />
     <InviteDrawer open={drawerOpen} onClose={onCloseDrawer} />
   </StepLayout>

@@ -1,16 +1,15 @@
+// @flow
 import React from 'react'
-import { GiantButton } from '@frankmoney/components'
-import AddIcon from 'material-ui-icons/Add'
+import { Link } from 'react-router-dom'
+import { BigButton } from 'components/kit/Button'
 import ListLayoutContentBlock from 'components/ListLayoutContentBlock'
 import { ROUTES } from 'const'
 
 const NewButton = () => (
   <ListLayoutContentBlock>
-    <GiantButton
-      label="New story"
-      icon={AddIcon}
-      href={ROUTES.stories.storyNew}
-    />
+    <Link to={ROUTES.stories.storyNew}>
+      <BigButton label="New story" />
+    </Link>
   </ListLayoutContentBlock>
 )
 
