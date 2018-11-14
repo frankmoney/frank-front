@@ -23,7 +23,7 @@ const DialogsDemo = () => (
         </Dialog.Buttons>
       </Dialog.Paper>
     </Row>
-    <h1>Confirm dialog in modal</h1>
+    <h2>Nested dialogs</h2>
     <Dialog.State>
       {({ open, toggle }) => (
         <Row centered>
