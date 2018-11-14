@@ -1,3 +1,4 @@
-export default from './Demo'
-export DemoMenu from './DemoMenu'
-export Row from './Row'
+// @flow
+export { default } from './Demo'
+export { default as DemoMenu } from './DemoMenu'
+export { default as Row } from './Row'

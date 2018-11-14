@@ -8,6 +8,7 @@ import {
   List,
 } from 'material-ui-icons'
 import Button, {
+  BigButton,
   IconButton,
   SocialButton,
   TextButton,
@@ -206,6 +207,25 @@ const ButtonsDemo = ({ classes }) => (
       <IconButton icon={<MoreHoriz />} color="lightBlue" active />
       <IconButton icon={<MoreHoriz />} color="lightBlue" disabled />
       <IconButton icon={<MoreHoriz />} color="lightBlue" loading />
+    </Row>
+    <h1>BigButton</h1>
+    <Row wide>
+      <BigButton label="New story" />
+    </Row>
+    <Row wide>
+      <BigButton label="New story" hover />
+    </Row>
+    <Row wide>
+      <BigButton label="New story" active />
+    </Row>
+    <Row wide>
+      <BigButton label="New story" disabled />
+    </Row>
+    <Row wide>
+      <BigButton label="New story" loading />
+    </Row>
+    <Row wide>
+      <BigButton label="No Icon" icon={null} />
     </Row>
     <h2>ToggleButton</h2>
     <Row>

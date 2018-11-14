@@ -1,7 +1,7 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
-import { injectStyles } from 'utils/styles'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
   row: {
@@ -13,13 +13,30 @@ const styles = {
     },
     marginBottom: 20,
   },
+  wide: {
+    width: 850,
+  },
   centered: {
     justifyContent: 'center',
   },
 }
 
-const Row = ({ centered, children, classes, className }) => (
-  <div className={cx(classes.row, centered && classes.centered, className)}>
+type Props = {|
+  ...InjectStylesProps,
+  //
+  centered?: boolean,
+  children: React.Node,
+  wide?: boolean,
+|}
+
+const Row = ({ centered, children, classes, className, wide }: Props) => (
+  <div
+    className={cx(
+      classes.row,
+      { [classes.centered]: centered, [classes.wide]: wide },
+      className
+    )}
+  >
     {children}
   </div>
 )
