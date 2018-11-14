@@ -165,8 +165,7 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
         />
         {saved &&
           (isPublished ? (
-            // TODO избавиться от enableViewportOffset, дропдаун должен уметь правильно позиционироваться без знания в фиксед контейнере он или нет!
-            <EllipsisButtonMenu enableViewportOffset={false}>
+            <EllipsisButtonMenu>
               <MenuItem
                 onSelect={this.handleToggleConfirmDialog('unpublish')}
                 icon={<UnpublishIcon />}
