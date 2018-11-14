@@ -3,10 +3,10 @@ import React from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { Edit as EditIcon, Public as PublicIcon } from 'material-ui-icons'
 import { LinkButton } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
+import RouterLink from 'components/RouterLink'
 import Button from 'components/kit/Button'
 import { formatFullDate } from 'utils/datesLight'
 import { injectStyles } from 'utils/styles'
@@ -34,10 +34,7 @@ const styles = theme => ({
     color: '#FF3939',
   },
   editButton: {
-    textDecoration: 'none',
-    '& > *': {
-      width: 140,
-    },
+    width: 140,
   },
 })
 
@@ -62,12 +59,15 @@ const HeaderBarButtons = ({
         </LinkButton>
       </>
     )}
-    <Link
+    <RouterLink
       to={createRouteUrl(ROUTES.manage.stories.storyEdit, { id: pid })}
-      className={classes.editButton}
     >
-      <Button label="Edit story" icon={<EditIcon />} />
-    </Link>
+      <Button
+        label="Edit story"
+        icon={<EditIcon />}
+        className={classes.editButton}
+      />
+    </RouterLink>
   </div>
 )
 

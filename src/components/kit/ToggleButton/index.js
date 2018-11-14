@@ -1,1 +1,2 @@
-export default from './ToggleButton'
+// @flow
+export { default } from './ToggleButton'

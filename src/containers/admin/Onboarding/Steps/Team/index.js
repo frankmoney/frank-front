@@ -1,1 +1,2 @@
-export default from './Team'
+// @flow
+export { default } from './Team'

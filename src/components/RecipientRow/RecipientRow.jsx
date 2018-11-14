@@ -1,7 +1,7 @@
+// @flow
 import React from 'react'
 import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
-import { injectStyles } from '@frankmoney/ui'
 import { createRouteUrl } from '@frankmoney/utils'
 import { TableCell, TableRow } from '@frankmoney/components'
 import CategoryLabel from 'components/CategoryLabel'
@@ -10,6 +10,7 @@ import CurrencyProvider from 'components/CurrencyProvider'
 import ListWithOverflow from 'components/ListWithOverflow'
 import HighlightText from 'components/HighlightText'
 import { ROUTES } from 'const'
+import { injectStyles } from 'utils/styles'
 
 const styles = theme => ({
   root: {

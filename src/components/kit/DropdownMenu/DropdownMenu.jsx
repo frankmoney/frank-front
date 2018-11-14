@@ -3,9 +3,15 @@ import * as React from 'react'
 import ArrowMenu from 'components/kit/ArrowMenu'
 import Menu from 'components/kit/Menu'
 import Modal from 'components/kit/Modal'
-import PopupBase from 'components/kit/PopupBase'
+import PopupBase, {
+  type PopupAlign,
+  type PopupPosition,
+  type PopupRenderProps,
+} from 'components/kit/PopupBase'
 
-const REVERSE_DIRECTION = {
+export type DropdownMenuDirection = PopupPosition
+
+const REVERSE_DIRECTION: { [DropdownMenuDirection]: DropdownMenuDirection } = {
   up: 'down',
   down: 'up',
   left: 'right',
@@ -13,16 +19,29 @@ const REVERSE_DIRECTION = {
 }
 
 export type DropdownMenuProps = {|
-  direction: 'up' | 'down',
-  align?: 'start' | 'center' | 'end',
+  align?: PopupAlign,
   alignByArrow?: boolean,
   arrowAt?: 'start' | 'center' | 'end',
 |}
 
+export type DropdownMenuChildrenRenderer = PopupRenderProps => React.Node
+
+export type DropdownMenuChildren = React.Node | DropdownMenuChildrenRenderer
+
+type OmittedProps = {|
+  onClose?: Function, // why?
+|}
+
 type Props = {|
   ...DropdownMenuProps,
+  ...OmittedProps,
   //
-  children?: React.Element<any>,
+  children?: DropdownMenuChildren,
+  direction: DropdownMenuDirection,
+  enableViewportOffset: boolean,
+  menu?: DropdownMenuChildren,
+  menuProps?: Object, // FIXME
+  renderMenuContent?: DropdownMenuChildrenRenderer,
 |}
 
 const DEFAULT_WIDTH = 250
@@ -32,6 +51,7 @@ class DropdownMenu extends React.Component<Props> {
     direction: 'down',
     align: 'center',
     alignByArrow: false,
+    enableViewportOffset: true,
   }
 
   render() {
@@ -53,7 +73,6 @@ class DropdownMenu extends React.Component<Props> {
 
     return (
       <PopupBase
-        enableViewportOffset
         place={direction}
         align={align}
         alignByArrow={alignByArrow}
@@ -80,7 +99,9 @@ class DropdownMenu extends React.Component<Props> {
                   {...arrowMenuProps}
                   {...getPopupProps(menuProps)}
                 >
-                  {menu || renderMenuContent(popupState)}
+                  {menu ||
+                    (typeof renderMenuContent === 'function' &&
+                      renderMenuContent(popupState))}
                 </MenuComponent>
               </Modal>
             </>

@@ -1,36 +1,40 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
-import DropdownMenu, {
-  type DropdownMenuProps,
+import DropdownMenu from 'components/kit/DropdownMenu'
+import type {
+  DropdownMenuChildren,
+  DropdownMenuChildrenRenderer,
+  DropdownMenuDirection,
+  DropdownMenuProps,
 } from 'components/kit/DropdownMenu'
-import type { PopupRenderProps } from 'components/kit/PopupBase'
 
 type Props = {|
   ...DropdownMenuProps,
   //
-  alignByArrow?: boolean,
   alignEnd?: boolean,
   alignStart?: boolean,
   arrowEnd?: boolean,
   arrowStart?: boolean,
+  children?: DropdownMenuChildren,
+  direction?: DropdownMenuDirection,
   down?: boolean,
-  renderButton: PopupRenderProps => React.Node,
+  renderButton: DropdownMenuChildrenRenderer,
   up?: boolean,
 |}
 
 const ButtonMenu = ({
-  renderButton,
-  alignStart,
+  align: alignProp,
+  alignByArrow,
   alignEnd,
+  alignStart,
+  arrowAt: arrowAtProp,
   arrowEnd,
   arrowStart,
-  up,
-  down,
-  align: alignProp,
-  direction: directionProp,
-  arrowAt: arrowAtProp,
-  alignByArrow,
   children,
+  direction: directionProp,
+  down,
+  renderButton,
+  up,
   ...otherProps
 }: Props) => {
   const direction = up ? 'up' : down ? 'down' : directionProp

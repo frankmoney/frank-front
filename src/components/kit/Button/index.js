@@ -1,5 +1,8 @@
-export default from './Button'
-export IconButton from './IconButton'
-export IconPlainButton from './IconPlainButton'
-export SocialButton from './SocialButton'
-export TextButton from './TextButton'
+// @flow
+export { default } from './Button'
+export type { ButtonProps } from './Button'
+export { default as BigButton } from './BigButton'
+export { default as IconButton } from './IconButton'
+export { default as IconPlainButton } from './IconPlainButton'
+export { default as SocialButton } from './SocialButton'
+export { default as TextButton } from './TextButton'
