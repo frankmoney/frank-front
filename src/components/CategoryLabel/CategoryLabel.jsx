@@ -4,8 +4,7 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import HighlightText from 'components/HighlightText'
 import IconCircle from 'components/IconCircle'
-import { injectStyles } from 'utils/styles'
-import type { Props } from './CategoryLabel.flow'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
   root: {
@@ -26,6 +25,27 @@ const styles = {
     opacity: 0.55,
   },
 }
+
+type EmptyCb = () => void
+
+export type Props = {|
+  ...InjectStylesProps,
+  //
+  active?: boolean,
+  color?: string,
+  name?: string,
+  value?: number,
+  valueUnit?: string,
+  // Handlers
+  onClick?: EmptyCb,
+  onMouseEnter?: EmptyCb,
+  onMouseLeave?: EmptyCb,
+  // Styles
+  activeClassName?: string,
+  iconClassName?: string,
+  nameClassName?: string,
+  valueClassName?: string,
+|}
 
 const CategoryLabel = ({
   active,

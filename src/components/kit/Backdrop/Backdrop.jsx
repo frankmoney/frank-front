@@ -1,13 +1,18 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-type Props = {
+type BackdropProps = {|
   transparent?: boolean,
-}
+|}
 
-export type BackdropProps = Props
+export type Props = {|
+  ...InjectStylesProps,
+  ...BackdropProps,
+  //
+  children?: React.Node,
+|}
 
 const styles = {
   root: {
@@ -35,7 +40,7 @@ const Backdrop = ({
   transparent,
   children,
   ...otherProps
-}) => (
+}: Props) => (
   <div
     aria-hidden="true"
     className={cx(classes.root, className)}

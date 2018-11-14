@@ -4,20 +4,32 @@ import ArrowPaper, {
   DEFAULT_ALIGN,
   DEFAULT_DIRECTION,
 } from 'components/kit/ArrowPaper'
-import Menu from 'components/kit/Menu'
+import Menu, { type MenuItemProps } from 'components/kit/Menu'
+import type {
+  PopupAlign,
+  PopupArrowProps,
+  PopupPosition,
+} from 'components/kit/PopupBase'
+
+type ItemElement = any // FIXME
+
+type ActiveElementChangeCb = (ItemElement, number, Array<ItemElement>) => void
 
 // TODO: merge from ArrowPaper and MenuProps props
 export type Props = {|
-  direction: 'up' | 'left' | 'right' | 'down',
-  align: 'center' | 'start' | 'end',
+  align: PopupAlign,
+  arrowProps?: PopupArrowProps,
   children?: React.Node,
+  direction: PopupPosition,
+  menuItemProps?: MenuItemProps,
+  onActiveElementChange?: ActiveElementChangeCb,
 |}
 
 type State = {|
-  arrowColor: ?any, // TODO: fix the type afrer fixing the props ^^
+  arrowColor: ?any, // TODO: fix the type after fixing the props ^^
 |}
 
-class DropdownMenu extends React.Component<Props, State> {
+class ArrowMenu extends React.Component<Props, State> {
   static defaultProps = {
     direction: DEFAULT_DIRECTION,
     align: DEFAULT_ALIGN,
@@ -27,7 +39,11 @@ class DropdownMenu extends React.Component<Props, State> {
     arrowColor: null,
   }
 
-  handleChangeActiveItem = (itemElement, currentIndex, allItemElements) => {
+  handleChangeActiveItem: ActiveElementChangeCb = (
+    itemElement,
+    currentIndex,
+    allItemElements
+  ) => {
     // TODO overflow list брать индекс не первого последнего в списке а во ВЬЮПОРТЕ
     const { direction } = this.props
     const lastIndex = allItemElements.length - 1
@@ -85,4 +101,4 @@ class DropdownMenu extends React.Component<Props, State> {
   }
 }
 
-export default DropdownMenu
+export default ArrowMenu

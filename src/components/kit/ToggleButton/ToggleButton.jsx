@@ -1,14 +1,24 @@
 // @flow
 import * as React from 'react'
-import Button, { IconButton } from 'components/kit/Button'
+import Button, { IconButton, type ButtonProps } from 'components/kit/Button'
 import SwitchBase from 'components/kit/SwitchBase'
+import forwardRef from 'utils/forwardRef'
 
-const withToggle = (ButtonComponent, defaultOffColor, defaultOnColor) =>
-  // $FlowFixMe: forwardRef is not supported in flow out of the box yet
-  React.forwardRef(
+type Color = string
+
+type ButtonComponentType = React.ComponentType<ButtonProps>
+
+type ToggleButtonExport = any // for easier .Icon
+
+const withToggle = (
+  ButtonComponent: ButtonComponentType,
+  defaultOffColor: Color,
+  defaultOnColor: Color
+): ButtonComponentType =>
+  forwardRef(
     (
       {
-        on,
+        on: propOn,
         defaultOn,
         onToggle,
         color,
@@ -18,7 +28,7 @@ const withToggle = (ButtonComponent, defaultOffColor, defaultOnColor) =>
       },
       ref
     ) => (
-      <SwitchBase on={on} defaultOn={defaultOn} onToggle={onToggle}>
+      <SwitchBase on={propOn} defaultOn={defaultOn} onToggle={onToggle}>
         {({ on, toggle }) => (
           <ButtonComponent
             ref={ref}
@@ -31,7 +41,7 @@ const withToggle = (ButtonComponent, defaultOffColor, defaultOnColor) =>
     )
   )
 
-const ToggleButton = withToggle(Button, 'gray', 'lightBlue')
+const ToggleButton: ToggleButtonExport = withToggle(Button, 'gray', 'lightBlue')
 
 ToggleButton.Icon = withToggle(IconButton, 'gray', 'lightBlue')
 

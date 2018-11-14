@@ -5,7 +5,10 @@ import Demo from 'demo/Demo'
 import Paper from 'components/kit/Paper'
 import Button from 'components/kit/Button'
 import ArrowPaper from 'components/kit/ArrowPaper'
-import Popup from 'components/kit/PopupBase'
+import Popup, {
+  type PopupAlign,
+  type PopupPosition,
+} from 'components/kit/PopupBase'
 import TextTooltip from 'components/kit/TextTooltip'
 import ToggleButton from 'components/kit/ToggleButton'
 import TooltipBase from 'components/kit/TooltipBase'
@@ -72,8 +75,8 @@ const REVERSE_DIRECTION = {
 type DropdownButtonProps = {|
   ...InjectStylesProps,
   //
-  align?: string,
-  place: 'up' | 'down' | 'left' | 'right',
+  align?: PopupAlign,
+  place: PopupPosition,
   arrowAlign?: 'start' | 'end',
 |}
 

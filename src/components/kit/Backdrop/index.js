@@ -1,2 +1,2 @@
 export default from './Backdrop'
-export type * from './Backdrop'
+export type { BackdropProps } from './Backdrop'

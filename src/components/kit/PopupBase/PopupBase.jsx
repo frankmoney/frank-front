@@ -3,25 +3,33 @@ import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import positionElement from 'utils/dom/positionElement'
 
-type RefHandler = (React.ComponentType<any> | Element) => void
+type Ref = any // React.ComponentType<any> | Element
+type RefHandler = Ref => void
 
-type ArrowProps = {|
+type Style = Object
+
+export type PopupArrowProps = {|
   ref: RefHandler,
+  style?: Style,
 |}
 
-type AnchorProps = {|
+export type PopupAnchorProps = {|
   ref: RefHandler,
 |}
 
 type PopupProps = {|
   ref: RefHandler,
-  style: Object,
+  style?: Style,
 |}
 
 type EmptyCb = () => void
+type ExternalCb = Function
+
+export type PopupAlign = 'start' | 'center' | 'end'
+export type PopupPosition = 'up' | 'down' | 'left' | 'right'
 
 type Props = {|
-  align?: 'start' | 'center' | 'end',
+  align: PopupAlign,
   alignByArrow?: boolean, // в этом случае попап будет равняться стрелкой по анкору
   alignmentOffset?: number,
   children: React.StatelessFunctionalComponent<any>,
@@ -29,23 +37,23 @@ type Props = {|
   distance?: number,
   onClose?: EmptyCb,
   onChangeOpen?: boolean => void,
-  open: boolean,
-  place?: 'up' | 'down' | 'left' | 'right',
+  open?: boolean,
+  place: PopupPosition,
   enableViewportOffset?: boolean,
 |}
 
 type El = Element | Text
 
 export type PopupRenderProps = {
-  open: boolean,
-  close: EmptyCb,
-  show: EmptyCb,
-  toggle: EmptyCb,
+  open?: boolean,
+  close: ExternalCb,
+  show: ExternalCb,
+  toggle: ExternalCb,
   popupEl: ?El,
   anchorEl: ?El,
-  getArrowProps: Object => ArrowProps,
-  getAnchorProps: Object => AnchorProps,
-  getPopupProps: Object => PopupProps,
+  getArrowProps: (?Object) => PopupArrowProps,
+  getAnchorProps: (?Object) => PopupAnchorProps,
+  getPopupProps: (?Object) => PopupProps,
 }
 
 type getRenderPropsFn = () => PopupRenderProps
@@ -63,7 +71,6 @@ class PopupBase extends React.Component<Props, State> {
     align: 'center',
     defaultOpen: false,
     alignmentOffset: 0,
-    offset: 0,
   }
 
   state = {
@@ -108,7 +115,7 @@ class PopupBase extends React.Component<Props, State> {
     }),
   })
 
-  open = callback => {
+  open = (callback: ExternalCb) => {
     if (!this.isControlled) {
       this.setState({ open: true }, () => {
         if (typeof callback === 'function') {
@@ -123,7 +130,7 @@ class PopupBase extends React.Component<Props, State> {
     }
   }
 
-  close = callback => {
+  close = (callback: ExternalCb) => {
     if (!this.isControlled) {
       this.setState({ open: false }, () => {
         if (typeof this.props.onClose === 'function') {
@@ -146,7 +153,7 @@ class PopupBase extends React.Component<Props, State> {
     }
   }
 
-  toggle = callback => {
+  toggle = (callback: ExternalCb) => {
     if (this.isOpen) {
       this.close(callback)
     } else {
@@ -154,17 +161,17 @@ class PopupBase extends React.Component<Props, State> {
     }
   }
 
-  handleAnchorRef = ref => {
+  handleAnchorRef = (ref: Ref) => {
     // eslint-disable-next-line react/no-find-dom-node
     this.setState({ anchorEl: findDOMNode(ref) })
   }
 
-  handleArrowRef = ref => {
+  handleArrowRef = (ref: Ref) => {
     // eslint-disable-next-line react/no-find-dom-node
     this.setState({ arrowEl: findDOMNode(ref) })
   }
 
-  handlePopupRef = ref => {
+  handlePopupRef = (ref: Ref) => {
     // eslint-disable-next-line react/no-find-dom-node
     this.setState({ popupEl: findDOMNode(ref) }, () => {
       this.forceUpdate()

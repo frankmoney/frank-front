@@ -1,1 +1,2 @@
-export default from './ArrowMenu'
+// @flow
+export { default } from './ArrowMenu'

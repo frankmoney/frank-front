@@ -7,14 +7,15 @@ import SelectListBase from 'components/kit/SelectListBase'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 export type MenuItemProps = {|
-  label: string,
-  selected?: boolean,
   active?: boolean,
-  noAnimation?: boolean,
-  renderCheck?: boolean,
   color?: string,
   icon?: React.Element<any>,
+  label: string,
+  noAnimation?: boolean,
+  onSelect?: () => void,
+  renderCheck?: boolean,
   renderIcon?: any => React.Node,
+  selected?: boolean,
 |}
 
 type Props = {|
