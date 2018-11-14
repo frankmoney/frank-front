@@ -11,7 +11,6 @@ import {
 } from 'recompose'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { injectStyles } from '@frankmoney/ui'
 import {
   FixedHeader,
   Breadcrumbs,
@@ -23,6 +22,7 @@ import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import CurrencyProvider from 'components/CurrencyProvider'
 import StoryCard from 'components/StoryCard'
+import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import NewButton from './NewButton'
 import ShareDialog from './ShareDialog'
