@@ -12,7 +12,7 @@ export const applyColors = theme => ({
     '&:hover, &$hover': {
       backgroundColor: '#1EB757',
     },
-    '&:active, &$active': {
+    '&:active, &$active, &$loading': {
       backgroundColor: '#1AA24E',
     },
     '&$disabled': {
@@ -27,7 +27,7 @@ export const applyColors = theme => ({
     '&:hover, &$hover': {
       backgroundColor: 'rgba(37, 43, 67, 0.1)',
     },
-    '&:active, &$active': {
+    '&:active, &$active, &$loading': {
       backgroundColor: 'rgba(37, 43, 67, 0.15)',
     },
     '&$disabled': {
@@ -45,7 +45,7 @@ export const applyColors = theme => ({
     '&:hover, &$hover': {
       backgroundColor: '#B30000',
     },
-    '&:active, &$active': {
+    '&:active, &$active, &$loading': {
       backgroundColor: '#9F0000',
     },
     '&$disabled': {
@@ -60,7 +60,7 @@ export const applyColors = theme => ({
     '&:hover, &$hover': {
       backgroundColor: '#4449DB',
     },
-    '&:active, &$active': {
+    '&:active, &$active, &$loading': {
       backgroundColor: '#3D49C2',
     },
     '&$disabled': {
@@ -75,7 +75,7 @@ export const applyColors = theme => ({
     '&:hover, &$hover': {
       backgroundColor: 'rgba(33, 203, 97, 0.16)',
     },
-    '&:active, &$active': {
+    '&:active, &$active, &$loading': {
       backgroundColor: 'rgba(33, 203, 97, 0.22)',
     },
     '&$disabled': {
@@ -93,7 +93,7 @@ export const applyColors = theme => ({
     '&:hover, &$hover': {
       backgroundColor: 'rgba(76, 81, 243, 0.12)',
     },
-    '&:active, &$active': {
+    '&:active, &$active, &$loading': {
       backgroundColor: 'rgba(76, 81, 243, 0.18)',
     },
     '&$disabled': {

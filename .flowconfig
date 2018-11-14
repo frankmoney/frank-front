@@ -31,5 +31,12 @@ unclear-type=off
 untyped-import=off
 untyped-type-import=off
 
+[strict]
+nonstrict-import
+unclear-type
+unsafe-getters-setters
+# untyped-import
+untyped-type-import
+
 [version]
 ^0.82.0
