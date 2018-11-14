@@ -43,7 +43,7 @@ const Backdrop = ({
 }: Props) => (
   <div
     aria-hidden="true"
-    className={cx(classes.root, className)}
+    className={cx(classes.root, 'ui-fixed', className)}
     {...otherProps}
   >
     {children}

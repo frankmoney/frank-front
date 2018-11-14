@@ -44,6 +44,7 @@ const Button = ({
   Mixins,
   // states
   active,
+  focus,
   disabled,
   hover,
   loading,
@@ -67,6 +68,7 @@ const Button = ({
         [classes.disabled]: disabled,
         [classes.loading]: loading,
         [classes.active]: active,
+        [classes.focus]: focus,
         [classes.hover]: hover,
       },
       className

@@ -16,6 +16,7 @@ type Props = {|
   //
   additionalLabel?: string,
   children?: React.Element<any>,
+  stretch?: boolean,
   disabled?: boolean,
   error?: string,
   floatingLabel?: string,
@@ -127,6 +128,7 @@ class Field extends React.Component<Props, State> {
       className,
       floatingLabel,
       larger,
+      stretch,
       loading,
       loadingText,
       label,
@@ -146,11 +148,14 @@ class Field extends React.Component<Props, State> {
         <div
           className={cx(
             classes.root,
-            larger && classes.larger,
-            focus && classes.focus,
-            filled && classes.filled,
-            disabled && classes.disabled,
-            loading && classes.loading,
+            {
+              [classes.stretch]: stretch,
+              [classes.larger]: larger,
+              [classes.focus]: focus,
+              [classes.filled]: filled,
+              [classes.disabled]: disabled,
+              [classes.loading]: loading,
+            },
             className
           )}
           style={style}

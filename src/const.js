@@ -47,6 +47,7 @@ export const ROUTES = {
     popups: '/demo/popups',
     selectLists: '/demo/select-lists',
     selects: '/demo/selects',
+    dialogs: '/demo/dialogs',
     switches: '/demo/switches',
     widgets: '/demo/widgets',
   },
