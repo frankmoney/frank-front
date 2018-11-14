@@ -25,8 +25,9 @@ type Props = {|
 |}
 
 const StoryEdit = ({ classes, className, isNew }: Props) => (
+  // TODO ui-fixed class маркирует этот элемент чтобы любой другой элемент блочащий скролл страницы(через замену скроллбара) корректировал падинг и этого элемента
   <div className={cx(classes.root, className)}>
-    <FixedHeader>
+    <FixedHeader className="ui-fixed">
       <Breadcrumbs>
         <BreadcrumbsItem>{isNew ? 'New story' : 'Edit story'}</BreadcrumbsItem>
       </Breadcrumbs>
