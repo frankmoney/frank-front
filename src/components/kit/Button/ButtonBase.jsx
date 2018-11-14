@@ -25,11 +25,9 @@ type Props = {|
 
 class BaseButton extends React.Component<Props> {
   handleKeyPress = event => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && event.target === event.currentTarget) {
       if (typeof this.props.onClick === 'function') {
         this.props.onClick(event)
-        event.preventDefault()
-        event.stopPropagation()
       }
     }
   }
