@@ -1,15 +1,14 @@
-// @flow
-/* eslint-disable react/no-find-dom-node */
-import React from 'react'
+// @flow strict-local
+import * as React from 'react'
 import { findDOMNode } from 'react-dom'
 import EventListener from 'react-event-listener'
 import ownerDocument from 'utils/dom/ownerDocument'
 
-type Props = {
+type Props = {|
   /**
    * The wrapped element.
    */
-  children: React.ReactNode,
+  children?: React.Node,
   /**
    * The mouse event to listen to. You can disable the listener by providing `false`.
    */
@@ -17,12 +16,12 @@ type Props = {
   /**
    * Callback fired when a "click away" event is detected.
    */
-  onClickAway: Function,
+  onClickAway: MouseEvent => void,
   /**
    * The touch event to listen to. You can disable the listener by providing `false`.
    */
   touchEvent: 'onTouchStart' | 'onTouchEnd' | false,
-}
+|}
 
 /**
  * Listen for click events that occur somewhere in the document, outside of the element itself.
@@ -37,7 +36,8 @@ class ClickAwayListener extends React.Component<Props> {
   componentDidMount() {
     // Finds the first child when a component returns a fragment.
     // https://github.com/facebook/react/blob/036ae3c6e2f056adffc31dfb78d1b6f0c63272f0/packages/react-dom/src/__tests__/ReactDOMFiber-test.js#L105
-    this.node = findDOMNode(this)
+    // eslint-disable-next-line react/no-find-dom-node
+    this.node = (findDOMNode(this): any) // flowlint-line unclear-type:off
     this.mounted = true
   }
 
@@ -45,9 +45,10 @@ class ClickAwayListener extends React.Component<Props> {
     this.mounted = false
   }
 
+  node: Node
   mounted = false
 
-  handleClickAway = event => {
+  handleClickAway = (event: MouseEvent) => {
     // Ignore events that have been `event.preventDefault()` marked.
     if (event.defaultPrevented) {
       return
@@ -67,8 +68,9 @@ class ClickAwayListener extends React.Component<Props> {
 
     if (
       doc.documentElement &&
-      doc.documentElement.contains(event.target) &&
-      !this.node.contains(event.target)
+      doc.documentElement.contains((event.target: any)) && // flowlint-line unclear-type:off
+      this.node &&
+      !this.node.contains((event.target: any)) // flowlint-line unclear-type:off
     ) {
       this.props.onClickAway(event)
     }
