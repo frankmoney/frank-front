@@ -1,14 +1,16 @@
 // @flow
-/* eslint-disable react/no-find-dom-node */
 import * as React from 'react'
-import { findDOMNode } from 'react-dom'
 import * as R from 'ramda'
+import { findDOMNode } from 'react-dom'
 import chainCallbacks from 'utils/dom/chainCallbacks'
 import isElementVisible from 'utils/dom/isElementVisible'
+import getBody from 'utils/dom/getBody'
 import Context from './SelectListContext'
 
 type Val = any
 type Value = Val | Array<Val>
+
+type EmptyCb = () => void
 
 export type SelectListBaseProps = {|
   activeOnFocus?: boolean,
@@ -17,14 +19,21 @@ export type SelectListBaseProps = {|
   defaultValue?: Value,
   multiple?: boolean,
   onChange?: Value => void,
-  scrollContainer?: Element | Window,
+  scrollContainer?: Element | WindowProxy,
   value?: Value,
   // ставит активный элемент при фокусе
-  onSelectElement?: Element => void,
+  onSelectElement?: (?Element) => void,
   onActiveElementChange: (?Element, number, Array<Element>) => void,
 |}
 
-type Props = SelectListBaseProps
+type Props = {|
+  ...SelectListBaseProps,
+|}
+
+type State = {|
+  activeElement: ?Element,
+  value: Value,
+|}
 
 const MENU_STYLE = {
   outline: 'none', // remove focus outline.
@@ -40,7 +49,7 @@ const SELECTED_ITEM_STYLE = {
 
 const memoize = fn => {
   const map = new Map()
-  return value => {
+  return (value: any) => {
     if (map.has(value)) {
       return map.get(value)
     }
@@ -76,7 +85,7 @@ const normalizeArray = R.pipe(
   R.when(x => !(x instanceof Array), x => [x])
 )
 
-class SelectListBase extends React.Component<Props> {
+class SelectListBase extends React.Component<Props, State> {
   static Consumer = Context.Consumer
 
   state = {
@@ -86,9 +95,67 @@ class SelectListBase extends React.Component<Props> {
     activeElement: null,
   }
 
-  containerElement: ?Element = null
-  itemElementsByValue: Map<any, Element> = new Map()
-  itemElementsByCallback: Map<Function, Element> = new Map()
+  componentDidMount() {
+    this.scrollInitialViewport(() => {
+      if (this.props.autoFocus) {
+        this.focus()
+      }
+    })
+  }
+
+  componentWillUnmount() {
+    this.unmounted = true
+  }
+
+  setPrevActiveElement = (callback?: EmptyCb) => {
+    this.setActiveElement(this.getPrevItem(this.state.activeElement), () => {
+      this.scrollToElementIfInvisible(this.state.activeElement)
+      if (typeof callback === 'function') {
+        callback()
+      }
+    })
+  }
+
+  setNextActiveElement = (callback?: EmptyCb) => {
+    this.setActiveElement(this.getNextItem(this.state.activeElement), () => {
+      this.scrollToElementIfInvisible(this.state.activeElement)
+      if (typeof callback === 'function') {
+        callback()
+      }
+    })
+  }
+
+  setActiveElement = (element: ?Element, callback?: EmptyCb) => {
+    // TODO controlled activeElement state
+    if (this.state.activeElement !== element) {
+      this.setState({ activeElement: element }, () => {
+        if (typeof this.props.onActiveElementChange === 'function') {
+          this.props.onActiveElementChange(
+            element,
+            this.getItemIndex(element),
+            [...this.getListItems()]
+          )
+        }
+        if (typeof callback === 'function') {
+          callback()
+        }
+      })
+    }
+  }
+
+  setValue = value => {
+    if (this.isControlledValue) {
+      if (typeof this.props.onChange === 'function') {
+        this.props.onChange(value)
+      }
+    } else {
+      this.setState({ value }, () => {
+        if (typeof this.props.onChange === 'function') {
+          this.props.onChange(this.state.value)
+        }
+      })
+    }
+  }
 
   // flowlint-next-line unsafe-getters-setters:off
   get isControlledValue() {
@@ -101,9 +168,9 @@ class SelectListBase extends React.Component<Props> {
   }
 
   // flowlint-next-line unsafe-getters-setters:off
-  get hasValue() {
+  get hasValue(): boolean {
     return this.props.multiple
-      ? !R.isNil(this.value) && this.value.length > 0
+      ? !R.isNil(this.value) && !!this.value && this.value.length > 0
       : !R.isNil(this.value)
   }
 
@@ -112,11 +179,7 @@ class SelectListBase extends React.Component<Props> {
     return this.props.scrollContainer || this.containerElement
   }
 
-  checkValueIsSelected = value =>
-    this.hasValue &&
-    (this.props.multiple ? this.value.includes(value) : value === this.value)
-
-  getRenderProps = (state = this.state) => ({
+  getRenderProps = (state: State = this.state) => ({
     value: this.value,
     select: this.setValue,
     activeElement: state.activeElement,
@@ -169,7 +232,7 @@ class SelectListBase extends React.Component<Props> {
     },
   })
 
-  getItemValue = itemElement => {
+  getItemValue = (itemElement: Element) => {
     const found = [...this.itemElementsByValue].find(
       ([_, elem]) => elem === itemElement
     )
@@ -177,7 +240,7 @@ class SelectListBase extends React.Component<Props> {
     return found && found[0]
   }
 
-  getItemCallback = itemElement => {
+  getItemCallback = (itemElement: Element) => {
     const found = [...this.itemElementsByCallback].find(
       ([_, elem]) => elem === itemElement
     )
@@ -207,29 +270,38 @@ class SelectListBase extends React.Component<Props> {
     )
   }
 
-  getItemIndex = elem => Array.prototype.indexOf.call(this.getListItems(), elem)
+  getItemIndex = (elem: ?Element) =>
+    Array.prototype.indexOf.call(this.getListItems(), elem)
 
-  getNextItem = elem =>
+  getNextItem = (elem: ?Element) =>
     elem
       ? getNextListItem(this.getListItems(), elem)
       : this.getTopViewportItem()
 
-  getPrevItem = elem =>
+  getPrevItem = (elem: ?Element) =>
     elem
       ? getPrevListItem(this.getListItems(), elem)
       : this.getTopViewportItem()
 
-  handleClick = event => {
+  checkValueIsSelected = (value: Value) =>
+    this.hasValue &&
+    (this.props.multiple
+      ? this.value && this.value.includes(value)
+      : value === this.value)
+
+  handleClick = (event: MouseEvent) => {
     event.stopPropagation()
     this.selectElement(event.currentTarget)
   }
 
   handleContainerRef = containerRef => {
+    // eslint-disable-next-line react/no-find-dom-node
     this.containerElement = findDOMNode(containerRef)
   }
 
-  handleValueItemRef = (itemRef, value) => {
+  handleValueItemRef = (itemRef, value: Value) => {
     if (itemRef) {
+      // eslint-disable-next-line react/no-find-dom-node
       const el = findDOMNode(itemRef)
       this.itemElementsByValue.set(value, el)
       // мы должны очищать значение только когда пропадают айтемы в списке а не в результате анмаунта всего списка
@@ -249,7 +321,7 @@ class SelectListBase extends React.Component<Props> {
     this.itemElementsByCallback.set(callback, findDOMNode(itemRef))
   }
 
-  handleMouseEnter = event => {
+  handleMouseEnter = (event: MouseEvent) => {
     const element = event.currentTarget
     this.setActiveElement(element)
   }
@@ -260,7 +332,7 @@ class SelectListBase extends React.Component<Props> {
     }
   }
 
-  handleContainerKeyDown = event => {
+  handleContainerKeyDown = (event: KeyboardEvent) => {
     switch (event.key) {
       case 'ArrowUp':
         this.setPrevActiveElement()
@@ -297,7 +369,7 @@ class SelectListBase extends React.Component<Props> {
     }
   }
 
-  selectElement = element => {
+  selectElement = (element: ?Element) => {
     if (!element) {
       this.setValue(null)
       if (typeof this.props.onSelectElement === 'function') {
@@ -328,7 +400,7 @@ class SelectListBase extends React.Component<Props> {
     }
   }
 
-  deselectValue = value => {
+  deselectValue = (value: Value) => {
     if (this.props.multiple) {
       this.setValue(this.value.filter(x => x !== value))
     } else if (this.value === value) {
@@ -336,7 +408,7 @@ class SelectListBase extends React.Component<Props> {
     }
   }
 
-  selectValue = value => {
+  selectValue = (value: Value) => {
     this.setValue(
       this.props.multiple
         ? R.isNil(value)
@@ -344,20 +416,6 @@ class SelectListBase extends React.Component<Props> {
           : [...this.value, value]
         : value
     )
-  }
-
-  setValue = value => {
-    if (this.isControlledValue) {
-      if (typeof this.props.onChange === 'function') {
-        this.props.onChange(value)
-      }
-    } else {
-      this.setState({ value }, () => {
-        if (typeof this.props.onChange === 'function') {
-          this.props.onChange(this.state.value)
-        }
-      })
-    }
   }
 
   selectActiveElement = () => {
@@ -368,25 +426,7 @@ class SelectListBase extends React.Component<Props> {
     this.selectElement(this.state.activeElement)
   }
 
-  setActiveElement = (element, callback) => {
-    // TODO controlled activeElement state
-    if (this.state.activeElement !== element) {
-      this.setState({ activeElement: element }, () => {
-        if (typeof this.props.onActiveElementChange === 'function') {
-          this.props.onActiveElementChange(
-            element,
-            this.getItemIndex(element),
-            [...this.getListItems()]
-          )
-        }
-        if (typeof callback === 'function') {
-          callback()
-        }
-      })
-    }
-  }
-
-  scrollInitialViewport = callback => {
+  scrollInitialViewport = (callback: EmptyCb) => {
     if (this.hasValue) {
       const firstValue = this.props.multiple ? this.value[0] : this.value
       const selectedElement = this.itemElementsByValue.get(firstValue)
@@ -395,25 +435,7 @@ class SelectListBase extends React.Component<Props> {
     callback()
   }
 
-  setNextActiveElement = callback => {
-    this.setActiveElement(this.getNextItem(this.state.activeElement), () => {
-      this.scrollToElementIfInvisible(this.state.activeElement)
-      if (typeof callback === 'function') {
-        callback()
-      }
-    })
-  }
-
-  setPrevActiveElement = callback => {
-    this.setActiveElement(this.getPrevItem(this.state.activeElement), () => {
-      this.scrollToElementIfInvisible(this.state.activeElement)
-      if (typeof callback === 'function') {
-        callback()
-      }
-    })
-  }
-
-  scrollToElementIfInvisible = element => {
+  scrollToElementIfInvisible = (element: ?Element) => {
     if (!element) {
       return
     }
@@ -425,7 +447,7 @@ class SelectListBase extends React.Component<Props> {
     // это необходимо чтобы предотвращать перескакивание ховера во врема подскрола
     const disablePointerEvents = () => {
       if (!this.disablePointerEvents) {
-        document.body.addEventListener(
+        getBody().addEventListener(
           'mousemove',
           () => {
             this.containerElement.style.pointerEvents = 'auto'
@@ -462,17 +484,12 @@ class SelectListBase extends React.Component<Props> {
     }
   }
 
-  componentDidMount() {
-    this.scrollInitialViewport(() => {
-      if (this.props.autoFocus) {
-        this.focus()
-      }
-    })
-  }
-
-  componentWillUnmount() {
-    this.unmounted = true
-  }
+  containerElement: Element
+  itemElementsByValue: Map<any, Element> = new Map()
+  itemElementsByCallback: Map<Function, Element> = new Map()
+  unmounted: boolean
+  disablePointerEvents: boolean
+  hasValue: boolean
 
   render() {
     let content

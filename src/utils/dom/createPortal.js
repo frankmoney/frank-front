@@ -1,12 +1,9 @@
-// @flow
+// @flow strict
 import * as React from 'react'
 import { createPortal } from 'react-dom'
+import getBody from './getBody'
 
-type GetBodyFn = () => HTMLBodyElement
-type CreatePortalFn = React.Node => React.Portal
-
-const getBody: GetBodyFn = () => (document.body: any)
-
-const createPortalInBody: CreatePortalFn = node => createPortal(node, getBody())
+const createPortalInBody = (node: React.Node): React.Portal =>
+  createPortal(node, getBody())
 
 export default createPortalInBody
