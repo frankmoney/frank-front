@@ -1,3 +1,4 @@
+// @flow
 import Dialog from './Dialog'
 import DialogTitle from './DialogTitle'
 import DialogPaper from './DialogPaper'

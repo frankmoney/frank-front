@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import Button from 'components/kit/Button'
 import Dialog from 'components/kit/Dialog'

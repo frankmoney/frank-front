@@ -1,18 +1,23 @@
 // @flow
 import React, { cloneElement } from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { createPortal } from 'react-dom'
 import EventListener from 'react-event-listener'
 import RootRef from 'material-ui/internal/RootRef'
 import Backdrop from 'components/kit/Backdrop'
+import getNextFocusElement from 'utils/dom/getNextFocusElement'
+import { injectStyles } from 'utils/styles'
 import ModalManager from './ModalManager'
 
-type ModalProps = {
+export type ModalProps = {
   invisibleBackdrop?: boolean,
   open?: boolean,
+  // выключает фокус-трап
+  disableEnforceFocus?: boolean,
   disableCloseOnEscape?: boolean,
   disableBackdropClick?: boolean,
+  // фокус будет проваливаться на первый активный элемент внутри модала
+  fallInsideFocus?: boolean,
   onClose?: () => void,
   onEscapeKeyDown: Event => void,
   onBackdropClick: Event => void,
@@ -37,14 +42,39 @@ const styles = {
 class Modal extends React.Component<ModalProps> {
   static defaultProps = {
     backdropProps: {},
+    disableEnforceFocus: false,
     disableBackdropClick: false,
     disableCloseOnEscape: false,
+    fallInsideFocus: false,
     manager: new ModalManager(),
   }
 
+  componentDidMount() {
+    if (this.props.open) {
+      this.handleOpen()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.open && !this.props.open) {
+      this.handleClose()
+    } else if (!prevProps.open && this.props.open) {
+      this.handleOpen()
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.props.open) {
+      this.handleClose()
+    }
+  }
+
+  // flowlint-next-line unsafe-getters-setters:off
   get isTopModal() {
     return this.props.manager.isTopModal(this)
   }
+
+  mountNode = document.body
 
   handleBackdropClick = event => {
     if (event.target !== event.currentTarget) {
@@ -92,17 +122,27 @@ class Modal extends React.Component<ModalProps> {
     }
 
     this.lastFocusElement = document.activeElement
-    if (typeof this.contentRef.focus === 'function') {
+
+    if (this.props.fallInsideFocus && getNextFocusElement(this.contentRef)) {
+      getNextFocusElement(this.contentRef).focus()
+    } else {
+      if (typeof this.contentRef.getAttribute('tabindex') === 'undefined') {
+        this.contentRef.setAttribute('tabindex', -1)
+      }
       this.contentRef.focus()
     }
   }
 
   enforceFocus = () => {
-    const currentActiveElement = document.activeElement
-    // The Modal might not already be mounted.
+    if (this.props.disableEnforceFocus) {
+      return
+    }
+
     if (!this.isTopModal) {
       return
     }
+
+    const currentActiveElement = document.activeElement
 
     if (!this.contentRef.contains(currentActiveElement)) {
       this.contentRef.focus()
@@ -129,28 +169,6 @@ class Modal extends React.Component<ModalProps> {
   handleClose = () => {
     this.props.manager.remove(this, document.body)
     this.restoreLastFocus()
-  }
-
-  componentDidMount() {
-    this.mountNode = document.body
-
-    if (this.props.open) {
-      this.handleOpen()
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.open && !this.props.open) {
-      this.handleClose()
-    } else if (!prevProps.open && this.props.open) {
-      this.handleOpen()
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.props.open) {
-      this.handleClose()
-    }
   }
 
   render() {

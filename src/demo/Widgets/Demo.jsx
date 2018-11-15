@@ -2,7 +2,7 @@ import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import ButtonWidget from 'containers/Widget/ButtonWidget'
 import InlineWidget from 'containers/Widget/InlineWidget'
-import Title from 'containers/Ledger/ChartCard/Title'
+import Title from 'containers/admin/Ledger/ChartCard/Title'
 
 const styles = {
   demo: {

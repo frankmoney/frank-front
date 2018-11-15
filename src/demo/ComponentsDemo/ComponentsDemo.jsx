@@ -3,6 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Currency, Paper } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
+import Title from 'containers/admin/Ledger/ChartCard/Title'
 import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CurrencyProvider from 'components/CurrencyProvider'
@@ -10,7 +11,6 @@ import { Field } from 'components/Field'
 import FieldLabel from 'components/FieldLabel'
 import PaymentCard from 'components/PaymentCard'
 import TextBox from 'components/TextBox'
-import Title from 'containers/Ledger/ChartCard/Title'
 
 const styles = theme => ({
   root: {

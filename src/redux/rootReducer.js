@@ -2,36 +2,48 @@ import { createReducer } from '@frankmoney/webapp'
 import widgetDataReducer, {
   REDUCER_KEY as widgetDataKey,
 } from 'containers/Widget/reducer'
-import ledgerReducer, {
-  REDUCER_KEY as ledgerKey,
-} from 'containers/Ledger/reducer'
+import adminLedgerReducer, {
+  REDUCER_KEY as adminLedgerKey,
+} from 'containers/admin/Ledger/reducer'
+import publicLedgerReducer, {
+  REDUCER_KEY as publicLedgerKey,
+} from 'containers/public/Ledger/reducer'
 import directoryReducer, {
   REDUCER_KEY as directoryKey,
-} from 'containers/Directory/reducer'
+} from 'containers/admin/Directory/reducer'
 import recipientReducer, {
   REDUCER_KEY as recipientKey,
-} from 'containers/Recipient/reducer'
+} from 'containers/admin/Recipient/reducer'
 import storiesReducer, {
   REDUCER_KEY as storiesKey,
-} from 'containers/Stories/reducer'
-import storyPreviewReducer, {
-  REDUCER_KEY as storyPreviewKey,
-} from 'containers/StoryPreview/reducer'
+} from 'containers/admin/Stories/reducer'
+import adminStoryReducer, {
+  REDUCER_KEY as adminStoryKey,
+} from 'containers/admin/Story/reducer'
+import publicStoryReducer, {
+  REDUCER_KEY as publicStoryKey,
+} from 'containers/public/Story/reducer'
 import storyEditReducer, {
   REDUCER_KEY as storyEditKey,
-} from 'containers/StoryEdit/reducer'
-import teamReducer, { name as teamKey } from 'containers/Team/reducer'
+} from 'containers/admin/StoryEdit/reducer'
+import publicPaymentReducer, {
+  REDUCER_KEY as publicPaymentKey,
+} from 'containers/public/Payment/reducer'
+import teamReducer, { name as teamKey } from 'containers/admin/Team/reducer'
 import onboardingReducer, {
   REDUCER_KEY as onboardingKey,
-} from 'containers/Onboarding/reducer'
+} from 'containers/admin/Onboarding/reducer'
 
 export default createReducer({
-  [ledgerKey]: ledgerReducer,
+  [adminLedgerKey]: adminLedgerReducer,
+  [publicLedgerKey]: publicLedgerReducer,
   [directoryKey]: directoryReducer,
   [recipientKey]: recipientReducer,
   [storiesKey]: storiesReducer,
-  [storyPreviewKey]: storyPreviewReducer,
+  [adminStoryKey]: adminStoryReducer,
+  [publicStoryKey]: publicStoryReducer,
   [storyEditKey]: storyEditReducer,
+  [publicPaymentKey]: publicPaymentReducer,
   [teamKey]: teamReducer,
   [teamKey]: teamReducer,
   [widgetDataKey]: widgetDataReducer,

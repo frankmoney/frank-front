@@ -23,3 +23,6 @@ Drawer.Consumer = context.Consumer
 Drawer.Provider = context.Provider
 
 export default Drawer
+
+export type { DrawerContextType } from './context'
+export type { DrawerProps } from './Drawer'

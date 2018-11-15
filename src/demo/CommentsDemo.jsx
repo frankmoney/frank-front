@@ -4,7 +4,7 @@ import IconComment from 'material-ui-icons/ModeComment'
 import Comments from 'components/Comments'
 import Button from 'components/kit/Button'
 import Paper from 'components/kit/Paper'
-import Title from 'containers/Ledger/ChartCard/Title'
+import Title from 'containers/admin/Ledger/ChartCard/Title'
 import { injectStyles } from 'utils/styles'
 
 const styles = theme => ({

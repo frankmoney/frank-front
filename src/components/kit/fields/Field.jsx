@@ -16,7 +16,6 @@ type Props = {|
   //
   additionalLabel?: string,
   children?: React.Element<any>,
-  stretch?: boolean,
   disabled?: boolean,
   error?: string,
   floatingLabel?: string,
@@ -26,7 +25,10 @@ type Props = {|
   larger?: boolean,
   loading?: boolean,
   loadingText?: string,
+  onBlur?: FocusEvent => void,
+  onFocus?: FocusEvent => void,
   placeholder?: string,
+  stretch?: boolean,
 |}
 
 type State = {|
@@ -47,6 +49,24 @@ class Field extends React.Component<Props, State> {
     filled: this.isFilledDefault,
   }
 
+  componentDidUpdate() {
+    const value = this.controlProps.value
+    if (typeof value !== 'undefined') {
+      const filled = !!value
+      if (this.state.filled !== filled) {
+        this.setState({ filled })
+      }
+    }
+  }
+
+  getState = (state = this.state) => ({
+    focus: this.isControlledFocus ? this.props.focus : state.focus,
+    invalid: !!this.props.error,
+    disabled: this.props.disabled,
+    loading: this.props.loading,
+    filled: this.state.filled,
+  })
+
   // flowlint-next-line unsafe-getters-setters:off
   get isFilledDefault() {
     return !!this.controlProps.value || !!this.controlProps.defaultValue
@@ -62,7 +82,7 @@ class Field extends React.Component<Props, State> {
     return typeof this.props.focus !== 'undefined'
   }
 
-  handleFocus = event => {
+  handleFocus = (event: FocusEvent) => {
     if (!this.isControlledFocus) {
       this.setState({ focus: true }, () => {
         if (typeof this.props.onFocus === 'function') {
@@ -104,41 +124,23 @@ class Field extends React.Component<Props, State> {
     this.control.focus()
   }
 
-  componentDidUpdate() {
-    const value = this.controlProps.value
-    if (typeof value !== 'undefined') {
-      const filled = !!value
-      if (this.state.filled !== filled) {
-        this.setState({ filled })
-      }
-    }
-  }
-
-  getState = (state = this.state) => ({
-    focus: this.isControlledFocus ? this.props.focus : state.focus,
-    invalid: !!this.props.error,
-    disabled: this.props.disabled,
-    loading: this.props.loading,
-    filled: this.state.filled,
-  })
-
   render() {
     const {
+      additionalLabel,
+      children,
       classes,
       className,
+      disabled,
+      error,
       floatingLabel,
+      hint,
+      label,
       larger,
-      stretch,
       loading,
       loadingText,
-      label,
-      additionalLabel,
-      error,
-      hint,
-      disabled,
       placeholder,
+      stretch,
       style,
-      children,
     } = this.props
     const control = React.Children.only(children)
     const { focus, invalid, filled } = this.getState()
