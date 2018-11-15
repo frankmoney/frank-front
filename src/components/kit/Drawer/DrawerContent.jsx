@@ -1,13 +1,14 @@
-/* eslint-disable react/no-find-dom-node */
 import React from 'react'
 import { findDOMNode } from 'react-dom'
 import cx from 'classnames'
 import debounce from 'lodash/debounce'
+import throttle from 'lodash/throttle'
 import { injectStyles } from 'utils/styles'
 
 const styles = {
   root: {
     overflow: 'auto',
+    WebkitOverflowScrolling: 'touch', // Add iOS momentum scrolling.
     flex: '1 1 auto',
   },
   overflowTop: {
@@ -41,9 +42,9 @@ class DrawerContent extends React.Component {
     this.element = findDOMNode(ref)
   }
 
-  handleScroll = debounce(() => {
+  handleScroll = throttle(() => {
     this.checkOverflow()
-  }, 50)
+  }, 100)
 
   handleResize = debounce(() => {
     this.checkOverflow()

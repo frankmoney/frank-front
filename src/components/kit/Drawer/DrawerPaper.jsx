@@ -9,6 +9,8 @@ const styles = {
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
+    WebkitOverflowScrolling: 'touch', // Add iOS momentum scrolling.
+    overflow: 'auto',
   },
 }
 

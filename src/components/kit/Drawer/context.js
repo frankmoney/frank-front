@@ -6,7 +6,9 @@ export type DrawerContextType = {|
   close: () => void,
 |}
 
-export default React.createContext<DrawerContextType>({
-  open: false,
-  close: () => {},
-})
+export default React.createContext(
+  ({
+    open: false,
+    close: () => {},
+  }: DrawerContextType)
+)

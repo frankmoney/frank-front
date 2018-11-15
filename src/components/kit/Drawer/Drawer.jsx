@@ -36,20 +36,10 @@ export type DrawerProps = Props
 
 const styles = {
   paper: {
-    overflowY: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
     height: '100%',
-    flex: '1 0 auto',
-    zIndex: 100,
-    WebkitOverflowScrolling: 'touch', // Add iOS momentum scrolling.
-    // temporary style
     position: 'fixed',
     top: 0,
     right: 0,
-    // We disable the focus ring for mouse, touch and keyboard users.
-    // At some point, it would be better to keep it for keyboard users.
-    // :focus-ring CSS pseudo-class will help.
     outline: 'none',
   },
 }

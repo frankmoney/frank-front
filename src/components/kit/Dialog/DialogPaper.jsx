@@ -8,6 +8,7 @@ const styles = {
   root: {
     width: 650,
     padding: 40,
+    outline: 'none',
   },
 }
 
