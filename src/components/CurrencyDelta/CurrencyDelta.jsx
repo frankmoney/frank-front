@@ -1,12 +1,11 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import {
-  defaultFormatter,
+import { defaultFormatter } from 'components/CurrencyProvider'
+import CurrencyContext, {
   type CurrencyFormatter,
-} from 'components/CurrencyProvider'
-import CurrencyContext from 'contexts/CurrencyContext'
+} from 'contexts/CurrencyContext'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const isNegative: (?number) => boolean = value =>
@@ -39,7 +38,7 @@ type CommonProps = {|
   ...InjectStylesProps,
   //
   symbol?: string,
-  value?: number,
+  value: number,
   valueClassName?: string,
 |}
 
@@ -95,8 +94,9 @@ const CurrencyDelta = ({
       render({
         classes,
         className,
-        formatter: formatter || context.formatter || defaultFormatter,
-        symbol: symbol || context.symbol,
+        formatter:
+          formatter || (context && context.formatter) || defaultFormatter,
+        symbol: symbol || (context && context.symbol),
         value,
         valueClassName,
       })

@@ -1,12 +1,11 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
-import CurrencyProvider, {
-  type CurrencyCode,
-} from 'components/CurrencyProvider'
+import CurrencyProvider from 'components/CurrencyProvider'
 import Drawer from 'components/Drawer'
 import Button from 'components/kit/Button'
+import type { CurrencyCode } from 'contexts/CurrencyContext'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { PaymentListRow, ROW_HEIGHT } from 'components/PaymentListRow'
 import { DateRangeField } from 'components/DrawerFilters'
@@ -49,7 +48,7 @@ const style = theme => ({
   },
 })
 
-type Payment = Object // FIXME: SelectedPayment type
+type Payment = Object // flowlint-line unclear-type:warn
 
 type EmptyCb = () => void
 type OnChangeCb = (Array<Payment>) => void
@@ -65,7 +64,7 @@ type Props = {|
   loadedPagesCounter: number,
   onChange: OnChangeCb,
   onClose: EmptyCb,
-  onFilter?: Function,
+  onFilter?: ({ from: FilterDate, to: FilterDate }) => void,
   onLoadMore?: () => void,
   open?: boolean,
   payments: Array<Payment>,
