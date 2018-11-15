@@ -1,7 +1,8 @@
 // @flow
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
 import Paper, { type PaperProps } from 'components/kit/Paper'
+import type { PopupAlign, PopupPosition } from 'components/kit/PopupBase'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Arrow from './Arrow'
 
@@ -9,8 +10,10 @@ type Props = {|
   ...PaperProps,
   ...InjectStylesProps,
   //
-  align: 'center' | 'start' | 'end',
+  align: PopupAlign,
   arrowProps: Object,
+  children?: React.Node,
+  direction: PopupPosition,
 |}
 
 const ARROW_WIDTH = 24

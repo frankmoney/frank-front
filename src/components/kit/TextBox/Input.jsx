@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react'
-import { findDOMNode } from 'react-dom'
 import cx from 'classnames'
-import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import mixins from 'styles/mixins'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 import { adjustTextareaSize, type TextareaProps } from './utils'
 
 const styles = theme => ({
@@ -60,16 +60,14 @@ type Props = {|
 class Input extends React.Component<Props> {
   componentDidMount() {
     if (this.props.multiLine) {
-      // eslint-disable-next-line react/no-find-dom-node
-      adjustTextareaSize(findDOMNode(this), this.props)
+      adjustTextareaSize(unsafeFindDOMNode(this), this.props)
     }
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.multiLine !== this.props.multiLine) {
       if (this.props.multiLine) {
-        // eslint-disable-next-line react/no-find-dom-node
-        adjustTextareaSize(findDOMNode(this), this.props)
+        adjustTextareaSize(unsafeFindDOMNode(this), this.props)
       }
     }
   }

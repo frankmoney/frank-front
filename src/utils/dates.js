@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import D from 'date-fns/fp'
 import * as R from 'ramda'
 import { padStart } from 'lodash'
@@ -45,17 +45,19 @@ export const formatHour12Time = D.format(HOUR12_TIME_FORMAT)
 
 // ACTUALLY IN USE ( START )
 
-export const formatMonthDate = (date, withYear = false) =>
+type FormatFn = (date: Date, ?boolean) => string
+
+export const formatMonthDate: FormatFn = (date, withYear = false) =>
   D.format(
     withYear ? `${ONLY_MONTH_FORMAT} ${YEAR_FORMAT}` : ONLY_MONTH_FORMAT,
     date
   )
-export const formatShortDate = (date, withYear = false) =>
+export const formatShortDate: FormatFn = (date, withYear = false) =>
   D.format(
     withYear ? `${SHORT_DATE_FORMAT}, ${YEAR_FORMAT}` : SHORT_DATE_FORMAT,
     date
   )
-export const formatFullDate = (date, withYear = false) =>
+export const formatFullDate: FormatFn = (date, withYear = false) =>
   D.format(
     withYear ? `${FULL_DATE_FORMAT}, ${YEAR_FORMAT}` : FULL_DATE_FORMAT,
     date
@@ -80,8 +82,10 @@ export const isCurrentYear = (date: Date) => {
   return D.getYear(date) === now.getFullYear()
 }
 
-export const findClosestHour24TimeSlot = (list: Array<any>, time: TimeString) =>
-  D.closestIndexTo(parseList(parse24HourTime, list), parse24HourTime(time))
+export const findClosestHour24TimeSlot = (
+  list: Array<TimeString>,
+  time: TimeString
+) => D.closestIndexTo(parseList(parse24HourTime, list), parse24HourTime(time))
 
 export const fixHour12Time = R.pipe(
   parseTimeToHoursMinutes,

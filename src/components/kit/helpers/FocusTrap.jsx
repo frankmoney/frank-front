@@ -1,25 +1,35 @@
-/* eslint-disable react/no-find-dom-node */
-// @flow
-import React from 'react'
-import { findDOMNode } from 'react-dom'
+// @flow strict-local
+import * as React from 'react'
 import createFocusTrap from 'focus-trap'
+import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 
-type Props = {
-  returnFocusOnDeactivate?: boolean,
-  escapeDeactivates?: boolean,
-  clickOutsideDeactivates?: boolean,
+type Options = Object // flowlint-line unclear-type:off
+
+interface OriginalFocusTrap {
+  activate(activateOptions?: Options): void;
+  deactivate(deactivateOptions?: Options): void;
+  pause(): void;
+  unpause(): void;
 }
+
+type Props = {|
+  children?: React.Node,
+  active: boolean,
+  paused: boolean,
+|}
 
 class FocusTrap extends React.Component<Props> {
   static defaultProps = {
+    active: true,
+    paused: false,
     returnFocusOnDeactivate: true,
   }
 
   componentDidMount() {
     // Finds the first child when a component returns a fragment.
     // https://github.com/facebook/react/blob/036ae3c6e2f056adffc31dfb78d1b6f0c63272f0/packages/react-dom/src/__tests__/ReactDOMFiber-test.js#L105
-    this.node = findDOMNode(this)
-    this.focusTrap = createFocusTrap(this.node, this.props)
+    const node = unsafeFindDOMNode(this)
+    this.focusTrap = createFocusTrap(node, this.props)
     if (this.props.active) {
       this.focusTrap.activate()
     }
@@ -29,7 +39,7 @@ class FocusTrap extends React.Component<Props> {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps.active && !this.props.active) {
       this.focusTrap.deactivate()
     } else if (!prevProps.active && this.props.active) {
@@ -47,18 +57,13 @@ class FocusTrap extends React.Component<Props> {
     this.focusTrap.deactivate()
   }
 
-  focusTrap = null
+  focusTrap: OriginalFocusTrap
 
   render() {
     const { children } = this.props
 
     return <React.Fragment>{children}</React.Fragment>
   }
-}
-
-FocusTrap.defaultProps = {
-  active: true,
-  paused: false,
 }
 
 module.exports = FocusTrap

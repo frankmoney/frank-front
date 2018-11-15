@@ -1,10 +1,10 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { findDOMNode } from 'react-dom'
 import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 import { injectStyles } from 'utils/styles'
+import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 
 const styles = {
   root: {
@@ -40,7 +40,7 @@ class DrawerContent extends React.Component {
   }
 
   handleRef = ref => {
-    this.element = findDOMNode(ref) // eslint-disable-line react/no-find-dom-node
+    this.element = unsafeFindDOMNode(ref)
   }
 
   handleScroll = throttle(() => {
