@@ -1,9 +1,9 @@
 // @flow strict-local
 import * as React from 'react'
-import { findDOMNode } from 'react-dom'
 import Modal from 'components/kit/Modal'
 import getNextFocusableElement from 'utils/dom/getNextFocusableElement'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 import DialogPaper from './DialogPaper'
 
 type Props = {|
@@ -41,8 +41,7 @@ class Dialog extends React.Component<Props> {
     }
 
     const innerFocusElement = getNextFocusableElement(
-      // eslint-disable-next-line react/no-find-dom-node
-      findDOMNode(this.dialogRef)
+      unsafeFindDOMNode(this.dialogRef)
     )
     if (innerFocusElement) {
       innerFocusElement.focus()

@@ -1,7 +1,7 @@
 // @flow strict-local
 import * as React from 'react'
-import { findDOMNode } from 'react-dom'
 import createFocusTrap from 'focus-trap'
+import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 
 type Options = Object // flowlint-line unclear-type:off
 
@@ -28,7 +28,7 @@ class FocusTrap extends React.Component<Props> {
   componentDidMount() {
     // Finds the first child when a component returns a fragment.
     // https://github.com/facebook/react/blob/036ae3c6e2f056adffc31dfb78d1b6f0c63272f0/packages/react-dom/src/__tests__/ReactDOMFiber-test.js#L105
-    const node = findDOMNode(this) // eslint-disable-line react/no-find-dom-node
+    const node = unsafeFindDOMNode(this)
     this.focusTrap = createFocusTrap(node, this.props)
     if (this.props.active) {
       this.focusTrap.activate()

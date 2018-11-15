@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react'
 import * as R from 'ramda'
-import { findDOMNode } from 'react-dom'
 import chainCallbacks from 'utils/dom/chainCallbacks'
 import isElementVisible from 'utils/dom/isElementVisible'
 import getBody from 'utils/dom/getBody'
+import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 import Context from './SelectListContext'
 
 type Val = any
@@ -295,14 +295,12 @@ class SelectListBase extends React.Component<Props, State> {
   }
 
   handleContainerRef = containerRef => {
-    // eslint-disable-next-line react/no-find-dom-node
-    this.containerElement = findDOMNode(containerRef)
+    this.containerElement = unsafeFindDOMNode(containerRef)
   }
 
   handleValueItemRef = (itemRef, value: Value) => {
     if (itemRef) {
-      // eslint-disable-next-line react/no-find-dom-node
-      const el = findDOMNode(itemRef)
+      const el = unsafeFindDOMNode(itemRef)
       this.itemElementsByValue.set(value, el)
       // мы должны очищать значение только когда пропадают айтемы в списке а не в результате анмаунта всего списка
     } else if (!this.unmounted) {
@@ -318,7 +316,7 @@ class SelectListBase extends React.Component<Props, State> {
   }
 
   handleCallbackItemRef = (itemRef, callback) => {
-    this.itemElementsByCallback.set(callback, findDOMNode(itemRef))
+    this.itemElementsByCallback.set(callback, unsafeFindDOMNode(itemRef))
   }
 
   handleMouseEnter = (event: MouseEvent) => {

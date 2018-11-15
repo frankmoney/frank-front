@@ -1,8 +1,8 @@
 // @flow strict-local
 import * as React from 'react'
-import { findDOMNode } from 'react-dom'
 import EventListener from 'react-event-listener'
 import ownerDocument from 'utils/dom/ownerDocument'
+import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 
 type Props = {|
   /**
@@ -36,8 +36,7 @@ class ClickAwayListener extends React.Component<Props> {
   componentDidMount() {
     // Finds the first child when a component returns a fragment.
     // https://github.com/facebook/react/blob/036ae3c6e2f056adffc31dfb78d1b6f0c63272f0/packages/react-dom/src/__tests__/ReactDOMFiber-test.js#L105
-    // eslint-disable-next-line react/no-find-dom-node
-    this.node = (findDOMNode(this): any) // flowlint-line unclear-type:off
+    this.node = unsafeFindDOMNode(this)
     this.mounted = true
   }
 
