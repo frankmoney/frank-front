@@ -1,7 +1,7 @@
-/* eslint-disable react/no-find-dom-node */
+// @flow strict-local
 import React from 'react'
-import { findDOMNode } from 'react-dom'
 import cx from 'classnames'
+import { findDOMNode } from 'react-dom'
 import debounce from 'lodash/debounce'
 import { injectStyles } from 'utils/styles'
 
@@ -38,7 +38,7 @@ class DrawerContent extends React.Component {
   }
 
   handleRef = ref => {
-    this.element = findDOMNode(ref)
+    this.element = findDOMNode(ref) // eslint-disable-line react/no-find-dom-node
   }
 
   handleScroll = debounce(() => {

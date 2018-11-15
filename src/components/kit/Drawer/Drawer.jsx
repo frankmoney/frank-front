@@ -1,22 +1,24 @@
-// @flow
-import React from 'react'
+// @flow strict-local
+import * as React from 'react'
 import cx from 'classnames'
 import { findDOMNode } from 'react-dom'
 import Modal from 'components/kit/Modal'
 import Button from 'components/kit/Button'
-import { injectStyles } from 'utils/styles'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import getNextFocusableElement from '../../../utils/dom/getNextFocusableElement'
-import DialogPaper from '../Dialog/DialogPaper'
 import DrawerPaper from './DrawerPaper'
 import DrawerFooter from './DrawerFooter'
 import DrawerTitle from './DrawerTitle'
 import DrawerCloseButton from './DrawerCloseButton'
 import DrawerContext from './context'
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
+  children?: React.Node,
   open?: boolean,
   onClose?: () => void,
-}
+|}
 
 const styles = {
   paper: {

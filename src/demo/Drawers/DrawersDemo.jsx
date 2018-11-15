@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import Button from 'components/kit/Button'
 import Drawer from 'components/kit/Drawer'
@@ -11,11 +11,12 @@ const DrawersDemo = () => (
     <Row>
       <Drawer.Paper style={{ maxHeight: 450 }}>
         <Drawer.Title buttons={<Drawer.CloseButton />}>
-          Select payments Sele payments
+          Select payments and then select some more
         </Drawer.Title>
         <Drawer.Content>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((num, idx) => (
             <div
+              key={idx} // eslint-disable-line react/no-array-index-key
               style={{
                 height: 55,
                 margin: '0 30px',
@@ -54,6 +55,7 @@ const DrawersDemo = () => (
         <Drawer.Content disableOverflowTop style={{ paddingTop: 20 }}>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((num, idx) => (
             <div
+              key={idx} // eslint-disable-line react/no-array-index-key
               style={{
                 height: 55,
                 margin: '0 30px',
@@ -122,6 +124,7 @@ const DrawersDemo = () => (
                   8,
                 ].map((num, idx) => (
                   <div
+                    key={idx} // eslint-disable-line react/no-array-index-key
                     style={{
                       height: 55,
                       margin: '0 30px',

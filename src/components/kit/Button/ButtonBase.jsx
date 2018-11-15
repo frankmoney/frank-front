@@ -1,10 +1,16 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
 
 type DOMEventHandler = Event => void
 
+type Style = Object // flowlint-line unclear-type:warn
+
+type RootComponent = string | React.ComponentType<any> // flowlint-line unclear-type:off
+
 export type ButtonBaseProps = {|
-  component: string | React.ComponentType<any>,
+  component: RootComponent,
+  width?: number,
+  style: Style,
   onBlur: DOMEventHandler,
   onClick: DOMEventHandler,
   onFocus: DOMEventHandler,
@@ -21,12 +27,14 @@ type Props = {|
   children?: React.Node,
   className?: string,
   href?: string,
-  width?: number,
-  style: Object,
 |}
 
 class BaseButton extends React.Component<Props> {
-  handleKeyPress = event => {
+  static defaultProps = {
+    component: 'div',
+  }
+
+  handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === 'Enter' && event.target === event.currentTarget) {
       if (typeof this.props.onClick === 'function') {
         this.props.onClick(event)
@@ -79,10 +87,6 @@ class BaseButton extends React.Component<Props> {
       </Root>
     )
   }
-}
-
-BaseButton.defaultProps = {
-  component: 'div',
 }
 
 export default BaseButton

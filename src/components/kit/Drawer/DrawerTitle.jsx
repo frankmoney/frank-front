@@ -1,7 +1,9 @@
-import React from 'react'
+// @flow strict-local
+import * as React from 'react'
 import cx from 'classnames'
 import Clamp from 'shiitake'
-import { injectStyles } from 'utils/styles'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import DrawerHeaderButton from './DrawerHeaderButton'
 
 const styles = {
   root: {
@@ -34,6 +36,20 @@ const styles = {
   },
 }
 
+type OmittedProps = {|
+  theme?: any, // flowlint-line unclear-type:warn
+|}
+
+type Props = {|
+  ...InjectStylesProps,
+  ...OmittedProps,
+  //
+  clamp: number,
+  smaller?: boolean,
+  children: React.Node,
+  buttons: React.ChildrenArray<React.Element<typeof DrawerHeaderButton>>,
+|}
+
 const DrawerTitle = ({
   theme,
   classes,
@@ -43,7 +59,7 @@ const DrawerTitle = ({
   children,
   buttons,
   ...otherProps
-}) => (
+}: Props) => (
   <div
     className={cx(
       classes.root,
@@ -53,7 +69,13 @@ const DrawerTitle = ({
       className
     )}
   >
-    {buttons && <div className={classes.buttons}>{buttons}</div>}
+    {buttons && (
+      <div className={classes.buttons}>
+        {React.Children.map(buttons, (child, idx) =>
+          React.cloneElement(child, { key: idx })
+        )}
+      </div>
+    )}
     <Clamp className={classes.text} lines={clamp} {...otherProps}>
       {children}
     </Clamp>
