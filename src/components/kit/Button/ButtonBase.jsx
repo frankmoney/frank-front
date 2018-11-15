@@ -34,7 +34,10 @@ class ButtonBase extends React.Component<Props> {
   }
 
   handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key === 'Enter' && event.target === event.currentTarget) {
+    if (
+      (event.key === ' ' || event.key === 'Enter') &&
+      event.target === event.currentTarget
+    ) {
       if (typeof this.props.onClick === 'function') {
         this.props.onClick(event)
       }
