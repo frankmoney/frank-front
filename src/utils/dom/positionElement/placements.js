@@ -102,7 +102,6 @@ export function getPlacementStyle({
     ? anchorRect.top
     : anchorElement.offsetTop
 
-  console.log('getPlacementStyle', anchorRect, elemRect)
   // default position center within anchor
   const placementStyle = {
     position: 'absolute',
