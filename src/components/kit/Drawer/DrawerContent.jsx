@@ -43,7 +43,7 @@ class DrawerContent extends React.Component {
 
   handleScroll = debounce(() => {
     this.checkOverflow()
-  }, 100)
+  }, 50)
 
   handleResize = debounce(() => {
     this.checkOverflow()

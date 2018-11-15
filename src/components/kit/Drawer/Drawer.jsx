@@ -48,7 +48,6 @@ class Drawer extends React.Component<Props> {
   }
 
   handleFocus = event => {
-    console.log('focus')
     if (
       this.disableEnforceInnerFocus ||
       !this.dialogRef ||
@@ -61,7 +60,6 @@ class Drawer extends React.Component<Props> {
       // eslint-disable-next-line react/no-find-dom-node
       findDOMNode(this.dialogRef)
     )
-    console.log('innerFocusElement', innerFocusElement)
     if (innerFocusElement) {
       innerFocusElement.focus()
     }
@@ -113,13 +111,15 @@ class Drawer extends React.Component<Props> {
           className={cx(classes.paper, className)}
         >
           <DrawerContext.Provider value={{ opened: open, close: onClose }}>
-            <DrawerTitle
-              clamp={titleClamp}
-              smaller={titleSmaller}
-              buttons={buttons}
-            >
-              {title}
-            </DrawerTitle>
+            {title && (
+              <DrawerTitle
+                clamp={titleClamp}
+                smaller={titleSmaller}
+                buttons={buttons}
+              >
+                {title}
+              </DrawerTitle>
+            )}
             {children}
             {footer}
           </DrawerContext.Provider>
