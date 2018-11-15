@@ -24,26 +24,26 @@ const ComposedAccountItem = withProps({
   renderAccountMenuItems: () => (
     <>
       <SidebarMenuItem
-        href={createRouteUrl(ROUTES.inbox.root)}
+        href={createRouteUrl(ROUTES.manage.inbox.root)}
         navLinkComponent={ReduxNavLink}
         primaryText="New"
         leftIcon={NewIcon}
         disabled
       />
       <SidebarMenuItem
-        href={createRouteUrl(ROUTES.ledger.root)}
+        href={createRouteUrl(ROUTES.manage.ledger.root)}
         navLinkComponent={ReduxNavLink}
         primaryText="Ledger"
         leftIcon={LedgerIcon}
       />
       <SidebarMenuItem
-        href={createRouteUrl(ROUTES.stories.root)}
+        href={createRouteUrl(ROUTES.manage.stories.root)}
         navLinkComponent={ReduxNavLink}
         primaryText="Stories"
         leftIcon={StoriesIcon}
       />
       <SidebarMenuItem
-        href={createRouteUrl(ROUTES.directory.root)}
+        href={createRouteUrl(ROUTES.manage.directory.root)}
         navLinkComponent={ReduxNavLink}
         primaryText="Directory"
         leftIcon={DirectoryIcon}

@@ -31,10 +31,10 @@ export default withProps({
   sidebarComponent: compose(
     withProps({
       LogoComponent: Logo,
-      renderMainMenuItems: () => (
+      renderAccountMenuItems: () => (
         <>
           <SidebarMenuItem
-            href={createRouteUrl(ROUTES.ledger.root)}
+            href={createRouteUrl(ROUTES.manage.ledger.root)}
             navLinkComponent={ReduxNavLink}
             primaryText="Application"
           />

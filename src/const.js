@@ -7,27 +7,42 @@ export const ROUTES = {
     recoverPassword: '/recover-password',
     logout: '/logout',
   },
-  inbox: {
-    root: '/inbox',
+  manage: {
+    inbox: {
+      root: '/manage/inbox',
+    },
+    ledger: {
+      root: '/manage/ledger',
+    },
+    stories: {
+      root: '/manage/stories',
+      storyPreview: '/manage/story/:id?',
+      storyEdit: '/manage/story/:id?/edit',
+      storyNew: '/manage/story/new',
+    },
+    directory: {
+      root: '/manage/directory',
+      recipient: '/manage/directory/:id?',
+    },
+    team: {
+      root: '/manage/team',
+    },
+    onboarding: {
+      root: '/onboarding',
+    },
   },
-  ledger: {
-    root: '/ledger',
-  },
-  stories: {
-    root: '/stories',
-    storyPreview: '/story/:id?',
-    storyEdit: '/story/:id?/edit',
-    storyNew: '/story/new',
-  },
-  directory: {
-    root: '/directory',
-    recipient: '/directory/:id?',
-  },
-  team: {
-    root: '/team',
-  },
-  onboarding: {
-    root: '/onboarding',
+  public: {
+    ledger: {
+      idRoot: '/account/:accountId?',
+      idRootTab: '/account/:accountId/:tab(stories)?',
+      stories: '/account/:accountId?/stories',
+    },
+    story: {
+      root: '/account/:accountId?/stories/:storyId?',
+    },
+    payment: {
+      root: '/account/:accountId?/payments/:paymentId?',
+    },
   },
   demo: {
     root: '/demo',
@@ -47,6 +62,7 @@ export const ROUTES = {
     popups: '/demo/popups',
     selectLists: '/demo/select-lists',
     selects: '/demo/selects',
+    dialogs: '/demo/dialogs',
     switches: '/demo/switches',
     widgets: '/demo/widgets',
   },

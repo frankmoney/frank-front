@@ -22,11 +22,12 @@ type ButtonMixins = {|
 export type ButtonProps = {|
   ...ButtonBaseProps,
   //
-  active?: boolean,
+  active: boolean,
   color: ButtonColor,
   counter?: string | number,
-  disabled?: boolean,
-  hover?: boolean,
+  disabled: boolean,
+  focus: boolean,
+  hover: boolean,
   icon?: React.Element<any>,
   label: string,
   loading: boolean,
@@ -45,6 +46,7 @@ const Button = ({
   // states
   active,
   disabled,
+  focus,
   hover,
   loading,
   // content
@@ -67,6 +69,7 @@ const Button = ({
         [classes.disabled]: disabled,
         [classes.loading]: loading,
         [classes.active]: active,
+        [classes.focus]: focus,
         [classes.hover]: hover,
       },
       className
@@ -87,10 +90,11 @@ const Button = ({
 
 Button.defaultProps = {
   active: false,
+  color: 'gray',
   disabled: false,
+  focus: false,
   hover: false,
   loading: false,
-  color: 'gray',
   Mixins: {},
 }
 

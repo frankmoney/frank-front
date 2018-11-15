@@ -85,8 +85,6 @@ const DateRangeField = ({
     }
   }
 
-  console.log({ from, to, now })
-
   return (
     <DrawerField title="Date range">
       <SelectField

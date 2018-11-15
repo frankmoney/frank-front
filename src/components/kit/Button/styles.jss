@@ -12,6 +12,9 @@ export const applyColors = theme => ({
     '&:hover, &$hover': {
       backgroundColor: '#1EB757',
     },
+    '&:focus, &$focus': {
+      backgroundColor: '#1EB757',
+    },
     '&:active, &$active, &$loading': {
       backgroundColor: '#1AA24E',
     },
@@ -25,6 +28,9 @@ export const applyColors = theme => ({
     color: '#252B43',
     transition: theme.transition('background-color'),
     '&:hover, &$hover': {
+      backgroundColor: 'rgba(37, 43, 67, 0.1)',
+    },
+    '&:focus, &$focus': {
       backgroundColor: 'rgba(37, 43, 67, 0.1)',
     },
     '&:active, &$active, &$loading': {
@@ -45,6 +51,9 @@ export const applyColors = theme => ({
     '&:hover, &$hover': {
       backgroundColor: '#B30000',
     },
+    '&:focus, &$focus': {
+      backgroundColor: '#B30000',
+    },
     '&:active, &$active, &$loading': {
       backgroundColor: '#9F0000',
     },
@@ -60,6 +69,9 @@ export const applyColors = theme => ({
     '&:hover, &$hover': {
       backgroundColor: '#4449DB',
     },
+    '&:focus, &$focus': {
+      backgroundColor: '#4449DB',
+    },
     '&:active, &$active, &$loading': {
       backgroundColor: '#3D49C2',
     },
@@ -73,6 +85,9 @@ export const applyColors = theme => ({
     color: '#21CB61',
     transition: theme.transition('background-color'),
     '&:hover, &$hover': {
+      backgroundColor: 'rgba(33, 203, 97, 0.16)',
+    },
+    '&:focus, &$focus': {
       backgroundColor: 'rgba(33, 203, 97, 0.16)',
     },
     '&:active, &$active, &$loading': {
@@ -91,6 +106,9 @@ export const applyColors = theme => ({
     color: '#4C51F3',
     transition: theme.transition('background-color'),
     '&:hover, &$hover': {
+      backgroundColor: 'rgba(76, 81, 243, 0.12)',
+    },
+    '&:focus, &$focus': {
       backgroundColor: 'rgba(76, 81, 243, 0.12)',
     },
     '&:active, &$active, &$loading': {

@@ -1,19 +1,21 @@
 // @flow
 import React, { cloneElement } from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { createPortal } from 'react-dom'
 import EventListener from 'react-event-listener'
 import RootRef from 'material-ui/internal/RootRef'
 import Backdrop from 'components/kit/Backdrop'
-import { ariaHidden, ariaHiddenSiblings } from './ariaHidden'
+import { injectStyles } from 'utils/styles'
 import ModalManager from './ModalManager'
 
 type ModalProps = {
   invisibleBackdrop?: boolean,
   open?: boolean,
   disableCloseOnEscape?: boolean,
+  disableBackdropClick?: boolean,
   onClose?: () => void,
+  onEscapeKeyDown: Event => void,
+  onBackdropClick: Event => void,
 }
 
 const styles = {
@@ -35,7 +37,36 @@ const styles = {
 class Modal extends React.Component<ModalProps> {
   static defaultProps = {
     backdropProps: {},
+    disableBackdropClick: false,
+    disableCloseOnEscape: false,
     manager: new ModalManager(),
+  }
+
+  componentDidMount() {
+    this.mountNode = document.body
+
+    if (this.props.open) {
+      this.handleOpen()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.open && !this.props.open) {
+      this.handleClose()
+    } else if (!prevProps.open && this.props.open) {
+      this.handleOpen()
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.props.open) {
+      this.handleClose()
+    }
+  }
+
+  // flowlint-next-line unsafe-getters-setters:off
+  get isTopModal() {
+    return this.props.manager.isTopModal(this)
   }
 
   handleBackdropClick = event => {
@@ -43,22 +74,28 @@ class Modal extends React.Component<ModalProps> {
       return
     }
 
-    event.preventDefault()
-    event.stopPropagation()
-    if (typeof this.props.onClose === 'function') {
+    if (this.props.onBackdropClick) {
+      this.props.onBackdropClick(event)
+    }
+
+    if (
+      !this.disableBackdropClick &&
+      typeof this.props.onClose === 'function'
+    ) {
       this.props.onClose()
     }
   }
 
   handleDocumentKeyDown = event => {
-    if (
-      event.key === 'Escape' &&
-      !this.props.disableCloseOnEscape &&
-      !event.defaultPrevented
-    ) {
-      event.preventDefault()
-      event.stopPropagation()
-      if (typeof this.props.onClose === 'function') {
+    if (this.isTopModal && event.key === 'Escape' && !event.defaultPrevented) {
+      if (typeof this.props.onEscapeKeyDown === 'function') {
+        this.props.onEscapeKeyDown(event)
+      }
+
+      if (
+        !this.props.disableCloseOnEscape &&
+        typeof this.props.onClose === 'function'
+      ) {
         this.props.onClose()
       }
     }
@@ -85,6 +122,10 @@ class Modal extends React.Component<ModalProps> {
 
   enforceFocus = () => {
     const currentActiveElement = document.activeElement
+    // The Modal might not already be mounted.
+    if (!this.isTopModal) {
+      return
+    }
 
     if (!this.contentRef.contains(currentActiveElement)) {
       this.contentRef.focus()
@@ -113,28 +154,6 @@ class Modal extends React.Component<ModalProps> {
     this.restoreLastFocus()
   }
 
-  componentDidMount() {
-    this.mountNode = document.body
-
-    if (this.props.open) {
-      this.handleOpen()
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.open && !this.props.open) {
-      this.handleClose()
-    } else if (!prevProps.open && this.props.open) {
-      this.handleOpen()
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.props.open) {
-      this.handleClose()
-    }
-  }
-
   render() {
     const { open, children, invisibleBackdrop, classes, className } = this.props
 
@@ -150,7 +169,12 @@ class Modal extends React.Component<ModalProps> {
             onFocusCapture={this.enforceFocus}
           />
           <div
-            className={cx(classes.root, { [classes.hidden]: !open }, className)}
+            className={cx(
+              classes.root,
+              'ui-fixed',
+              { [classes.hidden]: !open },
+              className
+            )}
             ref={this.handleModalRef}
           >
             <Backdrop onClick={this.handleBackdropClick} {...backdropProps} />

@@ -2,12 +2,8 @@
 import React from 'react'
 import * as R from 'ramda'
 import { MoreHoriz } from 'material-ui-icons'
-import { toRenderProps, withState } from 'recompose'
 import FilterSelect from 'components/kit/FilterSelect'
 import ButtonMenu from 'components/kit/ButtonMenu'
-import Button from 'components/kit/Button'
-import Modal from 'components/kit/Modal'
-import Paper from 'components/kit/Paper'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import SelectField from 'components/kit/SelectField'
 import ToggleButton from 'components/kit/ToggleButton'
@@ -35,8 +31,6 @@ const commaSeparatedValue = values =>
   !values || values.length === 0
     ? ''
     : values.map(value => ROLE_TEXT[value]).join(',')
-
-const ModalState = toRenderProps(withState('open', 'toggle', false))
 
 const SelectsDemo = () => (
   <Demo>
@@ -74,73 +68,6 @@ const SelectsDemo = () => (
         <MenuItem value="total" label="Total" />
       </FilterSelect>
     </Row>
-    <h1>Modal</h1>
-    <ModalState>
-      {({ open, toggle }) => (
-        <Row centered>
-          <>
-            <Button onClick={() => toggle(true)} label="Open modal" />
-            <Modal open={open} onClose={() => toggle(false)}>
-              <Paper
-                type="modal"
-                style={{
-                  width: 400,
-                  height: 500,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                This is a modal press ESC to leave
-                <ButtonMenu
-                  arrowAt="center"
-                  alignByArrow
-                  renderButton={renderEllipsisButton}
-                >
-                  <MenuItem
-                    label="Publish"
-                    onSelect={fakeAction('published')}
-                  />
-                  <MenuItem
-                    color="red"
-                    label="Delete"
-                    onSelect={fakeAction('deleted')}
-                  />
-                </ButtonMenu>
-                <ModalState>
-                  {({ open: openSecond, toggle: toggleSecond }) => (
-                    <>
-                      <Button
-                        onClick={() => toggleSecond(true)}
-                        label="Open modal"
-                      />
-                      <Modal
-                        open={openSecond}
-                        onClose={() => toggleSecond(false)}
-                      >
-                        <Paper
-                          type="modal"
-                          style={{
-                            width: 200,
-                            height: 300,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          This is a Second modal
-                        </Paper>
-                      </Modal>
-                    </>
-                  )}
-                </ModalState>
-              </Paper>
-            </Modal>
-          </>
-        </Row>
-      )}
-    </ModalState>
   </Demo>
 )
 

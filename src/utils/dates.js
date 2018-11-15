@@ -15,6 +15,15 @@ export const MONTH_FORMAT = 'YYYY-MM'
 export const DATE_FORMAT = 'YYYY-MM-DD'
 export const DATE_HOUR24_TIME_FORMAT = 'YYYY-MM-DD HH:mm'
 
+// ACTUALLY IN USE ( START )
+
+export const ONLY_MONTH_FORMAT = 'MMMM'
+export const SHORT_DATE_FORMAT = 'MMM DD'
+export const FULL_DATE_FORMAT = 'MMMM DD'
+export const YEAR_FORMAT = 'YYYY'
+
+// ACTUALLY IN USE ( END )
+
 export const parseMonth = D.parse(new Date(), MONTH_FORMAT)
 export const parseDate = D.parse(new Date(), DATE_FORMAT)
 export const parseDateTime = D.parse(new Date(), DATE_HOUR24_TIME_FORMAT)
@@ -33,6 +42,26 @@ export const formatDate = D.format(DATE_FORMAT)
 export const formatDateTime = D.format(DATE_HOUR24_TIME_FORMAT)
 export const formatHour24Time = D.format(HOUR24_TIME_FORMAT)
 export const formatHour12Time = D.format(HOUR12_TIME_FORMAT)
+
+// ACTUALLY IN USE ( START )
+
+export const formatMonthDate = (date, withYear = false) =>
+  D.format(
+    withYear ? `${ONLY_MONTH_FORMAT} ${YEAR_FORMAT}` : ONLY_MONTH_FORMAT,
+    date
+  )
+export const formatShortDate = (date, withYear = false) =>
+  D.format(
+    withYear ? `${SHORT_DATE_FORMAT}, ${YEAR_FORMAT}` : SHORT_DATE_FORMAT,
+    date
+  )
+export const formatFullDate = (date, withYear = false) =>
+  D.format(
+    withYear ? `${FULL_DATE_FORMAT}, ${YEAR_FORMAT}` : FULL_DATE_FORMAT,
+    date
+  )
+
+// ACTUALLY IN USE ( END )
 
 export const roundHour24Time = R.pipe(
   parse24HourTime,

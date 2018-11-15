@@ -6,7 +6,7 @@ import { CheckCircle } from 'material-ui-icons'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
 import HighlightText from 'components/HighlightText'
-import { formatDateTime } from 'utils/dates'
+import { formatFullDate } from 'utils/dates'
 
 const CELL_HEIGHT = 110
 
@@ -19,23 +19,26 @@ const styles = theme => ({
     textDecoration: 'none',
   },
   cellLeft: {
-    width: props => props.grid.fixed.getColumnSpanWidth(4),
-    marginRight: props => props.grid.fixed.gutterSize,
+    width: '70%',
+    marginRight: 20,
   },
   cellRight: {
-    width: props => props.grid.fixed.getColumnSpanWidth(2),
-  },
-  title: {
-    ...theme.fontRegular(20, 30),
-    color: '#20284A',
+    width: '30%',
   },
   description: {
+    ...theme.fontRegular(20, 30),
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    color: '#20284A',
+  },
+  emptyDescription: {
+    opacity: 0.2,
+  },
+  info: {
     marginTop: 12,
     display: 'flex',
     alignItems: 'center',
-  },
-  emptyTitle: {
-    opacity: 0.2,
   },
   client: {
     marginRight: 20,
@@ -55,7 +58,7 @@ const styles = theme => ({
     textAlign: 'right',
     display: 'block',
   },
-  rightDescription: {
+  icons: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -92,14 +95,19 @@ const PaymentsTableRow = ({
 }) => (
   <TableRow className={cx(classes.root, className)} {...rowProps}>
     <TableCell name="description" className={classes.cellLeft}>
-      <div className={cx(classes.title, !description && classes.emptyTitle)}>
+      <div
+        className={cx(
+          classes.description,
+          !description && classes.emptyDescription
+        )}
+      >
         {description ? (
           <HighlightText text={description} />
         ) : (
           'Add description...'
         )}
       </div>
-      <div className={classes.description}>
+      <div className={classes.info}>
         {peerName && (
           <div className={classes.client}>
             {' '}
@@ -118,8 +126,8 @@ const PaymentsTableRow = ({
     </TableCell>
     <TableCell name="sum" className={classes.cellRight}>
       <CurrencyDelta className={classes.sum} value={amount} />
-      <div className={classes.rightDescription}>
-        <div className={classes.date}>{formatDateTime(postedOn)}</div>
+      <div className={classes.icons}>
+        <div className={classes.date}>{formatFullDate(postedOn)}</div>
         <CheckCircle className={classes.checkIcon} />
       </div>
     </TableCell>
