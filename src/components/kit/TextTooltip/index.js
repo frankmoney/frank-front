@@ -1,1 +1,2 @@
-export default from './TextTooltip'
+// @flow
+export { default } from './TextTooltip'

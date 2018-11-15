@@ -28,7 +28,7 @@ type Props = {|
   className?: string,
 |}
 
-class BaseButton extends React.Component<Props> {
+class ButtonBase extends React.Component<Props> {
   static defaultProps = {
     component: 'div',
   }
@@ -86,4 +86,4 @@ class BaseButton extends React.Component<Props> {
   }
 }
 
-export default BaseButton
+export default ButtonBase

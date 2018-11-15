@@ -19,8 +19,8 @@ export type ModalProps = {
   // фокус будет проваливаться на первый активный элемент внутри модала
   fallInsideFocus?: boolean,
   onClose?: () => void,
-  onEscapeKeyDown: Event => void,
-  onBackdropClick: Event => void,
+  onEscapeKeyDown?: Event => void,
+  onBackdropClick?: Event => void,
 }
 
 const styles = {

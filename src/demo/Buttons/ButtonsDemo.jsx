@@ -10,6 +10,7 @@ import {
 import Button, {
   BigButton,
   IconButton,
+  IconPlainButton,
   SocialButton,
   TextButton,
 } from 'components/kit/Button'
@@ -207,6 +208,14 @@ const ButtonsDemo = ({ classes }) => (
       <IconButton icon={<MoreHoriz />} color="lightBlue" active />
       <IconButton icon={<MoreHoriz />} color="lightBlue" disabled />
       <IconButton icon={<MoreHoriz />} color="lightBlue" loading />
+    </Row>
+    <h2>IconPlainButton</h2>
+    <Row centered>
+      <IconPlainButton icon={<MoreHoriz />} />
+      <IconPlainButton icon={<MoreHoriz />} hover />
+      <IconPlainButton icon={<MoreHoriz />} active />
+      <IconPlainButton icon={<MoreHoriz />} disabled />
+      <IconPlainButton icon={<MoreHoriz />} loading />
     </Row>
     <h1>BigButton</h1>
     <Row wide>
