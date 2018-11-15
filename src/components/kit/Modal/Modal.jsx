@@ -9,7 +9,7 @@ import getNextFocusElement from 'utils/dom/getNextFocusElement'
 import { injectStyles } from 'utils/styles'
 import ModalManager from './ModalManager'
 
-type ModalProps = {
+export type ModalProps = {
   invisibleBackdrop?: boolean,
   open?: boolean,
   // выключает фокус-трап
