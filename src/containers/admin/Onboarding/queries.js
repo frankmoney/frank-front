@@ -125,7 +125,7 @@ export default {
   finish: [
     `mutation {
       account: onboardingFinish {
-        id
+        id: pid
         name
       }
     }`,
