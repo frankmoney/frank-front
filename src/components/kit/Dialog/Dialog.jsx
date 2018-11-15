@@ -1,14 +1,17 @@
-// @flow
-import React from 'react'
+// @flow strict-local
+import * as React from 'react'
 import { findDOMNode } from 'react-dom'
-import { injectStyles } from 'utils/styles'
 import Modal from 'components/kit/Modal'
 import getNextFocusableElement from 'utils/dom/getNextFocusableElement'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import DialogPaper from './DialogPaper'
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
+  children?: React.Node,
   disableEnforceInnerFocus: boolean,
-}
+|}
 
 const styles = {
   wrap: {

@@ -1,10 +1,9 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import Button from 'components/kit/Button'
 import Dialog from 'components/kit/Dialog'
 import ConfirmDialog from 'components/kit/Dialog/ConfirmDialog'
 import Demo, { Row } from 'demo/Demo'
-import Field from 'components/kit/fields/Field'
 import TextBox from 'components/kit/TextBox'
 
 const DialogsDemo = () => (

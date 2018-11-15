@@ -22,6 +22,7 @@ export default theme => ({
   },
   hover: {},
   active: {},
+  focus: {},
   disabled: {
     cursor: 'auto',
     pointerEvents: 'none',

@@ -1,3 +1,4 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from 'utils/styles'
