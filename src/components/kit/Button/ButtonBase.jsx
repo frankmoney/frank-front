@@ -26,7 +26,6 @@ type Props = {|
   //
   children?: React.Node,
   className?: string,
-  href?: string,
 |}
 
 class BaseButton extends React.Component<Props> {
@@ -47,7 +46,6 @@ class BaseButton extends React.Component<Props> {
       children,
       className,
       component: Root,
-      href,
       style,
       width,
       onBlur,
@@ -68,7 +66,6 @@ class BaseButton extends React.Component<Props> {
 
     return (
       <Root
-        href={href}
         role="button"
         tabIndex={0}
         style={computedStyle}
