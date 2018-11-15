@@ -37,6 +37,7 @@ module.exports = {
     'import/extensions': 0,
     'import/no-extraneous-dependencies': 1,
     'import/order': 1,
+    "react/no-find-dom-node": 0,
     "flowtype/define-flow-type": 1,
   }
 }

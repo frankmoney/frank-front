@@ -5,8 +5,6 @@ import { findDOMNode } from 'react-dom'
 import Modal from 'components/kit/Modal'
 import Button from 'components/kit/Button'
 import { injectStyles } from 'utils/styles'
-import getNextFocusableElement from '../../../utils/dom/getNextFocusableElement'
-import DialogPaper from '../Dialog/DialogPaper'
 import DrawerPaper from './DrawerPaper'
 import DrawerFooter from './DrawerFooter'
 import DrawerTitle from './DrawerTitle'
@@ -39,32 +37,6 @@ const styles = {
 }
 
 class Drawer extends React.Component<Props> {
-  static defaultProps = {
-    disableEnforceInnerFocus: false,
-  }
-
-  handleDialogRef = ref => {
-    this.dialogRef = ref
-  }
-
-  handleFocus = event => {
-    if (
-      this.disableEnforceInnerFocus ||
-      !this.dialogRef ||
-      event.target !== event.currentTarget
-    ) {
-      return
-    }
-
-    const innerFocusElement = getNextFocusableElement(
-      // eslint-disable-next-line react/no-find-dom-node
-      findDOMNode(this.dialogRef)
-    )
-    if (innerFocusElement) {
-      innerFocusElement.focus()
-    }
-  }
-
   render() {
     const {
       classes,
@@ -104,12 +76,8 @@ class Drawer extends React.Component<Props> {
     }
 
     return (
-      <Modal open={open} onClose={onClose}>
-        <DrawerPaper
-          ref={this.handleDialogRef}
-          onFocus={this.handleFocus}
-          className={cx(classes.paper, className)}
-        >
+      <Modal fallInsideFocus open={open} onClose={onClose}>
+        <DrawerPaper className={cx(classes.paper, className)}>
           <DrawerContext.Provider value={{ opened: open, close: onClose }}>
             {title && (
               <DrawerTitle

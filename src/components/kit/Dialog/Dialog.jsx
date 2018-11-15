@@ -1,8 +1,6 @@
 // @flow strict-local
 import * as React from 'react'
-import { findDOMNode } from 'react-dom'
 import Modal from 'components/kit/Modal'
-import getNextFocusableElement from 'utils/dom/getNextFocusableElement'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import DialogPaper from './DialogPaper'
 
@@ -10,11 +8,10 @@ type Props = {|
   ...InjectStylesProps,
   //
   children?: React.Node,
-  disableEnforceInnerFocus: boolean,
 |}
 
 const styles = {
-  wrap: {
+  modal: {
     display: 'flex',
     marginTop: 200,
     alignItems: 'flex-start',
@@ -23,53 +20,26 @@ const styles = {
 }
 
 class Dialog extends React.Component<Props> {
-  static defaultProps = {
-    disableEnforceInnerFocus: false,
-  }
-
-  handleDialogRef = ref => {
-    this.dialogRef = ref
-  }
-
-  handleFocus = event => {
-    if (
-      this.disableEnforceInnerFocus ||
-      !this.dialogRef ||
-      event.target !== event.currentTarget
-    ) {
-      return
-    }
-
-    const innerFocusElement = getNextFocusableElement(
-      // eslint-disable-next-line react/no-find-dom-node
-      findDOMNode(this.dialogRef)
-    )
-    if (innerFocusElement) {
-      innerFocusElement.focus()
-    }
-  }
-
   render() {
     const {
       classes,
-      className,
-      style,
       theme,
       children,
+      open,
+      onClose,
+      modalProps,
       ...otherProps
     } = this.props
 
     return (
-      <Modal className={classes.wrap} {...otherProps}>
-        <DialogPaper
-          ref={this.handleDialogRef}
-          className={className}
-          style={style}
-          onFocus={this.handleFocus}
-          role="dialog"
-        >
-          {children}
-        </DialogPaper>
+      <Modal
+        fallInsideFocus
+        className={classes.modal}
+        open={open}
+        onClose={onClose}
+        {...modalProps}
+      >
+        <DialogPaper {...otherProps}>{children}</DialogPaper>
       </Modal>
     )
   }
