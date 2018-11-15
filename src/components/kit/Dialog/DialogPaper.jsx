@@ -8,11 +8,17 @@ const styles = {
   root: {
     width: 650,
     padding: 40,
+    outline: 'none',
   },
 }
 
 const DialogPaper = ({ classes, className, theme, type, ...otherProps }) => (
-  <Paper className={cx(classes.root, className)} type="modal" {...otherProps} />
+  <Paper
+    className={cx(classes.root, className)}
+    type="modal"
+    role="dialog"
+    {...otherProps}
+  />
 )
 
 export default injectStyles(styles)(DialogPaper)
