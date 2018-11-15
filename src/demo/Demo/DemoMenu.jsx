@@ -55,6 +55,9 @@ const DemoMenu = ({ classes }) => (
     <a href={ROUTES.demo.dialogs} className={classes.link}>
       Dialogs
     </a>
+    <a href={ROUTES.demo.drawers} className={classes.link}>
+      Drawers
+    </a>
   </div>
 )
 
