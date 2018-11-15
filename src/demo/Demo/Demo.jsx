@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import { injectStyles } from 'utils/styles'
 import DemoMenu from './DemoMenu'

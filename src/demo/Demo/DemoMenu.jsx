@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import { ROUTES } from 'const'
 import { injectStyles } from 'utils/styles'

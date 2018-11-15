@@ -4,7 +4,6 @@ import Button from '../Button'
 import Dialog from './Dialog'
 import DialogTitle from './DialogTitle'
 import DialogMessage from './DialogMessage'
-import DialogPaper from './DialogPaper'
 import DialogButtons from './DialogButtons'
 
 const ConfirmDialog = ({

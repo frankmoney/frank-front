@@ -1,11 +1,11 @@
 // @flow
 import React, { cloneElement } from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { createPortal } from 'react-dom'
 import EventListener from 'react-event-listener'
 import RootRef from 'material-ui/internal/RootRef'
 import Backdrop from 'components/kit/Backdrop'
+import { injectStyles } from 'utils/styles'
 import ModalManager from './ModalManager'
 
 type ModalProps = {
@@ -42,6 +42,29 @@ class Modal extends React.Component<ModalProps> {
     manager: new ModalManager(),
   }
 
+  componentDidMount() {
+    this.mountNode = document.body
+
+    if (this.props.open) {
+      this.handleOpen()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.open && !this.props.open) {
+      this.handleClose()
+    } else if (!prevProps.open && this.props.open) {
+      this.handleOpen()
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.props.open) {
+      this.handleClose()
+    }
+  }
+
+  // flowlint-next-line unsafe-getters-setters:off
   get isTopModal() {
     return this.props.manager.isTopModal(this)
   }
@@ -129,28 +152,6 @@ class Modal extends React.Component<ModalProps> {
   handleClose = () => {
     this.props.manager.remove(this, document.body)
     this.restoreLastFocus()
-  }
-
-  componentDidMount() {
-    this.mountNode = document.body
-
-    if (this.props.open) {
-      this.handleOpen()
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.open && !this.props.open) {
-      this.handleClose()
-    } else if (!prevProps.open && this.props.open) {
-      this.handleOpen()
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.props.open) {
-      this.handleClose()
-    }
   }
 
   render() {

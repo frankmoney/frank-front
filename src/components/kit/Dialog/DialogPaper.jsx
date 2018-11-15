@@ -1,7 +1,8 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from 'utils/styles'
 import Paper from 'components/kit/Paper'
+import { injectStyles } from 'utils/styles'
 
 const styles = {
   root: {

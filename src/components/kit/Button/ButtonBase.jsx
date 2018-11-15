@@ -26,7 +26,11 @@ type Props = {|
 |}
 
 class BaseButton extends React.Component<Props> {
-  handleKeyPress = event => {
+  static defaultProps = {
+    component: 'div',
+  }
+
+  handleKeyPress = (event: KeyboardEvent) => {
     if (event.key === 'Enter' && event.target === event.currentTarget) {
       if (typeof this.props.onClick === 'function') {
         this.props.onClick(event)
@@ -80,9 +84,4 @@ class BaseButton extends React.Component<Props> {
     )
   }
 }
-
-BaseButton.defaultProps = {
-  component: 'div',
-}
-
 export default BaseButton
