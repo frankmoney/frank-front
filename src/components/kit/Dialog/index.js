@@ -1,4 +1,6 @@
-// @flow
+// @flow strict-local
+import * as React from 'react'
+import type { StyledComponent } from 'utils/styles'
 import Dialog from './Dialog'
 import DialogTitle from './DialogTitle'
 import DialogPaper from './DialogPaper'
@@ -7,11 +9,23 @@ import DialogField from './DialogField'
 import DialogButtons from './DialogButtons'
 import DialogState from './DialogState'
 
-Dialog.Title = DialogTitle
-Dialog.Paper = DialogPaper
-Dialog.Message = DialogMessage
-Dialog.Buttons = DialogButtons
-Dialog.State = DialogState
-Dialog.Field = DialogField
+type DialogComponents = {|
+  (): (props: Object) => React.Node, // flowlint-line unclear-type:off
+  Title: StyledComponent,
+  Paper: StyledComponent,
+  Message: StyledComponent,
+  Buttons: StyledComponent,
+  State: StyledComponent,
+  Field: StyledComponent,
+|}
 
-export default Dialog
+const DotNotation: any = Dialog // flowlint-line unclear-type:off
+
+DotNotation.Title = DialogTitle
+DotNotation.Paper = DialogPaper
+DotNotation.Message = DialogMessage
+DotNotation.Buttons = DialogButtons
+DotNotation.State = DialogState
+DotNotation.Field = DialogField
+
+export default (DotNotation: DialogComponents)

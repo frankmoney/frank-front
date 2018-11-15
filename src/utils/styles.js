@@ -14,8 +14,8 @@ type InjectOptions = {|
 |}
 
 // TODO: better types, not sure if possible with flow
-type ReactComponent = React.ComponentType<any> // flowlint-line unclear-type:off
-type StyledComponent = React.ComponentType<any> // flowlint-line unclear-type:off
+export type ReactComponent = React.ComponentType<any> // flowlint-line unclear-type:off
+export type StyledComponent = React.ComponentType<any> // flowlint-line unclear-type:off
 
 type PropInjector = (component: ReactComponent) => StyledComponent
 
