@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react'
 import { findDOMNode } from 'react-dom'
+import memoize from 'lodash/memoize'
 import Menu from 'components/kit/Menu'
 import Modal from 'components/kit/Modal'
 import ArrowMenu from 'components/kit/ArrowMenu'
@@ -8,6 +9,7 @@ import PopupBase, {
   type PopupAlign,
   type PopupPosition,
 } from 'components/kit/PopupBase'
+import chainCallbacks from '../../../utils/dom/chainCallbacks'
 
 type Direction = PopupPosition
 
@@ -50,6 +52,9 @@ type State = {|
 
 const DEFAULT_WIDTH = 250
 
+const memoizeRefCallback = ref =>
+  memoize(handler => chainCallbacks(ref, handler))
+
 class Select extends React.Component<Props, State> {
   static defaultProps = {
     direction: 'down',
@@ -82,7 +87,7 @@ class Select extends React.Component<Props, State> {
     select: this.handleChange,
     getInputProps: (props = {}) => ({
       ...props,
-      controlRef: this.handleInputRef,
+      controlRef: this.handleInputRef(props.ref),
       tabIndex: 0,
       onClick: this.handleInputClick,
       onFocus: this.handleInputFocus,
@@ -95,9 +100,9 @@ class Select extends React.Component<Props, State> {
     this.list = ref
   }
 
-  handleInputRef = ref => {
+  handleInputRef = memoizeRefCallback(ref => {
     this.input = ref
-  }
+  })
 
   handleInputClick = () => {
     this.handleTogglePopup(true)
@@ -167,7 +172,6 @@ class Select extends React.Component<Props, State> {
 
     return (
       <PopupBase
-        enableViewportOffset
         open={this.state.open}
         onChangeOpen={this.handleTogglePopup}
         place={direction}

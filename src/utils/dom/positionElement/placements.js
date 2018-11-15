@@ -93,28 +93,35 @@ export function getPlacementStyle({
   const placementInfo = getPlacementInfo(placement)
   const anchorRect = anchorElement.getBoundingClientRect()
   const elemRect = element.getBoundingClientRect()
+  const relativeToViewport = !!element.closest('.ui-fixed')
 
+  const anchorLeft = relativeToViewport
+    ? anchorRect.left
+    : anchorElement.offsetLeft
+  const anchorTop = relativeToViewport
+    ? anchorRect.top
+    : anchorElement.offsetTop
+
+  console.log('getPlacementStyle', anchorRect, elemRect)
   // default position center within anchor
   const placementStyle = {
     position: 'absolute',
-    left: anchorElement.offsetLeft + (anchorRect.width - elemRect.width) / 2,
-    top: anchorElement.offsetTop + (anchorRect.height - elemRect.height) / 2,
+    left: anchorLeft + (anchorRect.width - elemRect.width) / 2,
+    top: anchorTop + (anchorRect.height - elemRect.height) / 2,
   }
 
   switch (placementInfo.direction) {
     case 'up':
-      placementStyle.top = anchorElement.offsetTop - distance - elemRect.height
+      placementStyle.top = anchorTop - distance - elemRect.height
       break
     case 'down':
-      placementStyle.top =
-        anchorElement.offsetTop + distance + anchorRect.height
+      placementStyle.top = anchorTop + distance + anchorRect.height
       break
     case 'left':
-      placementStyle.left = anchorElement.offsetLeft - distance - elemRect.width
+      placementStyle.left = anchorLeft - distance - elemRect.width
       break
     case 'right':
-      placementStyle.left =
-        anchorElement.offsetLeft + distance + anchorRect.width
+      placementStyle.left = anchorLeft + distance + anchorRect.width
       break
     default:
       break
@@ -122,31 +129,24 @@ export function getPlacementStyle({
 
   switch (placementInfo.alignment) {
     case 'left':
-      placementStyle.left = anchorElement.offsetLeft + alignmentOffset
+      placementStyle.left = anchorLeft + alignmentOffset
       break
     case 'center':
-      placementStyle.left =
-        anchorElement.offsetLeft + (anchorRect.width - elemRect.width) / 2
+      placementStyle.left = anchorLeft + (anchorRect.width - elemRect.width) / 2
       break
     case 'right':
       placementStyle.left =
-        anchorElement.offsetLeft +
-        anchorRect.width -
-        elemRect.width -
-        alignmentOffset
+        anchorLeft + anchorRect.width - elemRect.width - alignmentOffset
       break
     case 'top':
-      placementStyle.top = anchorElement.offsetTop + alignmentOffset
+      placementStyle.top = anchorTop + alignmentOffset
       break
     case 'middle':
-      placementStyle.top =
-        anchorElement.offsetTop + (anchorRect.height - elemRect.height) / 2
+      placementStyle.top = anchorTop + (anchorRect.height - elemRect.height) / 2
       break
     case 'bottom':
       placementStyle.top =
-        anchorElement.offsetTop +
-        (anchorRect.height - elemRect.height) -
-        alignmentOffset
+        anchorTop + (anchorRect.height - elemRect.height) - alignmentOffset
       break
     default:
       break
@@ -158,7 +158,7 @@ export function getPlacementStyle({
     switch (placementInfo.alignment) {
       case 'center':
         placementStyle.left =
-          anchorElement.offsetLeft +
+          anchorLeft +
           (anchorRect.width - arrowRect.width) / 2 -
           arrowElement.offsetLeft
         break
