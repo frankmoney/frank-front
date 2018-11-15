@@ -1,1 +1,2 @@
-export default from './ListLayoutContentPaper'
+// @flow
+export { default } from './ListLayoutContentPaper'

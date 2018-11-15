@@ -1,14 +1,14 @@
+// @flow strict-local
 import React from 'react'
-import { Avatar, Button, TextField } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
-import { omitProps } from '@frankmoney/utils'
-import cx from 'classnames'
-import LockIcon from 'material-ui-icons/Lock'
 import * as R from 'ramda'
+import cx from 'classnames'
+import { Avatar, Button, TextField } from '@frankmoney/components'
+import LockIcon from 'material-ui-icons/Lock'
 import { compose, withStateHandlers } from 'recompose'
 import ArrowPopup from 'components/ArrowPopup'
 import { TEAM_ROLE_TITLES } from 'const'
 import reconnect from 'utils/reconnect'
+import { injectStyles } from 'utils/styles'
 import Paper from './Paper'
 import ACTIONS from './actions'
 import styles from './OwnProfile.jss'
@@ -23,6 +23,8 @@ const OwnProfile = ({
   handleNewPasswordRepeatedChange,
   handleChangePasswordPopupClose,
   handleChangePasswordPopupSave,
+  // omit
+  theme,
   ...otherProps
 }) => (
   <Paper className={cx(classes.root, className)} {...otherProps}>
@@ -129,6 +131,5 @@ export default compose(
       },
     }
   ),
-  injectStyles(styles),
-  omitProps('theme')
+  injectStyles(styles)
 )(OwnProfile)

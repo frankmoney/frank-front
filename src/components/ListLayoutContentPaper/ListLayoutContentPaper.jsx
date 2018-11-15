@@ -1,8 +1,13 @@
+// @flow strict-local
 import React from 'react'
-import { Paper } from '@frankmoney/components'
+import Paper from 'components/kit/Paper'
 import ListLayoutContentBlock from 'components/ListLayoutContentBlock'
 
-const ListLayoutContentPaper = props => (
+type Props = {|
+  className?: string,
+|}
+
+const ListLayoutContentPaper = (props: Props) => (
   <ListLayoutContentBlock>
     <Paper {...props} />
   </ListLayoutContentBlock>

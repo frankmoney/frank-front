@@ -4,7 +4,7 @@ import { injectStyles as originInjectStyles } from '@frankmoney/ui'
 
 type Styles = Object // flowlint-line unclear-type:off
 
-type Theme = Object // flowlint-line unclear-type:off
+export type Theme = Object // flowlint-line unclear-type:off
 type StyleCreator = (theme: Theme) => Styles
 
 type InjectOptions = {|
@@ -32,4 +32,11 @@ export type Classes = { [class: string]: string }
 export type InjectStylesProps = {|
   classes: Classes,
   className?: string,
+|}
+
+export type Grid = {|
+  fixed: {|
+    contentWidth: number,
+    gutterSize: number,
+  |},
 |}

@@ -1,1 +1,2 @@
-export default from './ListLayoutContent'
+// @flow
+export { default } from './ListLayoutContent'
