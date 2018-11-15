@@ -21,6 +21,8 @@ type Props = {|
   children?: React.Node,
   className?: string,
   href?: string,
+  width?: number,
+  style: Object,
 |}
 
 class BaseButton extends React.Component<Props> {
@@ -38,6 +40,8 @@ class BaseButton extends React.Component<Props> {
       className,
       component: Root,
       href,
+      style,
+      width,
       onBlur,
       onClick,
       onFocus,
@@ -48,11 +52,18 @@ class BaseButton extends React.Component<Props> {
       onTouchStart,
     } = this.props
 
+    let computedStyle = width ? { width } : {}
+
+    if (style) {
+      computedStyle = { ...computedStyle, ...style }
+    }
+
     return (
       <Root
         href={href}
         role="button"
         tabIndex={0}
+        style={computedStyle}
         className={className}
         onClick={onClick}
         onMouseOver={onMouseOver}

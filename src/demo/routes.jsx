@@ -1,18 +1,18 @@
 // @flow
 import React from 'react'
 import { Redirect } from 'react-router-dom'
-import { compose, withProps } from 'recompose'
+import { withProps } from 'recompose'
 import Helmet from 'react-helmet'
 import { BASE_TITLE, ROUTES } from 'const'
 import ButtonsDemo from './Buttons'
 import CommentsDemo from './CommentsDemo'
 import DemoLayout from './DemoLayout'
-import DrawerDemo from './DrawerDemo'
 import FieldsDemo from './Fields'
 import PopupsDemo from './Popups'
 import SelectListsDemo from './SelectLists'
 import SelectsDemo from './Selects'
 import Dialogs from './Dialogs'
+import Drawers from './Drawers'
 import SwitchesDemo from './SwitchesDemo'
 import WidgetDemo from './Widgets'
 
@@ -38,43 +38,6 @@ export default [
   {
     component: ButtonsDemo,
     path: ROUTES.demo.buttons,
-    exact: true,
-  },
-  {
-    component: withDemoLayout(DrawerDemo),
-    path: ROUTES.demo.drawers.root,
-    exact: true,
-  },
-  {
-    component: compose(
-      withDemoLayout,
-      withProps({ type: 'type-1' })
-    )(DrawerDemo),
-    path: ROUTES.demo.drawers.type1,
-    exact: true,
-  },
-  {
-    component: compose(
-      withDemoLayout,
-      withProps({ type: 'type-2' })
-    )(DrawerDemo),
-    path: ROUTES.demo.drawers.type2,
-    exact: true,
-  },
-  {
-    component: compose(
-      withDemoLayout,
-      withProps({ type: 'type-3' })
-    )(DrawerDemo),
-    path: ROUTES.demo.drawers.type3,
-    exact: true,
-  },
-  {
-    component: compose(
-      withDemoLayout,
-      withProps({ type: 'type-4' })
-    )(DrawerDemo),
-    path: ROUTES.demo.drawers.type4,
     exact: true,
   },
   {
@@ -105,6 +68,11 @@ export default [
   {
     component: SwitchesDemo,
     path: ROUTES.demo.switches,
+    exact: true,
+  },
+  {
+    component: Drawers,
+    path: ROUTES.demo.drawers,
     exact: true,
   },
   {
