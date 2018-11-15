@@ -1,13 +1,13 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-type BackdropProps = {|
+export type BackdropProps = {|
   transparent?: boolean,
 |}
 
-export type Props = {|
+type Props = {|
   ...InjectStylesProps,
   ...BackdropProps,
   //
@@ -43,7 +43,7 @@ const Backdrop = ({
 }: Props) => (
   <div
     aria-hidden="true"
-    className={cx(classes.root, className)}
+    className={cx(classes.root, 'ui-fixed', className)}
     {...otherProps}
   >
     {children}

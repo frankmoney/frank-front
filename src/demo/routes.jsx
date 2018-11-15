@@ -12,6 +12,7 @@ import FieldsDemo from './Fields'
 import PopupsDemo from './Popups'
 import SelectListsDemo from './SelectLists'
 import SelectsDemo from './Selects'
+import Dialogs from './Dialogs'
 import SwitchesDemo from './SwitchesDemo'
 import WidgetDemo from './Widgets'
 
@@ -109,6 +110,11 @@ export default [
   {
     component: withDemoLayout(WidgetDemo),
     path: ROUTES.demo.widgets,
+    exact: true,
+  },
+  {
+    component: Dialogs,
+    path: ROUTES.demo.dialogs,
     exact: true,
   },
 ]

@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import { ROUTES } from 'const'
 import { injectStyles } from 'utils/styles'
@@ -51,6 +51,9 @@ const DemoMenu = ({ classes }) => (
     </a>
     <a href={ROUTES.demo.switches} className={classes.link}>
       Switches
+    </a>
+    <a href={ROUTES.demo.dialogs} className={classes.link}>
+      Dialogs
     </a>
   </div>
 )

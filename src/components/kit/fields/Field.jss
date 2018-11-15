@@ -63,4 +63,7 @@ export default {
     top: LABEL_TOP,
   },
   control: {},
+  stretch: {
+    width: '100%',
+  },
 }

@@ -18,12 +18,13 @@ export default theme => ({
     position: 'relative',
     textDecoration: 'none',
     userSelect: 'none',
-    '&:focus': {
+    '&:focus, &$focus': {
       outline: 0,
     },
   },
   hover: {},
   active: {},
+  focus: {},
   disabled: {
     cursor: 'auto',
     pointerEvents: 'none',
