@@ -42,7 +42,7 @@ const BanksSearch = ({
 
 export default compose(
   withState('searchText', 'onChange', ''),
-  withState('listRef', 'handleListRef'),
+  withState('listRef', 'handleCalendarRef'),
   withPropsOnChange(['searchText'], ({ searchText: search = '' }) => ({
     banks: search
       ? data.filter(x => x.name.toLowerCase().includes(search.toLowerCase()))

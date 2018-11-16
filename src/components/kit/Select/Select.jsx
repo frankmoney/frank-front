@@ -119,12 +119,23 @@ class Select extends React.Component<Props, State> {
   handleChange = value => {
     const open = this.props.multiple ? this.state.open : false
     if (!this.isControlledValue) {
-      this.setState({
-        value,
-        open,
-      })
+      this.setState(
+        {
+          value,
+          open,
+        },
+        () => {
+          if (typeof this.props.onChange === 'function') {
+            this.props.onChange(value)
+          }
+        }
+      )
     } else {
-      this.setState({ open })
+      this.setState({ open: false }, () => {
+        if (typeof this.props.onChange === 'function') {
+          this.props.onChange(value)
+        }
+      })
     }
   }
 

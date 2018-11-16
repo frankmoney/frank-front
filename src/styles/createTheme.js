@@ -1,11 +1,8 @@
-import * as R from 'ramda'
-import { createFrankTheme, createMuiTheme } from '@frankmoney/components-csr'
-import frankTheme from './frank-theme.jss'
-import colors from './colors'
+import createFrankTheme from './createFrankTheme'
+import createMuiTheme from './createMuiTheme'
 
 export default () => {
-  const overrides = R.mergeDeepLeft({ colors }, frankTheme)
-  const frank = createFrankTheme(overrides)
+  const frank = createFrankTheme()
 
   return {
     frankTheme: frank,

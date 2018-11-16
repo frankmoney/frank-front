@@ -55,6 +55,7 @@ export const ROUTES = {
     popups: '/demo/popups',
     selectLists: '/demo/select-lists',
     selects: '/demo/selects',
+    selectsDate: '/demo/selects-date',
     dialogs: '/demo/dialogs',
     drawers: '/demo/drawers',
     switches: '/demo/switches',

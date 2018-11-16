@@ -12,6 +12,7 @@ import FieldsLeftDemo from './Fields/LeftFieldsDemo'
 import PopupsDemo from './Popups'
 import SelectListsDemo from './SelectLists'
 import SelectsDemo from './Selects'
+import DateSelectsDemo from './Selects/DateSelectsDemo'
 import Dialogs from './Dialogs'
 import Drawers from './Drawers'
 import SwitchesDemo from './SwitchesDemo'
@@ -64,6 +65,11 @@ export default [
   {
     component: SelectsDemo,
     path: ROUTES.demo.selects,
+    exact: true,
+  },
+  {
+    component: DateSelectsDemo,
+    path: ROUTES.demo.selectsDate,
     exact: true,
   },
   {

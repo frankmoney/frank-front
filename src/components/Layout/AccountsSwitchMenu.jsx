@@ -10,14 +10,13 @@ import {
 } from 'material-ui-icons'
 import { createRouteUrl } from '@frankmoney/utils'
 import { ReduxNavLink } from '@frankmoney/webapp'
-import { SidebarMenuItem } from '@frankmoney/components'
 import reconnect from 'utils/reconnect'
 import {
   userAccountsSelector,
   currentAccountIdSelector,
 } from 'redux/selectors/user'
 import * as USER_ACTIONS from 'redux/actions/user'
-import { AccountItem } from 'components/Sidebar'
+import { AccountItem, SidebarMenuItem } from 'components/Sidebar'
 import { ROUTES } from 'const'
 
 const ComposedAccountItem = withProps({

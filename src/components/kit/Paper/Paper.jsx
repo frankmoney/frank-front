@@ -7,6 +7,7 @@ type PaperType = 'card' | 'list' | 'modal' | 'tooltip' | 'menu' | 'drawer'
 
 export type PaperProps = {|
   type: PaperType,
+  disableOutline?: boolean,
 |}
 
 type Props = {|
@@ -21,6 +22,7 @@ const styles = {
     background: '#fff',
     borderRadius: 8,
     overflow: 'auto',
+    outline: props => (props.disableOutline ? 'none' : 'inherit'),
   },
   card: {
     boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',
@@ -51,6 +53,7 @@ const Paper = ({
   type,
   theme,
   className,
+  disableOutline,
   ...otherProps
 }: Props) => (
   <div className={cx(classes.root, classes[type], className)} {...otherProps}>

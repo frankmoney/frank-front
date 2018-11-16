@@ -12,9 +12,11 @@ import ModalManager from './ModalManager'
 export type ModalProps = {
   invisibleBackdrop?: boolean,
   open?: boolean,
+  noBackdrop?: boolean,
   // выключает фокус-трап
   disableEnforceFocus?: boolean,
   disableCloseOnEscape?: boolean,
+  disableAutoFocus?: boolean,
   disableBackdropClick?: boolean,
   // фокус будет проваливаться на первый активный элемент внутри модала
   fallInsideFocus?: boolean,
@@ -163,7 +165,9 @@ class Modal extends React.Component<ModalProps> {
 
   handleOpen = () => {
     this.props.manager.add(this, document.body)
-    this.focus()
+    if (!this.props.disableAutoFocus) {
+      this.focus()
+    }
   }
 
   handleClose = () => {
@@ -172,7 +176,14 @@ class Modal extends React.Component<ModalProps> {
   }
 
   render() {
-    const { open, children, invisibleBackdrop, classes, className } = this.props
+    const {
+      open,
+      children,
+      invisibleBackdrop,
+      noBackdrop,
+      classes,
+      className,
+    } = this.props
 
     const backdropProps = invisibleBackdrop ? { transparent: true } : {}
 
@@ -194,7 +205,9 @@ class Modal extends React.Component<ModalProps> {
             )}
             ref={this.handleModalRef}
           >
-            <Backdrop onClick={this.handleBackdropClick} {...backdropProps} />
+            {!noBackdrop && (
+              <Backdrop onClick={this.handleBackdropClick} {...backdropProps} />
+            )}
             <RootRef rootRef={this.handleContentRef}>
               {cloneElement(React.Children.only(children), {
                 tabIndex: -1,
