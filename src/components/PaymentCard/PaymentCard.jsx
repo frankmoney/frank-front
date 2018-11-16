@@ -45,10 +45,10 @@ const PaymentCard = ({
       <div className={classes.createdAt}>
         {format(createdAt, 'MMMM d, h:mmaa')}
       </div>
-      {/* <div className={classes.info}> */}
-      {/* <CurrencyDelta value={amount} /> */}
-      {/* <IconButton className={classes.infoButton} icon={InfoIcon} /> */}
-      {/* </div> */}
+      <div className={classes.info}>
+        <CurrencyDelta value={amount} />
+        {/* <IconButton className={classes.infoButton} icon={InfoIcon} /> */}
+      </div>
     </div>
     <div className={classes.body}>
       <div className={classes.recipient}>

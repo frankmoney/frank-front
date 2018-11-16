@@ -28,5 +28,11 @@ export default frankTheme =>
           color: 'rgba(0,0,0,0.2)',
         },
       },
+      MuiSwitchBase: {
+        root: {
+          width: 'unset',
+          height: 'unset',
+        },
+      },
     },
   })
