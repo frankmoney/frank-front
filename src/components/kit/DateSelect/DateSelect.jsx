@@ -89,6 +89,12 @@ class DateSelect extends React.Component<Props, State> {
     this.setState({ focused: false })
   }
 
+  handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      this.handleTogglePopup(true)
+    }
+  }
+
   handleChange = value => {
     if (!this.isControlledValue) {
       this.setState(
@@ -154,6 +160,7 @@ class DateSelect extends React.Component<Props, State> {
                   onClick={this.handleInputClick}
                   onFocus={this.handleInputFocus}
                   onBlur={this.handleInputBlur}
+                  onKeyDown={this.handleKeyDown}
                 />
               </Field>
               <Modal open={open} invisibleBackdrop onClose={close}>
