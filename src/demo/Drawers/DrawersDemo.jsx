@@ -4,6 +4,7 @@ import Button from 'components/kit/Button'
 import Drawer from 'components/kit/Drawer'
 import Demo, { Row } from 'demo/Demo'
 import TextBox from 'components/kit/TextBox'
+import MenuItem from 'components/kit/Menu/MenuItem'
 
 const DrawersDemo = () => (
   <Demo gray>
@@ -136,6 +137,39 @@ const DrawersDemo = () => (
                     Google AdWords
                   </div>
                 ))}
+              </Drawer.Content>
+            </Drawer>
+          </>
+        )}
+      </Drawer.State>
+    </Row>
+    <Row centered>
+      <Drawer.State>
+        {({ open, toggle }) => (
+          <>
+            <Button onClick={() => toggle(true)} label="Open roles drawer" />
+            <Drawer
+              open={open}
+              onClose={() => toggle(false)}
+              title="To provide users with the correct guidance to complete a
+                purchase, the proposed system would use system users with the
+                correct guidance to complete"
+              titleSmaller
+              titleClamp={3}
+              footerButtonLabel="Done"
+              footerButtonProps={{ width: 120, onClick: () => toggle(false) }}
+            >
+              <Drawer.Content>
+                <Drawer.TextField label="Name" placeholder="Frank" />
+                <Drawer.SelectField
+                  label="Role"
+                  placeholder="Team role"
+                  style={{ marginBottom: 0 }}
+                >
+                  <MenuItem value="admin" label="Administrator" />
+                  <MenuItem value="manager" label="Manager" />
+                  <MenuItem value="observer" label="Observer" />
+                </Drawer.SelectField>
               </Drawer.Content>
             </Drawer>
           </>

@@ -7,7 +7,8 @@ import { BASE_TITLE, ROUTES } from 'const'
 import ButtonsDemo from './Buttons'
 import CommentsDemo from './CommentsDemo'
 import DemoLayout from './DemoLayout'
-import FieldsDemo from './Fields'
+import FieldsDemo from './Fields/FieldsDemo'
+import FieldsLeftDemo from './Fields/LeftFieldsDemo'
 import PopupsDemo from './Popups'
 import SelectListsDemo from './SelectLists'
 import SelectsDemo from './Selects'
@@ -48,6 +49,11 @@ export default [
   {
     component: FieldsDemo,
     path: ROUTES.demo.fields,
+    exact: true,
+  },
+  {
+    component: FieldsLeftDemo,
+    path: ROUTES.demo.fieldsLeft,
     exact: true,
   },
   {

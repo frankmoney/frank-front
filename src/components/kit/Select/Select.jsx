@@ -1,5 +1,6 @@
 // @flow strict-local
 import * as React from 'react'
+import memoize from 'lodash/memoize'
 import Menu from 'components/kit/Menu'
 import Modal from 'components/kit/Modal'
 import ArrowMenu from 'components/kit/ArrowMenu'
@@ -8,6 +9,7 @@ import PopupBase, {
   type PopupPosition,
 } from 'components/kit/PopupBase'
 import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
+import chainCallbacks from 'utils/dom/chainCallbacks'
 
 type Direction = PopupPosition
 
@@ -50,6 +52,9 @@ type State = {|
 
 const DEFAULT_WIDTH = 250
 
+const memoizeRefCallback = ref =>
+  memoize(handler => chainCallbacks(ref, handler))
+
 class Select extends React.Component<Props, State> {
   static defaultProps = {
     direction: 'down',
@@ -71,18 +76,26 @@ class Select extends React.Component<Props, State> {
     }
   }
 
+  get isControlledValue() {
+    return typeof this.props.value !== 'undefined'
+  }
+
+  getValue(state: State = this.state) {
+    return this.isControlledValue ? this.props.value : state.value
+  }
+
   getRenderProps = (state: State = this.state) => ({
-    value: state.value,
+    value: this.getValue(state),
     valueFormatted:
       typeof this.props.formatValue === 'function'
-        ? this.props.formatValue(state.value)
+        ? this.props.formatValue(this.getValue(state))
         : state.selectedElementText,
     active: state.open || state.focused,
     toggle: this.handleTogglePopup,
     select: this.handleChange,
     getInputProps: (props = {}) => ({
       ...props,
-      controlRef: this.handleInputRef,
+      controlRef: this.handleInputRef(props.ref),
       tabIndex: 0,
       onClick: this.handleInputClick,
       onFocus: this.handleInputFocus,
@@ -95,19 +108,24 @@ class Select extends React.Component<Props, State> {
     this.list = ref
   }
 
-  handleInputRef = ref => {
+  handleInputRef = memoizeRefCallback(ref => {
     this.input = ref
-  }
+  })
 
   handleInputClick = () => {
     this.handleTogglePopup(true)
   }
 
   handleChange = value => {
-    this.setState({
-      value,
-      open: this.props.multiple ? this.state.open : false,
-    })
+    const open = this.props.multiple ? this.state.open : false
+    if (!this.isControlledValue) {
+      this.setState({
+        value,
+        open,
+      })
+    } else {
+      this.setState({ open })
+    }
   }
 
   handleSelectElement = (element: ?Element) => {
@@ -166,7 +184,6 @@ class Select extends React.Component<Props, State> {
 
     return (
       <PopupBase
-        enableViewportOffset
         open={this.state.open}
         onChangeOpen={this.handleTogglePopup}
         place={direction}
@@ -201,7 +218,7 @@ class Select extends React.Component<Props, State> {
               })}
               <Modal open={open} invisibleBackdrop onClose={close}>
                 <MenuComponent
-                  value={this.state.value}
+                  value={this.getValue(this.state)}
                   onChange={this.handleChange}
                   onSelectElement={!formatValue && this.handleSelectElement}
                   multiple={multiple}

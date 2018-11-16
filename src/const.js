@@ -51,6 +51,7 @@ export const ROUTES = {
     components: '/demo/components',
     buttons: '/demo/buttons',
     fields: '/demo/fields',
+    fieldsLeft: '/demo/fields-left',
     popups: '/demo/popups',
     selectLists: '/demo/select-lists',
     selects: '/demo/selects',

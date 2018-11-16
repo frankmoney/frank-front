@@ -8,6 +8,7 @@ const styles = {
   root: {
     margin: [0, 30],
     marginBottom: 35,
+    flexShrink: 0,
   },
 }
 

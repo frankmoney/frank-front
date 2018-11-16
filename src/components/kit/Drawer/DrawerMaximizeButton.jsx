@@ -1,6 +1,6 @@
 // @flow strict-local
 import React from 'react'
-import DrawerHeaderButton from './DrawerHeaderButton'
+import DrawerHeaderButton from './DrawerHeadButton'
 import MaximizeIcon from './MaximizeIcon.svg'
 
 const DrawerMaximizeButton = props => (

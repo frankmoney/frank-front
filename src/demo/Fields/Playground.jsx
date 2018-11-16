@@ -82,11 +82,11 @@ const Playground = ({
         disabled={disabled}
         loading={loading}
         hint={hint && '140 symbols left'}
+        value={value}
+        onChange={onChange}
       >
         <TextBox
-          value={value}
           autoFocus
-          onChange={onChange}
           onFocus={onFocus}
           onBlur={onBlur}
           multiLine={multiline}

@@ -1,33 +1,24 @@
 // @flow
 import * as React from 'react'
 import cx from 'classnames'
-import Spinner from 'components/kit/Spinner'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import chainCallbacks from 'utils/dom/chainCallbacks'
-import FloatingLabel from './FloatingLabel'
 import Label from './Label'
 import Placeholder from './Placeholder'
 import Underline from './Underline'
-import ValidationLabel from './ValidationLabel'
 import FieldContext from './FieldContext'
-import styles from './Field.jss'
+import styles from './LeftField.jss'
 
 type Value = any
 
 type Props = {|
   ...InjectStylesProps,
   //
-  additionalLabel?: string,
   children?: React.Element<any>,
   disabled?: boolean,
   error?: string,
-  floatingLabel?: string,
   focus?: boolean,
-  hint?: string,
   label?: string,
-  larger?: boolean,
-  loading?: boolean,
-  loadingText?: string,
   onChange?: Value => void,
   onBlur?: FocusEvent => void,
   onFocus?: FocusEvent => void,
@@ -41,11 +32,7 @@ type State = {|
   value?: Value,
 |}
 
-class Field extends React.Component<Props, State> {
-  static defaultProps = {
-    loadingText: 'Loading',
-  }
-
+class LeftField extends React.Component<Props, State> {
   state = {
     focus: this.props.focus,
     filled: !!this.props.defaultValue,
@@ -64,9 +51,7 @@ class Field extends React.Component<Props, State> {
   getState = (state = this.state) => ({
     focus: this.isControlledFocus ? this.props.focus : state.focus,
     value: this.isControlledValue ? this.props.value : state.value,
-    invalid: !!this.props.error,
     disabled: this.props.disabled,
-    loading: this.props.loading,
     filled: this.state.filled,
   })
 
@@ -104,6 +89,9 @@ class Field extends React.Component<Props, State> {
 
   handleControlRef = control => {
     this.control = control
+    if (typeof this.props.controlRef === 'function') {
+      this.props.controlRef(control)
+    }
   }
 
   handleChange = value => {
@@ -125,26 +113,22 @@ class Field extends React.Component<Props, State> {
 
   render() {
     const {
-      additionalLabel,
       children,
       classes,
       className,
       disabled,
-      error,
-      floatingLabel,
-      hint,
       label,
-      larger,
-      loading,
-      loadingText,
       placeholder,
       stretch,
-      style,
+      onFocus,
+      onChange,
+      onBlur,
+      ...otherProps
     } = this.props
 
     const control = React.Children.only(children)
 
-    const { focus, invalid, filled, value } = this.getState()
+    const { focus, filled, value } = this.getState()
 
     return (
       <FieldContext.Provider value={this.getState()}>
@@ -153,68 +137,45 @@ class Field extends React.Component<Props, State> {
             classes.root,
             {
               [classes.stretch]: stretch,
-              [classes.larger]: larger,
               [classes.focus]: focus,
               [classes.filled]: filled,
               [classes.disabled]: disabled,
-              [classes.loading]: loading,
             },
             className
           )}
-          style={style}
+          {...otherProps}
         >
-          {!loading &&
-            floatingLabel && (
-              <FloatingLabel larger={larger}>{floatingLabel}</FloatingLabel>
-            )}
-          {(error || hint) && (
-            <ValidationLabel invalid={invalid} className={classes.rightLabel}>
-              {error || hint}
-            </ValidationLabel>
-          )}
-          {label && (
-            <Label
-              className={classes.label}
-              additionalText={!error && !hint && additionalLabel}
-            >
-              {label}
-            </Label>
-          )}
-          {React.cloneElement(control, {
-            value,
-            className: classes.control,
-            ref: this.handleControlRef,
-            onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),
-            onBlur: chainCallbacks(this.handleBlur, control.props.onBlur),
-            onChange: chainCallbacks(this.handleChange, control.props.onChange),
-            disabled: disabled || loading,
-          })}
-          {placeholder &&
-            !loading && (
+          {label && <Label className={classes.label}>{label}</Label>}
+          <div className={classes.controlWrap}>
+            {React.cloneElement(control, {
+              value,
+              className: classes.control,
+              ref: this.handleControlRef,
+              onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),
+              onBlur: chainCallbacks(this.handleBlur, control.props.onBlur),
+              onChange: chainCallbacks(
+                this.handleChange,
+                control.props.onChange
+              ),
+              disabled,
+            })}
+            {placeholder && (
               <Placeholder
                 active={focus}
                 className={cx(
                   classes.placeholder,
-                  ((floatingLabel && !focus) || filled) &&
-                    classes.placeholderOff
+                  filled && classes.placeholderOff
                 )}
               >
                 {placeholder}
               </Placeholder>
             )}
-          {loading && (
-            <Placeholder className={classes.placeholder}>
-              {loading && (
-                <Spinner className={classes.spinner} size={larger ? 20 : 18} />
-              )}
-              {loading && loadingText}
-            </Placeholder>
-          )}
-          <Underline className={classes.underline} />
+            <Underline className={classes.underline} />
+          </div>
         </div>
       </FieldContext.Provider>
     )
   }
 }
 
-export default injectStyles(styles)(Field)
+export default injectStyles(styles)(LeftField)

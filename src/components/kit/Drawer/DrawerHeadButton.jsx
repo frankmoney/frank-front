@@ -28,7 +28,7 @@ type Props = {|
   ...DrawerHeaderButtonProps,
 |}
 
-const DrawerHeaderButton = ({
+const DrawerHeadButton = ({
   theme,
   classes,
   className,
@@ -40,4 +40,4 @@ const DrawerHeaderButton = ({
     ...otherProps,
   })
 
-export default injectStyles(styles)(DrawerHeaderButton)
+export default injectStyles(styles)(DrawerHeadButton)
