@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
@@ -6,14 +6,33 @@ import { compose, lifecycle, branch, renderComponent } from 'recompose'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { PageLoader, FixedHeader } from '@frankmoney/components'
-import StoryPaymentsStats from 'components/StoryPaymentsStats'
-import StoryPayments from 'components/StoryPayments'
-import { injectStyles } from 'utils/styles'
+import { FixedHeader } from '@frankmoney/components'
+import PageLoader from 'components/PageLoader'
+import StoryPaymentsStats, {
+  type StoryPaymentsStatsProps,
+} from 'components/StoryPaymentsStats'
+import StoryPayments, { type PaymentList } from 'components/StoryPayments'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { isLoadedSelector, storySelector } from './selectors'
 import ACTIONS from './actions'
-import styles from './Story.jss'
 import HeaderBarButtons from './HeaderBarButtons'
+import styles from './Story.jss'
+
+type StoryProps = {|
+  draft: {|
+    title: string,
+    cover: Object, // flowlint-line unclear-type:warn
+    body: {| text: string |},
+    payments: PaymentList,
+    ...StoryPaymentsStatsProps,
+  |},
+|}
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  story: StoryProps,
+|}
 
 const Story = ({
   classes,
@@ -28,7 +47,7 @@ const Story = ({
       paymentsDateRange,
     },
   },
-}) => (
+}: Props) => (
   <div className={cx(classes.storyPreviewPage, className)}>
     <FixedHeader>
       <HeaderBarButtons />

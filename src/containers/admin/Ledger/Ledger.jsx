@@ -1,19 +1,17 @@
-import * as R from 'ramda'
+// @flow strict-local
 import React from 'react'
+import * as R from 'ramda'
 import cx from 'classnames'
-import { compose, branch, renderComponent, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
-import { injectStyles } from '@frankmoney/ui'
-import {
-  FixedHeader,
-  BreadcrumbsItem,
-  PageLoader,
-} from '@frankmoney/components'
+import { compose, branch, renderComponent, lifecycle } from 'recompose'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
+import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import CurrencyProvider from 'components/CurrencyProvider'
 import Breadcrumbs from 'components/Breadcrumbs'
+import PageLoader from 'components/PageLoader'
+import { injectStyles } from 'utils/styles'
 import ConnectedChartCard from './ConnectedChartCard'
 import LedgerHighlightTextProvider from './LedgerHighlightTextProvider'
 import LedgerPager from './LedgerPager'

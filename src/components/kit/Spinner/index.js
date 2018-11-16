@@ -1,1 +1,2 @@
-export default from './Spinner'
+// @flow strict
+export { default } from './Spinner'

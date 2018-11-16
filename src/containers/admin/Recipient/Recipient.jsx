@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
@@ -5,15 +6,15 @@ import { compose, branch, renderComponent, lifecycle } from 'recompose'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import { injectStyles } from '@frankmoney/ui'
 import {
   FixedHeader,
-  PageLoader,
   BreadcrumbsItem,
   BreadcrumbsItemLink,
 } from '@frankmoney/components'
 import Spinner from 'components/kit/Spinner'
 import Breadcrumbs from 'components/Breadcrumbs'
+import PageLoader from 'components/PageLoader'
+import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import {

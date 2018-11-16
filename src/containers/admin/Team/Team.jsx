@@ -1,13 +1,10 @@
 // @flow strict-local
 import React from 'react'
-import {
-  FixedHeader,
-  BreadcrumbsItem,
-  PageLoader,
-} from '@frankmoney/components'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
-import ListLayoutContent from 'components/ListLayoutContent'
+import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import Breadcrumbs from 'components/Breadcrumbs'
+import ListLayoutContent from 'components/ListLayoutContent'
+import PageLoader from 'components/PageLoader'
 import reconnect from 'utils/reconnect'
 import InviteButton from './InviteButton'
 import InviteDrawer from './InviteDrawer'
