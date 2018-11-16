@@ -3,17 +3,15 @@
 import React from 'react'
 import cx from 'classnames'
 import format from 'date-fns/format'
-import CheckCircleIcon from 'material-ui-icons/CheckCircle'
 import CheckIcon from 'material-ui-icons/Check'
 import InfoIcon from 'material-ui-icons/InfoOutline'
 import ModeCommentIcon from 'material-ui-icons/ModeComment'
 import MoreHoriz from 'material-ui-icons/MoreHoriz'
-import { CheckedMenuItem } from '@frankmoney/components'
-import CategorySelect from 'components/CategorySelect'
+import CategoryMenuItem from 'components/CategoryMenuItem'
 import CurrencyDelta from 'components/CurrencyDelta'
-import { Field } from 'components/Field'
-import SelectField from 'components/SelectField'
-import TextBox from 'components/TextBox'
+import { MenuItem } from 'components/kit/Menu'
+import TextField from 'components/kit/TextField'
+import SelectField from 'components/kit/SelectField'
 import Button, { IconButton } from 'components/kit/Button'
 import Paper from 'components/kit/Paper'
 import Switch from 'components/kit/Switch'
@@ -47,74 +45,67 @@ const PaymentCard = ({
       <div className={classes.createdAt}>
         {format(createdAt, 'MMMM d, h:mmaa')}
       </div>
-      <div className={classes.info}>
-        <CurrencyDelta value={amount} />
-        <IconButton className={classes.infoButton} icon={InfoIcon} />
-      </div>
+      {/* <div className={classes.info}> */}
+      {/* <CurrencyDelta value={amount} /> */}
+      {/* <IconButton className={classes.infoButton} icon={InfoIcon} /> */}
+      {/* </div> */}
     </div>
     <div className={classes.body}>
       <div className={classes.recipient}>
-        <Field
-          className={classes.field}
-          title="Recipient"
-          hint={
-            peerId
-              ? 'Had been reviewed previously'
-              : "First-timer, please check if the name's correct"
-          }
-        >
-          {peerId ? (
-            <div className={classes.peerName}>
-              <SelectField
-                value={peerId}
-                fullWidth
-                onChange={event => onPeerIdChange(event.target.value)}
-              >
-                {peers.map(({ id, name }) => (
-                  <CheckedMenuItem className={classes.peerItem} value={id}>
-                    <CheckCircleIcon className={classes.peerItemIcon} />
-                    <div className={classes.peerItemName}>{name}</div>
-                  </CheckedMenuItem>
-                ))}
-              </SelectField>
-            </div>
-          ) : (
-            <TextBox
-              className={classes.peerTextBox}
-              value={peerName}
-              onChange={event => onPeerNameChange(event.target.value)}
-            />
-          )}
-        </Field>
+        {peerId ? (
+          <SelectField
+            className={classes.recipient}
+            label="Recipient"
+            additionalLabel={
+              peerId
+                ? 'Had been reviewed previously'
+                : "First-timer, please check if the name's correct"
+            }
+            value={peerId}
+            onChange={onPeerIdChange}
+          >
+            {peers.map(({ id, name }) => <MenuItem value={id} label={name} />)}
+          </SelectField>
+        ) : (
+          <TextField
+            className={classes.recipient}
+            label="Recipient"
+            additionalLabel={
+              peerId
+                ? 'Had been reviewed previously'
+                : "First-timer, please check if the name's correct"
+            }
+            value={peerName}
+            onChange={onPeerNameChange}
+          />
+        )}
       </div>
       <div className={classes.category}>
-        <Field
-          className={classes.field}
-          title="Category"
-          hint={categoryAddedFromSimilar && 'Added from similar payment'}
+        <SelectField
+          className={classes.categorySelect}
+          label="Category"
+          additionalLabel={
+            categoryAddedFromSimilar && 'Added from similar payment'
+          }
+          value={categoryId}
+          onChange={onCategoryIdChange}
         >
-          <CategorySelect
-            className={classes.categorySelect}
-            categories={categories}
-            value={categoryId}
-            fullWidth
-            onChange={event => onCategoryIdChange(event.target.value)}
-          />
-        </Field>
+          {categories.map(({ id, name, color }) => (
+            <CategoryMenuItem color={color} value={id} label={name} />
+          ))}
+        </SelectField>
       </div>
       <div className={classes.description}>
-        <Field
-          className={classes.field}
-          title="Description"
-          hint={descriptionAddedFromSimilar && 'Added from similar payment'}
-        >
-          <TextBox
-            className={classes.descriptionTextBox}
-            expand="vertically"
-            value={description}
-            onChange={event => onDescriptionChange(event.target.value)}
-          />
-        </Field>
+        <TextField
+          className={classes.descriptionTextBox}
+          label="Description"
+          additionalLabel={
+            descriptionAddedFromSimilar && 'Added from similar payment'
+          }
+          multiLine
+          value={description}
+          onChange={onDescriptionChange}
+        />
       </div>
     </div>
     <div className={classes.footer}>

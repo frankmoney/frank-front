@@ -25,53 +25,20 @@ export default theme => ({
     marginLeft: 12,
     width: 22,
   },
-  body: {},
-  field: {
-    display: 'block',
-    ...theme.fontRegular(14, 16),
+  body: {
+    display: 'flex',
+    flexWrap: 'wrap',
   },
   recipient: {
-    display: 'table-cell',
     width: '50%',
-    minWidth: 400,
     paddingRight: 20,
   },
-  peerName: {
-    ...theme.fontMedium(22),
-  },
-  peerItem: {
-    position: 'relative',
-  },
-  peerItemIcon: {
-    display: 'none',
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: 22,
-    height: 22,
-    color: theme.colors.green,
-    '$peerName &': {
-      display: 'block',
-    },
-  },
-  peerItemName: {
-    '$peerName &': {
-      paddingLeft: 30, // space for icon
-    },
-  },
-  peerTextBox: {
-    ...theme.fontMedium(22, 30),
-  },
   category: {
-    display: 'table-cell',
     width: '50%',
     paddingLeft: 20,
   },
-  categorySelect: {
-    height: 'auto',
-    ...theme.fontMedium(22, 26),
-  },
   description: {
+    width: '100%',
     marginTop: 42,
   },
   descriptionTextBox: {
