@@ -2,23 +2,23 @@
 import React from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
-import { injectStyles } from '@frankmoney/ui'
 import { NavLink } from 'react-router-dom'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import styles from './SidebarMenuItem.jss'
 
-type Props = {
+type Props = {|
+  ...InjectStylesProps,
+  //
   primaryText: Element | string,
   secondaryText: Element | string | number,
   rightIcon?: () => Element | Element,
   leftIcon?: () => Element | Element,
-  classes: {},
-  className: string,
   href?: string,
   navLinkComponent?: () => Element,
   theme: {},
   withSeparator?: boolean,
   isHeader: boolean,
-}
+|}
 
 const cloneOrCreateReactElement = (elementOrComponent, newProps = {}) =>
   React.isValidElement(elementOrComponent)

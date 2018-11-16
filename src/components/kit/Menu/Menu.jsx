@@ -4,11 +4,12 @@ import Paper from 'components/kit/Paper'
 import SelectListBase, {
   type SelectListBaseProps,
 } from 'components/kit/SelectListBase'
+import forwardRef from 'utils/forwardRef'
 import MenuTitle, { MENU_TITLE_HEIGHT } from './MenuTitle'
 import { MENU_ITEM_HEIGHT } from './MenuItem'
 import type { MenuItemProps } from './MenuItem'
 
-const MenuPaper = React.forwardRef((props, ref) => (
+const MenuPaper = forwardRef((props, ref) => (
   <Paper type="list" ref={ref} {...props} />
 ))
 
@@ -25,7 +26,7 @@ const calcMaxHeight = ({ maxVisibleItems, title }) =>
     ? maxVisibleItems * MENU_ITEM_HEIGHT + Number(!!title) * MENU_TITLE_HEIGHT
     : 'auto'
 
-const Menu = React.forwardRef(
+const Menu = forwardRef(
   (
     {
       component: Root = MenuPaper,

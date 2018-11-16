@@ -1,8 +1,9 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
 import { compose, withProps, withState, withHandlers } from 'recompose'
-import { injectStyles } from '@frankmoney/ui'
-import { ArrowDropDown as ArrowIcon } from 'material-ui-icons'
+import ArrowIcon from 'material-ui-icons/ArrowDropDown'
+import { injectStyles } from 'utils/styles'
 import styles from './SidebarBottomMenu.jss'
 
 const SidebarBottomMenu = ({

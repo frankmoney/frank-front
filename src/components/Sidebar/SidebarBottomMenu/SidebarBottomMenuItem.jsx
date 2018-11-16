@@ -1,19 +1,20 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { Link } from 'react-router-dom'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import styles from './SidebarBottomMenuItem.jss'
 
-type Props = {
-  classes: {},
+type Props = {|
+  ...InjectStylesProps,
+  //
   type?: string,
   name?: string,
   text: string,
   url?: string,
   href?: string,
   onClick: Function,
-}
+|}
 
 const SideBarBottomMenuItem = ({
   classes,

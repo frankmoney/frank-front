@@ -1,3 +1,4 @@
+// @flow strict-local
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import TextField from 'components/kit/TextField'
