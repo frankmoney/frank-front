@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/prefer-default-export
+// @flow strict
 export const ROUTES = {
   root: '/',
   protectedArea: '/app',

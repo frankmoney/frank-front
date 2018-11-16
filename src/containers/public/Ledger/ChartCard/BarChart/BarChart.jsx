@@ -1,44 +1,37 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
-import { injectStyles } from '@frankmoney/ui'
 import Bar, {
   POSITIVE_BAR_COLOR,
   PRIMARY_BAR_COLOR,
+  type BarData,
 } from 'components/Charts/Bar'
-import type { BarData } from 'components/Charts/Bar'
-import Checkbox from 'components/Checkbox'
+import Checkbox from 'components/kit/Checkbox'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const MAX_ZEROES_TO_HIDE = 0.5
 
-const styles = theme => ({
+const styles = {
   chart: {},
   checkboxes: {
     display: 'flex',
     marginBottom: 34,
+    '& > :not(:last-child)': {
+      marginRight: 54,
+    },
   },
-  checkboxLabel: {
-    ...theme.fontMedium(16, 22),
-  },
-  income: {
-    color: POSITIVE_BAR_COLOR,
-    marginRight: 54,
-  },
-  spending: {
-    color: PRIMARY_BAR_COLOR,
-  },
-})
-
-type Props = {
-  classes: Object,
-  className: ?string,
-  data: ?BarData,
 }
 
-type State = {
+type Props = {|
+  ...InjectStylesProps,
+  //
+  data: ?BarData,
+|}
+
+type State = {|
   income: boolean,
   spending: boolean,
-}
+|}
 
 const countZeroes = prop =>
   R.pipe(
@@ -94,17 +87,14 @@ class BarChart extends React.PureComponent<Props, State> {
       <div className={className}>
         <div className={classes.checkboxes}>
           <Checkbox
+            color="green"
             checked={income}
-            className={classes.income}
             label="Income"
-            labelClassName={classes.checkboxLabel}
             onChange={this.handleIncomeChange}
           />
           <Checkbox
             checked={spending}
-            className={classes.spending}
             label="Spending"
-            labelClassName={classes.checkboxLabel}
             onChange={this.handleSpendingChange}
           />
         </div>

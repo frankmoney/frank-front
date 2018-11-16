@@ -1,10 +1,10 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { Checkbox } from 'material-ui'
-import { MoreHoriz as ShowMoreIcon } from 'material-ui-icons'
+import ShowMoreIcon from 'material-ui-icons/MoreHoriz'
 import CurrencyDelta from 'components/CurrencyDelta'
 import Button from 'components/kit/Button'
+import Checkbox from 'components/kit/Checkbox'
 import { formatDate, type DateDefaultString } from 'utils/datesLight'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
@@ -106,11 +106,9 @@ class PaymentListRow extends React.PureComponent<Props, State> {
           >
             {selectable && (
               <Checkbox
-                color="primary"
                 checked={checked}
                 className={classes.checkbox}
-                disableRipple
-                onClick={this.handleToggleCheckbox}
+                onChange={this.handleToggleCheckbox}
               />
             )}
             <CurrencyDelta className={classes.sum} value={amount} />
