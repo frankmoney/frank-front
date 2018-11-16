@@ -1,1 +1,3 @@
-export default from './TooltipBase'
+// @flow
+export { default } from './TooltipBase'
+export type { TooltipBaseProps } from './TooltipBase'

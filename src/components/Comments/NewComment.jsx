@@ -1,12 +1,13 @@
 // @flow
 import * as React from 'react'
 import cx from 'classnames'
-import { Cancel as IconCancel } from 'material-ui-icons'
-import { IconButton, TextField, Tooltip } from '@frankmoney/components'
-import { TextButton } from 'components/kit/Button'
+import CancelIcon from 'material-ui-icons/Cancel'
+import { TextField } from '@frankmoney/components'
+import { IconPlainButton, TextButton } from 'components/kit/Button'
+import TextTooltip from 'components/kit/TextTooltip'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import CommentBase from './CommentBase'
-import IconAt from './IconAt.svg'
+import AtIcon from './IconAt.svg'
 
 const styles = theme => ({
   root: {
@@ -39,8 +40,6 @@ const styles = theme => ({
   visible: {
     // visibility: 'unset',
   },
-  buttonMention: {},
-  buttonCancel: {},
 })
 
 type CommentText = string
@@ -108,16 +107,16 @@ class NewComment extends React.Component<Props, State> {
               larger
               onClick={this.handleSend}
             />
-            <Tooltip text="Mention" placement="top">
-              <IconButton icon={IconAt} className={classes.buttonMention} />
-            </Tooltip>
-            <Tooltip text="Cancel" placement="top">
-              <IconButton
-                icon={IconCancel}
-                className={classes.buttonCancel}
+            {/* TODO: make darker version? */}
+            <TextTooltip text="Mention" place="up" align="center">
+              <IconPlainButton icon={<AtIcon />} />
+            </TextTooltip>
+            <TextTooltip text="Cancel" place="up" align="center">
+              <IconPlainButton
+                icon={<CancelIcon />}
                 onClick={this.handleCancel}
               />
-            </Tooltip>
+            </TextTooltip>
           </div>
         </div>
       </CommentBase>

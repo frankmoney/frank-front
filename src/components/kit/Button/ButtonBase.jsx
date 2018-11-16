@@ -26,16 +26,18 @@ type Props = {|
   //
   children?: React.Node,
   className?: string,
-  href?: string,
 |}
 
-class BaseButton extends React.Component<Props> {
+class ButtonBase extends React.Component<Props> {
   static defaultProps = {
     component: 'div',
   }
 
   handleKeyPress = (event: KeyboardEvent) => {
-    if (event.key === 'Enter' && event.target === event.currentTarget) {
+    if (
+      (event.key === ' ' || event.key === 'Enter') &&
+      event.target === event.currentTarget
+    ) {
       if (typeof this.props.onClick === 'function') {
         this.props.onClick(event)
       }
@@ -47,7 +49,6 @@ class BaseButton extends React.Component<Props> {
       children,
       className,
       component: Root,
-      href,
       style,
       width,
       onBlur,
@@ -68,7 +69,6 @@ class BaseButton extends React.Component<Props> {
 
     return (
       <Root
-        href={href}
         role="button"
         tabIndex={0}
         style={computedStyle}
@@ -89,4 +89,4 @@ class BaseButton extends React.Component<Props> {
   }
 }
 
-export default BaseButton
+export default ButtonBase

@@ -2,10 +2,12 @@
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import { Avatar, Button, TextField } from '@frankmoney/components'
 import LockIcon from 'material-ui-icons/Lock'
+import { Avatar, TextField } from '@frankmoney/components'
 import { compose, withStateHandlers } from 'recompose'
 import ArrowPopup from 'components/ArrowPopup'
+import Button from 'components/kit/Button'
+import ToggleButton from 'components/kit/ToggleButton'
 import { TEAM_ROLE_TITLES } from 'const'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
@@ -24,7 +26,11 @@ const OwnProfile = ({
   handleChangePasswordPopupClose,
   handleChangePasswordPopupSave,
   // omit
+  changePassword,
+  newPassword,
+  newPasswordRepeated,
   theme,
+  //
   ...otherProps
 }) => (
   <Paper className={cx(classes.root, className)} {...otherProps}>
@@ -42,48 +48,45 @@ const OwnProfile = ({
     </div>
     <div className={classes.role}>{TEAM_ROLE_TITLES[role]}</div>
     <div className={classes.footer}>
-      <Button
-        className={classes.changePasswordButton}
-        label="Change Password"
-        icon={LockIcon}
-        onClick={openChangePasswordPopup}
-      />
       <ArrowPopup
-        open={!!changePasswordPopupAnchor}
-        anchorEl={changePasswordPopupAnchor}
-        onClose={handleChangePasswordPopupClose}
+        className={classes.changePasswordPopup}
+        place="right"
+        button={
+          <ToggleButton
+            className={classes.changePasswordButton}
+            label="Change Password"
+            icon={<LockIcon />}
+          />
+        }
       >
-        <div className={classes.changePasswordPopup}>
-          <div className={classes.changePasswordPopupField}>
-            <TextField
-              className={classes.changePasswordPopupInput}
-              type="password"
-              label="New password"
-              onChange={handleNewPasswordChange}
-            />
-          </div>
-          <div className={classes.changePasswordPopupField}>
-            <TextField
-              className={classes.changePasswordPopupInput}
-              type="password"
-              label="Repeat password"
-              onChange={handleNewPasswordRepeatedChange}
-            />
-          </div>
-          <div className={classes.changePasswordPopupButtons}>
-            <Button
-              className={classes.changePasswordPopupButton}
-              onClick={handleChangePasswordPopupClose}
-            >
-              Cancel
-            </Button>
-            <Button
-              className={classes.changePasswordPopupButton}
-              onClick={handleChangePasswordPopupSave}
-            >
-              Save
-            </Button>
-          </div>
+        <div className={classes.changePasswordPopupField}>
+          <TextField
+            className={classes.changePasswordPopupInput}
+            type="password"
+            label="New password"
+            onChange={handleNewPasswordChange}
+          />
+        </div>
+        <div className={classes.changePasswordPopupField}>
+          <TextField
+            className={classes.changePasswordPopupInput}
+            type="password"
+            label="Repeat password"
+            onChange={handleNewPasswordRepeatedChange}
+          />
+        </div>
+        <div className={classes.changePasswordPopupButtons}>
+          <Button
+            label="Cancel"
+            className={classes.changePasswordPopupButton}
+            onClick={handleChangePasswordPopupClose}
+          />
+          <Button
+            label="Save"
+            color="green"
+            className={classes.changePasswordPopupButton}
+            onClick={handleChangePasswordPopupSave}
+          />
         </div>
       </ArrowPopup>
     </div>

@@ -1,10 +1,11 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
-import { Search as SearchIcon } from 'material-ui-icons'
-import { injectStyles } from '@frankmoney/ui'
-import { Paper } from '@frankmoney/components'
+import SearchIcon from 'material-ui-icons/Search'
+import Paper from 'components/kit/Paper'
 import Spinner from 'components/kit/Spinner'
 import TextBox from 'components/TextBox'
+import { injectStyles } from 'utils/styles'
 import styles from './SearchCard.jss'
 
 const SearchCard = ({
