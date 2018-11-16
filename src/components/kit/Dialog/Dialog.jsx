@@ -13,7 +13,7 @@ type Props = {|
   ...InjectStylesProps,
   ...InjectStylesProps,
   ...InheritedModalProps,
-  modalProps: $Diff<ModalProps, InheritedModalProps>,
+  modalProps: $Exact<$Diff<ModalProps, InheritedModalProps>>,
 |}
 
 const styles = {
