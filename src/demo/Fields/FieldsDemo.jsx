@@ -14,6 +14,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    minHeight: 500,
   },
   playground: {},
   states: {
