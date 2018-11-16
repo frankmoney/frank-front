@@ -11,7 +11,7 @@ import {
   Check as PublishIcon,
   Close as UnpublishIcon,
 } from 'material-ui-icons'
-import StoryConfirmDialog from 'components/dialogs/StoryConfirmDialog'
+import { ConfirmDialog } from 'components/kit/Dialog'
 import Button, { IconButton } from 'components/kit/Button'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import EllipsisButtonMenu from 'components/EllipsisButtonMenu'
@@ -103,12 +103,12 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
     isDrawerOpen: false,
   }
 
-  handleToggleConfirmDialog = type => () => {
+  getConfigDialogToggleHandler = R.memoizeWith(R.identity, type => () => {
     this.setState({
       confirmDialogType: type,
       isConfirmDialogOpen: !this.state.isConfirmDialogOpen,
     })
-  }
+  })
 
   handleDialogConfirmClick = type => {
     // eslint-disable-next-line default-case
@@ -132,11 +132,11 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
 
     const dialogTitle =
       confirmDialogType === 'delete'
-        ? `Delete ${isPublished ? 'story' : 'draft'}`
+        ? `Delete ${isPublished ? 'story?' : 'draft?'}`
         : `${
             confirmDialogType !== 'publish'
-              ? 'Unpublish story'
-              : 'Publish story'
+              ? 'Unpublish story?'
+              : 'Publish story?'
           }`
 
     const dialogConfirmLabel =
@@ -144,13 +144,13 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
         ? `Delete`
         : `${confirmDialogType !== 'publish' ? 'Unpublish' : 'Publish'}`
 
-    const dialogConfirmButtonType =
+    const dialogConfirmButtonColor =
       confirmDialogType === 'delete'
-        ? `danger`
-        : `${confirmDialogType !== 'publish' ? 'negative' : 'positive'}`
+        ? `red`
+        : `${confirmDialogType !== 'publish' ? 'blue' : 'green'}`
 
     const dialogConfirmButtonProps = {
-      type: dialogConfirmButtonType,
+      color: dialogConfirmButtonColor,
       loading: processing,
     }
 
@@ -161,18 +161,18 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
           className={!isPublished && classes.unpublishedButton}
           color="green"
           icon={<PublishIcon />}
-          onClick={this.handleToggleConfirmDialog('publish')}
+          onClick={this.getConfigDialogToggleHandler('publish')}
         />
         {saved &&
           (isPublished ? (
             <EllipsisButtonMenu>
               <MenuItem
-                onSelect={this.handleToggleConfirmDialog('unpublish')}
+                onSelect={this.getConfigDialogToggleHandler('unpublish')}
                 icon={<UnpublishIcon />}
                 label="Unpublish"
               />
               <MenuItem
-                onSelect={this.handleToggleConfirmDialog('delete')}
+                onSelect={this.getConfigDialogToggleHandler('delete')}
                 icon={<RemoveIcon />}
                 label="Delete"
               />
@@ -180,21 +180,17 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
           ) : (
             <DeleteButton
               icon={<RemoveIcon />}
-              onClick={() => this.handleToggleConfirmDialog('delete')}
+              onClick={() => this.getConfigDialogToggleHandler('delete')}
             />
           ))}
 
-        <StoryConfirmDialog
+        <ConfirmDialog
           open={isConfirmDialogOpen}
           title={dialogTitle}
           confirmLabel={dialogConfirmLabel}
           confirmButtonProps={dialogConfirmButtonProps}
-          onRequestClose={() =>
-            this.handleToggleConfirmDialog(confirmDialogType)
-          }
-          onConfirmClick={() =>
-            this.handleDialogConfirmClick(confirmDialogType)
-          }
+          onClose={this.getConfigDialogToggleHandler(confirmDialogType)}
+          onConfirm={() => this.handleDialogConfirmClick(confirmDialogType)}
         />
       </div>
     )

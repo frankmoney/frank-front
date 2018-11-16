@@ -28,4 +28,5 @@ DotNotation.Buttons = DialogButtons
 DotNotation.State = DialogState
 DotNotation.Field = DialogField
 
+export ConfirmDialog from './ConfirmDialog'
 export default (DotNotation: DialogComponents)
