@@ -2,8 +2,8 @@
 import * as R from 'ramda'
 import React from 'react'
 import type { TooltipProps } from 'recharts'
-import { injectStyles } from '@frankmoney/ui'
-import { Paper } from '@frankmoney/components'
+import Paper from 'components/kit/Paper'
+import { injectStyles } from 'utils/styles'
 import TooltipLine from './TooltipLine'
 
 const styles = theme => ({

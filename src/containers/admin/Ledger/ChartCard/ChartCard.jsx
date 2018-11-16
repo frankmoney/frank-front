@@ -1,9 +1,9 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
-import { Paper } from '@frankmoney/components'
 import CategoryListPieChart from 'components/CategoryListPieChart'
+import Paper from 'components/kit/Paper'
+import { injectStyles } from 'utils/styles'
 import BarChart from './BarChart'
 import ExpandRow from './ExpandRow'
 import LedgerCategoryList from './LedgerCategoryList'

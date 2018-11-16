@@ -1,15 +1,11 @@
+// @flow
 // spellchecker:ignore mmaa
 import React from 'react'
-import { Paper } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
-import CheckCircleIcon from 'material-ui-icons/CheckCircle'
 import CurrencyDelta from 'components/CurrencyDelta'
-import { Field } from 'components/Field'
-import SelectField from 'components/SelectField'
-import TextBox from 'components/TextBox'
-import colors from 'styles/colors'
+import Paper from 'components/kit/Paper'
 import { formatShortDate } from 'utils/dates'
+import { injectStyles } from 'utils/styles'
 import CategoryLabel from 'components/CategoryLabel'
 import styles from './PaymentCard.jss'
 
