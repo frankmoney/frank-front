@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { compose } from 'recompose'
 import { currentUserSelector } from '@frankmoney/webapp'
