@@ -3,6 +3,7 @@ import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
 import * as R from 'ramda'
 import { compose, withPropsOnChange } from 'recompose'
+import { placeholderDefaultColor } from 'styles/const'
 
 const LINE_HEIGHT = 26
 const BOTTOM_PADDING = 14
@@ -24,7 +25,7 @@ const styles = theme => ({
         ? 'none'
         : `1px solid ${focus ? theme.colors.blue : '#E4E5E9'}`,
     '&::placeholder': {
-      color: 'red',
+      color: placeholderDefaultColor,
     },
   },
   disableSafariAutoFill: {
