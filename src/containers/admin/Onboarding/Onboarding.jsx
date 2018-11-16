@@ -1,6 +1,7 @@
+// @flow
 import React from 'react'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
-import { PageLoader } from '@frankmoney/components'
+import PageLoader from 'components/PageLoader'
 import reconnect from 'utils/reconnect'
 import * as ACTIONS from './actions'
 import {

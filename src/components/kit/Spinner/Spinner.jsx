@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import React from 'react'
 
 type SpinnerSize = 18 | 20 | 25 | 45

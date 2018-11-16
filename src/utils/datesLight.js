@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import D from 'date-fns/fp'
 
 export type DateDefaultString = string
