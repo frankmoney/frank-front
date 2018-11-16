@@ -13,6 +13,7 @@ const styles = theme => ({
     outline: 'none',
   },
   value: {
+    minHeight: 26,
     ...theme.fontRegular(18, 26),
     overflow: 'hidden',
     whiteSpace: 'nowrap',

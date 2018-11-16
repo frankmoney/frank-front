@@ -6,7 +6,9 @@ import DrawerContent from './DrawerContent'
 import DrawerMaximizeButton from './DrawerMaximizeButton'
 import DrawerFooter from './DrawerFooter'
 import DrawerField from './DrawerField'
-import DrawerHeaderButton from './DrawerHeaderButton'
+import DrawerTextField from './DrawerTextField'
+import DrawerSelectField from './DrawerSelectField'
+import DrawerHeadButton from './DrawerHeadButton'
 import DrawerCloseButton from './DrawerCloseButton'
 import context from './context'
 
@@ -16,7 +18,9 @@ Drawer.Title = DrawerTitle
 Drawer.Content = DrawerContent
 Drawer.Footer = DrawerFooter
 Drawer.Field = DrawerField
-Drawer.HeaderButton = DrawerHeaderButton
+Drawer.TextField = DrawerTextField
+Drawer.SelectField = DrawerSelectField
+Drawer.HeadButton = DrawerHeadButton
 Drawer.CloseButton = DrawerCloseButton
 Drawer.MaximizeButton = DrawerMaximizeButton
 Drawer.Consumer = context.Consumer

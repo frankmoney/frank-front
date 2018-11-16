@@ -37,6 +37,7 @@ const renderFieldControl = ({
     disabled={disabled}
     loading={loading}
     loadingText={loadingText}
+    value={valueFormatted}
     {...getAnchorProps()}
     focus={active}
   >
@@ -44,7 +45,6 @@ const renderFieldControl = ({
       stretch
       active={active}
       style={{ width: 270 }}
-      value={valueFormatted}
       {...getInputProps()}
     />
   </Field>
