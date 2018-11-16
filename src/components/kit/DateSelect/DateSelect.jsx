@@ -56,6 +56,9 @@ class DateSelect extends React.Component<Props, State> {
 
   componentDidMount() {
     if (this.props.autoFocus) {
+      if (this.inputRef && typeof this.inputRef.focus === 'function') {
+        this.inputRef.focus()
+      }
     }
   }
 
