@@ -3,7 +3,7 @@ import * as React from 'react'
 import cx from 'classnames'
 import Clamp from 'shiitake'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import DrawerHeaderButton from './DrawerHeaderButton'
+import DrawerHeaderButton from './DrawerHeadButton'
 
 const styles = {
   root: {

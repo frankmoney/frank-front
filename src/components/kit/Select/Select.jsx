@@ -76,11 +76,19 @@ class Select extends React.Component<Props, State> {
     }
   }
 
+  get isControlledValue() {
+    return typeof this.props.value !== 'undefined'
+  }
+
+  getValue(state: State = this.state) {
+    return this.isControlledValue ? this.props.value : state.value
+  }
+
   getRenderProps = (state: State = this.state) => ({
-    value: state.value,
+    value: this.getValue(state),
     valueFormatted:
       typeof this.props.formatValue === 'function'
-        ? this.props.formatValue(state.value)
+        ? this.props.formatValue(this.getValue(state))
         : state.selectedElementText,
     active: state.open || state.focused,
     toggle: this.handleTogglePopup,
@@ -109,10 +117,15 @@ class Select extends React.Component<Props, State> {
   }
 
   handleChange = value => {
-    this.setState({
-      value,
-      open: this.props.multiple ? this.state.open : false,
-    })
+    const open = this.props.multiple ? this.state.open : false
+    if (!this.isControlledValue) {
+      this.setState({
+        value,
+        open,
+      })
+    } else {
+      this.setState({ open })
+    }
   }
 
   handleSelectElement = (element: ?Element) => {
@@ -205,7 +218,7 @@ class Select extends React.Component<Props, State> {
               })}
               <Modal open={open} invisibleBackdrop onClose={close}>
                 <MenuComponent
-                  value={this.state.value}
+                  value={this.getValue(this.state)}
                   onChange={this.handleChange}
                   onSelectElement={!formatValue && this.handleSelectElement}
                   multiple={multiple}

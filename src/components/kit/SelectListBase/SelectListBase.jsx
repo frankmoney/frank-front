@@ -487,7 +487,6 @@ class SelectListBase extends React.Component<Props, State> {
   itemElementsByCallback: Map<Function, Element> = new Map()
   unmounted: boolean
   disablePointerEvents: boolean
-  hasValue: boolean
 
   render() {
     let content

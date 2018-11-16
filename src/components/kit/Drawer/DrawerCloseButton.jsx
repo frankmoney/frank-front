@@ -1,6 +1,6 @@
 // @flow strict-local
 import React from 'react'
-import DrawerHeaderButton from './DrawerHeaderButton'
+import DrawerHeaderButton from './DrawerHeadButton'
 import DrawerContext from './context'
 import CloseIcon from './CloseIcon.svg'
 
