@@ -1,9 +1,17 @@
+// @flow strict-local
 import React from 'react'
 import Drawer from 'components/kit/Drawer'
 import SelectField from 'components/kit/SelectField'
 import { MenuItem } from 'components/kit/Menu'
 
-const formatValue = value => {
+type Value = 'verified' | 'not_verified' | 'all'
+
+type Props = {|
+  value: Value,
+  onChange: (?boolean) => void,
+|}
+
+const formatValue = (value: Value) => {
   switch (value) {
     case 'verified':
       return true
@@ -14,7 +22,7 @@ const formatValue = value => {
   }
 }
 
-const parseValue = value => {
+const parseValue = (value: Value) => {
   switch (value) {
     case true:
       return 'verified'
@@ -25,7 +33,7 @@ const parseValue = value => {
   }
 }
 
-const VerificationField = ({ value, onChange }) => (
+const VerificationField = ({ value, onChange }: Props) => (
   <Drawer.Field label="Verification">
     <SelectField
       value={parseValue(value)}

@@ -1,10 +1,11 @@
+// @flow strict-local
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
 import * as D from 'date-fns'
 import { MenuItem } from 'components/kit/Menu'
 import DateSelect from 'components/kit/DateSelect'
 import Drawer from 'components/kit/Drawer'
 import SelectField from 'components/kit/SelectField'
+import { injectStyles } from 'utils/styles'
 import { DATE_FILTER } from './constants'
 
 const styles = {

@@ -748,7 +748,7 @@
     react-transition-group "2.2.0"
     redux-actions "^2.2.1"
 
-"@frankmoney/datepicker@^0.2.0-alpha.117":
+"@frankmoney/datepicker@0.2.0-alpha.117", "@frankmoney/datepicker@^0.2.0-alpha.117":
   version "0.2.0-alpha.117"
   resolved "https://registry.npmjs.org/@frankmoney/datepicker/-/datepicker-0.2.0-alpha.117.tgz#da258a9d1a85ae83e8dba1dd62fe9767ae7fa4a2"
   dependencies:
