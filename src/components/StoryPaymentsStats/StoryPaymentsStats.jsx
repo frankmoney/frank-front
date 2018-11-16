@@ -1,16 +1,27 @@
+// @flow strict
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
-import { formatDateRange } from 'utils/datesLight'
 import CurrencyContext from 'contexts/CurrencyContext'
+import { formatDateRange, type DateDefaultString } from 'utils/datesLight'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import styles from './StoryPaymentsStats.jss'
+
+export type StoryPaymentsStatsProps = {|
+  paymentsCount: number,
+  paymentsDateRange: [DateDefaultString, DateDefaultString],
+|}
+
+type Props = {|
+  ...InjectStylesProps,
+  ...StoryPaymentsStatsProps,
+|}
 
 const StoryPaymentsStats = ({
   classes,
   className,
   paymentsCount,
   paymentsDateRange,
-}) => (
+}: Props) => (
   <div className={cx(classes.container, className)}>
     <CurrencyContext.Consumer>
       {(context = {}) => <context.icon className={classes.symbol} />}
