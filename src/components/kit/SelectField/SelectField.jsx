@@ -44,7 +44,6 @@ const renderFieldControl = ({
     <SelectFieldControl
       stretch
       active={active}
-      style={{ width: 270 }}
       {...getInputProps()}
     />
   </Field>
@@ -52,6 +51,7 @@ const renderFieldControl = ({
 
 const SelectField = withProps({
   renderControl: renderFieldControl,
+  stretchDropdown: true,
 })(Select)
 
 export default SelectField

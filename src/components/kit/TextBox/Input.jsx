@@ -4,6 +4,7 @@ import cx from 'classnames'
 import mixins from 'styles/mixins'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
+import { placeholderDefaultColor, placeholderActiveColor } from 'styles/const'
 import { adjustTextareaSize, type TextareaProps } from './utils'
 
 const styles = theme => ({
@@ -20,14 +21,13 @@ const styles = theme => ({
     lineHeight: 'inherit',
     letterSpacing: 'inherit',
     ...mixins.placeholder({
-      color: '#20284A',
-      opacity: 0.2,
+      color: placeholderDefaultColor,
       whiteSpace: 'wrap',
-      transition: theme.transition('opacity'),
+      transition: theme.transition('color'),
     }),
     '&:focus': {
       ...mixins.placeholder({
-        opacity: 0.1,
+        color: placeholderActiveColor,
       }),
     },
     '&:disabled': {

@@ -149,9 +149,8 @@ class DateSelect extends React.Component<Props, State> {
                 value={this.formatValue(value)}
               >
                 <SelectFieldControl
-                  tabIndex={0}
                   active={active}
-                  style={{ minWidth: 160 }}
+                  stretch
                   onClick={this.handleInputClick}
                   onFocus={this.handleInputFocus}
                   onBlur={this.handleInputBlur}

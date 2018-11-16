@@ -24,7 +24,7 @@ const styles = theme => ({
         ? 'none'
         : `1px solid ${focus ? theme.colors.blue : '#E4E5E9'}`,
     '&::placeholder': {
-      color: 'rgba(37, 43, 67, 0.3)',
+      color: 'red',
     },
   },
   disableSafariAutoFill: {

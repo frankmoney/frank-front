@@ -1,9 +1,10 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
-import { DateSelect, CheckedMenuItem } from '@frankmoney/components'
 import * as D from 'date-fns'
-import DrawerField from 'components/DrawerField'
-import SelectField from 'components/SelectField'
+import { MenuItem } from 'components/kit/Menu'
+import DateSelect from 'components/kit/DateSelect'
+import Drawer from 'components/kit/Drawer'
+import SelectField from 'components/kit/SelectField'
 import { DATE_FILTER } from './constants'
 
 const styles = {
@@ -86,56 +87,57 @@ const DateRangeField = ({
   }
 
   return (
-    <DrawerField title="Date range">
+    <Drawer.Field label="Date range">
       <SelectField
         value={filterValue}
         fullWidth
-        onChange={({ target }) => onChange(formatFilterValue(target.value))}
+        onChange={v => onChange(formatFilterValue(v))}
       >
-        <CheckedMenuItem value={DATE_FILTER.allTime}>All</CheckedMenuItem>
-        <CheckedMenuItem value={DATE_FILTER.currentYear}>
-          {D.format(now, 'YYYY')}
-        </CheckedMenuItem>
+        <MenuItem value={DATE_FILTER.allTime} label="All" />
+        <MenuItem
+          value={DATE_FILTER.currentYear}
+          label={D.format(now, 'YYYY')}
+        />
         {startDate < currentYear && (
-          <CheckedMenuItem value={DATE_FILTER.prevYear}>
-            {D.format(prevYear, 'YYYY')}
-          </CheckedMenuItem>
+          <MenuItem
+            value={DATE_FILTER.prevYear}
+            label={D.format(prevYear, 'YYYY')}
+          />
         )}
-        <CheckedMenuItem value={DATE_FILTER.last12Months}>
-          Last 12 months
-        </CheckedMenuItem>
-        <CheckedMenuItem value={DATE_FILTER.last3Months}>
-          Last 3 months
-        </CheckedMenuItem>
-        <CheckedMenuItem value={DATE_FILTER.currentMonth}>
-          {D.format(currentMonth, 'MMMM YYYY')}
-        </CheckedMenuItem>
+        <MenuItem value={DATE_FILTER.last12Months} label="Last 12 months" />
+        <MenuItem value={DATE_FILTER.last3Months} label="Last 3 months" />
+        <MenuItem
+          value={DATE_FILTER.currentMonth}
+          label={D.format(currentMonth, 'MMMM YYYY')}
+        />
         {startDate < currentMonth && (
-          <CheckedMenuItem value={DATE_FILTER.prevMonth}>
-            {D.format(prevMonth, 'MMMM YYYY')}
-          </CheckedMenuItem>
+          <MenuItem
+            value={DATE_FILTER.prevMonth}
+            label={D.format(prevMonth, 'MMMM YYYY')}
+          />
         )}
-        <CheckedMenuItem value={DATE_FILTER.custom}>
-          Custom range
-        </CheckedMenuItem>
+        <MenuItem value={DATE_FILTER.custom} label="Custom range" />
       </SelectField>
       {filterValue === DATE_FILTER.custom && (
         <div className={classes.customDatesWrap}>
           <DateSelect
             className={classes.customDateSelect}
             format="ddd, M/DD/YYYY"
+            placeholder="Start date"
             value={from}
             onChange={value => onChange({ from: value, to })}
           />
           <DateSelect
             className={classes.customDateSelect}
             format="ddd, M/DD/YYYY"
+            align="end"
+            placeholder="End date"
             value={to}
             onChange={value => onChange({ from, to: value })}
           />
         </div>
       )}
-    </DrawerField>
+    </Drawer.Field>
   )
 }
 

@@ -4,7 +4,6 @@ import Switch from 'components/kit/Switch'
 import SwitchBase from 'components/kit/SwitchBase'
 import TextBox from 'components/kit/TextBox'
 import Field from 'components/kit/fields/Field'
-import LeftField from 'components/kit/fields/LeftField'
 import { injectStyles } from 'utils/styles'
 import Playground from './Playground'
 
@@ -48,17 +47,6 @@ const FieldsDemo = ({ classes }) => {
 
   return (
     <Demo>
-      <Row>
-        <LeftField label="Name">
-          <TextBox />
-        </LeftField>
-        <LeftField label="Name" focus>
-          <TextBox />
-        </LeftField>
-        <LeftField defaultValue="Nick" label="Name">
-          <TextBox />
-        </LeftField>
-      </Row>
       <div className={classes.playgroundWrap}>
         <Playground className={classes.playground} />
       </div>

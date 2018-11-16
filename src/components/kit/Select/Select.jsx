@@ -61,7 +61,6 @@ class Select extends React.Component<Props, State> {
     align: 'start',
     alignByArrow: false,
     dropdownWidth: DEFAULT_WIDTH,
-    selectedElementText: null,
   }
 
   state = {
@@ -84,12 +83,19 @@ class Select extends React.Component<Props, State> {
     return this.isControlledValue ? this.props.value : state.value
   }
 
+  getTextByValue = value => {
+    const menuItems = React.Children.toArray(this.props.children)
+    const found = menuItems.find(x => x.props.value === value)
+
+    return found && found.props.label
+  }
+
   getRenderProps = (state: State = this.state) => ({
     value: this.getValue(state),
     valueFormatted:
       typeof this.props.formatValue === 'function'
         ? this.props.formatValue(this.getValue(state))
-        : state.selectedElementText,
+        : this.getValue(state) && this.getTextByValue(this.getValue(state)),
     active: state.open || state.focused,
     toggle: this.handleTogglePopup,
     select: this.handleChange,
@@ -137,12 +143,6 @@ class Select extends React.Component<Props, State> {
         }
       })
     }
-  }
-
-  handleSelectElement = (element: ?Element) => {
-    this.setState({
-      selectedElementText: element ? element.innerText : null,
-    })
   }
 
   handleTogglePopup = (open: boolean) => {
@@ -231,7 +231,6 @@ class Select extends React.Component<Props, State> {
                 <MenuComponent
                   value={this.getValue(this.state)}
                   onChange={this.handleChange}
-                  onSelectElement={!formatValue && this.handleSelectElement}
                   multiple={multiple}
                   listRef={this.handleListRef}
                   {...arrowMenuProps}

@@ -183,33 +183,34 @@ class Field extends React.Component<Props, State> {
           {React.cloneElement(control, {
             value,
             className: classes.control,
+            placeholder: loading ? loadingText : placeholder,
             ref: this.handleControlRef,
             onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),
             onBlur: chainCallbacks(this.handleBlur, control.props.onBlur),
             onChange: chainCallbacks(this.handleChange, control.props.onChange),
             disabled: disabled || loading,
           })}
-          {placeholder &&
-            !loading && (
-              <Placeholder
-                active={focus}
-                className={cx(
-                  classes.placeholder,
-                  ((floatingLabel && !focus) || filled) &&
-                    classes.placeholderOff
-                )}
-              >
-                {placeholder}
-              </Placeholder>
-            )}
-          {loading && (
-            <Placeholder className={classes.placeholder}>
-              {loading && (
-                <Spinner className={classes.spinner} size={larger ? 20 : 18} />
-              )}
-              {loading && loadingText}
-            </Placeholder>
-          )}
+          {/* {placeholder && */}
+          {/*! loading && ( */}
+          {/* <Placeholder */}
+          {/* active={focus} */}
+          {/* className={cx( */}
+          {/* classes.placeholder, */}
+          {/* ((floatingLabel && !focus) || filled) && */}
+          {/* classes.placeholderOff */}
+          {/* )} */}
+          {/* > */}
+          {/* {placeholder} */}
+          {/* </Placeholder> */}
+          {/* )} */}
+          {/* {loading && ( */}
+          {/* <Placeholder className={classes.placeholder}> */}
+          {/* {loading && ( */}
+          {/* <Spinner className={classes.spinner} size={larger ? 20 : 18} /> */}
+          {/* )} */}
+          {/* {loading && loadingText} */}
+          {/* </Placeholder> */}
+          {/* )} */}
           <Underline className={classes.underline} />
         </div>
       </FieldContext.Provider>

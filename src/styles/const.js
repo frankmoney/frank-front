@@ -8,3 +8,6 @@ export const zIndex = {
   modal: 100,
   backdrop: 101,
 }
+
+export const placeholderDefaultColor = 'rgba(37, 43, 67, 0.2)'
+export const placeholderActiveColor = 'rgba(37, 43, 67, 0.1)'

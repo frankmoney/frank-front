@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { ArrowDropDown } from 'material-ui-icons'
+import Placeholder from 'components/kit/fields/Placeholder'
 
 const styles = theme => ({
   root: {
@@ -11,6 +12,7 @@ const styles = theme => ({
     alignItems: 'center',
     cursor: 'pointer',
     outline: 'none',
+    minWidth: 150,
   },
   value: {
     minHeight: 26,
@@ -25,10 +27,16 @@ const styles = theme => ({
     color: 'rgba(37, 43, 67, 0.2)',
     flexShrink: 0,
   },
+  placeholder: {
+    flexGrow: 1,
+  },
   active: {
     '& $arrow': {
       color: '#4C51F3',
     },
+  },
+  stretch: {
+    width: '100%',
   },
 })
 
@@ -41,16 +49,29 @@ class SelectFieldControl extends React.Component {
       value,
       controlRef,
       active,
+      stretch,
+      placeholder,
       ...otherProps
     } = this.props
 
     return (
       <div
         ref={controlRef}
-        className={cx(classes.root, active && classes.active, className)}
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
+        className={cx(
+          classes.root,
+          {
+            [classes.stretch]: stretch,
+            [classes.active]: active,
+          },
+          className
+        )}
         {...otherProps}
       >
-        <div className={classes.value}>{value}</div>
+        <div className={classes.value}>
+          {value || (placeholder && <Placeholder>{placeholder}</Placeholder>)}
+        </div>
         <ArrowDropDown className={classes.arrow} />
       </div>
     )

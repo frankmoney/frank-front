@@ -29,7 +29,7 @@ const styles = {
   /* Styles applied to the root element. */
   root: {
     position: 'fixed',
-    zIndex: 100,
+    zIndex: 10000,
     right: 0,
     bottom: 0,
     top: 0,

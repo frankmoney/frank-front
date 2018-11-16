@@ -54,7 +54,7 @@ const FieldsDemo = ({ classes }) => {
 
   return (
     <Demo gray>
-      <h1>LeftField</h1>
+      <h1>(WIP DO NOT USE)LeftField</h1>
       <h2>TextBox</h2>
       <Row>
         <Paper type="modal" className={classes.paper}>
