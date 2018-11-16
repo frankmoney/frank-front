@@ -48,6 +48,8 @@ export type PopupRenderProps = {
   close: ExternalCb,
   show: ExternalCb,
   toggle: ExternalCb,
+  toggleOpen: ExternalCb,
+  toggleClose: ExternalCb,
   popupEl: ?El,
   anchorEl: ?El,
   getArrowProps: (?Object) => PopupArrowProps,
@@ -94,6 +96,8 @@ class PopupBase extends React.Component<Props, State> {
     close: this.close,
     show: this.open,
     toggle: this.toggle,
+    toggleOpen: this.open,
+    toggleClose: this.close,
     popupEl: this.state.popupEl,
     anchorEl: this.state.anchorEl,
     getArrowProps: (props = {}) => ({

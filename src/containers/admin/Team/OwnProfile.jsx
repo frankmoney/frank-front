@@ -3,8 +3,9 @@ import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
 import LockIcon from 'material-ui-icons/Lock'
-import { Avatar, TextField } from '@frankmoney/components'
+import { Avatar } from '@frankmoney/components'
 import { compose, withStateHandlers } from 'recompose'
+import TextField from 'components/kit/TextField'
 import ArrowPopup from 'components/ArrowPopup'
 import Button from 'components/kit/Button'
 import ToggleButton from 'components/kit/ToggleButton'
@@ -59,35 +60,39 @@ const OwnProfile = ({
           />
         }
       >
-        <div className={classes.changePasswordPopupField}>
-          <TextField
-            className={classes.changePasswordPopupInput}
-            type="password"
-            label="New password"
-            onChange={handleNewPasswordChange}
-          />
-        </div>
-        <div className={classes.changePasswordPopupField}>
-          <TextField
-            className={classes.changePasswordPopupInput}
-            type="password"
-            label="Repeat password"
-            onChange={handleNewPasswordRepeatedChange}
-          />
-        </div>
-        <div className={classes.changePasswordPopupButtons}>
-          <Button
-            label="Cancel"
-            className={classes.changePasswordPopupButton}
-            onClick={handleChangePasswordPopupClose}
-          />
-          <Button
-            label="Save"
-            color="green"
-            className={classes.changePasswordPopupButton}
-            onClick={handleChangePasswordPopupSave}
-          />
-        </div>
+        {({ closePopup }) => (
+          <>
+            <div className={classes.changePasswordPopupField}>
+              <TextField
+                className={classes.changePasswordPopupInput}
+                type="password"
+                floatingLabel="New password"
+                onChange={handleNewPasswordChange}
+              />
+            </div>
+            <div className={classes.changePasswordPopupField}>
+              <TextField
+                className={classes.changePasswordPopupInput}
+                type="password"
+                floatingLabel="Repeat password"
+                onChange={handleNewPasswordRepeatedChange}
+              />
+            </div>
+            <div className={classes.changePasswordPopupButtons}>
+              <Button
+                label="Cancel"
+                className={classes.changePasswordPopupButton}
+                onClick={closePopup}
+              />
+              <Button
+                label="Save"
+                color="green"
+                className={classes.changePasswordPopupButton}
+                onClick={handleChangePasswordPopupSave}
+              />
+            </div>
+          </>
+        )}
       </ArrowPopup>
     </div>
   </Paper>
@@ -104,17 +109,14 @@ export default compose(
       newPasswordRepeated: '',
     },
     {
-      handleNewPasswordChange: () => event => ({
-        newPassword: event.target.value,
+      handleNewPasswordChange: () => value => ({
+        newPassword: value,
       }),
-      handleNewPasswordRepeatedChange: () => event => ({
-        newPasswordRepeated: event.target.value,
+      handleNewPasswordRepeatedChange: () => value => ({
+        newPasswordRepeated: value,
       }),
-      openChangePasswordPopup: () => event => ({
-        changePasswordPopupAnchor: event.target,
-      }),
+      openChangePasswordPopup: () => () => ({}),
       handleChangePasswordPopupClose: () => () => ({
-        changePasswordPopupAnchor: null,
         newPassword: '',
         newPasswordRepeated: '',
       }),
