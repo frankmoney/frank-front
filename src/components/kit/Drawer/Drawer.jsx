@@ -27,9 +27,7 @@ type Props = {|
   footerButtonLabel?: string,
   footerButtonProps?: ButtonProps,
   footerText?: string,
-  children?:
-    | React.ChildrenArray<React.ReactElement<any>>
-    | React.ReactElement<any>,
+  children?: React.ChildrenArray<React.Element<any>> | React.Element<any>,
 |}
 
 export type DrawerProps = Props

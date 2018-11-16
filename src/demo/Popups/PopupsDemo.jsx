@@ -59,11 +59,7 @@ const styles = {
   },
 }
 
-class Portal extends React.Component<any> {
-  render() {
-    return createPortalInBody(this.props.children)
-  }
-}
+const Portal = ({ children }) => createPortalInBody(children)
 
 const REVERSE_DIRECTION = {
   up: 'down',

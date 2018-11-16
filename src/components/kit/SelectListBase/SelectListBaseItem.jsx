@@ -1,5 +1,6 @@
 // @flow
 import React, { createFactory } from 'react'
+import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 import chainCallbacks from '../../../utils/dom/chainCallbacks'
 import SelectListBase from './SelectListBase'
 
@@ -7,8 +8,8 @@ class SelectListBaseItem extends React.Component {
   state = {}
 
   componentDidMount() {
-    this.props.selectList.registerItem(findDOMNode(this), this.props)
-    this.element = findDOMNode(this)
+    this.props.selectList.registerItem(unsafeFindDOMNode(this), this.props)
+    this.element = unsafeFindDOMNode(this)
   }
 
   componentWillUnmount() {}

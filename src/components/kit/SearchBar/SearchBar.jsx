@@ -1,11 +1,11 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { Search as SearchIcon } from 'material-ui-icons'
-import { Paper } from '@frankmoney/components'
-import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import SearchIcon from 'material-ui-icons/Search'
+import Paper from 'components/kit/Paper'
 import Spinner from 'components/kit/Spinner'
 import Input from 'components/kit/TextBox/Input'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import styles from './SearchBar.jss'
 
 type OnChangeCb = () => void

@@ -1,6 +1,5 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
-import { findDOMNode } from 'react-dom'
 import memoize from 'lodash/memoize'
 import Menu from 'components/kit/Menu'
 import Modal from 'components/kit/Modal'
@@ -9,7 +8,8 @@ import PopupBase, {
   type PopupAlign,
   type PopupPosition,
 } from 'components/kit/PopupBase'
-import chainCallbacks from '../../../utils/dom/chainCallbacks'
+import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
+import chainCallbacks from 'utils/dom/chainCallbacks'
 
 type Direction = PopupPosition
 
@@ -20,10 +20,10 @@ const REVERSE_DIRECTION: { [Direction]: Direction } = {
   right: 'left',
 }
 
-type Value = any // FIXME
+type Value = any // flowlint-line unclear-type:warn
 
 type OmittedProps = {|
-  onClose?: Function, // why?
+  onClose?: Function, // flowlint-line unclear-type:warn
 |}
 
 export type Props = {|
@@ -39,7 +39,7 @@ export type Props = {|
   defaultValue?: Value,
   direction: Direction,
   dropdownWidth?: number,
-  formatValue: Value => any,
+  formatValue: Value => string,
   stretchDropdown?: boolean,
 |}
 
@@ -115,7 +115,7 @@ class Select extends React.Component<Props, State> {
     })
   }
 
-  handleSelectElement = element => {
+  handleSelectElement = (element: ?Element) => {
     this.setState({
       selectedElementText: element ? element.innerText : null,
     })
@@ -146,8 +146,7 @@ class Select extends React.Component<Props, State> {
   }
 
   focus = () => {
-    // eslint-disable-next-line react/no-find-dom-node
-    findDOMNode(this.input).focus()
+    unsafeFindDOMNode(this.input).focus()
   }
 
   render() {

@@ -1,12 +1,17 @@
 // @flow
 import * as React from 'react'
-import PopupBase from 'components/kit/PopupBase'
+import PopupBase, {
+  type PopupAlign,
+  type PopupPosition,
+} from 'components/kit/PopupBase'
 import chainCallbacks from 'utils/dom/chainCallbacks'
 
 export type TooltipBaseProps = {|
+  align: PopupAlign,
   closeTimeout?: number,
   defaultOpen?: boolean,
-  defaultVisible: boolean,
+  defaultVisible?: boolean,
+  place: PopupPosition,
   popupAccessible?: boolean,
 |}
 
@@ -31,7 +36,7 @@ class TooltipBase extends React.Component<Props, State> {
   }
 
   state = {
-    visible: this.props.defaultVisible,
+    visible: !!this.props.defaultVisible,
   }
 
   getState = ({

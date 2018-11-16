@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
 import Button, { IconButton, type ButtonProps } from 'components/kit/Button'
 import SwitchBase from 'components/kit/SwitchBase'
@@ -8,7 +8,10 @@ type Color = string
 
 type ButtonComponentType = React.ComponentType<ButtonProps>
 
-type ToggleButtonExport = any // for easier .Icon
+type ToggleButtonExport = {|
+  (): (props: ButtonProps) => React.Node,
+  Icon: ButtonComponentType,
+|}
 
 const withToggle = (
   ButtonComponent: ButtonComponentType,
@@ -41,8 +44,9 @@ const withToggle = (
     )
   )
 
-const ToggleButton: ToggleButtonExport = withToggle(Button, 'gray', 'lightBlue')
+// flowlint-next-line unclear-type:off
+const ToggleButton: any = withToggle(Button, 'gray', 'lightBlue')
 
 ToggleButton.Icon = withToggle(IconButton, 'gray', 'lightBlue')
 
-export default ToggleButton
+export default (ToggleButton: ToggleButtonExport)

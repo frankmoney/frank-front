@@ -1,7 +1,10 @@
 // @flow
 import * as React from 'react'
 import { AttachMoney as DollarIcon } from 'material-ui-icons'
-import CurrencyContext from 'contexts/CurrencyContext'
+import CurrencyContext, {
+  type CurrencyCode,
+  type CurrencyFormatter,
+} from 'contexts/CurrencyContext'
 
 const CURRENCY_INFO = {
   USD: {
@@ -16,10 +19,6 @@ const CURRENCY_INFO = {
     position: 'after',
   },
 }
-
-export type CurrencyCode = 'USD' | 'RUB'
-
-export type CurrencyFormatter = (number, number, boolean) => string
 
 type Props = {|
   children: React.Node,
@@ -38,7 +37,8 @@ export const defaultFormatter: CurrencyFormatter = (
   })
   const digitsOnly =
     abs && (fixed[0] === '-' || fixed[0] === '+') ? fixed.substr(1) : fixed
-  return format.format(((digitsOnly: any): number))
+  const digitsAsNumber: number = (digitsOnly: any)
+  return format.format(digitsAsNumber)
 }
 
 const CurrencyProvider = ({ code, formatter, children }: Props) => (

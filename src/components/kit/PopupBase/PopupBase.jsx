@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
-import { findDOMNode } from 'react-dom'
 import positionElement from 'utils/dom/positionElement'
+import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 
 type Ref = any // React.ComponentType<any> | Element
 type RefHandler = Ref => void
@@ -164,18 +164,15 @@ class PopupBase extends React.Component<Props, State> {
   }
 
   handleAnchorRef = (ref: Ref) => {
-    // eslint-disable-next-line react/no-find-dom-node
-    this.setState({ anchorEl: findDOMNode(ref) })
+    this.setState({ anchorEl: unsafeFindDOMNode(ref) })
   }
 
   handleArrowRef = (ref: Ref) => {
-    // eslint-disable-next-line react/no-find-dom-node
-    this.setState({ arrowEl: findDOMNode(ref) })
+    this.setState({ arrowEl: unsafeFindDOMNode(ref) })
   }
 
   handlePopupRef = (ref: Ref) => {
-    // eslint-disable-next-line react/no-find-dom-node
-    this.setState({ popupEl: findDOMNode(ref) }, () => {
+    this.setState({ popupEl: unsafeFindDOMNode(ref) }, () => {
       this.forceUpdate()
     })
   }
