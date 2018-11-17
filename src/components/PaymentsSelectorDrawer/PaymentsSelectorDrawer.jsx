@@ -5,6 +5,7 @@ import type { CurrencyCode } from 'contexts/CurrencyContext'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { DateRangeField } from 'components/DrawerFilters'
 import AreaSpinner from 'components/AreaSpinner'
+import { PAGE_SIZE } from '../../containers/admin/StoryEdit/constants'
 import { DRAWER_INSET } from '../kit/Drawer/styles'
 import PaymentsList from './PaymentsList'
 
@@ -149,6 +150,7 @@ class PaymentsSelectorDrawer extends React.PureComponent<Props, State> {
               canRequestMore={totalPagesCounter > loadedPagesCounter}
               onRequestMore={onLoadMore}
               isLoadingMore={isLoadingMore}
+              moreButtonLabel={`Show ${PAGE_SIZE} more payments`}
               inset={DRAWER_INSET}
             />
           )}

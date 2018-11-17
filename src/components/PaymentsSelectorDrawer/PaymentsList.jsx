@@ -14,6 +14,7 @@ type Props = {
   canRequestMore?: boolean,
   inset?: number,
   isLoadingMore?: boolean,
+  moreButtonLabel: string,
   onRequestMore?: () => void,
   onSelectionChange: (Array<Id>) => void,
   RowComponent: React.ComponentType,
@@ -31,6 +32,7 @@ class PaymentsList extends React.Component<Props> {
     selectedIds: [],
     canRequestMore: false,
     isLoadingMore: false,
+    moreButtonLabel: 'Show more payments',
   }
 
   componentDidUpdate(prevProps) {
@@ -60,7 +62,7 @@ class PaymentsList extends React.Component<Props> {
       {loading => (
         <PaymentListRowMore
           loading={loading}
-          label="Show 30 more payments"
+          label={this.props.moreButtonLabel}
           onClick={this.props.onRequestMore}
           style={this.getInsetStyles(style)}
           {...itemProps}
