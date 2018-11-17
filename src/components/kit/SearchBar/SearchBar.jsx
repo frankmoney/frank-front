@@ -25,7 +25,6 @@ const SearchBar = ({
   loading,
   onChange,
   placeholder,
-  theme,
   value,
   ...otherProps
 }: Props) => (

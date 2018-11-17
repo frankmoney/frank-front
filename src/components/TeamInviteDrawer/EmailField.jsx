@@ -1,15 +1,15 @@
 import React from 'react'
-import TextBox from 'components/TextBox/index'
-import DrawerField from 'components/DrawerField/index'
+import TextField from 'components/kit/TextField'
+import Drawer from 'components/kit/Drawer'
 
 const EmailField = ({ value, onChange }) => (
-  <DrawerField title="Email">
-    <TextBox
+  <Drawer.Field label="Email">
+    <TextField
       placeholder="example@mail.com"
       value={value}
-      onChange={({ target }) => onChange(target.value)}
+      onChange={onChange}
     />
-  </DrawerField>
+  </Drawer.Field>
 )
 
 export default EmailField

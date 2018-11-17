@@ -5,7 +5,7 @@ import mixins from 'styles/mixins'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 import { placeholderDefaultColor, placeholderActiveColor } from 'styles/const'
-import { adjustTextareaSize, type TextareaProps } from './utils'
+import { adjustTextareaSize } from './utils'
 
 const styles = theme => ({
   root: {
@@ -25,7 +25,7 @@ const styles = theme => ({
       whiteSpace: 'wrap',
       transition: theme.transition('color'),
     }),
-    '&:focus': {
+    '&:focus, &$focus': {
       ...mixins.placeholder({
         color: placeholderActiveColor,
       }),
@@ -34,30 +34,36 @@ const styles = theme => ({
       color: 'rgba(37, 43, 67, 0.2)',
     },
   },
+  focus: {},
 })
 
 type OnChangeCb = any => void
 
-type UnusedProps = {|
-  focus?: any,
-  theme?: any,
-|}
+type InputType = 'text' | 'password' | 'number' // TODO
 
 type Props = {|
   ...InjectStylesProps,
-  ...$Exact<TextareaProps>,
-  ...UnusedProps, // FIXME
-  //
-  children?: React.Node,
+  // устанавливает состояние фокуса(стили)
+  focus?: boolean,
   controlRef?: ?Function,
-  id?: string,
   multiLine?: boolean,
+  readOnly?: boolean,
+  disabled?: boolean,
+  type: InputType,
+  minLines?: number,
   name?: string,
+  // Controlled value
   onChange: OnChangeCb,
-  value?: string | number,
+  value: string | number,
 |}
 
+export type InputProps = Props
+
 class Input extends React.Component<Props> {
+  static defaultProps = {
+    type: 'text',
+  }
+
   componentDidMount() {
     if (this.props.multiLine) {
       adjustTextareaSize(unsafeFindDOMNode(this), this.props)
@@ -89,15 +95,16 @@ class Input extends React.Component<Props> {
       multiLine,
       onChange,
       value,
-      // Omit (?) // TODO: fix unused props
+      type,
       focus,
-      theme,
       minLines,
+      // Omit
+      theme,
       //
       ...otherProps
     } = this.props
 
-    const cls = cx(classes.root, className)
+    const cls = cx(classes.root, { [classes.focus]: focus }, className)
 
     if (multiLine) {
       return (
@@ -114,7 +121,7 @@ class Input extends React.Component<Props> {
     return (
       <input
         ref={controlRef}
-        type="text"
+        type={type}
         value={value || ''}
         onChange={this.handleChange}
         className={cls}

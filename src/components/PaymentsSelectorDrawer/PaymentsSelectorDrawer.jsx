@@ -81,10 +81,6 @@ class PaymentsSelectorDrawer extends React.PureComponent<Props, State> {
     selectedPayments: this.props.selectedPayments,
   }
 
-  // static getDerivedStateFromProps({ selectedPayments }) {
-  //   return { selectedPayments }
-  // }
-
   handleFilterChange = ({ from, to }) => {
     if (typeof this.props.onFilter === 'function') {
       this.props.onFilter({ from, to })

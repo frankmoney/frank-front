@@ -45,7 +45,6 @@ const styles = theme => ({
 
 const OptionsListItem = ({
   classes,
-  theme,
   value,
   className,
   component: Root = 'div',
