@@ -56,26 +56,6 @@ type Props = {|
 |}
 
 class PaymentListRow extends React.Component<Props> {
-  // shouldComponentUpdate({
-  //   amount,
-  //   peerName,
-  //   postedOn,
-  //   selectable,
-  //   selected,
-  //   style,
-  //   noSeparator,
-  // }) {
-  //   return (
-  //     this.props.amount !== amount ||
-  //     this.props.peerName !== peerName ||
-  //     this.props.postedOn !== postedOn ||
-  //     this.props.selectable !== selectable ||
-  //     this.props.selected !== selected ||
-  //     this.props.style !== style ||
-  //     this.props.noSeparator !== noSeparator
-  //   )
-  // }
-
   handleRowClick = event => {
     if (typeof this.props.onClick === 'function') {
       this.props.onClick(event)
