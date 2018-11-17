@@ -39,8 +39,9 @@ export type Props = {|
   defaultValue?: Value,
   direction: Direction,
   dropdownWidth?: number,
-  formatValue: Value => string,
+  formatValue?: Value => string,
   stretchDropdown?: boolean,
+  renderControl: any => React.ReactElement, // TODO
 |}
 
 type State = {|
