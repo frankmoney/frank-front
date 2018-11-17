@@ -11,4 +11,6 @@ export default createActions('adminStoryEdit', {
   filterPayments: true,
   loadMorePayments: true,
   leave: false,
+  openPaymentsDrawer: false,
+  closePaymentsDrawer: false,
 })

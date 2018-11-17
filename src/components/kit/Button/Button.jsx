@@ -31,6 +31,7 @@ export type ButtonProps = {|
   icon?: React.Element<any>,
   label: string,
   loading: boolean,
+  stretch: boolean,
   Mixins?: ButtonMixins,
 |}
 
@@ -49,6 +50,7 @@ const Button = ({
   focus,
   hover,
   loading,
+  stretch,
   // content
   label,
   counter,
@@ -71,6 +73,7 @@ const Button = ({
         [classes.active]: active,
         [classes.focus]: focus,
         [classes.hover]: hover,
+        [classes.stretch]: stretch,
       },
       className
     )}
@@ -95,6 +98,7 @@ Button.defaultProps = {
   focus: false,
   hover: false,
   loading: false,
+  stretch: false,
   Mixins: {},
 }
 

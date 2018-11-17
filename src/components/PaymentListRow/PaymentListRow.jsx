@@ -1,9 +1,7 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import ShowMoreIcon from 'material-ui-icons/MoreHoriz'
 import CurrencyDelta from 'components/CurrencyDelta'
-import Button from 'components/kit/Button'
 import Checkbox from 'components/kit/Checkbox'
 import { formatDate, type DateDefaultString } from 'utils/datesLight'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -16,12 +14,8 @@ const styles = theme => ({
     height: ROW_HEIGHT,
     alignItems: 'center',
     ...theme.fontRegular(16, 20),
-    '&:not($lastItem):not($loadMoreItem)': {
-      borderBottom: '1px solid #F0F0F2',
-    },
+    borderBottom: '1px solid #F0F0F2',
   },
-  lastItem: {},
-  loadMoreItem: {},
   checkbox: {
     marginRight: 15,
   },
@@ -36,87 +30,102 @@ const styles = theme => ({
   date: {
     textAlign: 'right',
   },
-  showMoreButton: {
-    width: '100%',
-    marginTop: 5,
+  noSeparator: {
+    borderBottom: 'none',
+  },
+  selectable: {
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: 'rgba(37, 43, 67, 0.03)',
+    },
   },
 })
 
 type Props = {|
   ...InjectStylesProps,
-  //
+  // Controlled state
+  onToggle: boolean => void,
+  selected?: boolean,
+  // Payment details
   amount?: number,
-  lastItem?: boolean,
-  loadMore: boolean,
-  onLoadMore?: () => void,
-  onToggle: () => void,
   peerName?: string,
   postedOn?: DateDefaultString,
   selectable?: boolean,
-  selected?: boolean,
+  // Other props
   style?: any,
 |}
 
-type State = {|
-  checked?: boolean,
-|}
+class PaymentListRow extends React.Component<Props> {
+  // shouldComponentUpdate({
+  //   amount,
+  //   peerName,
+  //   postedOn,
+  //   selectable,
+  //   selected,
+  //   style,
+  //   noSeparator,
+  // }) {
+  //   return (
+  //     this.props.amount !== amount ||
+  //     this.props.peerName !== peerName ||
+  //     this.props.postedOn !== postedOn ||
+  //     this.props.selectable !== selectable ||
+  //     this.props.selected !== selected ||
+  //     this.props.style !== style ||
+  //     this.props.noSeparator !== noSeparator
+  //   )
+  // }
 
-class PaymentListRow extends React.PureComponent<Props, State> {
-  state = {
-    checked: this.props.selected,
-  }
+  handleRowClick = event => {
+    if (typeof this.props.onClick === 'function') {
+      this.props.onClick(event)
+    }
 
-  handleToggleCheckbox = () => {
-    this.setState({ checked: !this.state.checked })
-    this.props.onToggle()
+    if (this.props.selectable && !event.defaultPrevented) {
+      if (typeof this.props.onToggle === 'function') {
+        this.props.onToggle(!this.props.selected)
+      }
+    }
   }
 
   render() {
     const {
-      amount,
       classes,
-      lastItem,
-      loadMore,
-      onLoadMore,
+      className,
+      selected,
+      amount,
       peerName,
       postedOn,
       selectable,
       style,
+      onToggle,
+      noSeparator,
     } = this.props
 
-    const { checked } = this.state
-
     return (
-      <>
-        {!postedOn &&
-          loadMore && (
-            <div className={classes.loadMoreItem} style={style}>
-              <Button
-                icon={<ShowMoreIcon />}
-                label="Show 30 more payments"
-                className={classes.showMoreButton}
-                onClick={onLoadMore}
-              />
-            </div>
-          )}
-        {postedOn && (
-          <div
-            className={cx(classes.root, lastItem && classes.lastItem)}
-            style={style}
-          >
-            {selectable && (
-              <Checkbox
-                checked={checked}
-                className={classes.checkbox}
-                onChange={this.handleToggleCheckbox}
-              />
-            )}
-            <CurrencyDelta className={classes.sum} value={amount} />
-            <div className={classes.name}>{peerName}</div>
-            <div className={classes.date}>{formatDate(postedOn)}</div>
-          </div>
+      <div
+        className={cx(
+          classes.root,
+          {
+            [classes.noSeparator]: noSeparator,
+            [classes.selectable]: selectable,
+          },
+          className
         )}
-      </>
+        onClick={this.handleRowClick}
+        style={style}
+      >
+        {selectable && (
+          <Checkbox
+            checked={selected}
+            className={classes.checkbox}
+            onChange={onToggle}
+          />
+        )}
+        <CurrencyDelta className={classes.sum} value={amount} />
+        <div className={classes.name}>{peerName}</div>
+        <div className={classes.date}>{formatDate(postedOn)}</div>
+      </div>
     )
   }
 }

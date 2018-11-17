@@ -1,15 +1,12 @@
 // @flow strict-local
 import React from 'react'
-import * as R from 'ramda'
-import { createSelector } from 'reselect'
-import CurrencyProvider from 'components/CurrencyProvider'
-import Drawer from 'components/Drawer'
-import Button from 'components/kit/Button'
+import Drawer from 'components/kit/Drawer'
 import type { CurrencyCode } from 'contexts/CurrencyContext'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import { PaymentListRow, ROW_HEIGHT } from 'components/PaymentListRow'
 import { DateRangeField } from 'components/DrawerFilters'
-import List from './ListVirtualized'
+import AreaSpinner from 'components/AreaSpinner'
+import { DRAWER_INSET } from '../kit/Drawer/styles'
+import PaymentsList from './PaymentsList'
 
 const style = theme => ({
   modeTitle: {},
@@ -35,9 +32,7 @@ const style = theme => ({
     marginBottom: 10,
   },
   list: {
-    paddingTop: 15,
-    paddingRight: 15,
-    paddingBottom: 15,
+    paddingBottom: 30,
   },
   footer: {
     color: '#252B43',
@@ -70,47 +65,29 @@ type Props = {|
   payments: Array<Payment>,
   selectedPayments: Array<Payment>,
   totalPagesCounter: number,
+  // список полностью перезагружается
+  isLoading: boolean,
+  // список загружает айтемы в конец
+  isLoadingMore: boolean,
 |}
 
 type State = {|
   selectedPayments: Array<Payment>,
 |}
 
-const getId = R.prop('id')
-
 class PaymentsSelectorDrawer extends React.PureComponent<Props, State> {
   state = {
-    selectedPayments: [],
+    selectedPayments: this.props.selectedPayments,
   }
 
-  componentWillMount() {
-    this.setState({
-      selectedPayments: this.props.selectedPayments,
-    })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.open) {
-      this.setState({
-        selectedPayments: nextProps.selectedPayments,
-      })
-    }
-  }
+  // static getDerivedStateFromProps({ selectedPayments }) {
+  //   return { selectedPayments }
+  // }
 
   handleFilterChange = ({ from, to }) => {
-    if (this.props.onFilter) {
+    if (typeof this.props.onFilter === 'function') {
       this.props.onFilter({ from, to })
     }
-  }
-
-  handleSelectPayment = payment => {
-    const selectedIds = this.selectedPaymentsIdsSelector(this.state)
-    this.setState({
-      selectedPayments:
-        selectedIds.indexOf(payment.id) !== -1
-          ? R.without([payment], this.state.selectedPayments)
-          : R.concat([payment], this.state.selectedPayments),
-    })
   }
 
   handleAttachClick = () => {
@@ -118,77 +95,64 @@ class PaymentsSelectorDrawer extends React.PureComponent<Props, State> {
     this.props.onClose()
   }
 
-  selectedPaymentsIdsSelector = createSelector(
-    R.prop('selectedPayments'),
-    R.map(getId)
-  )
-
-  renderItemComponent = ({ index, ...otherProps }) => (
-    <PaymentListRow
-      lastItem={index === this.props.payments.length - 1}
-      loadMore={this.props.totalPagesCounter > this.props.loadedPagesCounter}
-      selectable
-      selected={R.contains(
-        getId(this.props.payments[index]),
-        this.selectedPaymentsIdsSelector(this.state)
-      )}
-      onToggle={() => this.handleSelectPayment(this.props.payments[index])}
-      onLoadMore={this.props.onLoadMore}
-      {...this.props.payments[index]}
-      {...otherProps}
-    />
-  )
+  handleSelectionChange = ids => {
+    this.setState({ selectedPayments: ids })
+  }
 
   render() {
     const {
       classes,
       payments,
+      selectedPayments: selectedPaymentsProp,
       filter: { dateMin: from, dateMax: to },
       totalPagesCounter,
       loadedPagesCounter,
       onLoadMore,
-      currencyCode = 'USD',
       onChange,
       onClose,
+      currencyCode,
+      isLoadingMore,
+      isLoading,
       ...otherProps
     } = this.props
 
     const { selectedPayments } = this.state
 
     return (
-      <Drawer onClose={onClose} {...otherProps}>
-        <Drawer.Header
-          className={classes.header}
-          buttons={<Drawer.CloseButton />}
-        >
-          <Drawer.Title className={classes.title}>Select payments</Drawer.Title>
-        </Drawer.Header>
-        <Drawer.Body className={classes.container}>
-          <DateRangeField
-            from={from}
-            to={to}
-            onChange={this.handleFilterChange}
-          />
-          <div className={classes.listContainer}>
-            <CurrencyProvider code={currencyCode}>
-              <List
-                itemComponent={this.renderItemComponent}
-                itemHeight={ROW_HEIGHT}
-                itemCount={payments.length + 1}
-                className={classes.list}
-              />
-            </CurrencyProvider>
-          </div>
-        </Drawer.Body>
-        <Drawer.Footer className={classes.footer}>
-          {selectedPayments.length} payments
-          <Button
-            color="green"
-            className={classes.attachPaymentsButton}
-            label="Attach"
-            onClick={this.handleAttachClick}
-          />
-        </Drawer.Footer>
+      <Drawer
+        title="Select payments"
+        footerText={`${selectedPayments.length} payments`}
+        footerButtonProps={{
+          onClick: this.handleAttachClick,
+          label: 'Attach',
+          width: 150,
+        }}
+        onClose={onClose}
+        {...otherProps}
+      >
+        <DateRangeField
+          from={from}
+          to={to}
+          onChange={this.handleFilterChange}
+          style={{ marginBottom: 0 }}
+        />
+        <Drawer.Content disableOverflowTop>
+          {isLoading ? (
+            <AreaSpinner size={45} />
+          ) : (
+            <PaymentsList
+              className={classes.list}
+              payments={payments}
+              selectedIds={selectedPayments}
+              currencyCode={currencyCode}
+              onSelectionChange={this.handleSelectionChange}
+              canRequestMore={totalPagesCounter > loadedPagesCounter}
+              onRequestMore={onLoadMore}
+              isLoadingMore={isLoadingMore}
+              inset={DRAWER_INSET}
+            />
+          )}
+        </Drawer.Content>
       </Drawer>
     )
   }
