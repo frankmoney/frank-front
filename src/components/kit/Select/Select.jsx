@@ -69,9 +69,25 @@ class Select extends React.Component<Props, State> {
     focused: this.props.defaultFocused,
   }
 
+  componentWillMount() {
+    if (this.props.value) {
+      this.setState({
+        value: this.props.value,
+      })
+    }
+  }
+
   componentDidMount() {
     if (this.props.autoFocus) {
       this.focus()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value) {
+      this.setState({
+        value: nextProps.value,
+      })
     }
   }
 
@@ -237,11 +253,11 @@ class Select extends React.Component<Props, State> {
                   {...getPopupProps({
                     ...menuProps,
                     style: {
-                      ...menuProps.style,
                       width:
                         open && stretchDropdown
                           ? anchorEl.clientWidth
                           : dropdownWidth,
+                      ...menuProps.style,
                     },
                   })}
                 >

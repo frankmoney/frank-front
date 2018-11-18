@@ -43,6 +43,7 @@ export default theme => ({
   table: {
     opacity: props => (props.listDisabled ? 0.5 : 1),
     pointerEvents: props => (props.listDisabled ? 'none' : 'unset'),
+    position: 'unset',
   },
   loader: {},
 })

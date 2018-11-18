@@ -33,6 +33,7 @@ type Props = {|
   onFocus?: FocusEvent => void,
   placeholder?: string,
   stretch?: boolean,
+  underline?: boolean,
 |}
 
 type State = {|
@@ -44,6 +45,7 @@ type State = {|
 class Field extends React.Component<Props, State> {
   static defaultProps = {
     loadingText: 'Loading',
+    underline: true,
   }
 
   state = {
@@ -102,6 +104,12 @@ class Field extends React.Component<Props, State> {
     }
   }
 
+  handleKeyDown = event => {
+    if (typeof this.props.onBlur === 'function') {
+      this.props.onKeyDown(event)
+    }
+  }
+
   handleControlRef = control => {
     this.control = control
   }
@@ -140,6 +148,7 @@ class Field extends React.Component<Props, State> {
       placeholder,
       stretch,
       style,
+      underline,
     } = this.props
 
     const control = React.Children.only(children)
@@ -187,6 +196,10 @@ class Field extends React.Component<Props, State> {
             ref: this.handleControlRef,
             onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),
             onBlur: chainCallbacks(this.handleBlur, control.props.onBlur),
+            onKeyDown: chainCallbacks(
+              this.handleKeyDown,
+              control.props.onKeyDown
+            ),
             onChange: chainCallbacks(this.handleChange, control.props.onChange),
             disabled: disabled || loading,
           })}
@@ -211,7 +224,7 @@ class Field extends React.Component<Props, State> {
           {/* {loading && loadingText} */}
           {/* </Placeholder> */}
           {/* )} */}
-          <Underline className={classes.underline} />
+          {underline && <Underline className={classes.underline} />}
         </div>
       </FieldContext.Provider>
     )

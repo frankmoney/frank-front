@@ -196,4 +196,12 @@ export const pieChartDataSelector = createSelector(
   remapPieData
 )
 
-export const allPeersSelector = createPlainObjectSelector(get('allPeers'))
+export const searchingSuggestionsSelector = get('searchingSuggestions')
+
+export const suggestedPeersSelector = createPlainObjectSelector(
+  get('suggestedPeers')
+)
+
+export const suggestedDescriptionsSelector = createPlainObjectSelector(
+  get('suggestedDescriptions')
+)

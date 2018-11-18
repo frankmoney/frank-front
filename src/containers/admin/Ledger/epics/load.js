@@ -35,7 +35,6 @@ export default (action$, store, { graphql }) =>
 
       return graphql(
         QUERIES.buildQuery({
-          allPeers: true,
           categoryScoped: !!categoryId,
           payments: true,
           totalCount: true,

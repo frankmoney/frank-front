@@ -25,4 +25,10 @@ export const filtersApply = createAction('admin/ledger/filters/apply')
 export const filtersReset = createAction('admin/ledger/filters/reset')
 export const filtersClose = createAction('admin/ledger/filters/close')
 
+export const searchSuggestions = createDeferredAction(
+  'admin/ledger/card/search-suggestions'
+)
+export const paymentPublish = createDeferredAction('admin/ledger/card/publish')
+export const paymentUpdate = createDeferredAction('admin/ledger/card/update')
+
 export const leave = createAction('admin/ledger/leave')
