@@ -18,6 +18,7 @@ const styles = theme => ({
     borderRadius: 0,
     fontSize: 'inherit',
     fontFamily: 'inherit',
+    fontWeight: 'inherit',
     lineHeight: 'inherit',
     letterSpacing: 'inherit',
     ...mixins.placeholder({

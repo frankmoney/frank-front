@@ -39,6 +39,7 @@ type Props = {|
   loading?: boolean,
   loadingText?: string,
   placeholder?: string,
+  noUnderline?: boolean,
   // Контрол пытается занять всю доступную ширину
   stretch?: boolean,
   // Uncontrolled/Controlled value
@@ -60,6 +61,7 @@ export type FieldProps = Props
 class Field extends React.Component<Props, State> {
   static defaultProps = {
     loadingText: 'Loading',
+    underline: true,
   }
 
   state = {
@@ -144,6 +146,7 @@ class Field extends React.Component<Props, State> {
       placeholder,
       stretch,
       style,
+      noUnderline,
     } = this.props
 
     const control = React.Children.only(children)
@@ -196,6 +199,7 @@ class Field extends React.Component<Props, State> {
             ref: this.handleControlRef,
             onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),
             onBlur: chainCallbacks(this.handleBlur, control.props.onBlur),
+            onKeyDown: this.props.onKeyDown,
             onChange: chainCallbacks(this.handleChange, control.props.onChange),
             disabled: disabled || loading,
           })}
@@ -220,7 +224,7 @@ class Field extends React.Component<Props, State> {
               {loading && loadingText}
             </Placeholder>
           )}
-          <Underline className={classes.underline} />
+          {!noUnderline && <Underline className={classes.underline} />}
         </div>
       </FieldContext.Provider>
     )
