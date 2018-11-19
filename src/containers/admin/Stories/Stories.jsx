@@ -51,7 +51,7 @@ const Stories = ({ classes, noStories, stories, className }) => (
         <NewButton />
         {!noStories &&
           stories.map(story => (
-            <LinkedStoryCard {...story.draft} pid={story.pid} />
+            <LinkedStoryCard {...story.draft} key={story.pid} pid={story.pid} />
           ))}
       </div>
     </div>
