@@ -3,10 +3,10 @@ import React from 'react'
 import cx from 'classnames'
 import { compose, lifecycle, branch, renderComponent } from 'recompose'
 import Helmet from 'react-helmet'
+import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
-import StoryPaymentsStats from 'components/StoryPaymentsStats'
 import StoryPayments from 'components/StoryPayments'
-import PageLoader from 'components/PageLoader'
+import StoryPaymentsStats from 'components/StoryPaymentsStats'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import { BASE_TITLE } from 'const'
@@ -91,6 +91,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => !props.isLoaded, renderComponent(PageLoader)),
+  branch(props => !props.isLoaded, renderComponent(AreaSpinner)),
   injectStyles(styles, { fixedGrid: true })
 )(Story)

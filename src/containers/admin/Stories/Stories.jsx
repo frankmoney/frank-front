@@ -19,8 +19,8 @@ import {
   BreadcrumbsItem,
 } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
+import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
-import PageLoader from 'components/PageLoader'
 import StoryCard from 'components/StoryCard'
 import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
@@ -87,6 +87,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => props.loading, renderComponent(PageLoader)),
+  branch(props => props.loading, renderComponent(AreaSpinner)),
   injectStyles(styles, { grid: true })
 )(Stories)

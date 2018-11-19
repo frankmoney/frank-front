@@ -7,10 +7,10 @@ import { compose, branch, renderComponent, lifecycle } from 'recompose'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
-import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
-import CurrencyProvider from 'components/CurrencyProvider'
+import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
-import PageLoader from 'components/PageLoader'
+import CurrencyProvider from 'components/CurrencyProvider'
+import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import { injectStyles } from 'utils/styles'
 import ConnectedChartCard from './ConnectedChartCard'
 import LedgerHighlightTextProvider from './LedgerHighlightTextProvider'
@@ -110,6 +110,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => props.loading, renderComponent(PageLoader)),
+  branch(props => props.loading, renderComponent(AreaSpinner)),
   injectStyles(styles, { grid: true })
 )(Ledger)

@@ -2,9 +2,9 @@
 import React from 'react'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
+import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import ListLayoutContent from 'components/ListLayoutContent'
-import PageLoader from 'components/PageLoader'
 import reconnect from 'utils/reconnect'
 import InviteButton from './InviteButton'
 import InviteDrawer from './InviteDrawer'
@@ -62,5 +62,5 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => !props.loaded || props.loading, renderComponent(PageLoader))
+  branch(props => !props.loaded || props.loading, renderComponent(AreaSpinner))
 )(Team)

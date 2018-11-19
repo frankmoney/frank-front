@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { FixedHeader } from '@frankmoney/components'
-import PageLoader from 'components/PageLoader'
+import AreaSpinner from 'components/AreaSpinner'
 import StoryPaymentsStats, {
   type StoryPaymentsStatsProps,
 } from 'components/StoryPaymentsStats'
@@ -105,6 +105,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => !props.isLoaded, renderComponent(PageLoader)),
+  branch(props => !props.isLoaded, renderComponent(AreaSpinner)),
   injectStyles(styles, { fixedGrid: true })
 )(Story)
