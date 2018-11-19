@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
@@ -13,17 +13,17 @@ type Props = {|
   text: string,
   url?: string,
   href?: string,
-  onClick: Function,
+  onClick?: MouseEvent => void,
 |}
 
 const SideBarBottomMenuItem = ({
   classes,
-  type,
-  name,
-  text,
-  url,
   href,
+  name,
   onClick,
+  text,
+  type,
+  url,
 }: Props) => {
   // eslint-disable-next-line no-nested-ternary
   const RootElement = url ? Link : href ? 'a' : 'div'

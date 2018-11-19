@@ -18,11 +18,11 @@ type InheritedModalProps = {|
 type Props = {|
   ...InjectStylesProps,
   ...InheritedModalProps,
-  modalProps: $Diff<ModalProps, InheritedModalProps>,
+  modalProps?: $Diff<ModalProps, InheritedModalProps>, // not used?
   title: string,
   titleClamp?: number,
   titleSmaller?: boolean,
-  titleExtraButton: Element,
+  titleExtraButton?: Element,
   noCloseButton?: boolean,
   footerButtonLabel?: string,
   footerButtonProps?: ButtonProps,
