@@ -84,7 +84,7 @@ type Props = {|
   isPublished?: boolean | string, // TODO: fix those selectors
   processing?: boolean,
   publish: Function,
-  saved?: string, // why?
+  saved?: boolean | string,
   unpublish: Function,
 |}
 

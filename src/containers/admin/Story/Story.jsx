@@ -20,9 +20,9 @@ import styles from './Story.jss'
 
 type StoryProps = {|
   draft: {|
-    title: string,
-    cover: Object, // flowlint-line unclear-type:warn
-    body: {| text: string |},
+    title?: string,
+    cover?: { thumbs: { sized: string } },
+    body: {| text?: string |},
     payments: PaymentList,
     ...StoryPaymentsStatsProps,
   |},
