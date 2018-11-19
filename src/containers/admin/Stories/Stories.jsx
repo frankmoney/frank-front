@@ -25,7 +25,7 @@ import StoryCard from 'components/StoryCard'
 import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import NewButton from './NewButton'
-import ShareDialog from './ShareDialog'
+import StoryPublishedDialog from './StoryPublishedDialog'
 import {
   isLoadingSelector,
   hasNoStoriesSelector,
@@ -55,7 +55,7 @@ const Stories = ({ classes, noStories, stories, className }) => (
           ))}
       </div>
     </div>
-    <ShareDialog />
+    <StoryPublishedDialog />
   </CurrencyProvider>
 )
 
