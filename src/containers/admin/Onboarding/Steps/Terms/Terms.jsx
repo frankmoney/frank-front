@@ -61,9 +61,12 @@ const styles = theme => ({
   orderedListNested: {},
 })
 
+const nextButtonProps = { width: 250 }
+
 const Terms = ({ className, classes, ...props }) => (
   <StepLayout
     nextLabel="I agree to the Terms"
+    nextButtonProps={nextButtonProps}
     canGoNext
     className={cx(classes.root, className)}
     {...props}

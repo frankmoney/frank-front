@@ -1,17 +1,17 @@
 import React from 'react'
-import TextBox from 'components/TextBox/index'
-import DrawerField from 'components/DrawerField/index'
+import TextField from 'components/kit/TextField'
+import Drawer from 'components/kit/Drawer'
 
 const NoteField = ({ value, onChange }) => (
-  <DrawerField title="Note">
-    <TextBox
+  <Drawer.Field label="Note">
+    <TextField
       placeholder="Please help me out with connecting our bank account to Frank"
-      expand="vertically"
-      value={value}
-      onChange={({ target }) => onChange(target.value)}
+      multiLine
       minLines={2}
+      value={value}
+      onChange={onChange}
     />
-  </DrawerField>
+  </Drawer.Field>
 )
 
 export default NoteField

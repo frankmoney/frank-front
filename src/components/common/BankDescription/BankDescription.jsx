@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import { injectStyles } from '@frankmoney/ui'
 import BankLogo from 'components/BankLogo'
 
 const styles = theme => ({
@@ -33,7 +33,6 @@ const styles = theme => ({
 })
 
 type Props = {|
-  ...InjectStylesProps,
   className?: string,
   name: string,
   description: string,

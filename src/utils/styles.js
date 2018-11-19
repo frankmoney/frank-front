@@ -9,6 +9,7 @@ type StyleCreator = (theme: Theme) => Styles
 
 type InjectOptions = {|
   fixedGrid?: boolean,
+  // TODO remove grid dependency
   grid?: boolean,
   inject?: Array<string>,
 |}
@@ -25,7 +26,8 @@ type InjectStylesFn = (
 ) => PropInjector
 
 // eslint-disable-next-line import/prefer-default-export
-export const injectStyles: InjectStylesFn = originInjectStyles
+export const injectStyles: InjectStylesFn = (styles, options) =>
+  originInjectStyles(styles, { inject: ['classes'], ...options })
 
 export type Classes = { [class: string]: string }
 

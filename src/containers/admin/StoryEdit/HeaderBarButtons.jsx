@@ -3,14 +3,12 @@ import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
 import { compose } from 'recompose'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 import {
   Delete as RemoveIcon,
   Check as PublishIcon,
   Close as UnpublishIcon,
 } from 'material-ui-icons'
+import reconnect from 'utils/reconnect'
 import { ConfirmDialog } from 'components/kit/Dialog'
 import Button, { IconButton } from 'components/kit/Button'
 import MenuItem from 'components/kit/Menu/MenuItem'
@@ -54,27 +52,27 @@ const styles = {
 }
 
 const SaveButton = compose(
-  connect(
-    state => ({
-      disabled: isSaveButtonDisabledSelector(state),
-      loading: isSavingSelector(state),
-      label: saveButtonLabelSelector(state),
-    }),
-    dispatch => ({ onClick: () => dispatch(ACTIONS.createOrUpdate()) })
+  reconnect(
+    {
+      disabled: isSaveButtonDisabledSelector,
+      loading: isSavingSelector,
+      label: saveButtonLabelSelector,
+    },
+    { onClick: ACTIONS.createOrUpdate }
   )
 )(Button)
 
 const PublishButton = compose(
-  connect(state => ({
-    disabled: isPublishButtonDisabledSelector(state),
-    label: publishButtonLabelSelector(state),
-  }))
+  reconnect({
+    disabled: isPublishButtonDisabledSelector,
+    label: publishButtonLabelSelector,
+  })
 )(Button)
 
 const DeleteButton = compose(
-  connect(state => ({
-    disabled: isDeleteButtonDisabledSelector(state),
-  }))
+  reconnect({
+    disabled: isDeleteButtonDisabledSelector,
+  })
 )(IconButton)
 
 type ConfirmDialogType = 'delete' | 'publish' | 'unpublish'
@@ -197,26 +195,20 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = createStructuredSelector({
-  processing: isProcessingSelector,
-  saved: savedSelector,
-  isNew: isNewStorySelector,
-  isPublished: isPublishedSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    createOrUpdate: ACTIONS.createOrUpdate,
-    delete: ACTIONS.delete,
-    publish: ACTIONS.publish,
-    unpublish: ACTIONS.unpublish,
-  },
-])
-
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
+  reconnect(
+    {
+      processing: isProcessingSelector,
+      saved: savedSelector,
+      isNew: isNewStorySelector,
+      isPublished: isPublishedSelector,
+    },
+    {
+      createOrUpdate: ACTIONS.createOrUpdate,
+      delete: ACTIONS.delete,
+      publish: ACTIONS.publish,
+      unpublish: ACTIONS.unpublish,
+    }
   ),
   injectStyles(styles)
 )(HeaderBarButtons)

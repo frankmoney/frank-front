@@ -61,6 +61,7 @@ class LedgerFilterDrawer extends React.Component {
         <Drawer.Content>
           {loaded && (
             <DateRangeField
+              label="Date range"
               from={dateLimit.from}
               to={dateLimit.to}
               onChange={this.handleChangeDateRange}

@@ -7,6 +7,7 @@ import ButtonMenu from 'components/kit/ButtonMenu'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import SelectField from 'components/kit/SelectField'
 import ToggleButton from 'components/kit/ToggleButton'
+import CategoryTypeSelect from 'components/CategoryTypeSelect'
 import Demo, { Row } from 'demo/Demo'
 
 // eslint-disable-next-line no-alert
@@ -67,6 +68,10 @@ const SelectsDemo = () => (
         <MenuItem value="name" label="Name" />
         <MenuItem value="total" label="Total" />
       </FilterSelect>
+    </Row>
+    <h1>Category type select</h1>
+    <Row centered>
+      <CategoryTypeSelect />
     </Row>
   </Demo>
 )

@@ -26,7 +26,6 @@ const styles = {
 
 const Dialog = ({
   classes,
-  theme,
   open,
   onClose,
   modalProps,

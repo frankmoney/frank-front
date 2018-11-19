@@ -7,7 +7,6 @@ export default (action$, store, { graphql }) =>
     .ofType(ACTIONS.searchSuggestions)
     .debounceTime(500)
     .switchMap(({ payload: { search, peers, descriptions } }) => {
-      console.log('epic', { search, peers, descriptions })
       const state = store.getState()
       const currentAccountId = currentAccountIdSelector(state)
 
@@ -22,7 +21,4 @@ export default (action$, store, { graphql }) =>
         }
       )
     })
-    .map(({ peers, descriptions }) => {
-      console.log('searchSuggestions.success', { peers, descriptions })
-      return ACTIONS.searchSuggestions.success({ peers, descriptions })
-    })
+    .map(ACTIONS.searchSuggestions.success)

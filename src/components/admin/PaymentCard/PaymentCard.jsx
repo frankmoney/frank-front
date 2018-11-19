@@ -74,13 +74,7 @@ const PaymentCard = ({
             value={categoryId}
             label="Category"
             larger
-            underline={false}
-            menuProps={{
-              style: {
-                width: 'unset',
-              },
-              maxVisibleItems: 5,
-            }}
+            noUnderline
             onChange={categoryId => onPaymentUpdate({ paymentId, categoryId })}
           />
         </div>

@@ -10,9 +10,8 @@ import { DATE_FILTER } from './constants'
 
 const styles = {
   customDatesWrap: {
-    marginTop: 30,
+    marginTop: 10,
     display: 'flex',
-    width: 400,
   },
   customDateSelect: {
     flex: 1,
@@ -23,12 +22,14 @@ const styles = {
 }
 
 const DateRangeField = ({
+  theme,
   classes,
   from,
   to,
   now = new Date(),
   startDate = D.startOfYear(new Date()),
   onChange,
+  ...otherProps
 }) => {
   const currentYear = D.startOfYear(now)
   const prevYear = D.startOfYear(D.subYears(now, 1))
@@ -88,7 +89,7 @@ const DateRangeField = ({
   }
 
   return (
-    <Drawer.Field label="Date range">
+    <Drawer.Field {...otherProps}>
       <SelectField
         value={filterValue}
         fullWidth

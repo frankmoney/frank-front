@@ -65,4 +65,8 @@ export default theme => ({
     marginLeft: 10,
     flexShrink: 0,
   },
+  stretch: {
+    display: 'flex',
+    flexGrow: 1,
+  },
 })

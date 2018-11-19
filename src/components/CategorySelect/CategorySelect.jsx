@@ -22,6 +22,7 @@ const CategorySelect = ({
   className,
   categories,
   value,
+  menuProps,
   ...otherProps
 }) => {
   const formatValue = id => {
@@ -35,6 +36,13 @@ const CategorySelect = ({
       placeholder="Choose category"
       value={value}
       formatValue={formatValue}
+      menuProps={{
+        style: {
+          width: 'unset',
+        },
+        maxVisibleItems: 5,
+        ...menuProps,
+      }}
       {...otherProps}
     >
       <>
