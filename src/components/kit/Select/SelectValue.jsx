@@ -31,7 +31,6 @@ class SelectValue extends React.Component {
     const {
       classes,
       className,
-      theme,
       value,
       stretch,
       controlRef,

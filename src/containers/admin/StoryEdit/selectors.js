@@ -49,36 +49,41 @@ export const hasUnpublishedDraftSelector = createSelector(
   )
 )
 
+const sortByPostedDateAsc = R.sort((a, b) => a.postedDate < b.postedDate)
+
 export const formInitialValuesSelector = createSelector(
   draftSelector,
-  R.ifElse(
-    R.complement(R.isNil),
-    draft => {
-      const values = R.pick(['cover', 'title', 'body', 'payments'])(draft)
+  R.pipe(
+    R.ifElse(
+      R.complement(R.isNil),
+      draft => {
+        const values = R.pick(['cover', 'title', 'body', 'payments'])(draft)
 
-      if (!values.cover) {
-        values.cover = []
-      } else {
-        values.coverCrop = values.cover.crop && values.cover.crop.sized
-        values.cover = [values.cover]
-      }
+        if (!values.cover) {
+          values.cover = []
+        } else {
+          values.coverCrop = values.cover.crop && values.cover.crop.sized
+          values.cover = [values.cover]
+        }
 
-      if (!values.body) {
-        values.description = ''
-      } else {
-        values.description = values.body.text
-      }
+        if (!values.body) {
+          values.description = ''
+        } else {
+          values.description = values.body.text
+        }
 
-      if (!values.payments) {
-        values.payments = []
-      }
+        if (!values.payments) {
+          values.payments = []
+        }
 
-      return values
-    },
-    () => ({
-      payments: [],
-      cover: [],
-    })
+        return values
+      },
+      () => ({
+        payments: [],
+        cover: [],
+      })
+    ),
+    R.evolve({ payments: sortByPostedDateAsc })
   )
 )
 
@@ -136,6 +141,11 @@ export const storySelectedPaymentsSelector = createPlainObjectSelector(state =>
   storyEditFormValueSelector(state, 'payments')
 )
 
+export const storySelectedPaymentsIdsSelector = createSelector(
+  storySelectedPaymentsSelector,
+  R.map(R.prop('id'))
+)
+
 export const paymentsFilterDateMinSelector = get('paymentsFilterDateMin')
 
 export const paymentsFilterDateMaxSelector = get('paymentsFilterDateMax')
@@ -156,5 +166,7 @@ export const paymentsLoadedPagesCounterSelector = get(
 export const paymentsTotalPagesCounterSelector = get('paymentsTotalPagesCount')
 
 export const paymentsListUpdatingSelector = get('paymentsListLoading')
+export const paymentsListMoreLoadingSelector = get('paymentsListMoreLoading')
 
 export const paymentsSelector = createPlainObjectSelector(get('payments'))
+export const paymentsDrawerOpenedSelector = get('paymentsDrawerOpen')

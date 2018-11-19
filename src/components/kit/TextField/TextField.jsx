@@ -1,8 +1,22 @@
+// @flow strict-local
 import React from 'react'
-import TextBox from 'components/kit/TextBox'
-import Field from 'components/kit/fields/Field'
+import TextBox, { type TextBoxProps } from 'components/kit/TextBox'
+import Field, { type FieldProps } from 'components/kit/fields/Field'
 
-const TextField = ({ multiLine, readOnly, type, name, ...otherProps }) => (
+type Props = {
+  ...TextBoxProps,
+  ...FieldProps,
+}
+
+export type TextFieldProps = Props
+
+const TextField = ({
+  multiLine,
+  readOnly,
+  type,
+  name,
+  ...otherProps
+}: Props) => (
   <Field {...otherProps}>
     <TextBox
       multiLine={multiLine}

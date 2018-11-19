@@ -1,6 +1,9 @@
+import SendIcon from 'material-ui-icons/Send'
 import React from 'react'
-import Drawer from 'components/Drawer'
-import Invite from './Invite'
+import Drawer from 'components/kit/Drawer'
+import EmailField from './EmailField'
+import NoteField from './NoteField'
+import RoleField from './RoleField'
 
 const InviteDrawer = ({
   email,
@@ -13,17 +16,28 @@ const InviteDrawer = ({
   invalid,
   ...props
 }) => (
-  <Drawer {...props}>
-    <Invite
-      email={email}
-      role={role}
-      note={note}
-      onEmailChange={onEmailChange}
-      onNoteChange={onNoteChange}
-      onRoleChange={onRoleChange}
-      onSubmit={onSubmit}
-      invalid={invalid}
-    />
+  <Drawer
+    footerText={
+      <span>
+        We will notify you via email when<br />
+        your teammate accepts your invitation
+      </span>
+    }
+    footerTextSmaller
+    footerButtonProps={{
+      label: 'Send invitation',
+      icon: <SendIcon />,
+      disabled: invalid,
+      onClick: onSubmit,
+    }}
+    title="Invite a teammate"
+    {...props}
+  >
+    <Drawer.Content>
+      <EmailField value={email} onChange={onEmailChange} />
+      <RoleField value={role} onChange={onRoleChange} />
+      <NoteField value={note} onChange={onNoteChange} />
+    </Drawer.Content>
   </Drawer>
 )
 

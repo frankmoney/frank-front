@@ -8,6 +8,8 @@ type Props = {|
   size: SpinnerSize,
 |}
 
+export type SpinnerProps = Props
+
 const largeProps = {
   x: 21.1,
   ry: 1.5,

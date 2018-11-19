@@ -1,16 +1,17 @@
-import * as R from 'ramda'
 import { fromJS } from 'immutable'
 import { change } from 'redux-form/immutable'
 import { FORM_NAME } from '../constants'
 import ACTIONS from '../actions'
+import { paymentsSelector } from '../selectors'
 
-const sortByPostedDateAsc = R.sort(
-  (payment, nextPayment) => payment.postedDate < nextPayment.postedDate
-)
-
-export default action$ =>
+export default (action$, store) =>
   action$
     .ofType(ACTIONS.modifyStoryPaymentsList)
-    .mergeMap(({ payload }) => [
-      change(FORM_NAME, 'payments', fromJS(sortByPostedDateAsc(payload))),
-    ])
+    .mergeMap(({ payload: ids }) => {
+      const state = store.getState()
+      const payments = paymentsSelector(state)
+      console.log('payments', payments, ids)
+      const newPayments = payments.filter(x => ids.includes(x.id))
+
+      return [change(FORM_NAME, 'payments', fromJS(newPayments))]
+    })

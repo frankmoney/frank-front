@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce'
 import throttle from 'lodash/throttle'
 import { injectStyles } from 'utils/styles'
 import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
+import { DRAWER_INSET } from './styles'
 
 const styles = {
   root: {
@@ -18,12 +19,16 @@ const styles = {
   overflowBottom: {
     borderBottom: '1px solid rgba(0,0,0,0.07)',
   },
+  inset: {
+    padding: [0, DRAWER_INSET],
+  },
 }
 
 class DrawerContent extends React.Component {
   static defaultProps = {
     disableOverflowTop: false,
     disableOverflowBottom: false,
+    inset: false,
   }
 
   state = {
@@ -88,6 +93,7 @@ class DrawerContent extends React.Component {
       classes,
       className,
       theme,
+      inset,
       disableOverflowTop,
       disableOverflowBottom,
       ...otherProps
@@ -101,6 +107,7 @@ class DrawerContent extends React.Component {
         className={cx(
           classes.root,
           {
+            [classes.inset]: inset,
             [classes.overflowTop]:
               !disableOverflowTop && overflow && overflow.includes('top'),
             [classes.overflowBottom]:

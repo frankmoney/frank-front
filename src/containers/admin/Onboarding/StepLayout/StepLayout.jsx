@@ -14,6 +14,7 @@ const StepLayout = ({
   loadingNext,
   loadingBack,
   nextLabel,
+  nextButtonProps,
   backLabel,
   onNext,
   onBack,
@@ -40,6 +41,7 @@ const StepLayout = ({
         <Button
           label={nextLabel}
           color="green"
+          {...nextButtonProps}
           disabled={!canGoNext}
           loading={loadingNext}
           onClick={onNext}
@@ -51,6 +53,7 @@ const StepLayout = ({
 
 StepLayout.defaultProps = {
   nextLabel: 'Continue',
+  nextButtonProps: { width: 160 },
   backLabel: 'Back',
   centered: false,
 }

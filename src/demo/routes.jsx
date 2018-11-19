@@ -88,7 +88,7 @@ export default [
     exact: true,
   },
   {
-    component: withDemoLayout(WidgetDemo),
+    component: WidgetDemo,
     path: ROUTES.demo.widgets,
     exact: true,
   },

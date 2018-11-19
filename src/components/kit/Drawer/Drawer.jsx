@@ -27,6 +27,7 @@ type Props = {|
   footerButtonLabel?: string,
   footerButtonProps?: ButtonProps,
   footerText?: string,
+  footerTextSmaller?: boolean,
   children?: React.ChildrenArray<React.Element<any>> | React.Element<any>,
 |}
 
@@ -54,6 +55,7 @@ const Drawer = ({
   noCloseButton,
   footerButtonLabel,
   footerButtonProps,
+  footerTextSmaller,
   footerText,
   children,
 }: Props) => {
@@ -68,7 +70,7 @@ const Drawer = ({
   let footer
   if (footerButtonLabel || footerButtonProps || footerText) {
     footer = (
-      <DrawerFooter text={footerText}>
+      <DrawerFooter text={footerText} textSmaller={footerTextSmaller}>
         <Button
           color="green"
           label={footerButtonLabel}

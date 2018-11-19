@@ -16,12 +16,16 @@ export default (action$, store, { graphql }) =>
       } = paymentsFiltersSelector(state)
 
       const result = await Promise.all([
-        graphql(QUERIES.getPayments, { accountPid, postedOnMin, postedOnMax }),
-        graphql(QUERIES.countPayments, {
+        graphql(QUERIES.getPayments, {
           accountPid,
           postedOnMin,
           postedOnMax,
           take: PAGE_SIZE,
+        }),
+        graphql(QUERIES.countPayments, {
+          accountPid,
+          postedOnMin,
+          postedOnMax,
         }),
       ])
 
