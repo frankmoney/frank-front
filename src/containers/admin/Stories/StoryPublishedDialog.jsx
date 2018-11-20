@@ -1,12 +1,10 @@
 // @flow strict-local
 import React from 'react'
 import { compose } from 'recompose'
-import { injectStyles } from '@frankmoney/ui'
-import { IconPlainButton } from 'components/kit/Button'
-import CloseIcon from 'components/kit/Drawer/CloseIcon.svg'
 import Dialog from 'components/kit/Dialog'
 import PublicLinkButton from 'components/PublicLinkButton'
 import reconnect from 'utils/reconnect'
+import { injectStyles } from 'utils/styles'
 import ShareButtons from './ShareButtons'
 import { isShareDialogOpenSelector, shareDialogUrlSelector } from './selectors'
 import * as ACTIONS from './actions'
@@ -15,16 +13,9 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    position: 'relative',
   },
   title: {
-    ...theme.fontSemibold(40, 30),
-    marginLeft: 0,
     marginBottom: 54,
-  },
-  closeButton: {
-    position: 'absolute',
-    right: 39,
   },
   subtitle: {
     color: '#A6A9B7',
@@ -45,15 +36,10 @@ const styles = theme => ({
 })
 
 const StoryPublishedDialog = ({ classes, open, url, onClose }) => (
-  <Dialog open={open} onClose={onClose} className={classes.root}>
+  <Dialog closeButton open={open} onClose={onClose} className={classes.root}>
     <Dialog.Title className={classes.title}>
       The story was published
     </Dialog.Title>
-    <IconPlainButton
-      icon={<CloseIcon />}
-      onClick={onClose}
-      className={classes.closeButton}
-    />
     <div className={classes.subtitle}>Public page</div>
     <PublicLinkButton
       className={classes.link}

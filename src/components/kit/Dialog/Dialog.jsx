@@ -1,5 +1,8 @@
 // @flow strict-local
 import * as React from 'react'
+import cx from 'classnames'
+import { IconPlainButton } from 'components/kit/Button'
+import CloseIcon from 'components/kit/Drawer/CloseIcon.svg'
 import Modal, { type ModalProps } from 'components/kit/Modal'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import DialogPaper from './DialogPaper'
@@ -11,8 +14,10 @@ export type InheritedModalProps = {|
 
 type Props = {|
   ...InjectStylesProps,
-  ...InjectStylesProps,
   ...InheritedModalProps,
+  //
+  children?: React.Node,
+  closeButton: boolean,
   modalProps: $Exact<$Diff<ModalProps, InheritedModalProps>>,
 |}
 
@@ -22,14 +27,24 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  paper: {
+    position: 'relative',
+  },
+  closeButton: {
+    position: 'absolute',
+    right: 39,
+    top: 45,
+  },
 }
 
 const Dialog = ({
   classes,
+  className,
+  children,
+  closeButton,
   open,
   onClose,
   modalProps,
-  ...otherProps
 }: Props) => (
   <Modal
     fallInsideFocus
@@ -38,8 +53,21 @@ const Dialog = ({
     onClose={onClose}
     {...modalProps}
   >
-    <DialogPaper {...otherProps} />
+    <DialogPaper className={cx({ [classes.paper]: closeButton }, className)}>
+      {closeButton && (
+        <IconPlainButton
+          icon={<CloseIcon />}
+          onClick={onClose}
+          className={classes.closeButton}
+        />
+      )}
+      {children}
+    </DialogPaper>
   </Modal>
 )
+
+Dialog.defaultProps = {
+  closeButton: false,
+}
 
 export default injectStyles(styles)(Dialog)
