@@ -1,5 +1,4 @@
-import * as R from 'ramda'
-import { compose, mapProps, withStateHandlers, withHandlers } from 'recompose'
+import { compose, mapProps, withHandlers } from 'recompose'
 import { injectStyles } from '@frankmoney/ui'
 import { Table } from '@frankmoney/components'
 import { PaymentsTableRow } from 'components/PaymentsTable'
@@ -8,7 +7,7 @@ import reconnect from 'utils/reconnect'
 import {
   dataSourceSelector,
   rowDataSelector,
-  categoriesSelector,
+  paymentCardCategoriesSelector,
   searchingSuggestionsSelector,
   suggestedPeersSelector,
 } from '../selectors'
@@ -17,7 +16,7 @@ import * as ACTIONS from '../actions'
 const ConnectedPaymentsTableDetailRow = compose(
   reconnect(
     {
-      categories: categoriesSelector,
+      categories: paymentCardCategoriesSelector,
       searchingSuggestions: searchingSuggestionsSelector,
       suggestedPeers: suggestedPeersSelector,
     },
@@ -27,10 +26,11 @@ const ConnectedPaymentsTableDetailRow = compose(
       paymentPublish: ACTIONS.paymentPublish,
     }
   ),
-  withStateHandlers(({ categories, peers, data }) => ({
+  mapProps(({ categories, peers, data, ...otherProps }) => ({
     categories,
     peers,
     ...data,
+    ...otherProps,
   })),
   withHandlers({
     onPeerSuggestionSearch: ({ searchSuggestions }) => search => {

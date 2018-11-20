@@ -35,12 +35,15 @@ export default theme => ({
   },
   recipient: {
     position: 'relative',
-    width: 365,
+    width: '50%',
     fontWeight: 500,
     marginRight: 40,
   },
   category: {
     fontWeight: 500,
+    maxWidth: '50%',
+    flexGrow: 0,
+    flexShrink: 1,
   },
   description: {
     position: 'relative',

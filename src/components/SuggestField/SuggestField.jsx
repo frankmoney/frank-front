@@ -216,7 +216,7 @@ class SuggestField extends React.Component {
         renderSuggestion={this.renderSuggestion}
         inputProps={{
           classes,
-          className: placeholder,
+          placeholder,
           larger,
           error,
           hint,

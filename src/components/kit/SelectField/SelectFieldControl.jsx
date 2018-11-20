@@ -12,7 +12,6 @@ const styles = {
     alignItems: 'center',
     cursor: 'pointer',
     outline: 'none',
-    minWidth: 150,
   },
   value: {
     overflow: 'hidden',

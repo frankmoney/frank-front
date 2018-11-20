@@ -139,3 +139,9 @@ export const DEFAULT_CATEGORIES = [
     color: '#0a70dd',
   },
 ]
+
+export const UNCATEGORIZED_CATEGORY = {
+  id: 'UNCATEGORIZED_CATEGORY_ID',
+  name: 'Uncategorized',
+  color: UNCATEGORIZED_COLOR,
+}

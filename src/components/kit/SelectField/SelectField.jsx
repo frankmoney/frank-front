@@ -14,6 +14,8 @@ const renderFieldControl = ({
   active,
   getInputProps,
   disableArrowHover,
+  style,
+  className,
   // FIELD PROPS
   placeholder,
   larger,
@@ -29,6 +31,7 @@ const renderFieldControl = ({
   noUnderline,
 }) => (
   <Field
+    className={className}
     placeholder={placeholder}
     larger={larger}
     error={error}
@@ -40,7 +43,7 @@ const renderFieldControl = ({
     loading={loading}
     loadingText={loadingText}
     value={valueFormatted}
-    {...getAnchorProps()}
+    {...getAnchorProps({ style })}
     focus={active}
     noUnderline={noUnderline}
   >
