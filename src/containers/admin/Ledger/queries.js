@@ -1,9 +1,47 @@
 import * as R from 'ramda'
 import { convertGraphqlPieData } from 'data/models/pieData'
 
+const peer = `
+  id: pid
+  name
+`
+
+const category = `
+  id: pid
+  name
+  color
+`
+
+const fieldUpdater = `
+  name
+  lastName
+  firstName
+`
+
+const payments = `
+  id: pid
+  postedOn
+  amount
+  peer {
+    ${peer}
+  }
+  peerUpdater {
+    ${fieldUpdater}
+  }
+  description
+  descriptionUpdater {
+    ${fieldUpdater}
+  }
+  category {
+    ${category}
+  }
+  categoryUpdater {
+    ${fieldUpdater}
+  }
+`
+
 export default {
   buildQuery: ({
-    allPeers: includeAllPeers,
     totalCount: includeTotal,
     payments: includePayments,
     pieChart: includePie,
@@ -33,15 +71,8 @@ export default {
             color
           }`) ||
           ''}
-        
-        ${(includeAllPeers &&
-          `peers(sortBy: name_ASC, donors: true, recipients: true) {
-            id: pid
-            name
-          }`) ||
-          ''}
-          
-        ${categoryScoped ? 'category(pid: $categoryId) {' : ''}
+                 
+        ${categoryScoped ? 'category(id: $categoryId) {' : ''}
         
         ${(includePayments &&
           `payments(
@@ -55,20 +86,7 @@ export default {
             amountMax: $amountMax
             verified: $verified
           ) {
-            id: pid
-            postedOn
-            amount
-            peerName
-            peer {
-              id: pid
-              name
-            }
-            description
-            category {
-              id: pid
-              name
-              color
-            }
+            ${payments}
           }`) ||
           ''}
           
@@ -118,7 +136,6 @@ export default {
       account: {
         categories,
         category,
-        peers,
         payments,
         countPayments,
         ledgerBarChart,
@@ -126,7 +143,6 @@ export default {
       },
     }) => ({
       categories: includeCategories ? categories : null,
-      allPeers: peers,
       payments: categoryScoped ? category.payments : payments,
       totalCount: categoryScoped ? category.countPayments : countPayments,
       barChart: includeBars
@@ -161,6 +177,89 @@ export default {
           verified: $verified
           search: $search
         )
+      }
+    }
+    `,
+    R.path(['account', 'countPayments']),
+  ],
+
+  getSuggestions: ({
+    peers: searchPeers,
+    descriptions: searchDescriptions,
+  }) => [
+    `
+    query(
+      $accountId: ID!
+      $search: String
+    ) {
+      account(pid: $accountId) {
+        ${(searchPeers &&
+          `
+          peers(
+            sortBy: name_ASC
+            search: $search
+            donors: true
+            recipients: true
+          ) {
+            id: pid
+            name
+            count: countPayments
+          }
+          `) ||
+          ''}
+        ${(searchDescriptions &&
+          `
+          paymentsDescriptions(
+            search: $search
+          ) {
+            id: pid
+            text
+            count: countPayments
+          }
+          `) ||
+          ''}
+      }
+    }
+    `,
+    ({ account: { peers, descriptions } }) => ({
+      peers,
+      descriptions,
+    }),
+  ],
+  paymentUpdate: [
+    `
+    mutation(
+      $accountId: ID!
+      $paymentId: ID!
+      $peerId: ID
+      $peerName: String
+      $categoryId: ID
+      $description: String
+    ) {
+      paymentUpdate(
+        accountPid: $accountId
+        paymentPid: $paymentId
+        peerPid: $peerId
+        peerName: $peerName
+        categoryPid: $categoryId
+        description: $description
+      ) {
+        peer {
+          ${peer}
+        }
+        peerUpdater{
+          ${fieldUpdater}
+        }
+        category {
+          ${category}
+        }
+        categoryUpdater{
+          ${fieldUpdater}
+        }
+        description
+        descriptionUpdater {
+          ${fieldUpdater}
+        }
       }
     }
     `,

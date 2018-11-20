@@ -3,7 +3,7 @@ import { compose, withProps } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
 import Breadcrumbs from 'components/Breadcrumbs'
-import PaymentCard from 'components/PaymentCard'
+import PaymentCard from 'components/admin/PaymentCard'
 
 const styles = {
   root: {},

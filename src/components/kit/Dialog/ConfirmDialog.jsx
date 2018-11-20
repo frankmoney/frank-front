@@ -1,8 +1,8 @@
 // @flow strict-local
 import * as React from 'react'
-import Button, { type ButtonProps } from 'components/kit/Button'
+import Button from 'components/kit/Button'
 import chainCallbacks from 'utils/dom/chainCallbacks'
-import Dialog from './Dialog'
+import Dialog, { type InheritedModalProps } from './Dialog'
 import DialogTitle from './DialogTitle'
 import DialogMessage from './DialogMessage'
 import DialogButtons from './DialogButtons'
@@ -15,16 +15,16 @@ type OmittedProps = {|
 
 type Props = {|
   ...OmittedProps,
+  ...InheritedModalProps,
   //
-  cancelButtonProps?: ButtonProps,
+  cancelButtonProps?: React.ElementConfig<typeof Button>,
   cancelLabel: string,
   children?: React.Node,
-  confirmButtonProps?: ButtonProps,
+  confirmButtonProps?: React.ElementConfig<typeof Button>,
   confirmLabel: string,
   danger: boolean,
   message?: string,
   onCancel?: EmptyCb,
-  onClose?: EmptyCb,
   onConfirm?: EmptyCb,
   title?: string,
 |}

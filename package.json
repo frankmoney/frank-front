@@ -142,6 +142,7 @@
     "ramda": "^0.25.0",
     "re-reselect": "^0.6.3",
     "react": "16.4.0",
+    "react-autosuggest": "^9.4.2",
     "react-dom": "16.4.0",
     "react-event-listener": "^0.6.0",
     "react-helmet": "^5.1.3",

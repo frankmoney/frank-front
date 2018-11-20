@@ -1,11 +1,11 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
+import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
-import PageLoader from 'components/PageLoader'
 import reconnect from 'utils/reconnect'
-import { injectStyles } from 'utils/styles'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import ConnectedChartCard from './ConnectedChartCard'
 import LedgerPager from './LedgerPager'
 import LedgerTable from './LedgerTable'
@@ -24,7 +24,19 @@ import {
 } from './selectors'
 import * as ACTIONS from './actions'
 
-class Ledger extends React.Component {
+type CurrentTab = 'ledger' | 'stories'
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  currentTab: CurrentTab,
+|}
+
+type State = {|
+  offset: number,
+|}
+
+class Ledger extends React.Component<Props, State> {
   state = {
     offset: 0,
   }
@@ -106,6 +118,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => props.loading, renderComponent(PageLoader)),
+  branch(props => props.loading, renderComponent(AreaSpinner)),
   injectStyles(styles, { grid: true })
 )(Ledger)

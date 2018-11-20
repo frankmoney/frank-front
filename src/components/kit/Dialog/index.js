@@ -9,6 +9,8 @@ import DialogField from './DialogField'
 import DialogButtons from './DialogButtons'
 import DialogState from './DialogState'
 
+export type { InheritedModalProps } from './Dialog'
+
 type DialogComponents = {|
   (): (props: Object) => React.Node, // flowlint-line unclear-type:off
   Title: StyledComponent,

@@ -29,6 +29,10 @@ class Field extends React.Component {
     return this.props.onClick && this.props.onClick(...args)
   }
 
+  handleKeyDown = (...args) => {
+    this.props.onKeyDown && this.props.onKeyDown(...args)
+  }
+
   handleMouseDown = (...args) => {
     this.setState({ fieldFocused: true }, () => {
       if (this.state.fieldFocused || this.state.controlFocused) {
@@ -53,12 +57,14 @@ class Field extends React.Component {
     return this.props.onMouseUp && this.props.onMouseUp(...args)
   }
 
-  handleFocus = () => {
+  handleFocus = (...args) => {
     this.setState({ controlFocused: true })
+    return this.props.onFocus && this.props.onFocus(...args)
   }
 
-  handleBlur = () => {
+  handleBlur = (...args) => {
     this.setState({ controlFocused: false })
+    return this.props.onBlur && this.props.onBlur(...args)
   }
 
   render() {
@@ -105,6 +111,7 @@ class Field extends React.Component {
             focus,
             onFocus: this.handleFocus,
             onBlur: this.handleBlur,
+            onKeyDown: this.handleKeyDown,
           })}
       </div>
     )

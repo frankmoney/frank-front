@@ -2,10 +2,10 @@
 import * as React from 'react'
 import { injectStyles as originInjectStyles } from '@frankmoney/ui'
 
-type Styles = Object // flowlint-line unclear-type:off
+export type Styles = Object // flowlint-line unclear-type:off
 
 export type Theme = Object // flowlint-line unclear-type:off
-type StyleCreator = (theme: Theme) => Styles
+export type StyleCreator = (theme: Theme) => Styles
 
 type InjectOptions = {|
   fixedGrid?: boolean,

@@ -1,11 +1,11 @@
 // @flow strict-local
-import React from 'react'
+import * as React from 'react'
 import CurrencyProvider from 'components/CurrencyProvider'
 import { PaymentListRow, ROW_HEIGHT } from 'components/PaymentListRow'
 import PaymentListRowMore from 'components/PaymentListRowMore'
 import List from './ListVirtualized'
 
-type Id = String
+type Id = string
 type Payment = { id: String }
 
 type Props = {
@@ -17,8 +17,6 @@ type Props = {
   moreButtonLabel: string,
   onRequestMore?: () => void,
   onSelectionChange: (Array<Id>) => void,
-  RowComponent: React.ComponentType,
-  RowMoreComponent: React.ComponentType,
 }
 
 // Нам необходим контекст чтобы передать изменение некоторых пропов внутрь айтем компонент листа,
@@ -35,7 +33,7 @@ class PaymentsList extends React.Component<Props> {
     moreButtonLabel: 'Show more payments',
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     // Есть проблема что лист не реагирует на изменение пропов айтемов, и нужно
     // либо конектить каждый из них к редаксу напрямую через локальный селектор по id
     // либо просто тупо говорить листу перерисоваться при каждом чеке

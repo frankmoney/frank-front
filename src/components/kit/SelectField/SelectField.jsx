@@ -25,6 +25,7 @@ const renderFieldControl = ({
   disabled,
   loading,
   loadingText,
+  noUnderline,
 }) => (
   <Field
     placeholder={placeholder}
@@ -40,12 +41,9 @@ const renderFieldControl = ({
     value={valueFormatted}
     {...getAnchorProps()}
     focus={active}
+    noUnderline={noUnderline}
   >
-    <SelectFieldControl
-      stretch
-      active={active}
-      {...getInputProps()}
-    />
+    <SelectFieldControl stretch active={active} {...getInputProps()} />
   </Field>
 )
 

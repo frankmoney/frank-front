@@ -4,7 +4,7 @@ import Modal, { type ModalProps } from 'components/kit/Modal'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import DialogPaper from './DialogPaper'
 
-type InheritedModalProps = {|
+export type InheritedModalProps = {|
   open?: boolean,
   onClose?: () => void,
 |}

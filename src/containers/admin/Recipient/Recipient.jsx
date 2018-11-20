@@ -11,9 +11,9 @@ import {
   BreadcrumbsItem,
   BreadcrumbsItemLink,
 } from '@frankmoney/components'
-import Spinner from 'components/kit/Spinner'
+import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
-import PageLoader from 'components/PageLoader'
+import Spinner from 'components/kit/Spinner'
 import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -108,6 +108,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => props.loading, renderComponent(PageLoader)),
+  branch(props => props.loading, renderComponent(AreaSpinner)),
   injectStyles(styles, { grid: true })
 )(Recipient)
