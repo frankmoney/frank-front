@@ -9,8 +9,8 @@ export default (action$, store, { graphql }) =>
       const state = store.getState()
       const currentAccountId = currentAccountIdSelector(state)
 
-      const peerId = peer.id
-      const peerName = peerId ? undefined : peer.name
+      const peerId = peer && peer.id
+      const peerName = peer && peer.name
 
       return graphql(QUERIES.paymentUpdate, {
         accountId: currentAccountId,

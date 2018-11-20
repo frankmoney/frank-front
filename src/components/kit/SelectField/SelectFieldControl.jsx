@@ -29,13 +29,14 @@ const styles = {
     flexGrow: 1,
   },
   active: {
-    '& $arrow': {
+    '&:not($disableArrowHover) $arrow': {
       color: '#4C51F3',
     },
   },
   stretch: {
     width: '100%',
   },
+  disableArrowHover: {},
 }
 
 class SelectFieldControl extends React.Component {
@@ -48,6 +49,7 @@ class SelectFieldControl extends React.Component {
       controlRef,
       active,
       stretch,
+      disableArrowHover,
       placeholder,
       ...otherProps
     } = this.props
@@ -62,6 +64,7 @@ class SelectFieldControl extends React.Component {
           {
             [classes.stretch]: stretch,
             [classes.active]: active,
+            [classes.disableArrowHover]: disableArrowHover,
           },
           className
         )}

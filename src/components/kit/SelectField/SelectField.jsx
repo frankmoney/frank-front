@@ -13,6 +13,7 @@ const renderFieldControl = ({
   getAnchorProps,
   active,
   getInputProps,
+  disableArrowHover,
   // FIELD PROPS
   placeholder,
   larger,
@@ -43,7 +44,12 @@ const renderFieldControl = ({
     focus={active}
     noUnderline={noUnderline}
   >
-    <SelectFieldControl stretch active={active} {...getInputProps()} />
+    <SelectFieldControl
+      stretch
+      active={active}
+      disableArrowHover={disableArrowHover}
+      {...getInputProps()}
+    />
   </Field>
 )
 

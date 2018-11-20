@@ -16,6 +16,8 @@ const styles = {
   },
 }
 
+const findById = (list, id) => R.find(R.propEq('id', id), list)
+
 const CategorySelect = ({
   theme,
   classes,
@@ -25,10 +27,12 @@ const CategorySelect = ({
   menuProps,
   ...otherProps
 }) => {
-  const formatValue = id => {
-    const category = R.find(R.propEq('id', id), categories)
-    return <CategoryLabel nameClassName={classes.categoryName} {...category} />
-  }
+  const formatValue = id => (
+    <CategoryLabel
+      nameClassName={classes.categoryName}
+      {...findById(categories, id)}
+    />
+  )
 
   return (
     <SelectField
@@ -36,23 +40,22 @@ const CategorySelect = ({
       placeholder="Choose category"
       value={value}
       formatValue={formatValue}
+      disableArrowHover
       menuProps={{
         maxVisibleItems: 5,
         ...menuProps,
       }}
       {...otherProps}
     >
-      <>
-        <CategoryMenuItem
-          key={'-'}
-          value={'-'}
-          color={UNCATEGORIZED_COLOR}
-          label="Uncategorized"
-        />
-        {categories.map(({ id, name, color }) => (
-          <CategoryMenuItem key={id} value={id} color={color} label={name} />
-        ))}
-      </>
+      <CategoryMenuItem
+        key={'-'}
+        value={'-'}
+        color={UNCATEGORIZED_COLOR}
+        label="Uncategorized"
+      />
+      {categories.map(({ id, name, color }) => (
+        <CategoryMenuItem key={id} value={id} color={color} label={name} />
+      ))}
     </SelectField>
   )
 }

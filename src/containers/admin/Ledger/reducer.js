@@ -34,15 +34,7 @@ export default handleActions(
       state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
     [ACTIONS.load.success]: (
       state,
-      {
-        payload: {
-          payments,
-          categories,
-          totalCount,
-          pieChart,
-          barChart,
-        },
-      }
+      { payload: { payments, categories, totalCount, pieChart, barChart } }
     ) =>
       state.merge({
         loading: false,
