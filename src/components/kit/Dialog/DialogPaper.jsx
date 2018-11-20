@@ -6,9 +6,10 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
   root: {
-    width: 650,
-    padding: 40,
     outline: 'none',
+    padding: 40,
+    position: 'relative',
+    width: 650,
   },
 }
 

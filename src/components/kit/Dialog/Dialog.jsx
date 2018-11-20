@@ -1,6 +1,5 @@
 // @flow strict-local
 import * as React from 'react'
-import cx from 'classnames'
 import { IconPlainButton } from 'components/kit/Button'
 import CloseIcon from 'components/kit/Drawer/CloseIcon.svg'
 import Modal, { type ModalProps } from 'components/kit/Modal'
@@ -27,9 +26,6 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  paper: {
-    position: 'relative',
-  },
   closeButton: {
     position: 'absolute',
     right: 39,
@@ -54,10 +50,7 @@ const Dialog = ({
     onClose={onClose}
     {...modalProps}
   >
-    <DialogPaper
-      className={cx({ [classes.paper]: closeButton }, className)}
-      {...paperProps}
-    >
+    <DialogPaper className={className} {...paperProps}>
       {closeButton && (
         <IconPlainButton
           icon={<CloseIcon />}
