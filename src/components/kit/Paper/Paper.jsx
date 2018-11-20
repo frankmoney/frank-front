@@ -1,4 +1,4 @@
-// @flow strict-local
+// @flow strict
 import * as React from 'react'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -47,18 +47,8 @@ const styles = {
   },
 }
 
-const Paper = ({
-  children,
-  classes,
-  type,
-  theme,
-  className,
-  disableOutline,
-  ...otherProps
-}: Props) => (
-  <div className={cx(classes.root, classes[type], className)} {...otherProps}>
-    {children}
-  </div>
+const Paper = ({ children, classes, type, className }: Props) => (
+  <div className={cx(classes.root, classes[type], className)}>{children}</div>
 )
 
 Paper.defaultProps = {

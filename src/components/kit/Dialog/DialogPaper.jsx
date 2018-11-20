@@ -1,8 +1,8 @@
 // @flow strict-local
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
-import Paper from 'components/kit/Paper'
-import { injectStyles } from 'utils/styles'
+import Paper, { type PaperProps } from 'components/kit/Paper'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
   root: {
@@ -12,13 +12,27 @@ const styles = {
   },
 }
 
-const DialogPaper = ({ classes, className, theme, type, ...otherProps }) => (
+type Props = {|
+  ...InjectStylesProps,
+  ...PaperProps,
+  //
+  children?: React.Node,
+|}
+
+const DialogPaper = ({
+  children,
+  classes,
+  className,
+  disableOutline,
+}: Props) => (
   <Paper
     className={cx(classes.root, className)}
-    type="modal"
+    disableOutline={disableOutline}
     role="dialog"
-    {...otherProps}
-  />
+    type="modal"
+  >
+    {children}
+  </Paper>
 )
 
 export default injectStyles(styles)(DialogPaper)
