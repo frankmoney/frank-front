@@ -1,4 +1,4 @@
-// @flow strict-local
+// @flow strict
 import * as React from 'react'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -50,9 +50,9 @@ const styles = {
 const Paper = ({
   children,
   classes,
-  type,
-  theme,
   className,
+  type,
+  // omit
   disableOutline,
   ...otherProps
 }: Props) => (

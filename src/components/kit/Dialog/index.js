@@ -1,6 +1,5 @@
 // @flow strict-local
-import * as React from 'react'
-import type { StyledComponent } from 'utils/styles'
+import type { ReactComponent } from 'flow/react'
 import Dialog from './Dialog'
 import DialogTitle from './DialogTitle'
 import DialogPaper from './DialogPaper'
@@ -11,17 +10,17 @@ import DialogState from './DialogState'
 
 export type { InheritedModalProps } from './Dialog'
 
-type DialogComponents = {|
-  (): (props: Object) => React.Node, // flowlint-line unclear-type:off
-  Title: StyledComponent,
-  Paper: StyledComponent,
-  Message: StyledComponent,
-  Buttons: StyledComponent,
-  State: StyledComponent,
-  Field: StyledComponent,
+type DialogComponents = ReactComponent<typeof Dialog> & {|
+  Buttons: ReactComponent<typeof DialogButtons>,
+  Field: ReactComponent<typeof DialogField>,
+  Message: ReactComponent<typeof DialogMessage>,
+  Paper: ReactComponent<typeof DialogPaper>,
+  State: ReactComponent<typeof DialogState>,
+  Title: ReactComponent<typeof DialogTitle>,
 |}
 
-const DotNotation: any = Dialog // flowlint-line unclear-type:off
+// flowlint-next-line unclear-type:off
+const DotNotation: any = Dialog
 
 DotNotation.Title = DialogTitle
 DotNotation.Paper = DialogPaper

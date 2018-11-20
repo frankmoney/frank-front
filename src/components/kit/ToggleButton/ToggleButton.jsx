@@ -3,13 +3,13 @@ import * as React from 'react'
 import Button, { IconButton } from 'components/kit/Button'
 import SwitchBase from 'components/kit/SwitchBase'
 import forwardRef from 'utils/forwardRef'
+import type { ReactComponent } from 'flow/react'
 
 type Color = string
 
-type ButtonComponentType = React.ElementConfig<typeof Button>
+type ButtonComponentType = ReactComponent<typeof Button>
 
-type ToggleButtonExport = {|
-  (): ButtonComponentType,
+type ToggleButtonExport = ButtonComponentType & {|
   Icon: ButtonComponentType,
 |}
 
