@@ -5,7 +5,7 @@ build
 [options]
 include_warnings=true
 module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
-module.name_mapper='.*\.jss$' -> '<PROJECT_ROOT>/src/utils/jss-stub.js'
+module.name_mapper='.*\.jss$' -> '<PROJECT_ROOT>/src/flow/jss-stub.js'
 module.file_ext=.js
 module.file_ext=.jsx
 esproposal.optional_chaining=enable
