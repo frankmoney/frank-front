@@ -45,6 +45,7 @@ const Dialog = ({
   open,
   onClose,
   modalProps,
+  ...paperProps
 }: Props) => (
   <Modal
     fallInsideFocus
@@ -53,7 +54,10 @@ const Dialog = ({
     onClose={onClose}
     {...modalProps}
   >
-    <DialogPaper className={cx({ [classes.paper]: closeButton }, className)}>
+    <DialogPaper
+      className={cx({ [classes.paper]: closeButton }, className)}
+      {...paperProps}
+    >
       {closeButton && (
         <IconPlainButton
           icon={<CloseIcon />}

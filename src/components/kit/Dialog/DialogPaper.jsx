@@ -24,12 +24,16 @@ const DialogPaper = ({
   classes,
   className,
   disableOutline,
+  // omit
+  type,
+  ...otherProps
 }: Props) => (
   <Paper
     className={cx(classes.root, className)}
     disableOutline={disableOutline}
     role="dialog"
     type="modal"
+    {...otherProps}
   >
     {children}
   </Paper>

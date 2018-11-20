@@ -47,8 +47,18 @@ const styles = {
   },
 }
 
-const Paper = ({ children, classes, type, className }: Props) => (
-  <div className={cx(classes.root, classes[type], className)}>{children}</div>
+const Paper = ({
+  children,
+  classes,
+  className,
+  type,
+  // omit
+  disableOutline,
+  ...otherProps
+}: Props) => (
+  <div className={cx(classes.root, classes[type], className)} {...otherProps}>
+    {children}
+  </div>
 )
 
 Paper.defaultProps = {
