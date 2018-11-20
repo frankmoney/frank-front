@@ -41,6 +41,8 @@ const CategorySelect = ({
       value={value}
       formatValue={formatValue}
       disableArrowHover
+      disableStretchDropdown
+      distance={-4}
       menuProps={{
         maxVisibleItems: 5,
         ...menuProps,

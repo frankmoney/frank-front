@@ -180,6 +180,7 @@ class Select extends React.Component<Props, State> {
       alignByArrow,
       children,
       multiple,
+      distance,
       dropdownWidth,
       stretchDropdown,
       formatValue,
@@ -191,6 +192,7 @@ class Select extends React.Component<Props, State> {
 
     const hasArrow = !!arrowAt
     const MenuComponent = hasArrow ? ArrowMenu : Menu
+    const defaultDistance = hasArrow ? 15 : 8
 
     return (
       <PopupBase
@@ -199,7 +201,7 @@ class Select extends React.Component<Props, State> {
         place={direction}
         align={align}
         alignByArrow={alignByArrow}
-        distance={hasArrow ? 15 : 8}
+        distance={distance || defaultDistance}
       >
         {popupState => {
           const {

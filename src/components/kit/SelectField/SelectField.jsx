@@ -53,9 +53,21 @@ const renderFieldControl = ({
   </Field>
 )
 
-const SelectField = withProps({
-  renderControl: renderFieldControl,
-  stretchDropdown: true,
-})(Select)
+const SelectField = ({
+  disableStretchDropdown,
+  renderControl, // ignore
+  stretchDropdown, // ignore
+  ...otherProps
+}) => (
+  <Select
+    renderControl={renderFieldControl}
+    stretchDropdown={!disableStretchDropdown}
+    {...otherProps}
+  />
+)
+
+SelectField.defaultProps = {
+  disableStretchDropdown: false,
+}
 
 export default SelectField
