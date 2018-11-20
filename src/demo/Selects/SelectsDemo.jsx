@@ -10,7 +10,11 @@ import ToggleButton from 'components/kit/ToggleButton'
 import CategoryTypeSelect from 'components/CategoryTypeSelect'
 import CategorySelect from 'components/CategorySelect'
 import Demo, { Row } from 'demo/Demo'
-import { DEFAULT_CATEGORIES, UNCATEGORIZED_CATEGORY } from 'const'
+import {
+  CATEGORY_COLORS,
+  DEFAULT_CATEGORIES,
+  UNCATEGORIZED_CATEGORY,
+} from 'const'
 // eslint-disable-next-line no-alert
 const fakeAction = R.memoizeWith(R.identity, msg => () => alert(msg))
 
@@ -36,6 +40,11 @@ const commaSeparatedValue = values =>
 
 const CATEGORIES = DEFAULT_CATEGORIES.map((cat, idx) => ({ id: idx, ...cat }))
 const CATEGORIES_UNCATEGORIZED = [UNCATEGORIZED_CATEGORY, ...CATEGORIES]
+const COLORS = Object.entries(CATEGORY_COLORS).map(([color, name], idx) => ({
+  id: idx,
+  color,
+  name,
+}))
 
 const SelectsDemo = () => (
   <Demo>
@@ -93,6 +102,10 @@ const SelectsDemo = () => (
         style={{ maxWidth: 180 }}
         dropdownWidth={150}
       />
+    </Row>
+    <h2>Color select</h2>
+    <Row centered>
+      <CategorySelect categories={COLORS} defaultValue={2} />
     </Row>
     <h1>Category type select</h1>
     <Row centered>
