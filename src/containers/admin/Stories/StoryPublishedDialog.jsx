@@ -9,31 +9,22 @@ import ShareButtons from './ShareButtons'
 import { isShareDialogOpenSelector, shareDialogUrlSelector } from './selectors'
 import * as ACTIONS from './actions'
 
-const styles = theme => ({
+const styles = {
   root: {
     display: 'flex',
     flexDirection: 'column',
   },
   title: {
-    marginBottom: 54,
+    marginBottom: 49,
   },
   subtitle: {
     color: '#A6A9B7',
     marginBottom: 19,
   },
   link: {
-    fontSize: 18,
-    margin: [-4, 0, 32],
+    margin: [-6, 0, 30],
   },
-  linkIcon: {
-    width: 22,
-    height: 22,
-    marginRight: 9,
-  },
-  linkText: {
-    ...theme.fontMedium(18),
-  },
-})
+}
 
 const StoryPublishedDialog = ({ classes, open, url, onClose }) => (
   <Dialog closeButton open={open} onClose={onClose} className={classes.root}>
@@ -41,13 +32,7 @@ const StoryPublishedDialog = ({ classes, open, url, onClose }) => (
       The story was published
     </Dialog.Title>
     <div className={classes.subtitle}>Public page</div>
-    <PublicLinkButton
-      className={classes.link}
-      iconClassName={classes.linkIcon}
-      labelClassName={classes.linkText}
-      to={url}
-      label={url}
-    />
+    <PublicLinkButton className={classes.link} href={url} label={url} />
     <div className={classes.subtitle}>Share story</div>
     <ShareButtons url={url} />
   </Dialog>
