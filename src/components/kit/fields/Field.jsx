@@ -200,7 +200,7 @@ class Field extends React.Component<Props, State> {
             ref: this.handleControlRef,
             onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),
             onBlur: chainCallbacks(this.handleBlur, control.props.onBlur),
-            onKeyDown,
+            onKeyDown: chainCallbacks(onKeyDown, control.props.onKeyDown),
             onChange: chainCallbacks(this.handleChange, control.props.onChange),
             disabled: disabled || loading,
           })}
