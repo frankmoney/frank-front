@@ -4,7 +4,7 @@ import { injectStyles } from '@frankmoney/ui'
 import { ArrowDropDown } from 'material-ui-icons'
 import Placeholder from 'components/kit/fields/Placeholder'
 
-const styles = theme => ({
+const styles = {
   root: {
     color: '#20284A',
     display: 'flex',
@@ -15,8 +15,6 @@ const styles = theme => ({
     minWidth: 150,
   },
   value: {
-    minHeight: 26,
-    ...theme.fontRegular(18, 26),
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
@@ -38,7 +36,7 @@ const styles = theme => ({
   stretch: {
     width: '100%',
   },
-})
+}
 
 class SelectFieldControl extends React.Component {
   render() {

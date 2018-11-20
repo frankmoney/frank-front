@@ -238,11 +238,11 @@ class Select extends React.Component<Props, State> {
                   {...getPopupProps({
                     ...menuProps,
                     style: {
-                      ...menuProps.style,
                       width:
                         open && stretchDropdown
                           ? anchorEl.clientWidth
                           : dropdownWidth,
+                      ...menuProps.style,
                     },
                   })}
                 >

@@ -1,15 +1,15 @@
 // @flow strict-local
 import * as React from 'react'
-import Button, { IconButton, type ButtonProps } from 'components/kit/Button'
+import Button, { IconButton } from 'components/kit/Button'
 import SwitchBase from 'components/kit/SwitchBase'
 import forwardRef from 'utils/forwardRef'
 
 type Color = string
 
-type ButtonComponentType = React.ComponentType<ButtonProps>
+type ButtonComponentType = React.ElementConfig<typeof Button>
 
 type ToggleButtonExport = {|
-  (): (props: ButtonProps) => React.Node,
+  (): ButtonComponentType,
   Icon: ButtonComponentType,
 |}
 
