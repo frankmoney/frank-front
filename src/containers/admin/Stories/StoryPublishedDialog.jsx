@@ -1,15 +1,12 @@
 // @flow strict-local
 import React from 'react'
-import * as R from 'ramda'
 import { compose } from 'recompose'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
 import { injectStyles } from '@frankmoney/ui'
 import { IconPlainButton } from 'components/kit/Button'
 import CloseIcon from 'components/kit/Drawer/CloseIcon.svg'
 import Dialog from 'components/kit/Dialog'
 import PublicLinkButton from 'components/PublicLinkButton'
+import reconnect from 'utils/reconnect'
 import ShareButtons from './ShareButtons'
 import { isShareDialogOpenSelector, shareDialogUrlSelector } from './selectors'
 import * as ACTIONS from './actions'
@@ -66,27 +63,19 @@ const StoryPublishedDialog = ({ classes, open, url, onClose }) => (
       label={url}
     />
     <div className={classes.subtitle}>Share story</div>
-    <Dialog.Buttons>
-      <ShareButtons url={url} />
-    </Dialog.Buttons>
+    <ShareButtons url={url} />
   </Dialog>
 )
 
-const mapStateToProps = createStructuredSelector({
-  open: isShareDialogOpenSelector,
-  url: shareDialogUrlSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    onClose: ACTIONS.toggleShareDialog,
-  },
-])
-
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
+  reconnect(
+    {
+      open: isShareDialogOpenSelector,
+      url: shareDialogUrlSelector,
+    },
+    {
+      onClose: ACTIONS.toggleShareDialog,
+    }
   ),
   injectStyles(styles)
 )(StoryPublishedDialog)
