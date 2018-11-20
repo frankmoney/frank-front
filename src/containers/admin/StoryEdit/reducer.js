@@ -111,13 +111,11 @@ export default handleActions(
         processing: true,
       }),
     [ACTIONS.publish.success]: (state, { payload: { story } }) => {
-      // console.log('state', state.toJS())
       if (story.draft.published) {
         const publicUrl = createRouteUrl(ROUTES.public.story.root, {
           accountId: 'FIXME', // TODO: pass correct account id
           storyId: story.pid,
         })
-        // console.log('publicUrl', publicUrl)
         storage.setItem(LS_FLAGS.lastPublishedStoryUrl, publicUrl)
       }
       return state.merge({
