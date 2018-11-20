@@ -9,6 +9,7 @@ import {
   Public,
 } from 'material-ui-icons'
 import { compose, withState, toRenderProps } from 'recompose'
+import Checkbox from 'components/kit/Checkbox'
 import Button, {
   BigButton,
   IconButton,
@@ -20,7 +21,6 @@ import Spinner from 'components/kit/Spinner'
 import ToggleButton from 'components/kit/ToggleButton'
 import { injectStyles } from 'utils/styles'
 import Demo, { Row } from 'demo/Demo'
-import Checkbox from '../../components/kit/Checkbox/Checkbox'
 
 const styles = {
   button: {

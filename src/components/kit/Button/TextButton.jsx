@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
 import cx from 'classnames'
 import Spinner from 'components/kit/Spinner'
@@ -16,10 +16,10 @@ type Props = {|
   color: TextButtonColor,
   disabled?: boolean,
   hover?: boolean,
+  icon?: React.Element<any>, // flowlint-line unclear-type:off
   label: string,
   larger?: boolean,
   loading?: boolean,
-  icon?: ?React.ReactElement,
 |}
 
 const TextButton = ({
