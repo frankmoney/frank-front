@@ -6,7 +6,9 @@ import {
   MoreHoriz,
   ChatBubble,
   List,
+  Public,
 } from 'material-ui-icons'
+import { compose, withState, toRenderProps } from 'recompose'
 import Button, {
   BigButton,
   IconButton,
@@ -18,12 +20,20 @@ import Spinner from 'components/kit/Spinner'
 import ToggleButton from 'components/kit/ToggleButton'
 import { injectStyles } from 'utils/styles'
 import Demo, { Row } from 'demo/Demo'
+import Checkbox from '../../components/kit/Checkbox/Checkbox'
 
 const styles = {
   button: {
     width: 160,
   },
 }
+
+const PlainButtonsState = toRenderProps(
+  compose(
+    withState('larger', 'toggleLarger', false),
+    withState('hasIcon', 'toggleIcon', false)
+  )
+)
 
 const ButtonsDemo = ({ classes }) => (
   <Demo>
@@ -248,35 +258,167 @@ const ButtonsDemo = ({ classes }) => (
       <ToggleButton.Icon icon={<MoreHoriz />} />
       <ToggleButton.Icon defaultOn colorOn="lightGreen" icon={<MoreHoriz />} />
     </Row>
-    <h2>TextButton</h2>
-    <Row>
-      <TextButton label="Button" />
-      <TextButton label="Button" hover />
-      <TextButton label="Button" active />
-      <TextButton label="Button" disabled />
-      <TextButton label="Button" loading />
-    </Row>
-    <Row>
-      <TextButton label="Button" color="blue" />
-      <TextButton label="Button" color="blue" hover />
-      <TextButton label="Button" color="blue" active />
-      <TextButton label="Button" color="blue" disabled />
-      <TextButton label="Button" color="blue" loading />
-    </Row>
-    <Row>
-      <TextButton label="Button" color="lightBlue" larger />
-      <TextButton label="Button" color="lightBlue" larger hover />
-      <TextButton label="Button" color="lightBlue" larger active />
-      <TextButton label="Button" color="lightBlue" larger disabled />
-      <TextButton label="Button" color="lightBlue" larger loading />
-    </Row>
-    <Row>
-      <TextButton label="Button" color="gray" />
-      <TextButton label="Button" color="gray" hover />
-      <TextButton label="Button" color="gray" active />
-      <TextButton label="Button" color="gray" disabled />
-      <TextButton label="Button" color="gray" loading />
-    </Row>
+    <PlainButtonsState>
+      {({ larger, toggleLarger, hasIcon, toggleIcon }) => (
+        <>
+          <h2>TextButton</h2>
+          <Row centered>
+            <Checkbox
+              checked={larger}
+              onChange={toggleLarger}
+              label="Larger"
+              color="green"
+            />
+            <Checkbox
+              checked={hasIcon}
+              onChange={toggleIcon}
+              label="Icon"
+              color="green"
+            />
+          </Row>
+          <Row>
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              hover
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              active
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              disabled
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              loading
+            />
+          </Row>
+          <Row>
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="blue"
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="blue"
+              hover
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="blue"
+              active
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="blue"
+              disabled
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="blue"
+              loading
+            />
+          </Row>
+          <Row>
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="gray"
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="gray"
+              hover
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="gray"
+              active
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="gray"
+              disabled
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="gray"
+              loading
+            />
+          </Row>
+          <Row>
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="faintGray"
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="faintGray"
+              hover
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="faintGray"
+              active
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="faintGray"
+              disabled
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="Button"
+              color="faintGray"
+              loading
+            />
+          </Row>
+        </>
+      )}
+    </PlainButtonsState>
+
     <h2>Spinner</h2>
     <Row centered>
       <Spinner size={45} />

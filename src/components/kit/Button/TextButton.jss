@@ -29,6 +29,11 @@ export default theme => ({
   spinner: {
     position: 'absolute',
   },
+  icon: {
+    marginRight: 11,
+    height: 22,
+    width: 22,
+  },
 
   black: {
     color: '#252B43',
@@ -67,6 +72,16 @@ export default theme => ({
     },
     '&:active, &$active': {
       color: '#666B7B',
+    },
+  },
+
+  faintGray: {
+    color: 'rgba(37, 43, 67, 0.2)',
+    '&:hover, &$hover': {
+      color: 'rgba(37, 43, 67, 0.7)',
+    },
+    '&:active, &$active': {
+      color: '#252B43',
     },
   },
 
