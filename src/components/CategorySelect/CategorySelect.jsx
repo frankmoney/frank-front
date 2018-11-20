@@ -29,6 +29,7 @@ const CategorySelect = ({
 }) => {
   const formatValue = id => (
     <CategoryLabel
+      disableFocusable
       nameClassName={classes.categoryName}
       {...findById(categories, id)}
     />
