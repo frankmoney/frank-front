@@ -63,7 +63,7 @@ const SelectsDemo = () => (
     </Row>
     <h1>Filter Select</h1>
     <Row centered>
-      <FilterSelect defaultValue="date">
+      <FilterSelect defaultValue="date" dropdownWidth={220}>
         <MenuItem value="date" label="Date" />
         <MenuItem value="name" label="Name" />
         <MenuItem value="total" label="Total" />

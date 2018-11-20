@@ -37,9 +37,6 @@ const CategorySelect = ({
       value={value}
       formatValue={formatValue}
       menuProps={{
-        style: {
-          width: 'unset',
-        },
         maxVisibleItems: 5,
         ...menuProps,
       }}

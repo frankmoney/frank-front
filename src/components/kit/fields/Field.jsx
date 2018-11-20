@@ -61,7 +61,7 @@ export type FieldProps = Props
 class Field extends React.Component<Props, State> {
   static defaultProps = {
     loadingText: 'Loading',
-    underline: true,
+    noUnderline: false,
   }
 
   state = {
@@ -147,6 +147,7 @@ class Field extends React.Component<Props, State> {
       stretch,
       style,
       noUnderline,
+      onKeyDown,
     } = this.props
 
     const control = React.Children.only(children)
@@ -199,7 +200,7 @@ class Field extends React.Component<Props, State> {
             ref: this.handleControlRef,
             onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),
             onBlur: chainCallbacks(this.handleBlur, control.props.onBlur),
-            onKeyDown: this.props.onKeyDown,
+            onKeyDown,
             onChange: chainCallbacks(this.handleChange, control.props.onChange),
             disabled: disabled || loading,
           })}
