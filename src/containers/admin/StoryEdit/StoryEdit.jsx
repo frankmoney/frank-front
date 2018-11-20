@@ -11,7 +11,7 @@ import {
   Breadcrumbs,
   BreadcrumbsItem,
 } from '@frankmoney/components'
-import PageLoader from 'components/PageLoader'
+import AreaSpinner from 'components/AreaSpinner'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import HeaderBarButtons from './HeaderBarButtons'
 import { isNewStorySelector, loadedSelector } from './selectors'
@@ -64,6 +64,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => !props.loaded, renderComponent(PageLoader)),
+  branch(props => !props.loaded, renderComponent(AreaSpinner)),
   injectStyles(styles, { fixedGrid: true })
 )(StoryEdit)

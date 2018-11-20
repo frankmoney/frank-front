@@ -22,18 +22,14 @@ type Props = {|
   ...SpinnerProps,
 |}
 
-export type AreaSpinner = Props
-
-const AreaSpinner = ({
-  theme,
-  classes,
-  size,
-  className,
-  ...otherProps
-}: Props) => (
-  <div className={cx(classes.root, className)} {...otherProps}>
+const AreaSpinner = ({ classes, className, size }: Props) => (
+  <div className={cx(classes.root, className)}>
     <Spinner size={size} />
   </div>
 )
+
+AreaSpinner.defaultProps = {
+  size: 45,
+}
 
 export default injectStyles(styles)(AreaSpinner)

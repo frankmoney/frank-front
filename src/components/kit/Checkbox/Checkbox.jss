@@ -31,6 +31,9 @@ export default theme => ({
     borderRadius: 3,
     border: ['2px', 'solid', COLOR_GRAY],
   },
+  checkmark: {
+    flex: 1,
+  },
   hover: {},
   disabled: {
     '& $box': {

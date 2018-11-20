@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
-import PageLoader from 'components/PageLoader'
+import AreaSpinner from 'components/AreaSpinner'
 import reconnect from 'utils/reconnect'
 import * as ACTIONS from './actions'
 import {
@@ -51,6 +51,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => props.loading, renderComponent(PageLoader)),
+  branch(props => props.loading, renderComponent(AreaSpinner)),
   branch(props => !props.termsAccepted, renderComponent(STEPS.Terms))
 )(Onboarding)

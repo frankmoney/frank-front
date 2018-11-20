@@ -7,9 +7,9 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
+import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
-import PageLoader from 'components/PageLoader'
 import { injectStyles } from 'utils/styles'
 import {
   hasNoResultsSelector,
@@ -96,6 +96,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => props.loading, renderComponent(PageLoader)),
+  branch(props => props.loading, renderComponent(AreaSpinner)),
   injectStyles(styles, { grid: true })
 )(Directory)

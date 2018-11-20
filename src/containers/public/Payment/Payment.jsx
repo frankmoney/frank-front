@@ -4,9 +4,9 @@ import cx from 'classnames'
 import { compose, lifecycle, branch, renderComponent } from 'recompose'
 import Helmet from 'react-helmet'
 import SimilarIcon from 'material-ui-icons/FormatListBulleted'
-import CurrencyProvider from 'components/CurrencyProvider'
-import PageLoader from 'components/PageLoader'
+import AreaSpinner from 'components/AreaSpinner'
 import Button from 'components/kit/Button'
+import CurrencyProvider from 'components/CurrencyProvider'
 import PaymentCard from 'components/public/PaymentCard'
 import { formatMonthDate } from 'utils/dates'
 import reconnect from 'utils/reconnect'
@@ -19,8 +19,9 @@ import styles from './Payment.jss'
 
 const SimilarButton = ({ className, count, date }) => {
   const dateText = formatMonthDate(date, true)
-  const labelText = `Show ${count > 1 &&
-    'all'} ${count} similar payment${count > 1 && 's'} since ${dateText}`
+  const labelText = `Show ${count > 1 && 'all'} ${count} similar ${
+    count > 1 ? 'payments' : 'payment'
+  } since ${dateText}`
 
   return (
     <Button
@@ -81,6 +82,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => !props.isLoaded, renderComponent(PageLoader)),
+  branch(props => !props.isLoaded, renderComponent(AreaSpinner)),
   injectStyles(styles, { fixedGrid: true })
 )(Payment)

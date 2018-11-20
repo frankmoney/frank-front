@@ -68,7 +68,9 @@ const InternalCheckbox = ({
       type="checkbox"
       {...inputProps}
     />
-    <div className={classes.box}>{checked && <CheckIcon />}</div>
+    <div className={classes.box}>
+      {checked && <CheckIcon className={classes.checkmark} />}
+    </div>
     {label && <div className={classes.label}>{label}</div>}
   </div>
 )

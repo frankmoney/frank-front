@@ -2,7 +2,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 import Modal, { type ModalProps } from 'components/kit/Modal'
-import Button, { type ButtonProps } from 'components/kit/Button'
+import Button from 'components/kit/Button'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import DrawerPaper from './DrawerPaper'
 import DrawerFooter from './DrawerFooter'
@@ -18,14 +18,14 @@ type InheritedModalProps = {|
 type Props = {|
   ...InjectStylesProps,
   ...InheritedModalProps,
-  modalProps: $Diff<ModalProps, InheritedModalProps>,
+  modalProps?: $Diff<ModalProps, InheritedModalProps>, // not used?
   title: string,
   titleClamp?: number,
   titleSmaller?: boolean,
-  titleExtraButton: Element,
+  titleExtraButton?: Element,
   noCloseButton?: boolean,
   footerButtonLabel?: string,
-  footerButtonProps?: ButtonProps,
+  footerButtonProps?: React.ElementConfig<typeof Button>,
   footerText?: string,
   footerTextSmaller?: boolean,
   children?: React.ChildrenArray<React.Element<any>> | React.Element<any>,
