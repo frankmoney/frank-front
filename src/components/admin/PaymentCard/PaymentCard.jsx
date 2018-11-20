@@ -74,7 +74,6 @@ const PaymentCard = ({
             value={categoryId}
             label="Category"
             larger
-            noUnderline
             onChange={categoryId => onPaymentUpdate({ paymentId, categoryId })}
           />
         </div>

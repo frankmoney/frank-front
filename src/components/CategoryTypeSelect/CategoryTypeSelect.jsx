@@ -1,7 +1,6 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { compose, withState } from 'recompose'
 import { ArrowDropDown } from 'material-ui-icons'
 import Select from 'components/kit/Select'
 import { MenuItem } from 'components/kit/Menu'
@@ -56,7 +55,7 @@ const CategoryTypeSelect = ({
     arrowAt="center"
     align="center"
     direction="up"
-    renderControl={({ value, getInputProps, getAnchorProps }) => (
+    renderControl={({ open, value, getInputProps, getAnchorProps }) => (
       <div className={cx(classes.root, className)} {...getInputProps()}>
         <span>{label}</span>
         <span className={classes.value}>{value}</span>
@@ -75,6 +74,7 @@ const CategoryTypeSelect = ({
 CategoryTypeSelect.defaultProps = {
   label: '% of total',
   values: ['income', 'spending'],
+  defaultValue: 'income',
 }
 
 export default injectStyles(styles)(CategoryTypeSelect)

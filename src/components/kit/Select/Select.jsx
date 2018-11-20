@@ -51,8 +51,6 @@ type State = {|
   selectedElementText?: ?string,
 |}
 
-const DEFAULT_WIDTH = 250
-
 const memoizeRefCallback = ref =>
   memoize(handler => chainCallbacks(ref, handler))
 
@@ -61,7 +59,7 @@ class Select extends React.Component<Props, State> {
     direction: 'down',
     align: 'start',
     alignByArrow: false,
-    dropdownWidth: DEFAULT_WIDTH,
+    dropdownWidth: 'auto',
   }
 
   state = {
@@ -182,6 +180,7 @@ class Select extends React.Component<Props, State> {
       alignByArrow,
       children,
       multiple,
+      distance,
       dropdownWidth,
       stretchDropdown,
       formatValue,
@@ -193,6 +192,7 @@ class Select extends React.Component<Props, State> {
 
     const hasArrow = !!arrowAt
     const MenuComponent = hasArrow ? ArrowMenu : Menu
+    const defaultDistance = hasArrow ? 15 : 8
 
     return (
       <PopupBase
@@ -201,7 +201,7 @@ class Select extends React.Component<Props, State> {
         place={direction}
         align={align}
         alignByArrow={alignByArrow}
-        distance={hasArrow ? 15 : 8}
+        distance={distance || defaultDistance}
       >
         {popupState => {
           const {
@@ -210,7 +210,6 @@ class Select extends React.Component<Props, State> {
             anchorEl,
             getPopupProps,
             getArrowProps,
-            getAnchorProps,
           } = popupState
 
           const arrowMenuProps = hasArrow
@@ -224,8 +223,8 @@ class Select extends React.Component<Props, State> {
           return (
             <>
               {renderControl({
+                ...popupState,
                 ...otherProps,
-                getAnchorProps,
                 ...this.getRenderProps(this.state),
               })}
               <Modal open={open} invisibleBackdrop onClose={close}>

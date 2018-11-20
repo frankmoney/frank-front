@@ -61,6 +61,7 @@ const CategoryLabel = ({
   value,
   valueClassName,
   valueUnit,
+  disableFocusable,
 }: Props) => {
   const renderedValue = R.not(R.isNil(value)) || value === 0 ? value : undefined
   return (
@@ -69,8 +70,9 @@ const CategoryLabel = ({
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      role="button"
-      tabIndex={0}
+      role={disableFocusable ? null : 'button'}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+      tabIndex={disableFocusable ? null : 0}
     >
       <IconCircle className={cx(classes.icon, iconClassName)} />
       <HighlightText className={cx(classes.name, nameClassName)} text={name} />
