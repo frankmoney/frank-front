@@ -1,7 +1,7 @@
 // @flow strict-local
 import React from 'react'
-import Drawer from 'components/kit/Drawer/index'
-import Switch from 'components/kit/Switch/index'
+import Drawer from 'components/kit/Drawer'
+import Switch from 'components/kit/Switch'
 
 type Props = {|
   value: ?boolean,
