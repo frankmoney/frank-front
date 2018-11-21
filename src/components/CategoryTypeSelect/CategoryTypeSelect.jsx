@@ -1,15 +1,16 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { ArrowDropDown } from 'material-ui-icons'
 import Select from 'components/kit/Select'
 import { MenuItem } from 'components/kit/Menu'
-import { injectStyles } from 'utils/styles'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 export type CategoryTypeSelectCb = string => void
 
 type Props = {|
-  className?: string,
+  ...InjectStylesProps,
+  //
   label: string,
   onChange: CategoryTypeSelectCb,
   value: string,
@@ -43,9 +44,9 @@ const styles = {
 }
 
 const CategoryTypeSelect = ({
+  classes,
   className,
   label,
-  classes,
   ...otherProps
 }: Props) => (
   <Select

@@ -13,7 +13,7 @@ const paymentFields = `
     name
     color
   }
-  similarCount: countSimilar
+  similarCount: countSimilar(includeSelf: false)
 `
 
 export default {
