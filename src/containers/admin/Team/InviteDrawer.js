@@ -1,6 +1,6 @@
 import { email as validateEmail, required, testObject } from '@frankmoney/forms'
 import { compose, withState, withPropsOnChange } from 'recompose'
-import TeamInviteDrawer from 'components/TeamInviteDrawer'
+import TeamInviteDrawer from 'components/drawers/TeamInviteDrawer'
 import reconnect from 'utils/reconnect'
 import ACTIONS from './actions'
 

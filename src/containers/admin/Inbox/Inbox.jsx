@@ -1,69 +1,64 @@
 import React from 'react'
-import { compose, withProps } from 'recompose'
+import { branch, compose, lifecycle, renderComponent } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles } from 'utils/styles'
+import reconnect from 'utils/reconnect'
 import Breadcrumbs from 'components/Breadcrumbs'
-import PaymentCard from 'components/admin/PaymentCard'
+import AreaSpinner from 'components/AreaSpinner/AreaSpinner'
+import InboxFilter from './InboxFilter'
+import * as SELECTORS from './selectors'
+import ACTIONS from './actions'
 
 const styles = {
-  root: {},
-  body: {
-    width: ({ grid }) => grid.fixed.contentWidth,
-    margin: [0, 'auto'],
+  root: {
+    minHeight: '100vh',
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
     paddingTop: 110,
+    paddingBottom: 100,
   },
-  card: {
-    marginBottom: 30,
+  container: {
+    width: 850,
+  },
+  header: {
+    justifyContent: 'space-between',
+    paddingRight: 30,
   },
 }
 
-const Inbox = ({ classes, items }) => (
+const Inbox = ({ classes }) => (
   <div className={classes.root}>
-    <FixedHeader>
+    <FixedHeader className={classes.header}>
       <Breadcrumbs>
         <BreadcrumbsItem>Inbox</BreadcrumbsItem>
       </Breadcrumbs>
+      <InboxFilter />
     </FixedHeader>
-    <div className={classes.body}>
-      {items.map(({ id, ...otherItemProps }) => (
-        <PaymentCard key={id} className={classes.card} {...otherItemProps} />
-      ))}
-    </div>
+    <div className={classes.container} />
   </div>
 )
 
 export default compose(
-  withProps({
-    items: [
-      {
-        id: 1,
-        createdAt: '2018-02-25 00:00',
-        delta: -1244.548,
-        recipientReviewed: true,
-        recipientName: 'Readymag',
-        categoryAddedFromSimilar: true,
-        categoryId: 'marketing',
-        description: 'Something cool',
-        descriptionAddedFromSimilar: true,
-        useForSimilar: true,
-      },
-      {
-        id: 2,
-        createdAt: '2018-01-01 19:05',
-        delta: 1392.32,
-      },
-      {
-        id: 3,
-        createdAt: '2018-01-01 05:00',
-        delta: -124,
-        recipientName: 'Adidas Group',
-        categoryAddedFromSimilar: true,
-        categoryId: 'marketing',
-        description: 'Something\r\n\r\nvery\r\ncool',
-        descriptionAddedFromSimilar: true,
-        useForSimilar: true,
-      },
-    ],
+  reconnect(
+    {
+      loading: SELECTORS.loading,
+    },
+    {
+      load: ACTIONS.load,
+      leave: ACTIONS.leave,
+    }
+  ),
+  lifecycle({
+    componentWillMount() {
+      if (!this.props.loaded) {
+        this.props.load()
+      }
+    },
+    componentWillUnmount() {
+      this.props.leave()
+    },
   }),
-  injectStyles(styles, { grid: true })
+  branch(props => props.loading, renderComponent(AreaSpinner)),
+  injectStyles(styles)
 )(Inbox)

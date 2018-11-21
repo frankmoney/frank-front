@@ -28,7 +28,6 @@ const ComposedAccountItem = withProps({
         navLinkComponent={ReduxNavLink}
         primaryText="New"
         leftIcon={NewIcon}
-        disabled
       />
       <SidebarMenuItem
         href={createRouteUrl(ROUTES.manage.ledger.root)}

@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import { withProps } from 'recompose'
-import Select from 'components/kit/Select/index'
+import Select from 'components/kit/Select'
 import LeftField from 'components/kit/fields/LeftField'
 import SelectFieldControl from 'components/kit/SelectField/SelectFieldControl'
 

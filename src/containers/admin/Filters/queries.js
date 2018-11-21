@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 
+// TODO add pending filter
 export default {
   getOnlyTotalCount: [
     `

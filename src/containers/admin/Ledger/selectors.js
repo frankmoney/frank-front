@@ -135,11 +135,16 @@ export const currentFiltersSelector = createSelector(
 )
 
 export const currentFiltersCountSelector = createSelector(
-  currentFiltersSelector,
-  R.pipe(
-    R.toPairs,
-    R.filter(([_, v]) => !!v),
-    R.length
+  queryParamSelector('amountMin'),
+  queryParamSelector('amountMax'),
+  queryParamSelector('dateMin'),
+  queryParamSelector('dateMax'),
+  queryParamSelector('verified'),
+  R.unapply(
+    R.pipe(
+      R.filter(x => typeof x !== 'undefined' && x !== ''),
+      R.length
+    )
   )
 )
 

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { email as validateEmail, required, testObject } from '@frankmoney/forms'
 import { compose, withState, withPropsOnChange, withHandlers } from 'recompose'
-import TeamInviteDrawer from 'components/TeamInviteDrawer'
+import TeamInviteDrawer from 'components/drawers/TeamInviteDrawer'
 import { TEAM_ROLES } from 'const'
 import * as ACTIONS from '../../actions'
 

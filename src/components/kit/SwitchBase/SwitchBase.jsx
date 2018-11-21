@@ -3,21 +3,24 @@ import * as React from 'react'
 
 export type OnChangeCb = boolean => void
 
-export type SwitchBaseChildrenProps = {|
+export type SwitchBaseRenderProps = {|
   on: boolean,
+  focus: boolean,
+  focusIn: Function,
+  focusOut: Function,
   toggle: OnChangeCb,
 |}
 
 type SFC<T> = (props: T) => React.Node
 
 type Props = {|
-  children?: SFC<SwitchBaseChildrenProps> | string,
+  children?: SFC<SwitchBaseRenderProps> | string,
   defaultOn: boolean,
   on?: boolean,
   onToggle?: OnChangeCb,
 |}
 
-type State = SwitchBaseChildrenProps
+type State = SwitchBaseRenderProps
 
 const SwitchContext = React.createContext({})
 
@@ -30,6 +33,7 @@ export default class SwitchBase extends React.Component<Props, State> {
 
   state: State = {
     on: this.props.defaultOn,
+    focus: false,
     toggle: this.toggle,
   }
 
@@ -38,8 +42,16 @@ export default class SwitchBase extends React.Component<Props, State> {
     return typeof this.props.on !== 'undefined'
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
+  get isControlledFocus() {
+    return typeof this.props.focus !== 'undefined'
+  }
+
   getState = (state: State) => ({
     on: this.isControlled ? !!this.props.on : state.on,
+    focus: this.isControlledFocus ? !!this.props.focus : state.focus,
+    focusIn: this.focusIn,
+    focusOut: this.focusOut,
     toggle: this.toggle,
   })
 
@@ -55,6 +67,30 @@ export default class SwitchBase extends React.Component<Props, State> {
       )
     } else if (typeof this.props.onToggle === 'function') {
       this.props.onToggle(!this.props.on)
+    }
+  }
+
+  focusIn = event => {
+    if (!this.isControlled) {
+      this.setState({ focus: true }, () => {
+        if (typeof this.props.onFocus === 'function') {
+          this.props.onFocus()
+        }
+      })
+    } else if (typeof this.props.onFocus === 'function') {
+      return this.props.onFocus(event)
+    }
+  }
+
+  focusOut = event => {
+    if (!this.isControlled) {
+      this.setState({ focus: false }, () => {
+        if (typeof this.props.onBlur === 'function') {
+          this.props.onBlur()
+        }
+      })
+    } else if (typeof this.props.onBlur === 'function') {
+      return this.props.onBlur(event)
     }
   }
 
