@@ -79,7 +79,10 @@ export const credentialsFieldsSelector = createPlainObjectSelector(
 export const categoriesSelector = createPlainObjectSelector(
   get('stepData', 'list')
 )
-export const openEditCategoryDialogSelector = get('stepData', 'openEditDialog')
+export const openEditCategoryDialogSelector = createSelector(
+  get('stepData', 'openEditDialog'),
+  R.defaultTo(false)
+)
 export const editingCategorySelector = createSelector(
   categoriesSelector,
   get('stepData', 'editingCategoryId'),

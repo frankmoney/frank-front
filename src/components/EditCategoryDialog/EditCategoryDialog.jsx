@@ -4,12 +4,18 @@ import sample from 'lodash/sample'
 import { compose, withPropsOnChange } from 'recompose'
 import { injectStyles } from '@frankmoney/ui'
 import { reduxForm } from 'redux-form/immutable'
-import { ConfirmDialog } from '@frankmoney/components'
 import { required } from '@frankmoney/forms'
+import FieldControl from 'components/kit/FormControl'
+import { ConfirmDialog } from 'components/kit/Dialog'
 import { CATEGORY_COLORS } from 'const'
-import { Field } from 'components/Field'
-import TextBoxField from 'components/forms/TextBoxField'
-import ColorSelectField from 'components/forms/ColorSelectField'
+import TextField from 'components/kit/TextField'
+import CategorySelect from 'components/CategorySelect'
+
+const COLORS = Object.entries(CATEGORY_COLORS).map(([color, name]) => ({
+  id: color,
+  color,
+  name,
+}))
 
 const styles = {
   root: {},
@@ -27,28 +33,40 @@ const EditCategoryDialog = ({
   classes,
   className,
   category,
-  submitting,
   submit,
   invalid,
   open,
   onCancel,
 }) => (
   <ConfirmDialog
+    fallInsideFocus={false}
     className={cx(classes.root, className)}
     title={`${!category ? 'Add new' : 'Edit'} category`}
-    confirmLabel="Add"
+    confirmLabel="Done"
     cancelLabel="Cancel"
+    confirmButtonProps={{ disabled: invalid }}
     open={open}
     onClose={onCancel}
     onCancel={onCancel}
     onConfirm={submit}
   >
-    <Field title="Color" className={classes.field}>
-      <ColorSelectField name="color" validate={validations.color} />
-    </Field>
-    <Field title="Category name" className={classes.field}>
-      <TextBoxField name="name" validate={validations.name} autoFocus />
-    </Field>
+    <FieldControl
+      component={CategorySelect}
+      categories={COLORS}
+      label="Color"
+      name="color"
+      className={classes.field}
+      validate={validations.color}
+    />
+    <FieldControl
+      name="name"
+      className={classes.field}
+      label="Category name"
+      validate={validations.name}
+      autoFocus
+      stretch
+      component={TextField}
+    />
   </ConfirmDialog>
 )
 
