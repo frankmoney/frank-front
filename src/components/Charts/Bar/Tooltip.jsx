@@ -1,10 +1,12 @@
 // @flow
 import * as R from 'ramda'
 import React from 'react'
-import type { TooltipProps } from 'recharts'
 import Paper from 'components/kit/Paper'
-import { injectStyles } from 'utils/styles'
-import TooltipLine from './TooltipLine'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import TooltipLine, {
+  type TooltipLinePayload,
+  type TooltipLineFormatter,
+} from './TooltipLine'
 
 const styles = theme => ({
   root: {
@@ -19,15 +21,25 @@ const styles = theme => ({
   },
 })
 
-type Props = TooltipProps
+type Style = Object
 
-const Tooltip = ({ classes, labelFormatter, label, payload, style }: Props) => (
-  <Paper className={classes.root} style={style}>
-    <div className={classes.header}>{label}</div>
-    {R.addIndex(R.map)((item, index) => (
-      <TooltipLine labelFormatter={labelFormatter} key={index} {...item} />
-    ))(payload)}
-  </Paper>
-)
+type Props = {|
+  ...InjectStylesProps,
+  //
+  label?: string,
+  lineFormatter: TooltipLineFormatter,
+  payload: Array<TooltipLinePayload>,
+  style?: Style,
+|}
+
+const Tooltip = ({ classes, lineFormatter, label, payload, style }: Props) =>
+  payload ? (
+    <Paper className={classes.root} style={style}>
+      <div className={classes.header}>{label}</div>
+      {R.addIndex(R.map)((item, index) => (
+        <TooltipLine labelFormatter={lineFormatter} key={index} {...item} />
+      ))(payload)}
+    </Paper>
+  ) : null
 
 export default injectStyles(styles)(Tooltip)

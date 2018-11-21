@@ -1,7 +1,6 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
-import type { DataKey, LabelFormatter } from 'recharts'
 import { formatCurrency } from '@frankmoney/components'
 import IconCircle from 'components/IconCircle'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -22,12 +21,19 @@ const styles = theme => ({
   },
 })
 
+export type TooltipLinePayload = {
+  dataKey: string,
+}
+
+export type TooltipLineFormatter = TooltipLinePayload => string
+
 type Props = {|
   ...InjectStylesProps,
+  ...$Exact<TooltipLinePayload>,
   //
   color?: string,
-  key?: DataKey,
-  labelFormatter: LabelFormatter,
+  key?: string,
+  labelFormatter: TooltipLineFormatter,
   value: number,
 |}
 
