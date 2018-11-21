@@ -146,6 +146,7 @@ class Field extends React.Component<Props, State> {
       placeholder,
       stretch,
       style,
+      autoFocus,
       noUnderline,
       onKeyDown,
     } = this.props
@@ -191,6 +192,7 @@ class Field extends React.Component<Props, State> {
           {React.cloneElement(control, {
             value,
             focus,
+            autoFocus,
             className: classes.control,
             placeholder: hidePlaceholder
               ? null
