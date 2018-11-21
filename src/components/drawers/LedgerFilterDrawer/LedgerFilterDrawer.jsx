@@ -9,14 +9,16 @@ import {
   VerificationField,
 } from 'components/DrawerFilters'
 
-type DateString = String
+type DateString = string
 
-type Props = {
+type SumLimit = {|
+  min: number,
+  max: number,
+|}
+
+type Props = {|
   // filters data
-  sumLimit: {
-    min: number,
-    max: number,
-  },
+  sumLimit: SumLimit,
   dateLimit: {
     from: DateString,
     to: DateString,
@@ -30,9 +32,10 @@ type Props = {
   onReset: Function,
   onChange: Function,
   onApply: Function,
-}
+|}
 
 class LedgerFilterDrawer extends React.Component<Props> {
+  // flowlint-next-line unsafe-getters-setters:off
   get allFilters() {
     const { sumLimit, dateLimit, verified } = this.props
     return { sumLimit, dateLimit, verified }
@@ -45,7 +48,7 @@ class LedgerFilterDrawer extends React.Component<Props> {
     })
   }
 
-  handleChangeSum = ({ min, max }) => {
+  handleChangeSum = ({ min, max }: SumLimit) => {
     this.props.onChange({
       ...this.allFilters,
       sumLimit: { min, max },
