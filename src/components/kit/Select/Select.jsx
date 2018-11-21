@@ -26,6 +26,27 @@ type OmittedProps = {|
   onClose?: Function, // flowlint-line unclear-type:warn
 |}
 
+type getInputPropsResult = {
+  controlRef: Function,
+  tabIndex: number,
+  onClick: Function,
+  onFocus: Function,
+  onBlur: Function,
+  onKeyDown: Function,
+}
+
+type getInputPropsFn = Object => getInputPropsResult
+
+type SelectRenderProps = {
+  value: any,
+  valueFormatted: any,
+  active: boolean,
+  open: boolean,
+  toggle: Function,
+  select: Function,
+  getInputProps: getInputPropsFn,
+}
+
 export type Props = {|
   ...OmittedProps,
   //
@@ -41,7 +62,7 @@ export type Props = {|
   dropdownWidth?: number,
   formatValue?: Value => string,
   stretchDropdown?: boolean,
-  renderControl: any => React.ReactElement, // TODO
+  renderControl: (SelectRenderProps, Object) => React.ReactElement, // TODO
 |}
 
 type State = {|
@@ -89,25 +110,27 @@ class Select extends React.Component<Props, State> {
     return found && found.props.label
   }
 
-  getRenderProps = (state: State = this.state) => ({
-    value: this.getValue(state),
-    valueFormatted:
-      typeof this.props.formatValue === 'function'
-        ? this.props.formatValue(this.getValue(state))
-        : this.getValue(state) && this.getTextByValue(this.getValue(state)),
-    active: state.open || state.focused,
-    toggle: this.handleTogglePopup,
-    select: this.handleChange,
-    getInputProps: (props = {}) => ({
-      ...props,
-      controlRef: this.handleInputRef(props.ref),
-      tabIndex: 0,
-      onClick: this.handleInputClick,
-      onFocus: this.handleInputFocus,
-      onBlur: this.handleInputBlur,
-      onKeyDown: this.handleKeyDown,
-    }),
-  })
+  getRenderProps = (state: State = this.state) =>
+    ({
+      value: this.getValue(state),
+      valueFormatted:
+        typeof this.props.formatValue === 'function'
+          ? this.props.formatValue(this.getValue(state))
+          : this.getValue(state) && this.getTextByValue(this.getValue(state)),
+      active: state.open || state.focused,
+      toggle: this.handleTogglePopup,
+      select: this.handleChange,
+      open: state.open,
+      getInputProps: (props = {}) => ({
+        ...props,
+        controlRef: this.handleInputRef(props.ref),
+        tabIndex: 0,
+        onClick: this.handleInputClick,
+        onFocus: this.handleInputFocus,
+        onBlur: this.handleInputBlur,
+        onKeyDown: this.handleKeyDown,
+      }),
+    }: SelectRenderProps)
 
   handleListRef = ref => {
     this.list = ref
@@ -210,6 +233,7 @@ class Select extends React.Component<Props, State> {
             anchorEl,
             getPopupProps,
             getArrowProps,
+            getAnchorProps,
           } = popupState
 
           const arrowMenuProps = hasArrow
@@ -222,11 +246,10 @@ class Select extends React.Component<Props, State> {
 
           return (
             <>
-              {renderControl({
-                ...popupState,
-                ...otherProps,
-                ...this.getRenderProps(this.state),
-              })}
+              {renderControl(
+                { ...this.getRenderProps(this.state), getAnchorProps },
+                otherProps
+              )}
               <Modal open={open} invisibleBackdrop onClose={close}>
                 <MenuComponent
                   value={this.getValue(this.state)}

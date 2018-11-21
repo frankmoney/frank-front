@@ -8,47 +8,18 @@ import SelectFieldControl from './SelectFieldControl'
 // TODO merge with FieldProps
 type Props = {}
 
-const renderFieldControl = ({
-  valueFormatted,
-  getAnchorProps,
-  active,
-  getInputProps,
-  disableArrowHover,
-  style,
-  className,
-  // FIELD PROPS
-  placeholder,
-  larger,
-  error,
-  hint,
-  label,
-  floatingLabel,
-  additionalLabel,
-  focus,
-  disabled,
-  loading,
-  loadingText,
-  noUnderline,
-}) => (
+const renderFieldControl = (
+  { valueFormatted, active, getInputProps, getAnchorProps },
+  { style, stretch, disableArrowHover, ...otherProps }
+) => (
   <Field
-    className={className}
-    placeholder={placeholder}
-    larger={larger}
-    error={error}
-    hint={hint}
-    label={label}
-    floatingLabel={floatingLabel}
-    additionalLabel={additionalLabel}
-    disabled={disabled}
-    loading={loading}
-    loadingText={loadingText}
+    {...getAnchorProps(otherProps)}
     value={valueFormatted}
-    {...getAnchorProps({ style })}
+    stretch={stretch}
     focus={active}
-    noUnderline={noUnderline}
   >
     <SelectFieldControl
-      stretch
+      stretch={stretch}
       active={active}
       disableArrowHover={disableArrowHover}
       {...getInputProps()}
