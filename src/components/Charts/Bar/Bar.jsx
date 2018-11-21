@@ -13,7 +13,7 @@ import { injectStyles } from '@frankmoney/ui'
 import Grid from './Grid'
 import Tick from './Tick'
 import Tooltip from './Tooltip'
-import { epsilon, type TooltipLineFormatter } from './TooltipLine'
+import { EPSILON, type TooltipLineFormatter } from './TooltipLine'
 import type { Props } from './Bar.flow'
 
 const BAR_CORNER_RADIUS = 3
@@ -40,8 +40,8 @@ const styles = {
   },
 }
 
-const negateWithEpsilon = x => (x === 0 ? -epsilon : -x)
-const fixNegative = R.over(R.lensProp('negativeValue'), negateWithEpsilon)
+const negateWithEpsilon = x => (x === 0 ? -EPSILON : -x)
+const fixNegative = R.over(R.lensProp(NEGATIVE_VALUE_PROP), negateWithEpsilon)
 
 const tooltipLineFormatter: TooltipLineFormatter = payload =>
   payload.dataKey === NEGATIVE_VALUE_PROP ? 'Spending' : 'Income'
