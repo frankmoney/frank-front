@@ -47,6 +47,7 @@ class PaymentsFilterDrawer extends React.Component<Props> {
     disableVerifiedFilter: false,
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get allFilters() {
     const { sumLimit, dateLimit, verified, pending } = this.props
     return { sumLimit, dateLimit, verified, pending }
@@ -59,23 +60,23 @@ class PaymentsFilterDrawer extends React.Component<Props> {
     })
   }
 
-  handleChangeDateRange = value => {
+  handleChangeDateRange = (value: DateLimit) => {
     this.mergeFilters({ dateLimit: value })
   }
 
-  handleChangeSum = ({ min, max }) => {
+  handleChangeSum = ({ min, max }: SumLimit) => {
     this.mergeFilters({
       sumLimit: { min, max },
     })
   }
 
-  handleChangeVerification = value => {
+  handleChangeVerification = (value: ?boolean) => {
     this.mergeFilters({
       verified: value,
     })
   }
 
-  handleChangePending = value => {
+  handleChangePending = (value: ?boolean) => {
     this.mergeFilters({
       pending: value,
     })

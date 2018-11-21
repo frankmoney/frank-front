@@ -1,4 +1,4 @@
-// import React from 'react'
+// @flow
 import { Field } from 'redux-form-actions/immutable'
 import { compose, mapProps, withPropsOnChange } from 'recompose'
 import { countUnits } from '@frankmoney/utils'
