@@ -73,6 +73,7 @@ const PaymentCard = ({
             categories={categories}
             value={categoryId}
             label="Category"
+            placeholder="Choose category"
             larger
             onChange={categoryId => onPaymentUpdate({ paymentId, categoryId })}
           />

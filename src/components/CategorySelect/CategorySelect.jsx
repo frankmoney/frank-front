@@ -31,7 +31,6 @@ const CategorySelect = ({
 
   return (
     <SelectField
-      placeholder="Choose category"
       value={value}
       formatValue={formatValue}
       disableArrowHover
