@@ -1,6 +1,6 @@
 import React from 'react'
-import TextField from 'components/kit/TextField'
-import Drawer from 'components/kit/Drawer'
+import TextField from 'components/kit/TextField/index'
+import Drawer from 'components/kit/Drawer/index'
 
 const NoteField = ({ value, onChange }) => (
   <Drawer.Field label="Note">

@@ -1,15 +1,8 @@
 // @flow
 import createActions from 'utils/createActions'
 
-export default createActions('adminStoryEdit', {
+export default createActions('adminInbox', {
   load: true,
-  delete: true,
-  publish: true,
-  unpublish: true,
-  modifyStoryPaymentsList: false,
-  filterPayments: true,
-  loadMorePayments: true,
   leave: false,
-  openPaymentsDrawer: false,
-  closePaymentsDrawer: false,
+  filtersOpen: false,
 })

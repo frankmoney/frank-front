@@ -5,7 +5,7 @@ import { required, createValidateFromRules } from '@frankmoney/forms'
 import { compose, withPropsOnChange, lifecycle } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
 import TextField from 'components/kit/TextField'
-import FormControl from 'components/kit/FormControl'
+import ReduxFormControl from 'components/kit/ReduxFormControl'
 import reconnect from 'utils/reconnect'
 import * as ACTIONS from '../actions'
 import { STEP_FORM } from '../constants'
@@ -91,7 +91,7 @@ const renderField = ({
           <img className={classes.fieldImage} src={imageData} alt="mfa_image" />
         </div>
       )}
-      <FormControl
+      <ReduxFormControl.Field
         stretch
         label={label}
         className={classes.field}

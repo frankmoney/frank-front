@@ -7,6 +7,7 @@ import {
   DateRangeField,
   AmountField,
   VerificationField,
+  PendingField,
 } from 'components/DrawerFilters'
 
 type DateString = String
@@ -22,6 +23,10 @@ type Props = {
     to: DateString,
   },
   verified: boolean,
+  pending: boolean,
+  //
+  disablePendingFilter?: boolean,
+  disableVerifiedFilter?: boolean,
   //
   loaded: boolean,
   estimating: boolean,
@@ -32,35 +37,48 @@ type Props = {
   onApply: Function,
 }
 
-class LedgerFilterDrawer extends React.Component<Props> {
-  get allFilters() {
-    const { sumLimit, dateLimit, verified } = this.props
-    return { sumLimit, dateLimit, verified }
+class PaymentsFilterDrawer extends React.Component<Props> {
+  static defaultProps = {
+    disablePendingFilter: false,
+    disableVerifiedFilter: false,
   }
 
-  handleChangeDateRange = value => {
+  get allFilters() {
+    const { sumLimit, dateLimit, verified, pending } = this.props
+    return { sumLimit, dateLimit, verified, pending }
+  }
+
+  mergeFilters = data => {
     this.props.onChange({
       ...this.allFilters,
-      dateLimit: value,
+      ...data,
     })
   }
 
+  handleChangeDateRange = value => {
+    this.mergeFilters({ dateLimit: value })
+  }
+
   handleChangeSum = ({ min, max }) => {
-    this.props.onChange({
-      ...this.allFilters,
+    this.mergeFilters({
       sumLimit: { min, max },
+    })
+  }
+
+  handleChangeVerification = value => {
+    this.mergeFilters({
+      verified: value,
+    })
+  }
+
+  handleChangePending = value => {
+    this.mergeFilters({
+      pending: value,
     })
   }
 
   handleApply = () => {
     this.props.onApply(this.allFilters)
-  }
-
-  handleChangeVerification = value => {
-    this.props.onChange({
-      ...this.allFilters,
-      verified: value,
-    })
   }
 
   render() {
@@ -72,8 +90,11 @@ class LedgerFilterDrawer extends React.Component<Props> {
       dateLimit,
       sumLimit,
       verified,
+      pending,
       totalCount,
       estimating,
+      disablePendingFilter,
+      disableVerifiedFilter,
       ...drawerProps
     } = this.props
 
@@ -94,10 +115,15 @@ class LedgerFilterDrawer extends React.Component<Props> {
           to={sumLimit.max}
           onChange={this.handleChangeSum}
         />
-        <VerificationField
-          value={verified}
-          onChange={this.handleChangeVerification}
-        />
+        {!disableVerifiedFilter && (
+          <VerificationField
+            value={verified}
+            onChange={this.handleChangeVerification}
+          />
+        )}
+        {!disablePendingFilter && (
+          <PendingField value={pending} onChange={this.handleChangePending} />
+        )}
       </Drawer.Content>
     ) : (
       <Drawer.Content>
@@ -122,4 +148,4 @@ class LedgerFilterDrawer extends React.Component<Props> {
     )
   }
 }
-export default LedgerFilterDrawer
+export default PaymentsFilterDrawer

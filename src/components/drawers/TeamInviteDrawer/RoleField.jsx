@@ -1,7 +1,7 @@
 import React from 'react'
-import Drawer from 'components/kit/Drawer'
-import { MenuItem } from 'components/kit/Menu'
-import SelectField from 'components/kit/SelectField'
+import Drawer from 'components/kit/Drawer/index'
+import { MenuItem } from 'components/kit/Menu/index'
+import SelectField from 'components/kit/SelectField/index'
 import { ORDERED_TEAM_ROLES, TEAM_ROLE_TITLES } from 'const'
 
 const RoleField = ({ value, onChange }) => (

@@ -5,7 +5,7 @@ import { compose, withPropsOnChange } from 'recompose'
 import { injectStyles } from '@frankmoney/ui'
 import { reduxForm } from 'redux-form/immutable'
 import { required } from '@frankmoney/forms'
-import FieldControl from 'components/kit/FormControl'
+import ReduxFormControl from 'components/kit/ReduxFormControl'
 import { ConfirmDialog } from 'components/kit/Dialog'
 import { CATEGORY_COLORS } from 'const'
 import TextField from 'components/kit/TextField'
@@ -50,7 +50,7 @@ const EditCategoryDialog = ({
     onCancel={onCancel}
     onConfirm={submit}
   >
-    <FieldControl
+    <ReduxFormControl.Field
       component={CategorySelect}
       categories={COLORS}
       label="Color"
@@ -58,7 +58,7 @@ const EditCategoryDialog = ({
       className={classes.field}
       validate={validations.color}
     />
-    <FieldControl
+    <ReduxFormControl.Field
       name="name"
       className={classes.field}
       label="Category name"

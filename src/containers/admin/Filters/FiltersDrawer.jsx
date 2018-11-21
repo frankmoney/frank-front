@@ -1,6 +1,6 @@
 import { compose, mapProps } from 'recompose'
 import reconnect from 'utils/reconnect'
-import LedgerFilterDrawer from 'components/drawers/LedgerFilterDrawer'
+import PaymentsFilterDrawer from 'components/drawers/PaymentsFilterDrawer'
 import ACTIONS from './actions'
 import * as SELECTORS from './selectors'
 
@@ -21,4 +21,4 @@ export default compose(
     }
   ),
   mapProps(({ filtersData, ...props }) => ({ ...filtersData, ...props }))
-)(LedgerFilterDrawer)
+)(PaymentsFilterDrawer)

@@ -1,5 +1,5 @@
 import React from 'react'
-import LedgerFilterDrawer from 'components/drawers/LedgerFilterDrawer'
+// import LedgerFilterDrawer from 'components/drawers/LedgerFilterDrawer'
 import reconnect from 'utils/reconnect'
 import * as ACTIONS from '../actions'
 import {
@@ -20,19 +20,20 @@ const LedgerFilter = ({
   applyFilters,
   estimating,
   loaded,
-}) => (
-  <LedgerFilterDrawer
-    open={open}
-    loaded={loaded}
-    onClose={() => closeDrawer()}
-    onReset={() => resetFilters()}
-    onChange={changeFilters}
-    onApply={applyFilters}
-    totalCount={estimatedResultsCount}
-    totalCountEstimating={estimating}
-    {...filtersData}
-  />
-)
+}) =>
+  // TODO
+  null
+// {/*<LedgerFilterDrawer*/}
+//   {/*open={open}*/}
+//   {/*loaded={loaded}*/}
+//   {/*onClose={() => closeDrawer()}*/}
+//   {/*onReset={() => resetFilters()}*/}
+//   {/*onChange={changeFilters}*/}
+//   {/*onApply={applyFilters}*/}
+//   {/*totalCount={estimatedResultsCount}*/}
+//   {/*totalCountEstimating={estimating}*/}
+//   {/*{...filtersData}*/}
+// {/*/>*/}
 
 export default reconnect(
   {

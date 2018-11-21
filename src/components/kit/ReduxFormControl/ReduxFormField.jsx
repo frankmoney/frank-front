@@ -25,28 +25,30 @@ const mapHelperText = ({
 const mapError = ({ input: { value }, meta: { error, submitFailed } }) =>
   (submitFailed || hasValue(value)) && !!error
 
-const FieldControl = compose(
-  withPropsOnChange(['component'], ({ component: Component }) => ({
-    component: mapProps(props => {
-      const {
-        input: { value, onChange, onFocus, onBlur },
-        meta: { active },
-        counter,
-        ...otherProps
-      } = props
+const propsMapper = mapProps(props => {
+  const {
+    input: { value, onChange, onFocus, onBlur },
+    meta: { active },
+    counter,
+    ...otherProps
+  } = props
 
-      return {
-        value,
-        onChange,
-        onFocus,
-        onBlur,
-        focus: active,
-        error: mapError(props),
-        hint: mapHelperText(props),
-        ...otherProps,
-      }
-    })(Component),
+  return {
+    value,
+    onChange,
+    onFocus,
+    onBlur,
+    focus: active,
+    error: mapError(props),
+    hint: mapHelperText(props),
+    ...otherProps,
+  }
+})
+
+const ReduxFormField = compose(
+  withPropsOnChange(['component'], ({ component: Component }) => ({
+    component: propsMapper(Component),
   }))
 )(Field)
 
-export default FieldControl
+export default ReduxFormField
