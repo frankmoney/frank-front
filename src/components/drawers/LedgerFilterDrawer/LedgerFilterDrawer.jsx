@@ -9,25 +9,27 @@ import {
   VerificationField,
 } from 'components/DrawerFilters'
 
-type DateString = string
+type DateString = Date | string
 
 type SumLimit = {|
   min: number,
   max: number,
 |}
 
+type DateLimit = {|
+  from: DateString,
+  to: DateString,
+|}
+
 type Props = {|
   // filters data
-  sumLimit: SumLimit,
-  dateLimit: {
-    from: DateString,
-    to: DateString,
-  },
-  verified: boolean,
+  sumLimit?: SumLimit,
+  dateLimit?: DateLimit,
+  verified?: boolean,
   //
   loaded: boolean,
-  estimating: boolean,
-  totalCount: number,
+  estimating?: boolean,
+  totalCount?: number,
   // callbacks
   onReset: Function,
   onChange: Function,
@@ -41,7 +43,7 @@ class LedgerFilterDrawer extends React.Component<Props> {
     return { sumLimit, dateLimit, verified }
   }
 
-  handleChangeDateRange = value => {
+  handleChangeDateRange = (value: DateLimit) => {
     this.props.onChange({
       ...this.allFilters,
       dateLimit: value,
@@ -59,7 +61,7 @@ class LedgerFilterDrawer extends React.Component<Props> {
     this.props.onApply(this.allFilters)
   }
 
-  handleChangeVerification = value => {
+  handleChangeVerification = (value: ?boolean) => {
     this.props.onChange({
       ...this.allFilters,
       verified: value,
@@ -82,18 +84,22 @@ class LedgerFilterDrawer extends React.Component<Props> {
 
     const footerText = estimating
       ? 'Estimating...'
-      : `${totalCount > 0 ? totalCount : 'No'} payments`
+      : `${totalCount || 'No'} payments`
 
     const content = loaded ? (
       <Drawer.Content>
         <DateRangeField
           label="Date range"
+          // $FlowFixMe: dateLimit is defined at this point
           from={dateLimit.from}
+          // $FlowFixMe
           to={dateLimit.to}
           onChange={this.handleChangeDateRange}
         />
         <AmountField
+          // $FlowFixMe: sumLimit is defined at this point
           from={sumLimit.min}
+          // $FlowFixMe
           to={sumLimit.max}
           onChange={this.handleChangeSum}
         />
