@@ -1,15 +1,33 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import CategoryListPieChart from 'components/CategoryListPieChart'
 import Paper from 'components/kit/Paper'
-import { injectStyles } from 'utils/styles'
+import type { CategoryCb } from 'components/CategoryList'
+import type { BarData } from 'components/Charts/Bar'
+import type { GroupedPieData } from 'data/models/pieData'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import BarChart from './BarChart'
 import ExpandRow from './ExpandRow'
 import LedgerCategoryList from './LedgerCategoryList'
 import styles from './ChartCard.jss'
 import Title from './Title'
-import type { Props, State } from './ChartCard.flow'
+
+export type Props = {|
+  ...InjectStylesProps,
+  //
+  barsData: BarData,
+  barsOnly: boolean,
+  categoryType: string,
+  onCategoryClick: ?CategoryCb,
+  onCategoryTypeChange: ?CategoryCb,
+  period: string,
+  pieData: GroupedPieData,
+|}
+
+export type State = {|
+  expanded: boolean,
+|}
 
 class ChartCard extends React.PureComponent<Props, State> {
   state = {
