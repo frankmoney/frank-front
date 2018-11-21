@@ -1,12 +1,9 @@
 // @flow
-import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { withProps } from 'recompose'
-import Helmet from 'react-helmet'
-import { BASE_TITLE, ROUTES } from 'const'
+import { ROUTES } from 'const'
 import ButtonsDemo from './Buttons'
 import CommentsDemo from './CommentsDemo'
-import DemoLayout from './DemoLayout'
 import FieldsDemo from './Fields/FieldsDemo'
 import FieldsLeftDemo from './Fields/LeftFieldsDemo'
 import PopupsDemo from './Popups'
@@ -18,25 +15,12 @@ import Drawers from './Drawers'
 import SwitchesDemo from './SwitchesDemo'
 import WidgetDemo from './Widgets'
 
-const withDemoLayout = Component => (props: Object) => (
-  <DemoLayout>
-    <Component {...props} />
-    <Helmet title={`${BASE_TITLE} – Demo`} />
-  </DemoLayout>
-)
-
 export default [
   {
     component: withProps({ to: ROUTES.demo.widgets })(Redirect),
     path: ROUTES.demo.root,
     exact: true,
   },
-  // TODO page is not working
-  // {
-  //   component: withDemoLayout(ComponentsDemo),
-  //   path: ROUTES.demo.components,
-  //   exact: true,
-  // },
   {
     component: ButtonsDemo,
     path: ROUTES.demo.buttons,

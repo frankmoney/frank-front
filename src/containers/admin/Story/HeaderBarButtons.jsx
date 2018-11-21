@@ -54,7 +54,7 @@ const HeaderBarButtons = ({
         <div className={classes.published}>
           Published {formatFullDate(publishedAt)}
         </div>
-        <PublicLinkButton to="about:blank" label="See the public page" />
+        <PublicLinkButton href="about:blank" label="See the public page" />
       </>
     )}
     <RouterLink
