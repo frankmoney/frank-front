@@ -33,6 +33,9 @@ import teamReducer, { name as teamKey } from 'containers/admin/Team/reducer'
 import onboardingReducer, {
   REDUCER_KEY as onboardingKey,
 } from 'containers/admin/Onboarding/reducer'
+import filtersReducer, {
+  REDUCER_KEY as filtersKey,
+} from 'containers/admin/Filters/reducer'
 
 export default createReducer({
   [adminLedgerKey]: adminLedgerReducer,
@@ -48,4 +51,5 @@ export default createReducer({
   [teamKey]: teamReducer,
   [widgetDataKey]: widgetDataReducer,
   [onboardingKey]: onboardingReducer,
+  [filtersKey]: filtersReducer,
 })

@@ -27,6 +27,7 @@ const AmountField = ({ classes, from, to, onChange }) => (
   <Drawer.Field label="Amount">
     <div className={classes.wrap}>
       <TextField
+        stretch
         value={from || ''}
         label="min"
         onChange={value => onChange({ min: parseNumber(value), max: to })}

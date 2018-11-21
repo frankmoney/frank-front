@@ -92,7 +92,7 @@ const DateRangeField = ({
     <Drawer.Field {...otherProps}>
       <SelectField
         value={filterValue}
-        fullWidth
+        stretch
         onChange={v => onChange(formatFilterValue(v))}
       >
         <MenuItem value={DATE_FILTER.allTime} label="All" />

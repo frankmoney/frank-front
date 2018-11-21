@@ -176,6 +176,7 @@ class SuggestField extends React.Component {
     const {
       classes,
       className,
+      // TODO correct prop resting
       // TEXTFIELD PROPS
       onChange,
       onFocus,
@@ -193,6 +194,7 @@ class SuggestField extends React.Component {
       loading,
       loadingText,
       multiLine,
+      stretch,
       ...otherProps
     } = this.props
 
@@ -228,6 +230,7 @@ class SuggestField extends React.Component {
           loading,
           loadingText,
           multiLine,
+          stretch,
           value: inputValue,
           onChange: this.handleChange,
           onFocus: this.handleFocus,

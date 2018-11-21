@@ -5,9 +5,13 @@ import * as ACTIONS from './actions'
 export const REDUCER_KEY = 'adminLedger'
 
 const defaultState = Immutable.fromJS({
-  typing: false,
   loading: true,
   loaded: false,
+  filtersEdit: {
+    open: false,
+    loaded: false,
+    data: {},
+  },
   chartCategoryType: 'spending',
   categories: [],
   barsData: [],
@@ -19,9 +23,11 @@ const defaultState = Immutable.fromJS({
   suggestedDescriptions: [],
 })
 
+const mergeFilters = (state, data) =>
+  state.update('filtersEdit', x => x.merge(data))
+
 export default handleActions(
   {
-    [ACTIONS.searchTyping]: state => state.merge({ typing: true }),
     [ACTIONS.load]: (state, { payload: { updateListOnly } }) =>
       state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
     [ACTIONS.load.success]: (
@@ -44,6 +50,37 @@ export default handleActions(
         loading: false,
         typing: false,
       }),
+    [ACTIONS.filtersOpen]: state => mergeFilters(state, { open: true }),
+    [ACTIONS.filtersChange]: (state, { payload: newFilters }) =>
+      mergeFilters(state, { data: newFilters }),
+    [ACTIONS.filtersLoad]: state => mergeFilters(state, { loaded: false }),
+    [ACTIONS.filtersLoad.success]: (
+      state,
+      { payload: { filters, totalCount } }
+    ) =>
+      mergeFilters(state, {
+        loaded: true,
+        data: filters,
+        totalCount,
+        initialData: filters,
+      }),
+    [ACTIONS.filtersReset]: state =>
+      mergeFilters(state, {
+        data: state.getIn(['filtersEdit', 'initialData']),
+      }),
+    [ACTIONS.filtersEstimateResultsCount]: state =>
+      mergeFilters(state, {
+        estimatingResults: true,
+      }),
+    [ACTIONS.filtersEstimateResultsCount.success]: (
+      state,
+      { payload: totalCount }
+    ) =>
+      mergeFilters(state, {
+        estimatingResults: false,
+        totalCount,
+      }),
+    [ACTIONS.filtersClose]: state => mergeFilters(state, { open: false }),
     [ACTIONS.searchSuggestions]: (
       state,
       { payload: { peers, descriptions } }

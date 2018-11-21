@@ -92,17 +92,6 @@ export const totalPagesSelector = createSelector(
   count => Math.ceil(count / PAGE_SIZE)
 )
 
-// Filters drawer
-
-export const isFiltersEstimatingResultsCountSelector = getFilters(
-  'estimatingResults'
-)
-export const isFiltersLoadedSelector = getFilters('loaded')
-export const isFiltersOpenSelector = getFilters('open')
-export const isFiltersEstimatingSelector = getFilters('estimatingResults')
-export const filtersDataSelector = createPlainObjectSelector(getFilters('data'))
-export const filtersEstimatedResultsCountSelector = getFilters('totalCount')
-
 // Filters
 
 export const currentCategoryIdSelector = createSelector(
@@ -143,6 +132,15 @@ export const currentFiltersSelector = createSelector(
     dateMax: dateMax ? parseDate(dateMax) : null,
     verified: parseQueryStringBool(verified),
   })
+)
+
+export const currentFiltersCountSelector = createSelector(
+  currentFiltersSelector,
+  R.pipe(
+    R.toPairs,
+    R.filter(([_, v]) => !!v),
+    R.length
+  )
 )
 
 export const periodSelector = () => 'All time' // TODO: get data from filter and formatter from DateRangeField

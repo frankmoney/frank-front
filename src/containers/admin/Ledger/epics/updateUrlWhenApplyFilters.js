@@ -1,10 +1,10 @@
 import { mergeQuery } from '@frankmoney/webapp'
 import { formatDate } from 'utils/dates'
-import * as ACTIONS from '../actions'
+import ACTIONS from 'containers/admin/Filters/actions'
 
 export default action$ =>
   action$
-    .ofType(ACTIONS.filtersApply)
+    .ofType(ACTIONS.apply)
     .map(({ payload: { sumLimit, dateLimit, verified } }) =>
       mergeQuery({
         amountMin: sumLimit && sumLimit.min,
