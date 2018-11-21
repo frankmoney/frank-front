@@ -48,7 +48,7 @@ const DrawersDemo = () => (
           complete
         </Drawer.Title>
         <Drawer.Field style={{ marginBottom: 0 }}>
-          <TextField placeholder="Frank" />
+          <TextField stretch placeholder="Frank" />
         </Drawer.Field>
         <Drawer.Content disableOverflowTop style={{ paddingTop: 20 }}>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((num, idx) => (
@@ -88,7 +88,7 @@ const DrawersDemo = () => (
               footerButtonProps={{ width: 120, onClick: () => toggle(false) }}
             >
               <Drawer.Field style={{ marginBottom: 0 }}>
-                <TextField placeholder="Frank" />
+                <TextField stretch placeholder="Frank" />
               </Drawer.Field>
               <Drawer.Content disableOverflowTop style={{ paddingTop: 20 }}>
                 {[
@@ -154,10 +154,11 @@ const DrawersDemo = () => (
             >
               <Drawer.Content>
                 <Drawer.Field label="Name">
-                  <TextField placeholder="Frank" />
+                  <TextField stretch placeholder="Frank" />
                 </Drawer.Field>
                 <Drawer.Field label="Role">
                   <SelectField
+                    stretch
                     placeholder="Team role"
                     style={{ marginBottom: 0 }}
                   >

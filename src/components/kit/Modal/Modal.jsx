@@ -44,6 +44,7 @@ const styles = {
 class Modal extends React.Component<ModalProps> {
   static defaultProps = {
     backdropProps: {},
+    open: false,
     disableEnforceFocus: false,
     disableBackdropClick: false,
     disableCloseOnEscape: false,

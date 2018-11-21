@@ -5,7 +5,6 @@ import { required, createValidateFromRules } from '@frankmoney/forms'
 import { compose, withPropsOnChange, lifecycle } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
 import TextField from 'components/kit/TextField'
-import Spinner from 'components/kit/Spinner'
 import FormControl from 'components/kit/FormControl'
 import reconnect from 'utils/reconnect'
 import * as ACTIONS from '../actions'
@@ -126,7 +125,6 @@ const StepForm = ({ classes, fields, submit, isChecking }) => (
         renderField({ ...field, classes, onSubmit: submit, isChecking, idx })
       )}
     </div>
-    {isChecking && <Spinner className={classes.spinner} size={45} />}
   </>
 )
 

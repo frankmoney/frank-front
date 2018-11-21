@@ -149,6 +149,8 @@ class Field extends React.Component<Props, State> {
       autoFocus,
       noUnderline,
       onKeyDown,
+      onKeyPress,
+      onKeyUp,
     } = this.props
 
     const control = React.Children.only(children)
@@ -202,7 +204,9 @@ class Field extends React.Component<Props, State> {
             ref: this.handleControlRef,
             onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),
             onBlur: chainCallbacks(this.handleBlur, control.props.onBlur),
+            onKeyUp: chainCallbacks(onKeyUp, control.props.onKeyUp),
             onKeyDown: chainCallbacks(onKeyDown, control.props.onKeyDown),
+            onKeyPress: chainCallbacks(onKeyPress, control.props.onKeyPress),
             onChange: chainCallbacks(this.handleChange, control.props.onChange),
             disabled: disabled || loading,
           })}
