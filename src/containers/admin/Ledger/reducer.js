@@ -19,6 +19,9 @@ const defaultState = Immutable.fromJS({
   pieData: [],
   paymentsCount: 0,
   payments: [],
+  searchingSuggestions: null,
+  suggestedPeers: [],
+  suggestedDescriptions: [],
 })
 
 const mergeFilters = (state, data) =>
@@ -31,16 +34,7 @@ export default handleActions(
       state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
     [ACTIONS.load.success]: (
       state,
-      {
-        payload: {
-          allPeers,
-          payments,
-          categories,
-          totalCount,
-          pieChart,
-          barChart,
-        },
-      }
+      { payload: { payments, categories, totalCount, pieChart, barChart } }
     ) =>
       state.merge({
         loading: false,
@@ -48,7 +42,6 @@ export default handleActions(
         loaded: true,
         updatingList: false,
         categories: categories ? fromJS(categories) : state.get('categories'),
-        allPeers: fromJS(allPeers),
         payments: fromJS(payments),
         barsData: fromJS(barChart || []),
         pieData: fromJS(pieChart || []),
@@ -90,6 +83,27 @@ export default handleActions(
         totalCount,
       }),
     [ACTIONS.filtersClose]: state => mergeFilters(state, { open: false }),
+    [ACTIONS.searchSuggestions]: (
+      state,
+      { payload: { peers, descriptions } }
+    ) =>
+      state.merge({
+        searchingSuggestions:
+          (peers && 'peers') || (descriptions && 'descriptions'),
+      }),
+    [ACTIONS.searchSuggestions.success]: (
+      state,
+      { payload: { peers, descriptions } }
+    ) =>
+      state.merge({
+        searchingSuggestions: null,
+        suggestedPeers: fromJS(peers || []),
+        suggestedDescriptions: fromJS(descriptions || []),
+      }),
+    [ACTIONS.searchSuggestions.error]: state =>
+      state.merge({
+        searchingSuggestions: null,
+      }),
     [ACTIONS.leave]: () => defaultState,
     [ACTIONS.selectCategoryType]: (state, { payload: categoryType }) =>
       state.merge({ chartCategoryType: categoryType }),

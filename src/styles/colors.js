@@ -12,6 +12,7 @@ const colors = {
   purple: '#8725FB',
   yellow: '#ECCD5F',
   red: '#FF3939',
+  primary: '#484DE7',
 }
 
 export default colors

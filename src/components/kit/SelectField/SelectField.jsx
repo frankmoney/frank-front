@@ -13,6 +13,9 @@ const renderFieldControl = ({
   getAnchorProps,
   active,
   getInputProps,
+  disableArrowHover,
+  style,
+  className,
   // FIELD PROPS
   placeholder,
   larger,
@@ -25,8 +28,10 @@ const renderFieldControl = ({
   disabled,
   loading,
   loadingText,
+  noUnderline,
 }) => (
   <Field
+    className={className}
     placeholder={placeholder}
     larger={larger}
     error={error}
@@ -37,21 +42,35 @@ const renderFieldControl = ({
     disabled={disabled}
     loading={loading}
     loadingText={loadingText}
-    {...getAnchorProps()}
+    value={valueFormatted}
+    {...getAnchorProps({ style })}
     focus={active}
+    noUnderline={noUnderline}
   >
     <SelectFieldControl
       stretch
       active={active}
-      style={{ width: 270 }}
-      value={valueFormatted}
+      disableArrowHover={disableArrowHover}
       {...getInputProps()}
     />
   </Field>
 )
 
-const SelectField = withProps({
-  renderControl: renderFieldControl,
-})(Select)
+const SelectField = ({
+  disableStretchDropdown,
+  renderControl, // ignore
+  stretchDropdown, // ignore
+  ...otherProps
+}) => (
+  <Select
+    renderControl={renderFieldControl}
+    stretchDropdown={!disableStretchDropdown}
+    {...otherProps}
+  />
+)
+
+SelectField.defaultProps = {
+  disableStretchDropdown: false,
+}
 
 export default SelectField

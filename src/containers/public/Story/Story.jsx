@@ -1,13 +1,14 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
 import { compose, lifecycle, branch, renderComponent } from 'recompose'
 import Helmet from 'react-helmet'
-import { injectStyles } from '@frankmoney/ui'
-import { PageLoader } from '@frankmoney/components'
-import reconnect from 'utils/reconnect'
-import StoryPaymentsStats from 'components/StoryPaymentsStats'
-import StoryPayments from 'components/StoryPayments'
+import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
+import StoryPayments from 'components/StoryPayments'
+import StoryPaymentsStats from 'components/StoryPaymentsStats'
+import reconnect from 'utils/reconnect'
+import { injectStyles } from 'utils/styles'
 import { BASE_TITLE } from 'const'
 import StoryHeader from './StoryHeader'
 import { accountSelector, isLoadedSelector, storySelector } from './selectors'
@@ -90,6 +91,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => !props.isLoaded, renderComponent(PageLoader)),
+  branch(props => !props.isLoaded, renderComponent(AreaSpinner)),
   injectStyles(styles, { fixedGrid: true })
 )(Story)

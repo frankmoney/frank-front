@@ -2,7 +2,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import Input from './Input'
+import Input, { type InputProps } from './Input'
 
 const styles = {
   root: {
@@ -15,21 +15,16 @@ type Value = string | number
 
 type OnChangeCb = any => void
 
-type UnusedProps = {|
-  focus?: any,
-|}
-
 type Props = {|
   ...InjectStylesProps,
-  ...UnusedProps, // FIXME
+  ...InputProps,
   //
   autoFocus?: boolean,
   controlRef?: ?Function,
-  defaultValue?: Value,
-  id?: string,
-  name?: string,
-  onChange?: OnChangeCb,
+  // Uncontrolled/Controlled value
   value?: Value,
+  defaultValue?: Value,
+  onChange?: OnChangeCb,
 |}
 
 interface Control {
@@ -39,6 +34,8 @@ interface Control {
 type State = {|
   value?: Value,
 |}
+
+export type TextBoxProps = Props
 
 class TextBox extends React.Component<Props, State> {
   static defaultProps = {
@@ -66,15 +63,18 @@ class TextBox extends React.Component<Props, State> {
 
     if (this.isControlled) {
       if (typeof this.props.onChange === 'function') {
-        return this.props.onChange(value)
+        // In case of input change it's better give event object cos
+        // it's like old fashion yes but still
+        // (esp. other libs like react-suggest 'await' for event not a value itself)
+        return this.props.onChange(event)
       }
+    } else {
+      this.setState({ value }, () => {
+        if (typeof this.props.onChange === 'function') {
+          this.props.onChange(event)
+        }
+      })
     }
-
-    this.setState({ value }, () => {
-      if (typeof this.props.onChange === 'function') {
-        this.props.onChange(value)
-      }
-    })
   }
 
   control: Control
@@ -98,15 +98,11 @@ class TextBox extends React.Component<Props, State> {
     const {
       classes,
       className,
-      id,
-      name,
       value,
       defaultValue,
       autoFocus,
       controlRef,
       onChange,
-      // Omit
-      focus,
       //
       ...otherProps
     } = this.props
@@ -119,8 +115,6 @@ class TextBox extends React.Component<Props, State> {
         controlRef={this.handleInputRef}
         value={combinedValue}
         onChange={this.handleChange}
-        id={id}
-        name={name}
         {...otherProps}
       />
     )

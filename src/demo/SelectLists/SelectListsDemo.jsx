@@ -72,6 +72,20 @@ const SelectListsDemo = ({ classes }) => (
     <div className={classes.rowCentered}>
       <div className={classes.rowContent}>
         <Menu defaultValue="manager" style={{ width: 200 }}>
+          <MenuItem value="admin" label="Administrator" />
+          <MenuItem value="manager" label="Manager" />
+          <MenuItem value="observer" label="Observer" />
+        </Menu>
+        <div className={classes.hints} style={{ width: 200 }}>
+          Try combination both hover and <b>Up</b>/<b>Down</b> or <b>Enter</b>{' '}
+          keys
+        </div>
+      </div>
+    </div>
+    <h2>Item overflow</h2>
+    <div className={classes.rowCentered}>
+      <div className={classes.rowContent}>
+        <Menu defaultValue="manager" style={{ width: 200 }}>
           <MenuItem
             value="admin"
             label="Administrator Administrator Administrator"
@@ -79,10 +93,44 @@ const SelectListsDemo = ({ classes }) => (
           <MenuItem value="manager" label="Manager Manager Manager" />
           <MenuItem value="observer" label="Observer Observer Observer" />
         </Menu>
-        <div className={classes.hints} style={{ width: 200 }}>
-          Try combination both hover and <b>Up</b>/<b>Down</b> or <b>Enter</b>{' '}
-          keys
-        </div>
+        <Menu defaultValue={0} style={{ width: 200 }}>
+          <MenuItem
+            icon={<PublicIcon />}
+            label="Normal Normal Normal"
+            value={0}
+          />
+          <MenuItem
+            selected
+            icon={<PublicIcon />}
+            label="Selected Selected Selected"
+            value={1}
+          />
+          <MenuItem
+            active
+            icon={<PublicIcon />}
+            label="Active Active Active"
+            value={2}
+          />
+        </Menu>
+        <Menu defaultValue={0} style={{ width: 200 }}>
+          <CategoryMenuItem
+            label="Normal Normal Normal"
+            color="#8725FB"
+            value={0}
+          />
+          <CategoryMenuItem
+            selected
+            label="Selected Selected Selected"
+            color="#E34498"
+            value={1}
+          />
+          <CategoryMenuItem
+            active
+            label="Active Active Active"
+            color="#F2733D"
+            value={2}
+          />
+        </Menu>
       </div>
     </div>
     <h2>Max visible items</h2>

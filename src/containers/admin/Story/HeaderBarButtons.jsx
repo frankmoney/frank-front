@@ -3,9 +3,9 @@ import React from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
-import { Edit as EditIcon, Public as PublicIcon } from 'material-ui-icons'
-import { LinkButton } from '@frankmoney/components'
+import EditIcon from 'material-ui-icons/Edit'
 import { createRouteUrl } from '@frankmoney/utils'
+import PublicLinkButton from 'components/PublicLinkButton'
 import RouterLink from 'components/RouterLink'
 import Button from 'components/kit/Button'
 import { formatFullDate } from 'utils/datesLight'
@@ -54,9 +54,7 @@ const HeaderBarButtons = ({
         <div className={classes.published}>
           Published {formatFullDate(publishedAt)}
         </div>
-        <LinkButton type="secondary" icon={PublicIcon}>
-          See the public page
-        </LinkButton>
+        <PublicLinkButton href="about:blank" label="See the public page" />
       </>
     )}
     <RouterLink

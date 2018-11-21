@@ -1,17 +1,10 @@
+/* eslint-disable no-param-reassign */
 // @flow
 
-export type TextareaProps = {
-  +minLines?: number,
-}
-
-type TextArea = any // FIXME: HTMLTextAreaElement?
-
-// eslint-disable-next-line import/prefer-default-export
 export const adjustTextareaSize = (
-  element: TextArea,
-  { minLines = 0 }: TextareaProps
+  element: HTMLTextAreaElement,
+  { minLines = 0 }
 ) => {
-  /* eslint-disable no-param-reassign */
   const scrollTop = element.scrollTop
   const minHeight =
     minLines * parseInt(getComputedStyle(element).lineHeight, 10)
@@ -28,5 +21,4 @@ export const adjustTextareaSize = (
   } finally {
     element.scrollTop = scrollTop
   }
-  /* eslint-enable no-param-reassign */
 }

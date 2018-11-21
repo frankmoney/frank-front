@@ -1,9 +1,17 @@
+// @flow strict-local
 import React from 'react'
-import { CheckedMenuItem } from '@frankmoney/components'
-import DrawerField from 'components/DrawerField'
-import SelectField from 'components/SelectField'
+import Drawer from 'components/kit/Drawer'
+import SelectField from 'components/kit/SelectField'
+import { MenuItem } from 'components/kit/Menu'
 
-const formatValue = value => {
+type Value = 'verified' | 'not_verified' | 'all'
+
+type Props = {|
+  value: Value,
+  onChange: (?boolean) => void,
+|}
+
+const formatValue = (value: Value) => {
   switch (value) {
     case 'verified':
       return true
@@ -14,7 +22,7 @@ const formatValue = value => {
   }
 }
 
-const parseValue = value => {
+const parseValue = (value: Value) => {
   switch (value) {
     case true:
       return 'verified'
@@ -25,18 +33,17 @@ const parseValue = value => {
   }
 }
 
-const VerificationField = ({ value, onChange }) => (
-  <DrawerField title="Verification">
+const VerificationField = ({ value, onChange }: Props) => (
+  <Drawer.Field label="Verification">
     <SelectField
       value={parseValue(value)}
-      fullWidth
-      onChange={({ target }) => onChange(formatValue(target.value))}
+      onChange={v => onChange(formatValue(v))}
     >
-      <CheckedMenuItem value="all">All payments</CheckedMenuItem>
-      <CheckedMenuItem value="verified">Verified only</CheckedMenuItem>
-      <CheckedMenuItem value="not_verified">Not verified only</CheckedMenuItem>
+      <MenuItem value="all" label="All payments" />
+      <MenuItem value="verified" label="Verified only" />
+      <MenuItem value="not_verified" label="Not verified only" />
     </SelectField>
-  </DrawerField>
+  </Drawer.Field>
 )
 
 export default VerificationField

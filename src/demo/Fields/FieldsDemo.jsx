@@ -14,6 +14,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
+    minHeight: 500,
   },
   playground: {},
   states: {
@@ -59,14 +60,14 @@ const FieldsDemo = ({ classes }) => {
         <Field label="Name" focus>
           <TextBox />
         </Field>
-        <Field label="Name">
-          <TextBox defaultValue="Nick" />
+        <Field defaultValue="Nick" label="Name">
+          <TextBox />
         </Field>
-        <Field label="Name" error="Error" invalid>
-          <TextBox defaultValue="Tom" />
+        <Field defaultValue="Tom" label="Name" error="Error" invalid>
+          <TextBox />
         </Field>
-        <Field label="Name" error="Error" invalid focus>
-          <TextBox defaultValue="Tom" />
+        <Field defaultValue="Tom" label="Name" error="Error" invalid focus>
+          <TextBox />
         </Field>
       </Row>
       <h1>Additional label</h1>
@@ -78,25 +79,31 @@ const FieldsDemo = ({ classes }) => {
         <Field label="Name" additionalLabel="Additional label" focus>
           <TextBox />
         </Field>
-        <Field label="Name" additionalLabel="Additional label">
-          <TextBox defaultValue="Nick" />
+        <Field
+          defaultValue="Nick"
+          label="Name"
+          additionalLabel="Additional label"
+        >
+          <TextBox />
         </Field>
         <Field
+          defaultValue="Tom"
           label="Name"
           additionalLabel="Additional label"
           error="Error"
           invalid
         >
-          <TextBox defaultValue="Tom" />
+          <TextBox />
         </Field>
         <Field
+          defaultValue="Tom"
           label="Name"
           additionalLabel="Additional label"
           error="Error"
           invalid
           focus
         >
-          <TextBox defaultValue="Tom" />
+          <TextBox />
         </Field>
       </Row>
       <h2>Floating label</h2>
@@ -108,14 +115,20 @@ const FieldsDemo = ({ classes }) => {
         <Field floatingLabel="Name" focus>
           <TextBox />
         </Field>
-        <Field floatingLabel="Name">
-          <TextBox defaultValue="Nick" />
+        <Field defaultValue="Nick" floatingLabel="Name">
+          <TextBox />
         </Field>
-        <Field floatingLabel="Name" error="Error" invalid>
-          <TextBox defaultValue="Tom" />
+        <Field defaultValue="Tom" floatingLabel="Name" error="Error" invalid>
+          <TextBox />
         </Field>
-        <Field floatingLabel="Name" error="Error" invalid focus>
-          <TextBox defaultValue="Tom" />
+        <Field
+          defaultValue="Tom"
+          floatingLabel="Name"
+          error="Error"
+          invalid
+          focus
+        >
+          <TextBox />
         </Field>
       </Row>
       <h2>Multiline</h2>
@@ -127,23 +140,28 @@ const FieldsDemo = ({ classes }) => {
         <Field label="Fixed label" focus>
           <TextBox multiLine />
         </Field>
-        <Field label="Fixed label">
-          <TextBox
-            multiLine
-            defaultValue="One solution is to reset the key to a random value or auto incrementing"
-          />
+        <Field
+          label="Fixed label"
+          defaultValue="One solution is to reset the key to a random value or auto incrementing"
+        >
+          <TextBox multiLine />
         </Field>
-        <Field label="Fixed label" invalid error="Error">
-          <TextBox
-            multiLine
-            defaultValue="One solution is to reset the key to a random value or auto incrementing"
-          />
+        <Field
+          label="Fixed label"
+          invalid
+          error="Error"
+          defaultValue="One solution is to reset the key to a random value or auto incrementing"
+        >
+          <TextBox multiLine />
         </Field>
-        <Field label="Fixed label" invalid focus error="Error">
-          <TextBox
-            multiLine
-            defaultValue="One solution is to reset the key to a random value or auto incrementing"
-          />
+        <Field
+          label="Fixed label"
+          invalid
+          focus
+          error="Error"
+          defaultValue="One solution is to reset the key to a random value or auto incrementing"
+        >
+          <TextBox multiLine />
         </Field>
       </Row>
       <h2>Placeholders</h2>
@@ -187,27 +205,34 @@ const FieldsDemo = ({ classes }) => {
         <Field label="Name" larger focus placeholder="Frank Sinatra">
           <TextBox />
         </Field>
-        <Field label="Name" larger placeholder="Frank Sinatra">
-          <TextBox defaultValue="Nick" />
+        <Field
+          label="Name"
+          defaultValue="Nick"
+          larger
+          placeholder="Frank Sinatra"
+        >
+          <TextBox />
         </Field>
         <Field
           label="Name"
+          defaultValue="Tom"
           error="Error"
           larger
           invalid
           placeholder="Frank Sinatra"
         >
-          <TextBox defaultValue="Tom" />
+          <TextBox />
         </Field>
         <Field
           label="Name"
+          defaultValue="Tom"
           error="Error"
           larger
           invalid
           focus
           placeholder="Frank Sinatra"
         >
-          <TextBox defaultValue="Tom" />
+          <TextBox />
         </Field>
       </Row>
       <Row>
@@ -217,11 +242,13 @@ const FieldsDemo = ({ classes }) => {
         <Field label="Fixed label" larger focus placeholder="Frank Sinatra">
           <TextBox multiLine />
         </Field>
-        <Field label="Fixed label" larger placeholder="Frank Sinatra">
-          <TextBox
-            multiLine
-            defaultValue="One solution is to reset the key to a random value or auto incrementing"
-          />
+        <Field
+          label="Fixed label"
+          larger
+          placeholder="Frank Sinatra"
+          defaultValue="One solution is to reset the key to a random value or auto incrementing"
+        >
+          <TextBox multiLine />
         </Field>
         <Field
           label="Fixed label"
@@ -229,11 +256,9 @@ const FieldsDemo = ({ classes }) => {
           placeholder="Frank Sinatra"
           invalid
           error="Error"
+          defaultValue="One solution is to reset the key to a random value or auto incrementing"
         >
-          <TextBox
-            multiLine
-            defaultValue="One solution is to reset the key to a random value or auto incrementing"
-          />
+          <TextBox multiLine />
         </Field>
         <Field
           label="Fixed label"
@@ -242,11 +267,9 @@ const FieldsDemo = ({ classes }) => {
           invalid
           focus
           error="Error"
+          defaultValue="One solution is to reset the key to a random value or auto incrementing"
         >
-          <TextBox
-            multiLine
-            defaultValue="One solution is to reset the key to a random value or auto incrementing"
-          />
+          <TextBox multiLine />
         </Field>
       </Row>
       <SwitchBase defaultOn>
@@ -272,16 +295,21 @@ const FieldsDemo = ({ classes }) => {
               >
                 <TextBox />
               </Field>
-              <Field label="Fixed label" disabled={disabled}>
-                <TextBox defaultValue="Nick" />
+              <Field
+                label="Fixed label"
+                disabled={disabled}
+                defaultValue="Nick"
+              >
+                <TextBox />
               </Field>
               <Field
                 label="Fixed label"
                 error="Error"
                 invalid
                 disabled={disabled}
+                defaultValue="Tom"
               >
-                <TextBox defaultValue="Tom" />
+                <TextBox />
               </Field>
             </Row>
             <Row>
@@ -295,16 +323,21 @@ const FieldsDemo = ({ classes }) => {
               >
                 <TextBox />
               </Field>
-              <Field floatingLabel="Floating label" disabled={disabled}>
-                <TextBox defaultValue="Nick" />
+              <Field
+                floatingLabel="Floating label"
+                disabled={disabled}
+                defaultValue="Nick"
+              >
+                <TextBox />
               </Field>
               <Field
                 floatingLabel="Floating label"
                 error="Error"
                 invalid
                 disabled={disabled}
+                defaultValue="Tom"
               >
-                <TextBox defaultValue="Tom" />
+                <TextBox />
               </Field>
             </Row>
           </>
@@ -347,8 +380,9 @@ const FieldsDemo = ({ classes }) => {
                 label="Fixed label"
                 placeholder="Some placeholder"
                 loading={loading}
+                defaultValue="Nick"
               >
-                <TextBox defaultValue="Nick" />
+                <TextBox />
               </Field>
             </Row>
           </>

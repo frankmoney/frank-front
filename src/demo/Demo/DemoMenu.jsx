@@ -40,11 +40,17 @@ const DemoMenu = ({ classes }) => (
     <a href={ROUTES.demo.fields} className={classes.link}>
       Fields
     </a>
+    <a href={ROUTES.demo.fieldsLeft} className={classes.link}>
+      (WIP)Fields:left
+    </a>
     <a href={ROUTES.demo.popups} className={classes.link}>
       Popups
     </a>
     <a href={ROUTES.demo.selects} className={classes.link}>
       Selects
+    </a>
+    <a href={ROUTES.demo.selectsDate} className={classes.link}>
+      Selects:date
     </a>
     <a href={ROUTES.demo.selectLists} className={classes.link}>
       Select lists

@@ -1,13 +1,10 @@
 // @flow strict-local
 import React from 'react'
-import {
-  FixedHeader,
-  BreadcrumbsItem,
-  PageLoader,
-} from '@frankmoney/components'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
-import ListLayoutContent from 'components/ListLayoutContent'
+import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
+import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
+import ListLayoutContent from 'components/ListLayoutContent'
 import reconnect from 'utils/reconnect'
 import InviteButton from './InviteButton'
 import InviteDrawer from './InviteDrawer'
@@ -65,5 +62,5 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => !props.loaded || props.loading, renderComponent(PageLoader))
+  branch(props => !props.loaded || props.loading, renderComponent(AreaSpinner))
 )(Team)

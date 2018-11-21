@@ -25,11 +25,27 @@ const styles = {
       marginLeft: 10,
     },
   },
+  textSmaller: {
+    composes: '$text',
+    fontSize: 14,
+    lineHeight: 20,
+    color: 'rgba(37, 43, 67, .5)',
+    fontWeight: 400,
+  },
 }
 
-const Footer = ({ classes, className, text, children, ...otherProps }) => (
+const Footer = ({
+  classes,
+  className,
+  text,
+  textSmaller,
+  children,
+  ...otherProps
+}) => (
   <div className={cx(className, classes.root)} {...otherProps}>
-    <div className={classes.text}>{text}</div>
+    <div className={textSmaller ? classes.textSmaller : classes.text}>
+      {text}
+    </div>
     <div className={classes.buttons}>{children}</div>
   </div>
 )

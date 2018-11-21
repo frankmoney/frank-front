@@ -3,15 +3,13 @@ import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
 import { compose } from 'recompose'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 import {
   Delete as RemoveIcon,
   Check as PublishIcon,
   Close as UnpublishIcon,
 } from 'material-ui-icons'
-import StoryConfirmDialog from 'components/dialogs/StoryConfirmDialog'
+import reconnect from 'utils/reconnect'
+import { ConfirmDialog } from 'components/kit/Dialog'
 import Button, { IconButton } from 'components/kit/Button'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import EllipsisButtonMenu from 'components/EllipsisButtonMenu'
@@ -54,27 +52,27 @@ const styles = {
 }
 
 const SaveButton = compose(
-  connect(
-    state => ({
-      disabled: isSaveButtonDisabledSelector(state),
-      loading: isSavingSelector(state),
-      label: saveButtonLabelSelector(state),
-    }),
-    dispatch => ({ onClick: () => dispatch(ACTIONS.createOrUpdate()) })
+  reconnect(
+    {
+      disabled: isSaveButtonDisabledSelector,
+      loading: isSavingSelector,
+      label: saveButtonLabelSelector,
+    },
+    { onClick: ACTIONS.createOrUpdate }
   )
 )(Button)
 
 const PublishButton = compose(
-  connect(state => ({
-    disabled: isPublishButtonDisabledSelector(state),
-    label: publishButtonLabelSelector(state),
-  }))
+  reconnect({
+    disabled: isPublishButtonDisabledSelector,
+    label: publishButtonLabelSelector,
+  })
 )(Button)
 
 const DeleteButton = compose(
-  connect(state => ({
-    disabled: isDeleteButtonDisabledSelector(state),
-  }))
+  reconnect({
+    disabled: isDeleteButtonDisabledSelector,
+  })
 )(IconButton)
 
 type ConfirmDialogType = 'delete' | 'publish' | 'unpublish'
@@ -86,7 +84,7 @@ type Props = {|
   isPublished?: boolean | string, // TODO: fix those selectors
   processing?: boolean,
   publish: Function,
-  saved?: string, // why?
+  saved?: boolean | string,
   unpublish: Function,
 |}
 
@@ -103,12 +101,12 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
     isDrawerOpen: false,
   }
 
-  handleToggleConfirmDialog = type => () => {
+  getConfigDialogToggleHandler = R.memoizeWith(R.identity, type => () => {
     this.setState({
       confirmDialogType: type,
       isConfirmDialogOpen: !this.state.isConfirmDialogOpen,
     })
-  }
+  })
 
   handleDialogConfirmClick = type => {
     // eslint-disable-next-line default-case
@@ -132,11 +130,11 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
 
     const dialogTitle =
       confirmDialogType === 'delete'
-        ? `Delete ${isPublished ? 'story' : 'draft'}`
+        ? `Delete ${isPublished ? 'story?' : 'draft?'}`
         : `${
             confirmDialogType !== 'publish'
-              ? 'Unpublish story'
-              : 'Publish story'
+              ? 'Unpublish story?'
+              : 'Publish story?'
           }`
 
     const dialogConfirmLabel =
@@ -144,13 +142,13 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
         ? `Delete`
         : `${confirmDialogType !== 'publish' ? 'Unpublish' : 'Publish'}`
 
-    const dialogConfirmButtonType =
+    const dialogConfirmButtonColor =
       confirmDialogType === 'delete'
-        ? `danger`
-        : `${confirmDialogType !== 'publish' ? 'negative' : 'positive'}`
+        ? `red`
+        : `${confirmDialogType !== 'publish' ? 'blue' : 'green'}`
 
     const dialogConfirmButtonProps = {
-      type: dialogConfirmButtonType,
+      color: dialogConfirmButtonColor,
       loading: processing,
     }
 
@@ -161,18 +159,18 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
           className={!isPublished && classes.unpublishedButton}
           color="green"
           icon={<PublishIcon />}
-          onClick={this.handleToggleConfirmDialog('publish')}
+          onClick={this.getConfigDialogToggleHandler('publish')}
         />
         {saved &&
           (isPublished ? (
             <EllipsisButtonMenu>
               <MenuItem
-                onSelect={this.handleToggleConfirmDialog('unpublish')}
+                onSelect={this.getConfigDialogToggleHandler('unpublish')}
                 icon={<UnpublishIcon />}
                 label="Unpublish"
               />
               <MenuItem
-                onSelect={this.handleToggleConfirmDialog('delete')}
+                onSelect={this.getConfigDialogToggleHandler('delete')}
                 icon={<RemoveIcon />}
                 label="Delete"
               />
@@ -180,47 +178,37 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
           ) : (
             <DeleteButton
               icon={<RemoveIcon />}
-              onClick={() => this.handleToggleConfirmDialog('delete')}
+              onClick={() => this.getConfigDialogToggleHandler('delete')}
             />
           ))}
 
-        <StoryConfirmDialog
+        <ConfirmDialog
           open={isConfirmDialogOpen}
           title={dialogTitle}
           confirmLabel={dialogConfirmLabel}
           confirmButtonProps={dialogConfirmButtonProps}
-          onRequestClose={() =>
-            this.handleToggleConfirmDialog(confirmDialogType)
-          }
-          onConfirmClick={() =>
-            this.handleDialogConfirmClick(confirmDialogType)
-          }
+          onClose={this.getConfigDialogToggleHandler(confirmDialogType)}
+          onConfirm={() => this.handleDialogConfirmClick(confirmDialogType)}
         />
       </div>
     )
   }
 }
 
-const mapStateToProps = createStructuredSelector({
-  processing: isProcessingSelector,
-  saved: savedSelector,
-  isNew: isNewStorySelector,
-  isPublished: isPublishedSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    createOrUpdate: ACTIONS.createOrUpdate,
-    delete: ACTIONS.delete,
-    publish: ACTIONS.publish,
-    unpublish: ACTIONS.unpublish,
-  },
-])
-
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
+  reconnect(
+    {
+      processing: isProcessingSelector,
+      saved: savedSelector,
+      isNew: isNewStorySelector,
+      isPublished: isPublishedSelector,
+    },
+    {
+      createOrUpdate: ACTIONS.createOrUpdate,
+      delete: ACTIONS.delete,
+      publish: ACTIONS.publish,
+      unpublish: ACTIONS.unpublish,
+    }
   ),
   injectStyles(styles)
 )(HeaderBarButtons)

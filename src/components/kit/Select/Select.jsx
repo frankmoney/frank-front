@@ -1,5 +1,6 @@
 // @flow strict-local
 import * as React from 'react'
+import memoize from 'lodash/memoize'
 import Menu from 'components/kit/Menu'
 import Modal from 'components/kit/Modal'
 import ArrowMenu from 'components/kit/ArrowMenu'
@@ -8,6 +9,7 @@ import PopupBase, {
   type PopupPosition,
 } from 'components/kit/PopupBase'
 import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
+import chainCallbacks from 'utils/dom/chainCallbacks'
 
 type Direction = PopupPosition
 
@@ -37,8 +39,9 @@ export type Props = {|
   defaultValue?: Value,
   direction: Direction,
   dropdownWidth?: number,
-  formatValue: Value => string,
+  formatValue?: Value => string,
   stretchDropdown?: boolean,
+  renderControl: any => React.ReactElement, // TODO
 |}
 
 type State = {|
@@ -48,15 +51,15 @@ type State = {|
   selectedElementText?: ?string,
 |}
 
-const DEFAULT_WIDTH = 250
+const memoizeRefCallback = ref =>
+  memoize(handler => chainCallbacks(ref, handler))
 
 class Select extends React.Component<Props, State> {
   static defaultProps = {
     direction: 'down',
     align: 'start',
     alignByArrow: false,
-    dropdownWidth: DEFAULT_WIDTH,
-    selectedElementText: null,
+    dropdownWidth: 'auto',
   }
 
   state = {
@@ -71,18 +74,33 @@ class Select extends React.Component<Props, State> {
     }
   }
 
+  get isControlledValue() {
+    return typeof this.props.value !== 'undefined'
+  }
+
+  getValue(state: State = this.state) {
+    return this.isControlledValue ? this.props.value : state.value
+  }
+
+  getTextByValue = value => {
+    const menuItems = React.Children.toArray(this.props.children)
+    const found = menuItems.find(x => x.props.value === value)
+
+    return found && found.props.label
+  }
+
   getRenderProps = (state: State = this.state) => ({
-    value: state.value,
+    value: this.getValue(state),
     valueFormatted:
       typeof this.props.formatValue === 'function'
-        ? this.props.formatValue(state.value)
-        : state.selectedElementText,
+        ? this.props.formatValue(this.getValue(state))
+        : this.getValue(state) && this.getTextByValue(this.getValue(state)),
     active: state.open || state.focused,
     toggle: this.handleTogglePopup,
     select: this.handleChange,
     getInputProps: (props = {}) => ({
       ...props,
-      controlRef: this.handleInputRef,
+      controlRef: this.handleInputRef(props.ref),
       tabIndex: 0,
       onClick: this.handleInputClick,
       onFocus: this.handleInputFocus,
@@ -95,25 +113,35 @@ class Select extends React.Component<Props, State> {
     this.list = ref
   }
 
-  handleInputRef = ref => {
+  handleInputRef = memoizeRefCallback(ref => {
     this.input = ref
-  }
+  })
 
   handleInputClick = () => {
     this.handleTogglePopup(true)
   }
 
   handleChange = value => {
-    this.setState({
-      value,
-      open: this.props.multiple ? this.state.open : false,
-    })
-  }
-
-  handleSelectElement = (element: ?Element) => {
-    this.setState({
-      selectedElementText: element ? element.innerText : null,
-    })
+    const open = this.props.multiple ? this.state.open : false
+    if (!this.isControlledValue) {
+      this.setState(
+        {
+          value,
+          open,
+        },
+        () => {
+          if (typeof this.props.onChange === 'function') {
+            this.props.onChange(value)
+          }
+        }
+      )
+    } else {
+      this.setState({ open: false }, () => {
+        if (typeof this.props.onChange === 'function') {
+          this.props.onChange(value)
+        }
+      })
+    }
   }
 
   handleTogglePopup = (open: boolean) => {
@@ -152,6 +180,7 @@ class Select extends React.Component<Props, State> {
       alignByArrow,
       children,
       multiple,
+      distance,
       dropdownWidth,
       stretchDropdown,
       formatValue,
@@ -163,16 +192,16 @@ class Select extends React.Component<Props, State> {
 
     const hasArrow = !!arrowAt
     const MenuComponent = hasArrow ? ArrowMenu : Menu
+    const defaultDistance = hasArrow ? 15 : 8
 
     return (
       <PopupBase
-        enableViewportOffset
         open={this.state.open}
         onChangeOpen={this.handleTogglePopup}
         place={direction}
         align={align}
         alignByArrow={alignByArrow}
-        distance={hasArrow ? 15 : 8}
+        distance={distance || defaultDistance}
       >
         {popupState => {
           const {
@@ -181,7 +210,6 @@ class Select extends React.Component<Props, State> {
             anchorEl,
             getPopupProps,
             getArrowProps,
-            getAnchorProps,
           } = popupState
 
           const arrowMenuProps = hasArrow
@@ -195,26 +223,25 @@ class Select extends React.Component<Props, State> {
           return (
             <>
               {renderControl({
+                ...popupState,
                 ...otherProps,
-                getAnchorProps,
                 ...this.getRenderProps(this.state),
               })}
               <Modal open={open} invisibleBackdrop onClose={close}>
                 <MenuComponent
-                  value={this.state.value}
+                  value={this.getValue(this.state)}
                   onChange={this.handleChange}
-                  onSelectElement={!formatValue && this.handleSelectElement}
                   multiple={multiple}
                   listRef={this.handleListRef}
                   {...arrowMenuProps}
                   {...getPopupProps({
                     ...menuProps,
                     style: {
-                      ...menuProps.style,
                       width:
                         open && stretchDropdown
                           ? anchorEl.clientWidth
                           : dropdownWidth,
+                      ...menuProps.style,
                     },
                   })}
                 >

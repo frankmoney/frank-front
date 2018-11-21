@@ -33,6 +33,7 @@ export type Props = {|
   //
   active?: boolean,
   color?: string,
+  disableFocusable?: boolean,
   name?: string,
   value?: number,
   valueUnit?: string,
@@ -52,6 +53,7 @@ const CategoryLabel = ({
   activeClassName,
   classes,
   className,
+  disableFocusable,
   iconClassName,
   name,
   nameClassName,
@@ -69,8 +71,9 @@ const CategoryLabel = ({
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      role="button"
-      tabIndex={0}
+      role={disableFocusable ? null : 'button'}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+      tabIndex={disableFocusable ? null : 0}
     >
       <IconCircle className={cx(classes.icon, iconClassName)} />
       <HighlightText className={cx(classes.name, nameClassName)} text={name} />

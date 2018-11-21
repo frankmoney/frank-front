@@ -11,21 +11,21 @@ import {
 } from 'recompose'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { bindActionCreators } from 'redux'
+import { createStructuredSelector } from 'reselect'
 import {
   FixedHeader,
   Breadcrumbs,
   BreadcrumbsItem,
-  PageLoader,
 } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
-import { bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
+import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
 import StoryCard from 'components/StoryCard'
 import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import NewButton from './NewButton'
-import ShareDialog from './ShareDialog'
+import StoryPublishedDialog from './StoryPublishedDialog'
 import {
   isLoadingSelector,
   hasNoStoriesSelector,
@@ -51,11 +51,11 @@ const Stories = ({ classes, noStories, stories, className }) => (
         <NewButton />
         {!noStories &&
           stories.map(story => (
-            <LinkedStoryCard {...story.draft} pid={story.pid} />
+            <LinkedStoryCard {...story.draft} key={story.pid} pid={story.pid} />
           ))}
       </div>
     </div>
-    <ShareDialog />
+    <StoryPublishedDialog />
   </CurrencyProvider>
 )
 
@@ -87,6 +87,6 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => props.loading, renderComponent(PageLoader)),
+  branch(props => props.loading, renderComponent(AreaSpinner)),
   injectStyles(styles, { grid: true })
 )(Stories)

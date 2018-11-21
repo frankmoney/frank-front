@@ -10,6 +10,7 @@ import {
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
+import { UNCATEGORIZED_CATEGORY } from '../../../const'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
@@ -22,6 +23,11 @@ export const listIsUpdatingSelector = get('updatingList')
 export const isTypingSelector = get('typing')
 export const paymentsTotalCountSelector = get('paymentsCount')
 export const categoriesSelector = createPlainObjectSelector(get('categories'))
+export const paymentCardCategoriesSelector = createSelector(
+  categoriesSelector,
+  R.insert(0, UNCATEGORIZED_CATEGORY)
+)
+
 export const paymentsSelector = createPlainObjectSelector(get('payments'))
 
 const propContainsText = (prop, text) => x =>
@@ -196,4 +202,12 @@ export const pieChartDataSelector = createSelector(
   remapPieData
 )
 
-export const allPeersSelector = createPlainObjectSelector(get('allPeers'))
+export const searchingSuggestionsSelector = get('searchingSuggestions')
+
+export const suggestedPeersSelector = createPlainObjectSelector(
+  get('suggestedPeers')
+)
+
+export const suggestedDescriptionsSelector = createPlainObjectSelector(
+  get('suggestedDescriptions')
+)

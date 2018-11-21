@@ -12,6 +12,8 @@ const initialState = fromJS({
   loading: true,
   loaded: false,
   paymentsListLoading: false,
+  paymentsListMoreLoading: false,
+  paymentsDrawerOpen: false,
   saving: false,
   processing: false,
   saved: false,
@@ -47,6 +49,10 @@ export default handleActions(
         loading: false,
         loaded: false,
       }),
+    [ACTIONS.openPaymentsDrawer]: state =>
+      state.merge({ paymentsDrawerOpen: true }),
+    [ACTIONS.closePaymentsDrawer]: state =>
+      state.merge({ paymentsDrawerOpen: false }),
     [ACTIONS.filterPayments]: (
       state,
       { payload: { from: dateMin, to: dateMax } }
@@ -73,18 +79,18 @@ export default handleActions(
       }),
     [ACTIONS.loadMorePayments]: state =>
       state.merge({
-        paymentsListLoading: true,
+        paymentsListMoreLoading: true,
       }),
     [ACTIONS.loadMorePayments.success]: (state, { payload: payments }) =>
       state
         .merge({
-          paymentsListLoading: false,
+          paymentsListMoreLoading: false,
         })
         .update('paymentsLoadedPagesCount', counter => counter + 1)
         .update('payments', list => list.concat(fromJS(payments))),
     [ACTIONS.loadMorePayments.error]: state =>
       state.merge({
-        paymentsListLoading: false,
+        paymentsListMoreLoading: false,
       }),
     [ACTIONS.createOrUpdate]: state =>
       state.merge({
@@ -105,11 +111,12 @@ export default handleActions(
         processing: true,
       }),
     [ACTIONS.publish.success]: (state, { payload: { story } }) => {
-      if (story.isPublished) {
-        storage.setItem(
-          LS_FLAGS.lastPublishedStoryUrl,
-          createRouteUrl(ROUTES.manage.stories.storyPreview, { id: story.pid })
-        )
+      if (story.draft.published) {
+        const publicUrl = createRouteUrl(ROUTES.public.story.root, {
+          accountId: 'FIXME', // TODO: pass correct account id
+          storyId: story.pid,
+        })
+        storage.setItem(LS_FLAGS.lastPublishedStoryUrl, publicUrl)
       }
       return state.merge({
         processing: false,

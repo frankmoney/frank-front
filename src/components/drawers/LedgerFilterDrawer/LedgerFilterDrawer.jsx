@@ -1,26 +1,11 @@
 import React from 'react'
-import { compose } from 'recompose'
-import Drawer from 'components/Drawer'
+import Drawer from 'components/kit/Drawer'
 import Button from 'components/kit/Button'
 import {
   DateRangeField,
   AmountField,
   VerificationField,
 } from 'components/DrawerFilters'
-import { injectStyles } from 'utils/styles'
-
-const styles = theme => ({
-  footer: {
-    boxShadow: 'none',
-  },
-  footerText: {
-    ...theme.fontMedium(16),
-  },
-  footerButton: {
-    marginLeft: 10,
-    width: 120,
-  },
-})
 
 class LedgerFilterDrawer extends React.Component {
   getAllFilters = () => {
@@ -55,7 +40,6 @@ class LedgerFilterDrawer extends React.Component {
 
   render() {
     const {
-      classes,
       onApply,
       onReset,
       loaded,
@@ -68,14 +52,16 @@ class LedgerFilterDrawer extends React.Component {
       ...drawerProps
     } = this.props
 
+    const footerText = totalCountEstimating
+      ? 'Estimating...'
+      : `${totalCount > 0 ? totalCount : 'No'} payments`
+
     return (
-      <Drawer {...drawerProps}>
-        <Drawer.Header>
-          <Drawer.Title>Filter payments</Drawer.Title>
-        </Drawer.Header>
-        <Drawer.Body>
+      <Drawer title="Filter payments" {...drawerProps}>
+        <Drawer.Content>
           {loaded && (
             <DateRangeField
+              label="Date range"
               from={dateLimit.from}
               to={dateLimit.to}
               onChange={this.handleChangeDateRange}
@@ -94,30 +80,19 @@ class LedgerFilterDrawer extends React.Component {
               onChange={this.handleChangeVerification}
             />
           )}
-        </Drawer.Body>
-        <Drawer.Footer className={classes.footer}>
-          <span className={classes.footerText}>
-            {totalCountEstimating
-              ? 'Estimating...'
-              : `${totalCount > 0 ? totalCount : 'No'} payments`}
-          </span>
-          <div>
-            <Button
-              label="Reset"
-              onClick={onReset}
-              className={classes.footerButton}
-            />
-            <Button
-              color="green"
-              label="Apply"
-              onClick={this.handleApply}
-              disabled={totalCountEstimating || !loaded}
-              className={classes.footerButton}
-            />
-          </div>
+        </Drawer.Content>
+        <Drawer.Footer text={footerText}>
+          <Button width={120} label="Reset" onClick={onReset} />
+          <Button
+            width={120}
+            color="green"
+            label="Apply"
+            onClick={this.handleApply}
+            disabled={totalCountEstimating || !loaded}
+          />
         </Drawer.Footer>
       </Drawer>
     )
   }
 }
-export default compose(injectStyles(styles))(LedgerFilterDrawer)
+export default LedgerFilterDrawer

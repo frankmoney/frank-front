@@ -39,7 +39,6 @@ type Props = {|
   onChangeOpen?: boolean => void,
   open?: boolean,
   place: PopupPosition,
-  enableViewportOffset?: boolean,
 |}
 
 type El = Element | Text
@@ -49,6 +48,8 @@ export type PopupRenderProps = {
   close: ExternalCb,
   show: ExternalCb,
   toggle: ExternalCb,
+  toggleOpen: ExternalCb,
+  toggleClose: ExternalCb,
   popupEl: ?El,
   anchorEl: ?El,
   getArrowProps: (?Object) => PopupArrowProps,
@@ -95,15 +96,20 @@ class PopupBase extends React.Component<Props, State> {
     close: this.close,
     show: this.open,
     toggle: this.toggle,
+    toggleOpen: this.open,
+    toggleClose: this.close,
     popupEl: this.state.popupEl,
     anchorEl: this.state.anchorEl,
     getArrowProps: (props = {}) => ({
       ...props,
       ref: this.handleArrowRef,
     }),
-    getAnchorProps: (props = {}) => ({
+    getAnchorProps: (
+      props = {},
+      setAnchor = handler => ({ ref: handler })
+    ) => ({
       ...props,
-      ref: this.handleAnchorRef,
+      ...setAnchor(this.handleAnchorRef),
     }),
     getPopupProps: (props = {}) => ({
       ...props,
@@ -220,16 +226,6 @@ class PopupBase extends React.Component<Props, State> {
           distance,
         })
       : defaultStyles
-
-    // TODO Если анкор находится в фиксед элементе то позишен выше высчитается неверно, корректирует, вообще всю эту логику бы переписать
-    if (open && anchorEl.closest('.ui-fixed')) {
-      const fixedContainer = anchorEl.closest('.ui-fixed')
-
-      popupStyles.top += fixedContainer.offsetTop
-      popupStyles.left += fixedContainer.offsetLeft
-    } else if (open && this.props.enableViewportOffset) {
-      popupStyles.top -= window.scrollY
-    }
 
     return popupStyles
   }

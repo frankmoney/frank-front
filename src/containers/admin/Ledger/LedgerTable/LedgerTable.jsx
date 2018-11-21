@@ -1,54 +1,52 @@
-import * as R from 'ramda'
-import { connect } from 'react-redux'
-import { compose, mapProps, withStateHandlers } from 'recompose'
+import { compose, mapProps, withHandlers } from 'recompose'
 import { injectStyles } from '@frankmoney/ui'
 import { Table } from '@frankmoney/components'
-import {
-  PaymentsTableRow,
-  PaymentsTableDetailRow,
-} from 'components/PaymentsTable'
+import { PaymentsTableRow } from 'components/PaymentsTable'
+import PaymentCard from 'components/admin/PaymentCard'
+import reconnect from 'utils/reconnect'
 import {
   dataSourceSelector,
   rowDataSelector,
-  categoriesSelector,
-  allPeersSelector,
+  paymentCardCategoriesSelector,
+  searchingSuggestionsSelector,
+  suggestedPeersSelector,
 } from '../selectors'
+import * as ACTIONS from '../actions'
 
 const ConnectedPaymentsTableDetailRow = compose(
-  connect(state => ({
-    categories: categoriesSelector(state),
-    peers: allPeersSelector(state),
-  })),
-  withStateHandlers(
-    ({
-      categories,
-      peers,
-      data: { peerName, peer, category, description },
-    }) => ({
-      categories,
-      peers,
-      peerId: peer ? peer.id : '',
-      peerName: peer ? peer.name : peerName || '',
-      categoryId: category ? category.id : '-',
-      description,
-    }),
+  reconnect(
     {
-      onPeerIdChange: ({ peers }) => peerId => {
-        const peer = R.find(R.propEq('id', peerId), peers)
-        return {
-          peerId: peer ? peer.id : '',
-          peerName: peer ? peer.name : '',
-        }
-      },
-      onPeerNameChange: () => peerName => ({ peerId: null, peerName }),
-      onCategoryIdChange: ({ categories }) => categoryId => {
-        const category = R.find(R.propEq('id', categoryId), categories)
-        return { categoryId: category ? category.id : '-' }
-      },
-      onDescriptionChange: () => description => ({ description }),
+      categories: paymentCardCategoriesSelector,
+      searchingSuggestions: searchingSuggestionsSelector,
+      suggestedPeers: suggestedPeersSelector,
+    },
+    {
+      searchSuggestions: ACTIONS.searchSuggestions,
+      paymentUpdate: ACTIONS.paymentUpdate,
+      paymentPublish: ACTIONS.paymentPublish,
     }
-  )
-)(PaymentsTableDetailRow)
+  ),
+  mapProps(({ categories, peers, data, ...otherProps }) => ({
+    categories,
+    peers,
+    ...data,
+    ...otherProps,
+  })),
+  withHandlers({
+    onPeerSuggestionSearch: ({ searchSuggestions }) => search => {
+      searchSuggestions({ search, peers: true })
+    },
+    onDescriptionSuggestionSearch: ({ searchSuggestions }) => search => {
+      searchSuggestions({ search, descriptions: true })
+    },
+    onPaymentUpdate: ({ paymentUpdate }) => changes => {
+      paymentUpdate(changes)
+    },
+    onPaymentPublish: ({ paymentPublish }) => () => {
+      paymentPublish()
+    },
+  })
+)(PaymentCard)
 
 const styles = {
   header: {
@@ -56,7 +54,9 @@ const styles = {
   },
   detailRow: {
     width: props => props.grid.fixed.contentWidth,
-    position: 'relative',
+    position: 'unset',
+    left: 'unset',
+    transform: 'unset',
   },
 }
 

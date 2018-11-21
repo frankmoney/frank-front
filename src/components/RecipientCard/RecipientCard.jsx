@@ -1,10 +1,11 @@
+// @flow
 import React from 'react'
 import cx from 'classnames'
 import { format } from 'date-fns'
-import { injectStyles } from '@frankmoney/ui'
-import { Paper } from '@frankmoney/components'
 import CurrencyDelta from 'components/CurrencyDelta'
 import TextWithEditableToggle from 'components/TextWithEditableToggle'
+import Paper from 'components/kit/Paper'
+import { injectStyles } from 'utils/styles'
 import styles from './RecipientCard.jss'
 import RecipientCategoryList from './RecipientCategoryList'
 

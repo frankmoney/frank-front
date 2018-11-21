@@ -42,9 +42,11 @@ const styles = theme => ({
     outline: 'none',
     userSelect: 'none',
     cursor: 'pointer',
+    width: '100%',
   },
   label: {
     ...theme.fontMedium(18, 26),
+    // оверфлоу лейбл враппера конкурирует с checkIcon
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
@@ -53,11 +55,21 @@ const styles = theme => ({
     '& $label': {
       display: 'flex',
       alignItems: 'center',
+      // любая иконка будет первым чайлдом, делаем чтобы она не растягивалась
+      '& > *:first-child': {
+        flexShrink: 0,
+      },
     },
   },
   labelIcon: {
     width: 22,
     marginRight: 12,
+  },
+  // текстовый лейбл имет свой оверфлоу на случай конкуренции с labelIcon
+  labelText: {
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
   check: {
     width: 24,
@@ -101,13 +113,14 @@ const MenuItem = ({
   >
     <div className={classes.label}>
       {icon &&
+        React.isValidElement(icon) &&
         React.cloneElement(icon, {
           className: cx(icon.props.className, classes.labelIcon),
         })}
       {!icon &&
         typeof renderIcon === 'function' &&
         renderIcon({ selected, active, color })}
-      {label}
+      <span className={classes.labelText}>{label}</span>
     </div>
     {!renderCheck && selected && <CheckCircle className={classes.check} />}
     {typeof renderCheck === 'function' &&

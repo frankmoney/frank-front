@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
 import cx from 'classnames'
 import Counter from 'components/kit/Counter'
@@ -28,10 +28,11 @@ export type ButtonProps = {|
   disabled: boolean,
   focus: boolean,
   hover: boolean,
-  icon?: React.Element<any>,
+  icon?: React.Element<any>, // flowlint-line unclear-type:off
   label: string,
   loading: boolean,
   Mixins?: ButtonMixins,
+  stretch: boolean,
 |}
 
 type Props = {|
@@ -49,6 +50,7 @@ const Button = ({
   focus,
   hover,
   loading,
+  stretch,
   // content
   label,
   counter,
@@ -71,6 +73,7 @@ const Button = ({
         [classes.active]: active,
         [classes.focus]: focus,
         [classes.hover]: hover,
+        [classes.stretch]: stretch,
       },
       className
     )}
@@ -95,6 +98,7 @@ Button.defaultProps = {
   focus: false,
   hover: false,
   loading: false,
+  stretch: false,
   Mixins: {},
 }
 

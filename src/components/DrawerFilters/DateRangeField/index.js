@@ -1,1 +1,2 @@
-export default from './DateRangeField'
+// @flow
+export { default } from './DateRangeField'

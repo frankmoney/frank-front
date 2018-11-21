@@ -1,26 +1,49 @@
-import React from 'react'
+// @flow strict-local
+import * as React from 'react'
+import Button from 'components/kit/Button'
 import chainCallbacks from 'utils/dom/chainCallbacks'
-import Button from '../Button'
-import Dialog from './Dialog'
+import Dialog, { type InheritedModalProps } from './Dialog'
 import DialogTitle from './DialogTitle'
 import DialogMessage from './DialogMessage'
 import DialogButtons from './DialogButtons'
 
+type EmptyCb = () => void
+
+type OmittedProps = {|
+  classes?: Object, // flowlint-line unclear-type:off
+|}
+
+type Props = {|
+  ...OmittedProps,
+  ...InheritedModalProps,
+  //
+  cancelButtonProps?: React.ElementConfig<typeof Button>,
+  cancelLabel: string,
+  children?: React.Node,
+  confirmButtonProps?: React.ElementConfig<typeof Button>,
+  confirmLabel: string,
+  danger: boolean,
+  message?: string,
+  onCancel?: EmptyCb,
+  onConfirm?: EmptyCb,
+  title?: string,
+|}
+
 const ConfirmDialog = ({
-  classes,
-  title,
-  message,
-  confirmLabel,
-  cancelLabel,
-  confirmButtonProps,
   cancelButtonProps,
+  cancelLabel,
   children,
-  onConfirm,
+  classes,
+  confirmButtonProps,
+  confirmLabel,
+  danger,
+  message,
   onCancel,
   onClose,
-  danger,
+  onConfirm,
+  title,
   ...dialogProps
-}) => (
+}: Props) => (
   <Dialog onClose={onClose} {...dialogProps}>
     {title && <DialogTitle>{title}</DialogTitle>}
     {message && <DialogMessage>{message}</DialogMessage>}

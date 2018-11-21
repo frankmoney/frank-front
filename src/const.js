@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/prefer-default-export
+// @flow strict
 export const ROUTES = {
   root: '/',
   protectedArea: '/app',
@@ -51,9 +51,11 @@ export const ROUTES = {
     components: '/demo/components',
     buttons: '/demo/buttons',
     fields: '/demo/fields',
+    fieldsLeft: '/demo/fields-left',
     popups: '/demo/popups',
     selectLists: '/demo/select-lists',
     selects: '/demo/selects',
+    selectsDate: '/demo/selects-date',
     dialogs: '/demo/dialogs',
     drawers: '/demo/drawers',
     switches: '/demo/switches',
@@ -137,3 +139,9 @@ export const DEFAULT_CATEGORIES = [
     color: '#0a70dd',
   },
 ]
+
+export const UNCATEGORIZED_CATEGORY = {
+  id: 'UNCATEGORIZED_CATEGORY_ID',
+  name: 'Uncategorized',
+  color: UNCATEGORIZED_COLOR,
+}

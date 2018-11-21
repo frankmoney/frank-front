@@ -53,9 +53,11 @@ const Label = ({
         htmlFor={name}
         className={cx(
           classes.root,
-          (active || field.focus) && classes.active,
-          (invalid || (field.invalid && field.focus)) && classes.invalid,
-          (disabled || field.disabled) && classes.disabled,
+          {
+            [classes.active]: active || field.focus,
+            [classes.invalid]: invalid || (field.invalid && field.focus),
+            [classes.disabled]: disabled || field.disabled,
+          },
           className
         )}
       >

@@ -3,6 +3,7 @@ import * as React from 'react'
 import cx from 'classnames'
 import Spinner from 'components/kit/Spinner'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import chainCallbacks from 'utils/dom/chainCallbacks'
 import FloatingLabel from './FloatingLabel'
 import Label from './Label'
 import Placeholder from './Placeholder'
@@ -11,76 +12,82 @@ import ValidationLabel from './ValidationLabel'
 import FieldContext from './FieldContext'
 import styles from './Field.jss'
 
+type Value = any
+
+type ControlElementProps = {
+  onFocus: Function,
+  onBlur: Function,
+  placeholder?: string,
+  value?: Value,
+  onChange: Function,
+  disabled?: boolean,
+}
+
+type ControlElement = React.ComponentType<ControlElementProps>
+
 type Props = {|
   ...InjectStylesProps,
   //
   additionalLabel?: string,
-  children?: React.Element<any>,
+  children?: React.Element<ControlElement>,
   disabled?: boolean,
   error?: string,
   floatingLabel?: string,
-  focus?: boolean,
   hint?: string,
   label?: string,
   larger?: boolean,
   loading?: boolean,
   loadingText?: string,
+  placeholder?: string,
+  noUnderline?: boolean,
+  // Контрол пытается занять всю доступную ширину
+  stretch?: boolean,
+  // Uncontrolled/Controlled value
+  value?: ?Value,
+  onChange?: (?Value) => void,
+  // Uncontrolled/Controlled focus
+  focus?: boolean,
   onBlur?: FocusEvent => void,
   onFocus?: FocusEvent => void,
-  placeholder?: string,
-  stretch?: boolean,
 |}
 
 type State = {|
   focus?: boolean,
-  filled?: boolean,
+  value?: Value,
 |}
 
-const combineCallbacks = (...cb) => (...args) =>
-  cb.forEach(fn => fn && fn(...args))
+export type FieldProps = Props
 
 class Field extends React.Component<Props, State> {
   static defaultProps = {
     loadingText: 'Loading',
+    noUnderline: false,
   }
 
   state = {
     focus: this.props.focus,
-    filled: this.isFilledDefault,
-  }
-
-  componentDidUpdate() {
-    const value = this.controlProps.value
-    if (typeof value !== 'undefined') {
-      const filled = !!value
-      if (this.state.filled !== filled) {
-        this.setState({ filled })
-      }
-    }
+    value: this.props.defaultValue,
   }
 
   getState = (state = this.state) => ({
     focus: this.isControlledFocus ? this.props.focus : state.focus,
+    value: this.getValue(state),
     invalid: !!this.props.error,
     disabled: this.props.disabled,
     loading: this.props.loading,
-    filled: this.state.filled,
+    filled: !!this.getValue(state),
   })
 
-  // flowlint-next-line unsafe-getters-setters:off
-  get isFilledDefault() {
-    return !!this.controlProps.value || !!this.controlProps.defaultValue
-  }
-
-  // flowlint-next-line unsafe-getters-setters:off
-  get controlProps() {
-    return React.Children.only(this.props.children).props
-  }
-
-  // flowlint-next-line unsafe-getters-setters:off
   get isControlledFocus() {
     return typeof this.props.focus !== 'undefined'
   }
+
+  get isControlledValue() {
+    return typeof this.props.value !== 'undefined'
+  }
+
+  getValue = (state = this.state) =>
+    this.isControlledValue ? this.props.value : state.value
 
   handleFocus = (event: FocusEvent) => {
     if (!this.isControlledFocus) {
@@ -108,20 +115,18 @@ class Field extends React.Component<Props, State> {
 
   handleControlRef = control => {
     this.control = control
-    if (typeof this.controlProps.controlRef === 'function') {
-      this.controlProps.controlRef(control)
-    }
   }
 
   handleChange = value => {
-    const filled = !!value
-    if (this.state.filled !== filled) {
-      this.setState({ filled })
+    if (!this.isControlledValue) {
+      this.setState({ value }, () => {
+        if (typeof this.props.onChange === 'function') {
+          this.props.onChange(value)
+        }
+      })
+    } else if (typeof this.props.onChange === 'function') {
+      this.props.onChange(value)
     }
-  }
-
-  handlePlaceholderClick = () => {
-    this.control.focus()
   }
 
   render() {
@@ -141,12 +146,20 @@ class Field extends React.Component<Props, State> {
       placeholder,
       stretch,
       style,
+      noUnderline,
+      onKeyDown,
     } = this.props
+
     const control = React.Children.only(children)
-    const { focus, invalid, filled } = this.getState()
+
+    const combinedState = this.getState()
+    const { focus, invalid, filled, value } = combinedState
+    const hidePlaceholder = (floatingLabel && !focus) || filled
+    const showFloatingLabel = !loading && !!floatingLabel
+    const additionalText = !error && !hint && additionalLabel
 
     return (
-      <FieldContext.Provider value={this.getState()}>
+      <FieldContext.Provider value={combinedState}>
         <div
           className={cx(
             classes.root,
@@ -162,47 +175,48 @@ class Field extends React.Component<Props, State> {
           )}
           style={style}
         >
-          {!loading &&
-            floatingLabel && (
-              <FloatingLabel larger={larger}>{floatingLabel}</FloatingLabel>
-            )}
+          {showFloatingLabel && (
+            <FloatingLabel larger={larger}>{floatingLabel}</FloatingLabel>
+          )}
           {(error || hint) && (
             <ValidationLabel invalid={invalid} className={classes.rightLabel}>
               {error || hint}
             </ValidationLabel>
           )}
           {label && (
-            <Label
-              className={classes.label}
-              additionalText={!error && !hint && additionalLabel}
-            >
+            <Label className={classes.label} additionalText={additionalText}>
               {label}
             </Label>
           )}
           {React.cloneElement(control, {
+            value,
+            focus,
             className: classes.control,
-            controlRef: this.handleControlRef,
-            onFocus: combineCallbacks(this.handleFocus, control.props.onFocus),
-            onBlur: combineCallbacks(this.handleBlur, control.props.onBlur),
-            onChange: combineCallbacks(
-              this.handleChange,
-              control.props.onChange
-            ),
+            placeholder: hidePlaceholder
+              ? null
+              : loading
+                ? loadingText
+                : placeholder,
+            ref: this.handleControlRef,
+            onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),
+            onBlur: chainCallbacks(this.handleBlur, control.props.onBlur),
+            onKeyDown: chainCallbacks(onKeyDown, control.props.onKeyDown),
+            onChange: chainCallbacks(this.handleChange, control.props.onChange),
             disabled: disabled || loading,
           })}
-          {placeholder &&
-            !loading && (
-              <Placeholder
-                active={focus}
-                className={cx(
-                  classes.placeholder,
-                  ((floatingLabel && !focus) || filled) &&
-                    classes.placeholderOff
-                )}
-              >
-                {placeholder}
-              </Placeholder>
-            )}
+          {/* {placeholder && */}
+          {/*! loading && ( */}
+          {/* <Placeholder */}
+          {/* active={focus} */}
+          {/* className={cx( */}
+          {/* classes.placeholder, */}
+          {/* ((floatingLabel && !focus) || filled) && */}
+          {/* classes.placeholderOff */}
+          {/* )} */}
+          {/* > */}
+          {/* {placeholder} */}
+          {/* </Placeholder> */}
+          {/* )} */}
           {loading && (
             <Placeholder className={classes.placeholder}>
               {loading && (
@@ -211,7 +225,7 @@ class Field extends React.Component<Props, State> {
               {loading && loadingText}
             </Placeholder>
           )}
-          <Underline className={classes.underline} />
+          {!noUnderline && <Underline className={classes.underline} />}
         </div>
       </FieldContext.Provider>
     )

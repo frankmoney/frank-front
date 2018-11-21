@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import React from 'react'
 
 type SpinnerSize = 18 | 20 | 25 | 45
@@ -7,6 +7,8 @@ type Props = {|
   className?: string,
   size: SpinnerSize,
 |}
+
+export type SpinnerProps = Props
 
 const largeProps = {
   x: 21.1,

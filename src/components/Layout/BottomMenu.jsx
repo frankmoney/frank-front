@@ -1,10 +1,8 @@
+// @flow
 import React from 'react'
-import {
-  SidebarBottomMenu,
-  SidebarBottomMenuItem,
-} from '@frankmoney/components'
 import { compose } from 'recompose'
 import { currentUserSelector } from '@frankmoney/webapp'
+import { SidebarBottomMenu, SidebarBottomMenuItem } from 'components/Sidebar'
 import reconnect from 'utils/reconnect'
 import { ROUTES } from 'const'
 

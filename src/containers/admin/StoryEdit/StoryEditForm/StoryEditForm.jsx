@@ -1,12 +1,9 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import * as R from 'ramda'
 import { compose } from 'recompose'
-import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form-actions/immutable'
-import { bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
+import reconnect from 'utils/reconnect'
 import createUploaderField from 'controls/forms/createUploaderField'
 import TitleField from 'controls/forms/TitleField'
 import DescriptionField from 'controls/forms/DescriptionField'
@@ -17,10 +14,13 @@ import {
   formInitialValuesSelector,
   paymentsSelector,
   storySelectedPaymentsSelector,
+  storySelectedPaymentsIdsSelector,
+  paymentsListMoreLoadingSelector,
   paymentsListUpdatingSelector,
   paymentsTotalPagesCounterSelector,
   paymentsLoadedPagesCounterSelector,
   paymentsFiltersSelector,
+  paymentsDrawerOpenedSelector,
 } from '../selectors'
 import ACTIONS from '../actions'
 import { FORM_NAME } from '../constants'
@@ -55,93 +55,70 @@ const styles = theme => ({
   },
 })
 
-const mapStateToPropsForDrawer = createStructuredSelector({
-  isUpdating: paymentsListUpdatingSelector,
-  payments: paymentsSelector,
-  filter: paymentsFiltersSelector,
-  selectedPayments: storySelectedPaymentsSelector,
-  totalPagesCounter: paymentsTotalPagesCounterSelector,
-  loadedPagesCounter: paymentsLoadedPagesCounterSelector,
-})
-
-const mapDispatchToPropsForDrawer = R.partial(bindActionCreators, [
-  {
-    onChange: ACTIONS.modifyStoryPaymentsList,
-    onLoadMore: ACTIONS.loadMorePayments,
-    onFilter: ACTIONS.filterPayments,
-  },
-])
-
 const ConnectedPaymentsSelectorDrawer = compose(
-  connect(
-    mapStateToPropsForDrawer,
-    mapDispatchToPropsForDrawer
+  reconnect(
+    {
+      open: paymentsDrawerOpenedSelector,
+      isLoadingMore: paymentsListMoreLoadingSelector,
+      isLoading: paymentsListUpdatingSelector,
+      payments: paymentsSelector,
+      filter: paymentsFiltersSelector,
+      selectedPayments: storySelectedPaymentsIdsSelector,
+      totalPagesCounter: paymentsTotalPagesCounterSelector,
+      loadedPagesCounter: paymentsLoadedPagesCounterSelector,
+    },
+    {
+      onChange: ACTIONS.modifyStoryPaymentsList,
+      onLoadMore: ACTIONS.loadMorePayments,
+      onFilter: ACTIONS.filterPayments,
+      onClose: ACTIONS.closePaymentsDrawer,
+    }
   )
 )(PaymentsSelectorDrawer)
 
-const ConnectedStoryPayments = compose(
-  connect(
-    createStructuredSelector({
-      payments: storySelectedPaymentsSelector,
-    })
-  )
+const ConnectedStoryPayments = reconnect(
+  {
+    payments: storySelectedPaymentsSelector,
+  },
+  {
+    onEdit: ACTIONS.openPaymentsDrawer,
+  }
 )(StoryPayments)
 
 type Props = {|
   ...InjectStylesProps,
 |}
 
-type State = {|
-  isDrawerOpen: boolean,
-|}
+const StoryEditForm = ({ classes, className }: Props) => (
+  <div className={cx(classes.container, className)}>
+    <CoverField
+      name="cover"
+      buttonLabel="Add a cover photo"
+      hint="optional, 1000+ pixels wide, no text over image"
+      className={classes.coverImageUploader}
+    />
+    <div className={classes.textFields}>
+      <TitleField
+        name="title"
+        className={classes.title}
+        placeholder="Title..."
+      />
+      <DescriptionField
+        name="description"
+        className={classes.description}
+        placeholder="Your story..."
+      />
+    </div>
 
-class StoryEditForm extends React.PureComponent<Props, State> {
-  state = {
-    isDrawerOpen: false,
-  }
+    <ConnectedStoryPayments />
+    <ConnectedPaymentsSelectorDrawer />
+  </div>
+)
 
-  handleToggleDrawer = () => {
-    this.setState({ isDrawerOpen: !this.state.isDrawerOpen })
-  }
-
-  render() {
-    const { classes, className } = this.props
-    const { isDrawerOpen } = this.state
-
-    return (
-      <div className={cx(classes.container, className)}>
-        <CoverField
-          name="cover"
-          buttonLabel="Add a cover photo"
-          hint="optional, 1000+ pixels wide, no text over image"
-          className={classes.coverImageUploader}
-        />
-        <div className={classes.textFields}>
-          <TitleField
-            name="title"
-            className={classes.title}
-            placeholder="Title..."
-          />
-          <DescriptionField
-            name="description"
-            className={classes.description}
-            placeholder="Your story..."
-          />
-        </div>
-
-        <ConnectedStoryPayments onEdit={this.handleToggleDrawer} />
-        <ConnectedPaymentsSelectorDrawer
-          open={isDrawerOpen}
-          onClose={this.handleToggleDrawer}
-        />
-      </div>
-    )
-  }
-}
 export default compose(
-  connect(state => ({
-    initialValues: formInitialValuesSelector(state),
-  })),
+  reconnect({
+    initialValues: formInitialValuesSelector,
+  }),
   reduxForm({
     form: FORM_NAME,
     enableReinitialize: true,

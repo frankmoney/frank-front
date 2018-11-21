@@ -1,4 +1,4 @@
-// @flow strict-local
+// @flow strict
 import * as React from 'react'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -7,6 +7,7 @@ type PaperType = 'card' | 'list' | 'modal' | 'tooltip' | 'menu' | 'drawer'
 
 export type PaperProps = {|
   type: PaperType,
+  disableOutline?: boolean,
 |}
 
 type Props = {|
@@ -21,6 +22,7 @@ const styles = {
     background: '#fff',
     borderRadius: 8,
     overflow: 'auto',
+    outline: props => (props.disableOutline ? 'none' : 'inherit'),
   },
   card: {
     boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',
@@ -48,9 +50,10 @@ const styles = {
 const Paper = ({
   children,
   classes,
-  type,
-  theme,
   className,
+  type,
+  // omit
+  disableOutline,
   ...otherProps
 }: Props) => (
   <div className={cx(classes.root, classes[type], className)} {...otherProps}>

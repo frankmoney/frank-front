@@ -1,5 +1,6 @@
-import { createRouteUrl } from '@frankmoney/utils'
+// @flow strict-local
 import * as R from 'ramda'
+import { createRouteUrl } from '@frankmoney/utils'
 import { replace as replaceLocation } from 'react-router-redux'
 import { getFormValues } from 'redux-form/immutable'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -52,7 +53,11 @@ const cropCoverImage = async (httpClient, { image, crop }) => {
   return newImage
 }
 
-export default (action$, store, { http: httpClient, graphql }) =>
+export default (
+  action$: any, // flowlint-line unclear-type:off
+  store: Object, // flowlint-line unclear-type:off
+  { http: httpClient, graphql }: Object // flowlint-line unclear-type:off
+) =>
   action$
     .ofType(ACTIONS.createOrUpdate)
     .switchMapFromPromise(async ({ payload }) => {
@@ -121,6 +126,7 @@ export default (action$, store, { http: httpClient, graphql }) =>
       R.filter(R.identity, [
         ACTIONS.createOrUpdate.success({ story }),
         published && ACTIONS.publish.success({ story }),
-        published && replaceLocation(createRouteUrl(ROUTES.stories.root)),
+        published &&
+          replaceLocation(createRouteUrl(ROUTES.manage.stories.root)),
       ])
     )

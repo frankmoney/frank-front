@@ -1,15 +1,20 @@
+// @flow strict-local
 import React from 'react'
-import { TextField } from '@frankmoney/components'
 import { injectStyles } from '@frankmoney/ui'
-import DrawerField from 'components/DrawerField'
+import TextField from 'components/kit/TextField'
+import Drawer from 'components/kit/Drawer'
 
 const styles = {
   wrap: {
     display: 'flex',
     justifyContent: 'space-between',
+    width: '100%',
   },
   field: {
-    width: 155,
+    flexGrow: 1,
+    '&:not(:last-child)': {
+      marginRight: 20,
+    },
   },
 }
 
@@ -19,28 +24,22 @@ const parseNumber = value => {
 }
 
 const AmountField = ({ classes, from, to, onChange }) => (
-  <DrawerField title="Amount">
+  <Drawer.Field label="Amount">
     <div className={classes.wrap}>
       <TextField
         value={from || ''}
         label="min"
-        type="currency"
-        onChange={({ target }) =>
-          onChange({ min: parseNumber(target.value), max: to })
-        }
+        onChange={value => onChange({ min: parseNumber(value), max: to })}
         className={classes.field}
       />
       <TextField
         value={to || ''}
         label="max"
-        type="currency"
-        onChange={({ target }) =>
-          onChange({ min: from, max: parseNumber(target.value) })
-        }
+        onChange={value => onChange({ min: from, max: parseNumber(value) })}
         className={classes.field}
       />
     </div>
-  </DrawerField>
+  </Drawer.Field>
 )
 
 export default injectStyles(styles)(AmountField)

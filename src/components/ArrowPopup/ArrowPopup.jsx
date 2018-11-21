@@ -1,102 +1,85 @@
-import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
-import { ClickAway } from '@frankmoney/components'
-import Popper from 'components/Popper'
-import Arrow from './arrow.svg'
+// @flow strict-local
+import * as React from 'react'
+import cx from 'classnames'
+import ArrowPaper from 'components/kit/ArrowPaper'
+import Popup, {
+  type PopupAlign,
+  type PopupPosition,
+} from 'components/kit/PopupBase'
+import Modal from 'components/kit/Modal'
+import createPortalInBody from 'utils/dom/createPortal'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
-  popper: {
-    zIndex: 100,
-    '&[x-placement*="bottom"] $arrow': {
-      top: 0,
-      left: 0,
-      marginTop: -30,
-    },
-    '&[x-placement*="bottom"] $arrow svg': {},
-    '&[x-placement*="top"] $arrow': {
-      bottom: 0,
-      left: 0,
-      marginBottom: -30,
-      transform: 'rotate(180deg)',
-    },
-    '&[x-placement*="top"] $arrow svg': {
-      filter: `drop-shadow(0px -5px 3px rgba(0, 0, 0, 0.12));`,
-    },
-    '&[x-placement*="right"] $arrow': {
-      left: 0,
-      marginLeft: -37,
-      transform: 'rotate(-90deg)',
-    },
-    '&[x-placement*="right"] $arrow svg': {
-      filter: `drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.12))`,
-    },
-    '&[x-placement*="left"] $arrow': {
-      right: 0,
-      marginRight: -37,
-      transform: 'rotate(90deg)',
-    },
-    '&[x-placement*="left"] $arrow svg': {
-      filter: `drop-shadow(2px -3px 2px rgba(0, 0, 0, 0.12))`,
-    },
-  },
-  arrow: {
-    zIndex: 5,
-    position: 'absolute',
-    width: 31,
-    height: 16,
+  paper: {
+    padding: 29,
   },
 }
 
-class ArrowPopup extends React.PureComponent {
-  state = {
-    arrowEl: null,
-    anchorEl: null,
-  }
+const Portal = ({ children }) => createPortalInBody(children)
 
-  handleClickAway = () => {
-    if (this.props.onClose) {
-      this.props.onClose()
-    }
-  }
-
-  handleArrowEl = node => {
-    this.setState({
-      arrowEl: node,
-    })
-  }
-
-  render() {
-    const { children, classes, anchorEl } = this.props
-    const { arrowEl } = this.state
-    const open = !!anchorEl
-
-    return (
-      <Popper
-        open={open}
-        anchorEl={anchorEl}
-        className={classes.popper}
-        modifiers={{
-          arrow: {
-            enabled: true,
-            element: arrowEl,
-          },
-          offset: {
-            enabled: true,
-            offset: '0, 25',
-          },
-        }}
-      >
-        <ClickAway onClickAway={this.handleClickAway}>
-          <div className={classes.root}>
-            {children}
-            <div className={classes.arrow} ref={this.handleArrowEl}>
-              <Arrow className={classes.arrowIcon} />
-            </div>
-          </div>
-        </ClickAway>
-      </Popper>
-    )
-  }
+const REVERSE_DIRECTION: { [PopupPosition]: PopupPosition } = {
+  up: 'down',
+  down: 'up',
+  left: 'right',
+  right: 'left',
 }
+
+interface TogglableButton {
+  on: boolean;
+  onClick: MouseEvent => void;
+}
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  align: PopupAlign,
+  button: React.Element<(TogglableButton) => React.Node>,
+  children: React.Node,
+  place: PopupPosition,
+|}
+
+const ArrowPopup = ({
+  align = 'center',
+  button: AnchorButton,
+  children,
+  classes,
+  className,
+  place,
+}: Props) => (
+  <Popup place={place} align={align} distance={15}>
+    {({ open, toggle, toggleClose, getAnchorProps, getPopupProps }) => {
+      const content =
+        typeof children === 'function'
+          ? children({ closePopup: toggleClose })
+          : children
+
+      return (
+        <>
+          {React.cloneElement(AnchorButton, {
+            on: open,
+            onClick: toggle,
+            ...getAnchorProps(),
+          })}
+          <Modal
+            invisibleBackdrop
+            fallInsideFocus
+            open={open}
+            onClose={toggleClose}
+          >
+            <ArrowPaper
+              {...getPopupProps()}
+              className={cx(classes.paper, className)}
+              direction={REVERSE_DIRECTION[place]}
+              align={align}
+            >
+              {content}
+            </ArrowPaper>
+          </Modal>
+        </>
+      )
+    }}
+  </Popup>
+)
 
 export default injectStyles(styles)(ArrowPopup)

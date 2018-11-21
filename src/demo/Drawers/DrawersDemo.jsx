@@ -3,7 +3,9 @@ import React from 'react'
 import Button from 'components/kit/Button'
 import Drawer from 'components/kit/Drawer'
 import Demo, { Row } from 'demo/Demo'
-import TextBox from 'components/kit/TextBox'
+import TextField from 'components/kit/TextField'
+import SelectField from 'components/kit/SelectField'
+import MenuItem from 'components/kit/Menu/MenuItem'
 
 const DrawersDemo = () => (
   <Demo gray>
@@ -45,12 +47,8 @@ const DrawersDemo = () => (
           proposed system would use system users with the correct guidance to
           complete
         </Drawer.Title>
-        <Drawer.Field
-          label="Name"
-          placeholder="Frank"
-          style={{ marginBottom: 0 }}
-        >
-          <TextBox />
+        <Drawer.Field style={{ marginBottom: 0 }}>
+          <TextField placeholder="Frank" />
         </Drawer.Field>
         <Drawer.Content disableOverflowTop style={{ paddingTop: 20 }}>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((num, idx) => (
@@ -89,12 +87,8 @@ const DrawersDemo = () => (
               footerButtonLabel="Done"
               footerButtonProps={{ width: 120, onClick: () => toggle(false) }}
             >
-              <Drawer.Field
-                label="Name"
-                placeholder="Frank"
-                style={{ marginBottom: 0 }}
-              >
-                <TextBox />
+              <Drawer.Field style={{ marginBottom: 0 }}>
+                <TextField placeholder="Frank" />
               </Drawer.Field>
               <Drawer.Content disableOverflowTop style={{ paddingTop: 20 }}>
                 {[
@@ -136,6 +130,42 @@ const DrawersDemo = () => (
                     Google AdWords
                   </div>
                 ))}
+              </Drawer.Content>
+            </Drawer>
+          </>
+        )}
+      </Drawer.State>
+    </Row>
+    <Row centered>
+      <Drawer.State>
+        {({ open, toggle }) => (
+          <>
+            <Button onClick={() => toggle(true)} label="Open roles drawer" />
+            <Drawer
+              open={open}
+              onClose={() => toggle(false)}
+              title="To provide users with the correct guidance to complete a
+                purchase, the proposed system would use system users with the
+                correct guidance to complete"
+              titleSmaller
+              titleClamp={3}
+              footerButtonLabel="Done"
+              footerButtonProps={{ width: 120, onClick: () => toggle(false) }}
+            >
+              <Drawer.Content>
+                <Drawer.Field label="Name">
+                  <TextField placeholder="Frank" />
+                </Drawer.Field>
+                <Drawer.Field label="Role">
+                  <SelectField
+                    placeholder="Team role"
+                    style={{ marginBottom: 0 }}
+                  >
+                    <MenuItem value="admin" label="Administrator" />
+                    <MenuItem value="manager" label="Manager" />
+                    <MenuItem value="observer" label="Observer" />
+                  </SelectField>
+                </Drawer.Field>
               </Drawer.Content>
             </Drawer>
           </>

@@ -1,1 +1,3 @@
-export default from './Spinner'
+// @flow strict
+export { default } from './Spinner'
+export type { SpinnerProps } from './Spinner'

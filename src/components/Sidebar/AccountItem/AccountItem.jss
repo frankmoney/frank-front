@@ -5,6 +5,7 @@ export default theme => ({
     flexDirection: ({ compact }) => (compact ? 'row' : 'column'),
     alignItems: ({ compact }) => (compact ? 'center' : 'unset'),
     backgroundColor: '#FFF',
+    cursor: ({ compact }) => (compact ? 'pointer' : 'auto'),
     color: ({ compact }) => (compact ? '#C7C9D1' : theme.colors.black),
     marginBottom: 1,
     paddingBottom: ({ compact }) => (compact ? 0 : 29),
