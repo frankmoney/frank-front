@@ -19,7 +19,6 @@ const styles = {
 }
 
 const parseNumber = value => {
-  console.log('parse', value, parseInt(value, 10));
   const number = parseInt(value, 10)
   return isNaN(number) ? null : number
 }
