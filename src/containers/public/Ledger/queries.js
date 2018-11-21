@@ -7,7 +7,7 @@ export default {
     totalCount: includeTotal,
     payments: includePayments,
     pieChart: includePie,
-    barChartBROKEN: includeBars,
+    barChart: includeBars,
     categories: includeCategories,
     stories: includeStories,
     categoryScoped,
@@ -157,15 +157,15 @@ export default {
       allPeers: peers,
       payments: categoryScoped ? category.payments : payments,
       totalCount: categoryScoped ? category.countPayments : countPayments,
-      // barChart: includeBars
-      //   ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).items.map(
-      //       ({ date, revenue, spending }) => ({
-      //         date,
-      //         income: revenue,
-      //         expenses: spending,
-      //       })
-      //     )
-      //   : null,
+      barChart: includeBars
+        ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).items.map(
+            ({ date, revenue, spending }) => ({
+              date,
+              income: revenue,
+              expenses: spending,
+            })
+          )
+        : null,
       pieChart: includePie ? convertGraphqlPieData(ledgerPieChart.items) : null,
       stories,
     }),
