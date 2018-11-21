@@ -55,6 +55,7 @@ const PaymentCard = ({
       <div className={classes.bodyRow}>
         <div className={classes.recipient}>
           <SuggestField
+            stretch
             className={classes.field}
             label="Recipient"
             placeholder="Specify recipient..."
@@ -82,6 +83,7 @@ const PaymentCard = ({
       <div className={classes.bodyRow}>
         <div className={classes.description}>
           <SuggestField
+            stretch
             className={classes.field}
             label="Description"
             placeholder="Start typing for suggestions..."
