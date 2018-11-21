@@ -49,6 +49,34 @@ const SwitchesDemo = () => (
       <Switch defaultChecked hover />
       <Switch defaultChecked disabled />
     </Row>
+    <h2>Labels</h2>
+    <Row centered>
+      <Switch label="Switch" />
+      <Switch label="Switch" hover />
+      <Switch label="Switch" disabled />
+    </Row>
+    <Row centered>
+      <Switch defaultChecked label="Switch" />
+      <Switch defaultChecked label="Switch" hover />
+      <Switch defaultChecked label="Switch" disabled />
+    </Row>
+    <h2>Larger</h2>
+    <Row centered>
+      <Switch larger label="Switch" />
+      <Switch larger label="Switch" hover />
+      <Switch larger label="Switch" disabled />
+    </Row>
+    <Row centered>
+      <Switch larger defaultChecked label="Switch" />
+      <Switch larger defaultChecked label="Switch" hover />
+      <Switch larger defaultChecked label="Switch" disabled />
+    </Row>
+    <h2>Category colored</h2>
+    <Row centered>
+      <Switch defaultChecked color="#FF9C28" />
+      <Switch defaultChecked color="#00DCEA" />
+      <Switch defaultChecked color="#4C51F3" />
+    </Row>
   </Demo>
 )
 
