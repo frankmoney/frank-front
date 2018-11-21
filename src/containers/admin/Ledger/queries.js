@@ -72,7 +72,7 @@ export default {
           }`) ||
           ''}
                  
-        ${categoryScoped ? 'category(id: $categoryId) {' : ''}
+        ${categoryScoped ? 'category(pid: $categoryId) {' : ''}
         
         ${(includePayments &&
           `payments(
