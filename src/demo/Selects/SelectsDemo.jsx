@@ -57,7 +57,12 @@ const SelectsDemo = () => (
     </Row>
     <h1>Select</h1>
     <Row>
-      <SelectField stretchDropdown label="Role" placeholder="Select team role">
+      <SelectField
+        stretchDropdown
+        label="Role"
+        placeholder="Select team role"
+        dropdownWidth={220}
+      >
         <MenuItem value="admin" label="Administrator" />
         <MenuItem value="manager" label="Manager" />
         <MenuItem value="observer" label="Observer" />
@@ -68,6 +73,7 @@ const SelectsDemo = () => (
         stretchDropdown
         label="Roles"
         placeholder="Select multiple roles"
+        dropdownWidth={220}
       >
         <MenuItem value="admin" label="Administrator" />
         <MenuItem value="manager" label="Manager" />
@@ -85,7 +91,7 @@ const SelectsDemo = () => (
     <h1>Category Select</h1>
     <h2>Placeholder</h2>
     <Row centered>
-      <CategorySelect categories={CATEGORIES} />
+      <CategorySelect placeholder="Choose category" categories={CATEGORIES} />
     </Row>
     <h2>Default value</h2>
     <Row centered>

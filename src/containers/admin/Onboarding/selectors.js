@@ -80,6 +80,7 @@ export const categoriesSelector = createPlainObjectSelector(
   get('stepData', 'list')
 )
 export const openEditCategoryDialogSelector = get('stepData', 'openEditDialog')
+
 export const editingCategorySelector = createSelector(
   categoriesSelector,
   get('stepData', 'editingCategoryId'),

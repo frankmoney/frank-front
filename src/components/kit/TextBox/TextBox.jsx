@@ -89,7 +89,10 @@ class TextBox extends React.Component<Props, State> {
   focus() {
     if (this.control) {
       if (typeof this.control.focus === 'function') {
-        this.control.focus()
+        // FIXME временный фикс автофокуса в диалогах. Разобраться почему в CategoryEditDialog автофокус не срабатывает сразу после рендера
+        setTimeout(() => {
+          this.control.focus()
+        }, 0)
       }
     }
   }

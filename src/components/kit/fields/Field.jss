@@ -14,6 +14,7 @@ export default {
     lineHeight: 26,
     minHeight: 60,
     letterSpacing: '-0.02em',
+    display: 'inline-block',
   },
   larger: {
     minHeight: 70,
@@ -64,6 +65,6 @@ export default {
   },
   control: {},
   stretch: {
-    width: '100%',
+    display: 'block',
   },
 }

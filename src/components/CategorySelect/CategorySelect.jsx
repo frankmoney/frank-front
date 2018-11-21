@@ -20,18 +20,21 @@ const findById = (list, id) => R.find(R.propEq('id', id), list)
 const CategorySelect = ({
   categories,
   value,
+  placeholder,
   menuProps,
   ...otherProps
 }: Props) => {
   const formatValue = id => {
     const item = findById(categories, id)
-
-    return item && <CategorySelectValue {...item} />
+    const placeholderItem = {
+      name: placeholder,
+      color: 'rgba(37, 43, 67, 0.2)',
+    }
+    return <CategorySelectValue {...item || placeholderItem} />
   }
 
   return (
     <SelectField
-      placeholder="Choose category"
       value={value}
       formatValue={formatValue}
       disableArrowHover
@@ -49,6 +52,10 @@ const CategorySelect = ({
       ))}
     </SelectField>
   )
+}
+
+CategorySelect.defaultProps = {
+  placeholder: '',
 }
 
 export default CategorySelect

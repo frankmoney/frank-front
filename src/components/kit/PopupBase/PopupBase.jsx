@@ -3,7 +3,7 @@ import * as React from 'react'
 import positionElement from 'utils/dom/positionElement'
 import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 
-type Ref = any // React.ComponentType<any> | Element
+type Ref = any
 type RefHandler = Ref => void
 
 type Style = Object
@@ -43,6 +43,9 @@ type Props = {|
 
 type El = Element | Text
 
+export type GetAnchorPropsFn = (?Object) => PopupAnchorProps
+export type GetPopupPropsFn = (?Object) => PopupProps
+
 export type PopupRenderProps = {
   open?: boolean,
   close: ExternalCb,
@@ -53,8 +56,8 @@ export type PopupRenderProps = {
   popupEl: ?El,
   anchorEl: ?El,
   getArrowProps: (?Object) => PopupArrowProps,
-  getAnchorProps: (?Object) => PopupAnchorProps,
-  getPopupProps: (?Object) => PopupProps,
+  getAnchorProps: GetAnchorPropsFn,
+  getPopupProps: GetPopupPropsFn,
 }
 
 type getRenderPropsFn = () => PopupRenderProps

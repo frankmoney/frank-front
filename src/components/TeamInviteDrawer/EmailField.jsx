@@ -8,6 +8,7 @@ const EmailField = ({ value, onChange }) => (
       placeholder="example@mail.com"
       value={value}
       onChange={onChange}
+      stretch
     />
   </Drawer.Field>
 )

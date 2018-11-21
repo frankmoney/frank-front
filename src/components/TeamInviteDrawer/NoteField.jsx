@@ -10,6 +10,7 @@ const NoteField = ({ value, onChange }) => (
       minLines={2}
       value={value}
       onChange={onChange}
+      stretch
     />
   </Drawer.Field>
 )

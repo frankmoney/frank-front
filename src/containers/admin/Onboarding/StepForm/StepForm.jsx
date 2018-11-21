@@ -4,9 +4,8 @@ import { injectStyles } from '@frankmoney/ui'
 import { required, createValidateFromRules } from '@frankmoney/forms'
 import { compose, withPropsOnChange, lifecycle } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
-import TextBoxField from 'components/forms/TextBoxField'
-import Spinner from 'components/kit/Spinner'
-import { Field } from 'components/Field'
+import TextField from 'components/kit/TextField'
+import FormControl from 'components/kit/FormControl'
 import reconnect from 'utils/reconnect'
 import * as ACTIONS from '../actions'
 import { STEP_FORM } from '../constants'
@@ -92,16 +91,18 @@ const renderField = ({
           <img className={classes.fieldImage} src={imageData} alt="mfa_image" />
         </div>
       )}
-      <Field stretch title={label} className={classes.field}>
-        <TextBoxField
-          name={id}
-          autoComplete={false}
-          type={type === 'PASSWORD' ? 'password' : 'text'}
-          autoFocus={idx === 0}
-          disabled={isChecking}
-          onKeyPress={handleTextFieldKeyPress}
-        />
-      </Field>
+      <FormControl
+        stretch
+        label={label}
+        className={classes.field}
+        component={TextField}
+        name={id}
+        autoComplete={false}
+        type={type === 'PASSWORD' ? 'password' : 'text'}
+        autoFocus={idx === 0}
+        disabled={isChecking}
+        onKeyPress={handleTextFieldKeyPress}
+      />
     </>
   )
 }
@@ -124,7 +125,6 @@ const StepForm = ({ classes, fields, submit, isChecking }) => (
         renderField({ ...field, classes, onSubmit: submit, isChecking, idx })
       )}
     </div>
-    {isChecking && <Spinner className={classes.spinner} size={45} />}
   </>
 )
 
