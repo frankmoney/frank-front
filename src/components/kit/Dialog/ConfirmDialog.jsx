@@ -20,6 +20,7 @@ type Props = {|
   cancelButtonProps?: React.ElementConfig<typeof Button>,
   cancelLabel: string,
   children?: React.Node,
+  className?: string,
   confirmButtonProps?: React.ElementConfig<typeof Button>,
   confirmLabel: string,
   danger: boolean,
@@ -33,7 +34,7 @@ const ConfirmDialog = ({
   cancelButtonProps,
   cancelLabel,
   children,
-  classes,
+  className,
   confirmButtonProps,
   confirmLabel,
   danger,
@@ -42,9 +43,11 @@ const ConfirmDialog = ({
   onClose,
   onConfirm,
   title,
+  // omit
+  classes,
   ...dialogProps
 }: Props) => (
-  <Dialog onClose={onClose} {...dialogProps}>
+  <Dialog onClose={onClose} className={className} {...dialogProps}>
     {title && <DialogTitle>{title}</DialogTitle>}
     {message && <DialogMessage>{message}</DialogMessage>}
     {children}

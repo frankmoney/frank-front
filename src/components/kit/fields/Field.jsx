@@ -30,6 +30,7 @@ type Props = {|
   //
   additionalLabel?: string,
   children?: React.Element<ControlElement>,
+  defaultValue?: Value,
   disabled?: boolean,
   error?: string,
   floatingLabel?: string,
@@ -38,8 +39,8 @@ type Props = {|
   larger?: boolean,
   loading?: boolean,
   loadingText?: string,
-  placeholder?: string,
   noUnderline?: boolean,
+  placeholder?: string,
   // Контрол пытается занять всю доступную ширину
   stretch?: boolean,
   // Uncontrolled/Controlled value
@@ -78,10 +79,12 @@ class Field extends React.Component<Props, State> {
     filled: !!this.getValue(state),
   })
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlledFocus() {
     return typeof this.props.focus !== 'undefined'
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlledValue() {
     return typeof this.props.value !== 'undefined'
   }

@@ -1,3 +1,4 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import sample from 'lodash/sample'

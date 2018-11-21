@@ -1,4 +1,4 @@
-// @flow strict-local
+// @flow
 import * as React from 'react'
 import memoize from 'lodash/memoize'
 import Menu from 'components/kit/Menu'
@@ -26,26 +26,27 @@ type OmittedProps = {|
   onClose?: Function, // flowlint-line unclear-type:warn
 |}
 
-type getInputPropsResult = {
+type getInputPropsResult = {|
   controlRef: Function,
-  tabIndex: number,
+  onBlur: Function,
   onClick: Function,
   onFocus: Function,
-  onBlur: Function,
   onKeyDown: Function,
-}
+  tabIndex: number,
+|}
 
-type getInputPropsFn = Object => getInputPropsResult
+type getInputPropsFn = (?Object) => getInputPropsResult
 
-type SelectRenderProps = {
-  value: any,
-  valueFormatted: any,
+type SelectRenderProps = {|
   active: boolean,
-  open: boolean,
-  toggle: Function,
-  select: Function,
+  getAnchorProps?: (?Object) => Object, // FIXME: это используется, но мы не возвращаем
   getInputProps: getInputPropsFn,
-}
+  open: boolean,
+  select: Function,
+  toggle: Function,
+  value: Value,
+  valueFormatted: any,
+|}
 
 export type Props = {|
   ...OmittedProps,
@@ -61,13 +62,16 @@ export type Props = {|
   direction: Direction,
   dropdownWidth?: number,
   formatValue?: Value => string,
+  menuProps?: Object,
+  onChange?: Value => void,
+  renderControl: (SelectRenderProps, Object) => React.Element<any>, // TODO
   stretchDropdown?: boolean,
-  renderControl: (SelectRenderProps, Object) => React.ReactElement, // TODO
+  value?: Value,
 |}
 
 type State = {|
   open?: boolean,
-  focused?: boolean,
+  focused: boolean,
   value?: Value,
   selectedElementText?: ?string,
 |}
@@ -95,6 +99,7 @@ class Select extends React.Component<Props, State> {
     }
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlledValue() {
     return typeof this.props.value !== 'undefined'
   }
@@ -103,7 +108,7 @@ class Select extends React.Component<Props, State> {
     return this.isControlledValue ? this.props.value : state.value
   }
 
-  getTextByValue = value => {
+  getTextByValue = (value: Value) => {
     const menuItems = React.Children.toArray(this.props.children)
     const found = menuItems.find(x => x.props.value === value)
 
@@ -132,6 +137,9 @@ class Select extends React.Component<Props, State> {
       }),
     }: SelectRenderProps)
 
+  input: any
+  list: any
+
   handleListRef = ref => {
     this.list = ref
   }
@@ -144,7 +152,7 @@ class Select extends React.Component<Props, State> {
     this.handleTogglePopup(true)
   }
 
-  handleChange = value => {
+  handleChange = (value: Value) => {
     const open = this.props.multiple ? this.state.open : false
     if (!this.isControlledValue) {
       this.setState(
@@ -179,7 +187,7 @@ class Select extends React.Component<Props, State> {
     this.setState({ focused: false })
   }
 
-  handleKeyDown = event => {
+  handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'ArrowDown') {
       event.preventDefault() // prevent move caret to end
       this.list.setNextActiveElement()
