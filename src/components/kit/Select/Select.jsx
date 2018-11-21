@@ -7,6 +7,8 @@ import ArrowMenu from 'components/kit/ArrowMenu'
 import PopupBase, {
   type PopupAlign,
   type PopupPosition,
+  type PopupRenderProps,
+  type GetAnchorPropsFn,
 } from 'components/kit/PopupBase'
 import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 import chainCallbacks from 'utils/dom/chainCallbacks'
@@ -39,13 +41,19 @@ type getInputPropsFn = (?Object) => getInputPropsResult
 
 type SelectRenderProps = {|
   active: boolean,
-  getAnchorProps?: (?Object) => Object, // FIXME: это используется, но мы не возвращаем
+
   getInputProps: getInputPropsFn,
   open: boolean,
   select: Function,
   toggle: Function,
   value: Value,
   valueFormatted: any,
+|}
+
+type RenderControlProps = {|
+  ...SelectRenderProps,
+  //
+  getAnchorProps: GetAnchorPropsFn,
 |}
 
 export type Props = {|
@@ -63,10 +71,12 @@ export type Props = {|
   dropdownWidth?: number,
   formatValue?: Value => string,
   menuProps?: Object,
+  multiple?: boolean,
   onChange?: Value => void,
-  renderControl: (SelectRenderProps, Object) => React.Element<any>, // TODO
+  renderControl: (RenderControlProps, Object) => React.Element<any>, // TODO
   stretchDropdown?: boolean,
   value?: Value,
+  values?: Array<Value>,
 |}
 
 type State = {|
@@ -234,7 +244,7 @@ class Select extends React.Component<Props, State> {
         alignByArrow={alignByArrow}
         distance={distance || defaultDistance}
       >
-        {popupState => {
+        {(popupState: PopupRenderProps) => {
           const {
             open,
             close,

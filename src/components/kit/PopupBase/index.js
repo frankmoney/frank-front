@@ -6,4 +6,6 @@ export type {
   PopupArrowProps,
   PopupPosition,
   PopupRenderProps,
+  GetAnchorPropsFn,
+  GetPopupPropsFn,
 } from './PopupBase'
