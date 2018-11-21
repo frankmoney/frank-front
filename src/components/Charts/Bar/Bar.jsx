@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
@@ -9,12 +9,11 @@ import {
   Tooltip as ReTooltip,
   XAxis,
 } from 'recharts'
-import type { LabelFormatter } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
 import Grid from './Grid'
 import Tick from './Tick'
 import Tooltip from './Tooltip'
-import { epsilon } from './TooltipLine'
+import { epsilon, type TooltipLineFormatter } from './TooltipLine'
 import type { Props } from './Bar.flow'
 
 const BAR_CORNER_RADIUS = 3
@@ -27,7 +26,6 @@ const PADDING = 20
 export const POSITIVE_BAR_COLOR = '#21CB61'
 export const PRIMARY_BAR_COLOR = '#484DE7'
 
-const WIDTH = 790
 const HEIGHT = 260
 
 const styles = {
@@ -45,7 +43,7 @@ const styles = {
 const negateWithEpsilon = x => (x === 0 ? -epsilon : -x)
 const fixNegative = R.over(R.lensProp('negativeValue'), negateWithEpsilon)
 
-const tooltipLabelFormatter: LabelFormatter = payload =>
+const tooltipLineFormatter: TooltipLineFormatter = payload =>
   payload.dataKey === NEGATIVE_VALUE_PROP ? 'Spending' : 'Income'
 
 const BarChart = ({
@@ -99,7 +97,7 @@ const BarChart = ({
           tickSize={4}
         />
         <ReTooltip
-          content={<Tooltip labelFormatter={tooltipLabelFormatter} />}
+          content={<Tooltip lineFormatter={tooltipLineFormatter} />}
           isAnimationActive={false}
           cursor={false}
         />
@@ -137,7 +135,7 @@ BarChart.defaultProps = {
   labelKey: 'name',
   positiveBarColor: POSITIVE_BAR_COLOR,
   showBars: true,
-  width: WIDTH,
+  width: 790,
 }
 
 export default injectStyles(styles)(BarChart)

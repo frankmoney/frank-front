@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
 import Bar, {
@@ -9,7 +9,7 @@ import Bar, {
 import Checkbox from 'components/kit/Checkbox'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-const MAX_ZEROES_TO_HIDE = 0.5
+const MAX_ZEROES_TO_HIDE = 0.6
 
 const styles = {
   chart: {},

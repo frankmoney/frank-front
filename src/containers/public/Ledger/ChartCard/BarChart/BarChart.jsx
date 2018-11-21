@@ -105,6 +105,7 @@ class BarChart extends React.PureComponent<Props, State> {
           dual={income && spending}
           labelKey="date"
           showBars={!hide}
+          width={600}
         />
       </div>
     )

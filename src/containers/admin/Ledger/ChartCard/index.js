@@ -1,1 +1,2 @@
-export default from './ChartCard'
+// @flow
+export { default } from './ChartCard'

@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import * as R from 'ramda'
 import type { PieData } from 'components/Charts/Pie'
 
