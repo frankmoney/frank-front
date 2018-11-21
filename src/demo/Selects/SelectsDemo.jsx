@@ -91,7 +91,7 @@ const SelectsDemo = () => (
     <h1>Category Select</h1>
     <h2>Placeholder</h2>
     <Row centered>
-      <CategorySelect categories={CATEGORIES} />
+      <CategorySelect placeholder="Choose category" categories={CATEGORIES} />
     </Row>
     <h2>Default value</h2>
     <Row centered>
