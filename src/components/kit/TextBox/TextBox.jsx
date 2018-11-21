@@ -63,15 +63,12 @@ class TextBox extends React.Component<Props, State> {
 
     if (this.isControlled) {
       if (typeof this.props.onChange === 'function') {
-        // In case of input change it's better give event object cos
-        // it's like old fashion yes but still
-        // (esp. other libs like react-suggest 'await' for event not a value itself)
-        return this.props.onChange(event)
+        return this.props.onChange(value)
       }
     } else {
       this.setState({ value }, () => {
         if (typeof this.props.onChange === 'function') {
-          this.props.onChange(event)
+          this.props.onChange(value)
         }
       })
     }
