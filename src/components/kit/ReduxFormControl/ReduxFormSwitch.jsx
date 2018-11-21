@@ -19,10 +19,10 @@ const propsMapper = mapProps(props => {
   }
 })
 
-const FieldControl = compose(
+const ReduxFormSwitch = compose(
   withPropsOnChange(['component'], ({ component: Component }) => ({
     component: propsMapper(Component),
   }))
 )(Field)
 
-export default FieldControl
+export default ReduxFormSwitch
