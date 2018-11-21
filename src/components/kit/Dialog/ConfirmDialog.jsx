@@ -34,7 +34,6 @@ const ConfirmDialog = ({
   cancelButtonProps,
   cancelLabel,
   children,
-  className,
   confirmButtonProps,
   confirmLabel,
   danger,
@@ -47,7 +46,7 @@ const ConfirmDialog = ({
   classes,
   ...dialogProps
 }: Props) => (
-  <Dialog onClose={onClose} className={className} {...dialogProps}>
+  <Dialog onClose={onClose} {...dialogProps}>
     {title && <DialogTitle>{title}</DialogTitle>}
     {message && <DialogMessage>{message}</DialogMessage>}
     {children}
