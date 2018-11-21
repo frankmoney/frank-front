@@ -1,22 +1,12 @@
 import React from 'react'
-import * as R from 'ramda'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { Sort as IconFilter } from 'material-ui-icons'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
-import LedgerFilterDrawer from 'components/drawers/LedgerFilterDrawer'
+import reconnect from 'utils/reconnect'
+import FilterDrawer from 'containers/admin/Filters/FiltersDrawer'
 import { injectStyles } from 'utils/styles'
 import * as ACTIONS from '../actions'
-import {
-  filtersDataSelector,
-  filtersEstimatedResultsCountSelector,
-  isFiltersEstimatingSelector,
-  isFiltersLoadedSelector,
-  isFiltersOpenSelector,
-  paymentsTotalCountSelector,
-} from '../selectors'
+import { currentFiltersCountSelector } from '../selectors'
 
 const styles = theme => ({
   root: {
@@ -47,21 +37,7 @@ const styles = theme => ({
 
 class LedgerFilter extends React.Component {
   render() {
-    const {
-      classes,
-      className,
-      open,
-      currentResultsCount,
-      estimatedResultsCount,
-      filtersData,
-      openDrawer,
-      closeDrawer,
-      changeFilters,
-      resetFilters,
-      applyFilters,
-      estimating,
-      loaded,
-    } = this.props
+    const { classes, className, filtersCount, openDrawer } = this.props
     return (
       <>
         <div
@@ -70,49 +46,24 @@ class LedgerFilter extends React.Component {
         >
           <IconFilter className={classes.icon} />
           Filter
-          {currentResultsCount > 0 && (
-            <div className={classes.counter}>{currentResultsCount}</div>
+          {filtersCount > 0 && (
+            <div className={classes.counter}>{filtersCount}</div>
           )}
         </div>
-        <LedgerFilterDrawer
-          open={open}
-          loaded={loaded}
-          onClose={() => closeDrawer()}
-          onReset={() => resetFilters()}
-          onChange={changeFilters}
-          onApply={applyFilters}
-          totalCount={estimatedResultsCount}
-          totalCountEstimating={estimating}
-          {...filtersData}
-        />
+        <FilterDrawer />
       </>
     )
   }
 }
 
-const mapStateToProps = createStructuredSelector({
-  loaded: isFiltersLoadedSelector,
-  open: isFiltersOpenSelector,
-  estimating: isFiltersEstimatingSelector,
-  currentResultsCount: paymentsTotalCountSelector,
-  estimatedResultsCount: filtersEstimatedResultsCountSelector,
-  filtersData: filtersDataSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    openDrawer: ACTIONS.filtersOpen,
-    closeDrawer: ACTIONS.filtersClose,
-    applyFilters: ACTIONS.filtersApply,
-    changeFilters: ACTIONS.filtersChange,
-    resetFilters: ACTIONS.filtersReset,
-  },
-])
-
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
+  reconnect(
+    {
+      filtersCount: currentFiltersCountSelector,
+    },
+    {
+      openDrawer: ACTIONS.filtersOpen,
+    }
   ),
   injectStyles(styles)
 )(LedgerFilter)

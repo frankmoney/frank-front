@@ -19,6 +19,7 @@ const styles = {
 }
 
 const parseNumber = value => {
+  console.log('parse', value, parseInt(value, 10));
   const number = parseInt(value, 10)
   return isNaN(number) ? null : number
 }
@@ -27,6 +28,7 @@ const AmountField = ({ classes, from, to, onChange }) => (
   <Drawer.Field label="Amount">
     <div className={classes.wrap}>
       <TextField
+        stretch
         value={from || ''}
         label="min"
         onChange={value => onChange({ min: parseNumber(value), max: to })}

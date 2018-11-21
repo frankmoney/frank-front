@@ -36,6 +36,7 @@ const parseValue = (value: Value) => {
 const VerificationField = ({ value, onChange }: Props) => (
   <Drawer.Field label="Verification">
     <SelectField
+      stretch
       value={parseValue(value)}
       onChange={v => onChange(formatValue(v))}
     >
