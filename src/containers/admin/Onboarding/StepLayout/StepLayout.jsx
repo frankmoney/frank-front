@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import Button from 'components/kit/Button'
+import { ArrowBack } from 'material-ui-icons'
+import Button, { TextButton } from 'components/kit/Button'
 import FrankLogo from 'components/Logo'
 import { injectStyles } from 'utils/styles'
 import styles from './StepLayout.jss'
@@ -30,7 +31,13 @@ const StepLayout = ({
     {!noFooter && (
       <div className={classes.footer}>
         {canGoBack ? (
-          <Button label={backLabel} onClick={onBack} loading={loadingBack} />
+          <TextButton
+            label={backLabel}
+            color="gray"
+            icon={<ArrowBack />}
+            onClick={onBack}
+            loading={loadingBack}
+          />
         ) : (
           <div />
         )}
