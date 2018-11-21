@@ -26,8 +26,8 @@ const mapError = ({ input: { value }, meta: { error, submitFailed } }) =>
   (submitFailed || hasValue(value)) && !!error
 
 const FieldControl = compose(
-  withPropsOnChange(['component'], ({ component: Component }) =>
-    mapProps(props => {
+  withPropsOnChange(['component'], ({ component: Component }) => ({
+    component: mapProps(props => {
       const {
         input: { value, onChange, onFocus, onBlur },
         meta: { active },
@@ -45,8 +45,8 @@ const FieldControl = compose(
         hint: mapHelperText(props),
         ...otherProps,
       }
-    })(Component)
-  )
+    })(Component),
+  }))
 )(Field)
 
 export default FieldControl
