@@ -4,14 +4,14 @@ import Drawer from 'components/kit/Drawer'
 import SelectField from 'components/kit/SelectField'
 import { MenuItem } from 'components/kit/Menu'
 
-type Value = 'verified' | 'not_verified' | 'all'
+export type VerificationValue = 'verified' | 'not_verified' | 'all'
 
 type Props = {|
-  value: Value,
+  value?: boolean,
   onChange: (?boolean) => void,
 |}
 
-const formatValue = (value: Value) => {
+const formatValue = (value: VerificationValue): ?boolean => {
   switch (value) {
     case 'verified':
       return true
@@ -22,7 +22,7 @@ const formatValue = (value: Value) => {
   }
 }
 
-const parseValue = (value: Value) => {
+const parseValue = (value: ?boolean): VerificationValue => {
   switch (value) {
     case true:
       return 'verified'

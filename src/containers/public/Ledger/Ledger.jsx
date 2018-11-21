@@ -45,7 +45,9 @@ class Ledger extends React.Component<Props, State> {
     this.calculateOffset()
   }
 
-  handleAnchorRef = node => {
+  anchorRef: ?HTMLDivElement
+
+  handleAnchorRef = (node: ?HTMLDivElement) => {
     this.anchorRef = node
   }
 

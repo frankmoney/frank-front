@@ -1,1 +1,2 @@
-export default from './Ledger'
+// @flow
+export { default } from './Ledger'

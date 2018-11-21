@@ -1,3 +1,4 @@
+// @flow
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
@@ -10,11 +11,11 @@ import {
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
-import { UNCATEGORIZED_CATEGORY } from '../../../const'
+import { UNCATEGORIZED_CATEGORY } from 'const'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
-const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
+const get = (...prop) => (store: Object) => store.getIn([REDUCER_KEY, ...prop])
 const getFilters = (...prop) => get('filtersEdit', ...prop)
 
 export const isLoadingSelector = get('loading')
@@ -80,7 +81,7 @@ export const dataSourceSelector = createSelector(
   )
 )
 
-export const rowDataSelector = id =>
+export const rowDataSelector = (id: number) =>
   createSelector(
     paymentsSelector,
     R.find(x => x.id.toString() === id.toString())

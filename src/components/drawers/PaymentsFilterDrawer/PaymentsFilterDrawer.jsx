@@ -10,18 +10,22 @@ import {
   PendingField,
 } from 'components/DrawerFilters'
 
-type DateString = String
+type DateString = Date | string
 
-type Props = {
+type SumLimit = {|
+  min: number,
+  max: number,
+|}
+
+type DateLimit = {|
+  from: DateString,
+  to: DateString,
+|}
+
+type Props = {|
   // filters data
-  sumLimit: {
-    min: number,
-    max: number,
-  },
-  dateLimit: {
-    from: DateString,
-    to: DateString,
-  },
+  sumLimit?: SumLimit,
+  dateLimit?: DateLimit,
   verified: boolean,
   pending: boolean,
   //
@@ -29,13 +33,13 @@ type Props = {
   disableVerifiedFilter?: boolean,
   //
   loaded: boolean,
-  estimating: boolean,
-  totalCount: number,
+  estimating?: boolean,
+  totalCount?: number,
   // callbacks
   onReset: Function,
   onChange: Function,
   onApply: Function,
-}
+|}
 
 class PaymentsFilterDrawer extends React.Component<Props> {
   static defaultProps = {
@@ -100,18 +104,22 @@ class PaymentsFilterDrawer extends React.Component<Props> {
 
     const footerText = estimating
       ? 'Estimating...'
-      : `${totalCount > 0 ? totalCount : 'No'} payments`
+      : `${totalCount || 'No'} payments`
 
     const content = loaded ? (
       <Drawer.Content>
         <DateRangeField
           label="Date range"
+          // $FlowFixMe: dateLimit is defined at this point
           from={dateLimit.from}
+          // $FlowFixMe
           to={dateLimit.to}
           onChange={this.handleChangeDateRange}
         />
         <AmountField
+          // $FlowFixMe: sumLimit is defined at this point
           from={sumLimit.min}
+          // $FlowFixMe
           to={sumLimit.max}
           onChange={this.handleChangeSum}
         />

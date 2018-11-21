@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import type { InjectStylesProps } from 'utils/styles'
 
 type PieItem = {|

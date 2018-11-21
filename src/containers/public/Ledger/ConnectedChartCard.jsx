@@ -1,8 +1,6 @@
-import { connect } from 'react-redux'
-import * as R from 'ramda'
+// @flow strict-local
 import { branch, compose, renderNothing } from 'recompose'
-import { bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
+import reconnect from 'utils/reconnect'
 import ChartCard from './ChartCard'
 import {
   barChartDataSelector,
@@ -14,26 +12,20 @@ import {
 } from './selectors'
 import * as ACTIONS from './actions'
 
-const mapStateToProps = createStructuredSelector({
-  barsData: barChartDataSelector,
-  barsOnly: barChartOnlySelector,
-  categoryType: chartCategoryTypeSelector,
-  period: periodSelector,
-  pieData: pieChartDataSelector,
-  visible: chartsVisibleSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    onCategoryClick: ACTIONS.selectCategory,
-    onCategoryTypeChange: ACTIONS.selectCategoryType,
-  },
-])
-
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
+  reconnect(
+    {
+      barsData: barChartDataSelector,
+      barsOnly: barChartOnlySelector,
+      categoryType: chartCategoryTypeSelector,
+      period: periodSelector,
+      pieData: pieChartDataSelector,
+      visible: chartsVisibleSelector,
+    },
+    {
+      onCategoryClick: ACTIONS.selectCategory,
+      onCategoryTypeChange: ACTIONS.selectCategoryType,
+    }
   ),
   branch(props => !props.visible, renderNothing)
 )(ChartCard)

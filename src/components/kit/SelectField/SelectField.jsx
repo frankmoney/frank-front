@@ -1,12 +1,8 @@
 // @flow
 import React from 'react'
-import { withProps } from 'recompose'
 import Select from 'components/kit/Select'
 import Field from 'components/kit/fields/Field'
 import SelectFieldControl from './SelectFieldControl'
-
-// TODO merge with FieldProps
-type Props = {}
 
 const renderFieldControl = (
   { valueFormatted, active, getInputProps, getAnchorProps },
@@ -27,12 +23,17 @@ const renderFieldControl = (
   </Field>
 )
 
+// TODO merge with FieldProps
+type Props = {
+  disableStretchDropdown: boolean,
+}
+
 const SelectField = ({
   disableStretchDropdown,
   renderControl, // ignore
   stretchDropdown, // ignore
   ...otherProps
-}) => (
+}: Props) => (
   <Select
     renderControl={renderFieldControl}
     stretchDropdown={!disableStretchDropdown}
