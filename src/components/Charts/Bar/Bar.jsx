@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
@@ -9,7 +9,6 @@ import {
   Tooltip as ReTooltip,
   XAxis,
 } from 'recharts'
-import type { LabelFormatter } from 'recharts'
 import { injectStyles } from '@frankmoney/ui'
 import Grid from './Grid'
 import Tick from './Tick'
@@ -27,7 +26,6 @@ const PADDING = 20
 export const POSITIVE_BAR_COLOR = '#21CB61'
 export const PRIMARY_BAR_COLOR = '#484DE7'
 
-const WIDTH = 790
 const HEIGHT = 260
 
 const styles = {
@@ -42,10 +40,14 @@ const styles = {
   },
 }
 
+interface Payload {
+  dataKey: string;
+}
+
 const negateWithEpsilon = x => (x === 0 ? -epsilon : -x)
 const fixNegative = R.over(R.lensProp('negativeValue'), negateWithEpsilon)
 
-const tooltipLabelFormatter: LabelFormatter = payload =>
+const tooltipLabelFormatter = (payload: Payload): string =>
   payload.dataKey === NEGATIVE_VALUE_PROP ? 'Spending' : 'Income'
 
 const BarChart = ({
@@ -137,7 +139,7 @@ BarChart.defaultProps = {
   labelKey: 'name',
   positiveBarColor: POSITIVE_BAR_COLOR,
   showBars: true,
-  width: WIDTH,
+  width: 790,
 }
 
 export default injectStyles(styles)(BarChart)
