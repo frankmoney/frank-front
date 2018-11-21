@@ -10,7 +10,6 @@ export default (action$, store) =>
     .mergeMap(({ payload: ids }) => {
       const state = store.getState()
       const payments = paymentsSelector(state)
-      console.log('payments', payments, ids)
       const newPayments = payments.filter(x => ids.includes(x.id))
 
       return [change(FORM_NAME, 'payments', fromJS(newPayments))]

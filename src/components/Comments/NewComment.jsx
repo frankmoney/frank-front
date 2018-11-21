@@ -103,7 +103,7 @@ class NewComment extends React.Component<Props, State> {
           >
             <TextButton
               label="Send"
-              color="lightBlue"
+              color="gray"
               larger
               onClick={this.handleSend}
             />

@@ -33,6 +33,7 @@ export type Props = {|
   //
   active?: boolean,
   color?: string,
+  disableFocusable?: boolean,
   name?: string,
   value?: number,
   valueUnit?: string,
@@ -52,6 +53,7 @@ const CategoryLabel = ({
   activeClassName,
   classes,
   className,
+  disableFocusable,
   iconClassName,
   name,
   nameClassName,
@@ -61,7 +63,6 @@ const CategoryLabel = ({
   value,
   valueClassName,
   valueUnit,
-  disableFocusable,
 }: Props) => {
   const renderedValue = R.not(R.isNil(value)) || value === 0 ? value : undefined
   return (

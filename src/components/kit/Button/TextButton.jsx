@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
 import cx from 'classnames'
 import Spinner from 'components/kit/Spinner'
@@ -6,7 +6,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import ButtonBase, { type ButtonBaseProps } from './ButtonBase'
 import styles from './TextButton.jss'
 
-type TextButtonColor = 'black' | 'blue' | 'gray' | 'lightBlue'
+type TextButtonColor = 'black' | 'blue' | 'gray' | 'faintGray'
 
 type Props = {|
   ...ButtonBaseProps,
@@ -16,6 +16,7 @@ type Props = {|
   color: TextButtonColor,
   disabled?: boolean,
   hover?: boolean,
+  icon?: React.Element<any>, // flowlint-line unclear-type:off
   label: string,
   larger?: boolean,
   loading?: boolean,
@@ -33,6 +34,7 @@ const TextButton = ({
   label,
   larger,
   loading,
+  icon,
   ...baseButtonProps
 }: Props) => (
   <ButtonBase
@@ -42,7 +44,7 @@ const TextButton = ({
         [classes.larger]: larger,
         [classes.black]: color === 'black',
         [classes.blue]: color === 'blue',
-        [classes.lightBlue]: color === 'lightBlue',
+        [classes.faintGray]: color === 'faintGray',
         [classes.gray]: color === 'gray',
         [classes.active]: active,
         [classes.hover]: hover,
@@ -53,6 +55,11 @@ const TextButton = ({
     )}
     {...baseButtonProps}
   >
+    {icon &&
+      React.isValidElement(icon) &&
+      React.cloneElement(icon, {
+        className: cx(icon.props.className, classes.icon),
+      })}
     <span>{label}</span>
     {loading && <Spinner className={classes.spinner} size={20} />}
   </ButtonBase>
