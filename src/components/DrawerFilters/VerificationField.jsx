@@ -7,7 +7,7 @@ import { MenuItem } from 'components/kit/Menu'
 export type VerificationValue = 'verified' | 'not_verified' | 'all'
 
 type Props = {|
-  value?: boolean,
+  value: ?boolean,
   onChange: (?boolean) => void,
 |}
 

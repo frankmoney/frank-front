@@ -22,23 +22,26 @@ type DateLimit = {|
   to: DateString,
 |}
 
-type Props = {|
-  // filters data
-  sumLimit?: SumLimit,
+type Filters = {|
   dateLimit?: DateLimit,
-  verified: boolean,
-  pending: boolean,
+  pending?: ?boolean,
+  sumLimit?: SumLimit,
+  verified?: ?boolean,
+|}
+
+type Props = {|
+  ...Filters,
   //
   disablePendingFilter?: boolean,
   disableVerifiedFilter?: boolean,
   //
-  loaded: boolean,
   estimating?: boolean,
+  loaded: boolean,
   totalCount?: number,
   // callbacks
-  onReset: Function,
-  onChange: Function,
   onApply: Function,
+  onChange: Function,
+  onReset: Function,
 |}
 
 class PaymentsFilterDrawer extends React.Component<Props> {
@@ -53,7 +56,7 @@ class PaymentsFilterDrawer extends React.Component<Props> {
     return { sumLimit, dateLimit, verified, pending }
   }
 
-  mergeFilters = data => {
+  mergeFilters = (data: Filters) => {
     this.props.onChange({
       ...this.allFilters,
       ...data,
