@@ -3,7 +3,13 @@ import { matchPath } from 'react-router'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector, pathnameSelector } from '@frankmoney/webapp'
-import { isSameYear, format } from 'date-fns/fp'
+import { format } from 'date-fns/fp'
+import {
+  convertToBarChartValues,
+  formatBarLabels,
+  type BarsDataPoint,
+  type BarsSize,
+} from 'data/models/barData'
 import { remapPieData, sumProp } from 'data/models/pieData'
 import { parseDate, formatMonth, parseMonth } from 'utils/dates'
 import {
@@ -183,25 +189,21 @@ export const barChartOnlySelector = createSelector(
 // [{date:String,negativeValue:Float,value:Float}]
 export const barChartDataSelector = createSelector(
   createPlainObjectSelector(get('barsData')),
-  R.pipe(
-    R.map(({ date, income: value, expenses: negateValue }) => ({
-      date,
-      value: Math.floor(value),
-      negativeValue: Math.floor(negateValue),
-    })),
-    list =>
-      list.reduce((acc, item, idx) => {
-        const prev = idx > 0 ? list[idx - 1] : null
-        const isNewYear =
-          prev && !isSameYear(parseDate(item.date), parseDate(prev.date))
-        return acc.concat([
-          {
-            ...item,
-            date: format(isNewYear ? 'MMM YYYY' : 'MMM', parseDate(item.date)),
-          },
-        ])
-      }, [])
-  )
+  get('barsSize'),
+  (data: BarsDataPoint, barsSize: BarsSize) =>
+    R.pipe(
+      R.map(convertToBarChartValues),
+      list =>
+        list.reduce((acc, item, idx) => {
+          const prev = idx > 0 ? list[idx - 1] : null
+          return acc.concat([
+            {
+              ...item.values,
+              date: JSON.stringify(formatBarLabels(item, prev, barsSize)),
+            },
+          ])
+        }, [])
+    )(data)
 )
 
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
