@@ -182,7 +182,7 @@ const convertToChartFormat = ({
 
 type BarsSize = 'day' | 'week' | 'month' | 'quarter' | 'year'
 
-const formatDateLabel = (
+const formatBarAxisLabel = (
   date: Date,
   prev: ?Date,
   barsSize: BarsSize
@@ -213,8 +213,10 @@ export const barChartDataSelector = createSelector(
           return acc.concat([
             {
               ...item,
-              date: formatDateLabel(date, prev, barsSize),
-              originalDate: date,
+              date: JSON.stringify({
+                tooltipLabel: format('DD MMM YYYY', date),
+                axisLabel: formatBarAxisLabel(date, prev, barsSize),
+              }),
             },
           ])
         }, [])

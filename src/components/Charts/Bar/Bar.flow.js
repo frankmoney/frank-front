@@ -1,10 +1,19 @@
 // @flow
 import type { InjectStylesProps } from 'utils/styles'
 
+export type JSONString = string
+
+export type FormattedBarLabels = {|
+  axisLabel: string,
+  tooltipLabel: string,
+|}
+
 type BarItem = {|
-  name?: string, // this is only a default key. it is actually the `labelKey`
+  date: JSONString,
   negativeValue?: number,
   value: number,
+  //
+  name?: string, // this is only a default key. it is actually the `labelKey`
 |}
 
 export type BarData = Array<BarItem>

@@ -9,9 +9,9 @@ import {
   Tooltip as ReTooltip,
   XAxis,
 } from 'recharts'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles } from 'utils/styles'
+import AxisLabel from './AxisLabel'
 import Grid from './Grid'
-import Tick from './Tick'
 import Tooltip from './Tooltip'
 import { EPSILON, type TooltipLineFormatter } from './TooltipLine'
 import type { Props } from './Bar.flow'
@@ -91,7 +91,7 @@ const BarChart = ({
           interval={0}
           minTickGap={0}
           padding={{ left: 0, right: 0 }}
-          tick={<Tick />}
+          tick={<AxisLabel />}
           tickLine={false}
           tickMargin={footerPadding + BASE_LINE_OFFSET}
           tickSize={4}
