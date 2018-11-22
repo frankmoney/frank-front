@@ -108,9 +108,11 @@ export default {
           ) {
             barSize
             bars {
-              showDate
+              endDate
               revenue
+              showDate
               spending
+              startDate
             }
           }`) ||
           ''}

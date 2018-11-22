@@ -165,19 +165,27 @@ export const barChartOnlySelector = createSelector(
 )
 
 type BarsDataPoint = {|
-  showDate: string,
+  endDate: string,
   revenue: number,
+  showDate: string,
   spending: number,
+  startDate: string,
 |}
 
-const convertToChartFormat = ({
-  showDate,
+const convertToChartValues = ({
+  endDate,
   revenue,
+  showDate,
   spending,
+  startDate,
 }: BarsDataPoint) => ({
-  date: showDate,
-  value: Math.floor(revenue),
-  negativeValue: Math.floor(spending),
+  endDate,
+  showDate,
+  startDate,
+  values: {
+    value: Math.floor(revenue),
+    negativeValue: Math.floor(spending),
+  },
 })
 
 type BarsSize = 'day' | 'week' | 'month' | 'quarter' | 'year'
@@ -193,7 +201,34 @@ const formatBarAxisLabel = (
   } else if (barsSize === 'month') {
     formatter = prev && !isSameYear(date, prev) ? 'MMM YYYY' : 'MMM'
   } else if (barsSize === 'quarter') {
-    formatter = prev && !isSameYear(date, prev) ? 'MMM YYYY' : 'MMM'
+    formatter = prev && !isSameYear(date, prev) ? "[Q]Q [']YY" : '[Q]Q'
+  } else if (barsSize === 'year') {
+    formatter = 'YYYY'
+  }
+  return format(formatter, date)
+}
+
+const formatBarTooltipLabel = (
+  date: Date,
+  prev: ?Date,
+  startDateStr: string,
+  endDateStr: string,
+  barsSize: BarsSize
+): string => {
+  let formatter = 'MMMM DD, YYYY' // barsSize == 'day'
+  if (barsSize === 'week') {
+    const startDate = parseDate(startDateStr)
+    const endDate = parseDate(endDateStr)
+    if (prev && !isSameMonth(date, prev)) {
+      // Mar 27 – Apr 2, 2017
+      return format(`MMM DD – [${format('MMM DD', endDate)}], YYYY`, startDate)
+    }
+    // January 1–6, 2017
+    return format(`MMMM DD–[${format('DD', endDate)}], YYYY`, startDate)
+  } else if (barsSize === 'month') {
+    formatter = 'MMMM YYYY'
+  } else if (barsSize === 'quarter') {
+    formatter = '[Q]Q YYYY'
   } else if (barsSize === 'year') {
     formatter = 'YYYY'
   }
@@ -205,17 +240,23 @@ export const barChartDataSelector = createSelector(
   get('barsSize'),
   (data: BarsDataPoint, barsSize: BarsSize) =>
     R.pipe(
-      R.map(convertToChartFormat),
+      R.map(convertToChartValues),
       list =>
         list.reduce((acc, item, idx) => {
-          const prev = idx > 0 ? parseDate(list[idx - 1].date) : null
-          const date = parseDate(item.date)
+          const prev = idx > 0 ? parseDate(list[idx - 1].showDate) : null
+          const date = parseDate(item.showDate)
           return acc.concat([
             {
-              ...item,
+              ...item.values,
               date: JSON.stringify({
-                tooltipLabel: format('DD MMM YYYY', date),
                 axisLabel: formatBarAxisLabel(date, prev, barsSize),
+                tooltipLabel: formatBarTooltipLabel(
+                  date,
+                  prev,
+                  item.startDate,
+                  item.endDate,
+                  barsSize
+                ),
               }),
             },
           ])
