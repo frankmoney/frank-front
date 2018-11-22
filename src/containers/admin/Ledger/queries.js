@@ -1,42 +1,42 @@
 import * as R from 'ramda'
 import { convertGraphqlPieData } from 'data/models/pieData'
 
-const peer = `
+const PEER = `
   id: pid
   name
 `
 
-const category = `
+const CATEGORY = `
   id: pid
   name
   color
 `
 
-const fieldUpdater = `
+const FIELD_UPDATER = `
   name
   lastName
   firstName
 `
 
-const payments = `
+const PAYMENTS = `
   id: pid
   postedOn
   amount
   peer {
-    ${peer}
+    ${PEER}
   }
   peerUpdater {
-    ${fieldUpdater}
+    ${FIELD_UPDATER}
   }
   description
   descriptionUpdater {
-    ${fieldUpdater}
+    ${FIELD_UPDATER}
   }
   category {
-    ${category}
+    ${CATEGORY}
   }
   categoryUpdater {
-    ${fieldUpdater}
+    ${FIELD_UPDATER}
   }
 `
 
@@ -86,7 +86,7 @@ export default {
             amountMax: $amountMax
             verified: $verified
           ) {
-            ${payments}
+            ${PAYMENTS}
           }`) ||
           ''}
           
@@ -219,20 +219,20 @@ export default {
         description: $description
       ) {
         peer {
-          ${peer}
+          ${PEER}
         }
         peerUpdater{
-          ${fieldUpdater}
+          ${FIELD_UPDATER}
         }
         category {
-          ${category}
+          ${CATEGORY}
         }
         categoryUpdater{
-          ${fieldUpdater}
+          ${FIELD_UPDATER}
         }
         description
         descriptionUpdater {
-          ${fieldUpdater}
+          ${FIELD_UPDATER}
         }
       }
     }
