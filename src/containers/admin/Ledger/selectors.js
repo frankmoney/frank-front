@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
-import { isSameYear, format } from 'date-fns/fp'
+import { isSameMonth, isSameYear, format } from 'date-fns/fp'
 import { remapPieData, sumProp } from 'data/models/pieData'
 import { parseDate, formatMonth, parseMonth } from 'utils/dates'
 import {
@@ -16,7 +16,7 @@ import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
 const get = (...prop) => (store: Object) => store.getIn([REDUCER_KEY, ...prop])
-const getFilters = (...prop) => get('filtersEdit', ...prop)
+// const getFilters = (...prop) => get('filtersEdit', ...prop)
 
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
@@ -164,28 +164,61 @@ export const barChartOnlySelector = createSelector(
   R.complement(R.either(R.isNil, R.isEmpty))
 )
 
-// [{date:String,negativeValue:Float,value:Float}]
+type BarsDataPoint = {|
+  showDate: string,
+  revenue: number,
+  spending: number,
+|}
+
+const convertToChartFormat = ({
+  showDate,
+  revenue,
+  spending,
+}: BarsDataPoint) => ({
+  date: showDate,
+  value: Math.floor(revenue),
+  negativeValue: Math.floor(spending),
+})
+
+type BarsSize = 'day' | 'week' | 'month' | 'quarter' | 'year'
+
+const formatDateLabel = (
+  date: Date,
+  prev: ?Date,
+  barsSize: BarsSize
+): string => {
+  let formatter = 'DD' // barsSize == 'day'
+  if (barsSize === 'week') {
+    formatter = prev && !isSameMonth(date, prev) ? 'DD MMM' : 'DD'
+  } else if (barsSize === 'month') {
+    formatter = prev && !isSameYear(date, prev) ? 'MMM YYYY' : 'MMM'
+  } else if (barsSize === 'quarter') {
+    formatter = prev && !isSameYear(date, prev) ? 'MMM YYYY' : 'MMM'
+  } else if (barsSize === 'year') {
+    formatter = 'YYYY'
+  }
+  return format(formatter, date)
+}
+
 export const barChartDataSelector = createSelector(
   createPlainObjectSelector(get('barsData')),
-  R.pipe(
-    R.map(({ date, income: value, expenses: negateValue }) => ({
-      date,
-      value: Math.floor(value),
-      negativeValue: Math.floor(negateValue),
-    })),
-    list =>
-      list.reduce((acc, item, idx) => {
-        const prev = idx > 0 ? list[idx - 1] : null
-        const isNewYear =
-          prev && !isSameYear(parseDate(item.date), parseDate(prev.date))
-        return acc.concat([
-          {
-            ...item,
-            date: format(isNewYear ? 'MMM YYYY' : 'MMM', parseDate(item.date)),
-          },
-        ])
-      }, [])
-  )
+  get('barsSize'),
+  (data: BarsDataPoint, barsSize: BarsSize) =>
+    R.pipe(
+      R.map(convertToChartFormat),
+      list =>
+        list.reduce((acc, item, idx) => {
+          const prev = idx > 0 ? parseDate(list[idx - 1].date) : null
+          const date = parseDate(item.date)
+          return acc.concat([
+            {
+              ...item,
+              date: formatDateLabel(date, prev, barsSize),
+              originalDate: date,
+            },
+          ])
+        }, [])
+    )(data)
 )
 
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))

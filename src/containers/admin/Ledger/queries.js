@@ -106,6 +106,7 @@ export default {
             postedOnFrom: $dateMin
             postedOnTo: $dateMax
           ) {
+            barSize
             bars {
               showDate
               revenue
@@ -146,13 +147,10 @@ export default {
       payments: categoryScoped ? category.payments : payments,
       totalCount: categoryScoped ? category.countPayments : countPayments,
       barChart: includeBars
-        ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars.map(
-            ({ showDate, revenue, spending }) => ({
-              date: showDate,
-              income: revenue,
-              expenses: spending,
-            })
-          )
+        ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars
+        : null,
+      barChartBarSize: includeBars
+        ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).barSize
         : null,
       pieChart: includePie ? convertGraphqlPieData(ledgerPieChart.items) : null,
     }),
