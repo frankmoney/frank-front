@@ -1,5 +1,5 @@
 // @flow strict
-import { isSameMonth, isSameYear, format } from 'date-fns/fp'
+import { endOfWeek, format, isSameMonth, isSameYear } from 'date-fns/fp'
 import { parseDate } from 'utils/dates'
 
 type ApiDates = {|
@@ -55,34 +55,27 @@ const formatBarAxisLabel = (
 ): string => {
   let formatter = 'DD' // barsSize == 'day'
   if (barsSize === 'week') {
-    formatter = prev && !isSameMonth(date, prev) ? 'DD MMM' : 'DD'
+    formatter = prev && !isSameMonth(date, prev) ? 'MMM' : ''
   } else if (barsSize === 'month') {
     formatter = prev && !isSameYear(date, prev) ? 'MMM YYYY' : 'MMM'
   } else if (barsSize === 'quarter') {
-    formatter = prev && !isSameYear(date, prev) ? "[Q]Q [']YY" : '[Q]Q'
+    formatter = prev && !isSameYear(date, prev) ? '[Q]Q YYYY' : '[Q]Q'
   } else if (barsSize === 'year') {
     formatter = 'YYYY'
   }
   return format(formatter, date)
 }
 
-const formatBarTooltipLabel = (
-  date: Date,
-  prev: ?Date,
-  startDateStr: string,
-  endDateStr: string,
-  barsSize: BarsSize
-): string => {
+const formatBarTooltipLabel = (date: Date, barsSize: BarsSize): string => {
   let formatter = 'MMMM DD, YYYY' // barsSize == 'day'
   if (barsSize === 'week') {
-    const startDate = parseDate(startDateStr)
-    const endDate = parseDate(endDateStr)
-    if (prev && !isSameMonth(date, prev)) {
-      // Mar 27 – Apr 2, 2017
-      return format(`MMM DD – [${format('MMM DD', endDate)}], YYYY`, startDate)
+    const endDate = endOfWeek(date)
+    if (isSameMonth(date, endDate)) {
+      // January 1–6, 2017
+      return format(`MMMM DD–[${format('DD', endDate)}], YYYY`, date)
     }
-    // January 1–6, 2017
-    return format(`MMMM DD–[${format('DD', endDate)}], YYYY`, startDate)
+    // Mar 27 – Apr 2, 2017
+    return format(`MMM DD – [${format('MMM DD', endDate)}], YYYY`, date)
   } else if (barsSize === 'month') {
     formatter = 'MMMM YYYY'
   } else if (barsSize === 'quarter') {
@@ -103,12 +96,6 @@ export const formatBarLabels = (
     startDate: item.startDate,
     endDate: item.endDate,
     axisLabel: formatBarAxisLabel(date, prevDate, barsSize),
-    tooltipLabel: formatBarTooltipLabel(
-      date,
-      prevDate,
-      item.startDate,
-      item.endDate,
-      barsSize
-    ),
+    tooltipLabel: formatBarTooltipLabel(date, barsSize),
   }
 }
