@@ -36,6 +36,9 @@ const styles = {
   chart: {
     margin: '0 auto',
   },
+  clickableBar: {
+    cursor: 'pointer',
+  },
   positiveBars: {
     transform: `translateY(-${BASE_LINE_OFFSET}px)`,
   },
@@ -115,7 +118,10 @@ const BarChart = ({
         />
         {showBars && (
           <Bar
-            className={cx({ [classes.positiveBars]: dual })}
+            className={cx({
+              [classes.clickableBar]: clickable,
+              [classes.positiveBars]: dual,
+            })}
             dataKey={DEFAULT_VALUE_PROP}
             fill={dual ? positiveBarColor : barColor}
             minPointSize={5}
@@ -128,6 +134,7 @@ const BarChart = ({
         {showBars &&
           dual && (
             <Bar
+              className={cx({ [classes.clickableBar]: clickable })}
               dataKey={NEGATIVE_VALUE_PROP}
               fill={barColor}
               minPointSize={5}

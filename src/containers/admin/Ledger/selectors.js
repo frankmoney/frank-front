@@ -170,6 +170,14 @@ export const barChartOnlySelector = createSelector(
   R.complement(R.either(R.isNil, R.isEmpty))
 )
 
+export const barChartClickableSelector = createSelector(
+  get('barsSize'),
+  R.compose(
+    R.not,
+    R.equals('day')
+  )
+)
+
 export const barChartDataSelector = createSelector(
   createPlainObjectSelector(get('barsData')),
   get('barsSize'),

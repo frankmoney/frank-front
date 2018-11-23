@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import CategoryListPieChart from 'components/CategoryListPieChart'
@@ -23,6 +23,7 @@ class ChartCard extends React.PureComponent<Props, State> {
   render() {
     const {
       barsData,
+      barsAreClickable,
       barsOnly,
       categoryType,
       classes,
@@ -63,7 +64,11 @@ class ChartCard extends React.PureComponent<Props, State> {
               onToggle={this.handleToggleExpand}
               title="Timeline"
             >
-              <BarChart className={classes.barChart} data={barsData} />
+              <BarChart
+                className={classes.barChart}
+                clickable={barsAreClickable}
+                data={barsData}
+              />
             </ExpandRow>
           </>
         )}

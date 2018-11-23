@@ -4,6 +4,7 @@ import reconnect from 'utils/reconnect'
 import ChartCard from './ChartCard'
 import {
   barChartDataSelector,
+  barChartClickableSelector,
   barChartOnlySelector,
   chartCategoryTypeSelector,
   chartsVisibleSelector,
@@ -16,6 +17,7 @@ export default compose(
   reconnect(
     {
       barsData: barChartDataSelector,
+      barsAreClickable: barChartClickableSelector,
       barsOnly: barChartOnlySelector,
       categoryType: chartCategoryTypeSelector,
       period: periodSelector,
