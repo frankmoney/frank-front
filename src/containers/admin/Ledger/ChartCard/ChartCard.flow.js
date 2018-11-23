@@ -14,6 +14,7 @@ export type Props = {|
   period: string,
   pieData: GroupedPieData,
   // Handlers
+  onBarsZoomIn?: ({| dateFrom: string, dateTo: string |}) => void,
   onCategoryClick?: CategoryCb,
   onCategoryTypeChange?: CategoryCb,
 |}

@@ -20,6 +20,12 @@ class ChartCard extends React.PureComponent<Props, State> {
     this.setState({ expanded })
   }
 
+  handleBarsZoomIn = (dateFrom, dateTo) => {
+    if (typeof this.props.onBarsZoomIn === 'function') {
+      this.props.onBarsZoomIn({ dateFrom, dateTo })
+    }
+  }
+
   render() {
     const {
       barsData,
@@ -28,6 +34,7 @@ class ChartCard extends React.PureComponent<Props, State> {
       categoryType,
       classes,
       className,
+      onBarsZoomIn,
       onCategoryClick,
       onCategoryTypeChange,
       period,
@@ -68,6 +75,7 @@ class ChartCard extends React.PureComponent<Props, State> {
                 className={classes.barChart}
                 clickable={barsAreClickable}
                 data={barsData}
+                onZoomIn={this.handleBarsZoomIn}
               />
             </ExpandRow>
           </>

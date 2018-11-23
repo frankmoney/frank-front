@@ -15,7 +15,7 @@ type BarItem = {|
 
 export type BarData = Array<BarItem>
 
-type ZoomInCb = (dateFrom: ?string, dateTo: ?string) => void
+export type BarZoomInCb = (dateFrom: ?string, dateTo: ?string) => void
 
 export type Props = {|
   ...InjectStylesProps,
@@ -28,7 +28,7 @@ export type Props = {|
   height: number,
   hideBaseLine?: boolean,
   labelKey: string,
-  onZoomIn?: ZoomInCb,
+  onZoomIn?: BarZoomInCb,
   positiveBarColor: string,
   showBars: boolean,
   width: number,

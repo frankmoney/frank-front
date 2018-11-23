@@ -27,6 +27,7 @@ export default compose(
     {
       onCategoryClick: ACTIONS.selectCategory,
       onCategoryTypeChange: ACTIONS.selectCategoryType,
+      onBarsZoomIn: ACTIONS.barZoomIn,
     }
   ),
   branch(props => !props.visible, renderNothing)
