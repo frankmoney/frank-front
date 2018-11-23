@@ -22,6 +22,14 @@ type IntermediateDataPoint = {|
   },
 |}
 
+export type FormattedBarLabels = {|
+  axisLabel: string,
+  tooltipLabel: string,
+  // zoom-in intervals
+  endDate: string,
+  startDate: string,
+|}
+
 export const convertToBarChartValues = ({
   endDate,
   revenue,
@@ -89,9 +97,11 @@ export const formatBarLabels = (
   item: IntermediateDataPoint,
   prevDate: ?Date,
   barsSize: BarsSize
-) => {
+): FormattedBarLabels => {
   const date = parseDate(item.showDate)
   return {
+    startDate: item.startDate,
+    endDate: item.endDate,
     axisLabel: formatBarAxisLabel(date, prevDate, barsSize),
     tooltipLabel: formatBarTooltipLabel(
       date,

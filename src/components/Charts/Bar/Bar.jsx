@@ -10,6 +10,7 @@ import {
   XAxis,
 } from 'recharts'
 import { injectStyles } from 'utils/styles'
+import type { FormattedBarLabels } from 'data/models/barData'
 import AxisLabel from './AxisLabel'
 import Grid from './Grid'
 import Tooltip from './Tooltip'
@@ -50,12 +51,14 @@ const BarChart = ({
   barColor,
   classes,
   className,
+  clickable,
   data,
   dual,
   footerPadding,
   height,
   hideBaseLine,
   labelKey,
+  onZoomIn,
   positiveBarColor,
   showBars,
   width,
@@ -66,6 +69,15 @@ const BarChart = ({
   // const w = barWidth * (2 * barCount)
   const w = width // ^^ There was a reason for that, but it seems just width is working for now
   const footerHeight = footerPadding + FOOTER_TEXT_HEIGHT
+
+  const handleBarClick =
+    clickable && onZoomIn
+      ? ({ date }) => {
+          const barLabels: FormattedBarLabels = JSON.parse(date)
+          onZoomIn(barLabels.startDate, barLabels.endDate)
+        }
+      : null
+
   return (
     <div className={cx(classes.root, className)} style={{ width, height }}>
       <Grid
@@ -110,6 +122,7 @@ const BarChart = ({
             shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
             stackId="posNeg"
             type="monotone"
+            onClick={handleBarClick}
           />
         )}
         {showBars &&
@@ -121,6 +134,7 @@ const BarChart = ({
               shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
               stackId="posNeg"
               type="monotone"
+              onClick={handleBarClick}
             />
           )}
       </Chart>
@@ -130,6 +144,7 @@ const BarChart = ({
 
 BarChart.defaultProps = {
   barColor: PRIMARY_BAR_COLOR,
+  clickable: false,
   height: HEIGHT,
   footerPadding: FOOTER_PADDING,
   labelKey: 'name',
