@@ -40,6 +40,7 @@ class SwitchUncontrolled extends React.Component<Props> {
       checked,
       classes,
       className,
+      style,
       disabled,
       focus,
       larger,
@@ -51,6 +52,8 @@ class SwitchUncontrolled extends React.Component<Props> {
       onFocus,
       onBlur,
     } = this.props
+
+    // TODO prop falling to root element
 
     return (
       <label
@@ -65,6 +68,7 @@ class SwitchUncontrolled extends React.Component<Props> {
           },
           className
         )}
+        style={style}
       >
         <div className={classes.bar} />
         <div className={classes.rail} />

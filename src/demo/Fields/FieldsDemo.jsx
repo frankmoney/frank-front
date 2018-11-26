@@ -17,6 +17,11 @@ const styles = {
     minHeight: 500,
   },
   playground: {},
+  fieldsRow: {
+    '& > *': {
+      width: 160,
+    },
+  },
   states: {
     display: 'flex',
     alignItems: 'flex-start',
@@ -29,9 +34,6 @@ const styles = {
       color: '#252B43',
     },
     marginBottom: 35,
-  },
-  button: {
-    width: 160,
   },
 }
 
@@ -53,7 +55,7 @@ const FieldsDemo = ({ classes }) => {
       </div>
       <h1>TextBox</h1>
       {states}
-      <Row>
+      <Row className={classes.fieldsRow}>
         <Field label="Name">
           <TextBox />
         </Field>
@@ -72,7 +74,7 @@ const FieldsDemo = ({ classes }) => {
       </Row>
       <h1>Additional label</h1>
       {states}
-      <Row>
+      <Row className={classes.fieldsRow}>
         <Field label="Name" additionalLabel="Additional label">
           <TextBox />
         </Field>
@@ -108,7 +110,7 @@ const FieldsDemo = ({ classes }) => {
       </Row>
       <h2>Floating label</h2>
       {states}
-      <Row>
+      <Row className={classes.fieldsRow}>
         <Field floatingLabel="Name">
           <TextBox />
         </Field>
@@ -133,7 +135,7 @@ const FieldsDemo = ({ classes }) => {
       </Row>
       <h2>Multiline</h2>
       {states}
-      <Row>
+      <Row className={classes.fieldsRow}>
         <Field label="Fixed label">
           <TextBox multiLine />
         </Field>
@@ -172,7 +174,7 @@ const FieldsDemo = ({ classes }) => {
         <div>Focus fixed</div>
         <div>Multiline</div>
       </div>
-      <Row>
+      <Row className={classes.fieldsRow}>
         <Field floatingLabel="Floating label" placeholder="Type your name">
           <TextBox />
         </Field>
@@ -198,7 +200,7 @@ const FieldsDemo = ({ classes }) => {
       </Row>
       <h2>Larger size</h2>
       {states}
-      <Row>
+      <Row className={classes.fieldsRow}>
         <Field label="Name" larger placeholder="Frank Sinatra">
           <TextBox />
         </Field>
@@ -235,7 +237,7 @@ const FieldsDemo = ({ classes }) => {
           <TextBox />
         </Field>
       </Row>
-      <Row>
+      <Row className={classes.fieldsRow}>
         <Field label="Fixed label" larger placeholder="Frank Sinatra">
           <TextBox multiLine />
         </Field>
@@ -276,7 +278,12 @@ const FieldsDemo = ({ classes }) => {
         {({ on: disabled, toggle }) => (
           <>
             <h2>
-              Disabled <Switch checked={disabled} onChange={toggle} />
+              Disabled
+              <Switch
+                style={{ marginLeft: 20 }}
+                checked={disabled}
+                onChange={toggle}
+              />
             </h2>
             <div className={classes.states}>
               <div>Normal</div>
@@ -347,7 +354,12 @@ const FieldsDemo = ({ classes }) => {
         {({ on: loading, toggle }) => (
           <>
             <h2>
-              Loading <Switch checked={loading} onChange={toggle} />
+              Loading
+              <Switch
+                style={{ marginLeft: 20 }}
+                checked={loading}
+                onChange={toggle}
+              />
             </h2>
             <div className={classes.states}>
               <div>Normal</div>
