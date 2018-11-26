@@ -26,7 +26,6 @@ const styles = {
 type Props = {|
   ...InjectStylesProps,
   //
-  clickable: boolean,
   data?: BarData,
   onZoomIn?: BarZoomInCb,
 |}
@@ -77,7 +76,7 @@ class BarChart extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { classes, className, clickable, data, onZoomIn } = this.props
+    const { classes, className, data, onZoomIn } = this.props
     const { income, spending } = this.state
 
     const hide = !(income || spending)
@@ -104,7 +103,6 @@ class BarChart extends React.PureComponent<Props, State> {
         <Bar
           barColor={barColor}
           className={classes.chart}
-          clickable={clickable}
           data={trimmedData}
           dual={income && spending}
           labelKey="date"

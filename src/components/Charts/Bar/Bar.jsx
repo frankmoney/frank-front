@@ -54,7 +54,6 @@ const BarChart = ({
   barColor,
   classes,
   className,
-  clickable,
   data,
   dual,
   footerPadding,
@@ -73,13 +72,15 @@ const BarChart = ({
   const w = width // ^^ There was a reason for that, but it seems just width is working for now
   const footerHeight = footerPadding + FOOTER_TEXT_HEIGHT
 
-  const handleBarClick =
-    clickable && onZoomIn
-      ? ({ date }) => {
-          const barLabels: FormattedBarLabels = JSON.parse(date)
-          onZoomIn(barLabels.startDate, barLabels.endDate)
-        }
-      : null
+  const handleBarClick = ({ date }) => {
+    if (typeof onZoomIn === 'function') {
+      const barLabels: FormattedBarLabels = JSON.parse(date)
+      onZoomIn({
+        dateFrom: barLabels.startDate,
+        dateTo: barLabels.endDate,
+      })
+    }
+  }
 
   return (
     <div className={cx(classes.root, className)} style={{ width, height }}>
@@ -119,7 +120,7 @@ const BarChart = ({
         {showBars && (
           <Bar
             className={cx({
-              [classes.clickableBar]: clickable,
+              [classes.clickableBar]: !!onZoomIn,
               [classes.positiveBars]: dual,
             })}
             dataKey={DEFAULT_VALUE_PROP}
@@ -134,7 +135,7 @@ const BarChart = ({
         {showBars &&
           dual && (
             <Bar
-              className={cx({ [classes.clickableBar]: clickable })}
+              className={cx({ [classes.clickableBar]: !!onZoomIn })}
               dataKey={NEGATIVE_VALUE_PROP}
               fill={barColor}
               minPointSize={5}
@@ -151,7 +152,6 @@ const BarChart = ({
 
 BarChart.defaultProps = {
   barColor: PRIMARY_BAR_COLOR,
-  clickable: false,
   height: HEIGHT,
   footerPadding: FOOTER_PADDING,
   labelKey: 'name',

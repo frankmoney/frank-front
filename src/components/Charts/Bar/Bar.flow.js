@@ -15,13 +15,12 @@ type BarItem = {|
 
 export type BarData = Array<BarItem>
 
-export type BarZoomInCb = (dateFrom: ?string, dateTo: ?string) => void
+export type BarZoomInCb = ({| dateFrom: string, dateTo: string |}) => void
 
 export type Props = {|
   ...InjectStylesProps,
   //
   barColor: string,
-  clickable: boolean,
   data: BarData,
   dual?: boolean,
   footerPadding: number,
