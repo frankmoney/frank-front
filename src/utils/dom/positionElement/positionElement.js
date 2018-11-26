@@ -43,7 +43,7 @@ const getAutoPlacement = config => {
   const placements = getDropdownPlacementCandidates(preferredPlacement)
   const elemRectBase = element.getBoundingClientRect()
 
-  const found = [...placements, preferredPlacement].reduce(
+  const found = [preferredPlacement, ...placements].reduce(
     (correctPlacement, placement) => {
       if (correctPlacement) {
         return correctPlacement

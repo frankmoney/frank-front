@@ -258,7 +258,7 @@ class Select extends React.Component<Props, State> {
 
           const arrowMenuProps = hasArrow
             ? {
-                direction: REVERSE_DIRECTION[direction],
+                direction: REVERSE_DIRECTION[actualPlace],
                 align: arrowAt,
                 arrowProps: hasArrow && getArrowProps(),
               }
