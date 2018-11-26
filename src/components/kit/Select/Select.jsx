@@ -94,7 +94,7 @@ class Select extends React.Component<Props, State> {
     direction: 'down',
     align: 'start',
     alignByArrow: false,
-    dropdownWidth: 'auto',
+    dropdownWidth: null,
   }
 
   state = {
@@ -279,7 +279,8 @@ class Select extends React.Component<Props, State> {
                     ...menuProps,
                     style: {
                       width:
-                        open && stretchDropdown
+                        // если ширина задана пропом dropdownWidth то берем ее всегда
+                        open && stretchDropdown && !dropdownWidth
                           ? anchorEl.clientWidth
                           : dropdownWidth,
                       ...menuProps.style,

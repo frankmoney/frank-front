@@ -21,6 +21,7 @@ import Spinner from 'components/kit/Spinner'
 import ToggleButton from 'components/kit/ToggleButton'
 import { injectStyles } from 'utils/styles'
 import Demo, { Row } from 'demo/Demo'
+import { ROUTES } from '../../const'
 
 const styles = {
   button: {
@@ -451,6 +452,15 @@ const ButtonsDemo = ({ classes }) => (
       <SocialButton type="twitter" large />
       <SocialButton type="twitter" large hover />
       <SocialButton type="twitter" large active />
+    </Row>
+    <h2>Render button as Link</h2>
+    <Row>
+      <Button
+        className={classes.button}
+        label="Google.com"
+        href="https://google.com"
+        target="_blank"
+      />
     </Row>
     <h2>Different Buttons</h2>
     <Row>

@@ -51,13 +51,13 @@ const ConfirmDialog = ({
     {message && <DialogMessage>{message}</DialogMessage>}
     {children}
     <DialogButtons>
-      <Button
+      <Dialog.Button
         color="gray"
         onClick={chainCallbacks(onCancel, onClose)}
         label={cancelLabel}
         {...cancelButtonProps}
       />
-      <Button
+      <Dialog.Button
         color={danger ? 'red' : 'green'}
         onClick={chainCallbacks(onConfirm, onClose)}
         label={confirmLabel}

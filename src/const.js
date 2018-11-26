@@ -60,6 +60,7 @@ export const ROUTES = {
     drawers: '/demo/drawers',
     switches: '/demo/switches',
     widgets: '/demo/widgets',
+    forms: '/demo/forms',
   },
 }
 

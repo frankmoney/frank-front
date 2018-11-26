@@ -7,13 +7,6 @@ const styles = {
   root: {
     display: 'flex',
     width: '100%',
-    '& > *[role="button"]': {
-      width: '100%',
-      flexGrow: 1,
-      '&:not(:last-child)': {
-        marginRight: 20,
-      },
-    },
   },
 }
 

@@ -6,7 +6,7 @@ import SelectFieldControl from './SelectFieldControl'
 
 const renderFieldControl = (
   { valueFormatted, active, getInputProps, getAnchorProps },
-  { style, stretch, disableArrowHover, ...otherProps }
+  { stretch, disableArrowHover, ...otherProps }
 ) => (
   <Field
     {...getAnchorProps(otherProps)}

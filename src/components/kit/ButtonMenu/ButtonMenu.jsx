@@ -15,6 +15,7 @@ type Props = {|
   alignStart?: boolean,
   arrowEnd?: boolean,
   arrowStart?: boolean,
+  arrowCenter?: boolean,
   children?: DropdownMenuChildren,
   direction?: DropdownMenuDirection,
   down?: boolean,
@@ -30,6 +31,7 @@ const ButtonMenu = ({
   arrowAt: arrowAtProp,
   arrowEnd,
   arrowStart,
+  arrowCenter,
   children,
   direction: directionProp,
   down,
@@ -40,7 +42,13 @@ const ButtonMenu = ({
   const direction = up ? 'up' : down ? 'down' : directionProp
   const align = alignStart ? 'start' : alignEnd ? 'end' : alignProp || 'center'
 
-  const arrowAt = arrowStart ? 'start' : arrowEnd ? 'end' : arrowAtProp
+  const arrowAt = arrowStart
+    ? 'start'
+    : arrowEnd
+      ? 'end'
+      : arrowCenter
+        ? 'center'
+        : arrowAtProp
 
   return (
     <DropdownMenu

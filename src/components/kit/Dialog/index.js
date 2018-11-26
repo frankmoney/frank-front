@@ -5,12 +5,14 @@ import DialogTitle from './DialogTitle'
 import DialogPaper from './DialogPaper'
 import DialogMessage from './DialogMessage'
 import DialogField from './DialogField'
+import DialogButton from './DialogButton'
 import DialogButtons from './DialogButtons'
 import DialogState from './DialogState'
 
 export type { InheritedModalProps } from './Dialog'
 
 type DialogComponents = ReactComponent<typeof Dialog> & {|
+  Button: ReactComponent<typeof DialogButton>,
   Buttons: ReactComponent<typeof DialogButtons>,
   Field: ReactComponent<typeof DialogField>,
   Message: ReactComponent<typeof DialogMessage>,
@@ -25,6 +27,7 @@ const DotNotation: any = Dialog
 DotNotation.Title = DialogTitle
 DotNotation.Paper = DialogPaper
 DotNotation.Message = DialogMessage
+DotNotation.Button = DialogButton
 DotNotation.Buttons = DialogButtons
 DotNotation.State = DialogState
 DotNotation.Field = DialogField
