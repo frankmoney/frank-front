@@ -196,12 +196,13 @@ export const barChartDataSelector = createSelector(
       list =>
         list.reduce((acc, item, idx) => {
           const prev = idx > 0 ? list[idx - 1] : null
-          return acc.concat([
+          return R.append(
             {
               ...item.values,
               date: JSON.stringify(formatBarLabels(item, prev, barsUnit)),
             },
-          ])
+            acc
+          )
         }, [])
     )(data)
 )

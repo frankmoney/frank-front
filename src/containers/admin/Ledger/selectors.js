@@ -170,8 +170,10 @@ export const barChartOnlySelector = createSelector(
   R.complement(R.either(R.isNil, R.isEmpty))
 )
 
+const barsUnitSelector = get('barsUnit')
+
 export const barChartClickableSelector = createSelector(
-  get('barsSize'),
+  barsUnitSelector,
   R.compose(
     R.not,
     R.equals('day')
@@ -180,19 +182,20 @@ export const barChartClickableSelector = createSelector(
 
 export const barChartDataSelector = createSelector(
   createPlainObjectSelector(get('barsData')),
-  get('barsUnit'),
+  barsUnitSelector,
   (data: BarsDataPoint, barsUnit: BarsUnit) =>
     R.pipe(
       R.map(convertToBarChartValues),
       list =>
         list.reduce((acc, item, idx) => {
           const prev = idx > 0 ? parseDate(list[idx - 1].showDate) : null
-          return acc.concat([
+          return R.append(
             {
               ...item.values,
               date: JSON.stringify(formatBarLabels(item, prev, barsUnit)),
             },
-          ])
+            acc
+          )
         }, [])
     )(data)
 )
