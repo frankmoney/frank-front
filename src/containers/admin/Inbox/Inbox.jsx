@@ -5,7 +5,10 @@ import { injectStyles } from 'utils/styles'
 import reconnect from 'utils/reconnect'
 import Breadcrumbs from 'components/Breadcrumbs'
 import AreaSpinner from 'components/AreaSpinner/AreaSpinner'
+import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import InboxFilter from './InboxFilter'
+import InboxList from './InboxList'
+import InboxPager from './InboxPager'
 import * as SELECTORS from './selectors'
 import ACTIONS from './actions'
 
@@ -27,7 +30,7 @@ const styles = {
   },
 }
 
-const Inbox = ({ classes }) => (
+const Inbox = ({ classes, noResults, listReloading }) => (
   <div className={classes.root}>
     <FixedHeader className={classes.header}>
       <Breadcrumbs>
@@ -35,7 +38,9 @@ const Inbox = ({ classes }) => (
       </Breadcrumbs>
       <InboxFilter />
     </FixedHeader>
-    <div className={classes.container} />
+    <div className={classes.container}>
+      <InboxList />
+    </div>
   </div>
 )
 
@@ -43,6 +48,8 @@ export default compose(
   reconnect(
     {
       loading: SELECTORS.loading,
+      listReloading: SELECTORS.listReloading,
+      noResults: SELECTORS.noResults,
     },
     {
       load: ACTIONS.load,
@@ -52,7 +59,7 @@ export default compose(
   lifecycle({
     componentWillMount() {
       if (!this.props.loaded) {
-        this.props.load()
+        this.props.load({})
       }
     },
     componentWillUnmount() {

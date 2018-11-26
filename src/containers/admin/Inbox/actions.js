@@ -5,4 +5,6 @@ export default createActions('adminInbox', {
   load: true,
   leave: false,
   filtersOpen: false,
+  selectPage: false,
+  resetSearch: false,
 })

@@ -1,12 +1,12 @@
 import FILTERS_ACTIONS from 'containers/admin/Filters/actions'
 import ACTIONS from '../actions'
-import { currentFiltersSelector } from '../selectors'
+import * as SELECTORS from '../selectors'
 
 export default (action$, store) =>
   action$
     .ofType(ACTIONS.filtersOpen)
     .map(() => ({
-      ...currentFiltersSelector(store.getState()),
+      ...SELECTORS.currentFilters(store.getState()),
       verified: false,
     }))
     .map(FILTERS_ACTIONS.open)
