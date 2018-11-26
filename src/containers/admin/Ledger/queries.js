@@ -1,42 +1,42 @@
 import * as R from 'ramda'
 import { convertGraphqlPieData } from 'data/models/pieData'
 
-const peer = `
+const PEER = `
   id: pid
   name
 `
 
-const category = `
+const CATEGORY = `
   id: pid
   name
   color
 `
 
-const fieldUpdater = `
+const FIELD_UPDATER = `
   name
   lastName
   firstName
 `
 
-const payments = `
+const PAYMENTS = `
   id: pid
   postedOn
   amount
   peer {
-    ${peer}
+    ${PEER}
   }
   peerUpdater {
-    ${fieldUpdater}
+    ${FIELD_UPDATER}
   }
   description
   descriptionUpdater {
-    ${fieldUpdater}
+    ${FIELD_UPDATER}
   }
   category {
-    ${category}
+    ${CATEGORY}
   }
   categoryUpdater {
-    ${fieldUpdater}
+    ${FIELD_UPDATER}
   }
 `
 
@@ -86,7 +86,7 @@ export default {
             amountMax: $amountMax
             verified: $verified
           ) {
-            ${payments}
+            ${PAYMENTS}
           }`) ||
           ''}
           
@@ -106,10 +106,13 @@ export default {
             postedOnFrom: $dateMin
             postedOnTo: $dateMax
           ) {
+            barSize
             bars {
-              showDate
+              endDate
               revenue
+              showDate
               spending
+              startDate
             }
           }`) ||
           ''}
@@ -146,13 +149,10 @@ export default {
       payments: categoryScoped ? category.payments : payments,
       totalCount: categoryScoped ? category.countPayments : countPayments,
       barChart: includeBars
-        ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars.map(
-            ({ showDate, revenue, spending }) => ({
-              date: showDate,
-              income: revenue,
-              expenses: spending,
-            })
-          )
+        ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars
+        : null,
+      barsUnit: includeBars
+        ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).barSize
         : null,
       pieChart: includePie ? convertGraphqlPieData(ledgerPieChart.items) : null,
     }),
@@ -219,20 +219,20 @@ export default {
         description: $description
       ) {
         peer {
-          ${peer}
+          ${PEER}
         }
         peerUpdater{
-          ${fieldUpdater}
+          ${FIELD_UPDATER}
         }
         category {
-          ${category}
+          ${CATEGORY}
         }
         categoryUpdater{
-          ${fieldUpdater}
+          ${FIELD_UPDATER}
         }
         description
         descriptionUpdater {
-          ${fieldUpdater}
+          ${FIELD_UPDATER}
         }
       }
     }

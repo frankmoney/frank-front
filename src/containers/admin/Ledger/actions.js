@@ -17,6 +17,8 @@ export const cancelCategory = createAction('admin/ledger/cancel-category')
 
 export const filtersOpen = createAction('admin/ledger/filters/open')
 
+export const barZoomIn = createAction('admin/ledger/bars/zoom-in')
+
 export const searchSuggestions = createDeferredAction(
   'admin/ledger/card/search-suggestions'
 )

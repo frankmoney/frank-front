@@ -39,6 +39,7 @@ export default (action$, store, { graphql }) =>
           payments: true,
           totalCount: true,
           barChart: needLoadCharts,
+          barChartBarSize: needLoadCharts,
           pieChart: needLoadCharts,
           categories: !categoriesLoaded,
         }),

@@ -3,7 +3,13 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
-import { isSameYear, format } from 'date-fns/fp'
+import { format } from 'date-fns/fp'
+import {
+  convertToBarChartValues,
+  formatBarLabels,
+  type BarsDataPoint,
+  type BarsUnit,
+} from 'data/models/barData'
 import { remapPieData, sumProp } from 'data/models/pieData'
 import { parseDate, formatMonth, parseMonth } from 'utils/dates'
 import {
@@ -16,7 +22,7 @@ import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
 const get = (...prop) => (store: Object) => store.getIn([REDUCER_KEY, ...prop])
-const getFilters = (...prop) => get('filtersEdit', ...prop)
+// const getFilters = (...prop) => get('filtersEdit', ...prop)
 
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
@@ -164,28 +170,34 @@ export const barChartOnlySelector = createSelector(
   R.complement(R.either(R.isNil, R.isEmpty))
 )
 
-// [{date:String,negativeValue:Float,value:Float}]
+const barsUnitSelector = get('barsUnit')
+
+export const barChartClickableSelector = createSelector(
+  barsUnitSelector,
+  R.compose(
+    R.not,
+    R.equals('day')
+  )
+)
+
 export const barChartDataSelector = createSelector(
   createPlainObjectSelector(get('barsData')),
-  R.pipe(
-    R.map(({ date, income: value, expenses: negateValue }) => ({
-      date,
-      value: Math.floor(value),
-      negativeValue: Math.floor(negateValue),
-    })),
-    list =>
-      list.reduce((acc, item, idx) => {
-        const prev = idx > 0 ? list[idx - 1] : null
-        const isNewYear =
-          prev && !isSameYear(parseDate(item.date), parseDate(prev.date))
-        return acc.concat([
-          {
-            ...item,
-            date: format(isNewYear ? 'MMM YYYY' : 'MMM', parseDate(item.date)),
-          },
-        ])
-      }, [])
-  )
+  barsUnitSelector,
+  (data: BarsDataPoint, barsUnit: BarsUnit) =>
+    R.pipe(
+      R.map(convertToBarChartValues),
+      list =>
+        list.reduce((acc, item, idx) => {
+          const prev = idx > 0 ? parseDate(list[idx - 1].showDate) : null
+          return R.append(
+            {
+              ...item.values,
+              date: JSON.stringify(formatBarLabels(item, prev, barsUnit)),
+            },
+            acc
+          )
+        }, [])
+    )(data)
 )
 
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))

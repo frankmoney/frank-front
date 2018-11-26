@@ -1,13 +1,21 @@
 // @flow
 import type { InjectStylesProps } from 'utils/styles'
 
+export type { FormattedBarLabels } from 'data/models/barData'
+
+export type JSONString = string
+
 type BarItem = {|
-  name?: string, // this is only a default key. it is actually the `labelKey`
+  date: JSONString,
   negativeValue?: number,
   value: number,
+  //
+  name?: string, // this is only a default key. it is actually the `labelKey`
 |}
 
 export type BarData = Array<BarItem>
+
+export type BarZoomInCb = ({| dateFrom: string, dateTo: string |}) => void
 
 export type Props = {|
   ...InjectStylesProps,
@@ -19,6 +27,7 @@ export type Props = {|
   height: number,
   hideBaseLine?: boolean,
   labelKey: string,
+  onZoomIn?: BarZoomInCb,
   positiveBarColor: string,
   showBars: boolean,
   width: number,
