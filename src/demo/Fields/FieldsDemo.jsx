@@ -5,7 +5,7 @@ import SwitchBase from 'components/kit/SwitchBase'
 import TextBox from 'components/kit/TextBox'
 import Field from 'components/kit/fields/Field'
 import { injectStyles } from 'utils/styles'
-import Playground from './Playground'
+import Playground from './TextFieldPlayground'
 
 const styles = {
   playgroundWrap: {
