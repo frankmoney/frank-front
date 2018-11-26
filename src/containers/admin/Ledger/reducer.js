@@ -11,7 +11,7 @@ const defaultState = Immutable.fromJS({
   chartCategoryType: 'spending',
   categories: [],
   barsData: [],
-  barsSize: null,
+  barsUnit: null,
   pieData: [],
   paymentsCount: 0,
   payments: [],
@@ -30,7 +30,7 @@ export default handleActions(
       {
         payload: {
           barChart,
-          barChartBarSize,
+          barsUnit,
           categories,
           payments,
           pieChart,
@@ -46,7 +46,7 @@ export default handleActions(
         categories: categories ? fromJS(categories) : state.get('categories'),
         payments: fromJS(payments),
         barsData: fromJS(barChart || []),
-        barsSize: barChartBarSize,
+        barsUnit,
         pieData: fromJS(pieChart || []),
         paymentsCount: totalCount,
       }),

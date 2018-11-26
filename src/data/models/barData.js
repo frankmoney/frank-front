@@ -46,29 +46,29 @@ export const convertToBarChartValues = ({
   },
 })
 
-export type BarsSize = 'day' | 'week' | 'month' | 'quarter' | 'year'
+export type BarsUnit = 'day' | 'week' | 'month' | 'quarter' | 'year'
 
 const formatBarAxisLabel = (
   date: Date,
   prev: ?Date,
-  barsSize: BarsSize
+  barsUnit: BarsUnit
 ): string => {
-  let formatter = 'DD' // barsSize == 'day'
-  if (barsSize === 'week') {
+  let formatter = 'DD' // barsUnit == 'day'
+  if (barsUnit === 'week') {
     formatter = prev && !isSameMonth(date, prev) ? 'MMM' : ''
-  } else if (barsSize === 'month') {
+  } else if (barsUnit === 'month') {
     formatter = prev && !isSameYear(date, prev) ? 'MMM YYYY' : 'MMM'
-  } else if (barsSize === 'quarter') {
+  } else if (barsUnit === 'quarter') {
     formatter = prev && !isSameYear(date, prev) ? '[Q]Q YYYY' : '[Q]Q'
-  } else if (barsSize === 'year') {
+  } else if (barsUnit === 'year') {
     formatter = 'YYYY'
   }
   return format(formatter, date)
 }
 
-const formatBarTooltipLabel = (date: Date, barsSize: BarsSize): string => {
-  let formatter = 'MMMM DD, YYYY' // barsSize == 'day'
-  if (barsSize === 'week') {
+const formatBarTooltipLabel = (date: Date, barsUnit: BarsUnit): string => {
+  let formatter = 'MMMM DD, YYYY' // barsUnit == 'day'
+  if (barsUnit === 'week') {
     const endDate = endOfWeek(date)
     if (isSameMonth(date, endDate)) {
       // January 1–6, 2017
@@ -76,11 +76,11 @@ const formatBarTooltipLabel = (date: Date, barsSize: BarsSize): string => {
     }
     // Mar 27 – Apr 2, 2017
     return format(`MMM DD – [${format('MMM DD', endDate)}], YYYY`, date)
-  } else if (barsSize === 'month') {
+  } else if (barsUnit === 'month') {
     formatter = 'MMMM YYYY'
-  } else if (barsSize === 'quarter') {
+  } else if (barsUnit === 'quarter') {
     formatter = '[Q]Q YYYY'
-  } else if (barsSize === 'year') {
+  } else if (barsUnit === 'year') {
     formatter = 'YYYY'
   }
   return format(formatter, date)
@@ -89,13 +89,13 @@ const formatBarTooltipLabel = (date: Date, barsSize: BarsSize): string => {
 export const formatBarLabels = (
   item: IntermediateDataPoint,
   prevDate: ?Date,
-  barsSize: BarsSize
+  barsUnit: BarsUnit
 ): FormattedBarLabels => {
   const date = parseDate(item.showDate)
   return {
     startDate: item.startDate,
     endDate: item.endDate,
-    axisLabel: formatBarAxisLabel(date, prevDate, barsSize),
-    tooltipLabel: formatBarTooltipLabel(date, barsSize),
+    axisLabel: formatBarAxisLabel(date, prevDate, barsUnit),
+    tooltipLabel: formatBarTooltipLabel(date, barsUnit),
   }
 }

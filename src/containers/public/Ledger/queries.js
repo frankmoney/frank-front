@@ -163,7 +163,7 @@ export default {
       barChart: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars
         : null,
-      barChartBarSize: includeBars
+      barsUnit: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).barSize
         : null,
       pieChart: includePie ? convertGraphqlPieData(ledgerPieChart.items) : null,

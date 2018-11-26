@@ -8,7 +8,7 @@ import {
   convertToBarChartValues,
   formatBarLabels,
   type BarsDataPoint,
-  type BarsSize,
+  type BarsUnit,
 } from 'data/models/barData'
 import { remapPieData, sumProp } from 'data/models/pieData'
 import { parseDate, formatMonth, parseMonth } from 'utils/dates'
@@ -189,8 +189,8 @@ export const barChartOnlySelector = createSelector(
 // [{date:String,negativeValue:Float,value:Float}]
 export const barChartDataSelector = createSelector(
   createPlainObjectSelector(get('barsData')),
-  get('barsSize'),
-  (data: BarsDataPoint, barsSize: BarsSize) =>
+  get('barsUnit'),
+  (data: BarsDataPoint, barsUnit: BarsUnit) =>
     R.pipe(
       R.map(convertToBarChartValues),
       list =>
@@ -199,7 +199,7 @@ export const barChartDataSelector = createSelector(
           return acc.concat([
             {
               ...item.values,
-              date: JSON.stringify(formatBarLabels(item, prev, barsSize)),
+              date: JSON.stringify(formatBarLabels(item, prev, barsUnit)),
             },
           ])
         }, [])
