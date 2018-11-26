@@ -1,4 +1,5 @@
 import { currentAccountIdSelector } from 'redux/selectors/user'
+import { formatDate } from 'utils/dates'
 import * as SELECTORS from './selectors'
 import ACTIONS from './actions'
 import QUERIES from './queries'
@@ -14,8 +15,8 @@ const requestTotalCount = (
     search,
     amountMin: sumLimit && sumLimit.min,
     amountMax: sumLimit && sumLimit.max,
-    dateMin: dateLimit && dateLimit.from,
-    dateMax: dateLimit && dateLimit.to,
+    dateMin: dateLimit && dateLimit.from && formatDate(dateLimit.from),
+    dateMax: dateLimit && dateLimit.to && formatDate(dateLimit.to),
     verified,
   })
 

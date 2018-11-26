@@ -1,3 +1,4 @@
+// @flow
 import ReduxFormField from './ReduxFormField'
 import ReduxFormSwitch from './ReduxFormSwitch'
 

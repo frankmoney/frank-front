@@ -37,9 +37,9 @@ type Props = {|
   value: number,
 |}
 
-export const epsilon = 2 ** -42
+export const EPSILON = 2 ** -14
 
-const fixMinusZero: number => number = x => (x === -epsilon ? 0 : x)
+const fixMinusZero = (x: number) => (Math.abs(x) <= EPSILON ? 0 : x)
 
 const formatMoney: number => string = R.pipe(
   fixMinusZero,

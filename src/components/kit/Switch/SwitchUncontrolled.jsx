@@ -22,6 +22,10 @@ type Props = {|
 export type SwitchUncontrolledProps = Props
 
 class SwitchUncontrolled extends React.Component<Props> {
+  static defaultProps = {
+    color: '#21CB61',
+  }
+
   componentDidMount() {
     if (this.props.autoFocus) {
       this.control.focus()
@@ -88,9 +92,6 @@ class SwitchUncontrolled extends React.Component<Props> {
       </label>
     )
   }
-}
-SwitchUncontrolled.defaultProps = {
-  color: '#21CB61',
 }
 
 export default injectStyles(styles)(SwitchUncontrolled)

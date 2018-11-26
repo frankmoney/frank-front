@@ -90,13 +90,16 @@ export default {
           
         ${(includeBars &&
           `ledgerBarChart(
-            postedOnMin: $dateMin
-            postedOnMax: $dateMax
+            postedOnFrom: $dateMin
+            postedOnTo: $dateMax
           ) {
-            items {
-              date
+            barSize
+            bars {
+              endDate
               revenue
+              showDate
               spending
+              startDate
             }
           }`) ||
           ''}
@@ -158,13 +161,10 @@ export default {
       payments: categoryScoped ? category.payments : payments,
       totalCount: categoryScoped ? category.countPayments : countPayments,
       barChart: includeBars
-        ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).items.map(
-            ({ date, revenue, spending }) => ({
-              date,
-              income: revenue,
-              expenses: spending,
-            })
-          )
+        ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars
+        : null,
+      barsUnit: includeBars
+        ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).barSize
         : null,
       pieChart: includePie ? convertGraphqlPieData(ledgerPieChart.items) : null,
       stories,
