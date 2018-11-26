@@ -1,6 +1,78 @@
-import { getPlacementStyle, getPlacementCandidates } from './placements'
+import { getPlacementStyle } from './placements'
 
+const isElementVisibleInViewport = rect => {
+  const docEl = document.documentElement
+  const viewportHeight = window.innerHeight || (docEl && docEl.clientHeight)
+  const viewportWidth = window.innerWidth || (docEl && docEl.clientWidth)
 
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= viewportHeight &&
+    rect.right <= viewportWidth
+  )
+}
+
+// Выбирает проптивоположное направление с сохранением align
+const getDropdownPlacementCandidates = placement => {
+  if (placement.startsWith('down')) {
+    return [placement.replace('down-', 'up-')]
+  }
+  if (placement.startsWith('up')) {
+    return [placement.replace('up-', 'down-')]
+  }
+  if (placement.startsWith('left')) {
+    return [placement.replace('left-', 'right-')]
+  }
+  if (placement.startsWith('right')) {
+    return [placement.replace('right-', 'left-')]
+  }
+  return []
+}
+
+const getAutoPlacement = config => {
+  const {
+    element,
+    anchorElement,
+    arrowElement,
+    preferredPlacement,
+    distance,
+    alignmentOffset,
+  } = config
+
+  const placements = getDropdownPlacementCandidates(preferredPlacement)
+  const elemRectBase = element.getBoundingClientRect()
+
+  const found = [...placements, preferredPlacement].reduce(
+    (correctPlacement, placement) => {
+      if (correctPlacement) {
+        return correctPlacement
+      }
+
+      const placementStyle = getPlacementStyle({
+        placement,
+        element,
+        anchorElement,
+        arrowElement,
+        distance,
+        alignmentOffset,
+      })
+
+      const elemRect = {
+        top: placementStyle.top || elemRectBase.top,
+        left: placementStyle.left || elemRectBase.left,
+      }
+
+      elemRect.right = elemRect.left + elemRectBase.width
+      elemRect.bottom = elemRect.top + elemRectBase.height
+
+      return isElementVisibleInViewport(elemRect) && placement
+    },
+    null
+  )
+
+  return found || preferredPlacement
+}
 
 export default function positionElement(config) {
   const {
@@ -10,35 +82,33 @@ export default function positionElement(config) {
     preferredPlacement,
     distance,
     alignmentOffset,
-    // autoReposition,
+    autoReposition,
   } = config
 
-  // if (autoReposition === false) {
-  const placementStyle = getPlacementStyle({
-    placement: preferredPlacement,
-    element,
-    anchorElement,
-    arrowElement,
-    distance,
-    alignmentOffset,
-  })
+  if (!autoReposition) {
+    const placementStyle = getPlacementStyle({
+      placement: preferredPlacement,
+      element,
+      anchorElement,
+      arrowElement,
+      distance,
+      alignmentOffset,
+    })
 
-  return placementStyle
-  // }
+    return [preferredPlacement, placementStyle]
+  }
 
-  // const placements = getPlacementCandidates(preferredPlacement)
-  // const found = [...placements, preferredPlacement].find(placement => {
-  //   const placementStyle = getPlacementStyle({
-  //     placement,
-  //     element,
-  //     anchorElement,
-  //     distance,
-  //     alignmentOffset,
-  //   })
-  //
-  //   styleElement(element, placementStyle)
-  //   return isElementVisibleInViewport(element)
-  // })
-  //
-  // return found || preferredPlacement
+  const resultPlacement = getAutoPlacement(config)
+
+  return [
+    resultPlacement,
+    getPlacementStyle({
+      placement: resultPlacement,
+      element,
+      anchorElement,
+      arrowElement,
+      distance,
+      alignmentOffset,
+    }),
+  ]
 }

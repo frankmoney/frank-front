@@ -248,6 +248,8 @@ class Select extends React.Component<Props, State> {
           const {
             open,
             close,
+            place: actualPlace,
+            align: actualAlign,
             anchorEl,
             getPopupProps,
             getArrowProps,
@@ -265,7 +267,12 @@ class Select extends React.Component<Props, State> {
           return (
             <>
               {renderControl(
-                { ...this.getRenderProps(this.state), getAnchorProps },
+                {
+                  ...this.getRenderProps(this.state),
+                  align: actualAlign,
+                  place: actualPlace,
+                  getAnchorProps,
+                },
                 otherProps
               )}
               <Modal open={open} invisibleBackdrop onClose={close}>

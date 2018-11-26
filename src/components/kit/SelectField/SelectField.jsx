@@ -5,7 +5,7 @@ import Field from 'components/kit/fields/Field'
 import SelectFieldControl from './SelectFieldControl'
 
 const renderFieldControl = (
-  { valueFormatted, active, getInputProps, getAnchorProps },
+  { valueFormatted, active, place, getInputProps, getAnchorProps },
   { stretch, disableArrowHover, ...otherProps }
 ) => (
   <Field
@@ -18,6 +18,7 @@ const renderFieldControl = (
       stretch={stretch}
       active={active}
       disableArrowHover={disableArrowHover}
+      arrowUp={place === 'up'}
       {...getInputProps()}
     />
   </Field>

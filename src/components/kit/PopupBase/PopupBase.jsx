@@ -13,6 +13,9 @@ export type PopupArrowProps = {|
   style?: Style,
 |}
 
+export type PopupAlign = 'start' | 'center' | 'end'
+export type PopupPosition = 'up' | 'down' | 'left' | 'right'
+
 export type PopupAnchorProps = {|
   ref: RefHandler,
 |}
@@ -25,9 +28,6 @@ type PopupProps = {|
 type EmptyCb = () => void
 type ExternalCb = Function
 
-export type PopupAlign = 'start' | 'center' | 'end'
-export type PopupPosition = 'up' | 'down' | 'left' | 'right'
-
 type Props = {|
   align: PopupAlign,
   alignByArrow?: boolean, // в этом случае попап будет равняться стрелкой по анкору
@@ -39,6 +39,8 @@ type Props = {|
   onChangeOpen?: boolean => void,
   open?: boolean,
   place: PopupPosition,
+  // выключает авторепозиционирование
+  disableAutoReposition?: boolean,
 |}
 
 type El = Element | Text
@@ -55,6 +57,10 @@ export type PopupRenderProps = {
   toggleClose: ExternalCb,
   popupEl: ?El,
   anchorEl: ?El,
+  // актуальный place если использовано авторепозиционированние
+  place: PopupPosition,
+  // актуальный align если использовано авторепозиционированние
+  align: PopupAlign,
   getArrowProps: (?Object) => PopupArrowProps,
   getAnchorProps: GetAnchorPropsFn,
   getPopupProps: GetPopupPropsFn,
@@ -75,6 +81,7 @@ class PopupBase extends React.Component<Props, State> {
     align: 'center',
     defaultOpen: false,
     alignmentOffset: 0,
+    disableAutoReposition: false,
   }
 
   state = {
@@ -94,35 +101,39 @@ class PopupBase extends React.Component<Props, State> {
     return this.isControlled ? this.props.open : this.state.open
   }
 
-  getRenderProps: getRenderPropsFn = () => ({
-    open: this.isOpen,
-    close: this.close,
-    show: this.open,
-    toggle: this.toggle,
-    toggleOpen: this.open,
-    toggleClose: this.close,
-    popupEl: this.state.popupEl,
-    anchorEl: this.state.anchorEl,
-    getArrowProps: (props = {}) => ({
-      ...props,
-      ref: this.handleArrowRef,
-    }),
-    getAnchorProps: (
-      props = {},
-      setAnchor = handler => ({ ref: handler })
-    ) => ({
-      ...props,
-      ...setAnchor(this.handleAnchorRef),
-    }),
-    getPopupProps: (props = {}) => ({
-      ...props,
-      ref: this.handlePopupRef,
-      style: Object.assign(
-        this._getPopupPositionStyles(this.state),
-        props.style
-      ),
-    }),
-  })
+  getRenderProps: getRenderPropsFn = () => {
+    // при авторепозиционировании изначальные place,align могут измениться, передаем актуальные
+    const { style, place, align } = this._calcPopupPosition(this.state)
+
+    return {
+      open: this.isOpen,
+      close: this.close,
+      show: this.open,
+      toggle: this.toggle,
+      toggleOpen: this.open,
+      toggleClose: this.close,
+      popupEl: this.state.popupEl,
+      anchorEl: this.state.anchorEl,
+      place,
+      align,
+      getArrowProps: (props = {}) => ({
+        ...props,
+        ref: this.handleArrowRef,
+      }),
+      getAnchorProps: (
+        props = {},
+        setAnchor = handler => ({ ref: handler })
+      ) => ({
+        ...props,
+        ...setAnchor(this.handleAnchorRef),
+      }),
+      getPopupProps: (props = {}) => ({
+        ...props,
+        ref: this.handlePopupRef,
+        style: { ...style, ...props.style },
+      }),
+    }
+  }
 
   open = (callback: ExternalCb) => {
     if (!this.isControlled) {
@@ -184,12 +195,7 @@ class PopupBase extends React.Component<Props, State> {
     })
   }
 
-  _updatePopupPosition = () => {
-    const popupStyles = this._getPopupPositionStyles(this.state)
-    this.setState({ popupStyles })
-  }
-
-  _getPopupPositionStyles = (state: State) => {
+  _calcPopupPosition = (state: State) => {
     const { popupEl, anchorEl, arrowEl } = state
     const open = this.isOpen
 
@@ -198,8 +204,8 @@ class PopupBase extends React.Component<Props, State> {
       position: 'absolute',
     }
 
-    if (!popupEl || !anchorEl) {
-      return defaultStyles
+    if (!popupEl || !anchorEl || !open) {
+      return { style: defaultStyles, place, align }
     }
 
     const ALIGN_MAP_H = {
@@ -218,19 +224,21 @@ class PopupBase extends React.Component<Props, State> {
       ? ALIGN_MAP_V
       : ALIGN_MAP_H)[align]
 
-    const popupStyles = open
-      ? positionElement({
-          element: popupEl,
-          anchorElement: anchorEl,
-          arrowElement: this.props.alignByArrow ? arrowEl : null,
-          preferredPlacement: `${place}-${normalizedAlign}`,
-          autoReposition: false,
-          alignmentOffset,
-          distance,
-        })
-      : defaultStyles
+    const [placement, popupStyles] = positionElement({
+      element: popupEl,
+      anchorElement: anchorEl,
+      arrowElement: this.props.alignByArrow ? arrowEl : null,
+      preferredPlacement: `${place}-${normalizedAlign}`,
+      autoReposition: !this.props.disableAutoReposition,
+      alignmentOffset,
+      distance,
+    })
 
-    return popupStyles
+    const [resultPlace, resultAlign] = placement.split('-')
+
+    const denormalizedAlign = resultAlign.replace('middle', 'center')
+
+    return { style: popupStyles, place: resultPlace, align: denormalizedAlign }
   }
 
   render() {

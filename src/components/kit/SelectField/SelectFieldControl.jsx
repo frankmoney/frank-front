@@ -36,6 +36,11 @@ const styles = {
     width: '100%',
   },
   disableArrowHover: {},
+  arrowUp: {
+    '& $arrow': {
+      transform: 'rotate(180deg)',
+    },
+  },
 }
 
 class SelectFieldControl extends React.Component {
@@ -49,6 +54,7 @@ class SelectFieldControl extends React.Component {
       active,
       stretch,
       disableArrowHover,
+      arrowUp,
       placeholder,
       ...otherProps
     } = this.props
@@ -64,6 +70,7 @@ class SelectFieldControl extends React.Component {
             [classes.stretch]: stretch,
             [classes.active]: active,
             [classes.disableArrowHover]: disableArrowHover,
+            [classes.arrowUp]: arrowUp,
           },
           className
         )}
