@@ -1,16 +1,14 @@
-// @flow
+// @flow strict-local
 // spellchecker:ignore mmaa
 import React from 'react'
 import cx from 'classnames'
 import {
   Check as PublishIcon,
-  ModeComment as DiscussIcon,
-  MoreHoriz as MoreActionsButton,
   FormatListBulleted as SimilarIcon,
 } from 'material-ui-icons'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
-import Button, { IconButton } from 'components/kit/Button'
+import Button from 'components/kit/Button'
 import Paper from 'components/kit/Paper'
 import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
@@ -27,7 +25,7 @@ const PaymentCard = ({
   amount,
   bankIcon,
   bankDescription,
-  peer: { id: peerId, name: peerName } = {},
+  peer: { name: peerName } = {},
   peerUpdatedBy,
   categories,
   category: { id: categoryId } = {},
