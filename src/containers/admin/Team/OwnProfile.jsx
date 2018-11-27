@@ -47,7 +47,6 @@ const OwnProfile = ({
       </div>
       <div className={email}>{email}</div>
     </div>
-    <div className={classes.role}>{TEAM_ROLE_TITLES[role]}</div>
     <div className={classes.footer}>
       <ArrowPopup
         className={classes.changePasswordPopup}

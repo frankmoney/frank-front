@@ -42,28 +42,6 @@ const team = [
   }),
 ]
 
-const updateRole = [
-  `
-  mutation($pid: ID!, $role: TeamMemberRole!) {
-    teamMemberUpdateRole(pid: $pid, role: $role) {
-      pid
-      email
-      lastName
-      firstName
-      role
-      acl {
-        remove
-        editRole
-        editAvatar
-        editProfile
-        editPassword
-      }
-    }
-  }
-  `,
-  R.prop('teamMemberUpdateRole'),
-]
-
 const changeAvatar = [
   `
   mutation($avatar: JSON) {
@@ -88,7 +66,6 @@ const changePassword = [
 
 export default {
   team,
-  updateRole,
   changeAvatar,
   changePassword,
 }

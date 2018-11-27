@@ -4,6 +4,9 @@ export default theme => ({
     display: 'flex',
     padding: [0, 30],
     alignItems: 'center',
+    '&:hover $removeButton': {
+      visibility: 'visible',
+    },
   },
   avatar: {
     marginRight: 15,
@@ -22,9 +25,8 @@ export default theme => ({
     color: 'rgba(37, 43, 67, .5)',
     ...theme.fontRegular(18),
   },
-  role: {
-    textAlign: 'right',
-    ...theme.fontMedium(18, 46),
+  removeButton: {
+    visibility: 'hidden',
   },
   menu: {
     color: 'rgba(37, 43, 67, 0.5)',

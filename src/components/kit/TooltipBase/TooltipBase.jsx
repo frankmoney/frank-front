@@ -8,6 +8,7 @@ import chainCallbacks from 'utils/dom/chainCallbacks'
 
 export type TooltipBaseProps = {|
   align: PopupAlign,
+  appearTimeout?: number,
   closeTimeout?: number,
   defaultOpen?: boolean,
   defaultVisible?: boolean,
@@ -32,6 +33,7 @@ class TooltipBase extends React.Component<Props, State> {
   static defaultProps = {
     defaultVisible: false,
     closeTimeout: 200,
+    appearTimeout: 0,
     popupAccessible: false,
   }
 
@@ -73,10 +75,13 @@ class TooltipBase extends React.Component<Props, State> {
 
   handleMouseIn = () => {
     clearTimeout(this.outTimeout)
-    this.setState({ visible: true })
+    this.appearTimeout = setTimeout(() => {
+      this.setState({ visible: true })
+    }, this.props.appearTimeout)
   }
 
   handleMouseOut = () => {
+    clearTimeout(this.appearTimeout)
     this.outTimeout = setTimeout(() => {
       this.setState({ visible: false })
     }, this.props.popupAccessible ? this.props.closeTimeout : 0)

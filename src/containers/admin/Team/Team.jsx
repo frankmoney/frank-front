@@ -20,20 +20,6 @@ import {
   ownProfileSelector,
 } from './selectors'
 
-const selectorsToProps = {
-  loaded: loadedSelector,
-  loading: loadingSelector,
-  canInvite: canInviteSelector,
-  ownProfile: ownProfileSelector,
-  otherProfiles: otherProfilesSelector,
-  inviteDrawerOpen: inviteDrawerOpenSelector,
-}
-
-const connectDispatch = {
-  load: ACTIONS.load,
-  leave: ACTIONS.leave,
-}
-
 const Team = ({ canInvite, ownProfile, otherProfiles, inviteDrawerOpen }) => (
   <>
     <FixedHeader>
@@ -51,7 +37,20 @@ const Team = ({ canInvite, ownProfile, otherProfiles, inviteDrawerOpen }) => (
 )
 
 export default compose(
-  reconnect(selectorsToProps, connectDispatch),
+  reconnect(
+    {
+      loaded: loadedSelector,
+      loading: loadingSelector,
+      canInvite: canInviteSelector,
+      ownProfile: ownProfileSelector,
+      otherProfiles: otherProfilesSelector,
+      inviteDrawerOpen: inviteDrawerOpenSelector,
+    },
+    {
+      load: ACTIONS.load,
+      leave: ACTIONS.leave,
+    }
+  ),
   lifecycle({
     componentWillMount() {
       if (!this.props.loaded) {
