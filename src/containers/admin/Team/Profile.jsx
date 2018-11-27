@@ -1,10 +1,10 @@
 import React from 'react'
 import { Avatar } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
 import * as R from 'ramda'
 import { compose } from 'recompose'
 import { Delete as RemoveIcon } from 'material-ui-icons'
+import { injectStyles } from 'utils/styles'
 import reconnect from 'utils/reconnect'
 import { IconButton } from 'components/kit/Button'
 import TextTooltip from 'components/kit/TextTooltip'
@@ -32,7 +32,7 @@ const Profile = ({
       <div className={classes.name}>
         {firstName} {lastName}
       </div>
-      <div className={email}>{email}</div>
+      <div className={classes.email}>{email}</div>
     </div>
     {acl.remove && (
       <Dialog.State>

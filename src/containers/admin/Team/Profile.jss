@@ -1,6 +1,6 @@
 export default theme => ({
   root: {
-    height: 119,
+    height: 120,
     display: 'flex',
     padding: [0, 30],
     alignItems: 'center',
@@ -9,7 +9,7 @@ export default theme => ({
     },
   },
   avatar: {
-    marginRight: 15,
+    marginRight: 17,
   },
   avatarComponent: {
     width: 60,
@@ -19,11 +19,12 @@ export default theme => ({
     flex: 1,
   },
   name: {
-    ...theme.fontMedium(22, 34),
+    ...theme.fontMedium(22, 31),
+    color: '#252B43',
   },
   email: {
-    color: 'rgba(37, 43, 67, .5)',
-    ...theme.fontRegular(18),
+    color: 'rgba(37,43,67,0.4)',
+    ...theme.fontRegular(20),
   },
   removeButton: {
     visibility: 'hidden',

@@ -38,7 +38,7 @@ const OwnProfile = ({
       <div className={classes.name}>
         {firstName} {lastName}
       </div>
-      <div className={email}>{email}</div>
+      <div className={classes.email}>{email}</div>
     </div>
     <div className={classes.footer}>
       <ChangePasswordPopupDialog onConfirm={handleChangePasswordSubmit}>
