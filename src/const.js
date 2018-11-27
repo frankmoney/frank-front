@@ -87,12 +87,6 @@ export const TEAM_ROLE_TITLES = {
   [TEAM_ROLES.observer]: 'Observer',
 }
 
-export const ORDERED_TEAM_ROLES = [
-  TEAM_ROLES.administrator,
-  TEAM_ROLES.manager,
-  TEAM_ROLES.observer,
-]
-
 export const UNCATEGORIZED_COLOR = 'rgb(211, 213, 217)'
 
 export const CATEGORY_COLORS = {
