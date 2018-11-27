@@ -42,7 +42,6 @@ const DateRangeField = ({
   now = new Date(),
   onChange,
   startDate = D.startOfYear(new Date()),
-  theme,
   to,
   ...otherProps
 }: Props) => {
@@ -72,7 +71,7 @@ const DateRangeField = ({
       case DATE_FILTER.custom:
         return { from: from ? D.addHours(from, 1) : now, to }
       default:
-        return { from: undefined, to: undefined }
+        return ({}: Object) // flowlint-line unclear-type:off
     }
   }
 
