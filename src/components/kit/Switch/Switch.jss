@@ -1,18 +1,4 @@
-// @flow
 import Color from 'color-js'
-
-type ControlProps = {|
-  checked?: boolean,
-  disabled?: boolean,
-|}
-
-export type StylingProps = {|
-  ...ControlProps,
-  color?: string,
-  hover?: boolean,
-  focus?: boolean,
-  parentHover?: boolean,
-|}
 
 const GRAY_RAIL_COLOR = 'rgba(37, 43, 67, 0.08)'
 const WIDTH = 40
@@ -20,6 +6,7 @@ const HEIGHT = 20
 const BORDER_RADIUS = 23
 const BAR_WIDTH = 25
 
+// StylingProps -> ...
 const getBarColor = ({
   checked,
   color,
@@ -27,7 +14,7 @@ const getBarColor = ({
   hover,
   focus,
   parentHover,
-}: StylingProps) => {
+}) => {
   const hovered = parentHover || hover || focus
   return disabled
     ? GRAY_RAIL_COLOR
@@ -40,7 +27,8 @@ const getBarColor = ({
       : Color(GRAY_RAIL_COLOR).setAlpha(hovered ? 0.25 : 0.15)
 }
 
-const getRailsColor = ({ checked, color, disabled }: StylingProps) =>
+// StyingProps -> ...
+const getRailsColor = ({ checked, color, disabled }) =>
   disabled
     ? GRAY_RAIL_COLOR
     : checked

@@ -14,6 +14,7 @@ import Dialogs from './Dialogs'
 import Drawers from './Drawers'
 import SwitchesDemo from './SwitchesDemo'
 import WidgetDemo from './Widgets'
+import FormsDemo from './Forms'
 
 export default [
   {
@@ -79,6 +80,11 @@ export default [
   {
     component: Dialogs,
     path: ROUTES.demo.dialogs,
+    exact: true,
+  },
+  {
+    component: FormsDemo,
+    path: ROUTES.demo.forms,
     exact: true,
   },
 ]

@@ -12,6 +12,8 @@ const styles = {
     minHeight: '100vh',
     background: props => (props.gray ? '#E5E5E5' : '#fff'),
     '& > h1': {
+      display: 'flex',
+      alignItems: 'center',
       marginTop: 70,
       fontSize: 60,
       lineHeight: 60,
@@ -21,6 +23,8 @@ const styles = {
       },
     },
     '& > h2': {
+      display: 'flex',
+      alignItems: 'center',
       marginTop: 80,
       marginBottom: 60,
       fontSize: 40,

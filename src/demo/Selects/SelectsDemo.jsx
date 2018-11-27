@@ -50,7 +50,7 @@ const SelectsDemo = () => (
   <Demo>
     <h1>ButtonMenu</h1>
     <Row centered>
-      <ButtonMenu arrowEnd alignByArrow renderButton={renderEllipsisButton}>
+      <ButtonMenu arrowCenter alignByArrow renderButton={renderEllipsisButton}>
         <MenuItem label="Publish" onSelect={fakeAction('published')} />
         <MenuItem color="red" label="Delete" onSelect={fakeAction('deleted')} />
       </ButtonMenu>
@@ -61,7 +61,7 @@ const SelectsDemo = () => (
         stretchDropdown
         label="Role"
         placeholder="Select team role"
-        dropdownWidth={220}
+        style={{ width: 220 }}
       >
         <MenuItem value="admin" label="Administrator" />
         <MenuItem value="manager" label="Manager" />
@@ -73,7 +73,7 @@ const SelectsDemo = () => (
         stretchDropdown
         label="Roles"
         placeholder="Select multiple roles"
-        dropdownWidth={220}
+        style={{ width: 220 }}
       >
         <MenuItem value="admin" label="Administrator" />
         <MenuItem value="manager" label="Manager" />

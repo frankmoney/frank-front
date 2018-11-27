@@ -3,9 +3,10 @@ import * as React from 'react'
 import Button from 'components/kit/Button'
 import chainCallbacks from 'utils/dom/chainCallbacks'
 import Dialog, { type InheritedModalProps } from './Dialog'
-import DialogTitle from './DialogTitle'
-import DialogMessage from './DialogMessage'
+import DialogButton from './DialogButton'
 import DialogButtons from './DialogButtons'
+import DialogMessage from './DialogMessage'
+import DialogTitle from './DialogTitle'
 
 type EmptyCb = () => void
 
@@ -51,13 +52,13 @@ const ConfirmDialog = ({
     {message && <DialogMessage>{message}</DialogMessage>}
     {children}
     <DialogButtons>
-      <Button
+      <DialogButton
         color="gray"
         onClick={chainCallbacks(onCancel, onClose)}
         label={cancelLabel}
         {...cancelButtonProps}
       />
-      <Button
+      <DialogButton
         color={danger ? 'red' : 'green'}
         onClick={chainCallbacks(onConfirm, onClose)}
         label={confirmLabel}

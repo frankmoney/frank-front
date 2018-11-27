@@ -1,12 +1,12 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import Select from 'components/kit/Select'
 import Field from 'components/kit/fields/Field'
 import SelectFieldControl from './SelectFieldControl'
 
 const renderFieldControl = (
-  { valueFormatted, active, getInputProps, getAnchorProps },
-  { style, stretch, disableArrowHover, ...otherProps }
+  { valueFormatted, active, place, getInputProps, getAnchorProps },
+  { stretch, disableArrowHover, ...otherProps }
 ) => (
   <Field
     {...getAnchorProps(otherProps)}
@@ -18,6 +18,7 @@ const renderFieldControl = (
       stretch={stretch}
       active={active}
       disableArrowHover={disableArrowHover}
+      arrowUp={place === 'up'}
       {...getInputProps()}
     />
   </Field>

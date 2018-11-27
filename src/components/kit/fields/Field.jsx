@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
 import cx from 'classnames'
 import Spinner from 'components/kit/Spinner'
@@ -12,15 +12,17 @@ import ValidationLabel from './ValidationLabel'
 import FieldContext from './FieldContext'
 import styles from './Field.jss'
 
-type Value = any
+type Value = any // flowlint-line unclear-type:off
+
+type OnChangeCb = (?Value) => void
 
 type ControlElementProps = {
-  onFocus: Function,
-  onBlur: Function,
+  disabled?: boolean,
+  onBlur: FocusEvent => void,
+  onChange: OnChangeCb,
+  onFocus: FocusEvent => void,
   placeholder?: string,
   value?: Value,
-  onChange: Function,
-  disabled?: boolean,
 }
 
 type ControlElement = React.ComponentType<ControlElementProps>
@@ -32,7 +34,7 @@ type Props = {|
   children?: React.Element<ControlElement>,
   defaultValue?: Value,
   disabled?: boolean,
-  error?: string,
+  error?: boolean | string,
   floatingLabel?: string,
   hint?: string,
   label?: string,
@@ -45,11 +47,14 @@ type Props = {|
   stretch?: boolean,
   // Uncontrolled/Controlled value
   value?: ?Value,
-  onChange?: (?Value) => void,
+  onChange?: OnChangeCb,
   // Uncontrolled/Controlled focus
   focus?: boolean,
   onBlur?: FocusEvent => void,
   onFocus?: FocusEvent => void,
+  onKeyDown?: KeyboardEvent => void,
+  onKeyPress?: KeyboardEvent => void,
+  onKeyUp?: KeyboardEvent => void,
 |}
 
 type State = {|

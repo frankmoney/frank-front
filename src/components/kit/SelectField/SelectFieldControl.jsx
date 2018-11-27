@@ -1,8 +1,9 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { ArrowDropDown } from 'material-ui-icons'
 import Placeholder from 'components/kit/fields/Placeholder'
+import { injectStyles } from 'utils/styles'
 
 const styles = {
   root: {
@@ -36,9 +37,16 @@ const styles = {
     width: '100%',
   },
   disableArrowHover: {},
+  arrowUp: {
+    '& $arrow': {
+      transform: 'rotate(180deg)',
+    },
+  },
 }
 
-class SelectFieldControl extends React.Component {
+type Props = Object
+
+class SelectFieldControl extends React.Component<Props> {
   render() {
     const {
       classes,
@@ -49,6 +57,7 @@ class SelectFieldControl extends React.Component {
       active,
       stretch,
       disableArrowHover,
+      arrowUp,
       placeholder,
       ...otherProps
     } = this.props
@@ -64,6 +73,7 @@ class SelectFieldControl extends React.Component {
             [classes.stretch]: stretch,
             [classes.active]: active,
             [classes.disableArrowHover]: disableArrowHover,
+            [classes.arrowUp]: arrowUp,
           },
           className
         )}

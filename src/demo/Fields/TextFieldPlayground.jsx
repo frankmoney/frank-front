@@ -1,11 +1,13 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import { compose, withStateHandlers } from 'recompose'
-import Field from 'components/kit/fields/Field'
-import TextBox from 'components/kit/TextBox'
+import TextField from 'components/kit/TextField'
 import Switch from 'components/kit/Switch'
 import Label from 'components/kit/fields/Label'
+import SelectField from 'components/kit/SelectField'
+import { MenuItem } from 'components/kit/Menu'
 
 const styles = {
   root: {},
@@ -32,7 +34,7 @@ const styles = {
   },
 }
 
-const Playground = ({
+const TextFieldPlayground = ({
   classes,
   value,
   focus,
@@ -43,6 +45,7 @@ const Playground = ({
   larger,
   disabled,
   multiline,
+  inputType,
   additionalLabel,
   hint,
   onFocus,
@@ -58,6 +61,7 @@ const Playground = ({
   toggleMultiline,
   toggleHint,
   toggleAdditionalLabel,
+  changeInputType,
   className,
 }) => {
   const Opt = ({ label, on, onToggle }) => (
@@ -69,32 +73,34 @@ const Playground = ({
 
   return (
     <div className={cx(classes.root, className)}>
-      <Field
+      <TextField
         larger={larger}
         className={classes.field}
-        label={!floatingLabel && 'Name'}
+        label={floatingLabel ? undefined : 'Name'}
         additionalLabel={additionalLabel && 'Should be fancy'}
-        floatingLabel={floatingLabel && 'Name'}
-        placeholder={placeholder && 'Frank Sinatra'}
+        floatingLabel={floatingLabel ? 'Name' : undefined}
+        placeholder={placeholder ? 'Frank Sinatra' : undefined}
         focus={focus}
-        error={error && 'Error'}
+        error={error ? 'Error' : undefined}
         invalid={error}
         disabled={disabled}
         loading={loading}
         hint={hint && '140 symbols left'}
+        type={inputType}
         value={value}
         onChange={onChange}
-      >
-        <TextBox
-          autoFocus
-          onFocus={onFocus}
-          onBlur={onBlur}
-          multiLine={multiline}
-        />
-      </Field>
+        autoFocus
+        onFocus={onFocus}
+        onBlur={onBlur}
+        multiLine={multiline}
+      />
       <div className={classes.options}>
         <div className={classes.col}>
-          <Opt label="Focus" on={focus} onToggle={!disabled && toggleFocus} />
+          <Opt
+            label="Focus"
+            on={focus}
+            onToggle={disabled ? undefined : toggleFocus}
+          />
           <Opt label="Error" on={error} onToggle={toggleError} />
           <Opt label="Disabled" on={disabled} onToggle={toggleDisabled} />
           <Opt label="Loading" on={loading} onToggle={toggleLoading} />
@@ -125,6 +131,20 @@ const Playground = ({
           />
         </div>
       </div>
+      <div className={classes.options}>
+        <div className={classes.col}>
+          <SelectField
+            value={inputType}
+            onChange={changeInputType}
+            style={{ width: 200 }}
+          >
+            <MenuItem label="type=text" value="text" />
+            <MenuItem label="type=password" value="password" />
+            <MenuItem label="type=number" value="number" />
+            <MenuItem label="type=email" value="email" />
+          </SelectField>
+        </div>
+      </div>
     </div>
   )
 }
@@ -137,6 +157,7 @@ export default compose(
       value: '',
       placeholder: true,
       larger: true,
+      inputType: 'text',
     },
     {
       onFocus: () => () => ({ focus: true }),
@@ -157,6 +178,7 @@ export default compose(
       toggleLarger: props => () => ({ larger: !props.larger }),
       toggleMultiline: props => () => ({ multiline: !props.multiline }),
       onChange: () => value => ({ value }),
+      changeInputType: () => value => ({ inputType: value }),
     }
   )
-)(Playground)
+)(TextFieldPlayground)

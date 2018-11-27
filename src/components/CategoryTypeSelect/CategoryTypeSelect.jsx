@@ -37,8 +37,9 @@ const styles = {
     marginLeft: 1,
   },
   arrowOpen: {
-    composes: '$arrow',
     color: '#252B43',
+  },
+  arrowUp: {
     transform: 'rotate(180deg)',
   },
 }
@@ -56,12 +57,15 @@ const CategoryTypeSelect = ({
     arrowAt="center"
     align="center"
     direction="up"
-    renderControl={({ open, value, getInputProps, getAnchorProps }) => (
+    renderControl={({ open, place, value, getInputProps, getAnchorProps }) => (
       <div className={cx(classes.root, className)} {...getInputProps()}>
         <span>{label}</span>
         <span className={classes.value}>{value}</span>
         <ArrowDropDown
-          className={open ? classes.arrowOpen : classes.arrow}
+          className={cx(classes.arrow, {
+            [classes.arrowOpen]: open,
+            [classes.arrowUp]: open && place === 'up',
+          })}
           {...getAnchorProps()}
         />
       </div>

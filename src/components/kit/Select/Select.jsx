@@ -41,7 +41,6 @@ type getInputPropsFn = (?Object) => getInputPropsResult
 
 type SelectRenderProps = {|
   active: boolean,
-
   getInputProps: getInputPropsFn,
   open: boolean,
   select: Function,
@@ -53,7 +52,9 @@ type SelectRenderProps = {|
 type RenderControlProps = {|
   ...SelectRenderProps,
   //
+  align: PopupAlign,
   getAnchorProps: GetAnchorPropsFn,
+  place: PopupPosition,
 |}
 
 export type Props = {|
@@ -80,7 +81,7 @@ export type Props = {|
 |}
 
 type State = {|
-  open?: boolean,
+  open: boolean,
   focused: boolean,
   value?: Value,
   selectedElementText?: ?string,
@@ -94,7 +95,7 @@ class Select extends React.Component<Props, State> {
     direction: 'down',
     align: 'start',
     alignByArrow: false,
-    dropdownWidth: 'auto',
+    dropdownWidth: null,
   }
 
   state = {
@@ -248,6 +249,8 @@ class Select extends React.Component<Props, State> {
           const {
             open,
             close,
+            place: actualPlace,
+            align: actualAlign,
             anchorEl,
             getPopupProps,
             getArrowProps,
@@ -256,7 +259,7 @@ class Select extends React.Component<Props, State> {
 
           const arrowMenuProps = hasArrow
             ? {
-                direction: REVERSE_DIRECTION[direction],
+                direction: REVERSE_DIRECTION[actualPlace],
                 align: arrowAt,
                 arrowProps: hasArrow && getArrowProps(),
               }
@@ -265,7 +268,12 @@ class Select extends React.Component<Props, State> {
           return (
             <>
               {renderControl(
-                { ...this.getRenderProps(this.state), getAnchorProps },
+                {
+                  ...this.getRenderProps(this.state),
+                  align: actualAlign,
+                  place: actualPlace,
+                  getAnchorProps,
+                },
                 otherProps
               )}
               <Modal open={open} invisibleBackdrop onClose={close}>
@@ -279,7 +287,8 @@ class Select extends React.Component<Props, State> {
                     ...menuProps,
                     style: {
                       width:
-                        open && stretchDropdown
+                        // если ширина задана пропом dropdownWidth то берем ее всегда
+                        open && stretchDropdown && !dropdownWidth
                           ? anchorEl.clientWidth
                           : dropdownWidth,
                       ...menuProps.style,

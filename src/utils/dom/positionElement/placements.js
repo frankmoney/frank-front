@@ -66,6 +66,10 @@ const placementSettings = {
   },
 }
 
+export function getPlacementInfo(placement) {
+  return placementSettings[placement] || {}
+}
+
 const getPlacementVariance = (placementA, placementB) => {
   const placementInfoA = getPlacementInfo(placementA)
   const placementInfoB = getPlacementInfo(placementB)
@@ -73,13 +77,9 @@ const getPlacementVariance = (placementA, placementB) => {
   const coordinateB = placementInfoB.coordinate || [0, 0]
 
   return (
-    Math.pow(coordinateA[0] - coordinateB[0], 2) +
-    Math.pow(coordinateA[1] - coordinateB[1], 2)
+    (coordinateA[0] - coordinateB[0]) ** 2 +
+    (coordinateA[1] - coordinateB[1]) ** 2
   )
-}
-
-export function getPlacementInfo(placement) {
-  return placementSettings[placement] || {}
 }
 
 export function getPlacementStyle({

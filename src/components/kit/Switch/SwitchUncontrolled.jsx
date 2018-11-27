@@ -3,20 +3,36 @@ import React from 'react'
 import cx from 'classnames'
 import { type OnChangeCb } from 'components/kit/SwitchBase'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import styles, { type StylingProps } from './Switch.jss'
+import styles from './Switch.jss'
+
+type ControlProps = {|
+  checked?: boolean,
+  disabled?: boolean,
+|}
+
+export type StylingProps = {|
+  ...ControlProps,
+  color?: string,
+  focus?: boolean,
+  hover?: boolean,
+  parentHover?: boolean,
+|}
 
 type Props = {|
   ...InjectStylesProps,
   ...StylingProps,
   //
-  label?: string,
-  larger?: boolean,
   autoFocus?: boolean,
+  controlRef?: ?Function,
   defaultChecked?: boolean,
   inputProps?: Object,
-  controlRef?: ?Function,
+  label?: string,
+  larger?: boolean,
   name?: string,
+  style?: {},
+  onBlur?: FocusEvent => void,
   onChange?: OnChangeCb,
+  onFocus?: FocusEvent => void,
 |}
 
 export type SwitchUncontrolledProps = Props
@@ -44,6 +60,7 @@ class SwitchUncontrolled extends React.Component<Props> {
       checked,
       classes,
       className,
+      style,
       disabled,
       focus,
       larger,
@@ -55,6 +72,8 @@ class SwitchUncontrolled extends React.Component<Props> {
       onFocus,
       onBlur,
     } = this.props
+
+    // TODO prop falling to root element
 
     return (
       <label
@@ -69,6 +88,7 @@ class SwitchUncontrolled extends React.Component<Props> {
           },
           className
         )}
+        style={style}
       >
         <div className={classes.bar} />
         <div className={classes.rail} />

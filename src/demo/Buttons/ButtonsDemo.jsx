@@ -452,6 +452,15 @@ const ButtonsDemo = ({ classes }) => (
       <SocialButton type="twitter" large hover />
       <SocialButton type="twitter" large active />
     </Row>
+    <h2>Render button as Link</h2>
+    <Row centered>
+      <Button
+        className={classes.button}
+        label="Google.com"
+        href="https://google.com"
+        target="_blank"
+      />
+    </Row>
     <h2>Different Buttons</h2>
     <Row>
       <Button

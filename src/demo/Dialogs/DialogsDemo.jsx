@@ -17,8 +17,8 @@ const DialogsDemo = () => (
           Would you like to continue?
         </Dialog.Message>
         <Dialog.Buttons>
-          <Button color="gray" label="Cancel" />
-          <Button color="green" label="Confirm" />
+          <Dialog.Button color="gray" label="Cancel" />
+          <Dialog.Button color="green" label="Confirm" />
         </Dialog.Buttons>
       </Dialog.Paper>
     </Row>
@@ -48,7 +48,7 @@ const DialogsDemo = () => (
                       <TextBox />
                     </Dialog.Field>
                     <Dialog.Buttons>
-                      <Button
+                      <Dialog.Button
                         onClick={() => toggleSecond(true)}
                         label="Open confirm modal"
                       />
