@@ -9,7 +9,7 @@ type Props = {|
 
 const ListLayoutContentPaper = (props: Props) => (
   <ListLayoutContentBlock>
-    <Paper {...props} />
+    <Paper type="card" {...props} />
   </ListLayoutContentBlock>
 )
 
