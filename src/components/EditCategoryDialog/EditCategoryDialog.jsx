@@ -44,7 +44,6 @@ const EditCategoryDialog = ({
     className={cx(classes.root, className)}
     title={`${!category ? 'Add new' : 'Edit'} category`}
     confirmLabel="Done"
-    cancelLabel="Cancel"
     confirmButtonProps={{ disabled: invalid }}
     open={open}
     onClose={onCancel}

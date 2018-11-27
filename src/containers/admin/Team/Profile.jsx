@@ -8,6 +8,8 @@ import { Delete as RemoveIcon } from 'material-ui-icons'
 import reconnect from 'utils/reconnect'
 import { IconButton } from 'components/kit/Button'
 import TextTooltip from 'components/kit/TextTooltip'
+import Dialog from 'components/kit/Dialog'
+import DeleteMemberDialog from './DeleteMemberDialog'
 import ACTIONS from './actions'
 import styles from './Profile.jss'
 
@@ -33,13 +35,24 @@ const Profile = ({
       <div className={email}>{email}</div>
     </div>
     {acl.remove && (
-      <TextTooltip text="Delete teammate" place="up" align="center">
-        <IconButton
-          className={classes.removeButton}
-          icon={<RemoveIcon />}
-          onClick={() => onRemove()}
-        />
-      </TextTooltip>
+      <Dialog.State>
+        {({ open, toggle }) => (
+          <>
+            <TextTooltip text="Delete teammate" place="up" align="center">
+              <IconButton
+                className={classes.removeButton}
+                icon={<RemoveIcon />}
+                onClick={() => toggle(true)}
+              />
+            </TextTooltip>
+            <DeleteMemberDialog
+              open={open}
+              onClose={() => toggle(false)}
+              onConfirm={onRemove}
+            />
+          </>
+        )}
+      </Dialog.State>
     )}
   </div>
 )
