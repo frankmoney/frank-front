@@ -1,3 +1,4 @@
+// @flow strict-local
 import React from 'react'
 import { reduxForm, reset } from 'redux-form/immutable'
 import { compose } from 'recompose'

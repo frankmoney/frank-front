@@ -1,1 +1,2 @@
-export default from './PopoverDialog'
+// @flow strict-local
+export { default } from './PopoverDialog'

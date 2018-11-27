@@ -1,4 +1,6 @@
+// @flow strict-local
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/no-array-index-key */
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'

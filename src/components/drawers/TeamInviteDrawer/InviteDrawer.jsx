@@ -1,7 +1,8 @@
-import { email as validateEmail, required } from '@frankmoney/forms'
-import SendIcon from 'material-ui-icons/Send'
+// @flow strict-local
 import React from 'react'
 import { reduxForm } from 'redux-form/immutable'
+import { email as validateEmail, required } from '@frankmoney/forms'
+import SendIcon from 'material-ui-icons/Send'
 import Drawer from 'components/kit/Drawer'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import TextField from 'components/kit/TextField'

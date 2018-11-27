@@ -30,7 +30,7 @@ interface TogglableButton {
 type Props = {|
   ...InjectStylesProps,
   //
-  align: PopupAlign,
+  align?: PopupAlign,
   button: React.Element<(TogglableButton) => React.Node>,
   children: React.Node,
   place: PopupPosition,

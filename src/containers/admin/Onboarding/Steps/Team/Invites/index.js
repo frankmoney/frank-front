@@ -1,1 +1,2 @@
-export default from './Invites'
+// @flow strict-local
+export { default } from './Invites'

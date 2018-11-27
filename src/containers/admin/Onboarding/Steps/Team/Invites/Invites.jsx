@@ -1,6 +1,7 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles } from 'utils/styles'
 
 const styles = theme => ({
   root: {

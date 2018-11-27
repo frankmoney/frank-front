@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react'
-import { injectStyles } from '@frankmoney/ui'
+// @flow strict-local
+import React from 'react'
+import { injectStyles } from 'utils/styles'
 import Paper from './Paper'
 import Profile from './Profile'
 

@@ -1,3 +1,4 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from 'utils/styles'
@@ -28,18 +29,18 @@ const styles = {
 }
 
 const PopoverDialog = ({
-  classes,
-  className,
-  place,
   align,
   button,
-  cancelLabel,
-  confirmLabel,
   cancelButtonProps,
-  confirmButtonProps,
-  danger,
+  cancelLabel,
   children,
+  classes,
+  className,
+  confirmButtonProps,
+  confirmLabel,
+  danger,
   onConfirm,
+  place,
 }) => (
   <ArrowPopup
     className={cx(classes.root, className)}

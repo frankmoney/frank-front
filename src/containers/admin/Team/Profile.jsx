@@ -1,3 +1,4 @@
+// @flow strict-local
 import React from 'react'
 import { Avatar } from '@frankmoney/components'
 import cx from 'classnames'

@@ -1,3 +1,4 @@
+// @flow strict-local
 import { compose } from 'recompose'
 import reconnect from 'utils/reconnect'
 import TeamInviteDrawer from 'components/drawers/TeamInviteDrawer'
