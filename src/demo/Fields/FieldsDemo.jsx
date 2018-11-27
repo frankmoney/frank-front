@@ -1,3 +1,4 @@
+// @flow strict-local
 import React from 'react'
 import Demo, { Row } from 'demo/Demo'
 import Switch from 'components/kit/Switch'

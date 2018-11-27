@@ -41,7 +41,6 @@ type getInputPropsFn = (?Object) => getInputPropsResult
 
 type SelectRenderProps = {|
   active: boolean,
-
   getInputProps: getInputPropsFn,
   open: boolean,
   select: Function,
@@ -53,7 +52,9 @@ type SelectRenderProps = {|
 type RenderControlProps = {|
   ...SelectRenderProps,
   //
+  align: PopupAlign,
   getAnchorProps: GetAnchorPropsFn,
+  place: PopupPosition,
 |}
 
 export type Props = {|
@@ -80,7 +81,7 @@ export type Props = {|
 |}
 
 type State = {|
-  open?: boolean,
+  open: boolean,
   focused: boolean,
   value?: Value,
   selectedElementText?: ?string,

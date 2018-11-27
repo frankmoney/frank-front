@@ -77,8 +77,8 @@ const getPlacementVariance = (placementA, placementB) => {
   const coordinateB = placementInfoB.coordinate || [0, 0]
 
   return (
-    Math.pow(coordinateA[0] - coordinateB[0], 2) +
-    Math.pow(coordinateA[1] - coordinateB[1], 2)
+    (coordinateA[0] - coordinateB[0]) ** 2 +
+    (coordinateA[1] - coordinateB[1]) ** 2
   )
 }
 

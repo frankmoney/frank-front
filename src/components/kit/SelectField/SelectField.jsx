@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import Select from 'components/kit/Select'
 import Field from 'components/kit/fields/Field'
