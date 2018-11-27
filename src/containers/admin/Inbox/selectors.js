@@ -1,15 +1,19 @@
 import { queryParamSelector } from '@frankmoney/webapp'
+import { createPlainObjectSelector } from '@frankmoney/utils'
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { parseDate } from 'utils/dates'
 import { parseQueryStringBool, parseQueryStringNumber } from 'utils/querystring'
+import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
 const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
 
 export const loading = get('loading')
+export const loaded = get('loaded')
+export const listReloading = get('updatingList')
 
-export const currentFiltersSelector = createSelector(
+export const currentFilters = createSelector(
   queryParamSelector('amountMin'),
   queryParamSelector('amountMax'),
   queryParamSelector('dateMin'),
@@ -24,7 +28,7 @@ export const currentFiltersSelector = createSelector(
   })
 )
 
-export const currentFiltersCountSelector = createSelector(
+export const currentFiltersCount = createSelector(
   queryParamSelector('amountMin'),
   queryParamSelector('amountMax'),
   queryParamSelector('dateMin'),
@@ -37,3 +41,17 @@ export const currentFiltersCountSelector = createSelector(
     )
   )
 )
+
+export const categories = createPlainObjectSelector(get('categories'))
+export const payments = createPlainObjectSelector(get('payments'))
+
+// PAGINATION
+export const paymentsCount = get('paymentsCount')
+export const currentPage = createSelector(
+  queryParamSelector('page'),
+  page => parseQueryStringNumber(page) || 1
+)
+export const totalPages = createSelector(paymentsCount, count =>
+  Math.ceil(count / PAGE_SIZE)
+)
+export const noResults = createSelector(paymentsCount, x => x === 0)

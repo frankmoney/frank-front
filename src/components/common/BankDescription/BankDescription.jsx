@@ -37,15 +37,15 @@ type Props = {|
   //
   description: string,
   logoUrl?: string,
-  name: string,
+  name?: string,
 |}
 
 const BankDescription = ({
   classes,
   className,
-  name,
   description,
   logoUrl,
+  name,
 }: Props) => (
   <div className={cx(classes.root, className)}>
     {logoUrl && <BankLogo className={classes.icon} src={logoUrl} />}

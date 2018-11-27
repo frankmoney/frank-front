@@ -3,7 +3,7 @@ import reconnect from 'utils/reconnect'
 import PageFilter from 'components/PageFilter'
 import FilterDrawer from 'containers/admin/Filters/FiltersDrawer'
 import ACTIONS from './actions'
-import { currentFiltersCountSelector } from './selectors'
+import * as SELECTORS from './selectors'
 
 const LedgerFilter = ({ filtersCount, openDrawer }) => (
   <>
@@ -14,7 +14,7 @@ const LedgerFilter = ({ filtersCount, openDrawer }) => (
 
 export default reconnect(
   {
-    filtersCount: currentFiltersCountSelector,
+    filtersCount: SELECTORS.currentFiltersCount,
   },
   {
     openDrawer: ACTIONS.filtersOpen,

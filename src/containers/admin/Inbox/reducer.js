@@ -11,10 +11,11 @@ const defaultState = fromJS({
 
 export default handleActions(
   {
-    // [ACTIONS.load]: state => state.merge({ loading: true }),
+    [ACTIONS.load]: (state, { payload: { updateListOnly } }) =>
+      state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
     [ACTIONS.load.success]: (
       state,
-      { payload: { payments, categories, totalCount, pieChart, barChart } }
+      { payload: { payments, categories, totalCount } }
     ) =>
       state.merge({
         loading: false,
@@ -23,8 +24,6 @@ export default handleActions(
         updatingList: false,
         categories: categories ? fromJS(categories) : state.get('categories'),
         payments: fromJS(payments),
-        barsData: fromJS(barChart || []),
-        pieData: fromJS(pieChart || []),
         paymentsCount: totalCount,
       }),
     [ACTIONS.load.error]: state =>

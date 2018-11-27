@@ -1,3 +1,4 @@
+import { mergeQuery } from '@frankmoney/webapp'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import { formatDate } from 'utils/dates'
 import * as SELECTORS from './selectors'
@@ -72,3 +73,17 @@ export const loadRequest = (action$, store, { graphql }) =>
 
 export const closeOnApply = action$ =>
   action$.ofType(ACTIONS.apply).map(ACTIONS.close)
+
+export const clearUrlParamsOnReset = action$ =>
+  action$.ofType(ACTIONS.reset).mergeMap(() => [
+    mergeQuery({
+      amountMin: null,
+      amountMax: null,
+      dateMin: null,
+      dateMax: null,
+      verified: null,
+      pending: null,
+      page: null,
+    }),
+    ACTIONS.close(),
+  ])

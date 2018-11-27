@@ -1,11 +1,13 @@
+// @flow strict-local
 import React from 'react'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
-import { injectStyles } from 'utils/styles'
-import reconnect from 'utils/reconnect'
 import Breadcrumbs from 'components/Breadcrumbs'
 import AreaSpinner from 'components/AreaSpinner/AreaSpinner'
+import reconnect from 'utils/reconnect'
+import { injectStyles } from 'utils/styles'
 import InboxFilter from './InboxFilter'
+import InboxList from './InboxList'
 import * as SELECTORS from './selectors'
 import ACTIONS from './actions'
 
@@ -35,7 +37,9 @@ const Inbox = ({ classes }) => (
       </Breadcrumbs>
       <InboxFilter />
     </FixedHeader>
-    <div className={classes.container} />
+    <div className={classes.container}>
+      <InboxList />
+    </div>
   </div>
 )
 
@@ -43,6 +47,8 @@ export default compose(
   reconnect(
     {
       loading: SELECTORS.loading,
+      listReloading: SELECTORS.listReloading,
+      noResults: SELECTORS.noResults,
     },
     {
       load: ACTIONS.load,
@@ -52,7 +58,7 @@ export default compose(
   lifecycle({
     componentWillMount() {
       if (!this.props.loaded) {
-        this.props.load()
+        this.props.load({})
       }
     },
     componentWillUnmount() {

@@ -1,1 +1,2 @@
-export default from './Inbox'
+// @flow strict-local
+export { default } from './Inbox'
