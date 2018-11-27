@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import { compose, withPropsOnChange } from 'recompose'
+import { compose, withHandlers } from 'recompose'
 import ListLayoutContentBlock from 'components/ListLayoutContentBlock'
 import { BigButton } from 'components/kit/Button'
 import reconnect from 'utils/reconnect'
@@ -16,10 +16,10 @@ export default compose(
   reconnect(null, {
     openInviteDrawer: ACTIONS.openInviteDrawer,
   }),
-  withPropsOnChange(['openInviteDrawer'], ({ openInviteDrawer }) => ({
-    handleClick: event => {
+  withHandlers({
+    handleClick: ({ openInviteDrawer }) => event => {
       event.preventDefault()
       openInviteDrawer()
     },
-  }))
+  })
 )(InviteButton)
