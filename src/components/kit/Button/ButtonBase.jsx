@@ -8,11 +8,16 @@ export type ButtonBaseProps = {|
   href?: string,
 |}
 
+type Style = {|
+  width?: number,
+|}
+
 type Props = {|
   ...ButtonBaseProps,
   //
   children?: React.Node,
   className?: string,
+  style?: Style,
 |}
 
 const ButtonBase = ({ children, style, width, ...otherProps }: Props) => {

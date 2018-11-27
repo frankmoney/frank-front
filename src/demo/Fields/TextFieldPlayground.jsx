@@ -1,3 +1,4 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
@@ -75,12 +76,12 @@ const TextFieldPlayground = ({
       <TextField
         larger={larger}
         className={classes.field}
-        label={!floatingLabel && 'Name'}
+        label={floatingLabel ? undefined : 'Name'}
         additionalLabel={additionalLabel && 'Should be fancy'}
-        floatingLabel={floatingLabel && 'Name'}
-        placeholder={placeholder && 'Frank Sinatra'}
+        floatingLabel={floatingLabel ? 'Name' : undefined}
+        placeholder={placeholder ? 'Frank Sinatra' : undefined}
         focus={focus}
-        error={error && 'Error'}
+        error={error ? 'Error' : undefined}
         invalid={error}
         disabled={disabled}
         loading={loading}
@@ -95,7 +96,11 @@ const TextFieldPlayground = ({
       />
       <div className={classes.options}>
         <div className={classes.col}>
-          <Opt label="Focus" on={focus} onToggle={!disabled && toggleFocus} />
+          <Opt
+            label="Focus"
+            on={focus}
+            onToggle={disabled ? undefined : toggleFocus}
+          />
           <Opt label="Error" on={error} onToggle={toggleError} />
           <Opt label="Disabled" on={disabled} onToggle={toggleDisabled} />
           <Opt label="Loading" on={loading} onToggle={toggleLoading} />
