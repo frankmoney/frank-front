@@ -90,8 +90,8 @@ export default {
           
         ${(includeBars &&
           `ledgerBarChart(
-            postedOnFrom: $dateMin
-            postedOnTo: $dateMax
+            postedOnMin: $dateMin
+            postedOnMax: $dateMax
           ) {
             barSize
             bars {
