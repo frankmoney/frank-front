@@ -7,7 +7,6 @@ import Popup, {
   type PopupPosition,
 } from 'components/kit/PopupBase'
 import Modal from 'components/kit/Modal'
-import createPortalInBody from 'utils/dom/createPortal'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
@@ -15,8 +14,6 @@ const styles = {
     padding: 29,
   },
 }
-
-const Portal = ({ children }) => createPortalInBody(children)
 
 const REVERSE_DIRECTION: { [PopupPosition]: PopupPosition } = {
   up: 'down',
@@ -41,14 +38,21 @@ type Props = {|
 
 const ArrowPopup = ({
   align = 'center',
-  button: AnchorButton,
+  place = 'down',
+  button: anchorButton,
   children,
   classes,
   className,
-  place,
 }: Props) => (
   <Popup place={place} align={align} distance={15}>
-    {({ open, toggle, toggleClose, getAnchorProps, getPopupProps }) => {
+    {({
+      open,
+      toggle,
+      place: actualPlace,
+      toggleClose,
+      getAnchorProps,
+      getPopupProps,
+    }) => {
       const content =
         typeof children === 'function'
           ? children({ closePopup: toggleClose })
@@ -56,7 +60,7 @@ const ArrowPopup = ({
 
       return (
         <>
-          {React.cloneElement(AnchorButton, {
+          {React.cloneElement(anchorButton, {
             on: open,
             onClick: toggle,
             ...getAnchorProps(),
@@ -70,7 +74,7 @@ const ArrowPopup = ({
             <ArrowPaper
               {...getPopupProps()}
               className={cx(classes.paper, className)}
-              direction={REVERSE_DIRECTION[place]}
+              direction={REVERSE_DIRECTION[actualPlace]}
               align={align}
             >
               {content}

@@ -45,10 +45,6 @@ export default theme => ({
   },
   changePasswordPopup: {
     width: 350,
-    padding: 30,
-    background: '#fff',
-    boxShadow: '0 5px 10px 0 rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.1)',
-    borderRadius: 8,
   },
   changePasswordPopupField: {
     paddingBottom: 30,
