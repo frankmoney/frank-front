@@ -1,8 +1,9 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { ArrowDropDown } from 'material-ui-icons'
 import Placeholder from 'components/kit/fields/Placeholder'
+import { injectStyles } from 'utils/styles'
 
 const styles = {
   root: {
@@ -43,7 +44,9 @@ const styles = {
   },
 }
 
-class SelectFieldControl extends React.Component {
+type Props = Object
+
+class SelectFieldControl extends React.Component<Props> {
   render() {
     const {
       classes,
