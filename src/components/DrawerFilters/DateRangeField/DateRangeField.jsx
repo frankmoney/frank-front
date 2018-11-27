@@ -48,17 +48,19 @@ const DateRangeField = ({
 }: Props) => {
   const currentYear = D.startOfYear(now)
   const prevYear = D.startOfYear(D.subYears(now, 1))
+  const prevYearEnd = D.endOfYear(prevYear)
   const last12Months = D.startOfMonth(D.subMonths(now, 11))
   const last3Months = D.startOfMonth(D.subMonths(now, 2))
   const currentMonth = D.startOfMonth(now)
   const prevMonth = D.startOfMonth(D.subMonths(now, 1))
+  const prevMonthEnd = D.endOfMonth(prevMonth)
 
   const formatFilterValue = (value: DateRangeFilterValue): DateRangeValue => {
     switch (value) {
       case DATE_FILTER.currentYear:
         return { from: currentYear }
       case DATE_FILTER.prevYear:
-        return { from: prevYear, to: currentYear }
+        return { from: prevYear, to: prevYearEnd }
       case DATE_FILTER.last12Months:
         return { from: last12Months }
       case DATE_FILTER.last3Months:
@@ -66,7 +68,7 @@ const DateRangeField = ({
       case DATE_FILTER.currentMonth:
         return { from: currentMonth }
       case DATE_FILTER.prevMonth:
-        return { from: prevMonth, to: currentMonth }
+        return { from: prevMonth, to: prevMonthEnd }
       case DATE_FILTER.custom:
         return { from: from ? D.addHours(from, 1) : now, to }
       default:
