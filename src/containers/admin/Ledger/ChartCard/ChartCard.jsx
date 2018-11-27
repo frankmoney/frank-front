@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import CategoryListPieChart from 'components/CategoryListPieChart'
@@ -22,11 +22,13 @@ class ChartCard extends React.PureComponent<Props, State> {
 
   render() {
     const {
+      barsAreClickable,
       barsData,
       barsOnly,
       categoryType,
       classes,
       className,
+      onBarsZoomIn,
       onCategoryClick,
       onCategoryTypeChange,
       period,
@@ -35,6 +37,8 @@ class ChartCard extends React.PureComponent<Props, State> {
 
     const { expanded } = this.state
     const categories = pieData[categoryType]
+    const handleBarsZoomIn = barsAreClickable ? onBarsZoomIn : null
+
     return (
       <Paper
         className={cx(
@@ -63,7 +67,11 @@ class ChartCard extends React.PureComponent<Props, State> {
               onToggle={this.handleToggleExpand}
               title="Timeline"
             >
-              <BarChart className={classes.barChart} data={barsData} />
+              <BarChart
+                className={classes.barChart}
+                data={barsData}
+                onZoomIn={handleBarsZoomIn}
+              />
             </ExpandRow>
           </>
         )}

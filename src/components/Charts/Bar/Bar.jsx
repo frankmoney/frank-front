@@ -1,6 +1,6 @@
 // @flow strict-local
-import * as R from 'ramda'
 import React from 'react'
+import * as R from 'ramda'
 import cx from 'classnames'
 import {
   Bar,
@@ -9,11 +9,12 @@ import {
   Tooltip as ReTooltip,
   XAxis,
 } from 'recharts'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles } from 'utils/styles'
+import type { FormattedBarLabels } from 'data/models/barData'
+import AxisLabel from './AxisLabel'
 import Grid from './Grid'
-import Tick from './Tick'
 import Tooltip from './Tooltip'
-import { epsilon, type TooltipLineFormatter } from './TooltipLine'
+import { EPSILON, type TooltipLineFormatter } from './TooltipLine'
 import type { Props } from './Bar.flow'
 
 const BAR_CORNER_RADIUS = 3
@@ -35,107 +36,133 @@ const styles = {
   chart: {
     margin: '0 auto',
   },
+  clickableBar: {
+    cursor: 'pointer',
+  },
   positiveBars: {
     transform: `translateY(-${BASE_LINE_OFFSET}px)`,
   },
 }
 
-const negateWithEpsilon = x => (x === 0 ? -epsilon : -x)
-const fixNegative = R.over(R.lensProp('negativeValue'), negateWithEpsilon)
+const negateWithEpsilon = x => (x === 0 ? -EPSILON : -x)
+const fixNegative = R.over(R.lensProp(NEGATIVE_VALUE_PROP), negateWithEpsilon)
 
 const tooltipLineFormatter: TooltipLineFormatter = payload =>
   payload.dataKey === NEGATIVE_VALUE_PROP ? 'Spending' : 'Income'
 
-const BarChart = ({
-  barColor,
-  classes,
-  className,
-  data,
-  dual,
-  footerPadding,
-  height,
-  hideBaseLine,
-  labelKey,
-  positiveBarColor,
-  showBars,
-  width,
-}: Props) => {
-  const signedData = dual ? R.map(fixNegative, data) : data
-  const barCount = R.length(data)
-  const barWidth = (width - 2 * PADDING) / (2 * barCount - 1)
-  // const w = barWidth * (2 * barCount)
-  const w = width // ^^ There was a reason for that, but it seems just width is working for now
-  const footerHeight = footerPadding + FOOTER_TEXT_HEIGHT
-  return (
-    <div className={cx(classes.root, className)} style={{ width, height }}>
-      <Grid
-        dual={dual}
-        width={width}
-        steps={dual ? 2 : 4}
-        height={height - footerHeight}
-        hideBaseLine={hideBaseLine}
-      />
-      <Chart
-        className={classes.chart}
-        stackOffset={dual ? 'sign' : 'none'}
-        data={signedData}
-        width={w}
-        height={height}
-        margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
-        barSize={barWidth}
-      >
-        <XAxis
-          axisLine={false}
-          dataKey={labelKey}
-          height={footerHeight + BASE_LINE_OFFSET}
-          interval={0}
-          minTickGap={0}
-          padding={{ left: 0, right: 0 }}
-          tick={<Tick />}
-          tickLine={false}
-          tickMargin={footerPadding + BASE_LINE_OFFSET}
-          tickSize={4}
+class BarChart extends React.PureComponent<Props> {
+  static defaultProps = {
+    barColor: PRIMARY_BAR_COLOR,
+    footerPadding: FOOTER_PADDING,
+    height: HEIGHT,
+    labelKey: 'name',
+    positiveBarColor: POSITIVE_BAR_COLOR,
+    showBars: true,
+    width: 790,
+  }
+
+  handleBarClick = ({ date }) => {
+    const onZoomIn = this.props.onZoomIn
+    if (typeof onZoomIn === 'function') {
+      const barLabels: FormattedBarLabels = JSON.parse(date)
+      onZoomIn({
+        dateFrom: barLabels.startDate,
+        dateTo: barLabels.endDate,
+      })
+    }
+  }
+
+  render() {
+    const {
+      barColor,
+      classes,
+      className,
+      data,
+      dual,
+      footerPadding,
+      height,
+      hideBaseLine,
+      labelKey,
+      onZoomIn,
+      positiveBarColor,
+      showBars,
+      width,
+    } = this.props
+    const signedData = dual ? R.map(fixNegative, data) : data
+    const barCount = R.length(data)
+    const barWidth = (width - 2 * PADDING) / (2 * barCount - 1)
+    // const w = barWidth * (2 * barCount)
+    const w = width // ^^ There was a reason for that, but it seems just width is working for now
+    const footerHeight = footerPadding + FOOTER_TEXT_HEIGHT
+    const clickable = typeof onZoomIn === 'function'
+
+    return (
+      <div className={cx(classes.root, className)} style={{ width, height }}>
+        <Grid
+          dual={dual}
+          width={width}
+          steps={dual ? 2 : 4}
+          height={height - footerHeight}
+          hideBaseLine={hideBaseLine}
         />
-        <ReTooltip
-          content={<Tooltip lineFormatter={tooltipLineFormatter} />}
-          isAnimationActive={false}
-          cursor={false}
-        />
-        {showBars && (
-          <Bar
-            className={cx({ [classes.positiveBars]: dual })}
-            dataKey={DEFAULT_VALUE_PROP}
-            fill={dual ? positiveBarColor : barColor}
-            minPointSize={5}
-            shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
-            stackId="posNeg"
-            type="monotone"
+        <Chart
+          className={classes.chart}
+          stackOffset={dual ? 'sign' : 'none'}
+          data={signedData}
+          width={w}
+          height={height}
+          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+          barSize={barWidth}
+        >
+          <XAxis
+            axisLine={false}
+            dataKey={labelKey}
+            height={footerHeight + BASE_LINE_OFFSET}
+            interval={0}
+            minTickGap={0}
+            padding={{ left: 0, right: 0 }}
+            tick={<AxisLabel />}
+            tickLine={false}
+            tickMargin={footerPadding + BASE_LINE_OFFSET}
+            tickSize={4}
           />
-        )}
-        {showBars &&
-          dual && (
+          <ReTooltip
+            content={<Tooltip lineFormatter={tooltipLineFormatter} />}
+            isAnimationActive={false}
+            cursor={false}
+          />
+          {showBars && (
             <Bar
-              dataKey={NEGATIVE_VALUE_PROP}
-              fill={barColor}
+              className={cx({
+                [classes.clickableBar]: clickable,
+                [classes.positiveBars]: dual,
+              })}
+              dataKey={DEFAULT_VALUE_PROP}
+              fill={dual ? positiveBarColor : barColor}
               minPointSize={5}
               shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
               stackId="posNeg"
               type="monotone"
+              onClick={this.handleBarClick}
             />
           )}
-      </Chart>
-    </div>
-  )
-}
-
-BarChart.defaultProps = {
-  barColor: PRIMARY_BAR_COLOR,
-  height: HEIGHT,
-  footerPadding: FOOTER_PADDING,
-  labelKey: 'name',
-  positiveBarColor: POSITIVE_BAR_COLOR,
-  showBars: true,
-  width: 790,
+          {showBars &&
+            dual && (
+              <Bar
+                className={cx({ [classes.clickableBar]: clickable })}
+                dataKey={NEGATIVE_VALUE_PROP}
+                fill={barColor}
+                minPointSize={5}
+                shape={<Rectangle radius={BAR_CORNER_RADIUS} />}
+                stackId="posNeg"
+                type="monotone"
+                onClick={this.handleBarClick}
+              />
+            )}
+        </Chart>
+      </div>
+    )
+  }
 }
 
 export default injectStyles(styles)(BarChart)

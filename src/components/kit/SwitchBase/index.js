@@ -1,3 +1,3 @@
 // @flow
 export { default } from './SwitchBase'
-export type { OnChangeCb, SwitchBaseChildrenProps } from './SwitchBase'
+export type { OnChangeCb, SwitchBaseRenderProps } from './SwitchBase'

@@ -5,6 +5,7 @@ import Bar, {
   POSITIVE_BAR_COLOR,
   PRIMARY_BAR_COLOR,
   type BarData,
+  type BarZoomInCb,
 } from 'components/Charts/Bar'
 import Checkbox from 'components/kit/Checkbox'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -26,6 +27,7 @@ type Props = {|
   ...InjectStylesProps,
   //
   data?: BarData,
+  onZoomIn?: BarZoomInCb,
 |}
 
 type State = {|
@@ -74,7 +76,7 @@ class BarChart extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { classes, className, data } = this.props
+    const { classes, className, data, onZoomIn } = this.props
     const { income, spending } = this.state
 
     const hide = !(income || spending)
@@ -104,6 +106,7 @@ class BarChart extends React.PureComponent<Props, State> {
           data={trimmedData}
           dual={income && spending}
           labelKey="date"
+          onZoomIn={onZoomIn}
           showBars={!hide}
         />
       </div>

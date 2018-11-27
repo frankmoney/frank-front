@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 import { mapPayment } from 'data/models/payment'
+import { formatDate } from 'utils/dates'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import * as ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
@@ -39,6 +40,7 @@ export default (action$, store, { graphql }) =>
           payments: true,
           totalCount: true,
           barChart: needLoadCharts,
+          barChartBarSize: needLoadCharts,
           pieChart: needLoadCharts,
           categories: !categoriesLoaded,
         }),
@@ -50,8 +52,8 @@ export default (action$, store, { graphql }) =>
           search,
           amountMin,
           amountMax,
-          dateMin,
-          dateMax,
+          dateMin: dateMin && formatDate(dateMin),
+          dateMax: dateMax && formatDate(dateMax),
           verified,
         }
       )

@@ -22,23 +22,26 @@ type DateLimit = {|
   to: DateString,
 |}
 
-type Props = {|
-  // filters data
-  sumLimit?: SumLimit,
+type Filters = {|
   dateLimit?: DateLimit,
-  verified: boolean,
-  pending: boolean,
+  pending?: ?boolean,
+  sumLimit?: SumLimit,
+  verified?: ?boolean,
+|}
+
+type Props = {|
+  ...Filters,
   //
   disablePendingFilter?: boolean,
   disableVerifiedFilter?: boolean,
   //
-  loaded: boolean,
   estimating?: boolean,
+  loaded: boolean,
   totalCount?: number,
   // callbacks
-  onReset: Function,
-  onChange: Function,
   onApply: Function,
+  onChange: Function,
+  onReset: Function,
 |}
 
 class PaymentsFilterDrawer extends React.Component<Props> {
@@ -47,35 +50,36 @@ class PaymentsFilterDrawer extends React.Component<Props> {
     disableVerifiedFilter: false,
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get allFilters() {
     const { sumLimit, dateLimit, verified, pending } = this.props
     return { sumLimit, dateLimit, verified, pending }
   }
 
-  mergeFilters = data => {
+  mergeFilters = (data: Filters) => {
     this.props.onChange({
       ...this.allFilters,
       ...data,
     })
   }
 
-  handleChangeDateRange = value => {
+  handleChangeDateRange = (value: DateLimit) => {
     this.mergeFilters({ dateLimit: value })
   }
 
-  handleChangeSum = ({ min, max }) => {
+  handleChangeSum = ({ min, max }: SumLimit) => {
     this.mergeFilters({
       sumLimit: { min, max },
     })
   }
 
-  handleChangeVerification = value => {
+  handleChangeVerification = (value: ?boolean) => {
     this.mergeFilters({
       verified: value,
     })
   }
 
-  handleChangePending = value => {
+  handleChangePending = (value: ?boolean) => {
     this.mergeFilters({
       pending: value,
     })

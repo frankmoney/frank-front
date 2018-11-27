@@ -8,10 +8,10 @@ type Props = {|
   onChange: (?boolean) => void,
 |}
 
-const VerificationField = ({ value, onChange }: Props) => (
+const PendingField = ({ value, onChange }: Props) => (
   <Drawer.Field label="Show">
     <Switch label="Pending payments" value={!!value} onChange={onChange} />
   </Drawer.Field>
 )
 
-export default VerificationField
+export default PendingField
