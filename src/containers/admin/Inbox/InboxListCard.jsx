@@ -1,3 +1,4 @@
+// @flow
 import { compose, mapProps, withHandlers } from 'recompose'
 import PaymentCard from 'components/admin/PaymentCard'
 import reconnect from 'utils/reconnect'

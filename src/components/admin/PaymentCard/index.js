@@ -1,1 +1,2 @@
-export default from './PaymentCard'
+// @flow
+export { default } from './PaymentCard'

@@ -1,14 +1,13 @@
+// @flow strict-local
 import React from 'react'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
-import { injectStyles } from 'utils/styles'
-import reconnect from 'utils/reconnect'
 import Breadcrumbs from 'components/Breadcrumbs'
 import AreaSpinner from 'components/AreaSpinner/AreaSpinner'
-import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
+import reconnect from 'utils/reconnect'
+import { injectStyles } from 'utils/styles'
 import InboxFilter from './InboxFilter'
 import InboxList from './InboxList'
-import InboxPager from './InboxPager'
 import * as SELECTORS from './selectors'
 import ACTIONS from './actions'
 
@@ -30,7 +29,7 @@ const styles = {
   },
 }
 
-const Inbox = ({ classes, noResults, listReloading }) => (
+const Inbox = ({ classes }) => (
   <div className={classes.root}>
     <FixedHeader className={classes.header}>
       <Breadcrumbs>
