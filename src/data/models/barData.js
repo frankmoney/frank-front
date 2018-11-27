@@ -55,7 +55,7 @@ const formatBarAxisLabel = (
 ): string => {
   let formatter = 'DD' // barsUnit == 'day'
   if (barsUnit === 'week') {
-    formatter = prev && !isSameMonth(date, prev) ? 'MMM' : ''
+    formatter = !prev || (prev && !isSameMonth(date, prev)) ? 'MMM' : ''
   } else if (barsUnit === 'month') {
     formatter = prev && !isSameYear(date, prev) ? 'MMM YYYY' : 'MMM'
   } else if (barsUnit === 'quarter') {

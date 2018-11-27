@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import Drawer from 'components/kit/Drawer'
 import Button from 'components/kit/Button'
@@ -8,22 +8,16 @@ import {
   AmountField,
   VerificationField,
   PendingField,
+  type DateRangeValue,
 } from 'components/DrawerFilters'
-
-type DateString = Date | string
 
 type SumLimit = {|
   min: number,
   max: number,
 |}
 
-type DateLimit = {|
-  from: DateString,
-  to: DateString,
-|}
-
 type Filters = {|
-  dateLimit?: DateLimit,
+  dateLimit?: DateRangeValue,
   pending?: ?boolean,
   sumLimit?: SumLimit,
   verified?: ?boolean,
@@ -39,9 +33,9 @@ type Props = {|
   loaded: boolean,
   totalCount?: number,
   // callbacks
-  onApply: Function,
-  onChange: Function,
-  onReset: Function,
+  onApply: Filters => void,
+  onChange: Filters => void,
+  onReset: MouseEvent => void,
 |}
 
 class PaymentsFilterDrawer extends React.Component<Props> {
@@ -51,7 +45,7 @@ class PaymentsFilterDrawer extends React.Component<Props> {
   }
 
   // flowlint-next-line unsafe-getters-setters:off
-  get allFilters() {
+  get allFilters(): Filters {
     const { sumLimit, dateLimit, verified, pending } = this.props
     return { sumLimit, dateLimit, verified, pending }
   }
@@ -63,7 +57,7 @@ class PaymentsFilterDrawer extends React.Component<Props> {
     })
   }
 
-  handleChangeDateRange = (value: DateLimit) => {
+  handleChangeDateRange = (value: DateRangeValue) => {
     this.mergeFilters({ dateLimit: value })
   }
 

@@ -1,3 +1,4 @@
+// @flow strict-local
 import React from 'react'
 import reconnect from 'utils/reconnect'
 import PageFilter from 'components/PageFilter'

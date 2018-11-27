@@ -1,1 +1,2 @@
-export default from './CategoryMenuItem'
+// @flow strict-local
+export { default } from './CategoryMenuItem'

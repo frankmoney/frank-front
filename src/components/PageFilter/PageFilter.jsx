@@ -1,6 +1,7 @@
-import { Tune as IconFilter } from 'material-ui-icons'
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
+import IconFilter from 'material-ui-icons/Tune'
 import Counter from 'components/kit/Counter'
 import { injectStyles } from 'utils/styles'
 

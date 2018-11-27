@@ -46,10 +46,10 @@ export default (action$, store, { graphql }) =>
         }),
         {
           accountId: currentAccountId,
-          categoryId: categoryId || undefined,
+          categoryId: categoryId || null,
           first: PAGE_SIZE,
           skip: (page - 1) * PAGE_SIZE,
-          search,
+          search: search || null,
           amountMin,
           amountMax,
           dateMin: dateMin && formatDate(dateMin),
