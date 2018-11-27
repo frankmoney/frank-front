@@ -1,35 +1,51 @@
 // @flow strict-local
 import * as React from 'react'
 import memoize from 'lodash/memoize'
-import { Calendar, DateFnsUtils } from '@frankmoney/datepicker'
 import { format as formatDate } from 'date-fns'
+import { Calendar, DateFnsUtils } from '@frankmoney/datepicker'
+import Field from 'components/kit/fields/Field'
 import Modal from 'components/kit/Modal'
 import Paper from 'components/kit/Paper'
 import PopupBase, {
   type PopupAlign,
   type PopupPosition,
+  type PopupRenderProps,
 } from 'components/kit/PopupBase'
-import chainCallbacks from 'utils/dom/chainCallbacks'
 import SelectFieldControl from 'components/kit/SelectField/SelectFieldControl'
-import Field from '../fields/Field'
+import chainCallbacks from 'utils/dom/chainCallbacks'
+
+export type DateString = Date | string // TODO: can it really be a string
 
 type Direction = PopupPosition
 
-type Value = any // flowlint-line unclear-type:warn
+type Value = DateString
 
 type OmittedProps = {|
+  children?: React.Node,
+  formatValue?: Function, // flowlint-line unclear-type:warn
   onClose?: Function, // flowlint-line unclear-type:warn
+  renderControl?: any, // flowlint-line unclear-type:warn
+|}
+
+type CalendarProps = {|
+  style?: Object, // flowlint-line unclear-type:warn
 |}
 
 export type Props = {|
   ...OmittedProps,
   //
   align: PopupAlign,
-  direction: Direction,
+  autoFocus?: boolean,
+  calendarProps?: CalendarProps,
+  className?: string,
   defaultFocused?: boolean,
   defaultOpen?: boolean,
   defaultValue?: Value,
-  autoFocus?: boolean,
+  direction: Direction,
+  format: string,
+  onChange?: Value => void,
+  placeholder?: string,
+  value?: Value,
 |}
 
 type State = {|
@@ -62,15 +78,16 @@ class DateSelect extends React.Component<Props, State> {
     }
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isControlledValue() {
     return typeof this.props.value !== 'undefined'
   }
 
-  getValue(state: State = this.state) {
+  getValue(state: State = this.state): ?Value {
     return this.isControlledValue ? this.props.value : state.value
   }
 
-  formatValue = value =>
+  formatValue = (value: ?Value) =>
     value ? formatDate(value, this.props.format, new Date()) : ''
 
   handleInputRef = memoizeRefCallback(ref => {
@@ -89,13 +106,13 @@ class DateSelect extends React.Component<Props, State> {
     this.setState({ focused: false })
   }
 
-  handleKeyDown = event => {
+  handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
       this.handleTogglePopup(true)
     }
   }
 
-  handleChange = value => {
+  handleChange = (value: Value) => {
     if (!this.isControlledValue) {
       this.setState(
         {
@@ -123,13 +140,14 @@ class DateSelect extends React.Component<Props, State> {
 
   render() {
     const {
-      direction,
       align,
+      calendarProps = {},
+      direction,
+      // omit
       children,
       formatValue,
-      calendarProps = {},
-      renderControl,
       onClose,
+      renderControl,
       ...otherProps
     } = this.props
 
@@ -144,7 +162,7 @@ class DateSelect extends React.Component<Props, State> {
         align={align}
         distance={8}
       >
-        {popupState => {
+        {(popupState: PopupRenderProps) => {
           const { open, close, getPopupProps, getAnchorProps } = popupState
 
           return (

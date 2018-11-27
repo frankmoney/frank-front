@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
 import cx from 'classnames'
 import { CheckCircle } from 'material-ui-icons'
@@ -6,16 +6,24 @@ import Color from 'color-js'
 import SelectListBase from 'components/kit/SelectListBase'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
+export type MenuRenderIconProps = {|
+  active?: boolean,
+  color?: string,
+  selected?: boolean,
+|}
+
 export type MenuItemProps = {|
   active?: boolean,
   color?: string,
-  icon?: React.Element<any>,
+  icon?: React.Element<any>, // flowlint-line unclear-type:off
   label: string,
   noAnimation?: boolean,
   onSelect?: () => void,
   renderCheck?: boolean,
-  renderIcon?: any => React.Node,
+  renderIcon?: MenuRenderIconProps => React.Node,
   selected?: boolean,
+  // Probably should be in the separate SelectItem or something like that
+  value?: any, // flowlint-line unclear-type:off
 |}
 
 type Props = {|

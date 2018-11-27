@@ -1,8 +1,11 @@
+// @flow strict-local
 import React from 'react'
 import { withProps } from 'recompose'
-import MenuItem from 'components/kit/Menu/MenuItem'
+import MenuItem, {
+  type MenuRenderIconProps,
+} from 'components/kit/Menu/MenuItem'
 
-const renderCategoryIcon = ({ color }) => (
+const renderCategoryIcon = ({ color }: MenuRenderIconProps) => (
   <div
     style={{
       borderRadius: '50%',
