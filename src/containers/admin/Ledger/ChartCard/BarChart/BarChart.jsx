@@ -10,7 +10,7 @@ import Bar, {
 import Checkbox from 'components/kit/Checkbox'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-const MAX_ZEROES_TO_HIDE = 0.6
+const MAX_ZEROES_TO_HIDE = 1
 
 const styles = {
   chart: {},
