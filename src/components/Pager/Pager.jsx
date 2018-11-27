@@ -1,4 +1,6 @@
+// @flow strict-local
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable react/no-array-index-key */
 import React from 'react'
 import cx from 'classnames'
 import PropTypes from 'prop-types'
@@ -9,7 +11,14 @@ import {
   ChevronLeft as IconLeft,
   ChevronRight as IconRight,
 } from 'material-ui-icons'
-import { compose, withHandlers, setPropTypes, defaultProps } from 'recompose'
+import {
+  compose,
+  withHandlers,
+  setPropTypes,
+  defaultProps,
+  branch,
+  renderNothing,
+} from 'recompose'
 import { addMonths, subMonths } from 'date-fns'
 import { DOTS, getPages, getMonthPages, formatMonthSequence } from './utils'
 import styles from './Pager.jss'
@@ -154,6 +163,7 @@ export default compose(
     onPageSelect: noop,
     start: 1,
   }),
+  branch(props => props.total <= 1, renderNothing),
   injectStyles(styles),
   withHandlers({
     handleLeftClick: props => () => {

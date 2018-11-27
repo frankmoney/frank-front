@@ -1,24 +1,25 @@
+// @flow strict-local
 import React from 'react'
-import { Avatar, Select2 } from '@frankmoney/components'
-import { injectStyles } from '@frankmoney/ui'
-import { omitProps } from '@frankmoney/utils'
+import { Avatar } from '@frankmoney/components'
 import cx from 'classnames'
 import * as R from 'ramda'
-import { compose, withPropsOnChange } from 'recompose'
-import { ORDERED_TEAM_ROLES, TEAM_ROLE_TITLES } from 'const'
+import { compose } from 'recompose'
+import { Delete as RemoveIcon } from 'material-ui-icons'
+import { injectStyles } from 'utils/styles'
 import reconnect from 'utils/reconnect'
+import { IconButton } from 'components/kit/Button'
+import TextTooltip from 'components/kit/TextTooltip'
+import Dialog from 'components/kit/Dialog'
+import DeleteMemberDialog from './DeleteMemberDialog'
 import ACTIONS from './actions'
 import styles from './Profile.jss'
-
-const deleteRoleSelectValue = '#delete'
 
 const Profile = ({
   classes,
   className,
-  profile: { email, lastName, firstName, avatar, role },
-  acl: { remove, editRole },
-  roles,
-  onMenuSelectChange,
+  profile: { email, lastName, firstName, avatar },
+  acl,
+  onRemove,
   ...otherProps
 }) => (
   <div className={cx(classes.root, className)} {...otherProps}>
@@ -32,54 +33,32 @@ const Profile = ({
       <div className={classes.name}>
         {firstName} {lastName}
       </div>
-      <div className={email}>{email}</div>
+      <div className={classes.email}>{email}</div>
     </div>
-    <div className={classes.role}>
-      <Select2
-        className={classes.menu}
-        value={role || 'observer'}
-        disabled={!remove && !editRole}
-        onChange={onMenuSelectChange}
-      >
-        {roles.map(x => (
-          <Select2.Option key={x} value={x}>
-            {TEAM_ROLE_TITLES[x]}
-          </Select2.Option>
-        ))}
-        {remove && (
-          <Select2.Option
-            key={deleteRoleSelectValue}
-            className={classes.menuDeleteUserItem}
-            value={deleteRoleSelectValue}
-          >
-            Delete user
-          </Select2.Option>
+    {acl.remove && (
+      <Dialog.State>
+        {({ open, toggle }) => (
+          <>
+            <TextTooltip text="Delete teammate" place="up" align="center">
+              <IconButton
+                className={classes.removeButton}
+                icon={<RemoveIcon />}
+                onClick={() => toggle(true)}
+              />
+            </TextTooltip>
+            <DeleteMemberDialog
+              open={open}
+              onClose={() => toggle(false)}
+              onConfirm={onRemove}
+            />
+          </>
         )}
-      </Select2>
-    </div>
+      </Dialog.State>
+    )}
   </div>
 )
 
 export default compose(
-  reconnect(null, { remove: ACTIONS.remove, updateRole: ACTIONS.updateRole }),
-  withPropsOnChange(
-    ['profile', 'remove', 'updateRole'],
-    ({ profile: { pid }, remove, updateRole }) => ({
-      onMenuSelectChange: role => {
-        if (role === deleteRoleSelectValue) {
-          remove({ pid })
-        } else {
-          updateRole({ pid, role })
-        }
-      },
-    })
-  ),
-  withPropsOnChange(
-    ['profile'],
-    ({ profile: { role }, acl: { editRole } }) => ({
-      roles: editRole ? ORDERED_TEAM_ROLES : [role],
-    })
-  ),
-  injectStyles(styles),
-  omitProps('theme', 'remove', 'updateRole')
+  reconnect(null, { onRemove: ACTIONS.remove }),
+  injectStyles(styles)
 )(Profile)

@@ -1,9 +1,15 @@
-import SendIcon from 'material-ui-icons/Send'
+// @flow strict-local
 import React from 'react'
+import { reduxForm } from 'redux-form/immutable'
+import { email as validateEmail, required } from '@frankmoney/forms'
+import SendIcon from 'material-ui-icons/Send'
 import Drawer from 'components/kit/Drawer'
-import EmailField from './EmailField'
-import NoteField from './NoteField'
-import RoleField from './RoleField'
+import ReduxFormControl from 'components/kit/ReduxFormControl'
+import TextField from 'components/kit/TextField'
+
+const validation = {
+  email: [validateEmail, required],
+}
 
 const InviteDrawer = ({
   email,
@@ -12,7 +18,7 @@ const InviteDrawer = ({
   onEmailChange,
   onNoteChange,
   onRoleChange,
-  onSubmit,
+  submit,
   invalid,
   ...props
 }) => (
@@ -28,17 +34,35 @@ const InviteDrawer = ({
       label: 'Send invitation',
       icon: <SendIcon />,
       disabled: invalid,
-      onClick: onSubmit,
+      onClick: submit,
     }}
     title="Invite a teammate"
     {...props}
   >
     <Drawer.Content>
-      <EmailField value={email} onChange={onEmailChange} />
-      <RoleField value={role} onChange={onRoleChange} />
-      <NoteField value={note} onChange={onNoteChange} />
+      <Drawer.Field label="Email">
+        <ReduxFormControl.Field
+          name="email"
+          component={TextField}
+          placeholder="example@mail.com"
+          stretch
+          validate={validation.email}
+        />
+      </Drawer.Field>
+      <Drawer.Field label="Note">
+        <ReduxFormControl.Field
+          component={TextField}
+          name="note"
+          placeholder="Please help me out with connecting our bank account to Frank"
+          multiLine
+          minLines={2}
+          stretch
+        />
+      </Drawer.Field>
     </Drawer.Content>
   </Drawer>
 )
 
-export default InviteDrawer
+export default reduxForm({
+  form: 'team-invite',
+})(InviteDrawer)

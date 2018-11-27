@@ -3,7 +3,14 @@ import * as React from 'react'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-type PaperType = 'card' | 'list' | 'modal' | 'tooltip' | 'menu' | 'drawer'
+type PaperType =
+  | 'card'
+  | 'list'
+  | 'modal'
+  | 'tooltip'
+  | 'menu'
+  | 'drawer'
+  | 'popover'
 
 export type PaperProps = {|
   type: PaperType,
@@ -44,6 +51,10 @@ const styles = {
   drawer: {
     boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.2)',
     borderRadius: 0,
+  },
+  popover: {
+    boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.15)',
+    border: '1px solid rgba(0, 0, 0, 0.1)',
   },
 }
 

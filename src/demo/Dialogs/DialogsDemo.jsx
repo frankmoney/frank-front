@@ -2,9 +2,12 @@
 import React from 'react'
 import Button from 'components/kit/Button'
 import Dialog from 'components/kit/Dialog'
+import PopoverDialog from 'components/kit/PopoverDialog'
 import ConfirmDialog from 'components/kit/Dialog/ConfirmDialog'
 import Demo, { Row } from 'demo/Demo'
 import TextBox from 'components/kit/TextBox'
+import TextField from 'components/kit/TextField'
+import ToggleButton from 'components/kit/ToggleButton'
 
 const DialogsDemo = () => (
   <Demo gray>
@@ -74,6 +77,16 @@ const DialogsDemo = () => (
         </Row>
       )}
     </Dialog.State>
+    <h2>Popover dialogs</h2>
+    <Row centered>
+      <PopoverDialog
+        width={350}
+        button={<ToggleButton label="Change password" />}
+      >
+        <TextField stretch type="password" floatingLabel="New password" />
+        <TextField stretch type="password" floatingLabel="Repeat password" />
+      </PopoverDialog>
+    </Row>
   </Demo>
 )
 

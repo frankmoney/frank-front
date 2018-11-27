@@ -9,7 +9,6 @@ const actions = createActions(ACTION_PREFIX, {
   openChangePasswordPopup: false,
   invite: true,
   remove: true,
-  updateRole: true,
   changePassword: true,
 })
 

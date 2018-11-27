@@ -39,9 +39,6 @@ const teamReducer = handleActions(
 
     [ACTIONS.invite]: state => state.set('inviteDrawerOpen', false),
 
-    [ACTIONS.updateRole]: (state, { payload: { pid, role } }) =>
-      state.setIn(['profiles', pid, 'role'], role),
-
     [ACTIONS.leave]: () => initialState,
   },
   initialState

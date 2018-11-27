@@ -7,14 +7,6 @@ export const loadEpic = (action$, store, { graphql }) =>
     .switchMap(() => graphql(QUERIES.team))
     .map(ACTIONS.load.success)
 
-export const updateRoleEpic = (action$, store, { graphql }) =>
-  action$
-    .ofType(ACTIONS.updateRole)
-    .switchMap(({ payload: { pid, role } }) =>
-      graphql(QUERIES.updateRole, { pid, role })
-    )
-    .map(ACTIONS.updateRole.success)
-
 export const changePasswordEpic = (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.changePassword)
