@@ -1,6 +1,7 @@
 // @flow strict-local
 import * as R from 'ramda'
 import type { PieData } from 'components/Charts/Pie'
+import type { Category } from 'data/models/category'
 
 export const sumProp = (propName: string) =>
   R.pipe(
@@ -22,15 +23,28 @@ const sortByValueDescend = R.sortBy(
   )
 )
 
-export type GroupedPieData = {| income: PieData, spending: PieData |}
+export type GroupedPieData = {|
+  income: PieData,
+  spending: PieData,
+|}
 
-type RemapPieDataFn = (Array<any>, number, number) => GroupedPieData
+type GraphqlPieData = {
+  category: Category,
+  revenue: number,
+  spending: number,
+}
 
-export const remapPieData: RemapPieDataFn = (
-  list,
-  totalExpenses,
-  totalIncome
-) =>
+type LocalPieData = {|
+  category: Category,
+  expenses: number,
+  income: number,
+|}
+
+export const remapPieData = (
+  list: Array<LocalPieData>,
+  totalExpenses: number,
+  totalIncome: number
+): GroupedPieData =>
   R.converge((...args) => R.zipObj(['income', 'spending'], args), [
     R.pipe(
       R.filter(({ income }) => income > 0),
@@ -51,7 +65,7 @@ export const remapPieData: RemapPieDataFn = (
   ])(list)
 
 export const convertGraphqlPieData = R.map(
-  ({ category, revenue, spending }) => ({
+  ({ category, revenue, spending }: GraphqlPieData): LocalPieData => ({
     category,
     income: revenue,
     expenses: spending,
