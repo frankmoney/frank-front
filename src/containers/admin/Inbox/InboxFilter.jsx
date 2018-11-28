@@ -7,7 +7,7 @@ import * as SELECTORS from './selectors'
 
 const LedgerFilter = ({ filtersCount, openDrawer }) => (
   <>
-    <PageFilter count={filtersCount} onClick={openDrawer} />
+    <PageFilter count={filtersCount} onClick={() => openDrawer()} />
     <FilterDrawer disableVerifiedFilter />
   </>
 )
