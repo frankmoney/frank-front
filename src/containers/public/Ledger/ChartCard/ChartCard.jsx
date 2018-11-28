@@ -16,6 +16,7 @@ import Title from './Title'
 export type Props = {|
   ...InjectStylesProps,
   //
+  barsColor?: string,
   barsData: BarData,
   barsOnly: boolean,
   categoryType: string,
@@ -40,6 +41,7 @@ class ChartCard extends React.PureComponent<Props, State> {
 
   render() {
     const {
+      barsColor,
       barsData,
       barsOnly,
       categoryType,
@@ -63,7 +65,11 @@ class ChartCard extends React.PureComponent<Props, State> {
       >
         <Title className={classes.header}>{period}</Title>
         {barsOnly ? (
-          <BarChart className={classes.barChart} data={barsData} />
+          <BarChart
+            barsColor={barsColor}
+            className={classes.barChart}
+            data={barsData}
+          />
         ) : (
           <>
             <CategoryListPieChart
@@ -81,7 +87,11 @@ class ChartCard extends React.PureComponent<Props, State> {
               onToggle={this.handleToggleExpand}
               title="Timeline"
             >
-              <BarChart className={classes.barChart} data={barsData} />
+              <BarChart
+                barsColor={barsColor}
+                className={classes.barChart}
+                data={barsData}
+              />
             </ExpandRow>
           </>
         )}

@@ -105,14 +105,15 @@ export const currentCategoryIdSelector = createSelector(
   x => x || null
 )
 
-export const currentCategoryNameSelector = createSelector(
+const currentCategorySelector = createSelector(
   categoriesSelector,
   currentCategoryIdSelector,
-  (list, id) =>
-    R.pipe(
-      R.find(R.propEq('id', id)),
-      R.prop('name')
-    )(list)
+  (categories, id) => R.find(R.propEq('id', id), categories)
+)
+
+export const currentCategoryNameSelector = createSelector(
+  currentCategorySelector,
+  R.prop('name')
 )
 
 export const currentPageSelector = createSelector(
@@ -178,6 +179,11 @@ export const barChartClickableSelector = createSelector(
     R.not,
     R.equals('day')
   )
+)
+
+export const barChartColorSelector = createSelector(
+  currentCategorySelector,
+  R.prop('color')
 )
 
 export const barChartDataSelector = createSelector(

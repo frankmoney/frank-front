@@ -26,6 +26,7 @@ const styles = {
 type Props = {|
   ...InjectStylesProps,
   //
+  barsColor?: string,
   data?: BarData,
   onZoomIn?: BarZoomInCb,
 |}
@@ -76,35 +77,39 @@ class BarChart extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { classes, className, data, onZoomIn } = this.props
+    const { barsColor, classes, className, data, onZoomIn } = this.props
     const { income, spending } = this.state
 
     const hide = !(income || spending)
     const trimmedData = !income ? makePositive(data) : data
 
     const barColor =
-      income && !spending ? POSITIVE_BAR_COLOR : PRIMARY_BAR_COLOR
+      barsColor ||
+      (income && !spending ? POSITIVE_BAR_COLOR : PRIMARY_BAR_COLOR)
+    const dual = !barsColor && income && spending
 
     return (
       <div className={className}>
-        <div className={classes.checkboxes}>
-          <Checkbox
-            color="green"
-            checked={income}
-            label="Income"
-            onChange={this.handleIncomeChange}
-          />
-          <Checkbox
-            checked={spending}
-            label="Spending"
-            onChange={this.handleSpendingChange}
-          />
-        </div>
+        {dual && (
+          <div className={classes.checkboxes}>
+            <Checkbox
+              color="green"
+              checked={income}
+              label="Income"
+              onChange={this.handleIncomeChange}
+            />
+            <Checkbox
+              checked={spending}
+              label="Spending"
+              onChange={this.handleSpendingChange}
+            />
+          </div>
+        )}
         <Bar
           barColor={barColor}
           className={classes.chart}
           data={trimmedData}
-          dual={income && spending}
+          dual={dual}
           labelKey="date"
           onZoomIn={onZoomIn}
           showBars={!hide}
