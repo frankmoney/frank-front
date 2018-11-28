@@ -1,8 +1,8 @@
 // @flow
-import React, { Fragment, cloneElement } from 'react'
-import { injectStyles } from '@frankmoney/ui'
+import * as React from 'react'
 import { Popover } from 'material-ui'
-import type { Props, State } from './OtherCategories.flow'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import type { PieChartCategory } from '../utils'
 
 const styles = {
   tooltip: {
@@ -25,6 +25,18 @@ const popoverProps = {
   getContentAnchorEl: null,
 }
 
+type Props = {|
+  ...InjectStylesProps,
+  //
+  categories: Array<PieChartCategory>,
+  children: React.Element<any>,
+  renderTooltipItem: PieChartCategory => React.Node,
+|}
+
+type State = {|
+  anchorEl: React.Node,
+|}
+
 class OtherCategories extends React.PureComponent<Props, State> {
   state = {
     anchorEl: null,
@@ -43,7 +55,7 @@ class OtherCategories extends React.PureComponent<Props, State> {
     const { anchorEl } = this.state
     const open = !!anchorEl
     return (
-      <Fragment>
+      <>
         <Popover
           open={open}
           anchorEl={anchorEl}
@@ -55,11 +67,11 @@ class OtherCategories extends React.PureComponent<Props, State> {
         >
           {categories.map(renderTooltipItem)}
         </Popover>
-        {cloneElement(children, {
+        {React.cloneElement(children, {
           onMouseEnter: this.handlePopoverOpen,
           onMouseLeave: this.handlePopoverClose,
         })}
-      </Fragment>
+      </>
     )
   }
 }

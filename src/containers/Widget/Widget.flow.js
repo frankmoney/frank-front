@@ -1,10 +1,10 @@
 // @flow
 import type {
+  CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
-} from 'components/CategoryListPieChart'
+} from 'components/OverviewPieChart'
 import type { BarData } from 'components/Charts/Bar'
-import type { CategoryCb } from 'components/CategoryList'
 import type { FooterClasses, FooterProps } from 'containers/Widget/Footer'
 import type { GroupedPieData } from 'data/models/pieData'
 

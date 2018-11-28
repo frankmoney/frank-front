@@ -2,12 +2,12 @@
 import * as React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import type { CategoryListProps, CategoryCb } from 'components/CategoryList'
 import CategoryTypeSelect from 'components/CategoryTypeSelect'
 import Pie from 'components/Charts/Pie'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import limitCategories, { type Categories } from './utils'
-import styles from './CategoryListPieChart.jss'
+import type { CategoryListProps } from './CategoryList'
+import limitCategories, { type Categories, type CategoryCb } from './utils'
+import styles from './OverviewPieChart.jss'
 
 export type CategoryListComponent = React.ComponentType<CategoryListProps>
 
@@ -32,7 +32,7 @@ export type State = {|
   activeCategoryIndex: ?number,
 |}
 
-class CategoryListPieChart extends React.PureComponent<Props, State> {
+class OverviewPieChart extends React.PureComponent<Props, State> {
   static defaultProps = {
     component: 'div',
   }
@@ -104,4 +104,4 @@ class CategoryListPieChart extends React.PureComponent<Props, State> {
   }
 }
 
-export default injectStyles(styles)(CategoryListPieChart)
+export default injectStyles(styles)(OverviewPieChart)

@@ -1,9 +1,9 @@
 // @flow
 import type {
+  CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
-} from 'components/CategoryListPieChart'
-import type { CategoryCb } from 'components/CategoryList'
+} from 'components/OverviewPieChart'
 import type { FooterClasses, FooterProps } from 'containers/Widget/Footer'
 import type { GroupedPieData } from 'data/models/pieData'
 import type { InjectStylesProps } from 'utils/styles'

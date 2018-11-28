@@ -1,6 +1,20 @@
 // @flow strict-local
 import * as R from 'ramda'
-import type { CategoryListData } from 'components/CategoryList'
+
+export type PieChartCategory = {|
+  color: string,
+  index: number,
+  name: string,
+  value: number,
+|}
+
+export type CategoryCb = PieChartCategory => void
+
+export type CategoryListData = {|
+  items: Array<PieChartCategory>,
+  other: ?PieChartCategory,
+  tooltipItems: Array<PieChartCategory>,
+|}
 
 interface CategoryLike {
   name: string;

@@ -1,8 +1,7 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import CategoryListPieChart from 'components/CategoryListPieChart'
-import type { CategoryCb } from 'components/CategoryList'
+import OverviewPieChart, { type CategoryCb } from 'components/OverviewPieChart'
 import type { BarData, BarZoomInCb } from 'components/Charts/Bar'
 import Paper from 'components/kit/Paper'
 import type { GroupedPieData } from 'data/models/pieData'
@@ -80,7 +79,7 @@ class ChartCard extends React.PureComponent<Props, State> {
           />
         ) : (
           <>
-            <CategoryListPieChart
+            <OverviewPieChart
               categoryType={categoryType}
               CategoryList={LedgerCategoryList}
               chartClassName={classes.chart}

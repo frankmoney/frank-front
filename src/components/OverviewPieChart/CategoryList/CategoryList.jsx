@@ -4,18 +4,18 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import CategoryLabel from 'components/CategoryLabel'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import type { CategoryListData, CategoryCb } from '../utils'
 import OtherCategories from './OtherCategories'
 import styles from './CategoryList.jss'
-import type { CategoryListData, CategoryCb } from './CategoryList.flow'
 
 export type CategoryListProps = {|
   activeCategoryIndex: ?number,
+  className?: string,
   data: CategoryListData,
-  valueUnit?: string,
-  // Handlers
   onCategoryClick?: CategoryCb,
   onLabelMouseEnter?: number => void,
   onLabelMouseLeave?: () => void,
+  valueUnit?: string,
 |}
 
 type Props = {

@@ -3,7 +3,7 @@ import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
-import CategoryListPieChart from 'components/CategoryListPieChart'
+import OverviewPieChart from 'components/OverviewPieChart'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import OverviewCategoryList from './OverviewCategoryList'
 import type { Props } from './OverviewChart.flow'
@@ -55,7 +55,7 @@ const OverviewChart = ({
     <ConnectedPeriodSelect
       className={cx(classes.periodSelect, periodSelectClassName)}
     />
-    <CategoryListPieChart
+    <OverviewPieChart
       CategoryList={CategoryList}
       categoryType={categoryType}
       categoryTypeSelectClassName={

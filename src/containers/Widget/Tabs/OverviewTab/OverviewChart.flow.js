@@ -1,9 +1,10 @@
 // @flow
 import type {
+  CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
-} from 'components/CategoryListPieChart'
-import type { Category, CategoryCb } from 'components/CategoryList'
+  PieChartCategory,
+} from 'components/OverviewPieChart'
 import type { InjectStylesProps } from 'utils/styles'
 
 export type Props = {|
@@ -11,7 +12,7 @@ export type Props = {|
   //
   CategoryList?: CategoryListComponent,
   categoryType: string,
-  data: Array<Category>,
+  data: Array<PieChartCategory>,
   onCategoryClick: CategoryCb,
   onCategoryTypeChange: CategoryCb,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
