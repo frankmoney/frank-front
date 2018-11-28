@@ -8,6 +8,7 @@ import {
   credentialsFieldsSelector,
   isCredentialsCheckingSelector,
   isCredentialsErrorSelector,
+  isMfaStepSelector,
 } from '../../selectors'
 import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'
@@ -19,7 +20,7 @@ const styles = {
   root: {},
 }
 
-const Credentials = ({ className, classes, fields, isChecking }) => (
+const Credentials = ({ className, classes, fields, isMfa, isChecking }) => (
   <StepLayout
     className={cx(classes.root, className)}
     footerText={
@@ -27,7 +28,7 @@ const Credentials = ({ className, classes, fields, isChecking }) => (
         ? 'Verifying credentials... It’s can take up to 60 seconds.'
         : 'We never store account credentials'
     }
-    backButtonText="Select another bank"
+    backButtonText={isMfa ? 'Enter new credentials' : 'Select another bank'}
   >
     <StepBankLogo />
     <StepTitle>Enter your credentials</StepTitle>
@@ -40,6 +41,7 @@ export default compose(
     fields: credentialsFieldsSelector,
     isChecking: isCredentialsCheckingSelector,
     isError: isCredentialsErrorSelector,
+    isMfa: isMfaStepSelector,
   }),
   branch(R.prop('isError'), renderComponent(CredentialsFail)),
   injectStyles(styles)

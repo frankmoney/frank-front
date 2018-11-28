@@ -35,7 +35,10 @@ const Team = ({
   onAddMemberClick,
   onCloseDrawer,
 }) => (
-  <StepLayout className={cx(classes.root, className)}>
+  <StepLayout
+    className={cx(classes.root, className)}
+    backButtonText="Back to categories"
+  >
     <StepTitle>Invite teammates</StepTitle>
     <StepDescription>
       Invite your team members and assign roles to work together faster<br />

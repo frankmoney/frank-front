@@ -42,6 +42,7 @@ const Categories = ({
 }) => (
   <StepLayout
     className={cx(classes.root, className)}
+    backButtonText="Back to account info"
     footerButton={
       <Button
         color="blue"

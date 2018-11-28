@@ -53,6 +53,10 @@ export const filteredBankListSelector = createSelector(
 )
 
 // Credentials && MFA
+export const isMfaStepSelector = createSelector(
+  currentStepSelector,
+  R.equals('mfa')
+)
 const isCredentialsFormValid = isFormValid(STEP_FORM)
 export const credentialsFormSelector = createPlainObjectSelector(
   getFormValues(STEP_FORM)
