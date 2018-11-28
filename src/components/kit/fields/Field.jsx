@@ -55,6 +55,7 @@ type Props = {|
   onKeyDown?: KeyboardEvent => void,
   onKeyPress?: KeyboardEvent => void,
   onKeyUp?: KeyboardEvent => void,
+  controlRef?: Function,
 |}
 
 type State = {|
@@ -164,6 +165,7 @@ class Field extends React.Component<Props, State> {
       onKeyDown,
       onKeyPress,
       onKeyUp,
+      controlRef,
     } = this.props
 
     const control = React.Children.only(children)
@@ -214,6 +216,7 @@ class Field extends React.Component<Props, State> {
               : loading
                 ? loadingText
                 : placeholder,
+            controlRef,
             ref: this.handleControlRef,
             onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),
             onBlur: chainCallbacks(this.handleBlur, control.props.onBlur),

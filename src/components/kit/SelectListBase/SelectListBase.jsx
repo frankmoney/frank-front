@@ -296,6 +296,11 @@ class SelectListBase extends React.Component<Props, State> {
 
   handleContainerRef = containerRef => {
     this.containerElement = unsafeFindDOMNode(containerRef)
+
+    // на всякий случай восстанавливаем пойнтер евенты, если контейнер заанмаунтится раньше
+    if (!this.containerElement) {
+      this.disablePointerEvents = false
+    }
   }
 
   handleValueItemRef = (itemRef, value: Value) => {
@@ -448,8 +453,11 @@ class SelectListBase extends React.Component<Props, State> {
         getBody().addEventListener(
           'mousemove',
           () => {
-            this.containerElement.style.pointerEvents = 'auto'
-            this.disablePointerEvents = false
+            // контейнер может заанмаунтится а потом произойти маузмув
+            if (this.containerElement) {
+              this.containerElement.style.pointerEvents = 'auto'
+              this.disablePointerEvents = false
+            }
           },
           { once: true }
         )

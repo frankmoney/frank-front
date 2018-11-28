@@ -11,7 +11,9 @@ class PaymentSuggestField extends React.Component {
     const formatList = list =>
       list.length === 1 && list[0].text.trim() === search.trim()
         ? list
-        : [{ text: `Use “${search}”`, data: search, faint: true }, ...list]
+        : list.length > 1
+          ? [{ text: `Use “${search}”`, data: search, faint: true }, ...list]
+          : []
 
     this.setState({
       searching: true,
@@ -48,6 +50,9 @@ class PaymentSuggestField extends React.Component {
         onRequestClearSuggestions={this.handleClearSuggest}
         suggestions={this.state.suggestions}
         searching={this.state.searching}
+        suggestProps={{
+          shouldRenderSuggestions: () => true,
+        }}
       />
     )
   }

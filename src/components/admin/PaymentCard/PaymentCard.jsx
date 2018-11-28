@@ -6,8 +6,9 @@ import {
   Check as PublishIcon,
   FormatListBulleted as SimilarIcon,
 } from 'material-ui-icons'
-import { compose, withPropsOnChange, withHandlers } from 'recompose'
-import { reduxForm } from 'redux-form/immutable'
+import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
+import { compose, withPropsOnChange, withState, withHandlers } from 'recompose'
+import { reduxForm, defaultShouldError } from 'redux-form/immutable'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
 import Button from 'components/kit/Button'
@@ -19,6 +20,20 @@ import ReduxFormControl from 'components/kit/ReduxFormControl'
 import DescriptionField from './DescriptionField'
 import PeerField from './PeerField'
 import styles from './PaymentCard.jss'
+import UpdateInfoConfirmDialog from './UpdateInfoConfirmDialog'
+
+const validation = {
+  categoryId: [required],
+  description: [required, maxLength(200)],
+  peerName: [required, maxLength(40)],
+}
+
+const counters = {
+  peerName: { unit: 'character', max: 40 },
+  description: { unit: 'character', max: 200 },
+}
+
+const validate = createValidateFromRules(validation)
 
 const PaymentCard = ({
   classes,
@@ -40,7 +55,12 @@ const PaymentCard = ({
   onSaveClick,
   onPublishClick,
   onPaymentUnublish,
+  confirmOpen,
+  handleCloseConfirm,
+  handleSubmitConfirm,
   pristine,
+  invalid,
+  form: formName,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
@@ -55,6 +75,7 @@ const PaymentCard = ({
         <div className={classes.recipient}>
           <ReduxFormControl.Field
             name="peerName"
+            counter={counters.peerName}
             component={PeerField}
             stretch
             className={classes.field}
@@ -81,6 +102,7 @@ const PaymentCard = ({
         <div className={classes.description}>
           <ReduxFormControl.Field
             name="description"
+            counter={counters.description}
             component={DescriptionField}
             stretch
             label="Description"
@@ -124,23 +146,42 @@ const PaymentCard = ({
         <Button
           width={95}
           className={classes.rightButton}
-          label={pristine ? 'Saved' : 'Save'}
-          color="gray"
+          label={published ? 'Update' : pristine ? 'Saved' : 'Save'}
+          color={published ? 'blue' : 'gray'}
           disabled={saved || publishing || pristine}
           loading={saving}
           onClick={onSaveClick}
         />
-        <Button
-          width={130}
-          className={classes.rightButton}
-          icon={!published ? <PublishIcon /> : null}
-          label={published ? 'Unpublish' : 'Publish'}
-          color={published ? 'gray' : 'green'}
-          loading={publishing}
-          onClick={onPublishClick}
-        />
+        {published && (
+          <Button
+            width={130}
+            className={classes.rightButton}
+            label="Unpublish"
+            color="gray"
+            loading={publishing}
+            onClick={onPublishClick}
+          />
+        )}
+        {!published && (
+          <Button
+            width={130}
+            className={classes.rightButton}
+            icon={<PublishIcon />}
+            label="Publish"
+            color="green"
+            loading={publishing}
+            disabled={invalid}
+            onClick={onPublishClick}
+          />
+        )}
       </div>
     </div>
+    <UpdateInfoConfirmDialog
+      form={formName}
+      open={confirmOpen}
+      onConfirm={handleSubmitConfirm}
+      onClose={handleCloseConfirm}
+    />
   </Paper>
 )
 
@@ -157,12 +198,21 @@ const pickCardState = ({
 
 export default compose(
   injectStyles(styles),
+  withState('confirmOpen', 'changeConfirmOpen', false),
+  withState('disableValidation', 'changeDisableValidation', false),
   withPropsOnChange(['id', 'peerName', 'categoryId', 'description'], props => ({
     initialValues: pickCardState(props),
     form: `payment-${props.id}`,
   })),
   reduxForm({
     enableReinitialize: true,
+    validate,
+    shouldError: data => {
+      if (data.props.disableValidation) {
+        return false
+      }
+      return defaultShouldError(data)
+    },
     onSubmit: (data, _, props) => {
       const { publishing, ...otherData } = data.toJS()
       const payment = { paymentId: props.id, ...otherData }
@@ -173,16 +223,32 @@ export default compose(
       } else {
         props.onPaymentPublish(payment)
       }
+      props.changeDisableValidation(false)
     },
   }),
   withHandlers({
     onSaveClick: props => () => {
-      props.change('publishing', false)
-      setImmediate(() => props.submit())
+      if (props.published && props.invalid) {
+        props.changeConfirmOpen(true)
+      } else {
+        props.changeDisableValidation(true)
+        props.clearSubmitErrors()
+        props.change('publishing', false)
+        setTimeout(() => props.submit(), 100)
+      }
     },
     onPublishClick: props => () => {
       props.change('publishing', true)
       setImmediate(() => props.submit())
+    },
+    handleCloseConfirm: props => () => {
+      props.changeConfirmOpen(false)
+    },
+    // анпаблишим карточку
+    handleSubmitConfirm: props => data => {
+      const payment = { paymentId: props.id, ...data.toJS() }
+
+      props.onPaymentUnpublish(payment)
     },
   })
 )(PaymentCard)

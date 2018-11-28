@@ -9,6 +9,12 @@ import TextField from '../kit/TextField/TextField'
 import SuggestMenuItem from './SuggestMenuItem'
 import styles from './SuggestField.jss'
 
+// FIXME react-autosuggest прокидывает внутри себя реф на инпут через ref
+// и ref на TextField почемуто ставится в null, эта времянка форвардит реф в controlRef в который в глубине попадает HtmlInput
+const ForwardInputRef = React.forwardRef((inputProps, ref) => (
+  <TextField controlRef={ref} {...inputProps} />
+))
+
 type Props = {
   onRequestFetchSuggestions: string => void,
   onRequestClearSuggestions: string => void,
@@ -78,7 +84,8 @@ class SuggestField extends React.Component<Props> {
       </Paper>
     )
   }
-  renderInput = inputProps => <TextField {...inputProps} />
+
+  renderInput = inputProps => <ForwardInputRef {...inputProps} />
 
   render() {
     const {
@@ -92,7 +99,6 @@ class SuggestField extends React.Component<Props> {
 
     return (
       <Autosuggest
-        {...suggestProps}
         theme={{
           container: className,
           suggestionsContainer: classes.suggestionsContainer,
@@ -114,8 +120,7 @@ class SuggestField extends React.Component<Props> {
         renderInputComponent={this.renderInput}
         onSuggestionSelected={this.handleSelect}
         highlightFirstSuggestion
-        shouldRenderSuggestions={this.shouldRenderSuggestions}
-        focusInputOnSuggestionClick={false}
+        {...suggestProps}
       />
     )
   }
