@@ -1,9 +1,11 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
 import FrankLogo from 'components/Logo'
 import { injectStyles } from 'utils/styles'
 import resetScrollPositionOnMount from 'utils/resetScrollPositionOnMount'
+import { ROUTES } from 'const'
 
 const styles = theme => ({
   root: {
@@ -39,7 +41,9 @@ const styles = theme => ({
 
 const PageForm = ({ classes, className, centered, title, children }) => (
   <div className={cx(classes.root, centered && classes.centered, className)}>
-    <FrankLogo className={classes.logo} />
+    <Link to={ROUTES.root}>
+      <FrankLogo className={classes.logo} />
+    </Link>
     <div className={classes.container}>
       <div className={classes.title}>{title}</div>
       {children}
