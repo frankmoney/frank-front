@@ -4,6 +4,8 @@ export const ROUTES = {
   protectedArea: '/app',
   auth: {
     login: '/sign-in',
+    loginDev: '/sign-in/dev',
+    register: '/sign-up',
     recoverPassword: '/recover-password',
     logout: '/logout',
   },

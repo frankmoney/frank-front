@@ -53,7 +53,7 @@ const styles = theme => ({
 
 const ls = typeof window === 'undefined' ? null : window.localStorage
 
-const Login = ({
+const LoginDev = ({
   classes,
   email,
   setEmail,
@@ -114,4 +114,4 @@ export default compose(
       }
     },
   })
-)(Login)
+)(LoginDev)

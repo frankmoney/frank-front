@@ -68,5 +68,6 @@ export default theme => ({
   stretch: {
     display: 'flex',
     flexGrow: 1,
+    width: '100%',
   },
 })
