@@ -6,7 +6,9 @@ export default theme => ({
     alignItems: ({ compact }) => (compact ? 'center' : 'unset'),
     backgroundColor: '#FFF',
     cursor: ({ compact }) => (compact ? 'pointer' : 'auto'),
-    color: ({ compact }) => (compact ? '#C7C9D1' : theme.colors.black),
+    color: ({ compact }) =>
+      compact ? 'rgba(32,40,74,0.5)' : 'rgba(32,40,74,0.8)',
+    userSelect: 'none',
     marginBottom: 1,
     paddingBottom: ({ compact }) => (compact ? 0 : 29),
   },

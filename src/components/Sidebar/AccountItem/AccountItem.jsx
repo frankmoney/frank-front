@@ -12,6 +12,7 @@ type Props = {|
   label: React.Node,
   renderAccountMenuItems: () => Array<React.Node>,
   compact: boolean,
+  icon: React.Node,
   onClick?: () => void,
 |}
 
@@ -21,6 +22,7 @@ const AccountItem = ({
   renderAccountMenuItems,
   classes,
   className,
+  icon,
   onClick,
 }: Props) => {
   const accountMenuItems = renderAccountMenuItems()
@@ -30,7 +32,7 @@ const AccountItem = ({
       {compact ? (
         <>
           <div className={classes.labelCompact}>{label}</div>
-          <ArrowIcon className={classes.icon} />
+          {React.cloneElement(icon, { className: classes.icon })}
         </>
       ) : (
         <>
@@ -49,6 +51,8 @@ const AccountItem = ({
 AccountItem.defaultProps = {
   label: 'Demo account',
   compact: true,
+  icon: <ArrowIcon />,
+  renderAccountMenuItems: () => null,
 }
 
 export default compose(injectStyles(styles))(AccountItem)

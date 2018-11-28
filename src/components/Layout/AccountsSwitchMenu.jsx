@@ -8,9 +8,11 @@ import {
   Domain as DirectoryIcon,
   InsertChart as WidgetsIcon,
   Tune as SettingsIcon,
+  Add as PlusIcon,
 } from 'material-ui-icons'
 import { createRouteUrl } from '@frankmoney/utils'
 import { ReduxNavLink } from '@frankmoney/webapp'
+import { Link } from 'react-router-dom'
 import reconnect from 'utils/reconnect'
 import {
   userAccountsSelector,
@@ -77,6 +79,9 @@ const AccountsSwitchMenu = ({
         compact={id !== selectedAccountId}
       />
     ))}
+    <Link to={ROUTES.manage.onboarding.root} style={{ textDecoration: 'none' }}>
+      <AccountItem compact label="Add new account" icon={<PlusIcon />} />
+    </Link>
   </>
 )
 
@@ -91,9 +96,3 @@ export default compose(
     }
   )
 )(AccountsSwitchMenu)
-
-/*
-
-
-
- */
