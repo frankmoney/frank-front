@@ -135,14 +135,15 @@ export const currentCategoryIdSelector = createSelector(
   x => x || null
 )
 
-export const currentCategoryNameSelector = createSelector(
+const currentCategorySelector = createSelector(
   categoriesSelector,
   currentCategoryIdSelector,
-  (list, id) =>
-    R.pipe(
-      R.find(R.propEq('id', id)),
-      R.prop('name')
-    )(list)
+  (categories, id) => R.find(R.propEq('id', id), categories)
+)
+
+export const currentCategoryNameSelector = createSelector(
+  currentCategorySelector,
+  R.prop('name')
 )
 
 export const currentPageSelector = createSelector(
@@ -184,6 +185,11 @@ export const chartsVisibleSelector = createSelector(
 export const barChartOnlySelector = createSelector(
   currentCategoryIdSelector,
   R.complement(R.either(R.isNil, R.isEmpty))
+)
+
+export const barChartColorSelector = createSelector(
+  currentCategorySelector,
+  R.prop('color')
 )
 
 // [{date:String,negativeValue:Float,value:Float}]

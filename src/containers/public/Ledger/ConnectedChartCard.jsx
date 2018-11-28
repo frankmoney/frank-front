@@ -3,6 +3,7 @@ import { branch, compose, renderNothing } from 'recompose'
 import reconnect from 'utils/reconnect'
 import ChartCard from './ChartCard'
 import {
+  barChartColorSelector,
   barChartDataSelector,
   barChartOnlySelector,
   chartCategoryTypeSelector,
@@ -15,6 +16,7 @@ import * as ACTIONS from './actions'
 export default compose(
   reconnect(
     {
+      barsColor: barChartColorSelector,
       barsData: barChartDataSelector,
       barsOnly: barChartOnlySelector,
       categoryType: chartCategoryTypeSelector,

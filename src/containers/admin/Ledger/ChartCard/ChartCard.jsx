@@ -2,14 +2,36 @@
 import React from 'react'
 import cx from 'classnames'
 import CategoryListPieChart from 'components/CategoryListPieChart'
+import type { CategoryCb } from 'components/CategoryList'
+import type { BarData, BarZoomInCb } from 'components/Charts/Bar'
 import Paper from 'components/kit/Paper'
-import { injectStyles } from 'utils/styles'
+import type { GroupedPieData } from 'data/models/pieData'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import BarChart from './BarChart'
 import ExpandRow from './ExpandRow'
 import LedgerCategoryList from './LedgerCategoryList'
 import styles from './ChartCard.jss'
 import Title from './Title'
-import type { Props, State } from './ChartCard.flow'
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  barsAreClickable: boolean,
+  barsColor?: string,
+  barsData: BarData,
+  barsOnly: boolean,
+  categoryType: string,
+  period: string,
+  pieData: GroupedPieData,
+  // Handlers
+  onBarsZoomIn: BarZoomInCb,
+  onCategoryClick?: CategoryCb,
+  onCategoryTypeChange?: CategoryCb,
+|}
+
+type State = {|
+  expanded: boolean,
+|}
 
 class ChartCard extends React.PureComponent<Props, State> {
   state = {
@@ -23,6 +45,7 @@ class ChartCard extends React.PureComponent<Props, State> {
   render() {
     const {
       barsAreClickable,
+      barsColor,
       barsData,
       barsOnly,
       categoryType,
@@ -49,7 +72,12 @@ class ChartCard extends React.PureComponent<Props, State> {
       >
         <Title className={classes.header}>{period}</Title>
         {barsOnly ? (
-          <BarChart className={classes.barChart} data={barsData} />
+          <BarChart
+            barsColor={barsColor}
+            className={classes.barChart}
+            data={barsData}
+            onZoomIn={handleBarsZoomIn}
+          />
         ) : (
           <>
             <CategoryListPieChart
@@ -68,6 +96,7 @@ class ChartCard extends React.PureComponent<Props, State> {
               title="Timeline"
             >
               <BarChart
+                barsColor={barsColor}
                 className={classes.barChart}
                 data={barsData}
                 onZoomIn={handleBarsZoomIn}
