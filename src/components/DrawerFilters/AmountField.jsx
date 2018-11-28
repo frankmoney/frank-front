@@ -30,13 +30,17 @@ const AmountField = ({ classes, from, to, onChange }) => (
         stretch
         value={from || ''}
         label="min"
-        onChange={value => onChange({ min: parseNumber(value), max: to })}
+        onChange={({ target: { value } }) =>
+          onChange({ min: parseNumber(value), max: to })
+        }
         className={classes.field}
       />
       <TextField
         value={to || ''}
         label="max"
-        onChange={value => onChange({ min: from, max: parseNumber(value) })}
+        onChange={({ target: { value } }) =>
+          onChange({ min: from, max: parseNumber(value) })
+        }
         className={classes.field}
       />
     </div>

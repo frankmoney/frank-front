@@ -94,16 +94,18 @@ class LeftField extends React.Component<Props, State> {
     }
   }
 
-  handleChange = value => {
+  handleChange = event => {
+    const value = event.target.value
+
     if (!this.isControlledValue) {
       const filled = !!value
       this.setState({ value, filled }, () => {
         if (typeof this.props.onChange === 'function') {
-          this.props.onChange(value)
+          this.props.onChange(event)
         }
       })
     } else if (typeof this.props.onChange === 'function') {
-      this.props.onChange(value)
+      this.props.onChange(event)
     }
   }
 
