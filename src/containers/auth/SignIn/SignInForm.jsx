@@ -59,6 +59,13 @@ const SignInForm = ({ classes, className, submit, invalid }) => (
 )
 
 export default compose(
-  reduxForm({ form: 'sign-in', onSubmit: () => {} }),
+  reduxForm({
+    form: 'sign-in',
+    onSubmit: data => {
+      window.location = `${window.location.origin}/login?user=${data.get(
+        'email'
+      )}`
+    },
+  }),
   injectStyles(styles)
 )(SignInForm)
