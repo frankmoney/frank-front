@@ -1,8 +1,8 @@
-// @flow
+// @flow strict-local
 export { default } from './CategoryListPieChart'
 export type {
   CategoryListComponent,
   CategoryListPieChartRootComponent,
-} from './CategoryListPieChart.flow'
+} from './CategoryListPieChart'
 export { default as limitCategories } from './utils'
-export type { Categories, LimitCategoriesFn } from './utils.flow'
+export type { Categories } from './utils'

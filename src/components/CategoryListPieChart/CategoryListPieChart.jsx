@@ -1,13 +1,36 @@
-// @flow
+// @flow strict-local
+import * as React from 'react'
 import * as R from 'ramda'
-import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import type { CategoryListProps, CategoryCb } from 'components/CategoryList'
 import CategoryTypeSelect from 'components/CategoryTypeSelect'
 import Pie from 'components/Charts/Pie'
-import limitCategories from './utils'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import limitCategories, { type Categories } from './utils'
 import styles from './CategoryListPieChart.jss'
-import type { Props, State } from './CategoryListPieChart.flow'
+
+export type CategoryListComponent = React.ComponentType<CategoryListProps>
+
+export type CategoryListPieChartRootComponent = React.ComponentType<any> // flowlint-line unclear-type:warn
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  CategoryList: CategoryListComponent,
+  categoryType: string,
+  categoryTypeSelectClassName?: string,
+  categoryTypeSelectLabel?: string,
+  chartClassName?: string,
+  chartSize: number,
+  component: CategoryListPieChartRootComponent,
+  data: Categories,
+  onCategoryClick?: CategoryCb,
+  onCategoryTypeChange?: CategoryCb,
+|}
+
+export type State = {|
+  activeCategoryIndex: ?number,
+|}
 
 class CategoryListPieChart extends React.PureComponent<Props, State> {
   static defaultProps = {

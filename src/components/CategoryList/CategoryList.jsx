@@ -1,12 +1,32 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import CategoryLabel from 'components/CategoryLabel'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import OtherCategories from './OtherCategories'
 import styles from './CategoryList.jss'
-import type { Props } from './CategoryList.flow'
+import type { CategoryListData, CategoryCb } from './CategoryList.flow'
+
+export type CategoryListProps = {|
+  activeCategoryIndex: ?number,
+  data: CategoryListData,
+  valueUnit?: string,
+  // Handlers
+  onCategoryClick?: CategoryCb,
+  onLabelMouseEnter?: number => void,
+  onLabelMouseLeave?: () => void,
+|}
+
+type Props = {
+  ...CategoryListProps,
+  //
+  ...InjectStylesProps,
+  iconClassName?: string,
+  itemClassName?: string,
+  nameClassName?: string,
+  valueClassName?: string,
+}
 
 const CategoryList = ({
   activeCategoryIndex,

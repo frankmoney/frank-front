@@ -1,6 +1,16 @@
-// @flow
+// @flow strict-local
 import * as R from 'ramda'
-import type { LimitCategoriesFn } from './utils.flow'
+import type { CategoryListData } from 'components/CategoryList'
+
+interface CategoryLike {
+  name: string;
+  value: number;
+  color?: string;
+}
+
+export type Categories = Array<CategoryLike>
+
+type LimitCategoriesFn = number => Categories => CategoryListData
 
 const INDEX_PROP = 'index'
 const VALUE_PROP = 'value'
