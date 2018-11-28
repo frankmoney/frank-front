@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import * as R from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
@@ -6,161 +7,67 @@ import Spinner from 'components/kit/Spinner'
 import Paper from 'components/kit/Paper'
 import TextField from '../kit/TextField/TextField'
 import SuggestMenuItem from './SuggestMenuItem'
+import styles from './SuggestField.jss'
 
-const styles = {
-  suggestionsContainer: {
-    position: 'absolute',
-    marginTop: 10,
-    left: 0,
-    right: 0,
-    zIndex: 1000,
-    display: 'none',
-  },
-  suggestionsContainerOpen: {
-    display: 'block',
-  },
-  spinnerContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  spinner: {
-    width: 25,
-    height: 25,
-    margin: [10, 0],
-  },
-  suggestion: {
-    display: 'block',
-  },
-  suggestionsList: {
-    margin: 0,
-    padding: 0,
-    listStyleType: 'none',
-  },
-  field: {
-    width: '100%',
-  },
+type Props = {
+  onRequestFetchSuggestions: string => void,
+  onRequestClearSuggestions: string => void,
+  onChange: string => {},
+  onSelect: SuggestItem => {},
 }
 
-function renderInput(inputProps) {
-  const {
-    ref,
-    value,
-    onFocus,
-    onBlur,
-    onKeyDown,
-    onChange,
-    ...otherProps
-  } = inputProps
-  return (
-    <TextField
-      value={value}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      {...otherProps}
-    />
-  )
-}
-
-class SuggestField extends React.Component {
-  state = {
-    suggestions: [],
-    inputValue: this.props.value,
+class SuggestField extends React.Component<Props> {
+  static defaultProps = {
+    value: '',
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { suggestions, suggestKeyName } = nextProps
-    const { inputValue } = this.state
-
-    this.setState({
-      suggestions:
-        // restrict user from creating new object with same key value
-        R.ifElse(
-          R.both(
-            // if there is one suggestion
-            R.pipe(
-              R.length,
-              R.equals(1)
-            ),
-            // and it has same key value as input value
-            R.pipe(
-              R.head,
-              R.propEq(suggestKeyName, inputValue)
-            )
-          ),
-          array => array,
-          // otherwise add item with new object suggestion
-          R.prepend({ [suggestKeyName]: inputValue })
-        )(suggestions),
-    })
-  }
-
-  getSuggestionValue = suggestion => {
-    const { suggestKeyName } = this.props
-    return R.prop(suggestKeyName)(suggestion)
-  }
+  getSuggestionValue = suggestion => suggestion
 
   handleChange = (event, { newValue, suggestion, method }) => {
     if (suggestion) {
       return
     }
+
     if (method === 'up' || method === 'down') {
       return
     }
-    this.setState({ inputValue: newValue })
+
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange(newValue)
+    }
   }
 
   handleSuggestionsFetchRequested = ({ value, reason }) => {
     if (reason === 'input-changed') {
-      const { getSuggestions } = this.props
-
       const searchValue = value.trim()
       const searchLength = searchValue.length
 
       if (searchLength !== 0) {
-        getSuggestions(searchValue)
+        this.props.onRequestFetchSuggestions(searchValue)
       }
     }
   }
 
   handleSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: [],
-    })
+    this.props.onRequestClearSuggestions()
   }
 
   handleSelect = (event, { suggestion }) => {
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange(suggestion)
+    if (typeof this.props.onSelect === 'function') {
+      this.props.onSelect(suggestion)
     }
   }
 
-  handleFocus = event => {
-    if (typeof this.props.onFocus === 'function') {
-      this.props.onFocus(event)
-    }
-  }
+  shouldRenderSuggestions = value => value.length > 1
 
-  handleBlur = event => {
-    if (typeof this.props.onBlur === 'function') {
-      this.props.onBlur(event)
-    }
-  }
-
-  renderSuggestion = (suggestion, { isHighlighted }) => {
-    const { suggestKeyName } = this.props
-    const suggestProps = suggestion.id
-      ? { text: suggestion[suggestKeyName], count: suggestion.count }
-      : { template: suggestion[suggestKeyName], count: 0 }
-
-    return <SuggestMenuItem selected={isHighlighted} {...suggestProps} />
-  }
+  renderSuggestion = (suggestion, { isHighlighted }) => (
+    <SuggestMenuItem active={isHighlighted} {...suggestion} />
+  )
 
   renderSuggestionsContainer = ({ containerProps, children }) => {
     const { searching, classes } = this.props
     return (
-      <Paper {...containerProps}>
+      <Paper type="dropdown" {...containerProps}>
         {searching ? (
           <div className={classes.spinnerContainer}>
             <Spinner className={classes.spinner} />
@@ -171,38 +78,21 @@ class SuggestField extends React.Component {
       </Paper>
     )
   }
+  renderInput = inputProps => <TextField {...inputProps} />
 
   render() {
     const {
       classes,
       className,
-      // TODO correct prop resting
-      // TEXTFIELD PROPS
-      onChange,
-      onFocus,
-      onBlur,
+      suggestions,
+      suggestProps,
       value,
-      placeholder,
-      larger,
-      error,
-      hint,
-      label,
-      floatingLabel,
-      additionalLabel,
-      focus,
-      disabled,
-      loading,
-      loadingText,
-      multiLine,
-      stretch,
       ...otherProps
     } = this.props
 
-    const { inputValue } = this.state
-
     return (
       <Autosuggest
-        {...otherProps}
+        {...suggestProps}
         theme={{
           container: className,
           suggestionsContainer: classes.suggestionsContainer,
@@ -212,34 +102,19 @@ class SuggestField extends React.Component {
         }}
         onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
-        suggestions={this.state.suggestions}
+        suggestions={suggestions}
         getSuggestionValue={this.getSuggestionValue}
         renderSuggestionsContainer={this.renderSuggestionsContainer}
         renderSuggestion={this.renderSuggestion}
         inputProps={{
-          classes,
-          placeholder,
-          larger,
-          error,
-          hint,
-          label,
-          floatingLabel,
-          additionalLabel,
-          focus,
-          disabled,
-          loading,
-          loadingText,
-          multiLine,
-          stretch,
-          value: inputValue,
+          ...otherProps,
+          value,
           onChange: this.handleChange,
-          onFocus: this.handleFocus,
-          onBlur: this.handleBlur,
         }}
-        renderInputComponent={renderInput}
+        renderInputComponent={this.renderInput}
         onSuggestionSelected={this.handleSelect}
         highlightFirstSuggestion
-        shouldRenderSuggestions={() => inputValue.length > 0}
+        shouldRenderSuggestions={this.shouldRenderSuggestions}
         focusInputOnSuggestionClick={false}
       />
     )

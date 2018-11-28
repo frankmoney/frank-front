@@ -60,6 +60,10 @@ type Props = {|
   disabled?: boolean,
   type: InputType,
   minLines?: number,
+  // TODO disableEnter используется сейчас в комбинации с multiline чтобы получить инпут который переносится по строкам
+  // в будущем нужно дорабоатать сингллайн инпут чтобы тот переносился по строкам а в остальном был обычным сингллайн инпутом
+  // сейчас все равно можно вставить содержимое с переносами на новую строку для комбинации mulitline+disableEnter
+  disableEnter?: boolean,
   name?: string,
   disableAutoComplete?: boolean,
   // Controlled value
@@ -72,6 +76,7 @@ export type InputProps = Props
 class Input extends React.Component<Props> {
   static defaultProps = {
     type: 'text',
+    disableEnter: false,
     disableAutoComplete: false,
   }
 
@@ -82,7 +87,10 @@ class Input extends React.Component<Props> {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.multiLine !== this.props.multiLine) {
+    if (
+      prevProps.multiLine !== this.props.multiLine ||
+      (this.props.multiLine && prevProps.value !== this.props.value)
+    ) {
       if (this.props.multiLine) {
         adjustTextareaSize(unsafeFindDOMNode(this), this.props)
       }
@@ -90,11 +98,22 @@ class Input extends React.Component<Props> {
   }
 
   handleChange = event => {
-    if (this.props.multiLine) {
-      adjustTextareaSize(event.target, this.props)
-    }
+    // if (this.props.multiLine) {
+    //   adjustTextareaSize(event.target, this.props)
+    // }
 
     this.props.onChange(event)
+  }
+
+  handleKeyPress = event => {
+    if (this.props.disableEnter && event.key === 'Enter') {
+      event.preventDefault()
+      return false
+    }
+
+    if (typeof this.props.onKeyPress === 'function') {
+      return this.props.onKeyPress(event)
+    }
   }
 
   render() {
@@ -105,10 +124,12 @@ class Input extends React.Component<Props> {
       controlRef,
       multiLine,
       onChange,
+      onKeyPress,
       value,
       type,
       focus,
       minLines,
+      disableEnter,
       disableAutoComplete,
       // Omit
       autoComplete: autoCompleteProp,
@@ -134,6 +155,7 @@ class Input extends React.Component<Props> {
           onChange={this.handleChange}
           className={cls}
           autoComplete={autoComplete}
+          onKeyPress={this.handleKeyPress}
           {...otherProps}
         />
       )

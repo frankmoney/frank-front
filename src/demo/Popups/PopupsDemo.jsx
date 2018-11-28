@@ -181,8 +181,8 @@ const PopupsDemo = ({ classes }) => (
       <Paper className={classes.paper} type="modal">
         Modal
       </Paper>
-      <Paper className={classes.paper} type="popup">
-        Popup
+      <Paper className={classes.paper} type="dropdown">
+        Dropdown
       </Paper>
       <Paper className={classes.paper} type="list">
         List
@@ -192,6 +192,9 @@ const PopupsDemo = ({ classes }) => (
       </Paper>
       <Paper className={classes.paper} type="drawer">
         Drawer
+      </Paper>
+      <Paper className={classes.paper} type="arrowDropdown">
+        Arrow dropdown
       </Paper>
     </div>
     <h1>ArrowPaper</h1>

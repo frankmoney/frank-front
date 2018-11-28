@@ -6,42 +6,43 @@ import {
   Check as PublishIcon,
   FormatListBulleted as SimilarIcon,
 } from 'material-ui-icons'
+import { compose, withPropsOnChange, withHandlers } from 'recompose'
+import { reduxForm } from 'redux-form/immutable'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
 import Button from 'components/kit/Button'
 import Paper from 'components/kit/Paper'
 import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
-import SuggestField from 'components/SuggestField'
 import BankDescription from 'components/common/BankDescription'
+import ReduxFormControl from 'components/kit/ReduxFormControl'
+import DescriptionField from './DescriptionField'
+import PeerField from './PeerField'
 import styles from './PaymentCard.jss'
 
 const PaymentCard = ({
   classes,
   className,
-  searchText,
   id: paymentId,
+  accountId,
   postedOn,
   amount,
-  bankIcon,
-  bankDescription,
-  peer: { name: peerName } = {},
-  peerUpdatedBy,
+  peerName,
+  peerId,
   categories,
-  category: { id: categoryId } = {},
-  categoryUpdatedBy,
+  categoryId,
   description,
-  descriptionUpdateBy,
   similarCount,
-  searchingSuggestions,
-  suggestedPeers,
-  suggestedDescriptions,
-  onPeerSuggestionSearch,
-  onDescriptionSuggestionSearch,
-  onPaymentUpdate,
-  ...otherProps
+  saving,
+  saved,
+  publishing,
+  published,
+  onSaveClick,
+  onPublishClick,
+  onPaymentUnublish,
+  pristine,
 }) => (
-  <Paper type="card" className={cx(classes.root, className)} {...otherProps}>
+  <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
       <div className={classes.createdAt}>{formatFullDate(postedOn, true)}</div>
       <div className={classes.amount}>
@@ -52,49 +53,44 @@ const PaymentCard = ({
     <div className={classes.body}>
       <div className={classes.bodyRow}>
         <div className={classes.recipient}>
-          <SuggestField
+          <ReduxFormControl.Field
+            name="peerName"
+            component={PeerField}
             stretch
             className={classes.field}
             label="Recipient"
             placeholder="Specify recipient..."
             larger
-            value={peerName}
-            getSuggestions={onPeerSuggestionSearch}
-            suggestions={suggestedPeers}
-            searching={searchingSuggestions === 'peers'}
-            suggestKeyName="name"
-            onChange={peer => onPaymentUpdate({ paymentId, peer })}
+            accountId={accountId}
           />
         </div>
         <div className={classes.category}>
-          <CategorySelect
+          <ReduxFormControl.Field
+            name="categoryId"
+            component={CategorySelect}
             className={classes.categorySelect}
             categories={categories}
             value={categoryId}
             label="Category"
             placeholder="Choose category"
             larger
-            onChange={categoryId => onPaymentUpdate({ paymentId, categoryId })}
           />
         </div>
       </div>
       <div className={classes.bodyRow}>
         <div className={classes.description}>
-          <SuggestField
+          <ReduxFormControl.Field
+            name="description"
+            component={DescriptionField}
             stretch
-            className={classes.field}
             label="Description"
             placeholder="Start typing for suggestions..."
             multiLine
+            disableEnter
             larger
-            value={description}
-            getSuggestions={onDescriptionSuggestionSearch}
-            suggestions={suggestedDescriptions}
-            searching={searchingSuggestions === 'descriptions'}
-            suggestKeyName="text"
-            onChange={description =>
-              onPaymentUpdate({ paymentId, description })
-            }
+            className={classes.field}
+            paymentId={paymentId}
+            accountId={accountId}
           />
         </div>
       </div>
@@ -126,14 +122,67 @@ const PaymentCard = ({
         ---NOT IN MVP--
         */}
         <Button
+          width={95}
           className={classes.rightButton}
-          icon={<PublishIcon />}
-          label="Publish"
-          color="green"
+          label={pristine ? 'Saved' : 'Save'}
+          color="gray"
+          disabled={saved || publishing || pristine}
+          loading={saving}
+          onClick={onSaveClick}
+        />
+        <Button
+          width={130}
+          className={classes.rightButton}
+          icon={!published ? <PublishIcon /> : null}
+          label={published ? 'Unpublish' : 'Publish'}
+          color={published ? 'gray' : 'green'}
+          loading={publishing}
+          onClick={onPublishClick}
         />
       </div>
     </div>
   </Paper>
 )
 
-export default injectStyles(styles)(PaymentCard)
+const pickCardState = ({
+  published,
+  categoryId,
+  peerName = '',
+  description = '',
+}) => ({
+  categoryId,
+  peerName,
+  description,
+})
+
+export default compose(
+  injectStyles(styles),
+  withPropsOnChange(['id', 'peerName', 'categoryId', 'description'], props => ({
+    initialValues: pickCardState(props),
+    form: `payment-${props.id}`,
+  })),
+  reduxForm({
+    enableReinitialize: true,
+    onSubmit: (data, _, props) => {
+      const { publishing, ...otherData } = data.toJS()
+      const payment = { paymentId: props.id, ...otherData }
+      if (!publishing) {
+        props.onPaymentSave(payment)
+      } else if (props.published) {
+        props.onPaymentUnpublish(payment)
+      } else {
+        props.onPaymentPublish(payment)
+      }
+    },
+  }),
+  withHandlers({
+    onSaveClick: props => () => {
+      props.change('publishing', false)
+      setImmediate(() => props.submit())
+    },
+    onPublishClick: props => () => {
+      props.change('publishing', true)
+      setImmediate(() => props.submit())
+    },
+  })
+)(PaymentCard)

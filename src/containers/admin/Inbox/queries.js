@@ -1,40 +1,25 @@
-const PEER = `
+const mapPayment = ({ peer, category, ...other }) => ({
+  ...other,
+  peerName: peer && peer.name,
+  peerId: peer && peer.id,
+  categoryId: category && category.id,
+})
+
+const PAYMENTS = `
+id: pid
+postedOn
+amount
+peer {
   id: pid
   name
-`
-
-const CATEGORY = `
+}
+published: verified
+description
+category {
   id: pid
   name
   color
-`
-
-const FIELD_UPDATER = `
-  name
-  lastName
-  firstName
-`
-
-const PAYMENTS = `
-  id: pid
-  postedOn
-  amount
-  peer {
-    ${PEER}
-  }
-  peerUpdater {
-    ${FIELD_UPDATER}
-  }
-  description
-  descriptionUpdater {
-    ${FIELD_UPDATER}
-  }
-  category {
-    ${CATEGORY}
-  }
-  categoryUpdater {
-    ${FIELD_UPDATER}
-  }
+}
 `
 
 export default {
@@ -80,8 +65,34 @@ export default {
   `,
     ({ account: { categories, payments, countPayments: totalCount } }) => ({
       categories,
-      payments,
+      payments: payments.map(mapPayment),
       totalCount,
     }),
+  ],
+  paymentUpdate: [
+    `
+    mutation(
+      $accountId: ID!
+      $paymentId: ID!
+      $peerId: ID
+      $peerName: String
+      $categoryId: ID
+      $description: String
+      $verified: Boolean
+    ) {
+      payment: paymentUpdate(
+        accountPid: $accountId
+        paymentPid: $paymentId
+        peerPid: $peerId
+        peerName: $peerName
+        categoryPid: $categoryId
+        description: $description
+        verified: $verified
+      ) {
+        ${PAYMENTS}
+      }
+    }
+    `,
+    ({ payment }) => mapPayment(payment),
   ],
 }

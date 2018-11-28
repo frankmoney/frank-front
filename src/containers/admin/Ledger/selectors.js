@@ -224,12 +224,9 @@ export const pieChartDataSelector = createSelector(
   remapPieData
 )
 
-export const searchingSuggestionsSelector = get('searchingSuggestions')
-
-export const suggestedPeersSelector = createPlainObjectSelector(
-  get('suggestedPeers')
+export const isPaymentSavingSelector = R.memoizeWith(R.identity, id =>
+  createSelector(get('paymentIdsSaving'), ids => ids.has(id))
 )
-
-export const suggestedDescriptionsSelector = createPlainObjectSelector(
-  get('suggestedDescriptions')
+export const isPaymentPublishingSelector = R.memoizeWith(R.identity, id =>
+  createSelector(get('paymentIdsPublishing'), ids => ids.has(id))
 )

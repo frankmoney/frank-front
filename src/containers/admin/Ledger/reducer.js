@@ -1,10 +1,10 @@
-import Immutable, { fromJS } from 'immutable'
+import { Set, fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import * as ACTIONS from './actions'
 
 export const REDUCER_KEY = 'adminLedger'
 
-const defaultState = Immutable.fromJS({
+const defaultState = fromJS({
   typing: false,
   loading: true,
   loaded: false,
@@ -15,9 +15,8 @@ const defaultState = Immutable.fromJS({
   pieData: [],
   paymentsCount: 0,
   payments: [],
-  searchingSuggestions: null,
-  suggestedPeers: [],
-  suggestedDescriptions: [],
+  paymentIdsSaving: Set(),
+  paymentIdsPublishing: Set(),
 })
 
 export default handleActions(
@@ -55,27 +54,25 @@ export default handleActions(
         loading: false,
         typing: false,
       }),
-    [ACTIONS.searchSuggestions]: (
+    [ACTIONS.paymentUpdate]: (
       state,
-      { payload: { peers, descriptions } }
+      { payload: { publish, unpublish, paymentId } }
     ) =>
-      state.merge({
-        searchingSuggestions:
-          (peers && 'peers') || (descriptions && 'descriptions'),
-      }),
-    [ACTIONS.searchSuggestions.success]: (
-      state,
-      { payload: { peers, descriptions } }
-    ) =>
-      state.merge({
-        searchingSuggestions: null,
-        suggestedPeers: fromJS(peers || []),
-        suggestedDescriptions: fromJS(descriptions || []),
-      }),
-    [ACTIONS.searchSuggestions.error]: state =>
-      state.merge({
-        searchingSuggestions: null,
-      }),
+      state.updateIn(
+        [publish || unpublish ? 'paymentIdsPublishing' : 'paymentIdsSaving'],
+        set => set.add(paymentId)
+      ),
+    [ACTIONS.paymentUpdate.success]: (state, { payload: { id, ...payment } }) =>
+      state
+        .updateIn(['paymentIdsSaving'], set => set.delete(id))
+        .updateIn(['paymentIdsPublishing'], set => set.delete(id))
+        .update('payments', list => {
+          const idx = list.findIndex(x => x.get('id') === id)
+          if (idx === -1) {
+            return list
+          }
+          return list.update(idx, x => x.merge(payment))
+        }),
     [ACTIONS.leave]: () => defaultState,
     [ACTIONS.selectCategoryType]: (state, { payload: categoryType }) =>
       state.merge({ chartCategoryType: categoryType }),

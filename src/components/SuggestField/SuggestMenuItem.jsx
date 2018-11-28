@@ -1,60 +1,72 @@
 // @flow
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
-import { CustomMenuItem } from '@frankmoney/components'
+import cx from 'classnames'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = theme => ({
-  menuItem: {
+  root: {
     display: 'flex',
     flexDirection: 'row',
-    color: theme.colors.black,
+    alignItems: 'center',
+    color: '#20284A',
+    padding: [0, 15],
+    height: 50,
+    cursor: 'pointer',
+    transition: theme.transition('background-color'),
   },
   label: {
-    flex: 'auto',
+    flex: 1,
+    ...theme.fontRegular(18, 26),
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
-  counter: {
-    opacity: 0.4,
+  secondaryText: {
+    color: 'rgba(32, 40, 74, 0.3)',
+    flexShrink: 0,
+    marginLeft: 15,
   },
-  template: {
-    opacity: 0.4,
+  active: {
+    backgroundColor: 'rgba(37, 43, 67, 0.04)',
+  },
+  faint: {
+    '& $label': {
+      color: 'rgba(32, 40, 74, 0.3)',
+    },
   },
 })
 
 type Props = {
-  classes: {},
+  ...InjectStylesProps,
   text: string,
-  template: string,
-  count: number,
-  countType: string,
-  selected: boolean,
+  secondaryText: string,
+  faint?: boolean,
+  active: boolean,
 }
 
 const SuggestMenuItem = ({
   classes,
   text,
-  template,
-  count,
-  countType,
-  selected,
+  secondaryText,
+  faint,
+  active,
 }: Props) => (
-  <CustomMenuItem className={classes.menuItem} selected={selected}>
-    <div className={classes.label}>
-      {text ? (
-        <>{text}</>
-      ) : (
-        <span className={classes.template}>Use “{template}”</span>
-      )}
-    </div>
-    <div className={classes.counter}>
-      {count} {countType}
-      {(count === 0 || count > 1) && 's'}
-    </div>
-  </CustomMenuItem>
+  <div
+    className={cx(classes.root, {
+      [classes.active]: active,
+      [classes.faint]: faint,
+    })}
+  >
+    <div className={classes.label}>{text}</div>
+    {secondaryText && (
+      <div className={classes.secondaryText}>{secondaryText}</div>
+    )}
+  </div>
 )
 
 SuggestMenuItem.defaultProps = {
-  count: 0,
-  countType: 'payment',
+  faint: false,
+  active: false,
 }
 
 export default injectStyles(styles)(SuggestMenuItem)

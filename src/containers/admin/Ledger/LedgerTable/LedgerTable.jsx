@@ -4,26 +4,26 @@ import { Table } from '@frankmoney/components'
 import { PaymentsTableRow } from 'components/PaymentsTable'
 import PaymentCard from 'components/admin/PaymentCard'
 import reconnect from 'utils/reconnect'
+import { currentAccountIdSelector } from 'redux/selectors/user'
 import {
   dataSourceSelector,
   rowDataSelector,
   paymentCardCategoriesSelector,
-  searchingSuggestionsSelector,
-  suggestedPeersSelector,
+  isPaymentSavingSelector,
+  isPaymentPublishingSelector
 } from '../selectors'
 import * as ACTIONS from '../actions'
 
 const ConnectedPaymentsTableDetailRow = compose(
   reconnect(
-    {
+    (_, initialProps) => ({
       categories: paymentCardCategoriesSelector,
-      searchingSuggestions: searchingSuggestionsSelector,
-      suggestedPeers: suggestedPeersSelector,
-    },
+      accountId: currentAccountIdSelector,
+      saving: isPaymentSavingSelector(initialProps.rowId),
+      publishing: isPaymentPublishingSelector(initialProps.rowId),
+    }),
     {
-      searchSuggestions: ACTIONS.searchSuggestions,
       paymentUpdate: ACTIONS.paymentUpdate,
-      paymentPublish: ACTIONS.paymentPublish,
     }
   ),
   mapProps(({ categories, peers, data, ...otherProps }) => ({
@@ -33,17 +33,14 @@ const ConnectedPaymentsTableDetailRow = compose(
     ...otherProps,
   })),
   withHandlers({
-    onPeerSuggestionSearch: ({ searchSuggestions }) => search => {
-      searchSuggestions({ search, peers: true })
-    },
-    onDescriptionSuggestionSearch: ({ searchSuggestions }) => search => {
-      searchSuggestions({ search, descriptions: true })
-    },
-    onPaymentUpdate: ({ paymentUpdate }) => changes => {
+    onPaymentSave: ({ paymentUpdate }) => changes => {
       paymentUpdate(changes)
     },
-    onPaymentPublish: ({ paymentPublish }) => () => {
-      paymentPublish()
+    onPaymentPublish: ({ paymentUpdate }) => changes => {
+      paymentUpdate({ ...changes, publish: true })
+    },
+    onPaymentUnpublish: ({ paymentUpdate }) => changes => {
+      paymentUpdate({ ...changes, unpublish: true })
     },
   })
 )(PaymentCard)

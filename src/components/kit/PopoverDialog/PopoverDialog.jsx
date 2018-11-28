@@ -44,7 +44,6 @@ const PopoverDialog = ({
 }) => (
   <ArrowPopup
     className={cx(classes.root, className)}
-    type="popover"
     place={place}
     align={align}
     button={button}

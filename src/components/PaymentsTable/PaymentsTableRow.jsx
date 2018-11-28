@@ -87,7 +87,7 @@ const styles = theme => ({
 const PaymentsTableRow = ({
   classes,
   className,
-  data: { description, peerName, amount, category, postedOn },
+  data: { description, peerName, amount, category, postedOn, published },
   // omit
   grid,
   theme,
@@ -128,7 +128,7 @@ const PaymentsTableRow = ({
       <CurrencyDelta className={classes.sum} value={amount} />
       <div className={classes.icons}>
         <div className={classes.date}>{formatFullDate(postedOn)}</div>
-        <CheckCircle className={classes.checkIcon} />
+        {published && <CheckCircle className={classes.checkIcon} />}
       </div>
     </TableCell>
   </TableRow>

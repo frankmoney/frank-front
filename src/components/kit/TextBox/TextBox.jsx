@@ -13,7 +13,7 @@ const styles = {
 
 type Value = string | number
 
-type OnChangeCb = any => void
+type OnChangeCb = Event => void
 
 type Props = {|
   ...InjectStylesProps,
@@ -63,12 +63,12 @@ class TextBox extends React.Component<Props, State> {
 
     if (this.isControlled) {
       if (typeof this.props.onChange === 'function') {
-        return this.props.onChange(value)
+        return this.props.onChange(event)
       }
     } else {
       this.setState({ value }, () => {
         if (typeof this.props.onChange === 'function') {
-          this.props.onChange(value)
+          this.props.onChange(event)
         }
       })
     }
