@@ -59,7 +59,8 @@ const formatBarAxisLabel = (
   } else if (barsUnit === 'month') {
     formatter = prev && !isSameYear(date, prev) ? 'MMM YYYY' : 'MMM'
   } else if (barsUnit === 'quarter') {
-    formatter = prev && !isSameYear(date, prev) ? '[Q]Q YYYY' : '[Q]Q'
+    formatter =
+      !prev || (prev && !isSameYear(date, prev)) ? '[Q]Q YYYY' : '[Q]Q'
   } else if (barsUnit === 'year') {
     formatter = 'YYYY'
   }
@@ -88,10 +89,11 @@ const formatBarTooltipLabel = (date: Date, barsUnit: BarsUnit): string => {
 
 export const formatBarLabels = (
   item: IntermediateDataPoint,
-  prevDate: ?Date,
+  prev: ?IntermediateDataPoint,
   barsUnit: BarsUnit
 ): FormattedBarLabels => {
   const date = parseDate(item.showDate)
+  const prevDate = prev ? parseDate(prev.showDate) : null
   return {
     startDate: item.startDate,
     endDate: item.endDate,
