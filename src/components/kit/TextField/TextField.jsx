@@ -15,11 +15,15 @@ const TextField = ({
   readOnly,
   type,
   name,
+  minLines,
+  disableAutoComplete,
   ...otherProps
 }: Props) => (
   <Field {...otherProps}>
     <TextBox
       multiLine={multiLine}
+      minLines={minLines}
+      disableAutoComplete={disableAutoComplete}
       readOnly={readOnly}
       type={type}
       name={name}

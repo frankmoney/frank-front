@@ -35,6 +35,14 @@ const styles = theme => ({
       color: 'rgba(37, 43, 67, 0.2)',
     },
   },
+  disableSafariAutoFill: {
+    '&::-webkit-contacts-auto-fill-button, &::-webkit-credentials-auto-fill-button': {
+      visibility: 'hidden',
+      pointerEvents: 'none',
+      position: 'absolute',
+      right: 0,
+    },
+  },
   focus: {},
 })
 
@@ -53,6 +61,7 @@ type Props = {|
   type: InputType,
   minLines?: number,
   name?: string,
+  disableAutoComplete?: boolean,
   // Controlled value
   onChange: OnChangeCb,
   value: string | number,
@@ -63,6 +72,7 @@ export type InputProps = Props
 class Input extends React.Component<Props> {
   static defaultProps = {
     type: 'text',
+    disableAutoComplete: false,
   }
 
   componentDidMount() {
@@ -99,13 +109,22 @@ class Input extends React.Component<Props> {
       type,
       focus,
       minLines,
+      disableAutoComplete,
       // Omit
-      theme,
+      autoComplete: autoCompleteProp,
       //
       ...otherProps
     } = this.props
 
-    const cls = cx(classes.root, { [classes.focus]: focus }, className)
+    const autoComplete = disableAutoComplete ? 'off' : null
+    const cls = cx(
+      classes.root,
+      {
+        [classes.focus]: focus,
+        [classes.disableSafariAutoFill]: disableAutoComplete,
+      },
+      className
+    )
 
     if (multiLine) {
       return (
@@ -114,6 +133,7 @@ class Input extends React.Component<Props> {
           value={value || ''}
           onChange={this.handleChange}
           className={cls}
+          autoComplete={autoComplete}
           {...otherProps}
         />
       )
@@ -126,6 +146,7 @@ class Input extends React.Component<Props> {
         value={value || ''}
         onChange={this.handleChange}
         className={cls}
+        autoComplete={autoComplete}
         {...otherProps}
       />
     )
