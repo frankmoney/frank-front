@@ -97,14 +97,6 @@ class Input extends React.Component<Props> {
     }
   }
 
-  handleChange = event => {
-    // if (this.props.multiLine) {
-    //   adjustTextareaSize(event.target, this.props)
-    // }
-
-    this.props.onChange(event)
-  }
-
   handleKeyPress = event => {
     if (this.props.disableEnter && event.key === 'Enter') {
       event.preventDefault()
@@ -123,7 +115,6 @@ class Input extends React.Component<Props> {
       className,
       controlRef,
       multiLine,
-      onChange,
       onKeyPress,
       value,
       type,

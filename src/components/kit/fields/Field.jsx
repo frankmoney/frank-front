@@ -126,10 +126,12 @@ class Field extends React.Component<Props, State> {
   }
 
   handleChange = eventOrValue => {
-    const value =
-      eventOrValue && eventOrValue.target ? event.target.value : eventOrValue
-
     if (!this.isControlledValue) {
+      const value =
+        eventOrValue && eventOrValue.target
+          ? eventOrValue.target.value
+          : eventOrValue
+
       this.setState({ value }, () => {
         if (typeof this.props.onChange === 'function') {
           this.props.onChange(eventOrValue)
