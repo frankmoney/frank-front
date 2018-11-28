@@ -51,6 +51,5 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => props.loading, renderComponent(AreaSpinner)),
-  branch(props => !props.termsAccepted, renderComponent(STEPS.Terms))
+  branch(props => props.loading, renderComponent(AreaSpinner))
 )(Onboarding)

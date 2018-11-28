@@ -5,6 +5,7 @@ import { ArrowBack } from 'material-ui-icons'
 import Button, { TextButton } from 'components/kit/Button'
 import FrankLogo from 'components/Logo'
 import { injectStyles } from 'utils/styles'
+import resetScrollPositionOnMount from 'utils/resetScrollPositionOnMount'
 import styles from './StepLayout.jss'
 
 const StepLayout = ({
@@ -65,4 +66,4 @@ StepLayout.defaultProps = {
   centered: false,
 }
 
-export default injectStyles(styles)(StepLayout)
+export default injectStyles(styles)(resetScrollPositionOnMount(StepLayout))
