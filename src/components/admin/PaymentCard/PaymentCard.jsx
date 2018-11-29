@@ -8,7 +8,7 @@ import {
 } from 'material-ui-icons'
 import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
 import { compose, withPropsOnChange, withState, withHandlers } from 'recompose'
-import { reduxForm, defaultShouldError } from 'redux-form/immutable'
+import { reduxForm } from 'redux-form/immutable'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
 import Button from 'components/kit/Button'
@@ -42,11 +42,8 @@ const PaymentCard = ({
   accountId,
   postedOn,
   amount,
-  peerName,
-  peerId,
   categories,
   categoryId,
-  description,
   similarCount,
   saving,
   saved,
@@ -54,7 +51,6 @@ const PaymentCard = ({
   published,
   onSaveClick,
   onPublishClick,
-  onPaymentUnublish,
   confirmOpen,
   handleCloseConfirm,
   handleSubmitConfirm,
@@ -185,12 +181,7 @@ const PaymentCard = ({
   </Paper>
 )
 
-const pickCardState = ({
-  published,
-  categoryId,
-  peerName = '',
-  description = '',
-}) => ({
+const pickCardState = ({ categoryId, peerName = '', description = '' }) => ({
   categoryId,
   peerName,
   description,
@@ -199,7 +190,6 @@ const pickCardState = ({
 export default compose(
   injectStyles(styles),
   withState('confirmOpen', 'changeConfirmOpen', false),
-  withState('disableValidation', 'changeDisableValidation', false),
   withPropsOnChange(['id', 'peerName', 'categoryId', 'description'], props => ({
     initialValues: pickCardState(props),
     form: `payment-${props.id}`,
@@ -207,12 +197,6 @@ export default compose(
   reduxForm({
     enableReinitialize: true,
     validate,
-    shouldError: data => {
-      if (data.props.disableValidation) {
-        return false
-      }
-      return defaultShouldError(data)
-    },
     onSubmit: (data, _, props) => {
       const { publishing, ...otherData } = data.toJS()
       const payment = { paymentId: props.id, ...otherData }
@@ -223,7 +207,6 @@ export default compose(
       } else {
         props.onPaymentPublish(payment)
       }
-      props.changeDisableValidation(false)
     },
   }),
   withHandlers({
@@ -231,8 +214,6 @@ export default compose(
       if (props.published && props.invalid) {
         props.changeConfirmOpen(true)
       } else {
-        props.changeDisableValidation(true)
-        props.clearSubmitErrors()
         props.change('publishing', false)
         setTimeout(() => props.submit(), 100)
       }

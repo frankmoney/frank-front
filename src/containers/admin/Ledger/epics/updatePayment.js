@@ -26,6 +26,7 @@ export default (action$, store, { graphql }) =>
           accountId: currentAccountId,
           paymentId,
           peerName,
+          peerId: null, // пока что обновляем пира всегда текстом
           categoryId,
           description,
           verified,

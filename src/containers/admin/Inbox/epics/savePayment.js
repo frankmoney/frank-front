@@ -13,7 +13,7 @@ export default (action$, store, { graphql }) =>
         return graphql(QUERIES.paymentUpdate, {
           accountId: currentAccountId,
           paymentId,
-          // peerId,
+          peerId: null, // пока что обновляем пира всегда текстом
           peerName,
           categoryId,
           description,
