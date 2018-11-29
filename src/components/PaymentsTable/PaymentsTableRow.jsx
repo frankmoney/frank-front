@@ -53,9 +53,13 @@ const styles = theme => ({
   client: {
     marginRight: 20,
     ...theme.fontMedium(16),
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
   category: {
     ...theme.fontMedium(16),
+    whiteSpace: 'nowrap',
   },
   categoryIcon: {
     height: 12,
