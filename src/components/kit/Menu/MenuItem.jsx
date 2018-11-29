@@ -5,6 +5,7 @@ import { CheckCircle } from 'material-ui-icons'
 import Color from 'color-js'
 import SelectListBase from 'components/kit/SelectListBase'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import MenuItemBase from './MenuItemBase'
 
 export type MenuRenderIconProps = {|
   active?: boolean,
@@ -58,6 +59,7 @@ const styles = theme => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
+    marginRight: props => (props.selected ? 10 : 0),
   },
   hasLabelIcon: {
     '& $label': {
@@ -83,15 +85,6 @@ const styles = theme => ({
     width: 24,
     height: 24,
   },
-  selected: {
-    cursor: 'default',
-    '& $label': {
-      marginRight: 10,
-    },
-  },
-  active: {
-    background: getActiveBackgroundColor,
-  },
 })
 
 const MenuItem = ({
@@ -102,21 +95,19 @@ const MenuItem = ({
   label,
   color,
   icon,
-  noAnimation,
   renderIcon,
   theme,
   renderCheck,
   ...otherProps
 }: Props) => (
-  <div
+  <MenuItemBase
     className={cx(
-      classes.root,
       (icon || typeof renderIcon === 'function') && classes.hasLabelIcon,
-      selected && classes.selected,
-      active && classes.active,
       className
     )}
-    data-active-color={getActiveBackgroundColor({ color })}
+    active={active}
+    selected={selected}
+    color={color}
     {...otherProps}
   >
     <div className={classes.label}>
@@ -133,13 +124,8 @@ const MenuItem = ({
     {!renderCheck && selected && <CheckCircle className={classes.check} />}
     {typeof renderCheck === 'function' &&
       renderCheck({ selected, active, color })}
-  </div>
+  </MenuItemBase>
 )
-
-MenuItem.defaultProps = {
-  color: '#252B43',
-  noAnimation: false,
-}
 
 const StyledMenuItem = injectStyles(styles)(MenuItem)
 

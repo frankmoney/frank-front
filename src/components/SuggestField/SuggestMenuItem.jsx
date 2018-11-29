@@ -1,7 +1,8 @@
 // @flow
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
-import { CustomMenuItem } from '@frankmoney/components'
+import { Check as SuggestedIcon } from 'material-ui-icons'
+import MenuItemBase from 'components/kit/Menu/MenuItemBase'
 
 const styles = theme => ({
   menuItem: {
@@ -32,24 +33,26 @@ type Props = {
 const SuggestMenuItem = ({
   classes,
   text,
-  template,
   count,
   countType,
-  selected,
+  suggested,
+  ...otherProps
 }: Props) => (
-  <CustomMenuItem className={classes.menuItem} selected={selected}>
+  <MenuItemBase className={classes.menuItem} {...otherProps}>
     <div className={classes.label}>
-      {text ? (
+      {count !== 0 ? (
         <>{text}</>
       ) : (
-        <span className={classes.template}>Use “{template}”</span>
+        <span className={classes.template}>Use “{text}”</span>
       )}
+      {/* suggested && <SuggestedIcon /> */}
     </div>
+
     <div className={classes.counter}>
       {count} {countType}
       {(count === 0 || count > 1) && 's'}
     </div>
-  </CustomMenuItem>
+  </MenuItemBase>
 )
 
 SuggestMenuItem.defaultProps = {

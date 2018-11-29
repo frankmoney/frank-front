@@ -1,4 +1,4 @@
-import { compose, mapProps, withHandlers } from 'recompose'
+import { compose, mapProps, withProps, withHandlers } from 'recompose'
 import { injectStyles } from '@frankmoney/ui'
 import { Table } from '@frankmoney/components'
 import { PaymentsTableRow } from 'components/PaymentsTable'
@@ -12,6 +12,12 @@ import {
   suggestedPeersSelector,
 } from '../selectors'
 import * as ACTIONS from '../actions'
+
+const ComposedPaymentsTableRow = compose(
+  withProps({
+    type: 'admin',
+  })
+)(PaymentsTableRow)
 
 const ConnectedPaymentsTableDetailRow = compose(
   reconnect(
@@ -67,7 +73,7 @@ export default compose(
     canSelectRows: true,
     tableHeaderClassName: classes.header,
     tableDetailRowClassName: classes.detailRow,
-    rowComponent: PaymentsTableRow,
+    rowComponent: ComposedPaymentsTableRow,
     rowDetailViewComponent: ConnectedPaymentsTableDetailRow,
     dataSourceSelector,
     rowDataSelector,

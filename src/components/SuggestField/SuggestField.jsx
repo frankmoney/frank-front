@@ -151,10 +151,14 @@ class SuggestField extends React.Component {
   renderSuggestion = (suggestion, { isHighlighted }) => {
     const { suggestKeyName } = this.props
     const suggestProps = suggestion.id
-      ? { text: suggestion[suggestKeyName], count: suggestion.count }
-      : { template: suggestion[suggestKeyName], count: 0 }
+      ? {
+          text: suggestion[suggestKeyName],
+          count: suggestion.count,
+          suggested: suggestion.suggested,
+        }
+      : { text: suggestion[suggestKeyName] }
 
-    return <SuggestMenuItem selected={isHighlighted} {...suggestProps} />
+    return <SuggestMenuItem active={isHighlighted} {...suggestProps} />
   }
 
   renderSuggestionsContainer = ({ containerProps, children }) => {

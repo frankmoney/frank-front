@@ -5,6 +5,7 @@ import ChartCard from './ChartCard'
 import {
   barChartColorSelector,
   barChartDataSelector,
+  barChartClickableSelector,
   barChartOnlySelector,
   chartCategoryTypeSelector,
   chartsVisibleSelector,
@@ -18,6 +19,7 @@ export default compose(
     {
       barsColor: barChartColorSelector,
       barsData: barChartDataSelector,
+      barsAreClickable: barChartClickableSelector,
       barsOnly: barChartOnlySelector,
       categoryType: chartCategoryTypeSelector,
       period: periodSelector,
@@ -27,6 +29,7 @@ export default compose(
     {
       onCategoryClick: ACTIONS.selectCategory,
       onCategoryTypeChange: ACTIONS.selectCategoryType,
+      onBarsZoomIn: ACTIONS.barZoomIn,
     }
   ),
   branch(props => !props.visible, renderNothing)

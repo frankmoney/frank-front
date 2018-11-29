@@ -8,11 +8,12 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    height: 50,
   },
   title: {
     ...theme.fontRegular(22, 22),
     padding: 0,
-    margin: [-1, 0, 30],
+    margin: [-1, 0, 0],
   },
 })
 

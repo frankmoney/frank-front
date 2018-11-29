@@ -3,65 +3,30 @@ import { connect } from 'react-redux'
 import { compose, withProps, mapProps, withStateHandlers } from 'recompose'
 import { injectStyles } from '@frankmoney/ui'
 import { Table } from '@frankmoney/components'
-import {
-  PaymentsTableRow,
-  PaymentsTableDetailRow,
-} from 'components/PaymentsTable'
-import {
-  dataSourceSelector,
-  rowDataSelector,
-  categoriesSelector,
-  allPeersSelector,
-} from '../selectors'
+import { PaymentsTableRow } from 'components/PaymentsTable'
+import PaymentCard from 'components/public/PaymentCard'
+import { dataSourceSelector, rowDataSelector } from '../selectors'
 
 const ComposedPaymentsTableRow = compose(
   withProps({
     tablePadding: 30,
+    type: 'public',
   })
 )(PaymentsTableRow)
 
 const ConnectedPaymentsTableDetailRow = compose(
-  connect(state => ({
-    categories: categoriesSelector(state),
-    peers: allPeersSelector(state),
+  withStateHandlers(({ data }) => ({
+    ...data,
   })),
-  withStateHandlers(
-    ({
-      categories,
-      peers,
-      data: { peerName, peer, category, description },
-    }) => ({
-      categories,
-      peers,
-      peerId: peer ? peer.id : '',
-      peerName: peer ? peer.name : peerName || '',
-      categoryId: category ? category.id : '-',
-      description,
-    }),
-    {
-      onPeerIdChange: ({ peers }) => peerId => {
-        const peer = R.find(R.propEq('id', peerId), peers)
-        return {
-          peerId: peer ? peer.id : '',
-          peerName: peer ? peer.name : '',
-        }
-      },
-      onPeerNameChange: () => peerName => ({ peerId: null, peerName }),
-      onCategoryIdChange: ({ categories }) => categoryId => {
-        const category = R.find(R.propEq('id', categoryId), categories)
-        return { categoryId: category ? category.id : '-' }
-      },
-      onDescriptionChange: () => description => ({ description }),
-    }
-  )
-)(PaymentsTableDetailRow)
+  withProps({ paperPadding: 40 })
+)(PaymentCard)
 
 const styles = {
   header: {
     paddingBottom: 19,
   },
   detailRow: {
-    width: props => props.grid.fixed.contentWidth,
+    width: 680,
     position: 'relative',
   },
 }
@@ -74,7 +39,7 @@ export default compose(
     tableHeaderClassName: classes.header,
     tableDetailRowClassName: classes.detailRow,
     rowComponent: ComposedPaymentsTableRow,
-    // rowDetailViewComponent: ConnectedPaymentsTableDetailRow,
+    rowDetailViewComponent: ConnectedPaymentsTableDetailRow,
     dataSourceSelector,
     rowDataSelector,
     ...props,

@@ -14,6 +14,9 @@ export const ROUTES = {
     ledger: {
       root: '/manage/ledger',
     },
+    payment: {
+      root: '/manage/ledger/:id',
+    },
     stories: {
       root: '/manage/stories',
       storyPreview: '/manage/story/:id?',

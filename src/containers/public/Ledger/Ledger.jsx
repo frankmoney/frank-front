@@ -2,6 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
+import FiltersDrawer from 'containers/admin/Filters/FiltersDrawer'
 import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
 import reconnect from 'utils/reconnect'
@@ -9,7 +10,6 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import ConnectedChartCard from './ConnectedChartCard'
 import LedgerPager from './LedgerPager'
 import LedgerTable from './LedgerTable'
-import LedgerFilter from './LedgerFilter'
 import LedgerHeader from './LedgerHeader'
 import LedgerStats from './LedgerStats'
 import LedgerTabs from './LedgerTabs'
@@ -71,7 +71,7 @@ class Ledger extends React.Component<Props, State> {
             <div ref={this.handleAnchorRef}>
               <LedgerTabs className={classes.tabs} />
             </div>
-            <LedgerFilter />
+            <FiltersDrawer disableVerifiedFilter disablePendingFilter />
             {currentTab === 'ledger' && (
               <>
                 <ConnectedChartCard className={classes.chartCard} />

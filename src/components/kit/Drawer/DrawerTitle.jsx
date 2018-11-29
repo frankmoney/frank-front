@@ -57,6 +57,7 @@ const DrawerTitle = ({
   clamp = 1,
   smaller,
   children,
+  subtitle,
   buttons,
   ...otherProps
 }: Props) => (
@@ -76,9 +77,15 @@ const DrawerTitle = ({
         )}
       </div>
     )}
-    <Clamp className={classes.text} lines={clamp} {...otherProps}>
-      {children}
-    </Clamp>
+    {children && React.isValidElement(children) ? (
+      React.cloneElement(children, {
+        className: classes.text,
+      })
+    ) : (
+      <Clamp className={classes.text} lines={clamp} {...otherProps}>
+        {children}
+      </Clamp>
+    )}
   </div>
 )
 

@@ -38,6 +38,8 @@ const PAYMENTS = `
   categoryUpdater {
     ${FIELD_UPDATER}
   }
+  verified
+  pending
 `
 
 export default {

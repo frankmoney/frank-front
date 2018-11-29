@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
+import { DEFAULT_DRAWER_PAYMENTS_PAGE_SIZE as PAGE_SIZE } from 'components/drawers/constants'
 import ACTIONS from './actions'
 
 export const REDUCER_KEY = 'publicPayment'
@@ -9,6 +10,12 @@ const initialState = fromJS({
   isLoading: false,
   account: null,
   payment: null,
+  drawerOpen: false,
+  listLoading: false,
+  listMoreLoading: false,
+  similarPayments: [],
+  totalPagesCount: 0,
+  loadedPagesCount: 0,
 })
 
 export default handleActions(
@@ -30,6 +37,41 @@ export default handleActions(
         isLoading: false,
         isLoaded: false,
       }),
+
+    [ACTIONS.openDrawer]: state => state.merge({ drawerOpen: true }),
+    [ACTIONS.closeDrawer]: state => state.merge({ drawerOpen: false }),
+    [ACTIONS.loadSimilarPayments]: (state, { payload: totalCount }) =>
+      state.merge({
+        listLoading: true,
+        loadedPagesCount: 0,
+        totalPagesCount: Math.ceil(totalCount / PAGE_SIZE),
+      }),
+    [ACTIONS.loadSimilarPayments.success]: (state, { payload: payments }) =>
+      state.merge({
+        listLoading: false,
+        similarPayments: fromJS(payments),
+        loadedPagesCount: 1,
+      }),
+    [ACTIONS.loadSimilarPayments.error]: state =>
+      state.merge({
+        listLoading: false,
+      }),
+    [ACTIONS.loadMoreSimilarPayments]: state =>
+      state.merge({
+        listMoreLoading: true,
+      }),
+    [ACTIONS.loadMoreSimilarPayments.success]: (state, { payload: payments }) =>
+      state
+        .merge({
+          listMoreLoading: false,
+        })
+        .update('loadedPagesCount', counter => counter + 1)
+        .update('similarPayments', list => list.concat(fromJS(payments))),
+    [ACTIONS.loadMoreSimilarPayments.error]: state =>
+      state.merge({
+        listMoreLoading: false,
+      }),
+
     [ACTIONS.leave]: () => initialState,
   },
   initialState

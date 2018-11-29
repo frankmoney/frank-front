@@ -13,7 +13,14 @@ const paymentFields = `
     name
     color
   }
-  similarCount: countSimilar(includeSelf: false)
+  similarCount: countSimilar(includeSelf: true)
+`
+
+const similarPaymentFields = `
+  id: pid
+  postedOn
+  amount
+  description
 `
 
 export default {
@@ -43,5 +50,30 @@ export default {
         payment,
       },
     }) => ({ account: { id, name, currencyCode }, payment }),
+  ],
+  getSimilarPayments: [
+    `
+    query(
+      $accountId: ID!
+      $paymentId: ID!
+      $first: Int
+      $skip: Int
+    ) {
+      account(pid: $accountId) {
+        accountId: pid,
+        payment(pid: $paymentId) {
+          payments: similar(take: $first, skip: $skip, sortBy: postedOn_DESC includeSelf: true) {
+            ${similarPaymentFields}
+          }
+        }
+      }
+    }
+    `,
+    ({
+      account: {
+        accountId,
+        payment: { payments },
+      },
+    }) => payments.map(({ ...params }) => ({ accountId, ...params })),
   ],
 }
