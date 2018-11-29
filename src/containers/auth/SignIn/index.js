@@ -1,1 +1,2 @@
-export default from './SignIn'
+// @flow strict-local
+export { default } from './SignIn'

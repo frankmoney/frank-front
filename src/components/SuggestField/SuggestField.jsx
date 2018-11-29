@@ -1,11 +1,10 @@
-// @flow
+// @flow strict-local
 import React from 'react'
-import * as R from 'ramda'
-import { injectStyles } from '@frankmoney/ui'
 import Autosuggest from 'react-autosuggest'
 import Spinner from 'components/kit/Spinner'
 import Paper from 'components/kit/Paper'
-import TextField from '../kit/TextField/TextField'
+import TextField from 'components/kit/TextField'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import SuggestMenuItem from './SuggestMenuItem'
 import styles from './SuggestField.jss'
 
@@ -15,14 +14,18 @@ const ForwardInputRef = React.forwardRef((inputProps, ref) => (
   <TextField controlRef={ref} {...inputProps} />
 ))
 
-type Props = {
+type SuggestItem = { suggestion: string }
+
+type Props = {|
+  ...InjectStylesProps,
+  //
   onRequestFetchSuggestions: string => void,
   onRequestClearSuggestions: string => void,
   onChange: string => {},
   onSelect: SuggestItem => {},
-}
+|}
 
-class SuggestField extends React.Component<Props> {
+class SuggestField extends React.PureComponent<Props> {
   static defaultProps = {
     value: '',
   }

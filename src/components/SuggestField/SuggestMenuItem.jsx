@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -36,20 +36,20 @@ const styles = theme => ({
   },
 })
 
-type Props = {
+type Props = {|
   ...InjectStylesProps,
-  text: string,
-  secondaryText: string,
-  faint?: boolean,
   active: boolean,
-}
+  faint?: boolean,
+  secondaryText: string,
+  text: string,
+|}
 
 const SuggestMenuItem = ({
-  classes,
-  text,
-  secondaryText,
-  faint,
   active,
+  classes,
+  faint,
+  secondaryText,
+  text,
 }: Props) => (
   <div
     className={cx(classes.root, {
@@ -65,8 +65,8 @@ const SuggestMenuItem = ({
 )
 
 SuggestMenuItem.defaultProps = {
-  faint: false,
   active: false,
+  faint: false,
 }
 
 export default injectStyles(styles)(SuggestMenuItem)
