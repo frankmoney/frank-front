@@ -105,6 +105,9 @@ export default {
           `ledgerBarChart(
             postedOnMin: $dateMin
             postedOnMax: $dateMax
+            amountMin: $amountMin
+            amountMax: $amountMax
+            verified: $verified
           ) {
             barSize
             bars {
@@ -120,7 +123,13 @@ export default {
         ${categoryScoped ? '}' : ''}
         
         ${(includePie &&
-          `ledgerPieChart {
+          `ledgerPieChart(
+            postedOnMin: $dateMin
+            postedOnMax: $dateMax
+            amountMin: $amountMin
+            amountMax: $amountMax
+            verified: $verified
+          ) {
             items {
               category {
                 id: pid
