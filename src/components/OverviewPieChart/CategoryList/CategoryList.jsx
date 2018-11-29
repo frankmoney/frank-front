@@ -4,7 +4,12 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import CategoryLabel from 'components/CategoryLabel'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import type { CategoryListData, CategoryCb } from '../utils'
+import {
+  OTHER_ID,
+  type CategoryListData,
+  type CategoryCb,
+  type IndexedPieChartCategory,
+} from '../utils'
 import OtherCategories from './OtherCategories'
 import styles from './CategoryList.jss'
 
@@ -44,24 +49,38 @@ const CategoryList = ({
 }: Props) => {
   const highlighted = R.not(R.isNil(activeCategoryIndex))
 
-  const renderItem = ({ index, ...otherProps }) => (
-    <CategoryLabel
-      active={index === activeCategoryIndex}
-      activeClassName={classes.active}
-      className={cx(classes.item, itemClassName)}
-      iconClassName={cx(classes.icon, iconClassName)}
-      key={index}
-      nameClassName={cx(classes.name, nameClassName)}
-      onClick={onCategoryClick && (() => onCategoryClick(items[index]))}
-      onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(index))}
-      onMouseLeave={onLabelMouseLeave}
-      valueClassName={cx(classes.value, valueClassName)}
-      valueUnit={valueUnit}
-      {...otherProps}
-    />
-  )
+  const renderItem = ({
+    id,
+    index,
+    ...otherProps
+  }: IndexedPieChartCategory) => {
+    const handleClick =
+      onCategoryClick && id !== OTHER_ID
+        ? () => onCategoryClick(items[index])
+        : null
+    return (
+      <CategoryLabel
+        active={index === activeCategoryIndex}
+        activeClassName={classes.active}
+        className={cx(classes.item, itemClassName)}
+        iconClassName={cx(classes.icon, iconClassName)}
+        key={index}
+        nameClassName={cx(classes.name, nameClassName)}
+        onClick={handleClick}
+        onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(index))}
+        onMouseLeave={onLabelMouseLeave}
+        valueClassName={cx(classes.value, valueClassName)}
+        valueUnit={valueUnit}
+        {...otherProps}
+      />
+    )
+  }
 
-  const renderTooltipItem = ({ index, ...otherProps }) => (
+  const renderTooltipItem = ({
+    id, // omit
+    index,
+    ...otherProps
+  }: IndexedPieChartCategory) => (
     <CategoryLabel
       className={classes.tooltipItem}
       iconClassName={classes.tooltipIcon}

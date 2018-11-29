@@ -19,6 +19,7 @@ export type PieChartCategories = Array<PieChartCategory>
 
 const INDEX_PROP = 'index'
 const VALUE_PROP = 'value'
+export const OTHER_ID = '#other'
 
 const injectKey: PieChartCategories => Array<PieChartCategory> = R.addIndex(
   R.map
@@ -40,7 +41,7 @@ const roundValues = R.over(R.lensProp(VALUE_PROP), Math.round)
 
 const mergeOthers = (items: PieChartCategories): IndexedPieChartCategory => ({
   name: 'Other categories',
-  id: '#Other',
+  id: OTHER_ID,
   color: '#B3B3B3',
   [VALUE_PROP]: sumProps(VALUE_PROP)(items),
   index: R.prop(INDEX_PROP, R.head(items)),
