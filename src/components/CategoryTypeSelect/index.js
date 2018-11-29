@@ -1,1 +1,2 @@
-export default from './CategoryTypeSelect'
+// @flow strict-local
+export { default } from './CategoryTypeSelect'

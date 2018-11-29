@@ -19,7 +19,7 @@ export type CategoryListPieChartRootComponent = React.ComponentType<any> // flow
 type Props = {|
   ...InjectStylesProps,
   //
-  CategoryList: CategoryListComponent,
+  CategoryList: React.Element<CategoryListComponent>,
   categoryType: string,
   categoryTypeSelectClassName?: string,
   categoryTypeSelectLabel?: string,
@@ -93,15 +93,15 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
             value={categoryType}
           />
         </div>
-        <CategoryList
-          activeCategoryIndex={activeCategoryIndex}
-          className={classes.categoryList}
-          data={categories}
-          onCategoryClick={onCategoryClick}
-          onLabelMouseEnter={this.handleMouseOver}
-          onLabelMouseLeave={this.handleMouseOut}
-          valueUnit="%"
-        />
+        {React.cloneElement(CategoryList, {
+          activeCategoryIndex,
+          className: classes.categoryList,
+          data: categories,
+          onCategoryClick,
+          onLabelMouseEnter: this.handleMouseOver,
+          onLabelMouseLeave: this.handleMouseOut,
+          valueUnit: '%',
+        })}
       </Root>
     )
   }

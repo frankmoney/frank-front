@@ -1,1 +1,2 @@
-export default from './OverviewTab'
+// @flow strict-local
+export { default } from './OverviewTab'
