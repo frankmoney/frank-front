@@ -76,22 +76,6 @@ const CategoryList = ({
     )
   }
 
-  const renderTooltipItem = ({
-    id, // omit
-    index,
-    ...otherProps
-  }: IndexedPieChartCategory) => (
-    <CategoryLabel
-      className={classes.tooltipItem}
-      iconClassName={classes.tooltipIcon}
-      key={index}
-      nameClassName={classes.tooltipName}
-      valueClassName={classes.tooltipValue}
-      valueUnit={valueUnit}
-      {...otherProps}
-    />
-  )
-
   return (
     <div
       className={cx(
@@ -103,11 +87,10 @@ const CategoryList = ({
       {R.map(renderItem, items)}
       {other && (
         <OtherCategories
-          categories={tooltipItems}
-          renderTooltipItem={renderTooltipItem}
-        >
-          {renderItem(other)}
-        </OtherCategories>
+          anchor={renderItem(other)}
+          items={tooltipItems}
+          valueUnit={valueUnit}
+        />
       )}
     </div>
   )
