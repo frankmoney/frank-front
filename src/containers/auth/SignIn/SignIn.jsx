@@ -1,9 +1,11 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import PageForm from 'components/PageForm'
 import SignInForm from './SignInForm'
 
-const SignIn = ({ className }) => (
+type Props = {| className?: string |}
+
+const SignIn = ({ className }: Props) => (
   <PageForm className={className} title="Sign In" centered>
     <SignInForm />
   </PageForm>

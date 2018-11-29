@@ -1,1 +1,2 @@
-export default from './PageForm'
+// @flow strict-local
+export { default } from './PageForm'

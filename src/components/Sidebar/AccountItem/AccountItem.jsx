@@ -9,21 +9,21 @@ import styles from './AccountItem.jss'
 type Props = {|
   ...InjectStylesProps,
   //
-  label: React.Node,
-  renderAccountMenuItems: () => Array<React.Node>,
   compact: boolean,
-  icon: React.Node,
+  icon: React.Element<any>,
+  label: React.Node,
   onClick?: () => void,
+  renderAccountMenuItems: () => Array<React.Node>,
 |}
 
 const AccountItem = ({
-  label,
-  compact,
-  renderAccountMenuItems,
   classes,
   className,
+  compact,
   icon,
+  label,
   onClick,
+  renderAccountMenuItems,
 }: Props) => {
   const accountMenuItems = renderAccountMenuItems()
 
