@@ -14,6 +14,7 @@ peer {
   name
 }
 published: verified
+pending
 description
 category {
   id: pid

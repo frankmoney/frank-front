@@ -1,13 +1,14 @@
 // @flow strict-local
 import React from 'react'
+import PaymentsList from 'components/common/PaymentsList'
 import Drawer from 'components/kit/Drawer'
 import type { CurrencyCode } from 'contexts/CurrencyContext'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { DateRangeField } from 'components/DrawerFilters'
 import AreaSpinner from 'components/AreaSpinner'
-import { PAGE_SIZE } from '../../containers/admin/StoryEdit/constants'
-import { DRAWER_INSET } from '../kit/Drawer/styles'
-import PaymentsList from './PaymentsList'
+import { PaymentListRow, ROW_HEIGHT } from 'components/PaymentListRow'
+import { PAGE_SIZE } from 'containers/admin/StoryEdit/constants'
+import { DRAWER_INSET } from 'components/kit/Drawer/styles'
 
 const style = theme => ({
   modeTitle: {},
@@ -75,6 +76,10 @@ type Props = {|
 type State = {|
   selectedPayments: Array<Payment>,
 |}
+
+const renderRow = ({ isLast, ...props }) => (
+  <PaymentListRow selectable noSeparator={isLast} {...props} />
+)
 
 class PaymentsSelectorDrawer extends React.PureComponent<Props, State> {
   state = {
@@ -148,6 +153,8 @@ class PaymentsSelectorDrawer extends React.PureComponent<Props, State> {
               isLoadingMore={isLoadingMore}
               moreButtonLabel={`Show ${PAGE_SIZE} more payments`}
               inset={DRAWER_INSET}
+              itemHeight={ROW_HEIGHT}
+              renderRow={renderRow}
             />
           )}
         </Drawer.Content>

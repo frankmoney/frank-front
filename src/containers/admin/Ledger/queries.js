@@ -17,6 +17,7 @@ const PAYMENTS = `
   postedOn
   amount
   published: verified
+  pending
   peer {
     ${PEER}
   }

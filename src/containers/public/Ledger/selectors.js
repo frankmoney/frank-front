@@ -11,18 +11,22 @@ import {
   type BarsUnit,
 } from 'data/models/barData'
 import { remapPieData, sumProp } from 'data/models/pieData'
-import { parseDate, formatMonth, parseMonth } from 'utils/dates'
+import {
+  parseDate,
+  formatMonth,
+  parseMonth,
+  formatDateRange,
+} from 'utils/dates'
 import {
   parseQueryStringNumber,
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
-import { ROUTES } from '../../../const'
+import { ROUTES } from 'const'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
 const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
-const getFilters = (...prop) => get('filtersEdit', ...prop)
 
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
@@ -117,17 +121,6 @@ export const totalPagesSelector = createSelector(
   count => Math.ceil(count / PAGE_SIZE)
 )
 
-// Filters drawer
-
-export const isFiltersEstimatingResultsCountSelector = getFilters(
-  'estimatingResults'
-)
-export const isFiltersLoadedSelector = getFilters('loaded')
-export const isFiltersOpenSelector = getFilters('open')
-export const isFiltersEstimatingSelector = getFilters('estimatingResults')
-export const filtersDataSelector = createPlainObjectSelector(getFilters('data'))
-export const filtersEstimatedResultsCountSelector = getFilters('totalCount')
-
 // Filters
 
 export const currentCategoryIdSelector = createSelector(
@@ -135,7 +128,7 @@ export const currentCategoryIdSelector = createSelector(
   x => x || null
 )
 
-const currentCategorySelector = createSelector(
+export const currentCategorySelector = createSelector(
   categoriesSelector,
   currentCategoryIdSelector,
   (categories, id) => R.find(R.propEq('id', id), categories)
@@ -171,7 +164,14 @@ export const currentFiltersSelector = createSelector(
   })
 )
 
-export const periodSelector = () => 'All time' // TODO: get data from filter and formatter from DateRangeField
+export const periodSelector = createSelector(
+  queryParamSelector('dateMin'),
+  queryParamSelector('dateMax'),
+  (dateMin, dateMax) =>
+    dateMin && dateMax
+      ? formatDateRange(dateMin, dateMax, { short: false })
+      : 'All time'
+)
 
 // Chart Selectors
 
@@ -192,10 +192,19 @@ export const barChartColorSelector = createSelector(
   R.prop('color')
 )
 
-// [{date:String,negativeValue:Float,value:Float}]
+const barsUnitSelector = get('barsUnit')
+
+export const barChartClickableSelector = createSelector(
+  barsUnitSelector,
+  R.compose(
+    R.not,
+    R.equals('day')
+  )
+)
+
 export const barChartDataSelector = createSelector(
   createPlainObjectSelector(get('barsData')),
-  get('barsUnit'),
+  barsUnitSelector,
   (data: BarsDataPoint, barsUnit: BarsUnit) =>
     R.pipe(
       R.map(convertToBarChartValues),

@@ -11,7 +11,12 @@ import {
   type BarsUnit,
 } from 'data/models/barData'
 import { remapPieData, sumProp } from 'data/models/pieData'
-import { parseDate, formatMonth, parseMonth } from 'utils/dates'
+import {
+  parseDate,
+  formatMonth,
+  parseMonth,
+  formatDateRange,
+} from 'utils/dates'
 import {
   parseQueryStringNumber,
   parseQueryStringBool,
@@ -22,7 +27,6 @@ import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
 const get = (...prop) => (store: Object) => store.getIn([REDUCER_KEY, ...prop])
-// const getFilters = (...prop) => get('filtersEdit', ...prop)
 
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
@@ -155,7 +159,14 @@ export const currentFiltersCountSelector = createSelector(
   )
 )
 
-export const periodSelector = () => 'All time' // TODO: get data from filter and formatter from DateRangeField
+export const periodSelector = createSelector(
+  queryParamSelector('dateMin'),
+  queryParamSelector('dateMax'),
+  (dateMin, dateMax) =>
+    dateMin && dateMax
+      ? formatDateRange(dateMin, dateMax, { short: false })
+      : 'All time'
+)
 
 // Chart Selectors
 
@@ -194,7 +205,7 @@ export const barChartDataSelector = createSelector(
       R.map(convertToBarChartValues),
       list =>
         list.reduce((acc, item, idx) => {
-          const prev = idx > 0 ? parseDate(list[idx - 1].showDate) : null
+          const prev = idx > 0 ? list[idx - 1] : null
           return R.append(
             {
               ...item.values,

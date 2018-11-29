@@ -7,9 +7,8 @@ import Paper from 'components/kit/Paper'
 import { formatShortDate } from 'utils/dates'
 import { injectStyles } from 'utils/styles'
 import CategoryLabel from 'components/CategoryLabel'
+import BankDescription from 'components/common/BankDescription'
 import styles from './PaymentCard.jss'
-
-const pendingText = 'Payment info will follow soon...'
 
 const PaymentCard = ({
   classes,
@@ -17,21 +16,28 @@ const PaymentCard = ({
   id,
   amount,
   postedOn,
-  peer: { name } = {},
+  peer = {},
   category = {},
   description = null,
-  pending = false,
+  verified = false,
+  paperPadding,
   ...otherProps
 }) => (
   <Paper className={cx(classes.root, className)} {...otherProps}>
     <div className={classes.head}>
-      <CurrencyDelta className={classes.amount} value={amount} />
-      <div className={classes.postedOn}>{formatShortDate(postedOn, true)}</div>
+      <div className={classes.headLeft}>{!verified && 'No description'}</div>
+      <div className={classes.headRight}>
+        <CurrencyDelta className={classes.amount} value={amount} />
+        <div className={classes.postedOn}>
+          {formatShortDate(postedOn, true)}
+        </div>
+      </div>
     </div>
+
     <div className={classes.info}>
-      <div className={classes.peer}>{pending ? pendingText : name}</div>
-      {!pending && (
+      {verified && (
         <>
+          <div className={classes.peer}>{peer.name}</div>
           {description && (
             <div className={classes.description}>{description}</div>
           )}
@@ -42,7 +48,7 @@ const PaymentCard = ({
           />
         </>
       )}
-      <div className={classes.bank} />
+      <BankDescription className={classes.bank} />
     </div>
   </Paper>
 )

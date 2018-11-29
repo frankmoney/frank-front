@@ -36,13 +36,8 @@ const styles = {
   },
 }
 
-type OmittedProps = {|
-  theme?: any, // flowlint-line unclear-type:warn
-|}
-
 type Props = {|
   ...InjectStylesProps,
-  ...OmittedProps,
   //
   clamp: number,
   smaller?: boolean,
@@ -51,7 +46,6 @@ type Props = {|
 |}
 
 const DrawerTitle = ({
-  theme,
   classes,
   className,
   clamp = 1,

@@ -7,7 +7,7 @@ import type { BarData, BarZoomInCb } from 'components/Charts/Bar'
 import Paper from 'components/kit/Paper'
 import type { GroupedPieData } from 'data/models/pieData'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import BarChart from './BarChart'
+import TimelineChart from 'components/common/TimelineChart'
 import ExpandRow from './ExpandRow'
 import LedgerCategoryList from './LedgerCategoryList'
 import styles from './ChartCard.jss'
@@ -72,10 +72,11 @@ class ChartCard extends React.PureComponent<Props, State> {
       >
         <Title className={classes.header}>{period}</Title>
         {barsOnly ? (
-          <BarChart
-            barsColor={barsColor}
+          <TimelineChart
             className={classes.barChart}
+            width={790}
             data={barsData}
+            barsColor={barsColor}
             onZoomIn={handleBarsZoomIn}
           />
         ) : (
@@ -95,10 +96,11 @@ class ChartCard extends React.PureComponent<Props, State> {
               onToggle={this.handleToggleExpand}
               title="Timeline"
             >
-              <BarChart
-                barsColor={barsColor}
+              <TimelineChart
                 className={classes.barChart}
+                width={790}
                 data={barsData}
+                barsColor={barsColor}
                 onZoomIn={handleBarsZoomIn}
               />
             </ExpandRow>

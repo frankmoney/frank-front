@@ -8,30 +8,31 @@ import CurrencyContext, {
 } from 'contexts/CurrencyContext'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-const isNegative: (?number) => boolean = value =>
-  // $FlowFixMe: value is not undefined at the point of toString
-  !R.isNil(value) && value.toString()[0] === '-'
+export const isNegative = value => typeof value === 'number' && value < 0
 
 const styles = {
-  negative: {},
-  positive: {},
   root: {
     display: 'inline-block',
   },
   sign: {
     display: 'inline-block',
-    color: 'rgba(37, 43, 67, 0.3)',
+    color: 'rgba(37, 43, 67, 0.2)',
   },
   symbol: {
     display: 'inline-block',
-    color: 'rgba(37, 43, 67, 0.3)',
+    color: 'rgba(37, 43, 67, 0.2)',
   },
   value: {
     display: 'inline-block',
+    '&$negative': {
+      color: 'rgba(37, 43, 67)',
+    },
     '&$positive': {
       color: '#2fce6b',
     },
   },
+  negative: {},
+  positive: {},
 }
 
 type CommonProps = {|
@@ -72,7 +73,10 @@ const render = ({
     <div
       className={cx(
         classes.value,
-        isNegative(value) ? classes.negative : classes.positive,
+        {
+          [classes.negative]: isNegative(value),
+          [classes.positive]: !isNegative(value),
+        },
         valueClassName
       )}
     >

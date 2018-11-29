@@ -4,6 +4,7 @@ import * as R from 'ramda'
 import { padStart } from 'lodash'
 
 export type DateString = string
+export type DateRange = Array<DateString>
 export type DateTimeString = string
 export type TimeString = string
 
@@ -154,36 +155,47 @@ export const formatDatesPeriodScope = (
   ])(min, max)
 }
 
+const isWholeYearsBetweenDates = (startDate, endDate): boolean =>
+  D.getMonth(startDate) === 0 &&
+  D.getMonth(endDate) === 11 &&
+  (D.differenceInMonths(startDate, endDate) === 11 ||
+    D.differenceInMonths(startDate, endDate) %
+      (11 + 12 * D.differenceInYears(startDate, endDate)) ===
+      0)
+
 export const formatDateRange = (
   startDate: DateString,
   endDate: DateString,
-  options: { short: boolean } = { short: false }
+  options: { short: boolean, withDay: boolean } = {}
 ): string => {
-  const { short = false } = options
+  const { short = true, withDay = false } = options
   const MONTH = short ? 'MMM' : 'MMMM'
+  const DAY = withDay ? ' D' : ''
+  const MONTHDAY = MONTH + DAY
   const start = parseDate(startDate)
   const end = endDate ? parseDate(endDate) : start
-  const now = getNow()
-  const isSameCurrentYear = (a, b) =>
-    D.isSameYear(a, b) && D.getYear(a) === now.getFullYear()
 
   if (D.isEqual(start, end)) {
-    if (D.isSameYear(start, now)) {
-      return D.format(`${MONTH} D`, start)
-    }
-    return D.format(`${MONTH} D, YYYY`, start)
+    return D.format(`${MONTHDAY}, YYYY`, start)
   } else if (D.isSameMonth(start, end)) {
-    if (isSameCurrentYear(start, end)) {
-      return `${D.format(`${MONTH} D`, start)} – ${D.format('D', end)}`
-    }
-    return `${D.format(`${MONTH} D`, start)} – ${D.format('D, YYYY', end)}`
+    return withDay
+      ? `${D.format(`${MONTHDAY} `, start)}–${D.format(`${DAY}, YYYY`, end)}`
+      : `${D.format(`${MONTHDAY}, YYYY`, end)}`
   } else if (D.isSameYear(start, end)) {
-    if (isSameCurrentYear(start, end)) {
-      return `${D.format('MMM D', start)} – ${D.format('MMM D', end)}`
+    if (!withDay && isWholeYearsBetweenDates(start, end)) {
+      return `${D.format('YYYY', start)}`
     }
-    return `${D.format('MMM D', start)} – ${D.format('MMM D, YYYY', end)}`
+    return `${D.format(`${MONTHDAY} `, start)}–${D.format(
+      ` ${MONTHDAY}, YYYY`,
+      end
+    )}`
+  } else if (!withDay && isWholeYearsBetweenDates(start, end)) {
+    return `${D.format(`YYYY`, start)} – ${D.format(`YYYY`, end)}`
   }
-  return `${D.format('MMM D, YYYY', start)} – ${D.format('MMM D, YYYY', end)}`
+  return `${D.format(`${MONTHDAY}, YYYY`, start)} – ${D.format(
+    `${MONTHDAY}, YYYY`,
+    end
+  )}`
 }
 
 export const formatSameDayTimeRange = (

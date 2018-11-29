@@ -1,6 +1,5 @@
 import * as R from 'ramda'
 import { mapPayment } from 'data/models/payment'
-import { currentAccountIdSelector } from 'redux/selectors/user'
 import * as ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
 import QUERIES from '../queries'
@@ -36,13 +35,11 @@ export default (action$, store, { graphql }) =>
 
       return graphql(
         QUERIES.buildQuery({
-          allPeers: true,
           categoryScoped: !!categoryId,
           payments: true,
           totalCount: true,
           barChart: needLoadCharts,
           pieChart: needLoadCharts,
-          stories: true,
           categories: !categoriesLoaded,
         }),
         {
