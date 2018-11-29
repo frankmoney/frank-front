@@ -3,7 +3,6 @@ import * as React from 'react'
 import CategoryLabel from 'components/CategoryLabel'
 import Paper from 'components/kit/Paper'
 import TooltipBase from 'components/kit/TooltipBase'
-import createPortalInBody from 'utils/dom/createPortal'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { type IndexedPieChartCategory } from '../utils'
 
@@ -48,8 +47,6 @@ type Props = {|
   valueUnit?: string,
 |}
 
-const Portal = ({ children }) => createPortalInBody(children)
-
 const OtherCategories = ({ anchor, classes, items, valueUnit }: Props) => {
   const renderItem = ({
     id, // omit
@@ -73,16 +70,14 @@ const OtherCategories = ({ anchor, classes, items, valueUnit }: Props) => {
         <>
           {React.cloneElement(anchor, getTargetProps())}
           {open && (
-            <Portal>
-              <Paper
-                className={classes.root}
-                type="tooltip"
-                {...getTooltipProps()}
-              >
-                <div className={classes.title}>Other categories</div>
-                {items.map(renderItem)}
-              </Paper>
-            </Portal>
+            <Paper
+              className={classes.root}
+              type="tooltip"
+              {...getTooltipProps()}
+            >
+              <div className={classes.title}>Other categories</div>
+              {items.map(renderItem)}
+            </Paper>
           )}
         </>
       )}
