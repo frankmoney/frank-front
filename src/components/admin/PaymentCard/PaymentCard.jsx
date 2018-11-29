@@ -6,42 +6,59 @@ import {
   Check as PublishIcon,
   FormatListBulleted as SimilarIcon,
 } from 'material-ui-icons'
+import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
+import { compose, withPropsOnChange, withState, withHandlers } from 'recompose'
+import { reduxForm } from 'redux-form/immutable'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
 import Button from 'components/kit/Button'
 import Paper from 'components/kit/Paper'
 import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
-import SuggestField from 'components/SuggestField'
 import BankDescription from 'components/common/BankDescription'
+import ReduxFormControl from 'components/kit/ReduxFormControl'
+import DescriptionField from './DescriptionField'
+import PeerField from './PeerField'
 import styles from './PaymentCard.jss'
+import UpdateInfoConfirmDialog from './UpdateInfoConfirmDialog'
+
+const validation = {
+  categoryId: [required],
+  description: [required, maxLength(200)],
+  peerName: [required, maxLength(40)],
+}
+
+const counters = {
+  peerName: { unit: 'character', max: 40 },
+  description: { unit: 'character', max: 200 },
+}
+
+const validate = createValidateFromRules(validation)
 
 const PaymentCard = ({
   classes,
   className,
-  searchText,
   id: paymentId,
+  accountId,
   postedOn,
   amount,
-  bankIcon,
-  bankDescription,
-  peer: { name: peerName } = {},
-  peerUpdatedBy,
   categories,
-  category: { id: categoryId } = {},
-  categoryUpdatedBy,
-  description,
-  descriptionUpdateBy,
+  categoryId,
   similarCount,
-  searchingSuggestions,
-  suggestedPeers,
-  suggestedDescriptions,
-  onPeerSuggestionSearch,
-  onDescriptionSuggestionSearch,
-  onPaymentUpdate,
-  ...otherProps
+  saving,
+  saved,
+  publishing,
+  published,
+  onSaveClick,
+  onPublishClick,
+  confirmOpen,
+  handleCloseConfirm,
+  handleSubmitConfirm,
+  pristine,
+  invalid,
+  form: formName,
 }) => (
-  <Paper type="card" className={cx(classes.root, className)} {...otherProps}>
+  <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
       <div className={classes.createdAt}>{formatFullDate(postedOn, true)}</div>
       <div className={classes.amount}>
@@ -52,49 +69,46 @@ const PaymentCard = ({
     <div className={classes.body}>
       <div className={classes.bodyRow}>
         <div className={classes.recipient}>
-          <SuggestField
+          <ReduxFormControl.Field
+            name="peerName"
+            counter={counters.peerName}
+            component={PeerField}
             stretch
             className={classes.field}
             label="Recipient"
             placeholder="Specify recipient..."
             larger
-            value={peerName}
-            getSuggestions={onPeerSuggestionSearch}
-            suggestions={suggestedPeers}
-            searching={searchingSuggestions === 'peers'}
-            suggestKeyName="name"
-            onChange={peer => onPaymentUpdate({ paymentId, peer })}
+            accountId={accountId}
           />
         </div>
         <div className={classes.category}>
-          <CategorySelect
+          <ReduxFormControl.Field
+            name="categoryId"
+            component={CategorySelect}
             className={classes.categorySelect}
             categories={categories}
             value={categoryId}
             label="Category"
             placeholder="Choose category"
             larger
-            onChange={categoryId => onPaymentUpdate({ paymentId, categoryId })}
           />
         </div>
       </div>
       <div className={classes.bodyRow}>
         <div className={classes.description}>
-          <SuggestField
+          <ReduxFormControl.Field
+            name="description"
+            counter={counters.description}
+            component={DescriptionField}
             stretch
-            className={classes.field}
             label="Description"
             placeholder="Start typing for suggestions..."
             multiLine
+            disableEnter
             larger
-            value={description}
-            getSuggestions={onDescriptionSuggestionSearch}
-            suggestions={suggestedDescriptions}
-            searching={searchingSuggestions === 'descriptions'}
-            suggestKeyName="text"
-            onChange={description =>
-              onPaymentUpdate({ paymentId, description })
-            }
+            className={classes.field}
+            paymentId={paymentId}
+            accountId={accountId}
           />
         </div>
       </div>
@@ -126,14 +140,96 @@ const PaymentCard = ({
         ---NOT IN MVP--
         */}
         <Button
+          width={95}
           className={classes.rightButton}
-          icon={<PublishIcon />}
-          label="Publish"
-          color="green"
+          label={published ? 'Update' : pristine ? 'Saved' : 'Save'}
+          color={published ? 'blue' : 'gray'}
+          disabled={saved || publishing || pristine}
+          loading={saving}
+          onClick={onSaveClick}
         />
+        {published && (
+          <Button
+            width={130}
+            className={classes.rightButton}
+            label="Unpublish"
+            color="gray"
+            loading={publishing}
+            onClick={onPublishClick}
+          />
+        )}
+        {!published && (
+          <Button
+            width={130}
+            className={classes.rightButton}
+            icon={<PublishIcon />}
+            label="Publish"
+            color="green"
+            loading={publishing}
+            disabled={invalid}
+            onClick={onPublishClick}
+          />
+        )}
       </div>
     </div>
+    <UpdateInfoConfirmDialog
+      form={formName}
+      open={confirmOpen}
+      onConfirm={handleSubmitConfirm}
+      onClose={handleCloseConfirm}
+    />
   </Paper>
 )
 
-export default injectStyles(styles)(PaymentCard)
+const pickCardState = ({ categoryId, peerName = '', description = '' }) => ({
+  categoryId,
+  peerName,
+  description,
+})
+
+export default compose(
+  injectStyles(styles),
+  withState('confirmOpen', 'changeConfirmOpen', false),
+  withPropsOnChange(['id', 'peerName', 'categoryId', 'description'], props => ({
+    initialValues: pickCardState(props),
+    form: `payment-${props.id}`,
+  })),
+  reduxForm({
+    enableReinitialize: true,
+    validate,
+    onSubmit: (data, _, props) => {
+      const { publishing, ...otherData } = data.toJS()
+      const payment = { paymentId: props.id, ...otherData }
+      if (!publishing) {
+        props.onPaymentSave(payment)
+      } else if (props.published) {
+        props.onPaymentUnpublish(payment)
+      } else {
+        props.onPaymentPublish(payment)
+      }
+    },
+  }),
+  withHandlers({
+    onSaveClick: props => () => {
+      if (props.published && props.invalid) {
+        props.changeConfirmOpen(true)
+      } else {
+        props.change('publishing', false)
+        setTimeout(() => props.submit(), 100)
+      }
+    },
+    onPublishClick: props => () => {
+      props.change('publishing', true)
+      setImmediate(() => props.submit())
+    },
+    handleCloseConfirm: props => () => {
+      props.changeConfirmOpen(false)
+    },
+    // анпаблишим карточку
+    handleSubmitConfirm: props => data => {
+      const payment = { paymentId: props.id, ...data.toJS() }
+
+      props.onPaymentUnpublish(payment)
+    },
+  })
+)(PaymentCard)

@@ -11,7 +11,7 @@ export default theme => ({
     position: 'absolute',
     width: 70,
     top: 30,
-    left: 70,
+    left: 30,
   },
   footer: {
     position: 'fixed',

@@ -1,9 +1,34 @@
 import * as R from 'ramda'
 import { convertGraphqlPieData } from 'data/models/pieData'
+import { verifyPayment } from 'data/models/payment'
+
+const PEER = `
+  id: pid
+  name
+`
+
+const CATEGORY = `
+  id: pid
+  name
+  color
+`
+
+const PAYMENT = `
+  id: pid
+  postedOn
+  amount
+  peer {
+    ${PEER}
+  }
+  description
+  category {
+    ${CATEGORY}
+  }
+  verified
+`
 
 export default {
   buildQuery: ({
-    allPeers: includeAllPeers,
     totalCount: includeTotal,
     payments: includePayments,
     pieChart: includePie,
@@ -38,18 +63,12 @@ export default {
             color
           }`) ||
           ''}
-        
-        ${(includeAllPeers &&
-          `peers(sortBy: name_ASC, donors: true, recipients: true) {
-            id: pid
-            name
-          }`) ||
-          ''}
-          
+                 
         ${categoryScoped ? 'category(pid: $categoryId) {' : ''}
         
         ${(includePayments &&
           `payments(
+            sortBy: postedOn_DESC
             take: $first
             skip: $skip
             search: $search
@@ -58,22 +77,8 @@ export default {
             amountMin: $amountMin
             amountMax: $amountMax
             verified: $verified
-            sortBy: postedOn_DESC
           ) {
-            id: pid
-            postedOn
-            amount
-            peerName
-            peer {
-              id: pid
-              name
-            }
-            description
-            category {
-              id: pid
-              name
-              color
-            }
+            ${PAYMENT}
           }`) ||
           ''}
           
@@ -152,7 +157,6 @@ export default {
         total,
         categories,
         category,
-        peers,
         payments,
         stories,
         countPayments,
@@ -166,8 +170,9 @@ export default {
       revenue,
       total,
       categories: includeCategories ? categories : null,
-      allPeers: peers,
-      payments: categoryScoped ? category.payments : payments,
+      payments: categoryScoped
+        ? category.payments // R.map(verifyPayment, category.payments)
+        : R.map(verifyPayment, payments) /* R.map(verifyPayment, payments) */,
       totalCount: categoryScoped ? category.countPayments : countPayments,
       barChart: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars

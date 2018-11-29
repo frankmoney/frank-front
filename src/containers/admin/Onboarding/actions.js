@@ -37,4 +37,4 @@ export const closeInvite = createAction('onboarding/team/close-invite')
 export const submitInvite = createAction('onboarding/team/invite')
 
 // Step: Terms
-export const acceptTerms = createDeferredAction('onboarding/terms/accept')
+export const acceptTerms = createAction('onboarding/terms/accept')

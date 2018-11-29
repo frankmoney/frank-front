@@ -8,49 +8,38 @@ import AreaSpinner from 'components/AreaSpinner'
 import Button from 'components/kit/Button'
 import CurrencyProvider from 'components/CurrencyProvider'
 import PaymentCard from 'components/public/PaymentCard'
-import { formatMonthDate } from 'utils/dates'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import { BASE_TITLE } from 'const'
 import PaymentHeader from './PaymentHeader'
 import { accountSelector, isLoadedSelector, paymentSelector } from './selectors'
 import ACTIONS from './actions'
+import SimilarDrawer from './SimilarDrawer'
 import styles from './Payment.jss'
-
-const SimilarButton = ({ className, count, date }) => {
-  const dateText = formatMonthDate(date, true)
-  const labelText = `Show ${count > 1 && 'all'} ${count} similar ${
-    count > 1 ? 'payments' : 'payment'
-  } since ${dateText}`
-
-  return (
-    <Button
-      className={className}
-      color="blue"
-      label={labelText}
-      icon={<SimilarIcon />}
-    />
-  )
-}
 
 const Payment = ({
   classes,
   className,
   account: { currencyCode } = {},
   payment = {},
+  onOpenDrawer,
 }) => (
   <div className={cx(classes.paymentPage, className)}>
     <Helmet title={BASE_TITLE} />
     <PaymentHeader />
     <div className={classes.container}>
       <CurrencyProvider code={currencyCode}>
-        <PaymentCard className={classes.card} {...payment} />
+        <PaymentCard className={classes.card} {...payment} paperPadding={30} />
         {payment.similarCount > 0 && (
-          <SimilarButton
-            className={classes.similarButton}
-            count={payment.similarCount}
-            date={payment.postedOn}
-          />
+          <>
+            <Button
+              className={classes.similarButton}
+              icon={<SimilarIcon />}
+              label={`${payment.similarCount} similar payments`}
+              onClick={() => onOpenDrawer()}
+            />
+            <SimilarDrawer />
+          </>
         )}
       </CurrencyProvider>
     </div>
@@ -67,6 +56,8 @@ export default compose(
     {
       load: ACTIONS.load,
       leave: ACTIONS.leave,
+      loadSimilarPayments: ACTIONS.loadSimilarPayments,
+      onOpenDrawer: ACTIONS.openDrawer,
     }
   ),
   lifecycle({

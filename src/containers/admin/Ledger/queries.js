@@ -12,33 +12,27 @@ const CATEGORY = `
   color
 `
 
-const FIELD_UPDATER = `
-  name
-  lastName
-  firstName
-`
-
 const PAYMENTS = `
   id: pid
   postedOn
   amount
+  published: verified
+  pending
   peer {
     ${PEER}
   }
-  peerUpdater {
-    ${FIELD_UPDATER}
-  }
   description
-  descriptionUpdater {
-    ${FIELD_UPDATER}
-  }
   category {
     ${CATEGORY}
   }
-  categoryUpdater {
-    ${FIELD_UPDATER}
-  }
 `
+
+const mapPayment = ({ peer, category, ...other }) => ({
+  ...other,
+  peerName: peer && peer.name,
+  peerId: peer && peer.id,
+  categoryId: category && category.id,
+})
 
 export default {
   buildQuery: ({
@@ -155,7 +149,7 @@ export default {
       },
     }) => ({
       categories: includeCategories ? categories : null,
-      payments: categoryScoped ? category.payments : payments,
+      payments: (categoryScoped ? category.payments : payments).map(mapPayment),
       totalCount: categoryScoped ? category.countPayments : countPayments,
       barChart: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars
@@ -164,49 +158,6 @@ export default {
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).barSize
         : null,
       pieChart: includePie ? convertGraphqlPieData(ledgerPieChart.items) : null,
-    }),
-  ],
-  getSuggestions: ({
-    peers: searchPeers,
-    descriptions: searchDescriptions,
-  }) => [
-    `
-    query(
-      $accountId: ID!
-      $search: String
-    ) {
-      account(pid: $accountId) {
-        ${(searchPeers &&
-          `
-          peers(
-            sortBy: name_ASC
-            search: $search
-            donors: true
-            recipients: true
-          ) {
-            id: pid
-            name
-            count: countPayments
-          }
-          `) ||
-          ''}
-        ${(searchDescriptions &&
-          `
-          paymentsDescriptions(
-            search: $search
-          ) {
-            id: pid
-            text
-            count: countPayments
-          }
-          `) ||
-          ''}
-      }
-    }
-    `,
-    ({ account: { peers, descriptions } }) => ({
-      peers,
-      descriptions,
     }),
   ],
   paymentUpdate: [
@@ -218,34 +169,21 @@ export default {
       $peerName: String
       $categoryId: ID
       $description: String
+      $verified: Boolean
     ) {
-      paymentUpdate(
+      payment: paymentUpdate(
         accountPid: $accountId
         paymentPid: $paymentId
         peerPid: $peerId
         peerName: $peerName
         categoryPid: $categoryId
         description: $description
+        verified: $verified
       ) {
-        peer {
-          ${PEER}
-        }
-        peerUpdater{
-          ${FIELD_UPDATER}
-        }
-        category {
-          ${CATEGORY}
-        }
-        categoryUpdater{
-          ${FIELD_UPDATER}
-        }
-        description
-        descriptionUpdater {
-          ${FIELD_UPDATER}
-        }
+        ${PAYMENTS}
       }
     }
     `,
-    R.path(['account', 'countPayments']),
+    ({ payment }) => mapPayment(payment),
   ],
 }

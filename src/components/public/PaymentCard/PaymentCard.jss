@@ -1,20 +1,29 @@
 export default theme => ({
   root: {
-    padding: [35, 30, 30],
+    padding: ({ paperPadding }) => paperPadding,
+    color: theme.colors.black,
   },
   head: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'start',
     justifyContent: 'space-between',
-    marginBottom: 61,
+    marginBottom: 23,
+  },
+  headLeft: {
+    opacity: 0.3,
+    ...theme.fontRegular(20, 26),
+  },
+  headRight: {
+    textAlign: 'right',
   },
   amount: {
     ...theme.fontRegular(30),
   },
   postedOn: {
-    ...theme.fontRegular(18, 20),
-    color: '#D2D4DB',
+    marginTop: 8,
+    ...theme.fontRegular(16, 20),
+    opacity: 0.2,
   },
   peer: {
     ...theme.fontMedium(20, 36),
@@ -37,7 +46,6 @@ export default theme => ({
   },
   bank: {
     minHeight: 38,
-    backgroundColor: 'black',
     marginTop: 50,
   },
 })

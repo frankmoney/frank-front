@@ -55,6 +55,7 @@ type Props = {|
   onKeyDown?: KeyboardEvent => void,
   onKeyPress?: KeyboardEvent => void,
   onKeyUp?: KeyboardEvent => void,
+  controlRef?: Function,
 |}
 
 type State = {|
@@ -125,15 +126,20 @@ class Field extends React.Component<Props, State> {
     this.control = control
   }
 
-  handleChange = value => {
+  handleChange = eventOrValue => {
     if (!this.isControlledValue) {
+      const value =
+        eventOrValue && eventOrValue.target
+          ? eventOrValue.target.value
+          : eventOrValue
+
       this.setState({ value }, () => {
         if (typeof this.props.onChange === 'function') {
-          this.props.onChange(value)
+          this.props.onChange(eventOrValue)
         }
       })
     } else if (typeof this.props.onChange === 'function') {
-      this.props.onChange(value)
+      this.props.onChange(eventOrValue)
     }
   }
 
@@ -159,6 +165,7 @@ class Field extends React.Component<Props, State> {
       onKeyDown,
       onKeyPress,
       onKeyUp,
+      controlRef,
     } = this.props
 
     const control = React.Children.only(children)
@@ -209,6 +216,7 @@ class Field extends React.Component<Props, State> {
               : loading
                 ? loadingText
                 : placeholder,
+            controlRef,
             ref: this.handleControlRef,
             onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),
             onBlur: chainCallbacks(this.handleBlur, control.props.onBlur),

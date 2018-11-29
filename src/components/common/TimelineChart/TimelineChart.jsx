@@ -46,7 +46,7 @@ const makePositive = R.map(({ date, negativeValue }) => ({
   value: negativeValue,
 }))
 
-class BarChart extends React.PureComponent<Props, State> {
+class TimelineChart extends React.PureComponent<Props, State> {
   state = {
     income: true,
     spending: true,
@@ -75,7 +75,7 @@ class BarChart extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { barsColor, classes, className, data } = this.props
+    const { barsColor, classes, className, data, width } = this.props
     const { income, spending } = this.state
 
     const hide = !(income || spending)
@@ -110,11 +110,11 @@ class BarChart extends React.PureComponent<Props, State> {
           dual={dual}
           labelKey="date"
           showBars={!hide}
-          width={600}
+          width={width}
         />
       </div>
     )
   }
 }
 
-export default injectStyles(styles)(BarChart)
+export default injectStyles(styles)(TimelineChart)

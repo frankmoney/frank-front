@@ -26,12 +26,8 @@ const defaultState = Immutable.fromJS({
   total: 0,
 })
 
-const mergeFilters = (state, data) =>
-  state.update('filtersEdit', x => x.merge(data))
-
 export default handleActions(
   {
-    [ACTIONS.searchTyping]: state => state.merge({ typing: true }),
     [ACTIONS.load]: (state, { payload: { accountId, updateListOnly } }) =>
       state.merge(
         updateListOnly
@@ -80,37 +76,6 @@ export default handleActions(
         loading: false,
         typing: false,
       }),
-    [ACTIONS.filtersOpen]: state => mergeFilters(state, { open: true }),
-    [ACTIONS.filtersChange]: (state, { payload: newFilters }) =>
-      mergeFilters(state, { data: newFilters }),
-    [ACTIONS.filtersLoad]: state => mergeFilters(state, { loaded: false }),
-    [ACTIONS.filtersLoad.success]: (
-      state,
-      { payload: { filters, totalCount } }
-    ) =>
-      mergeFilters(state, {
-        loaded: true,
-        data: filters,
-        totalCount,
-        initialData: filters,
-      }),
-    [ACTIONS.filtersReset]: state =>
-      mergeFilters(state, {
-        data: state.getIn(['filtersEdit', 'initialData']),
-      }),
-    [ACTIONS.filtersEstimateResultsCount]: state =>
-      mergeFilters(state, {
-        estimatingResults: true,
-      }),
-    [ACTIONS.filtersEstimateResultsCount.success]: (
-      state,
-      { payload: totalCount }
-    ) =>
-      mergeFilters(state, {
-        estimatingResults: false,
-        totalCount,
-      }),
-    [ACTIONS.filtersClose]: state => mergeFilters(state, { open: false }),
     [ACTIONS.leave]: () => defaultState,
     [ACTIONS.selectCategoryType]: (state, { payload: categoryType }) =>
       state.merge({ chartCategoryType: categoryType }),

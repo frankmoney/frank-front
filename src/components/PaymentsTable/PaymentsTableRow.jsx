@@ -1,21 +1,33 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { TableCell, TableRow } from '@frankmoney/components'
-import { CheckCircle } from 'material-ui-icons'
+import { injectStyles } from 'utils/styles'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
 import HighlightText from 'components/HighlightText'
 import { formatFullDate } from 'utils/dates'
+import PaymentStatus from 'components/admin/PaymentStatus'
 
-const CELL_HEIGHT = 110
+const NOT_VERIFIED_CELL_HEIGHT = 80
+
+const FULL_CELL_HEIGHT = 110
+
+const getCellHeight = ({ type, data: { verified } }) =>
+  (type === 'public' && verified) || type === 'admin'
+    ? FULL_CELL_HEIGHT
+    : NOT_VERIFIED_CELL_HEIGHT
+
+const getCellPadding = ({ type, data: { verified } }) =>
+  (type === 'public' && verified) || type === 'admin' ? '21px 0' : '25px 0'
 
 const styles = theme => ({
   root: {
-    color: 'inherit',
-    height: CELL_HEIGHT,
-    maxHeight: CELL_HEIGHT,
-    minHeight: CELL_HEIGHT,
+    color: theme.colors.black,
+    height: getCellHeight,
+    maxHeight: getCellHeight,
+    minHeight: getCellHeight,
+    padding: getCellPadding,
     textDecoration: 'none',
   },
   cellLeft: {
@@ -30,7 +42,6 @@ const styles = theme => ({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    color: '#20284A',
   },
   emptyDescription: {
     opacity: 0.2,
@@ -43,10 +54,13 @@ const styles = theme => ({
   client: {
     marginRight: 20,
     ...theme.fontMedium(16),
-    color: '#20284A',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
   category: {
     ...theme.fontMedium(16),
+    whiteSpace: 'nowrap',
   },
   categoryIcon: {
     height: 12,
@@ -73,63 +87,84 @@ const styles = theme => ({
       opacity: 1,
     },
   },
-  icon: {
+  verified: {
     marginLeft: 10,
-    width: 22,
-    height: 22,
-  },
-  checkIcon: {
-    composes: '$icon',
-    color: '#21CB61',
   },
 })
 
 const PaymentsTableRow = ({
   classes,
   className,
-  data: { description, peerName, amount, category, postedOn },
-  // omit
-  grid,
-  theme,
+  data: {
+    description,
+    peerName,
+    amount,
+    category,
+    postedOn,
+    published,
+    pending,
+  },
+  type,
   ...rowProps
 }) => (
   <TableRow className={cx(classes.root, className)} {...rowProps}>
     <TableCell name="description" className={classes.cellLeft}>
-      <div
-        className={cx(
-          classes.description,
-          !description && classes.emptyDescription
-        )}
-      >
-        {description ? (
-          <HighlightText text={description} />
-        ) : (
-          'Add description...'
-        )}
-      </div>
-      <div className={classes.info}>
-        {peerName && (
-          <div className={classes.client}>
-            {' '}
-            <HighlightText text={peerName} />
+      {(type === 'public' && published) || type === 'admin' ? (
+        <>
+          <div
+            className={cx(
+              classes.description,
+              !description && classes.emptyDescription
+            )}
+          >
+            {description ? (
+              <HighlightText text={description} />
+            ) : (
+              'Add description...'
+            )}
           </div>
-        )}
-        {category && (
-          <CategoryLabel
-            className={classes.category}
-            iconClassName={classes.categoryIcon}
-            color={category.color}
-            name={category.name}
-          />
-        )}
-      </div>
+          <div className={classes.info}>
+            {peerName && (
+              <div className={classes.client}>
+                {' '}
+                <HighlightText text={peerName} />
+              </div>
+            )}
+            {category && (
+              <CategoryLabel
+                className={classes.category}
+                iconClassName={classes.categoryIcon}
+                color={category.color}
+                name={category.name}
+              />
+            )}
+          </div>
+        </>
+      ) : (
+        <div
+          className={cx(
+            classes.description,
+            !description && classes.emptyDescription
+          )}
+        >
+          No description
+        </div>
+      )}
     </TableCell>
     <TableCell name="sum" className={classes.cellRight}>
       <CurrencyDelta className={classes.sum} value={amount} />
-      <div className={classes.icons}>
-        <div className={classes.date}>{formatFullDate(postedOn)}</div>
-        <CheckCircle className={classes.checkIcon} />
-      </div>
+      {((type === 'public' && published) || type === 'admin') && (
+        <div className={classes.icons}>
+          <div className={classes.date}>{formatFullDate(postedOn)}</div>
+          {type === 'admin' && (
+            <PaymentStatus
+              className={classes.verified}
+              verified={published}
+              pending={pending}
+            />
+          )}
+        </div>
+      )}
     </TableCell>
   </TableRow>
 )

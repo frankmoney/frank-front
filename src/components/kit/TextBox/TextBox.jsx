@@ -13,7 +13,7 @@ const styles = {
 
 type Value = string | number
 
-type OnChangeCb = any => void
+type OnChangeCb = Event => void
 
 type Props = {|
   ...InjectStylesProps,
@@ -59,16 +59,16 @@ class TextBox extends React.Component<Props, State> {
 
   // eslint-disable-next-line consistent-return
   handleChange = event => {
-    const value = event.target.value
-
     if (this.isControlled) {
       if (typeof this.props.onChange === 'function') {
-        return this.props.onChange(value)
+        return this.props.onChange(event.nativeEvent)
       }
     } else {
+      const value = event.target.value
+
       this.setState({ value }, () => {
         if (typeof this.props.onChange === 'function') {
-          this.props.onChange(value)
+          this.props.onChange(event.nativeEvent)
         }
       })
     }

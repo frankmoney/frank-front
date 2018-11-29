@@ -25,7 +25,10 @@ const SelectAccount = ({
   onAccountSelect,
   selectedAccountId,
 }) => (
-  <StepLayout className={cx(classes.root, className)}>
+  <StepLayout
+    className={cx(classes.root, className)}
+    backButtonText="Enter new credentials"
+  >
     <StepBankLogo />
     <StepTitle>Select your account</StepTitle>
     <OptionsList className={classes.accounts}>

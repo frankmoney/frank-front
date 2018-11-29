@@ -1,10 +1,7 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
-import { compose } from 'recompose'
-import reconnect from 'utils/reconnect'
 import StepLayout from '../../StepLayout'
-import * as ACTIONS from '../../actions'
 
 const CONTENT_WIDTH = 700
 
@@ -362,9 +359,4 @@ const Terms = ({ className, classes, ...props }) => (
   </StepLayout>
 )
 
-export default compose(
-  reconnect(null, {
-    onNext: ACTIONS.acceptTerms,
-  }),
-  injectStyles(styles)
-)(Terms)
+export default injectStyles(styles)(Terms)

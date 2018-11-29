@@ -5,8 +5,11 @@ import { createStructuredSelector } from 'reselect'
 
 export default function reconnect(selectorsToProps, connectDispatch) {
   const mapStateToProps = selectorsToProps
-    ? createStructuredSelector(selectorsToProps)
+    ? typeof selectorsToProps === 'function'
+      ? (...args) => createStructuredSelector(selectorsToProps(...args))
+      : createStructuredSelector(selectorsToProps)
     : null
+
   const mapDispatchToProps = connectDispatch
     ? R.partial(bindActionCreators, [connectDispatch])
     : null

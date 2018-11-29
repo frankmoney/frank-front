@@ -1,14 +1,18 @@
 // @flow
 import React from 'react'
-import * as R from 'ramda'
 import cx from 'classnames'
-import { compose, lifecycle } from 'recompose'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
+import {
+  branch,
+  compose,
+  lifecycle,
+  renderComponent,
+  withStateHandlers,
+} from 'recompose'
+import reconnect from 'utils/reconnect'
 import Button from 'components/kit/Button'
 import SearchBar from 'components/SearchCard'
 import { injectStyles } from 'utils/styles'
+import openIntercom from 'utils/openIntercom'
 import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription from '../../StepDescription'
@@ -20,6 +24,7 @@ import {
   selectedBankIdSelector,
 } from '../../selectors'
 import * as ACTIONS from '../../actions'
+import Terms from '../Terms'
 import BankList from './BankList'
 
 const styles = theme => ({
@@ -46,6 +51,10 @@ const styles = theme => ({
     marginTop: 30,
     width: 130,
   },
+  contactLink: {
+    color: '#4D51D8',
+    cursor: 'pointer',
+  },
 })
 
 const SelectBank = ({
@@ -64,8 +73,10 @@ const SelectBank = ({
     <StepTitle>Select your bank</StepTitle>
     <StepDescription>
       Get started by selecting your bank in our database.
-      <br />If you can’t find it here, please contact us and we will be happy to
-      help.
+      <br /> Don’t see yours?{' '}
+      <span className={classes.contactLink} onClick={openIntercom}>
+        Contact us
+      </span>
     </StepDescription>
     <SearchBar
       className={classes.searchBar}
@@ -97,27 +108,21 @@ const SelectBank = ({
   </StepLayout>
 )
 
-const mapStateToProps = createStructuredSelector({
-  loaded: banksLoadedSelector,
-  loading: banksLoadingSelector,
-  banks: filteredBankListSelector,
-  selectedBankId: selectedBankIdSelector,
-  search: bankSearchSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    selectBank: ACTIONS.bankSelect,
-    load: ACTIONS.loadBanks,
-    onSearch: ACTIONS.bankNameType,
-    onResetSearch: ACTIONS.banksResetSearch,
-  },
-])
-
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
+  reconnect(
+    {
+      loaded: banksLoadedSelector,
+      loading: banksLoadingSelector,
+      banks: filteredBankListSelector,
+      selectedBankId: selectedBankIdSelector,
+      search: bankSearchSelector,
+    },
+    {
+      selectBank: ACTIONS.bankSelect,
+      load: ACTIONS.loadBanks,
+      onSearch: ACTIONS.bankNameType,
+      onResetSearch: ACTIONS.banksResetSearch,
+    }
   ),
   lifecycle({
     componentWillMount() {
@@ -126,5 +131,12 @@ export default compose(
       }
     },
   }),
+  withStateHandlers(
+    { termsAccepted: false },
+    {
+      onNext: () => () => ({ termsAccepted: true }),
+    }
+  ),
+  branch(props => !props.termsAccepted, renderComponent(Terms)),
   injectStyles(styles)
 )(SelectBank)

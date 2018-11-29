@@ -34,16 +34,16 @@ const styles = {
   card: {
     boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',
   },
-  list: {
-    boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.05)',
-    border: '1px solid rgba(0, 0, 0, 0.1)',
-  },
   tooltip: {
     boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)',
   },
-  menu: {
+  dropdown: {
     boxShadow:
-      '0px 5px 10px rgba(0, 0, 0, 0.15), 0px 0px 0px 1px rgba(37, 43, 67, 0.1)',
+      '0px 5px 10px rgba(0, 0, 0, 0.1), 0px 0px 0px 1px rgba(0, 0, 0, 0.02)',
+  },
+  arrowDropdown: {
+    boxShadow:
+      '0px 5px 10px rgba(0, 0, 0, 0.15), 0px 0px 0px 1px rgba(0, 0, 0, 0.1)',
   },
   modal: {
     boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.2)',
@@ -52,9 +52,10 @@ const styles = {
     boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.2)',
     borderRadius: 0,
   },
-  popover: {
-    boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.15)',
-    border: '1px solid rgba(0, 0, 0, 0.1)',
+  // Category list: rarely used!
+  list: {
+    boxShadow:
+      '0px 2px 10px rgba(0, 0, 0, 0.05), 0px 0px 0px 1px rgba(0, 0, 0, 0.1)',
   },
 }
 

@@ -1,41 +1,30 @@
 // @flow
-import { compose, mapProps, withHandlers } from 'recompose'
+import { compose, withHandlers } from 'recompose'
 import PaymentCard from 'components/admin/PaymentCard'
+import { currentAccountIdSelector } from 'redux/selectors/user'
 import reconnect from 'utils/reconnect'
 import ACTIONS from './actions'
 import * as SELECTORS from './selectors'
 
 export default compose(
   reconnect(
-    {
+    (_, initialProps) => ({
       categories: SELECTORS.categories,
-      // searchingSuggestions: searchingSuggestionsSelector,
-      // suggestedPeers: suggestedPeersSelector,
-    },
+      accountId: currentAccountIdSelector,
+      saving: SELECTORS.isPaymentSaving(initialProps.id),
+      publishing: SELECTORS.isPaymentPublishing(initialProps.id),
+    }),
     {
-      searchSuggestions: ACTIONS.searchSuggestions,
-      paymentUpdate: ACTIONS.paymentUpdate,
+      paymentSave: ACTIONS.paymentSave,
       paymentPublish: ACTIONS.paymentPublish,
     }
   ),
-  mapProps(({ categories, peers, data, ...otherProps }) => ({
-    categories,
-    peers,
-    ...data,
-    ...otherProps,
-  })),
   withHandlers({
-    onPeerSuggestionSearch: ({ searchSuggestions }) => search => {
-      searchSuggestions({ search, peers: true })
+    onPaymentSave: ({ paymentSave }) => changes => {
+      paymentSave(changes)
     },
-    onDescriptionSuggestionSearch: ({ searchSuggestions }) => search => {
-      searchSuggestions({ search, descriptions: true })
-    },
-    onPaymentUpdate: ({ paymentUpdate }) => changes => {
-      paymentUpdate(changes)
-    },
-    onPaymentPublish: ({ paymentPublish }) => () => {
-      paymentPublish()
+    onPaymentPublish: ({ paymentPublish }) => changes => {
+      paymentPublish(changes)
     },
   })
 )(PaymentCard)

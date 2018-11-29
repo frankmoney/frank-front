@@ -1,6 +1,8 @@
 export default theme => ({
   root: {
     padding: [40, 40],
+    //  чтобы саджесты вываливались из карточки
+    overflow: 'unset',
   },
   header: {
     display: 'flex',

@@ -26,7 +26,7 @@ const BanksSearch = ({
   <div className={cx(classes.root, className)}>
     <SearchBar
       value={searchText}
-      onChange={e => onChange(e.currentTarget.value)}
+      onChange={e => onChange(e.target.value)}
       className={classes.search}
       onKeyDown={onKeyDown}
     />

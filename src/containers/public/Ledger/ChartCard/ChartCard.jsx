@@ -3,24 +3,27 @@ import React from 'react'
 import cx from 'classnames'
 import OverviewPieChart, { type CategoryCb } from 'components/OverviewPieChart'
 import Paper from 'components/kit/Paper'
-import type { BarData } from 'components/Charts/Bar'
+import type { BarData, BarZoomInCb } from 'components/Charts/Bar'
 import type { GroupedPieData } from 'data/models/pieData'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import BarChart from './BarChart'
+import TimelineChart from 'components/common/TimelineChart'
 import ExpandRow from './ExpandRow'
 import LedgerCategoryList from './LedgerCategoryList'
 import styles from './ChartCard.jss'
 import Title from './Title'
+import CurrentCategory from './CurrentCategory'
 
 export type Props = {|
   ...InjectStylesProps,
   //
+  barsAreClickable: boolean,
   barsColor?: string,
   barsData: BarData,
   barsOnly: boolean,
   categoryType: string,
-  onCategoryClick: ?CategoryCb,
-  onCategoryTypeChange: ?CategoryCb,
+  onBarsZoomIn: BarZoomInCb,
+  onCategoryClick?: CategoryCb,
+  onCategoryTypeChange?: CategoryCb,
   period: string,
   pieData: GroupedPieData,
 |}
@@ -41,11 +44,13 @@ class ChartCard extends React.PureComponent<Props, State> {
   render() {
     const {
       barsColor,
+      barsAreClickable,
       barsData,
       barsOnly,
       categoryType,
       classes,
       className,
+      onBarsZoomIn,
       onCategoryClick,
       onCategoryTypeChange,
       period,
@@ -54,6 +59,8 @@ class ChartCard extends React.PureComponent<Props, State> {
 
     const { expanded } = this.state
     const categories = pieData[categoryType]
+    const handleBarsZoomIn = barsAreClickable ? onBarsZoomIn : null
+
     return (
       <Paper
         className={cx(
@@ -64,17 +71,21 @@ class ChartCard extends React.PureComponent<Props, State> {
       >
         <Title className={classes.header}>{period}</Title>
         {barsOnly ? (
-          <BarChart
-            barsColor={barsColor}
-            className={classes.barChart}
-            data={barsData}
-          />
+          <>
+            <CurrentCategory className={classes.category} />
+            <TimelineChart
+              className={classes.barChart}
+              width={600}
+              data={barsData}
+              barsColor={barsColor}
+            />
+          </>
         ) : (
           <>
             <OverviewPieChart
               categoryType={categoryType}
               CategoryList={<LedgerCategoryList />}
-              chartClassName={classes.chart}
+              className={classes.overview}
               chartSize={260}
               data={categories}
               onCategoryClick={onCategoryClick}
@@ -86,10 +97,12 @@ class ChartCard extends React.PureComponent<Props, State> {
               onToggle={this.handleToggleExpand}
               title="Timeline"
             >
-              <BarChart
-                barsColor={barsColor}
+              <TimelineChart
                 className={classes.barChart}
+                width={600}
                 data={barsData}
+                barsColor={barsColor}
+                onZoomIn={handleBarsZoomIn}
               />
             </ExpandRow>
           </>

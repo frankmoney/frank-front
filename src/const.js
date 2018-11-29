@@ -4,6 +4,7 @@ export const ROUTES = {
   protectedArea: '/app',
   auth: {
     login: '/sign-in',
+    register: '/sign-up',
     recoverPassword: '/recover-password',
     logout: '/logout',
   },
@@ -13,6 +14,9 @@ export const ROUTES = {
     },
     ledger: {
       root: '/manage/ledger',
+    },
+    payment: {
+      root: '/manage/ledger/:id',
     },
     stories: {
       root: '/manage/stories',

@@ -1,4 +1,3 @@
-import { createDeferredAction } from '@frankmoney/utils'
 import storage from 'local-storage-fallback'
 import { push as pushRoute } from 'react-router-redux'
 import * as USER_ACTIONS from 'redux/actions/user'
@@ -23,8 +22,6 @@ export const loadEpic = (action$, store, { graphql }) =>
     .map(session =>
       ACTIONS.load.success({
         session,
-        termsAccepted:
-          storage.getItem(LS_FLAGS.onboardingTermsAccepted) === 'true',
       })
     )
 
@@ -145,11 +142,3 @@ export const cancelEpic = (action$, store, { graphql }) =>
     .ofType(ACTIONS.cancel)
     .switchMap(() => graphql(QUERIES.cancel))
     .map(ACTIONS.load)
-
-export const persistToLocalStorageAcceptedTerms = action$ =>
-  action$
-    .ofType(ACTIONS.acceptTerms)
-    .do(() => {
-      storage.setItem(LS_FLAGS.onboardingTermsAccepted, true)
-    })
-    .map(ACTIONS.acceptTerms.success)

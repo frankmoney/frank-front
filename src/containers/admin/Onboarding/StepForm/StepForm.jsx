@@ -93,11 +93,11 @@ const renderField = ({
       )}
       <ReduxFormControl.Field
         stretch
-        label={label}
+        floatingLabel={label}
         className={classes.field}
         component={TextField}
         name={id}
-        autoComplete={false}
+        disableAutoComplete
         type={type === 'PASSWORD' ? 'password' : 'text'}
         autoFocus={idx === 0}
         disabled={isChecking}

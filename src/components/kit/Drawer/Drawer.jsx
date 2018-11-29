@@ -6,6 +6,7 @@ import Button from 'components/kit/Button'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import DrawerPaper from './DrawerPaper'
 import DrawerFooter from './DrawerFooter'
+import DrawerSubtitle from './DrawerSubtitle'
 import DrawerTitle from './DrawerTitle'
 import DrawerCloseButton from './DrawerCloseButton'
 import DrawerContext from './context'
@@ -23,6 +24,7 @@ type Props = {|
   titleClamp?: number,
   titleSmaller?: boolean,
   titleExtraButton?: Element,
+  subtitle: string,
   noCloseButton?: boolean,
   footerButtonLabel?: string,
   footerButtonProps?: React.ElementConfig<typeof Button>,
@@ -52,6 +54,7 @@ const Drawer = ({
   titleClamp,
   titleSmaller,
   titleExtraButton,
+  subtitle,
   noCloseButton,
   footerButtonLabel,
   footerButtonProps,
@@ -93,6 +96,7 @@ const Drawer = ({
               {title}
             </DrawerTitle>
           )}
+          {subtitle && <DrawerSubtitle>{subtitle}</DrawerSubtitle>}
           {children}
           {footer}
         </DrawerContext.Provider>

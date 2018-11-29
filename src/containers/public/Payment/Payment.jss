@@ -13,8 +13,8 @@ export default theme => ({
   },
   card: {},
   similarButton: {
-    width: '100%',
-    height: 80,
-    marginTop: 20,
+    position: 'absolute',
+    bottom: 30,
+    right: 30,
   },
 })

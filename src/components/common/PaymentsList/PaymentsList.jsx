@@ -1,9 +1,8 @@
 // @flow strict-local
 import * as React from 'react'
 import CurrencyProvider from 'components/CurrencyProvider'
-import { PaymentListRow, ROW_HEIGHT } from 'components/PaymentListRow'
 import PaymentListRowMore from 'components/PaymentListRowMore'
-import List from './ListVirtualized'
+import List from 'components/ListVirtualized'
 
 type Id = string
 type Payment = { id: String }
@@ -16,7 +15,9 @@ type Props = {
   isLoadingMore?: boolean,
   moreButtonLabel: string,
   onRequestMore?: () => void,
-  onSelectionChange: (Array<Id>) => void,
+  itemHeight: number,
+  renderRow: Function,
+  onSelectionChange?: (Array<Id>) => void,
 }
 
 // Нам необходим контекст чтобы передать изменение некоторых пропов внутрь айтем компонент листа,
@@ -73,30 +74,29 @@ class PaymentsList extends React.Component<Props> {
     const { payments, selectedIds, onSelectionChange } = this.props
     const isLast = payments.indexOf(payment) === payments.length - 1
 
-    const selected = selectedIds.includes(payment.id)
+    const selectionProps = {}
+    if (onSelectionChange) {
+      selectionProps.selected = selectedIds.includes(payment.id)
 
-    // FIXME list reconcilation every check?
-    const onToggle = newSelected => {
-      onSelectionChange(
-        !newSelected
-          ? this.props.selectedIds.filter(x => x !== payment.id)
-          : [...this.props.selectedIds, payment.id]
-      )
+      // FIXME list reconcilation every check?
+      selectionProps.onToggle = newSelected => {
+        onSelectionChange(
+          !newSelected
+            ? this.props.selectedIds.filter(x => x !== payment.id)
+            : [...this.props.selectedIds, payment.id]
+        )
+      }
     }
 
     const computedStyle = this.getInsetStyles(style)
 
-    return (
-      <PaymentListRow
-        noSeparator={isLast}
-        selectable
-        selected={selected}
-        onToggle={onToggle}
-        {...payment}
-        style={computedStyle}
-        {...itemProps}
-      />
-    )
+    return this.props.renderRow({
+      isLast,
+      ...selectionProps,
+      ...payment,
+      style: computedStyle,
+      ...itemProps,
+    })
   }
 
   renderItem = ({ index, ...itemProps }) => {
@@ -111,7 +111,13 @@ class PaymentsList extends React.Component<Props> {
   }
 
   render() {
-    const { canRequestMore, payments, className, isLoadingMore } = this.props
+    const {
+      canRequestMore,
+      payments,
+      className,
+      itemHeight,
+      isLoadingMore,
+    } = this.props
 
     const itemsCount = payments.length + Number(!!canRequestMore)
 
@@ -122,7 +128,7 @@ class PaymentsList extends React.Component<Props> {
             ref={this.handleListRef}
             className={className}
             itemComponent={this.renderItem}
-            itemHeight={ROW_HEIGHT}
+            itemHeight={itemHeight}
             itemCount={itemsCount}
           />
         </LoadingContext.Provider>

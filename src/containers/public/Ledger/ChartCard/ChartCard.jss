@@ -1,15 +1,16 @@
 const CARD_PADDING = 30
 
-export default theme => ({
+export default {
   root: {
     padding: [30, CARD_PADDING, 0],
     paddingBottom: props => (props.barsOnly ? 30 : 0),
   },
-  header: {
-    marginBottom: 39,
+  header: {},
+  category: {
+    marginTop: 4,
   },
-  chart: {
-    marginRight: '11%',
+  overview: {
+    marginTop: 39,
   },
   bottomRow: {
     margin: [60, -CARD_PADDING, 0],
@@ -19,4 +20,4 @@ export default theme => ({
   barChart: {
     margin: [26, 0, 10],
   },
-})
+}

@@ -21,7 +21,7 @@ class TextDateSelect extends React.Component {
     })
   }
 
-  handleInputChange = value => {
+  handleInputChange = ({ target: { value } }) => {
     let date = parse(
       value,
       this.props.format,

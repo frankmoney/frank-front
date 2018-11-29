@@ -2,9 +2,12 @@
 import React from 'react'
 import cx from 'classnames'
 import { ArrowBack } from 'material-ui-icons'
+import { Link } from 'react-router-dom'
 import Button, { TextButton } from 'components/kit/Button'
 import FrankLogo from 'components/Logo'
 import { injectStyles } from 'utils/styles'
+import resetScrollPositionOnMount from 'utils/resetScrollPositionOnMount'
+import { ROUTES } from '../../../../const'
 import styles from './StepLayout.jss'
 
 const StepLayout = ({
@@ -26,7 +29,9 @@ const StepLayout = ({
   children,
 }) => (
   <div className={cx(classes.root, centered && classes.centered, className)}>
-    <FrankLogo className={classes.logo} />
+    <Link to={ROUTES.root}>
+      <FrankLogo className={classes.logo} />
+    </Link>
     <div className={classes.container}>{children}</div>
     {!noFooter && (
       <div className={classes.footer}>
@@ -65,4 +70,4 @@ StepLayout.defaultProps = {
   centered: false,
 }
 
-export default injectStyles(styles)(StepLayout)
+export default injectStyles(styles)(resetScrollPositionOnMount(StepLayout))

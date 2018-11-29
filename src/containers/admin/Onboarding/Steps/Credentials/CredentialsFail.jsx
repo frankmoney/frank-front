@@ -30,7 +30,11 @@ const CredentialsFail = ({
   onCancelOnboarding,
   bankUrl,
 }) => (
-  <StepLayout className={cx(classes.root, className)} noFooter>
+  <StepLayout
+    className={cx(classes.root, className)}
+    noFooter
+    backButtonText="Cancel connecting to the account"
+  >
     <StepBankLogo />
     <StepTitle>Connection failed</StepTitle>
     <StepDescription>
