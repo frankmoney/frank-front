@@ -1,6 +1,5 @@
 // @flow strict-local
 import * as R from 'ramda'
-import type { PieData } from 'components/Charts/Pie'
 import type { Category } from 'data/models/category'
 
 export const sumProp = (propName: string) =>
@@ -9,11 +8,16 @@ export const sumProp = (propName: string) =>
     R.sum
   )
 
-const percentOf = (value, total) => Math.round((100 * value) / total)
+const percentOf = (value: number, total: number): number =>
+  Math.round((100 * value) / total)
 
-const mapCategory = R.when(
+const fixEmptyCategory: (?Category) => Category = R.when(
   R.isNil,
-  R.always({ color: '#B3B3B3', name: '#Uncategorized' })
+  R.always({
+    color: '#B3B3B3',
+    id: '#Uncategorized',
+    name: '#Uncategorized',
+  })
 )
 
 const sortByValueDescend = R.sortBy(
@@ -23,19 +27,24 @@ const sortByValueDescend = R.sortBy(
   )
 )
 
+export type PieChartCategory = {|
+  ...Category,
+  value: number,
+|}
+
 export type GroupedPieData = {|
-  income: PieData,
-  spending: PieData,
+  income: Array<PieChartCategory>,
+  spending: Array<PieChartCategory>,
 |}
 
 type GraphqlPieData = {
-  category: Category,
+  category: ?Category,
   revenue: number,
   spending: number,
 }
 
 type LocalPieData = {|
-  category: Category,
+  category: ?Category,
   expenses: number,
   income: number,
 |}
@@ -48,17 +57,17 @@ export const remapPieData = (
   R.converge((...args) => R.zipObj(['income', 'spending'], args), [
     R.pipe(
       R.filter(({ income }) => income > 0),
-      R.map(({ income: value, category }) => ({
+      R.map(({ income: value, category }: LocalPieData) => ({
         value: percentOf(value, totalIncome),
-        ...mapCategory(category),
+        ...fixEmptyCategory(category),
       })),
       sortByValueDescend
     ),
     R.pipe(
       R.filter(({ expenses }) => expenses > 0),
-      R.map(({ expenses: value, category }) => ({
+      R.map(({ expenses: value, category }: LocalPieData) => ({
         value: percentOf(value, totalExpenses),
-        ...mapCategory(category),
+        ...fixEmptyCategory(category),
       })),
       sortByValueDescend
     ),

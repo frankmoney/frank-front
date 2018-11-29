@@ -4,8 +4,8 @@ import cx from 'classnames'
 import {
   CategoryList,
   limitCategories,
-  type Categories,
   type CategoryCb,
+  type PieChartCategories,
 } from 'components/OverviewPieChart'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
@@ -37,7 +37,7 @@ const styles = theme => ({
 type Props = {|
   ...InjectStylesProps,
   //
-  data: Categories,
+  data: PieChartCategories,
   onCategoryClick: CategoryCb,
 |}
 

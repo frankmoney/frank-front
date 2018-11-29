@@ -7,9 +7,4 @@ export type {
 export { default as CategoryList } from './CategoryList'
 export type { CategoryListProps } from './CategoryList'
 export { default as limitCategories } from './utils'
-export type {
-  Categories,
-  CategoryCb,
-  CategoryListData,
-  PieChartCategory,
-} from './utils'
+export type { CategoryCb, CategoryListData, PieChartCategories } from './utils'

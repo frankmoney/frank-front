@@ -1,35 +1,28 @@
 // @flow strict-local
 import * as R from 'ramda'
+import type { PieChartCategory } from 'data/models/pieData'
 
-export type PieChartCategory = {|
-  color: string,
+export type IndexedPieChartCategory = {|
+  ...PieChartCategory,
   index: number,
-  name: string,
-  value: number,
 |}
 
-export type CategoryCb = PieChartCategory => void
+export type CategoryCb = IndexedPieChartCategory => void
 
 export type CategoryListData = {|
-  items: Array<PieChartCategory>,
-  other: ?PieChartCategory,
-  tooltipItems: Array<PieChartCategory>,
+  items: Array<IndexedPieChartCategory>,
+  other: ?IndexedPieChartCategory,
+  tooltipItems: Array<IndexedPieChartCategory>,
 |}
 
-interface CategoryLike {
-  name: string;
-  value: number;
-  color?: string;
-}
-
-export type Categories = Array<CategoryLike>
-
-type LimitCategoriesFn = number => Categories => CategoryListData
+export type PieChartCategories = Array<PieChartCategory>
 
 const INDEX_PROP = 'index'
 const VALUE_PROP = 'value'
 
-const injectKey = R.addIndex(R.map)(R.flip(R.assoc(INDEX_PROP)))
+const injectKey: PieChartCategories => Array<PieChartCategory> = R.addIndex(
+  R.map
+)(R.flip(R.assoc(INDEX_PROP)))
 
 const sumProps = prop =>
   R.pipe(
@@ -45,14 +38,17 @@ const sortDescBy = prop =>
 
 const roundValues = R.over(R.lensProp(VALUE_PROP), Math.round)
 
-const mergeOthers = items => ({
+const mergeOthers = (items: PieChartCategories): IndexedPieChartCategory => ({
   name: 'Other categories',
+  id: '#Other',
   color: '#B3B3B3',
   [VALUE_PROP]: sumProps(VALUE_PROP)(items),
   index: R.prop(INDEX_PROP, R.head(items)),
 })
 
-const doLimit = maxEntries =>
+type LimitCategoriesFn = PieChartCategories => CategoryListData
+
+const doLimit = (maxEntries: number): LimitCategoriesFn =>
   R.pipe(
     R.splitAt(maxEntries - 1),
     ([items, others]) => ({
@@ -62,7 +58,7 @@ const doLimit = maxEntries =>
     })
   )
 
-const limitCategories: LimitCategoriesFn = maxEntries =>
+const limitCategories = (maxEntries: number): LimitCategoriesFn =>
   R.pipe(
     sortDescBy(VALUE_PROP),
     injectKey,

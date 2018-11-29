@@ -1,3 +1,4 @@
+// @flow
 export { default as AccountInfo } from './AccountInfo'
 export { default as Credentials } from './Credentials'
 export { default as Verify } from './VerifyIdentity'

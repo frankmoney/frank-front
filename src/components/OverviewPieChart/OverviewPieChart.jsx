@@ -6,7 +6,10 @@ import CategoryTypeSelect from 'components/CategoryTypeSelect'
 import Pie from 'components/Charts/Pie'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import type { CategoryListProps } from './CategoryList'
-import limitCategories, { type Categories, type CategoryCb } from './utils'
+import limitCategories, {
+  type CategoryCb,
+  type PieChartCategories,
+} from './utils'
 import styles from './OverviewPieChart.jss'
 
 export type CategoryListComponent = React.ComponentType<CategoryListProps>
@@ -23,7 +26,7 @@ type Props = {|
   chartClassName?: string,
   chartSize: number,
   component: CategoryListPieChartRootComponent,
-  data: Categories,
+  data: PieChartCategories,
   onCategoryClick?: CategoryCb,
   onCategoryTypeChange?: CategoryCb,
 |}

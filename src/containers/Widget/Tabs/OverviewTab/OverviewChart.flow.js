@@ -3,7 +3,7 @@ import type {
   CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
-  PieChartCategory,
+  PieChartCategories,
 } from 'components/OverviewPieChart'
 import type { InjectStylesProps } from 'utils/styles'
 
@@ -12,7 +12,7 @@ export type Props = {|
   //
   CategoryList?: CategoryListComponent,
   categoryType: string,
-  data: Array<PieChartCategory>,
+  data: PieChartCategories,
   onCategoryClick: CategoryCb,
   onCategoryTypeChange: CategoryCb,
   pieChartRootComponent?: CategoryListPieChartRootComponent,

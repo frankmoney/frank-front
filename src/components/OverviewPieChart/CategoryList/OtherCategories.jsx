@@ -1,8 +1,8 @@
-// @flow
+// @flow strict-local
 import * as React from 'react'
 import { Popover } from 'material-ui'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import type { PieChartCategory } from '../utils'
+import type { PieChartCategory } from 'data/models/pieData'
 
 const styles = {
   tooltip: {
@@ -29,7 +29,7 @@ type Props = {|
   ...InjectStylesProps,
   //
   categories: Array<PieChartCategory>,
-  children: React.Element<any>,
+  children: React.Element<any>, // flowlint-line unclear-type:warn
   renderTooltipItem: PieChartCategory => React.Node,
 |}
 
