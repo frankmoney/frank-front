@@ -5,3 +5,7 @@ export type Category = {|
   id: string,
   name: string,
 |}
+
+export type GraphqlCategoryType = 'revenue' | 'spending'
+
+export type CategoryType = 'income' | 'spending'

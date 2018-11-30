@@ -10,6 +10,7 @@ import {
   type BarsDataPoint,
   type BarsUnit,
 } from 'data/models/barData'
+import type { CategoryType } from 'data/models/category'
 import { remapPieData, sumProp } from 'data/models/pieData'
 import {
   parseDate,
@@ -149,6 +150,11 @@ export const searchTextSelector = createSelector(
   string => parseQueryString(string)
 )
 
+export const categoryTypeSelector = createSelector(
+  queryParamSelector('categoryType'),
+  string => ((string ? parseQueryString(string) : 'spending'): CategoryType)
+)
+
 export const currentFiltersSelector = createSelector(
   queryParamSelector('amountMin'),
   queryParamSelector('amountMax'),
@@ -174,8 +180,6 @@ export const periodSelector = createSelector(
 )
 
 // Chart Selectors
-
-export const chartCategoryTypeSelector = get('chartCategoryType')
 
 export const chartsVisibleSelector = createSelector(
   searchTextSelector,
