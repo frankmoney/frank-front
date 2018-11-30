@@ -9,3 +9,7 @@ export type Category = {|
 export type GraphqlCategoryType = 'revenue' | 'spending'
 
 export type CategoryType = 'income' | 'spending'
+
+export const mapToGraphqlCategoryType = (
+  categoryType: CategoryType
+): GraphqlCategoryType => (categoryType === 'income' ? 'revenue' : categoryType)

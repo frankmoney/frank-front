@@ -46,13 +46,14 @@ export default {
     `
     query(
       $accountId: ID!
-      $first: Int!
-      $skip: Int
-      $search: String
-      $dateMin: Date
-      $dateMax: Date
-      $amountMin: Float
       $amountMax: Float
+      $amountMin: Float
+      $categoryType: CategoryType
+      $dateMax: Date
+      $dateMin: Date
+      $first: Int!
+      $search: String
+      $skip: Int
       $verified: Boolean
       ${categoryScoped ? '$categoryId: ID!,' : ''}
     ) {
@@ -118,10 +119,11 @@ export default {
         
         ${(includePie &&
           `ledgerPieChart(
-            postedOnMin: $dateMin
-            postedOnMax: $dateMax
-            amountMin: $amountMin
             amountMax: $amountMax
+            amountMin: $amountMin
+            categoryType: $categoryType
+            postedOnMax: $dateMax
+            postedOnMin: $dateMin
             verified: $verified
           ) {
             items {
