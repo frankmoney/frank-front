@@ -6,12 +6,18 @@ import CategoryLabel from 'components/CategoryLabel'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import {
   OTHER_ID,
-  type CategoryListData,
   type CategoryCb,
   type IndexedPieChartCategory,
 } from '../utils'
 import OtherCategories from './OtherCategories'
 import styles from './CategoryList.jss'
+
+// Duplicate definition for the prop-type generator
+type CategoryListData = {|
+  items: Array<IndexedPieChartCategory>,
+  other: ?IndexedPieChartCategory,
+  tooltipItems: Array<IndexedPieChartCategory>,
+|}
 
 export type CategoryListProps = {|
   activeCategoryIndex: ?number,
