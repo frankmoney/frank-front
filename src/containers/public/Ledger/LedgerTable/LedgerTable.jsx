@@ -5,12 +5,12 @@ import { PaymentsTableRow } from 'components/PaymentsTable'
 import PaymentCard from 'components/public/PaymentCard'
 import { dataSourceSelector, rowDataSelector } from '../selectors'
 
-const ComposedPaymentsTableRow = compose(
-  withProps({
-    tablePadding: 30,
-    type: 'public',
-  })
-)(PaymentsTableRow)
+const ComposedPaymentsTableRow = withProps(({ data: { verified } }) => ({
+  tablePadding: 30,
+  canView: verified,
+  short: !verified,
+  tall: verified,
+}))(PaymentsTableRow)
 
 const ConnectedPaymentsTableDetailRow = compose(
   withStateHandlers(({ data }) => ({

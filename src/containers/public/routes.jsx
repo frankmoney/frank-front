@@ -32,12 +32,12 @@ export default [
   },
   {
     component: ComposedStory,
-    path: ROUTES.public.story.root,
+    path: ROUTES.public.story.idRoot,
     exact: true,
   },
   {
     component: ComposedPayment,
-    path: ROUTES.public.payment.root,
+    path: ROUTES.public.payment.idRoot,
     exact: true,
   },
 ]

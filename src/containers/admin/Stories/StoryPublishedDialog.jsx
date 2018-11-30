@@ -5,7 +5,7 @@ import Dialog from 'components/kit/Dialog'
 import PublicLinkButton from 'components/PublicLinkButton'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
-import ShareButtons from './ShareButtons'
+import ShareButtons from 'components/common/ShareButtons'
 import { isShareDialogOpenSelector, shareDialogUrlSelector } from './selectors'
 import * as ACTIONS from './actions'
 
@@ -34,7 +34,7 @@ const StoryPublishedDialog = ({ classes, open, url, onClose }) => (
     <div className={classes.subtitle}>Public page</div>
     <PublicLinkButton className={classes.link} href={url} label={url} />
     <div className={classes.subtitle}>Share story</div>
-    <ShareButtons url={url} />
+    <ShareButtons url={url} large />
   </Dialog>
 )
 

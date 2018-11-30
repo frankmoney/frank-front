@@ -1,10 +1,10 @@
 const storyFields = `
-  pid
+  id: pid
   publishedAt
 `
 
 const storyDraftFields = `
-  pid
+  id: pid
   title
   cover
   body
@@ -56,7 +56,7 @@ export default {
     ({
       account: {
         story: {
-          draft: { countPayments, ...draft },
+          draft: { countPayments: paymentsCount, ...draft },
           ...story
         },
       },
@@ -64,7 +64,7 @@ export default {
       ...story,
       draft: {
         ...draft,
-        paymentsCount: countPayments,
+        paymentsCount,
       },
     }),
   ],

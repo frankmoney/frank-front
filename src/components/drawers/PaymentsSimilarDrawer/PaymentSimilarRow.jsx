@@ -98,7 +98,7 @@ const PaymentSimilarRow = ({
 }: Props) => {
   const url = createRouteUrl(
     routeType === 'public'
-      ? ROUTES.public.payment.root
+      ? ROUTES.public.payment.idRoot
       : ROUTES.manage.payment.root,
     { accountId, paymentId }
   )

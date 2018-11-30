@@ -9,26 +9,29 @@ import HighlightText from 'components/HighlightText'
 import { formatFullDate } from 'utils/dates'
 import PaymentStatus from 'components/admin/PaymentStatus'
 
-const NOT_VERIFIED_CELL_HEIGHT = 80
+const SHORT_CELL_HEIGHT = 80
 
 const FULL_CELL_HEIGHT = 110
-
-const getCellHeight = ({ type, data: { verified } }) =>
-  (type === 'public' && verified) || type === 'admin'
-    ? FULL_CELL_HEIGHT
-    : NOT_VERIFIED_CELL_HEIGHT
-
-const getCellPadding = ({ type, data: { verified } }) =>
-  (type === 'public' && verified) || type === 'admin' ? '21px 0' : '25px 0'
 
 const styles = theme => ({
   root: {
     color: theme.colors.black,
-    height: getCellHeight,
-    maxHeight: getCellHeight,
-    minHeight: getCellHeight,
-    padding: getCellPadding,
     textDecoration: 'none',
+    '&:hover': {
+      backgroundColor: '#F6F7F7',
+    },
+  },
+  tall: {
+    height: FULL_CELL_HEIGHT,
+    maxHeight: FULL_CELL_HEIGHT,
+    minHeight: FULL_CELL_HEIGHT,
+    padding: [21, 0],
+  },
+  short: {
+    height: SHORT_CELL_HEIGHT,
+    maxHeight: SHORT_CELL_HEIGHT,
+    minHeight: SHORT_CELL_HEIGHT,
+    padding: [25, 0],
   },
   cellLeft: {
     width: '70%',
@@ -104,12 +107,25 @@ const PaymentsTableRow = ({
     published,
     pending,
   },
-  type,
+  tall,
+  short,
+  canEdit,
+  canView,
   ...rowProps
 }) => (
-  <TableRow className={cx(classes.root, className)} {...rowProps}>
+  <TableRow
+    className={cx(
+      classes.root,
+      {
+        [classes.tall]: tall,
+        [classes.short]: short,
+      },
+      className
+    )}
+    {...rowProps}
+  >
     <TableCell name="description" className={classes.cellLeft}>
-      {(type === 'public' && published) || type === 'admin' ? (
+      {canEdit || canView ? (
         <>
           <div
             className={cx(
@@ -153,10 +169,10 @@ const PaymentsTableRow = ({
     </TableCell>
     <TableCell name="sum" className={classes.cellRight}>
       <CurrencyDelta className={classes.sum} value={amount} />
-      {((type === 'public' && published) || type === 'admin') && (
+      {canView && (
         <div className={classes.icons}>
           <div className={classes.date}>{formatFullDate(postedOn)}</div>
-          {type === 'admin' && (
+          {canEdit && (
             <PaymentStatus
               className={classes.verified}
               verified={published}

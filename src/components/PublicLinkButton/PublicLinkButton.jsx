@@ -1,6 +1,7 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
 import GlobeIcon from 'material-ui-icons/Public'
 import { TextButton } from 'components/kit/Button'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -18,10 +19,10 @@ type Props = {|
   href: string,
 |}
 
-const PublicLinkButton = ({ classes, className, label, href }: Props) => (
-  <a href={href} className={cx(classes.anchor, className)}>
+const PublicLinkButton = ({ classes, className, label, url }: Props) => (
+  <Link to={url} className={cx(classes.anchor, className)}>
     <TextButton icon={<GlobeIcon />} larger label={label} />
-  </a>
+  </Link>
 )
 
 export default injectStyles(styles)(PublicLinkButton)

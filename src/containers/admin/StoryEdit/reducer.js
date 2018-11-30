@@ -112,7 +112,7 @@ export default handleActions(
       }),
     [ACTIONS.publish.success]: (state, { payload: { story } }) => {
       if (story.draft.published) {
-        const publicUrl = createRouteUrl(ROUTES.public.story.root, {
+        const publicUrl = createRouteUrl(ROUTES.public.story.idRoot, {
           accountId: 'FIXME', // TODO: pass correct account id
           storyId: story.pid,
         })

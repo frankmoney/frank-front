@@ -41,6 +41,7 @@ export default (action$, store, { graphql }) =>
           barChart: needLoadCharts,
           pieChart: needLoadCharts,
           categories: !categoriesLoaded,
+          stories: true,
         }),
         {
           accountId,

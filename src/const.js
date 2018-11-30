@@ -42,10 +42,10 @@ export const ROUTES = {
       stories: '/account/:accountId?/stories',
     },
     story: {
-      root: '/account/:accountId?/stories/:storyId?',
+      idRoot: '/account/:accountId?/stories/:storyId?',
     },
     payment: {
-      root: '/account/:accountId?/payments/:paymentId?',
+      idRoot: '/account/:accountId?/payments/:paymentId?',
     },
   },
   demo: {
