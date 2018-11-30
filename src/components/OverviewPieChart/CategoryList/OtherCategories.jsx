@@ -9,21 +9,21 @@ import { type IndexedPieChartCategory } from '../utils'
 const styles = theme => ({
   root: {
     padding: 15,
+    zIndex: 1,
   },
   title: {
     color: '#A8AAB4',
     ...theme.fontMedium(14, 22),
+    marginBottom: 12,
   },
   label: {
-    alignItems: 'center',
-    display: 'flex',
-    '&:not(:first-child)': {
-      marginTop: 12,
-    },
+    marginTop: 10,
   },
   icon: {
     height: 12,
     width: 12,
+    position: 'relative',
+    top: -1,
   },
   text: {
     flex: [1, 1],
@@ -32,10 +32,11 @@ const styles = theme => ({
     whiteSpace: 'nowrap',
   },
   value: {
-    flex: [1, 1],
+    flex: [1, 0],
     textAlign: 'right',
     ...theme.fontMedium(14, 16),
-    color: 'black !important',
+    color: '#252B43',
+    opacity: 1,
   },
 })
 
