@@ -1,4 +1,4 @@
-// @flow strict-local
+// @flow strict
 import * as R from 'ramda'
 import type { PieChartCategory } from 'data/models/pieData'
 

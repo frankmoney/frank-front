@@ -1,16 +1,26 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import OverviewPieChart, { type CategoryCb } from 'components/OverviewPieChart'
+import OverviewPieChart, {
+  type CategoryCb,
+  type PieChartCategories,
+} from 'components/OverviewPieChart'
 import type { BarData, BarZoomInCb } from 'components/Charts/Bar'
 import Paper from 'components/kit/Paper'
-import type { GroupedPieData } from 'data/models/pieData'
+import type { PieChartCategory } from 'data/models/pieData'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import TimelineChart from 'components/common/TimelineChart'
 import ExpandRow from './ExpandRow'
 import LedgerCategoryList from './LedgerCategoryList'
 import styles from './ChartCard.jss'
 import Title from './Title'
+
+// This is identical to GroupedPieData
+// Flow or prop types fail to validate with the imported type
+type PieData = {|
+  income: Array<PieChartCategory>,
+  spending: Array<PieChartCategory>,
+|}
 
 type Props = {|
   ...InjectStylesProps,
@@ -21,7 +31,7 @@ type Props = {|
   barsOnly: boolean,
   categoryType: string,
   period: string,
-  pieData: GroupedPieData,
+  pieData: PieData,
   // Handlers
   onBarsZoomIn: BarZoomInCb,
   onCategoryClick?: CategoryCb,
@@ -58,7 +68,7 @@ class ChartCard extends React.PureComponent<Props, State> {
     } = this.props
 
     const { expanded } = this.state
-    const categories = pieData[categoryType]
+    const categories: PieChartCategories = pieData[categoryType]
     const handleBarsZoomIn = barsAreClickable ? onBarsZoomIn : null
 
     return (

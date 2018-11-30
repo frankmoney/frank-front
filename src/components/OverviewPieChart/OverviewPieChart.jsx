@@ -8,6 +8,8 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import type { CategoryListProps } from './CategoryList'
 import limitCategories, {
   type CategoryCb,
+  type CategoryListData,
+  type IndexedPieChartCategory,
   type PieChartCategories,
 } from './utils'
 import styles from './OverviewPieChart.jss'
@@ -65,9 +67,11 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
     } = this.props
     const { activeCategoryIndex } = this.state
 
-    const categories = limitCategories(5)(data)
+    const categories: CategoryListData = limitCategories(5)(data)
     const { items, other } = categories
-    const pieData = other ? R.append(other, items) : items
+    const pieData: Array<IndexedPieChartCategory> = other
+      ? R.append(other, items)
+      : items
 
     const rootProps =
       Root === React.Fragment

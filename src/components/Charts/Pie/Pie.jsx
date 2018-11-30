@@ -21,11 +21,11 @@ const styles = {
 
 type SegmentIndex = number
 
-type PieItem = {|
+type PieItem = {
   color?: string,
   name: string,
   value: number,
-|}
+}
 
 export type PieData = Array<PieItem>
 

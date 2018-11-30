@@ -24,7 +24,7 @@ type Props = {|
   titleClamp?: number,
   titleSmaller?: boolean,
   titleExtraButton?: Element,
-  subtitle: string,
+  subtitle?: string,
   noCloseButton?: boolean,
   footerButtonLabel?: string,
   footerButtonProps?: React.ElementConfig<typeof Button>,

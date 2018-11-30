@@ -1,4 +1,4 @@
-// @flow strict-local
+// @flow strict
 import * as R from 'ramda'
 import type { Category } from 'data/models/category'
 
@@ -57,18 +57,22 @@ export const remapPieData = (
   R.converge((...args) => R.zipObj(['income', 'spending'], args), [
     R.pipe(
       R.filter(({ income }) => income > 0),
-      R.map(({ income: value, category }: LocalPieData) => ({
-        value: percentOf(value, totalIncome),
-        ...fixEmptyCategory(category),
-      })),
+      R.map(
+        ({ income: value, category }: LocalPieData): PieChartCategory => ({
+          value: percentOf(value, totalIncome),
+          ...fixEmptyCategory(category),
+        })
+      ),
       sortByValueDescend
     ),
     R.pipe(
       R.filter(({ expenses }) => expenses > 0),
-      R.map(({ expenses: value, category }: LocalPieData) => ({
-        value: percentOf(value, totalExpenses),
-        ...fixEmptyCategory(category),
-      })),
+      R.map(
+        ({ expenses: value, category }: LocalPieData): PieChartCategory => ({
+          value: percentOf(value, totalExpenses),
+          ...fixEmptyCategory(category),
+        })
+      ),
       sortByValueDescend
     ),
   ])(list)
