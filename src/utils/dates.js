@@ -164,6 +164,7 @@ const isWholeYearsBetweenDates = (startDate, endDate): boolean =>
       0)
 
 type FormatDateRangeOptions = {|
+  noComma?: boolean,
   short?: boolean,
   withDay?: boolean,
 |}
@@ -179,34 +180,33 @@ export const formatDateRange: FormatDateRangeFn = (
   endDate,
   options = {}
 ) => {
-  const { short = true, withDay = false } = options
+  const { short = true, withDay = false, noComma = false } = options
   const MONTH = short ? 'MMM' : 'MMMM'
   const DAY = withDay ? ' D' : ''
   const MONTHDAY = MONTH + DAY
   const start = parseDate(startDate)
   const end = endDate ? parseDate(endDate) : start
 
+  const monthdayYYYY = noComma ? `${MONTHDAY} YYYY` : `${MONTHDAY}, YYYY`
+
   if (D.isEqual(start, end)) {
-    return D.format(`${MONTHDAY}, YYYY`, start)
+    return D.format(monthdayYYYY, start)
   } else if (D.isSameMonth(start, end)) {
     return withDay
       ? `${D.format(`${MONTHDAY} `, start)}–${D.format(`${DAY}, YYYY`, end)}`
-      : `${D.format(`${MONTHDAY}, YYYY`, end)}`
+      : `${D.format(monthdayYYYY, end)}`
   } else if (D.isSameYear(start, end)) {
     if (!withDay && isWholeYearsBetweenDates(start, end)) {
       return `${D.format('YYYY', start)}`
     }
     return `${D.format(`${MONTHDAY} `, start)}–${D.format(
-      ` ${MONTHDAY}, YYYY`,
+      ` ${monthdayYYYY}`,
       end
     )}`
   } else if (!withDay && isWholeYearsBetweenDates(start, end)) {
     return `${D.format(`YYYY`, start)} – ${D.format(`YYYY`, end)}`
   }
-  return `${D.format(`${MONTHDAY}, YYYY`, start)} – ${D.format(
-    `${MONTHDAY}, YYYY`,
-    end
-  )}`
+  return `${D.format(monthdayYYYY, start)} – ${D.format(monthdayYYYY, end)}`
 }
 
 export const formatSameDayTimeRange = (
@@ -325,3 +325,15 @@ export const diffHours = (
     parseDateTime(`${startDate} ${startTime}`),
     parseDateTime(`${endDate} ${endTime}`)
   )
+
+export const formatDateRangeFilter = (
+  dateMin: DateString,
+  dateMax: DateString
+): string =>
+  // TODO: support 'to'-intervals and day resolution?
+  dateMin || dateMax
+    ? formatDateRange(dateMin, dateMax || formatDate(getNow()), {
+        noComma: true,
+        short: false,
+      })
+    : 'All time'

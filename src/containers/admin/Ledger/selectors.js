@@ -13,10 +13,10 @@ import {
 import type { CategoryType } from 'data/models/category'
 import { remapPieData, sumProp } from 'data/models/pieData'
 import {
-  parseDate,
+  formatDateRangeFilter,
   formatMonth,
+  parseDate,
   parseMonth,
-  formatDateRange,
 } from 'utils/dates'
 import {
   parseQueryStringNumber,
@@ -174,10 +174,7 @@ export const isEmptyAccountSelector = createSelector(
 export const periodSelector = createSelector(
   queryParamSelector('dateMin'),
   queryParamSelector('dateMax'),
-  (dateMin, dateMax) =>
-    dateMin && dateMax
-      ? formatDateRange(dateMin, dateMax, { short: false })
-      : 'All time'
+  formatDateRangeFilter
 )
 
 // Chart Selectors
