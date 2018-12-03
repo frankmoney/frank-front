@@ -35,6 +35,7 @@ const styles = {
     boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',
   },
   tooltip: {
+    border: '1px solid rgba(0, 0, 0, 0.02)',
     boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)',
   },
   dropdown: {

@@ -26,7 +26,8 @@ type Props = {|
   ...InjectStylesProps,
   //
   barsColor?: string,
-  data: ?BarData,
+  data: BarData,
+  width: number,
 |}
 
 type State = {|

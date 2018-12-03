@@ -126,8 +126,8 @@ const TooltipButton = props => (
 )
 
 type CustomTooltipButtonProps = {|
-  align?: string,
-  place?: 'up' | 'down' | 'left' | 'right',
+  align?: PopupAlign,
+  place?: PopupPosition,
 |}
 
 const CustomTooltipButton = ({

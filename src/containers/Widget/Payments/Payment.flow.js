@@ -1,10 +1,6 @@
 // @flow
 import type { InjectStylesProps } from 'utils/styles'
-
-type Category = {|
-  name: string,
-  color: string,
-|}
+import type { Category } from 'data/models/category'
 
 export type PaymentProps = {|
   amount: number,

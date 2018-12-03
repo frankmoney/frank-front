@@ -1,18 +1,20 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import CategoryList, { type CategoryListProps } from 'components/CategoryList'
+import {
+  CategoryList,
+  type CategoryListProps,
+} from 'components/OverviewPieChart'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
   root: {
-    left: -26,
-    paddingBottom: 5,
+    flex: 1,
+    position: 'unset',
+    paddingTop: 5,
   },
   item: {
-    '&:not(:last-child)': {
-      paddingBottom: 10,
-    },
+    paddingBottom: 10,
   },
 }
 

@@ -1,16 +1,18 @@
 import * as R from 'ramda'
+import { mapToGraphqlCategoryType } from 'data/models/category'
 import { mapPayment } from 'data/models/payment'
 import * as ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
 import QUERIES from '../queries'
 import {
-  currentFiltersSelector,
-  searchTextSelector,
-  chartsVisibleSelector,
-  currentPageSelector,
-  categoriesSelector,
-  currentCategoryIdSelector,
   accountIdSelector,
+  categoriesSelector,
+  categoryTypeSelector,
+  chartsVisibleSelector,
+  currentCategoryIdSelector,
+  currentFiltersSelector,
+  currentPageSelector,
+  searchTextSelector,
 } from '../selectors'
 
 export default (action$, store, { graphql }) =>
@@ -23,6 +25,7 @@ export default (action$, store, { graphql }) =>
       const page = currentPageSelector(state)
       const categories = categoriesSelector(state)
       const categoriesLoaded = categories.length > 0
+      const categoryType = mapToGraphqlCategoryType(categoryTypeSelector(state))
       const {
         amountMin,
         amountMax,
@@ -35,24 +38,25 @@ export default (action$, store, { graphql }) =>
 
       return graphql(
         QUERIES.buildQuery({
+          barChart: needLoadCharts,
+          categories: !categoriesLoaded,
           categoryScoped: !!categoryId,
           payments: true,
-          totalCount: true,
-          barChart: needLoadCharts,
           pieChart: needLoadCharts,
-          categories: !categoriesLoaded,
           stories: true,
+          totalCount: true,
         }),
         {
           accountId,
-          categoryId: categoryId || undefined,
-          first: PAGE_SIZE,
-          skip: (page - 1) * PAGE_SIZE,
-          search,
-          amountMin,
           amountMax,
-          dateMin,
+          amountMin,
+          categoryId: categoryId || undefined,
+          categoryType,
           dateMax,
+          dateMin,
+          first: PAGE_SIZE,
+          search,
+          skip: (page - 1) * PAGE_SIZE,
           verified,
         }
       )

@@ -3,16 +3,12 @@ import React from 'react'
 import * as R from 'ramda'
 import CategoryMenuItem from 'components/CategoryMenuItem'
 import SelectField from 'components/kit/SelectField'
+import type { Category } from 'data/models/category'
 import CategorySelectValue from './CategorySelectValue'
-
-type Category = {|
-  id: string,
-  name: string,
-  color: string,
-|}
 
 type Props = {|
   categories: Array<Category>,
+  placeholder: string,
 |}
 
 const findById = (list, id) => R.find(R.propEq('id', id), list)

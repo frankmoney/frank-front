@@ -9,7 +9,9 @@ export default {
     marginBottom: 39,
   },
   chart: {
-    marginRight: '11%',
+    flex: 1,
+    width: 350,
+    margin: [0, 60, 0, 30],
   },
   bottomRow: {
     margin: [60, -CARD_PADDING, 0],

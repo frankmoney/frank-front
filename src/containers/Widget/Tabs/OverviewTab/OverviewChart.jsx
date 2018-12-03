@@ -1,12 +1,17 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
-import CategoryListPieChart from 'components/CategoryListPieChart'
+import OverviewPieChart from 'components/OverviewPieChart'
+import type {
+  CategoryCb,
+  CategoryListComponent,
+  CategoryListPieChartRootComponent,
+  PieChartCategories,
+} from 'components/OverviewPieChart'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import OverviewCategoryList from './OverviewCategoryList'
-import type { Props } from './OverviewChart.flow'
 
 const pieSize = R.cond([
   [R.equals(375), R.always(270)], // button widget size
@@ -38,6 +43,21 @@ const styles = {
   },
 }
 
+export type Props = {|
+  ...InjectStylesProps,
+  //
+  CategoryList?: CategoryListComponent,
+  categoryType: string,
+  data: PieChartCategories,
+  onCategoryClick: CategoryCb,
+  onCategoryTypeChange: CategoryCb,
+  pieChartRootComponent?: CategoryListPieChartRootComponent,
+  widgetSize: 375 | 500 | 625 | 800,
+  // Styles
+  periodSelectClassName?: string,
+  pieClassName?: string,
+|}
+
 const OverviewChart = ({
   CategoryList,
   categoryType,
@@ -55,12 +75,12 @@ const OverviewChart = ({
     <ConnectedPeriodSelect
       className={cx(classes.periodSelect, periodSelectClassName)}
     />
-    <CategoryListPieChart
-      CategoryList={CategoryList}
+    <OverviewPieChart
+      CategoryList={CategoryList && <CategoryList />}
       categoryType={categoryType}
-      categoryTypeSelectClassName={
-        widgetSize === 500 && classes.categoryTypeSelect
-      }
+      categoryTypeSelectClassName={{
+        [classes.categoryTypeSelect]: widgetSize === 500,
+      }}
       categoryTypeSelectLabel={categoryTypeSelectLabel(widgetSize)}
       chartClassName={pieClassName}
       chartSize={pieSize(widgetSize)}

@@ -1,13 +1,21 @@
-// @flow
+// @flow strict-local
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
+import type {
+  CategoryCb,
+  CategoryListComponent,
+  CategoryListPieChartRootComponent,
+} from 'components/OverviewPieChart'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import ConnectedCategoryTypeSelect from 'containers/Widget/ConnectedCategoryTypeSelect'
 import Totals from 'containers/Widget/Totals'
-import Footer from 'containers/Widget/Footer'
+import Footer, {
+  type FooterClasses,
+  type FooterProps,
+} from 'containers/Widget/Footer'
+import type { GroupedPieData } from 'data/models/pieData'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import JustCategoryList from './JustCategoryList'
 import OverviewChart from './OverviewChart'
-import type { Props } from './OverviewTab.flow'
 
 const styles = {
   selects: {
@@ -20,6 +28,33 @@ const styles = {
   },
 }
 
+type EmptyCb = () => void
+
+export type Props = {|
+  ...InjectStylesProps,
+  //
+  categoryCount?: number,
+  CategoryList?: CategoryListComponent,
+  categoryType: string,
+  data: GroupedPieData,
+  paymentCount?: number,
+  pieChartRootComponent?: CategoryListPieChartRootComponent,
+  showTotals?: boolean,
+  widgetSize: 375 | 400 | 500 | 625 | 800,
+  // Handlers
+  onCategoryClick: CategoryCb,
+  onCategoryTypeChange: CategoryCb,
+  onSeeAllClick: EmptyCb,
+  // Styles
+  chartClassName?: string,
+  contentClassName?: string,
+  periodSelectClassName?: string,
+  pieClassName?: string,
+  //
+  FooterClasses?: FooterClasses,
+  FooterProps?: FooterProps,
+|}
+
 const OverviewTab = ({
   categoryCount,
   CategoryList,
@@ -28,8 +63,8 @@ const OverviewTab = ({
   classes,
   contentClassName,
   data,
-  FooterClasses,
-  FooterProps,
+  FooterClasses: footerClasses,
+  FooterProps: footerProps,
   onCategoryClick,
   onCategoryTypeChange,
   onSeeAllClick,
@@ -69,10 +104,10 @@ const OverviewTab = ({
       )}
       <Footer
         categoryCount={categoryCount}
-        Classes={FooterClasses}
+        Classes={footerClasses}
         onSeeAllClick={onSeeAllClick}
         paymentCount={paymentCount}
-        {...FooterProps}
+        {...footerProps}
       />
     </div>
   )

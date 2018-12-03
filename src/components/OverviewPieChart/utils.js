@@ -1,11 +1,29 @@
-// @flow
+// @flow strict
 import * as R from 'ramda'
-import type { LimitCategoriesFn } from './utils.flow'
+import type { PieChartCategory } from 'data/models/pieData'
+
+export type IndexedPieChartCategory = {|
+  ...PieChartCategory,
+  index: number,
+|}
+
+export type CategoryCb = IndexedPieChartCategory => void
+
+export type CategoryListData = {|
+  items: Array<IndexedPieChartCategory>,
+  other: ?IndexedPieChartCategory,
+  tooltipItems: Array<IndexedPieChartCategory>,
+|}
+
+export type PieChartCategories = Array<PieChartCategory>
 
 const INDEX_PROP = 'index'
 const VALUE_PROP = 'value'
+export const OTHER_ID = '#other'
 
-const injectKey = R.addIndex(R.map)(R.flip(R.assoc(INDEX_PROP)))
+const injectKey: PieChartCategories => Array<PieChartCategory> = R.addIndex(
+  R.map
+)(R.flip(R.assoc(INDEX_PROP)))
 
 const sumProps = prop =>
   R.pipe(
@@ -21,14 +39,17 @@ const sortDescBy = prop =>
 
 const roundValues = R.over(R.lensProp(VALUE_PROP), Math.round)
 
-const mergeOthers = items => ({
+const mergeOthers = (items: PieChartCategories): IndexedPieChartCategory => ({
   name: 'Other categories',
+  id: OTHER_ID,
   color: '#B3B3B3',
   [VALUE_PROP]: sumProps(VALUE_PROP)(items),
   index: R.prop(INDEX_PROP, R.head(items)),
 })
 
-const doLimit = maxEntries =>
+type LimitCategoriesFn = PieChartCategories => CategoryListData
+
+const doLimit = (maxEntries: number): LimitCategoriesFn =>
   R.pipe(
     R.splitAt(maxEntries - 1),
     ([items, others]) => ({
@@ -38,7 +59,7 @@ const doLimit = maxEntries =>
     })
   )
 
-const limitCategories: LimitCategoriesFn = maxEntries =>
+const limitCategories = (maxEntries: number): LimitCategoriesFn =>
   R.pipe(
     sortDescBy(VALUE_PROP),
     injectKey,

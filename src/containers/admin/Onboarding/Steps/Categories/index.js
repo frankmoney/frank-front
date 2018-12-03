@@ -1,1 +1,2 @@
-export default from './Categories'
+// @flow
+export { default } from './Categories'

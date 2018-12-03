@@ -1,15 +1,43 @@
-// @flow
+// @flow strict-local
+import * as React from 'react'
 import * as R from 'ramda'
-import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import CategoryTypeSelect from 'components/CategoryTypeSelect'
 import Pie from 'components/Charts/Pie'
-import limitCategories from './utils'
-import styles from './CategoryListPieChart.jss'
-import type { Props, State } from './CategoryListPieChart.flow'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import type { CategoryListProps } from './CategoryList'
+import limitCategories, {
+  type CategoryCb,
+  type CategoryListData,
+  type IndexedPieChartCategory,
+  type PieChartCategories,
+} from './utils'
+import styles from './OverviewPieChart.jss'
 
-class CategoryListPieChart extends React.PureComponent<Props, State> {
+export type CategoryListComponent = React.ComponentType<CategoryListProps>
+
+export type CategoryListPieChartRootComponent = React.ComponentType<any> // flowlint-line unclear-type:warn
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  CategoryList: React.Element<CategoryListComponent>,
+  categoryType: string,
+  categoryTypeSelectClassName?: string,
+  categoryTypeSelectLabel?: string,
+  chartClassName?: string,
+  chartSize: number,
+  component: CategoryListPieChartRootComponent,
+  data: PieChartCategories,
+  onCategoryClick?: CategoryCb,
+  onCategoryTypeChange?: CategoryCb,
+|}
+
+export type State = {|
+  activeCategoryIndex: ?number,
+|}
+
+class OverviewPieChart extends React.PureComponent<Props, State> {
   static defaultProps = {
     component: 'div',
   }
@@ -39,9 +67,11 @@ class CategoryListPieChart extends React.PureComponent<Props, State> {
     } = this.props
     const { activeCategoryIndex } = this.state
 
-    const categories = limitCategories(5)(data)
+    const categories: CategoryListData = limitCategories(5)(data)
     const { items, other } = categories
-    const pieData = other ? R.append(other, items) : items
+    const pieData: Array<IndexedPieChartCategory> = other
+      ? R.append(other, items)
+      : items
 
     const rootProps =
       Root === React.Fragment
@@ -67,18 +97,18 @@ class CategoryListPieChart extends React.PureComponent<Props, State> {
             value={categoryType}
           />
         </div>
-        <CategoryList
-          activeCategoryIndex={activeCategoryIndex}
-          className={classes.categoryList}
-          data={categories}
-          onCategoryClick={onCategoryClick}
-          onLabelMouseEnter={this.handleMouseOver}
-          onLabelMouseLeave={this.handleMouseOut}
-          valueUnit="%"
-        />
+        {React.cloneElement(CategoryList, {
+          activeCategoryIndex,
+          className: classes.categoryList,
+          data: categories,
+          onCategoryClick,
+          onLabelMouseEnter: this.handleMouseOver,
+          onLabelMouseLeave: this.handleMouseOut,
+          valueUnit: '%',
+        })}
       </Root>
     )
   }
 }
 
-export default injectStyles(styles)(CategoryListPieChart)
+export default injectStyles(styles)(OverviewPieChart)

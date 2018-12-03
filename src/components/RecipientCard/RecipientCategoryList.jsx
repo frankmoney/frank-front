@@ -1,11 +1,11 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import CategoryList from 'components/CategoryList'
 import {
+  CategoryList,
   limitCategories,
-  type Categories,
-} from 'components/CategoryListPieChart'
+  type PieChartCategories,
+} from 'components/OverviewPieChart'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = theme => ({
@@ -30,7 +30,7 @@ const styles = theme => ({
 type Props = {|
   ...InjectStylesProps,
   //
-  data: Categories,
+  data: PieChartCategories,
 |}
 
 const RecipientCategoryList = ({ classes, className, data }: Props) => {

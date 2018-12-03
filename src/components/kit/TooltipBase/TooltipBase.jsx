@@ -12,6 +12,7 @@ export type TooltipBaseProps = {|
   closeTimeout?: number,
   defaultOpen?: boolean,
   defaultVisible?: boolean,
+  distance?: number,
   place: PopupPosition,
   popupAccessible?: boolean,
 |}

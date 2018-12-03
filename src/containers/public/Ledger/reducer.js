@@ -1,10 +1,10 @@
-import Immutable, { fromJS } from 'immutable'
+import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import * as ACTIONS from './actions'
 
 export const REDUCER_KEY = 'publicLedger'
 
-const defaultState = Immutable.fromJS({
+const defaultState = fromJS({
   typing: false,
   loading: true,
   loaded: false,
@@ -13,7 +13,6 @@ const defaultState = Immutable.fromJS({
     loaded: false,
     data: {},
   },
-  chartCategoryType: 'spending',
   categories: [],
   barsData: [],
   barsUnit: null,
@@ -77,8 +76,6 @@ export default handleActions(
         typing: false,
       }),
     [ACTIONS.leave]: () => defaultState,
-    [ACTIONS.selectCategoryType]: (state, { payload: categoryType }) =>
-      state.merge({ chartCategoryType: categoryType }),
   },
   defaultState
 )

@@ -8,7 +8,6 @@ const defaultState = fromJS({
   typing: false,
   loading: true,
   loaded: false,
-  chartCategoryType: 'spending',
   categories: [],
   barsData: [],
   barsUnit: null,
@@ -74,8 +73,6 @@ export default handleActions(
           return list.update(idx, x => x.merge(payment))
         }),
     [ACTIONS.leave]: () => defaultState,
-    [ACTIONS.selectCategoryType]: (state, { payload: categoryType }) =>
-      state.merge({ chartCategoryType: categoryType }),
   },
   defaultState
 )

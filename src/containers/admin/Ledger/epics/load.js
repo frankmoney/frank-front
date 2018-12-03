@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+import { mapToGraphqlCategoryType } from 'data/models/category'
 import { mapPayment } from 'data/models/payment'
 import { formatDate } from 'utils/dates'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -6,12 +7,13 @@ import * as ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
 import QUERIES from '../queries'
 import {
-  currentFiltersSelector,
-  searchTextSelector,
-  chartsVisibleSelector,
-  currentPageSelector,
   categoriesSelector,
+  categoryTypeSelector,
+  chartsVisibleSelector,
   currentCategoryIdSelector,
+  currentFiltersSelector,
+  currentPageSelector,
+  searchTextSelector,
 } from '../selectors'
 
 export default (action$, store, { graphql }) =>
@@ -24,6 +26,7 @@ export default (action$, store, { graphql }) =>
       const page = currentPageSelector(state)
       const categories = categoriesSelector(state)
       const categoriesLoaded = categories.length > 0
+      const categoryType = mapToGraphqlCategoryType(categoryTypeSelector(state))
       const {
         amountMin,
         amountMax,
@@ -36,24 +39,25 @@ export default (action$, store, { graphql }) =>
 
       return graphql(
         QUERIES.buildQuery({
-          categoryScoped: !!categoryId,
-          payments: true,
-          totalCount: true,
           barChart: needLoadCharts,
           barChartBarSize: needLoadCharts,
-          pieChart: needLoadCharts,
           categories: !categoriesLoaded,
+          categoryScoped: !!categoryId,
+          payments: true,
+          pieChart: needLoadCharts,
+          totalCount: true,
         }),
         {
           accountId: currentAccountId,
-          categoryId: categoryId || null,
-          first: PAGE_SIZE,
-          skip: (page - 1) * PAGE_SIZE,
-          search: search || null,
-          amountMin,
           amountMax,
-          dateMin: dateMin && formatDate(dateMin),
+          amountMin,
+          categoryId: categoryId || null,
+          categoryType,
           dateMax: dateMax && formatDate(dateMax),
+          dateMin: dateMin && formatDate(dateMin),
+          first: PAGE_SIZE,
+          search: search || null,
+          skip: (page - 1) * PAGE_SIZE,
           verified,
         }
       )
