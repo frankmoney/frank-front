@@ -1,40 +1,40 @@
 // @flow strict-local
 import React from 'react'
-import * as R from 'ramda'
 import cx from 'classnames'
-import { connect } from 'react-redux'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
-import { bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import CurrencyProvider from 'components/CurrencyProvider'
 import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
+import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import ConnectedChartCard from './ConnectedChartCard'
+import EmptyAccoutPlaceholder from './EmptyAccountPlaceholder'
 import LedgerHighlightTextProvider from './LedgerHighlightTextProvider'
 import LedgerPager from './LedgerPager'
 import LedgerSearch from './LedgerSearch'
 import LedgerTable from './LedgerTable'
 import styles from './Ledger.jss'
 import {
+  currentCategoryNameSelector,
+  hasNoResultsSelector,
+  isEmptyAccountSelector,
   isLoadingSelector,
   listDisabledSelector,
-  hasNoResultsSelector,
-  currentCategoryNameSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
 
 const Ledger = ({
+  cancelCategory,
   classes,
-  listDisabled,
+  className,
   currentCategory,
+  isEmptyAccount,
+  listDisabled,
   noResults,
   resetSearch,
-  cancelCategory,
-  className,
 }) => (
   <CurrencyProvider code="USD">
     <div className={cx(classes.root, className)}>
@@ -49,56 +49,54 @@ const Ledger = ({
         </Breadcrumbs>
         <LedgerFilter />
       </FixedHeader>
-      <div className={classes.container}>
-        <LedgerSearch
-          placeholder="Start typing a category, recipient or part of a description..."
-          className={classes.searchCard}
-          loading={listDisabled}
-        />
-        {!listDisabled && (
-          <ConnectedChartCard className={classes.overviewCard} />
-        )}
-        <LedgerHighlightTextProvider>
-          <LedgerTable className={classes.table} />
-        </LedgerHighlightTextProvider>
-        {!noResults &&
-          !listDisabled && (
-            <div className={classes.tablePagerWrap}>
-              <LedgerPager className={classes.tablePager} />
-            </div>
+      {isEmptyAccount && <EmptyAccoutPlaceholder />}
+      {!isEmptyAccount && (
+        <div className={classes.container}>
+          <LedgerSearch
+            placeholder="Start typing a category, recipient or part of a description..."
+            className={classes.searchCard}
+            loading={listDisabled}
+          />
+          {!listDisabled && (
+            <ConnectedChartCard className={classes.overviewCard} />
           )}
-        {!listDisabled &&
-          noResults && (
-            <TableEmptyPlaceholder
-              text="payments"
-              onReset={() => resetSearch()}
-            />
-          )}
-      </div>
+          <LedgerHighlightTextProvider>
+            <LedgerTable className={classes.table} />
+          </LedgerHighlightTextProvider>
+          {!noResults &&
+            !listDisabled && (
+              <div className={classes.tablePagerWrap}>
+                <LedgerPager className={classes.tablePager} />
+              </div>
+            )}
+          {!listDisabled &&
+            noResults && (
+              <TableEmptyPlaceholder
+                text="payments"
+                onReset={() => resetSearch()}
+              />
+            )}
+        </div>
+      )}
     </div>
   </CurrencyProvider>
 )
 
-const mapStateToProps = createStructuredSelector({
-  loading: isLoadingSelector,
-  listDisabled: listDisabledSelector,
-  noResults: hasNoResultsSelector,
-  currentCategory: currentCategoryNameSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    load: ACTIONS.load,
-    leave: ACTIONS.leave,
-    resetSearch: ACTIONS.resetSearch,
-    cancelCategory: ACTIONS.cancelCategory,
-  },
-])
-
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
+  reconnect(
+    {
+      currentCategory: currentCategoryNameSelector,
+      isEmptyAccount: isEmptyAccountSelector,
+      listDisabled: listDisabledSelector,
+      loading: isLoadingSelector,
+      noResults: hasNoResultsSelector,
+    },
+    {
+      load: ACTIONS.load,
+      leave: ACTIONS.leave,
+      resetSearch: ACTIONS.resetSearch,
+      cancelCategory: ACTIONS.cancelCategory,
+    }
   ),
   lifecycle({
     componentWillMount() {
