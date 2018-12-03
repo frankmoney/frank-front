@@ -17,9 +17,10 @@ export default theme => ({
     alignItems: 'center',
     textAlign: 'center',
     marginBottom: 80,
+    padding: [0, 40],
   },
   title: {
-    ...theme.fontSemibold(40, 46),
+    ...theme.fontSemibold(50, 54),
     wordBreak: 'break-word',
     color: '#252B43',
     marginBottom: 20,
@@ -27,6 +28,7 @@ export default theme => ({
   },
   stats: {
     marginLeft: -2,
+    marginBottom: 30,
   },
   share: {
     height: 40,

@@ -8,6 +8,7 @@ const styles = theme => ({
     borderRadius: 3,
     color: '#fff',
     ...theme.fontMedium(10, 12),
+    maxWidth: 104,
     display: 'inline-flex',
     alignItems: 'center',
     padding: [0, 4],

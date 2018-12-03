@@ -7,6 +7,7 @@ export default {
     justifyContent: 'center',
     paddingTop: 150,
     paddingBottom: 80,
+    marginLeft: 1,
   },
   form: {
     width: 770,

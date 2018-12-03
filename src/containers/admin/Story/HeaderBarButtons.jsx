@@ -11,6 +11,7 @@ import Button from 'components/kit/Button'
 import { formatFullDate } from 'utils/datesLight'
 import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
+import { currentAccountIdSelector } from 'redux/selectors/user'
 import { storySelector } from './selectors'
 
 const styles = theme => ({
@@ -41,8 +42,9 @@ const styles = theme => ({
 const HeaderBarButtons = ({
   classes,
   className,
+  accountId,
   story: {
-    pid,
+    id: storyId,
     publishedAt,
     draft: { published },
   },
@@ -54,11 +56,17 @@ const HeaderBarButtons = ({
         <div className={classes.published}>
           Published {formatFullDate(publishedAt)}
         </div>
-        <PublicLinkButton href="about:blank" label="See the public page" />
+        <PublicLinkButton
+          url={createRouteUrl(ROUTES.public.story.idRoot, {
+            accountId,
+            storyId,
+          })}
+          label="See the public page"
+        />
       </>
     )}
     <RouterLink
-      to={createRouteUrl(ROUTES.manage.stories.storyEdit, { id: pid })}
+      to={createRouteUrl(ROUTES.manage.stories.storyEdit, { id: storyId })}
     >
       <Button
         label="Edit story"
@@ -71,6 +79,7 @@ const HeaderBarButtons = ({
 
 export default compose(
   connect(state => ({
+    accountId: currentAccountIdSelector(state),
     story: storySelector(state),
   })),
   injectStyles(styles)

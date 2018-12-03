@@ -10,15 +10,16 @@ import {
   rowDataSelector,
   paymentCardCategoriesSelector,
   isPaymentSavingSelector,
-  isPaymentPublishingSelector
+  isPaymentPublishingSelector,
 } from '../selectors'
 import * as ACTIONS from '../actions'
 
-const ComposedPaymentsTableRow = compose(
-  withProps({
-    type: 'admin',
-  })
-)(PaymentsTableRow)
+const ComposedPaymentsTableRow = withProps({
+  tablePadding: 30,
+  canView: true,
+  canEdit: true,
+  tall: true,
+})(PaymentsTableRow)
 
 const ConnectedPaymentsTableDetailRow = compose(
   reconnect(

@@ -9,7 +9,7 @@ import StoryCard from './StoryCard'
 
 const LinkedStoryCard = withProps(({ accountId, storyId }) => ({
   component: Link,
-  to: createRouteUrl(ROUTES.public.story.root, { accountId, storyId }),
+  to: createRouteUrl(ROUTES.public.story.idRoot, { accountId, storyId }),
 }))(StoryCard)
 
 const StoriesList = ({ stories, accountId }) => (

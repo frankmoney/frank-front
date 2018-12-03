@@ -2,13 +2,13 @@
 import React from 'react'
 import cx from 'classnames'
 import CurrencyContext from 'contexts/CurrencyContext'
-import { formatDateRange, type DateDefaultString } from 'utils/datesLight'
+import { formatDateRange, type DateString } from 'utils/dates'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import styles from './StoryPaymentsStats.jss'
 
 export type StoryPaymentsStatsProps = {|
   paymentsCount: number,
-  paymentsDateRange: [DateDefaultString, DateDefaultString],
+  paymentsDateRange: [DateString, DateString],
 |}
 
 type Props = {|

@@ -7,6 +7,7 @@ export default theme => ({
     justifyContent: 'center',
     paddingTop: 110,
     paddingBottom: 100,
+    marginLeft: 1,
   },
   container: {
     width: 850,
