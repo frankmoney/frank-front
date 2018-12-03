@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { mapToGraphqlCategoryType } from 'data/models/category'
+import { serializeCategoryType } from 'data/models/category'
 import { mapPayment } from 'data/models/payment'
 import { formatDate } from 'utils/dates'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -26,7 +26,7 @@ export default (action$, store, { graphql }) =>
       const page = currentPageSelector(state)
       const categories = categoriesSelector(state)
       const categoriesLoaded = categories.length > 0
-      const categoryType = mapToGraphqlCategoryType(categoryTypeSelector(state))
+      const categoryType = serializeCategoryType(categoryTypeSelector(state))
       const {
         amountMin,
         amountMax,

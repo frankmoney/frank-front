@@ -10,6 +10,6 @@ export type GraphqlCategoryType = 'revenue' | 'spending'
 
 export type CategoryType = 'income' | 'spending'
 
-export const mapToGraphqlCategoryType = (
+export const serializeCategoryType = (
   categoryType: CategoryType
 ): GraphqlCategoryType => (categoryType === 'income' ? 'revenue' : categoryType)

@@ -2,6 +2,12 @@
 import * as R from 'ramda'
 import type { Category } from 'data/models/category'
 
+const UNCATEGORIZED: Category = {
+  color: '#B3B3B3',
+  id: '#Uncategorized',
+  name: '#Uncategorized',
+}
+
 export const sumProp = (propName: string) =>
   R.pipe(
     R.map(R.prop(propName)),
@@ -10,15 +16,6 @@ export const sumProp = (propName: string) =>
 
 const percentOf = (value: number, total: number): number =>
   Math.round((100 * value) / total)
-
-const fixEmptyCategory: (?Category) => Category = R.when(
-  R.isNil,
-  R.always({
-    color: '#B3B3B3',
-    id: '#Uncategorized',
-    name: '#Uncategorized',
-  })
-)
 
 const sortByValueDescend = R.sortBy(
   R.pipe(
@@ -49,6 +46,15 @@ type LocalPieData = {|
   income: number,
 |}
 
+const toPieChartCategory = (
+  category: ?Category,
+  value: number,
+  total: number
+): PieChartCategory => ({
+  value: percentOf(value, total),
+  ...(category || UNCATEGORIZED),
+})
+
 export const remapPieData = (
   list: Array<LocalPieData>,
   totalExpenses: number,
@@ -57,27 +63,21 @@ export const remapPieData = (
   R.converge((...args) => R.zipObj(['income', 'spending'], args), [
     R.pipe(
       R.filter(({ income }) => income > 0),
-      R.map(
-        ({ income: value, category }: LocalPieData): PieChartCategory => ({
-          value: percentOf(value, totalIncome),
-          ...fixEmptyCategory(category),
-        })
+      R.map(({ income: value, category }: LocalPieData) =>
+        toPieChartCategory(category, value, totalIncome)
       ),
       sortByValueDescend
     ),
     R.pipe(
       R.filter(({ expenses }) => expenses > 0),
-      R.map(
-        ({ expenses: value, category }: LocalPieData): PieChartCategory => ({
-          value: percentOf(value, totalExpenses),
-          ...fixEmptyCategory(category),
-        })
+      R.map(({ expenses: value, category }: LocalPieData) =>
+        toPieChartCategory(category, value, totalExpenses)
       ),
       sortByValueDescend
     ),
   ])(list)
 
-export const convertGraphqlPieData = R.map(
+export const deserializePieData = R.map(
   ({ category, revenue, spending }: GraphqlPieData): LocalPieData => ({
     category,
     income: revenue,

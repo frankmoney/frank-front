@@ -1,5 +1,4 @@
-import * as R from 'ramda'
-import { convertGraphqlPieData } from 'data/models/pieData'
+import { deserializePieData } from 'data/models/pieData'
 
 const PEER = `
   id: pid
@@ -159,7 +158,7 @@ export default {
       barsUnit: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).barSize
         : null,
-      pieChart: includePie ? convertGraphqlPieData(ledgerPieChart.items) : null,
+      pieChart: includePie ? deserializePieData(ledgerPieChart.items) : null,
     }),
   ],
   paymentUpdate: [
