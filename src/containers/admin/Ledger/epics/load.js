@@ -9,10 +9,10 @@ import QUERIES from '../queries'
 import {
   categoriesSelector,
   categoryTypeSelector,
-  chartsVisibleSelector,
   currentCategoryIdSelector,
   currentFiltersSelector,
   currentPageSelector,
+  noTextSearchSelector,
   searchTextSelector,
 } from '../selectors'
 
@@ -35,7 +35,7 @@ export default (action$, store, { graphql }) =>
         verified,
       } = currentFiltersSelector(state)
       const categoryId = currentCategoryIdSelector(state)
-      const needLoadCharts = chartsVisibleSelector(state)
+      const needLoadCharts = noTextSearchSelector(state)
 
       return graphql(
         QUERIES.buildQuery({

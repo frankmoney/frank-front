@@ -176,7 +176,7 @@ export const periodSelector = createSelector(
 
 // Chart Selectors
 
-export const chartsVisibleSelector = createSelector(
+export const noTextSearchSelector = createSelector(
   searchTextSelector,
   R.either(R.isNil, R.isEmpty)
 )
@@ -222,6 +222,12 @@ export const barChartDataSelector = createSelector(
 )
 
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
+
+export const chartsVisibleSelector = createSelector(
+  noTextSearchSelector,
+  rawPieDataSelector,
+  (noSearch, items) => noSearch && R.length(items) > 0
+)
 
 const totalExpensesSelector = createSelector(
   rawPieDataSelector,

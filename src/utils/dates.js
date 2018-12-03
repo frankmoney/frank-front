@@ -163,11 +163,22 @@ const isWholeYearsBetweenDates = (startDate, endDate): boolean =>
       (11 + 12 * D.differenceInYears(startDate, endDate)) ===
       0)
 
-export const formatDateRange = (
+type FormatDateRangeOptions = {|
+  short?: boolean,
+  withDay?: boolean,
+|}
+
+type FormatDateRangeFn = (
   startDate: DateString,
   endDate: DateString,
-  options: { short: boolean, withDay: boolean } = {}
-): string => {
+  options: FormatDateRangeOptions
+) => string
+
+export const formatDateRange: FormatDateRangeFn = (
+  startDate,
+  endDate,
+  options = {}
+) => {
   const { short = true, withDay = false } = options
   const MONTH = short ? 'MMM' : 'MMMM'
   const DAY = withDay ? ' D' : ''
