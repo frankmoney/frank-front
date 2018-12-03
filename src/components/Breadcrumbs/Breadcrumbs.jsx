@@ -1,7 +1,22 @@
+// @flow strict-local
+import React from 'react'
+import cx from 'classnames'
 import { Breadcrumbs as DefaultBreadcrumbs } from '@frankmoney/components'
-import { ArrowForward as SeparatorIcon } from 'material-ui-icons'
-import { withProps } from 'recompose'
+import { injectStyles } from 'utils/styles'
+import Separator from './Separator'
 
-export default withProps({
-  separatorComponent: SeparatorIcon,
-})(DefaultBreadcrumbs)
+const styles = {
+  root: {
+    marginTop: 0,
+  },
+}
+
+const Breadcrumbs = ({ classes, className, ...props }) => (
+  <DefaultBreadcrumbs
+    className={cx(classes.root, className)}
+    separatorComponent={Separator}
+    {...props}
+  />
+)
+
+export default injectStyles(styles)(Breadcrumbs)
