@@ -11,7 +11,7 @@ type Props = {|
 |}
 
 const TextTooltip = ({ children, text, ...otherProps }: Props) => (
-  <TooltipBase distance={4} {...otherProps}>
+  <TooltipBase distance={5} {...otherProps}>
     {({ open, getTargetProps, getTooltipProps }) => (
       <>
         {React.cloneElement(React.Children.only(children), getTargetProps())}
