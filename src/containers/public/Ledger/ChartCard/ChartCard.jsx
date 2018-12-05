@@ -1,10 +1,12 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import OverviewPieChart, { type CategoryCb } from 'components/OverviewPieChart'
+import OverviewPieChart, {
+  type CategoryCb,
+  type PieChartCategories,
+} from 'components/OverviewPieChart'
 import Paper from 'components/kit/Paper'
 import type { BarData, BarZoomInCb } from 'components/Charts/Bar'
-import type { GroupedPieData } from 'data/models/pieData'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import TimelineChart from 'components/common/TimelineChart'
 import ExpandRow from './ExpandRow'
@@ -25,7 +27,7 @@ export type Props = {|
   onCategoryClick?: CategoryCb,
   onCategoryTypeChange?: CategoryCb,
   period: string,
-  pieData: GroupedPieData,
+  pieItems: PieChartCategories,
 |}
 
 export type State = {|
@@ -54,11 +56,10 @@ class ChartCard extends React.PureComponent<Props, State> {
       onCategoryClick,
       onCategoryTypeChange,
       period,
-      pieData,
+      pieItems,
     } = this.props
 
     const { expanded } = this.state
-    const categories = pieData[categoryType]
     const handleBarsZoomIn = barsAreClickable ? onBarsZoomIn : null
 
     const barchartProps = {
@@ -90,7 +91,7 @@ class ChartCard extends React.PureComponent<Props, State> {
               CategoryList={<LedgerCategoryList />}
               className={classes.overview}
               chartSize={260}
-              data={categories}
+              data={pieItems}
               onCategoryClick={onCategoryClick}
               onCategoryTypeChange={onCategoryTypeChange}
             />

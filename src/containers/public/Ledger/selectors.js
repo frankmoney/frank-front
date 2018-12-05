@@ -240,11 +240,17 @@ const totalIncomeSelector = createSelector(
   sumProp('income')
 )
 
-export const pieChartDataSelector = createSelector(
+const pieChartDataSelector = createSelector(
   rawPieDataSelector,
   totalExpensesSelector,
   totalIncomeSelector,
   remapPieData
+)
+
+export const pieItemsSelector = createSelector(
+  categoryTypeSelector,
+  pieChartDataSelector,
+  R.prop
 )
 
 export const allPeersSelector = createPlainObjectSelector(get('allPeers'))
