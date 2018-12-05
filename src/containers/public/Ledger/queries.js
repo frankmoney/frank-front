@@ -1,5 +1,4 @@
 import * as R from 'ramda'
-import { deserializePieData } from 'data/models/pieData'
 import { verifyPayment } from 'data/models/payment'
 
 const PEER = `
@@ -42,7 +41,6 @@ export default {
       $accountId: ID!
       $amountMax: Float
       $amountMin: Float
-      $categoryType: CategoryType
       $dateMax: Date
       $dateMin: Date
       $first: Int!
@@ -119,7 +117,6 @@ export default {
           `ledgerPieChart(
             amountMax: $amountMax
             amountMin: $amountMin
-            categoryType: $categoryType
             postedOnMax: $dateMax
             postedOnMin: $dateMin
             verified: $verified
@@ -130,9 +127,10 @@ export default {
                 name
                 color
               }
-              revenue
               spending
             }
+            totalRevenue
+            totalSpending
           }`) ||
           ''}
 
@@ -145,8 +143,7 @@ export default {
             paymentsDateRange
             paymentsCount: countPayments
           }`) ||
-          ''}          
-          
+          ''}
       }
     }
     `,
@@ -182,7 +179,7 @@ export default {
       barsUnit: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).barSize
         : null,
-      pieChart: includePie ? deserializePieData(ledgerPieChart.items) : null,
+      pieChart: includePie ? ledgerPieChart : null,
       stories,
     }),
   ],

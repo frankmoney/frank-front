@@ -2,49 +2,43 @@
 import * as R from 'ramda'
 import type { Category } from 'data/models/category'
 
-const UNCATEGORIZED: Category = {
-  color: '#B3B3B3',
-  id: '#Uncategorized',
-  name: '#Uncategorized',
-}
+type LedgerPieChartItem = {|
+  category: ?Category,
+  spending: number,
+|}
 
-export const sumProp = (propName: string) =>
-  R.pipe(
-    R.map(R.prop(propName)),
-    R.sum
-  )
+export type LedgerPieChart = {|
+  items: Array<LedgerPieChartItem>,
+  totalRevenue: number,
+  totalSpending: number,
+|}
 
-const percentOf = (value: number, total: number): number =>
-  Math.round((100 * value) / total)
-
-const sortByValueDescend = R.sortBy(
-  R.pipe(
-    R.prop('value'),
-    R.negate
-  )
-)
+export type PercentageOf = 'total' | 'income'
 
 export type PieChartCategory = {|
   ...Category,
   value: number,
 |}
 
-export type GroupedPieData = {|
-  income: Array<PieChartCategory>,
-  spending: Array<PieChartCategory>,
-|}
+export type PieChartItems = Array<PieChartCategory>
 
-type GraphqlPieData = {
-  category: ?Category,
-  revenue: number,
-  spending: number,
+const UNCATEGORIZED: Category = {
+  color: '#B3B3B3',
+  id: '#Uncategorized',
+  name: '#Uncategorized',
 }
 
-type LocalPieData = {|
-  category: ?Category,
-  expenses: number,
-  income: number,
-|}
+const percentOf = (value: number, total: number): number =>
+  total <= 0
+    ? 0 // нечего показывать, все категории обнулены. должен получится пустой пай
+    : Math.round((100 * value) / total)
+
+const sortByValueDescend: PieChartItems => PieChartItems = R.sortBy(
+  R.pipe(
+    R.prop('value'),
+    R.negate
+  )
+)
 
 const toPieChartCategory = (
   category: ?Category,
@@ -55,32 +49,21 @@ const toPieChartCategory = (
   ...(category || UNCATEGORIZED),
 })
 
-export const remapPieData = (
-  list: Array<LocalPieData>,
-  totalExpenses: number,
-  totalIncome: number
-): GroupedPieData =>
-  R.converge((...args) => R.zipObj(['income', 'spending'], args), [
-    R.pipe(
-      R.filter(({ income }) => income > 0),
-      R.map(({ income: value, category }: LocalPieData) =>
-        toPieChartCategory(category, value, totalIncome)
-      ),
-      sortByValueDescend
-    ),
-    R.pipe(
-      R.filter(({ expenses }) => expenses > 0),
-      R.map(({ expenses: value, category }: LocalPieData) =>
-        toPieChartCategory(category, value, totalExpenses)
-      ),
-      sortByValueDescend
-    ),
-  ])(list)
+type RemapFn = (PercentageOf, data: LedgerPieChart) => PieChartItems
 
-export const deserializePieData = R.map(
-  ({ category, revenue, spending }: GraphqlPieData): LocalPieData => ({
-    category,
-    income: revenue,
-    expenses: spending,
-  })
-)
+export const remapPieData: RemapFn = (
+  percentageOf,
+  { items, totalRevenue, totalSpending }
+) => {
+  const total = percentageOf === 'spending' ? totalSpending : totalRevenue
+  return R.pipe(
+    R.map(({ spending, category }: LedgerPieChartItem) =>
+      toPieChartCategory(category, spending, total)
+    ),
+    sortByValueDescend
+  )(items)
+}
+
+type DeserializeFn = LedgerPieChart => LedgerPieChart
+
+export const deserializePieData: DeserializeFn = R.identity

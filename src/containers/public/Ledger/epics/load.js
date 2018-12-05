@@ -1,5 +1,4 @@
 import * as R from 'ramda'
-import { serializeCategoryType } from 'data/models/category'
 import { mapPayment } from 'data/models/payment'
 import * as ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
@@ -7,7 +6,6 @@ import QUERIES from '../queries'
 import {
   accountIdSelector,
   categoriesSelector,
-  categoryTypeSelector,
   currentCategoryIdSelector,
   currentFiltersSelector,
   currentPageSelector,
@@ -25,7 +23,6 @@ export default (action$, store, { graphql }) =>
       const page = currentPageSelector(state)
       const categories = categoriesSelector(state)
       const categoriesLoaded = categories.length > 0
-      const categoryType = serializeCategoryType(categoryTypeSelector(state))
       const {
         amountMin,
         amountMax,
@@ -51,7 +48,6 @@ export default (action$, store, { graphql }) =>
           amountMax,
           amountMin,
           categoryId: categoryId || undefined,
-          categoryType,
           dateMax,
           dateMin,
           first: PAGE_SIZE,

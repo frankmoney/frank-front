@@ -12,8 +12,12 @@ import {
   type BarsUnit,
 } from 'data/models/barData'
 import type { CategoryType } from 'data/models/category'
-import { remapPieData, sumProp } from 'data/models/pieData'
-import type { Store } from 'flow/redux'
+import {
+  remapPieData,
+  type LedgerPieChart,
+  type PieChartItems,
+} from 'data/models/pieData'
+import type { Selector, Store } from 'flow/redux'
 import {
   formatDateRangeFilter,
   formatMonth,
@@ -225,34 +229,20 @@ export const barChartDataSelector = createSelector(
     )(data)
 )
 
-const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
+const rawPieDataSelector: Selector<LedgerPieChart> = createPlainObjectSelector(
+  get('pieData')
+)
 
 export const chartsVisibleSelector = createSelector(
   noTextSearchSelector,
   rawPieDataSelector,
-  (noSearch, items) => noSearch && R.length(items) > 0
+  (noSearch, { items }: LedgerPieChart) => noSearch && R.length(items) > 0
 )
 
-const totalExpensesSelector = createSelector(
-  rawPieDataSelector,
-  sumProp('expenses')
-)
-const totalIncomeSelector = createSelector(
-  rawPieDataSelector,
-  sumProp('income')
-)
-
-const pieChartDataSelector = createSelector(
-  rawPieDataSelector,
-  totalExpensesSelector,
-  totalIncomeSelector,
-  remapPieData
-)
-
-export const pieItemsSelector = createSelector(
+export const pieItemsSelector: Selector<PieChartItems> = createSelector(
   categoryTypeSelector,
-  pieChartDataSelector,
-  R.prop
+  rawPieDataSelector,
+  remapPieData
 )
 
 export const allPeersSelector = createPlainObjectSelector(get('allPeers'))
