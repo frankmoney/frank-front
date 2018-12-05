@@ -11,6 +11,7 @@ import StoryPreview from 'containers/admin/Story'
 import StoryEdit from 'containers/admin/StoryEdit'
 import Directory from 'containers/admin/Directory'
 import Recipient from 'containers/admin/Recipient'
+import Settings from 'containers/admin/Settings'
 import Team from 'containers/admin/Team'
 import Onboarding from 'containers/admin/Onboarding'
 import Layout from 'components/Layout'
@@ -89,6 +90,11 @@ export default [
   {
     component: protectedRoute(withLayout(ComposedStoryPreview)),
     path: ROUTES.manage.stories.storyPreview,
+    exact: true,
+  },
+  {
+    component: protectedRoute(withLayout(Settings)),
+    path: ROUTES.manage.settings.root,
     exact: true,
   },
   {

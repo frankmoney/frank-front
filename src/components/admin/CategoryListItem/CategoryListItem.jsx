@@ -7,8 +7,6 @@ import CategoryLabel from 'components/CategoryLabel'
 
 const styles = theme => ({
   root: {
-    padding: [0, 20],
-    height: 60,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -20,20 +18,35 @@ const styles = theme => ({
       visibility: 'visible',
     },
   },
+  inline: {
+    padding: [0, 20],
+    height: 60,
+  },
+  separate: {
+    height: 50,
+    padding: [0, 15],
+    borderRadius: 6,
+    display: 'inline-flex',
+  },
   label: {
     ...theme.fontMedium(20, 26),
   },
   toolbar: {
     visibility: 'collapse',
+    '$separate &': {
+      marginLeft: 40,
+    },
   },
   toolbarButton: {
-    marginLeft: 10,
     width: 22,
     cursor: 'pointer',
     opacity: 0.5,
     transition: theme.transition('opacity'),
     '&:hover': {
       opacity: 1,
+    },
+    '&:not(:last-child)': {
+      marginRight: 10,
     },
   },
   indicator: {
@@ -42,7 +55,7 @@ const styles = theme => ({
   },
 })
 
-const CategoriesListItem = ({
+const CategoryListItem = ({
   classes,
   className,
   id,
@@ -50,8 +63,19 @@ const CategoriesListItem = ({
   color,
   onEdit,
   onDelete,
+  inline,
+  separate,
 }) => (
-  <div className={cx(classes.root, className)}>
+  <div
+    className={cx(
+      classes.root,
+      {
+        [classes.inline]: inline,
+        [classes.separate]: separate,
+      },
+      className
+    )}
+  >
     <CategoryLabel
       className={classes.label}
       iconClassName={classes.indicator}
@@ -69,4 +93,4 @@ const CategoriesListItem = ({
   </div>
 )
 
-export default injectStyles(styles)(CategoriesListItem)
+export default injectStyles(styles)(CategoryListItem)

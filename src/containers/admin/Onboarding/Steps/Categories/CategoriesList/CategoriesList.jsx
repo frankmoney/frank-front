@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
-import Item from './CategoriesListItem'
+import Item from 'components/admin/CategoryListItem'
 
 const styles = theme => ({
   root: {
@@ -60,6 +60,7 @@ const CategoriesList = ({
         color={color}
         onEdit={onEdit}
         onDelete={onDelete}
+        inline
       />
     ))}
   </div>
