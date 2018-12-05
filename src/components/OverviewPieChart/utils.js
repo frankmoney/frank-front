@@ -1,6 +1,16 @@
 // @flow strict
 import * as R from 'ramda'
+import type { Category } from 'data/models/category'
 import type { PieChartCategory } from 'data/models/pieData'
+
+const INDEX_PROP = 'index'
+const VALUE_PROP = 'value'
+
+export const OTHER: Category = {
+  name: 'Other categories',
+  id: '#other',
+  color: '#B3B3B3',
+}
 
 export type IndexedPieChartCategory = {|
   ...PieChartCategory,
@@ -17,13 +27,11 @@ export type CategoryListData = {|
 
 export type PieChartCategories = Array<PieChartCategory>
 
-const INDEX_PROP = 'index'
-const VALUE_PROP = 'value'
-export const OTHER_ID = '#other'
+type injectKeyFn = PieChartCategories => Array<PieChartCategory>
 
-const injectKey: PieChartCategories => Array<PieChartCategory> = R.addIndex(
-  R.map
-)(R.flip(R.assoc(INDEX_PROP)))
+const injectKey: injectKeyFn = R.addIndex(R.map)((category, i) =>
+  R.assoc(INDEX_PROP, i)(category)
+)
 
 const sumProps = prop =>
   R.pipe(
@@ -39,10 +47,10 @@ const sortDescBy = prop =>
 
 const roundValues = R.over(R.lensProp(VALUE_PROP), Math.round)
 
-const mergeOthers = (items: PieChartCategories): IndexedPieChartCategory => ({
-  name: 'Other categories',
-  id: OTHER_ID,
-  color: '#B3B3B3',
+type mergeOthersFn = (items: PieChartCategories) => IndexedPieChartCategory
+
+const mergeOthers: mergeOthersFn = items => ({
+  ...OTHER,
   [VALUE_PROP]: sumProps(VALUE_PROP)(items),
   index: R.prop(INDEX_PROP, R.head(items)),
 })

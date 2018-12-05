@@ -85,11 +85,12 @@ class TimelineChart extends React.PureComponent<Props, State> {
     const barColor =
       barsColor ||
       (income && !spending ? POSITIVE_BAR_COLOR : PRIMARY_BAR_COLOR)
-    const dual = !barsColor && income && spending
+    const showCheckboxes = typeof barsColor !== 'string'
+    const renderDual = showCheckboxes && income && spending
 
     return (
       <div className={className}>
-        {dual && (
+        {showCheckboxes && (
           <div className={classes.checkboxes}>
             <Checkbox
               color="green"
@@ -108,7 +109,7 @@ class TimelineChart extends React.PureComponent<Props, State> {
           barColor={barColor}
           className={classes.chart}
           data={trimmedData}
-          dual={dual}
+          dual={renderDual}
           labelKey="date"
           showBars={!hide}
           width={width}

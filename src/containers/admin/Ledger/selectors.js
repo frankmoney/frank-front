@@ -13,10 +13,10 @@ import {
 import type { CategoryType } from 'data/models/category'
 import { remapPieData, sumProp } from 'data/models/pieData'
 import {
-  parseDate,
+  formatDateRangeFilter,
   formatMonth,
+  parseDate,
   parseMonth,
-  formatDateRange,
 } from 'utils/dates'
 import {
   parseQueryStringNumber,
@@ -165,18 +165,21 @@ export const currentFiltersCountSelector = createSelector(
   )
 )
 
+export const isEmptyAccountSelector = createSelector(
+  hasNoResultsSelector,
+  currentFiltersCountSelector,
+  (noResults, filterCount) => noResults && filterCount === 0
+)
+
 export const periodSelector = createSelector(
   queryParamSelector('dateMin'),
   queryParamSelector('dateMax'),
-  (dateMin, dateMax) =>
-    dateMin && dateMax
-      ? formatDateRange(dateMin, dateMax, { short: false })
-      : 'All time'
+  formatDateRangeFilter
 )
 
 // Chart Selectors
 
-export const chartsVisibleSelector = createSelector(
+export const noTextSearchSelector = createSelector(
   searchTextSelector,
   R.either(R.isNil, R.isEmpty)
 )
@@ -222,6 +225,12 @@ export const barChartDataSelector = createSelector(
 )
 
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
+
+export const chartsVisibleSelector = createSelector(
+  noTextSearchSelector,
+  rawPieDataSelector,
+  (noSearch, items) => noSearch && R.length(items) > 0
+)
 
 const totalExpensesSelector = createSelector(
   rawPieDataSelector,

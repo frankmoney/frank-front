@@ -61,6 +61,14 @@ class ChartCard extends React.PureComponent<Props, State> {
     const categories = pieData[categoryType]
     const handleBarsZoomIn = barsAreClickable ? onBarsZoomIn : null
 
+    const barchartProps = {
+      barsColor,
+      className: classes.barChart,
+      data: barsData,
+      onZoomIn: handleBarsZoomIn,
+      width: 600,
+    }
+
     return (
       <Paper
         className={cx(
@@ -73,12 +81,7 @@ class ChartCard extends React.PureComponent<Props, State> {
         {barsOnly ? (
           <>
             <CurrentCategory className={classes.category} />
-            <TimelineChart
-              className={classes.barChart}
-              width={600}
-              data={barsData}
-              barsColor={barsColor}
-            />
+            <TimelineChart {...barchartProps} />
           </>
         ) : (
           <>
@@ -97,13 +100,7 @@ class ChartCard extends React.PureComponent<Props, State> {
               onToggle={this.handleToggleExpand}
               title="Timeline"
             >
-              <TimelineChart
-                className={classes.barChart}
-                width={600}
-                data={barsData}
-                barsColor={barsColor}
-                onZoomIn={handleBarsZoomIn}
-              />
+              <TimelineChart {...barchartProps} />
             </ExpandRow>
           </>
         )}

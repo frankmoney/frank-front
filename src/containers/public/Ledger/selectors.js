@@ -1,9 +1,9 @@
 import * as R from 'ramda'
+import * as D from 'date-fns/fp'
 import { matchPath } from 'react-router'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector, pathnameSelector } from '@frankmoney/webapp'
-import { format } from 'date-fns/fp'
 import {
   convertToBarChartValues,
   formatBarLabels,
@@ -13,10 +13,10 @@ import {
 import type { CategoryType } from 'data/models/category'
 import { remapPieData, sumProp } from 'data/models/pieData'
 import {
-  parseDate,
+  formatDateRangeFilter,
   formatMonth,
+  parseDate,
   parseMonth,
-  formatDateRange,
 } from 'utils/dates'
 import {
   parseQueryStringNumber,
@@ -100,7 +100,7 @@ export const dataSourceSelector = createSelector(
         R.pipe(
           R.head,
           parseMonth,
-          format('MMMM YYYY')
+          D.format('MMMM YYYY')
         ),
         R.pipe(
           R.last,
@@ -173,15 +173,12 @@ export const currentFiltersSelector = createSelector(
 export const periodSelector = createSelector(
   queryParamSelector('dateMin'),
   queryParamSelector('dateMax'),
-  (dateMin, dateMax) =>
-    dateMin && dateMax
-      ? formatDateRange(dateMin, dateMax, { short: false })
-      : 'All time'
+  formatDateRangeFilter
 )
 
 // Chart Selectors
 
-export const chartsVisibleSelector = createSelector(
+export const noTextSearchSelector = createSelector(
   searchTextSelector,
   R.either(R.isNil, R.isEmpty)
 )
@@ -227,6 +224,12 @@ export const barChartDataSelector = createSelector(
 )
 
 const rawPieDataSelector = createPlainObjectSelector(get('pieData'))
+
+export const chartsVisibleSelector = createSelector(
+  noTextSearchSelector,
+  rawPieDataSelector,
+  (noSearch, items) => noSearch && R.length(items) > 0
+)
 
 const totalExpensesSelector = createSelector(
   rawPieDataSelector,

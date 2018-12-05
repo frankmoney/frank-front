@@ -1,6 +1,5 @@
 // @flow strict-local
 import React from 'react'
-import * as R from 'ramda'
 import cx from 'classnames'
 import HighlightText from 'components/HighlightText'
 import IconCircle from 'components/IconCircle'
@@ -64,7 +63,7 @@ const CategoryLabel = ({
   valueClassName,
   valueUnit,
 }: Props) => {
-  const renderedValue = R.not(R.isNil(value)) || value === 0 ? value : undefined
+  const renderValue = typeof value === 'number'
   return (
     <div
       className={cx(classes.root, active && activeClassName, className)}
@@ -77,10 +76,10 @@ const CategoryLabel = ({
     >
       <IconCircle className={cx(classes.icon, iconClassName)} />
       <HighlightText className={cx(classes.name, nameClassName)} text={name} />
-      {renderedValue && (
+      {renderValue && (
         <span className={cx(classes.value, valueClassName)}>
-          {` ${renderedValue}`}
-          {valueUnit && valueUnit}
+          {value}
+          {!!valueUnit && valueUnit}
         </span>
       )}
     </div>
