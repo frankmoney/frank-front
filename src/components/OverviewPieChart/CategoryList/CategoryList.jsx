@@ -4,11 +4,7 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import CategoryLabel from 'components/CategoryLabel'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import {
-  OTHER_ID,
-  type CategoryCb,
-  type IndexedPieChartCategory,
-} from '../utils'
+import { OTHER, type CategoryCb, type IndexedPieChartCategory } from '../utils'
 import OtherCategories from './OtherCategories'
 import styles from './CategoryList.jss'
 
@@ -61,7 +57,7 @@ const CategoryList = ({
     ...otherProps
   }: IndexedPieChartCategory) => {
     const handleClick =
-      onCategoryClick && id !== OTHER_ID
+      onCategoryClick && id !== OTHER.id
         ? () => onCategoryClick(items[index])
         : null
     return (

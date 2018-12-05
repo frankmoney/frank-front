@@ -1,1 +1,2 @@
-export default from './Breadcrumbs'
+// @flow strict-local
+export { default } from './Breadcrumbs'

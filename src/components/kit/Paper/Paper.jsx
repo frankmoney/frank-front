@@ -24,6 +24,9 @@ type Props = {|
   children?: React.Node,
 |}
 
+const lightBorder = '0px 0px 0px 1px rgba(0, 0, 0, 0.02)'
+const border = '0px 0px 0px 1px rgba(0, 0, 0, 0.1)'
+
 const styles = {
   root: {
     background: '#fff',
@@ -35,16 +38,13 @@ const styles = {
     boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',
   },
   tooltip: {
-    border: '1px solid rgba(0, 0, 0, 0.02)',
-    boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.1)',
+    boxShadow: `0px 5px 10px rgba(0, 0, 0, 0.1), ${lightBorder}`,
   },
   dropdown: {
-    boxShadow:
-      '0px 5px 10px rgba(0, 0, 0, 0.1), 0px 0px 0px 1px rgba(0, 0, 0, 0.02)',
+    boxShadow: `0px 5px 10px rgba(0, 0, 0, 0.1), ${lightBorder}`,
   },
   arrowDropdown: {
-    boxShadow:
-      '0px 5px 10px rgba(0, 0, 0, 0.15), 0px 0px 0px 1px rgba(0, 0, 0, 0.1)',
+    boxShadow: `0px 5px 10px rgba(0, 0, 0, 0.15), ${border}`,
   },
   modal: {
     boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.2)',
@@ -55,8 +55,7 @@ const styles = {
   },
   // Category list: rarely used!
   list: {
-    boxShadow:
-      '0px 2px 10px rgba(0, 0, 0, 0.05), 0px 0px 0px 1px rgba(0, 0, 0, 0.1)',
+    boxShadow: `0px 2px 10px rgba(0, 0, 0, 0.05), ${border}`,
   },
 }
 
