@@ -87,10 +87,11 @@ class ChartCard extends React.PureComponent<Props, State> {
         ) : (
           <>
             <OverviewPieChart
-              categoryType={categoryType}
               CategoryList={<LedgerCategoryList />}
-              className={classes.overview}
+              categoryType={categoryType}
+              chartClassName={classes.pie}
               chartSize={260}
+              className={classes.overview}
               data={pieItems}
               onCategoryClick={onCategoryClick}
               onCategoryTypeChange={onCategoryTypeChange}

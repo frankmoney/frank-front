@@ -9,13 +9,11 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
   root: {
-    left: -26,
-    paddingBottom: 5,
+    flex: 1,
+    position: 'unset',
   },
   item: {
-    '&:not(:last-child)': {
-      paddingBottom: 6,
-    },
+    paddingBottom: 6,
   },
   name: {
     fontSize: 18,
