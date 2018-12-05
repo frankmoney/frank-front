@@ -39,7 +39,12 @@ const Profile = ({
       <Dialog.State>
         {({ open, toggle }) => (
           <>
-            <TextTooltip text="Delete teammate" place="up" align="center">
+            <TextTooltip
+              text="Delete teammate"
+              place="up"
+              align="center"
+              appearTimeout={300}
+            >
               <IconButton
                 className={classes.removeButton}
                 icon={<RemoveIcon />}
