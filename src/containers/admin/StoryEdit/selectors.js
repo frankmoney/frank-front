@@ -1,9 +1,9 @@
-// @flow
+// @flow strict
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
-import type { Store } from 'redux'
 import { formValueSelector, isValid, isDirty } from 'redux-form/immutable'
 import { createPlainObjectSelector } from '@frankmoney/utils'
+import type { Store } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
 import { FORM_NAME } from './constants'
 

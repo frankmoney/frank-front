@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
@@ -12,6 +12,7 @@ import {
 } from 'data/models/barData'
 import type { CategoryType } from 'data/models/category'
 import { remapPieData, sumProp } from 'data/models/pieData'
+import type { Store } from 'flow/redux'
 import {
   formatDateRangeFilter,
   formatMonth,
@@ -27,7 +28,7 @@ import { UNCATEGORIZED_CATEGORY } from 'const'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
-const get = (...prop) => (store: Object) => store.getIn([REDUCER_KEY, ...prop])
+const get = (...prop) => (store: Store) => store.getIn([REDUCER_KEY, ...prop])
 
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')

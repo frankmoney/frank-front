@@ -1,9 +1,9 @@
-// @flow
+// @flow strict
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
-import type { Store } from 'redux'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { remapPieData, sumProp } from 'data/models/pieData'
+import type { Store } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
 
 const get = (...prop) => (store: Store) => store.getIn([REDUCER_KEY, ...prop])
@@ -17,7 +17,8 @@ const totalIncomeSelector = createSelector(
   rawPieDataSelector,
   sumProp('income')
 )
-export const pieChartDataSelector = createSelector(
+
+const pieChartDataSelector = createSelector(
   rawPieDataSelector,
   totalExpensesSelector,
   totalIncomeSelector,
@@ -31,15 +32,10 @@ export const periodSelector = get('period')
 export const periodsSelector = createPlainObjectSelector(get('periods'))
 export const tabSelector = get('tab')
 
-export const activeCategoriesSelector = createSelector(
-  pieChartDataSelector,
+export const pieItemsSelector = createSelector(
   categoryTypeSelector,
-  (data, categoryType) => data[categoryType]
-)
-
-export const categoryCountSelector = createSelector(
-  activeCategoriesSelector,
-  R.length
+  pieChartDataSelector,
+  R.prop
 )
 
 const selectedAllCategories = get('selectedAll')

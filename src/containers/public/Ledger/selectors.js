@@ -1,3 +1,4 @@
+// @flow strict
 import * as R from 'ramda'
 import * as D from 'date-fns/fp'
 import { matchPath } from 'react-router'
@@ -12,6 +13,7 @@ import {
 } from 'data/models/barData'
 import type { CategoryType } from 'data/models/category'
 import { remapPieData, sumProp } from 'data/models/pieData'
+import type { Store } from 'flow/redux'
 import {
   formatDateRangeFilter,
   formatMonth,
@@ -27,7 +29,7 @@ import { ROUTES } from 'const'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
-const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
+const get = (...prop) => (store: Store) => store.getIn([REDUCER_KEY, ...prop])
 
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
@@ -111,7 +113,7 @@ export const dataSourceSelector = createSelector(
   )
 )
 
-export const rowDataSelector = id =>
+export const rowDataSelector = (id: string) =>
   createSelector(
     paymentsSelector,
     R.find(x => x.id.toString() === id.toString())
