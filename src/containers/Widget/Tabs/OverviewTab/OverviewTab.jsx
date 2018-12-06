@@ -4,16 +4,17 @@ import type {
   CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
+  OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
-import ConnectedCategoryTypeSelect from 'containers/Widget/ConnectedCategoryTypeSelect'
 import Totals from 'containers/Widget/Totals'
 import Footer, {
   type FooterClasses,
   type FooterProps,
 } from 'containers/Widget/Footer'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import ConnectedPieTotalSelect from './ConnectedPieTotalSelect'
 import JustCategoryList from './JustCategoryList'
 import OverviewChart from './OverviewChart'
 
@@ -23,19 +24,22 @@ const styles = {
     flexShrink: 0,
     margin: [6, 0, -1, 2],
   },
-  categoryType: {
+  standaloneCategoryType: {
+    alignItems: 'normal',
     marginLeft: 27,
+    padding: 0,
+    position: 'static',
   },
 }
 
 type EmptyCb = () => void
 
 export type Props = {|
+  ...OverviewPieChartProps,
   ...InjectStylesProps,
   //
   categoryCount?: number,
   CategoryList?: CategoryListComponent,
-  categoryType: string,
   paymentCount?: number,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   pieItems: PieChartCategories,
@@ -43,7 +47,6 @@ export type Props = {|
   widgetSize: 375 | 400 | 500 | 625 | 800,
   // Handlers
   onCategoryClick: CategoryCb,
-  onCategoryTypeChange: CategoryCb,
   onSeeAllClick: EmptyCb,
   // Styles
   chartClassName?: string,
@@ -58,19 +61,19 @@ export type Props = {|
 const OverviewTab = ({
   categoryCount,
   CategoryList,
-  categoryType,
   chartClassName,
   classes,
   contentClassName,
   FooterClasses: footerClasses,
   FooterProps: footerProps,
   onCategoryClick,
-  onCategoryTypeChange,
+  onPieTotalChange,
   onSeeAllClick,
   paymentCount,
   pieChartRootComponent,
   pieClassName,
   pieItems,
+  pieTotal,
   showTotals,
   widgetSize,
 }: Props) => (
@@ -79,20 +82,20 @@ const OverviewTab = ({
     {widgetSize !== 400 ? (
       <OverviewChart
         CategoryList={CategoryList}
-        categoryType={categoryType}
         className={chartClassName}
         onCategoryClick={onCategoryClick}
-        onCategoryTypeChange={onCategoryTypeChange}
+        onPieTotalChange={onPieTotalChange}
         pieChartRootComponent={pieChartRootComponent}
         pieClassName={pieClassName}
         pieItems={pieItems}
+        pieTotal={pieTotal}
         widgetSize={widgetSize}
       />
     ) : (
       <>
         <div className={classes.selects}>
           <ConnectedPeriodSelect />
-          <ConnectedCategoryTypeSelect className={classes.categoryType} />
+          <ConnectedPieTotalSelect className={classes.standaloneCategoryType} />
         </div>
         <JustCategoryList
           onCategoryClick={onCategoryClick}

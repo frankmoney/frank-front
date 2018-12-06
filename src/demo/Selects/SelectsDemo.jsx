@@ -2,13 +2,13 @@
 import React from 'react'
 import * as R from 'ramda'
 import { MoreHoriz } from 'material-ui-icons'
-import FilterSelect from 'components/kit/FilterSelect'
+import CategorySelect from 'components/CategorySelect'
+import PieTotalSelect from 'components/OverviewPieChart/PieTotalSelect'
 import ButtonMenu from 'components/kit/ButtonMenu'
+import FilterSelect from 'components/kit/FilterSelect'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import SelectField from 'components/kit/SelectField'
 import ToggleButton from 'components/kit/ToggleButton'
-import CategoryTypeSelect from 'components/CategoryTypeSelect'
-import CategorySelect from 'components/CategorySelect'
 import Demo, { Row } from 'demo/Demo'
 import {
   CATEGORY_COLORS,
@@ -113,9 +113,9 @@ const SelectsDemo = () => (
     <Row centered>
       <CategorySelect categories={COLORS} defaultValue={2} />
     </Row>
-    <h1>Category type select</h1>
+    <h1>Pie total select</h1>
     <Row centered>
-      <CategoryTypeSelect />
+      <PieTotalSelect />
     </Row>
   </Demo>
 )

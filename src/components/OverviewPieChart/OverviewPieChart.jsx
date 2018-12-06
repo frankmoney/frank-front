@@ -2,10 +2,11 @@
 import * as React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
-import CategoryTypeSelect from 'components/CategoryTypeSelect'
 import Pie from 'components/Charts/Pie'
+import type { PieTotal } from 'data/models/pieData'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import type { CategoryListProps } from './CategoryList'
+import PieTotalSelect, { type TotalSelectCb } from './PieTotalSelect'
 import limitCategories, {
   type CategoryCb,
   type CategoryListData,
@@ -18,19 +19,23 @@ export type CategoryListComponent = React.ComponentType<CategoryListProps>
 
 export type CategoryListPieChartRootComponent = React.ComponentType<any> // flowlint-line unclear-type:warn
 
+export type OverviewPieChartProps = {|
+  onCategoryClick?: CategoryCb,
+  onPieTotalChange?: TotalSelectCb,
+  pieTotal: PieTotal,
+  pieTotalSelectClassName?: string,
+  pieTotalSelectLabel?: string,
+|}
+
 type Props = {|
+  ...OverviewPieChartProps,
   ...InjectStylesProps,
   //
   CategoryList: React.Element<CategoryListComponent>,
-  categoryType: string,
-  categoryTypeSelectClassName?: string,
-  categoryTypeSelectLabel?: string,
   chartClassName?: string,
   chartSize: number,
   component: CategoryListPieChartRootComponent,
   data: PieChartCategories,
-  onCategoryClick?: CategoryCb,
-  onCategoryTypeChange?: CategoryCb,
 |}
 
 export type State = {|
@@ -53,9 +58,8 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
   render() {
     const {
       CategoryList,
-      categoryType,
-      categoryTypeSelectClassName,
-      categoryTypeSelectLabel,
+      pieTotalSelectClassName,
+      pieTotalSelectLabel,
       chartClassName,
       chartSize,
       classes,
@@ -63,7 +67,8 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
       component: Root,
       data,
       onCategoryClick,
-      onCategoryTypeChange,
+      onPieTotalChange,
+      pieTotal,
     } = this.props
     const { activeCategoryIndex } = this.state
 
@@ -87,14 +92,11 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
             onSegmentMouseLeave={this.handleMouseOut}
             size={chartSize}
           />
-          <CategoryTypeSelect
-            className={cx(
-              classes.categoryTypeSelect,
-              categoryTypeSelectClassName
-            )}
-            label={categoryTypeSelectLabel}
-            onChange={onCategoryTypeChange}
-            value={categoryType}
+          <PieTotalSelect
+            className={pieTotalSelectClassName}
+            label={pieTotalSelectLabel}
+            onChange={onPieTotalChange}
+            value={pieTotal}
           />
         </div>
         {React.cloneElement(CategoryList, {

@@ -25,14 +25,13 @@ const Widget = ({
   barsHeight,
   barsWidth,
   CategoryList,
-  categoryType,
   className,
   contentClassName,
   currentCategoryColor,
   currentCategoryName,
   onCancelCategoryClick,
   onCategoryClick,
-  onCategoryTypeChange,
+  onPieTotalChange,
   onSeeAllClick,
   onTabSwitch,
   overviewChartClassName,
@@ -47,6 +46,7 @@ const Widget = ({
   pieChartClassName,
   pieChartRootComponent,
   pieItems,
+  pieTotal,
   showBarChart,
   showCategoryCount,
   showOverviewTotals,
@@ -85,18 +85,18 @@ const Widget = ({
         <OverviewTab
           categoryCount={categoryCount}
           CategoryList={CategoryList}
-          categoryType={categoryType}
           chartClassName={overviewChartClassName}
           contentClassName={contentClassName}
           FooterClasses={OverviewFooterClasses}
           FooterProps={OverviewFooterProps}
           onCategoryClick={onCategoryClick}
-          onCategoryTypeChange={onCategoryTypeChange}
+          onPieTotalChange={onPieTotalChange}
           onSeeAllClick={onSeeAllClick}
           paymentCount={paymentCount}
           pieChartRootComponent={pieChartRootComponent}
           pieClassName={pieChartClassName}
           pieItems={pieItems}
+          pieTotal={pieTotal}
           showTotals={showOverviewTotals}
           widgetSize={widgetSize}
         />
@@ -128,19 +128,19 @@ const Widget = ({
 
 const mapStateToProps = createStructuredSelector({
   barsData: barChartDataSelector,
-  categoryType: pieTotalSelector,
   currentCategoryColor: currentCategoryColorSelector,
   currentCategoryName: currentCategoryNameSelector,
   paymentCount: paymentCountSelector,
   pieItems: pieItemsSelector,
+  pieTotal: pieTotalSelector,
   tab: tabSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
   {
-    onCategoryClick: ACTIONS.selectCategory,
-    onCategoryTypeChange: ACTIONS.selectPieTotal,
     onCancelCategoryClick: ACTIONS.cancelCategory,
+    onCategoryClick: ACTIONS.selectCategory,
+    onPieTotalChange: ACTIONS.selectPieTotal,
     onSeeAllClick: ACTIONS.selectAllCategories,
     onTabSwitch: ACTIONS.switchTab,
   },

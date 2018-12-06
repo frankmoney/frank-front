@@ -1,31 +1,34 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { ArrowDropDown } from 'material-ui-icons'
+import ArrowDropDown from 'material-ui-icons/ArrowDropDown'
 import Select from 'components/kit/Select'
 import { MenuItem } from 'components/kit/Menu'
+import type { PieTotal } from 'data/models/pieData'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-export type CategoryTypeSelectCb = string => void
+export type TotalSelectCb = string => void
 
 type Props = {|
   ...InjectStylesProps,
   //
   label: string,
-  onChange: CategoryTypeSelectCb,
-  value: string,
-  values: Array<string>,
+  onChange: TotalSelectCb,
+  value: PieTotal,
 |}
 
 const styles = {
   root: {
-    fontSize: 16,
-    height: 20,
+    alignItems: 'center',
     color: '#252B43',
     cursor: 'pointer',
     display: 'flex',
-    alignItems: 'center',
+    fontSize: 16,
+    height: 20,
     outline: 'none',
+    paddingTop: 2,
+    position: 'absolute',
+    whiteSpace: 'nowrap',
   },
   value: {
     fontWeight: 500,
@@ -44,7 +47,7 @@ const styles = {
   },
 }
 
-const CategoryTypeSelect = ({
+const PieTotalSelect = ({
   classes,
   className,
   label,
@@ -76,10 +79,8 @@ const CategoryTypeSelect = ({
   </Select>
 )
 
-CategoryTypeSelect.defaultProps = {
+PieTotalSelect.defaultProps = {
   label: '% of total',
-  values: ['income', 'spending'],
-  defaultValue: 'income',
 }
 
-export default injectStyles(styles)(CategoryTypeSelect)
+export default injectStyles(styles)(PieTotalSelect)

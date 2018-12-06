@@ -7,6 +7,7 @@ import type {
   CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
+  OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
@@ -21,7 +22,7 @@ const pieSize = R.cond([
   [R.T, R.always(0)],
 ])
 
-const categoryTypeSelectLabel = R.cond([
+const pieTotalSelectLabel = R.cond([
   [R.equals(375), R.always('% of total')],
   [R.equals(500), R.always('% of')],
   [R.equals(625), R.always('% of')],
@@ -33,7 +34,7 @@ const styles = {
   root: {
     paddingBottom: 5,
   },
-  categoryTypeSelect: {
+  customPieTotalSelect: {
     fontSize: 15,
   },
   periodSelect: {
@@ -44,12 +45,11 @@ const styles = {
 }
 
 export type Props = {|
+  ...OverviewPieChartProps,
   ...InjectStylesProps,
   //
   CategoryList?: CategoryListComponent,
-  categoryType: string,
   onCategoryClick: CategoryCb,
-  onCategoryTypeChange: CategoryCb,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   pieItems: PieChartCategories,
   widgetSize: 375 | 500 | 625 | 800,
@@ -60,15 +60,15 @@ export type Props = {|
 
 const OverviewChart = ({
   CategoryList,
-  categoryType,
   classes,
   className,
   onCategoryClick,
-  onCategoryTypeChange,
+  onPieTotalChange,
   periodSelectClassName,
   pieChartRootComponent,
   pieClassName,
   pieItems,
+  pieTotal,
   widgetSize,
 }: Props) => (
   <>
@@ -77,18 +77,18 @@ const OverviewChart = ({
     />
     <OverviewPieChart
       CategoryList={CategoryList && <CategoryList />}
-      categoryType={categoryType}
-      categoryTypeSelectClassName={{
-        [classes.categoryTypeSelect]: widgetSize === 500,
-      }}
-      categoryTypeSelectLabel={categoryTypeSelectLabel(widgetSize)}
       chartClassName={pieClassName}
       chartSize={pieSize(widgetSize)}
       className={cx(classes.root, className)}
-      data={pieItems}
       component={pieChartRootComponent}
+      data={pieItems}
       onCategoryClick={onCategoryClick}
-      onCategoryTypeChange={onCategoryTypeChange}
+      onPieTotalChange={onPieTotalChange}
+      pieTotalSelectLabel={pieTotalSelectLabel(widgetSize)}
+      pieTotal={pieTotal}
+      pieTotalSelectClassName={{
+        [classes.customPieTotalSelect]: widgetSize === 500,
+      }}
     />
   </>
 )

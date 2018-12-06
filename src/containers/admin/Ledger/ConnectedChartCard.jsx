@@ -21,15 +21,15 @@ export default compose(
       barsColor: barChartColorSelector,
       barsData: barChartDataSelector,
       barsOnly: barChartOnlySelector,
-      categoryType: pieTotalSelector,
       period: periodSelector,
       pieItems: pieItemsSelector,
+      pieTotal: pieTotalSelector,
       visible: chartsVisibleSelector,
     },
     {
-      onCategoryClick: ACTIONS.selectCategory,
-      onCategoryTypeChange: ACTIONS.selectPieTotal,
       onBarsZoomIn: ACTIONS.barZoomIn,
+      onCategoryClick: ACTIONS.selectCategory,
+      onPieTotalChange: ACTIONS.selectPieTotal,
     }
   ),
   branch(props => !props.visible, renderNothing)

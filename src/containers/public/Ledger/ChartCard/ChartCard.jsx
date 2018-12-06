@@ -2,7 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import OverviewPieChart, {
-  type CategoryCb,
+  type OverviewPieChartProps,
   type PieChartCategories,
 } from 'components/OverviewPieChart'
 import Paper from 'components/kit/Paper'
@@ -16,16 +16,14 @@ import Title from './Title'
 import CurrentCategory from './CurrentCategory'
 
 export type Props = {|
+  ...OverviewPieChartProps,
   ...InjectStylesProps,
   //
   barsAreClickable: boolean,
   barsColor?: string,
   barsData: BarData,
   barsOnly: boolean,
-  categoryType: string,
   onBarsZoomIn: BarZoomInCb,
-  onCategoryClick?: CategoryCb,
-  onCategoryTypeChange?: CategoryCb,
   period: string,
   pieItems: PieChartCategories,
 |}
@@ -45,18 +43,18 @@ class ChartCard extends React.PureComponent<Props, State> {
 
   render() {
     const {
-      barsColor,
       barsAreClickable,
+      barsColor,
       barsData,
       barsOnly,
-      categoryType,
       classes,
       className,
       onBarsZoomIn,
       onCategoryClick,
-      onCategoryTypeChange,
+      onPieTotalChange,
       period,
       pieItems,
+      pieTotal,
     } = this.props
 
     const { expanded } = this.state
@@ -88,13 +86,13 @@ class ChartCard extends React.PureComponent<Props, State> {
           <>
             <OverviewPieChart
               CategoryList={<LedgerCategoryList />}
-              categoryType={categoryType}
               chartClassName={classes.pie}
               chartSize={260}
               className={classes.overview}
               data={pieItems}
               onCategoryClick={onCategoryClick}
-              onCategoryTypeChange={onCategoryTypeChange}
+              onPieTotalChange={onPieTotalChange}
+              pieTotal={pieTotal}
             />
             <ExpandRow
               className={classes.bottomRow}
