@@ -13,7 +13,9 @@ export type LedgerPieChart = {|
   totalSpending: number,
 |}
 
-export type PercentageOf = 'total' | 'income'
+export type PieTotal = 'income' | 'spending'
+export const DEFAULT_PIE_TOTAL: PieTotal = 'income'
+export const PIE_TOTAL_PARAMETER_NAME = 'total'
 
 export type PieChartCategory = {|
   ...Category,
@@ -49,7 +51,7 @@ const toPieChartCategory = (
   ...(category || UNCATEGORIZED),
 })
 
-type RemapFn = (PercentageOf, data: LedgerPieChart) => PieChartItems
+type RemapFn = (percentageOf: PieTotal, data: LedgerPieChart) => PieChartItems
 
 export const remapPieData: RemapFn = (
   percentageOf,

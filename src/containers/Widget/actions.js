@@ -1,6 +1,7 @@
+// @flow strict
 import { createAction } from 'redux-actions'
 
-export const selectCategoryType = createAction('widget/select-category-type')
+export const selectPieTotal = createAction('widget/select-pie-total')
 
 export const selectCategory = createAction('widget/select-category')
 export const selectAllCategories = createAction('widget/select-all-categories')

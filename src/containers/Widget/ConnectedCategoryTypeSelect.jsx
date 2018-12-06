@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import CategoryTypeSelect from 'components/CategoryTypeSelect'
-import { categoryTypeSelector } from './selectors'
+import { pieTotalSelector } from './selectors'
 import * as ACTIONS from './actions'
 
 const ConnectedCategoryTypeSelect = ({ categoryType, className, onChange }) => (
@@ -17,12 +17,12 @@ const ConnectedCategoryTypeSelect = ({ categoryType, className, onChange }) => (
 )
 
 const mapStateToProps = createStructuredSelector({
-  categoryType: categoryTypeSelector,
+  categoryType: pieTotalSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
   {
-    onChange: ACTIONS.selectCategoryType,
+    onChange: ACTIONS.selectPieTotal,
   },
 ])
 

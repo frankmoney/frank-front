@@ -8,11 +8,11 @@ import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
 import { Header, HeaderItem } from './Header'
 import {
   barChartDataSelector,
-  categoryTypeSelector,
   currentCategoryColorSelector,
   currentCategoryNameSelector,
   paymentCountSelector,
   pieItemsSelector,
+  pieTotalSelector,
   tabSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
@@ -128,7 +128,7 @@ const Widget = ({
 
 const mapStateToProps = createStructuredSelector({
   barsData: barChartDataSelector,
-  categoryType: categoryTypeSelector,
+  categoryType: pieTotalSelector,
   currentCategoryColor: currentCategoryColorSelector,
   currentCategoryName: currentCategoryNameSelector,
   paymentCount: paymentCountSelector,
@@ -139,7 +139,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = R.partial(bindActionCreators, [
   {
     onCategoryClick: ACTIONS.selectCategory,
-    onCategoryTypeChange: ACTIONS.selectCategoryType,
+    onCategoryTypeChange: ACTIONS.selectPieTotal,
     onCancelCategoryClick: ACTIONS.cancelCategory,
     onSeeAllClick: ACTIONS.selectAllCategories,
     onTabSwitch: ACTIONS.switchTab,

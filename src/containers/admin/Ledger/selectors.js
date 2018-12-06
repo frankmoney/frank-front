@@ -10,11 +10,13 @@ import {
   type BarsDataPoint,
   type BarsUnit,
 } from 'data/models/barData'
-import type { CategoryType } from 'data/models/category'
 import {
+  DEFAULT_PIE_TOTAL,
+  PIE_TOTAL_PARAMETER_NAME,
   remapPieData,
   type LedgerPieChart,
   type PieChartItems,
+  type PieTotal,
 } from 'data/models/pieData'
 import type { Selector, Store } from 'flow/redux'
 import {
@@ -136,11 +138,6 @@ export const searchTextSelector = createSelector(
   string => parseQueryString(string)
 )
 
-export const categoryTypeSelector = createSelector(
-  queryParamSelector('categoryType'),
-  string => ((string ? parseQueryString(string) : 'spending'): CategoryType)
-)
-
 export const currentFiltersSelector = createSelector(
   queryParamSelector('amountMin'),
   queryParamSelector('amountMax'),
@@ -183,6 +180,11 @@ export const periodSelector = createSelector(
 )
 
 // Chart Selectors
+
+export const pieTotalSelector = createSelector(
+  queryParamSelector(PIE_TOTAL_PARAMETER_NAME),
+  string => ((string ? parseQueryString(string) : DEFAULT_PIE_TOTAL): PieTotal)
+)
 
 export const noTextSearchSelector = createSelector(
   searchTextSelector,
@@ -240,7 +242,7 @@ export const chartsVisibleSelector = createSelector(
 )
 
 export const pieItemsSelector: Selector<PieChartItems> = createSelector(
-  categoryTypeSelector,
+  pieTotalSelector,
   rawPieDataSelector,
   remapPieData
 )

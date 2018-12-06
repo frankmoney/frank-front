@@ -3,14 +3,14 @@ import { branch, compose, renderNothing } from 'recompose'
 import reconnect from 'utils/reconnect'
 import ChartCard from './ChartCard'
 import {
+  barChartClickableSelector,
   barChartColorSelector,
   barChartDataSelector,
-  barChartClickableSelector,
   barChartOnlySelector,
-  categoryTypeSelector,
   chartsVisibleSelector,
   periodSelector,
   pieItemsSelector,
+  pieTotalSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 
@@ -21,14 +21,14 @@ export default compose(
       barsData: barChartDataSelector,
       barsAreClickable: barChartClickableSelector,
       barsOnly: barChartOnlySelector,
-      categoryType: categoryTypeSelector,
+      categoryType: pieTotalSelector,
       period: periodSelector,
       pieItems: pieItemsSelector,
       visible: chartsVisibleSelector,
     },
     {
       onCategoryClick: ACTIONS.selectCategory,
-      onCategoryTypeChange: ACTIONS.selectCategoryType,
+      onCategoryTypeChange: ACTIONS.selectPieTotal,
       onBarsZoomIn: ACTIONS.barZoomIn,
     }
   ),

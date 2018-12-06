@@ -31,13 +31,13 @@ const rawPieDataSelector: Selector<LedgerPieChart> = createSelector(
 
 export const barChartDataSelector = createPlainObjectSelector(get('barsData'))
 
-export const categoryTypeSelector = get('categoryType')
+export const pieTotalSelector = get('pieTotal')
 export const periodSelector = get('period')
 export const periodsSelector = createPlainObjectSelector(get('periods'))
 export const tabSelector = get('tab')
 
 export const pieItemsSelector: Selector<PieChartItems> = createSelector(
-  categoryTypeSelector,
+  pieTotalSelector,
   rawPieDataSelector,
   remapPieData
 )
