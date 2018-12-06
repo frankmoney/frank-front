@@ -1,5 +1,4 @@
 import * as R from 'ramda'
-import { serializeCategoryType } from 'data/models/category'
 import { mapPayment } from 'data/models/payment'
 import { formatDate } from 'utils/dates'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -8,7 +7,6 @@ import { PAGE_SIZE } from '../constants'
 import QUERIES from '../queries'
 import {
   categoriesSelector,
-  categoryTypeSelector,
   currentCategoryIdSelector,
   currentFiltersSelector,
   currentPageSelector,
@@ -26,7 +24,6 @@ export default (action$, store, { graphql }) =>
       const page = currentPageSelector(state)
       const categories = categoriesSelector(state)
       const categoriesLoaded = categories.length > 0
-      const categoryType = serializeCategoryType(categoryTypeSelector(state))
       const {
         amountMin,
         amountMax,
@@ -52,7 +49,6 @@ export default (action$, store, { graphql }) =>
           amountMax,
           amountMin,
           categoryId: categoryId || null,
-          categoryType,
           dateMax: dateMax && formatDate(dateMax),
           dateMin: dateMin && formatDate(dateMin),
           first: PAGE_SIZE,

@@ -10,7 +10,7 @@ import {
   categoryTypeSelector,
   chartsVisibleSelector,
   periodSelector,
-  pieChartDataSelector,
+  pieItemsSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 
@@ -23,7 +23,7 @@ export default compose(
       barsOnly: barChartOnlySelector,
       categoryType: categoryTypeSelector,
       period: periodSelector,
-      pieData: pieChartDataSelector,
+      pieItems: pieItemsSelector,
       visible: chartsVisibleSelector,
     },
     {

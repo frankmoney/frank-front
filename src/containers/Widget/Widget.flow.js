@@ -1,12 +1,12 @@
-// @flow
+// @flow strict-local
 import type {
   CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
+  PieChartCategories,
 } from 'components/OverviewPieChart'
 import type { BarData } from 'components/Charts/Bar'
 import type { FooterClasses, FooterProps } from 'containers/Widget/Footer'
-import type { GroupedPieData } from 'data/models/pieData'
 
 type EmptyCb = () => void
 type TabSwitchCb = string => void
@@ -29,12 +29,11 @@ export type Props = {|
   onCancelCategoryClick: EmptyCb,
   // Selectors
   barsData: BarData,
-  categoryCount?: number,
   categoryType?: string,
   currentCategoryColor?: string,
   currentCategoryName?: string,
   paymentCount?: number,
-  pieData: GroupedPieData,
+  pieItems: PieChartCategories,
   tab: 'overview' | 'payments' | 'stories' | 'about',
   // Styles
   barChartClassName?: string,
