@@ -1,5 +1,5 @@
 import { currentAccountIdSelector } from 'redux/selectors/user'
-import * as ACTIONS from '../actions'
+import ACTIONS from '../actions'
 import QUERIES from '../queries'
 
 export default (action$, store, { graphql }) =>

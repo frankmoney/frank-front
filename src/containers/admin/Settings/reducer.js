@@ -1,6 +1,6 @@
 import Immutable, { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
-import * as ACTIONS from './actions'
+import ACTIONS from './actions'
 
 export const REDUCER_KEY = 'adminSettings'
 
@@ -8,7 +8,7 @@ const defaultState = Immutable.fromJS({
   loading: true,
   loaded: false,
   updating: false,
-  openCategoryDialog: true,
+  openCategoryDialog: false,
   spendingCategories: [],
   incomeCategories: [],
 })

@@ -29,7 +29,7 @@ const styles = theme => ({
     display: 'inline-flex',
   },
   label: {
-    ...theme.fontMedium(20, 26),
+    ...theme.fontMedium(22, 26),
   },
   toolbar: {
     visibility: 'collapse',
@@ -50,8 +50,9 @@ const styles = theme => ({
     },
   },
   indicator: {
-    width: 14,
-    height: 14,
+    width: 18,
+    height: 18,
+    marginRight: 21,
   },
 })
 

@@ -24,13 +24,9 @@ export const editingCategoryTypeSelector = get('editingCategoryType')
 export const editingCategorySelector = createSelector(
   spendingCategoriesSelector,
   incomeCategoriesSelector,
-  editingCategoryTypeSelector,
   get('editingCategoryId'),
-  (spending, income, categoryType, categoryId) =>
+  (spending, income, categoryId) =>
     categoryId
-      ? R.find(
-          R.propEq('id', categoryId),
-          categoryType === 'spending' ? spending : income
-        )
+      ? R.find(R.propEq('id', categoryId), R.concat(spending, income))
       : null
 )

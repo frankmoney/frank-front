@@ -1,5 +1,5 @@
 import { currentAccountIdSelector } from 'redux/selectors/user'
-import * as ACTIONS from '../actions'
+import ACTIONS from '../actions'
 import QUERIES from '../queries'
 import { editingCategoryTypeSelector } from '../selectors'
 
@@ -12,13 +12,14 @@ export default (action$, store, { graphql }) =>
       const categoryType = type || editingCategoryTypeSelector(state)
 
       if (!color && !name) {
-        // DELETE QUERIE
-      } else if (!id) {
-        // ADD QUERIE
-      } else {
-        // EDIT QUERIE
+        // DELETE QUERY
+        return graphql(QUERIES.getAccountInfo, { accountId })
       }
-
+      if (!id) {
+        // ADD QUERY
+        return graphql(QUERIES.getAccountInfo, { accountId })
+      }
+      // EDIT QUERY
       return graphql(QUERIES.getAccountInfo, { accountId })
     })
     .map(ACTIONS.modifyCategoryList.success)

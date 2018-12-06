@@ -1,59 +1,23 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import {
-  compose,
-  withProps,
-  withHandlers,
-  branch,
-  renderComponent,
-  lifecycle,
-} from 'recompose'
+import { compose, branch, renderComponent, lifecycle } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import EditCategoryDialog from 'components/EditCategoryDialog'
 import { injectStyles } from 'utils/styles'
 import reconnect from 'utils/reconnect'
-import * as ACTIONS from './actions'
+import ACTIONS from './actions'
 import styles from './Settings.jss'
 import AccountCard from './AccountCard'
 import BankCard from './BankCard'
-import CategoriesCard from './CategoriesCard'
+import IncomeCategoriesCard from './IncomeCategoriesCard'
+import SpendingCategoriesCard from './SpendingCategoriesCard'
 import {
-  spendingCategoriesSelector,
-  incomeCategoriesSelector,
   openCategoryDialogSelector,
   editingCategorySelector,
 } from './selectors'
-
-const SpendingCategoriesCard = compose(
-  withProps({ categoryType: 'spending' }),
-  reconnect(
-    { categories: spendingCategoriesSelector },
-    {
-      handleOpenDialog: ACTIONS.openCategoryDialog,
-      handleModifyList: ACTIONS.modifyCategoryList,
-    }
-  ),
-  withHandlers({
-    onEdit: ({ categoryType, handleOpenDialog }) => categoryId =>
-      handleOpenDialog({ type: categoryType, id: categoryId }),
-    onDelete: ({ categoryType, handleModifyList }) => categoryId =>
-      handleModifyList({ type: categoryType, id: categoryId }),
-  })
-)(CategoriesCard)
-
-const IncomeCategoriesCard = compose(
-  withProps({ categoryType: 'revenue' }),
-  reconnect({ categories: incomeCategoriesSelector }),
-  withHandlers({
-    onEdit: ({ categoryType, handleOpenDialog }) => categoryId =>
-      handleOpenDialog({ type: categoryType, id: categoryId }),
-    onDelete: ({ categoryType, handleModifyList }) => categoryId =>
-      handleModifyList({ type: categoryType, id: categoryId }),
-  })
-)(CategoriesCard)
 
 const Settings = ({
   classes,

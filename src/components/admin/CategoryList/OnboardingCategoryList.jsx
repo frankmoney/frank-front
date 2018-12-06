@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
-import Item from 'components/admin/CategoryListItem'
+import CategoryListItem from './CategoryListItem'
 
 const styles = theme => ({
   root: {
@@ -52,7 +52,7 @@ const CategoriesList = ({
     </div>
 
     {categories.map(({ id, name, color }) => (
-      <Item
+      <CategoryListItem
         key={id}
         className={classes.item}
         id={id}
