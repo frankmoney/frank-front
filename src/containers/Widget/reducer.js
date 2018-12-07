@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
-import { deserializePieData, DEFAULT_PIE_TOTAL } from 'data/models/pieData'
+import { DEFAULT_PIE_TOTAL } from 'data/models/pieData'
 // FIXME: static data
 import BAR_CHART_DATA from 'demo/Widgets/barChartData.json'
 import PAYMENTS_DATA from 'demo/Widgets/paymentsData.json'
@@ -16,7 +16,7 @@ const initialState = fromJS({
   payments: PAYMENTS_DATA,
   period: 'All time', // FIXME: placeholder
   periods: ['All time', '2018', 'TBD'], // FIXME: placeholder
-  pieData: deserializePieData(PIE_CHART_DATA),
+  pieData: PIE_CHART_DATA,
   pieTotal: DEFAULT_PIE_TOTAL,
   selectedAll: false,
   tab: 'overview',

@@ -10,6 +10,7 @@ import styles from './CategoryList.jss'
 
 // Duplicate definition for the prop-type generator
 type CategoryListData = {|
+  filler?: IndexedPieChartCategory,
   items: Array<IndexedPieChartCategory>,
   other: ?IndexedPieChartCategory,
   tooltipItems: Array<IndexedPieChartCategory>,

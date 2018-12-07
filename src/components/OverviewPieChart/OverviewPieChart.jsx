@@ -8,12 +8,15 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import type { CategoryListProps } from './CategoryList'
 import PieTotalSelect, { type TotalSelectCb } from './PieTotalSelect'
 import limitCategories, {
+  fillerIndex,
   type CategoryCb,
   type CategoryListData,
   type IndexedPieChartCategory,
   type PieChartCategories,
 } from './utils'
 import styles from './OverviewPieChart.jss'
+
+const MAX_CATEGORIES = 5
 
 export type CategoryListComponent = React.ComponentType<CategoryListProps>
 
@@ -42,6 +45,9 @@ export type State = {|
   activeCategoryIndex: ?number,
 |}
 
+const appendIfNotNil = item => items =>
+  R.isNil(item) ? items : R.append(item, items)
+
 class OverviewPieChart extends React.PureComponent<Props, State> {
   static defaultProps = {
     component: 'div',
@@ -51,7 +57,14 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
     activeCategoryIndex: null,
   }
 
-  handleMouseOver = index => this.setState({ activeCategoryIndex: index })
+  handleMouseOver = index => {
+    const ignoredIndex = fillerIndex(MAX_CATEGORIES)
+    if (index === ignoredIndex) {
+      this.setState({ activeCategoryIndex: null })
+    } else {
+      this.setState({ activeCategoryIndex: index })
+    }
+  }
 
   handleMouseOut = () => this.setState({ activeCategoryIndex: null })
 
@@ -72,11 +85,12 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
     } = this.props
     const { activeCategoryIndex } = this.state
 
-    const categories: CategoryListData = limitCategories(5)(data)
-    const { items, other } = categories
-    const pieData: Array<IndexedPieChartCategory> = other
-      ? R.append(other, items)
-      : items
+    const categories: CategoryListData = limitCategories(MAX_CATEGORIES)(data)
+    const { filler, items, other } = categories
+    const pieData: Array<IndexedPieChartCategory> = R.pipe(
+      appendIfNotNil(other),
+      appendIfNotNil(filler)
+    )(items)
 
     const rootProps =
       Root === React.Fragment

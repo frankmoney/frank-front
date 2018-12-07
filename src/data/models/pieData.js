@@ -30,6 +30,12 @@ const UNCATEGORIZED: Category = {
   name: '#Uncategorized',
 }
 
+export const FILLER: Category = {
+  color: '#EFEFEF',
+  id: '#filler',
+  name: '*FILLER*',
+}
+
 const percentOf = (value: number, total: number): number =>
   total <= 0
     ? 0 // нечего показывать, все категории обнулены. должен получится пустой пай
@@ -51,6 +57,18 @@ const toPieChartCategory = (
   ...(category || UNCATEGORIZED),
 })
 
+type AddFillerFn = number => PieChartItems => PieChartItems
+
+const addFiller: AddFillerFn = total => items => {
+  if (total <= 0) {
+    return [toPieChartCategory(FILLER, 1, 1)]
+  }
+  const sum = R.reduce((x, item) => x + R.prop('value', item), 0, items)
+  return sum < 100
+    ? R.append(toPieChartCategory(FILLER, 100 - sum, 100), items)
+    : items
+}
+
 type RemapFn = (percentageOf: PieTotal, data: LedgerPieChart) => PieChartItems
 
 export const remapPieData: RemapFn = (
@@ -62,10 +80,7 @@ export const remapPieData: RemapFn = (
     R.map(({ spending, category }: LedgerPieChartItem) =>
       toPieChartCategory(category, spending, total)
     ),
-    sortByValueDescend
+    sortByValueDescend,
+    addFiller(total)
   )(items)
 }
-
-type DeserializeFn = LedgerPieChart => LedgerPieChart
-
-export const deserializePieData: DeserializeFn = R.identity
