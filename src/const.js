@@ -31,6 +31,9 @@ export const ROUTES = {
     team: {
       root: '/manage/team',
     },
+    settings: {
+      root: '/manage/settings',
+    },
     onboarding: {
       root: '/onboarding',
     },

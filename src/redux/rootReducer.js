@@ -39,6 +39,9 @@ import filtersReducer, {
 import inboxReducer, {
   REDUCER_KEY as inboxKey,
 } from 'containers/admin/Inbox/reducer'
+import settingsReducer, {
+  REDUCER_KEY as settingsKey,
+} from 'containers/admin/Settings/reducer'
 
 export default createReducer({
   [adminLedgerKey]: adminLedgerReducer,
@@ -55,4 +58,5 @@ export default createReducer({
   [onboardingKey]: onboardingReducer,
   [filtersKey]: filtersReducer,
   [inboxKey]: inboxReducer,
+  [settingsKey]: settingsReducer,
 })
