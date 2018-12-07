@@ -84,3 +84,15 @@ export const remapPieData: RemapFn = (
     addFiller(total)
   )(items)
 }
+
+type ForceFn = (percentageOf: PieTotal, data: LedgerPieChart) => PieTotal
+
+export const forceValidPieTotal: ForceFn = (
+  total,
+  { totalRevenue, totalSpending }
+) =>
+  total === 'income'
+    ? totalRevenue >= totalSpending
+      ? 'income'
+      : 'spending'
+    : 'spending'
