@@ -59,16 +59,17 @@ class TextBox extends React.Component<Props, State> {
 
   // eslint-disable-next-line consistent-return
   handleChange = event => {
+    event.persist()
     if (this.isControlled) {
       if (typeof this.props.onChange === 'function') {
-        return this.props.onChange(event.nativeEvent)
+        return this.props.onChange(event)
       }
     } else {
       const value = event.target.value
 
       this.setState({ value }, () => {
         if (typeof this.props.onChange === 'function') {
-          this.props.onChange(event.nativeEvent)
+          this.props.onChange(event)
         }
       })
     }

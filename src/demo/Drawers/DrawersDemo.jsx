@@ -12,7 +12,9 @@ const DrawersDemo = () => (
     <h1>Drawer</h1>
     <Row>
       <Drawer.Paper style={{ maxHeight: 450 }}>
-        <Drawer.Title buttons={<Drawer.CloseButton />}>
+        <Drawer.Title
+          buttons={[<Drawer.Filter count={1} />, <Drawer.CloseButton />]}
+        >
           Select payments and then select some more
         </Drawer.Title>
         <Drawer.Content>

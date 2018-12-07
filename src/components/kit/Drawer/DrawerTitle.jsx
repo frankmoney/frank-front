@@ -29,7 +29,10 @@ const styles = {
     flexShrink: 0,
     marginLeft: 20,
     float: 'right',
-    marginTop: 13,
+    marginTop: 11,
+    display: 'flex',
+    alignItems: 'center',
+    height: 24,
     '& > *:not(:last-child)': {
       marginRight: 20,
     },

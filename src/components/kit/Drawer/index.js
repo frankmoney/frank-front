@@ -9,6 +9,7 @@ import DrawerFooter from './DrawerFooter'
 import DrawerField from './DrawerField'
 import DrawerHeadButton from './DrawerHeadButton'
 import DrawerCloseButton from './DrawerCloseButton'
+import DrawerFilter from './DrawerFilter'
 import context from './context'
 
 Drawer.Paper = DrawerPaper
@@ -21,6 +22,7 @@ Drawer.Field = DrawerField
 Drawer.HeadButton = DrawerHeadButton
 Drawer.CloseButton = DrawerCloseButton
 Drawer.MaximizeButton = DrawerMaximizeButton
+Drawer.Filter = DrawerFilter
 Drawer.Consumer = context.Consumer
 Drawer.Provider = context.Provider
 

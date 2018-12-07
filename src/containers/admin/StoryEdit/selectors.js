@@ -145,28 +145,3 @@ export const storySelectedPaymentsIdsSelector = createSelector(
   storySelectedPaymentsSelector,
   R.map(R.prop('id'))
 )
-
-export const paymentsFilterDateMinSelector = get('paymentsFilterDateMin')
-
-export const paymentsFilterDateMaxSelector = get('paymentsFilterDateMax')
-
-export const paymentsFiltersSelector = createSelector(
-  paymentsFilterDateMinSelector,
-  paymentsFilterDateMaxSelector,
-  (dateMin, dateMax) => ({
-    dateMin: dateMin || null,
-    dateMax: dateMax || null,
-  })
-)
-
-export const paymentsLoadedPagesCounterSelector = get(
-  'paymentsLoadedPagesCount'
-)
-
-export const paymentsTotalPagesCounterSelector = get('paymentsTotalPagesCount')
-
-export const paymentsListUpdatingSelector = get('paymentsListLoading')
-export const paymentsListMoreLoadingSelector = get('paymentsListMoreLoading')
-
-export const paymentsSelector = createPlainObjectSelector(get('payments'))
-export const paymentsDrawerOpenedSelector = get('paymentsDrawerOpen')

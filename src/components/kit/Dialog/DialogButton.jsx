@@ -6,7 +6,6 @@ import Button, { type ButtonProps } from 'components/kit/Button'
 
 const styles = {
   root: {
-    height: 40,
     width: '100%',
     flexGrow: 1,
     '&:not(:last-child)': {
@@ -20,8 +19,17 @@ type Props = {|
   ...InjectStylesProps,
 |}
 
-const DialogButton = ({ classes, className, ...otherProps }: Props) => (
-  <Button className={cx(classes.root, className)} {...otherProps} />
+const DialogButton = ({
+  classes,
+  className,
+  compactHeight,
+  ...otherProps
+}: Props) => (
+  <Button
+    className={cx(classes.root, className)}
+    compactHeight
+    {...otherProps}
+  />
 )
 
 export default injectStyles(styles)(DialogButton)

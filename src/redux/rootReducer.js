@@ -36,6 +36,9 @@ import onboardingReducer, {
 import filtersReducer, {
   REDUCER_KEY as filtersKey,
 } from 'containers/admin/Filters/reducer'
+import paymentsSelectReducer, {
+  REDUCER_KEY as paymentsSelectKey,
+} from 'containers/admin/PaymentsSelect/reducer'
 import inboxReducer, {
   REDUCER_KEY as inboxKey,
 } from 'containers/admin/Inbox/reducer'
@@ -55,4 +58,5 @@ export default createReducer({
   [onboardingKey]: onboardingReducer,
   [filtersKey]: filtersReducer,
   [inboxKey]: inboxReducer,
+  [paymentsSelectKey]: paymentsSelectReducer,
 })

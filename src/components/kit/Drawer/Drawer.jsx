@@ -63,11 +63,12 @@ const Drawer = ({
   children,
 }: Props) => {
   const buttons = []
-  if (!noCloseButton) {
-    buttons.push(<DrawerCloseButton />)
-  }
   if (titleExtraButton) {
     buttons.push(titleExtraButton)
+  }
+
+  if (!noCloseButton) {
+    buttons.push(<DrawerCloseButton />)
   }
 
   let footer

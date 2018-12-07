@@ -54,6 +54,9 @@ class PaymentsList extends React.Component<Props> {
 
   handleListRef = ref => {
     this.list = ref
+    if (typeof this.props.listRef === 'function') {
+      this.props.listRef(ref)
+    }
   }
 
   renderRowMore = ({ style, ...itemProps }) => (
@@ -117,6 +120,8 @@ class PaymentsList extends React.Component<Props> {
       className,
       itemHeight,
       isLoadingMore,
+      onScroll,
+      noRowsRenderer,
     } = this.props
 
     const itemsCount = payments.length + Number(!!canRequestMore)
@@ -130,6 +135,8 @@ class PaymentsList extends React.Component<Props> {
             itemComponent={this.renderItem}
             itemHeight={itemHeight}
             itemCount={itemsCount}
+            onScroll={onScroll}
+            noRowsRenderer={noRowsRenderer}
           />
         </LoadingContext.Provider>
       </CurrencyProvider>

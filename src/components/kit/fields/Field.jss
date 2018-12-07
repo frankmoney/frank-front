@@ -5,26 +5,34 @@ export const FONT_SIZE_LARGER = 22
 export const LABEL_FONT_SIZE = 14
 export const LABEL_TOP = 2
 
-export default {
+export default theme => ({
   root: {
     position: 'relative',
     paddingTop: TEXT_TOP_PADDING,
     paddingBottom: 5,
-    fontSize: 18,
-    lineHeight: 26,
+    ...theme.fontRegular(FONT_SIZE, 26),
     minHeight: 60,
     letterSpacing: '-0.02em',
     display: 'inline-block',
   },
   larger: {
     minHeight: 70,
-    fontSize: 22,
-    lineHeight: 30,
+    ...theme.fontRegular(FONT_SIZE_LARGER, 30),
     paddingTop: TEXT_TOP_PADDING_LARGER,
     paddingBottom: 6,
     '& $placeholder': {
       top: TEXT_TOP_PADDING_LARGER,
     },
+  },
+  hasAdornment: {
+    '& $control': {
+      marginLeft: props => props.adornmentWidth,
+    },
+  },
+  adornment: {
+    position: 'absolute',
+    top: TEXT_TOP_PADDING,
+    left: 0,
   },
   label: {
     position: 'absolute',
@@ -67,4 +75,4 @@ export default {
   stretch: {
     display: 'block',
   },
-}
+})

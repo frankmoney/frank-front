@@ -197,6 +197,27 @@ const ButtonsDemo = ({ classes }) => (
         loading
       />
     </Row>
+    <h2>Compact height</h2>
+    <Row centered>
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="blue"
+        compactHeight
+      />
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="green"
+        compactHeight
+      />
+      <Button
+        className={classes.button}
+        label="Submit"
+        color="gray"
+        compactHeight
+      />
+    </Row>
     <h2>IconButton</h2>
     <Row centered>
       <IconButton icon={<MoreHoriz />} />

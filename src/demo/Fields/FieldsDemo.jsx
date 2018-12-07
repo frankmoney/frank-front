@@ -1,10 +1,12 @@
 // @flow strict-local
 import React from 'react'
+import { Search as IconSearch } from 'material-ui-icons'
 import Demo, { Row } from 'demo/Demo'
 import Switch from 'components/kit/Switch'
 import SwitchBase from 'components/kit/SwitchBase'
 import TextBox from 'components/kit/TextBox'
 import Field from 'components/kit/fields/Field'
+import FieldAdornment from 'components/kit/fields/Adornment'
 import { injectStyles } from 'utils/styles'
 import Playground from './TextFieldPlayground'
 
@@ -273,6 +275,39 @@ const FieldsDemo = ({ classes }) => {
           defaultValue="One solution is to reset the key to a random value or auto incrementing"
         >
           <TextBox multiLine />
+        </Field>
+      </Row>
+      <h2>Adornment</h2>
+      <div className={classes.states}>
+        <div>Currency</div>
+        <div>Currency(floating)</div>
+        <div>Icon</div>
+        <div>Icon(floating)</div>
+      </div>
+      <Row>
+        <Field label="Fixed label" adornmentWidth={12} adornment={'$'}>
+          <TextBox />
+        </Field>
+        <Field
+          floatingLabel="Floating label"
+          adornmentWidth={12}
+          adornment={'$'}
+        >
+          <TextBox />
+        </Field>
+        <Field
+          label="Fixed label"
+          placeholder="Type name"
+          adornment={<IconSearch />}
+        >
+          <TextBox />
+        </Field>
+        <Field
+          floatingLabel="Floating label"
+          placeholder="Type name"
+          adornment={<IconSearch />}
+        >
+          <TextBox />
         </Field>
       </Row>
       <SwitchBase defaultOn>
