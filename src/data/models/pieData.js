@@ -39,7 +39,9 @@ export const FILLER: Category = {
 const percentOf = (value: number, total: number): number =>
   total <= 0
     ? 0 // нечего показывать, все категории обнулены. должен получится пустой пай
-    : Math.round((100 * value) / total)
+    : (100 * value) / total
+
+const roundValues = R.map(R.over(R.lensProp('value'), Math.round))
 
 const sortByValueDescend: PieChartItems => PieChartItems = R.sortBy(
   R.pipe(
@@ -81,7 +83,8 @@ export const remapPieData: RemapFn = (
       toPieChartCategory(category, spending, total)
     ),
     sortByValueDescend,
-    addFiller(total)
+    addFiller(total),
+    roundValues
   )(items)
 }
 
