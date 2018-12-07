@@ -13,6 +13,7 @@ type Props = {|
   ...InjectStylesProps,
   //
   label: string,
+  selectable?: boolean,
   onChange: TotalSelectCb,
   value: PieTotal,
 |}
@@ -29,6 +30,9 @@ const styles = {
     paddingTop: 2,
     position: 'absolute',
     whiteSpace: 'nowrap',
+  },
+  notSelectable: {
+    cursor: 'default',
   },
   value: {
     fontWeight: 500,
@@ -51,33 +55,48 @@ const PieTotalSelect = ({
   classes,
   className,
   label,
+  selectable,
+  value: propValue,
   ...otherProps
-}: Props) => (
-  <Select
-    dropdownWidth={210}
-    {...otherProps}
-    alignByArrow
-    arrowAt="center"
-    align="center"
-    direction="up"
-    renderControl={({ open, place, value, getInputProps, getAnchorProps }) => (
-      <div className={cx(classes.root, className)} {...getInputProps()}>
-        <span>{label}</span>
-        <span className={classes.value}>{value}</span>
-        <ArrowDropDown
-          className={cx(classes.arrow, {
-            [classes.arrowOpen]: open,
-            [classes.arrowUp]: open && place === 'up',
-          })}
-          {...getAnchorProps()}
-        />
-      </div>
-    )}
-  >
-    <MenuItem label="income" value="income" />
-    <MenuItem label="spending" value="spending" />
-  </Select>
-)
+}: Props) =>
+  selectable ? (
+    <Select
+      dropdownWidth={210}
+      {...otherProps}
+      alignByArrow
+      arrowAt="center"
+      align="center"
+      direction="up"
+      value={propValue}
+      renderControl={({
+        open,
+        place,
+        value,
+        getInputProps,
+        getAnchorProps,
+      }) => (
+        <div className={cx(classes.root, className)} {...getInputProps()}>
+          <span>{label}</span>
+          <span className={classes.value}>{value}</span>
+          <ArrowDropDown
+            className={cx(classes.arrow, {
+              [classes.arrowOpen]: open,
+              [classes.arrowUp]: open && place === 'up',
+            })}
+            {...getAnchorProps()}
+          />
+        </div>
+      )}
+    >
+      <MenuItem label="income" value="income" />
+      <MenuItem label="spending" value="spending" />
+    </Select>
+  ) : (
+    <div className={cx(classes.root, classes.notSelectable, className)}>
+      <span>{label}</span>
+      <span className={classes.value}>{propValue}</span>
+    </div>
+  )
 
 PieTotalSelect.defaultProps = {
   label: '% of total',

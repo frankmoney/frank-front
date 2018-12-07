@@ -14,6 +14,7 @@ import {
   pieItemsSelector,
   pieTotalSelector,
   tabSelector,
+  totalSelectableSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 import type { Props } from './Widget.flow'
@@ -47,6 +48,7 @@ const Widget = ({
   pieChartRootComponent,
   pieItems,
   pieTotal,
+  pieTotalSelectable,
   showBarChart,
   showCategoryCount,
   showOverviewTotals,
@@ -97,6 +99,7 @@ const Widget = ({
           pieClassName={pieChartClassName}
           pieItems={pieItems}
           pieTotal={pieTotal}
+          pieTotalSelectable={pieTotalSelectable}
           showTotals={showOverviewTotals}
           widgetSize={widgetSize}
         />
@@ -133,6 +136,7 @@ const mapStateToProps = createStructuredSelector({
   paymentCount: paymentCountSelector,
   pieItems: pieItemsSelector,
   pieTotal: pieTotalSelector,
+  pieTotalSelectable: totalSelectableSelector,
   tab: tabSelector,
 })
 

@@ -11,6 +11,7 @@ import {
   periodSelector,
   pieItemsSelector,
   pieTotalSelector,
+  totalSelectableSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 
@@ -24,6 +25,7 @@ export default compose(
       period: periodSelector,
       pieItems: pieItemsSelector,
       pieTotal: pieTotalSelector,
+      pieTotalSelectable: totalSelectableSelector,
       visible: chartsVisibleSelector,
     },
     {

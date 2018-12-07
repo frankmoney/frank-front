@@ -22,7 +22,7 @@ const pieSize = R.cond([
   [R.T, R.always(0)],
 ])
 
-const pieTotalSelectLabel = R.cond([
+const dynamicPieTotalSelectLabel = R.cond([
   [R.equals(375), R.always('% of total')],
   [R.equals(500), R.always('% of')],
   [R.equals(625), R.always('% of')],
@@ -62,30 +62,29 @@ const OverviewChart = ({
   CategoryList,
   classes,
   className,
-  onCategoryClick,
-  onPieTotalChange,
   periodSelectClassName,
   pieChartRootComponent,
   pieClassName,
   pieItems,
-  pieTotal,
   widgetSize,
+  // omit
+  pieTotalSelectClassName,
+  pieTotalSelectLabel,
+  ...pieChartProps
 }: Props) => (
   <>
     <ConnectedPeriodSelect
       className={cx(classes.periodSelect, periodSelectClassName)}
     />
     <OverviewPieChart
+      {...pieChartProps}
       CategoryList={CategoryList && <CategoryList />}
       chartClassName={pieClassName}
       chartSize={pieSize(widgetSize)}
       className={cx(classes.root, className)}
       component={pieChartRootComponent}
       data={pieItems}
-      onCategoryClick={onCategoryClick}
-      onPieTotalChange={onPieTotalChange}
-      pieTotalSelectLabel={pieTotalSelectLabel(widgetSize)}
-      pieTotal={pieTotal}
+      pieTotalSelectLabel={dynamicPieTotalSelectLabel(widgetSize)}
       pieTotalSelectClassName={{
         [classes.customPieTotalSelect]: widgetSize === 500,
       }}

@@ -3,9 +3,11 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import {
+  forceValidPieTotal,
   remapPieData,
   type LedgerPieChart,
   type PieChartItems,
+  type PieTotal,
 } from 'data/models/pieData'
 import type { Selector, Store } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
@@ -31,10 +33,22 @@ const rawPieDataSelector: Selector<LedgerPieChart> = createSelector(
 
 export const barChartDataSelector = createPlainObjectSelector(get('barsData'))
 
-export const pieTotalSelector = get('pieTotal')
+export const rawPieTotalSelector = get('pieTotal')
 export const periodSelector = get('period')
 export const periodsSelector = createPlainObjectSelector(get('periods'))
 export const tabSelector = get('tab')
+
+export const pieTotalSelector: Selector<PieTotal> = createSelector(
+  rawPieTotalSelector,
+  rawPieDataSelector,
+  forceValidPieTotal
+)
+
+export const totalSelectableSelector: Selector<boolean> = createSelector(
+  rawPieTotalSelector,
+  pieTotalSelector,
+  R.equals
+)
 
 export const pieItemsSelector: Selector<PieChartItems> = createSelector(
   pieTotalSelector,

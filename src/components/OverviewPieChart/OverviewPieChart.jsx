@@ -28,6 +28,7 @@ export type OverviewPieChartProps = {|
   pieTotal: PieTotal,
   pieTotalSelectClassName?: string,
   pieTotalSelectLabel?: string,
+  pieTotalSelectable?: boolean,
 |}
 
 type Props = {|
@@ -82,6 +83,7 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
       onCategoryClick,
       onPieTotalChange,
       pieTotal,
+      pieTotalSelectable,
     } = this.props
     const { activeCategoryIndex } = this.state
 
@@ -110,6 +112,7 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
             className={pieTotalSelectClassName}
             label={pieTotalSelectLabel}
             onChange={onPieTotalChange}
+            selectable={pieTotalSelectable}
             value={pieTotal}
           />
         </div>

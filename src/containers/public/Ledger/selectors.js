@@ -14,6 +14,7 @@ import {
 import {
   DEFAULT_PIE_TOTAL,
   PIE_TOTAL_PARAMETER_NAME,
+  forceValidPieTotal,
   remapPieData,
   type LedgerPieChart,
   type PieChartItems,
@@ -181,7 +182,7 @@ export const periodSelector = createSelector(
 
 // Chart Selectors
 
-export const pieTotalSelector = createSelector(
+const rawPieTotalSelector: Selector<PieTotal> = createSelector(
   queryParamSelector(PIE_TOTAL_PARAMETER_NAME),
   string => ((string ? parseQueryString(string) : DEFAULT_PIE_TOTAL): PieTotal)
 )
@@ -239,6 +240,18 @@ export const chartsVisibleSelector = createSelector(
   noTextSearchSelector,
   rawPieDataSelector,
   (noSearch, { items }: LedgerPieChart) => noSearch && R.length(items) > 0
+)
+
+export const pieTotalSelector: Selector<PieTotal> = createSelector(
+  rawPieTotalSelector,
+  rawPieDataSelector,
+  forceValidPieTotal
+)
+
+export const totalSelectableSelector: Selector<boolean> = createSelector(
+  rawPieTotalSelector,
+  pieTotalSelector,
+  R.equals
 )
 
 export const pieItemsSelector: Selector<PieChartItems> = createSelector(

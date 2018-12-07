@@ -55,6 +55,7 @@ class ChartCard extends React.PureComponent<Props, State> {
       period,
       pieItems,
       pieTotal,
+      pieTotalSelectable,
     } = this.props
 
     const { expanded } = this.state
@@ -89,6 +90,7 @@ class ChartCard extends React.PureComponent<Props, State> {
               onCategoryClick={onCategoryClick}
               onPieTotalChange={onPieTotalChange}
               pieTotal={pieTotal}
+              pieTotalSelectable={pieTotalSelectable}
             />
             <ExpandRow
               className={classes.bottomRow}

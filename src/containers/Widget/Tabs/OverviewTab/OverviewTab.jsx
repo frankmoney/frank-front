@@ -74,6 +74,7 @@ const OverviewTab = ({
   pieClassName,
   pieItems,
   pieTotal,
+  pieTotalSelectable,
   showTotals,
   widgetSize,
 }: Props) => (
@@ -89,6 +90,7 @@ const OverviewTab = ({
         pieClassName={pieClassName}
         pieItems={pieItems}
         pieTotal={pieTotal}
+        pieTotalSelectable={pieTotalSelectable}
         widgetSize={widgetSize}
       />
     ) : (

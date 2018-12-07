@@ -248,6 +248,12 @@ export const pieTotalSelector: Selector<PieTotal> = createSelector(
   forceValidPieTotal
 )
 
+export const totalSelectableSelector: Selector<boolean> = createSelector(
+  rawPieTotalSelector,
+  pieTotalSelector,
+  R.equals
+)
+
 export const pieItemsSelector: Selector<PieChartItems> = createSelector(
   pieTotalSelector,
   rawPieDataSelector,
