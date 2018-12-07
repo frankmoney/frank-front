@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
 import { createStructuredSelector } from 'reselect'
@@ -8,12 +8,11 @@ import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
 import { Header, HeaderItem } from './Header'
 import {
   barChartDataSelector,
-  categoryCountSelector,
   categoryTypeSelector,
   currentCategoryColorSelector,
   currentCategoryNameSelector,
   paymentCountSelector,
-  pieChartDataSelector,
+  pieItemsSelector,
   tabSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
@@ -25,7 +24,6 @@ const Widget = ({
   barsFooterPadding,
   barsHeight,
   barsWidth,
-  categoryCount,
   CategoryList,
   categoryType,
   className,
@@ -48,7 +46,7 @@ const Widget = ({
   paymentsPeriodClassName,
   pieChartClassName,
   pieChartRootComponent,
-  pieData,
+  pieItems,
   showBarChart,
   showCategoryCount,
   showOverviewTotals,
@@ -59,6 +57,8 @@ const Widget = ({
   const isPaymentListTab = tab === 'payments'
   const isStoriesTab = tab === 'stories'
   const isAboutTab = tab === 'about'
+
+  const categoryCount = showCategoryCount ? R.length(pieItems) : null
 
   return (
     <div className={className}>
@@ -83,20 +83,20 @@ const Widget = ({
       )}
       {isOverviewTab && (
         <OverviewTab
-          categoryCount={showCategoryCount ? categoryCount : null}
+          categoryCount={categoryCount}
           CategoryList={CategoryList}
           categoryType={categoryType}
           chartClassName={overviewChartClassName}
           contentClassName={contentClassName}
-          data={pieData}
           FooterClasses={OverviewFooterClasses}
           FooterProps={OverviewFooterProps}
           onCategoryClick={onCategoryClick}
           onCategoryTypeChange={onCategoryTypeChange}
           onSeeAllClick={onSeeAllClick}
           paymentCount={paymentCount}
-          pieClassName={pieChartClassName}
           pieChartRootComponent={pieChartRootComponent}
+          pieClassName={pieChartClassName}
+          pieItems={pieItems}
           showTotals={showOverviewTotals}
           widgetSize={widgetSize}
         />
@@ -128,12 +128,11 @@ const Widget = ({
 
 const mapStateToProps = createStructuredSelector({
   barsData: barChartDataSelector,
-  categoryCount: categoryCountSelector,
   categoryType: categoryTypeSelector,
   currentCategoryColor: currentCategoryColorSelector,
   currentCategoryName: currentCategoryNameSelector,
   paymentCount: paymentCountSelector,
-  pieData: pieChartDataSelector,
+  pieItems: pieItemsSelector,
   tab: tabSelector,
 })
 

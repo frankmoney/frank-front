@@ -11,7 +11,7 @@ const defaultState = fromJS({
   categories: [],
   barsData: [],
   barsUnit: null,
-  pieData: [],
+  pieData: null,
   paymentsCount: 0,
   payments: [],
   paymentIdsSaving: Set(),
@@ -45,7 +45,7 @@ export default handleActions(
         payments: fromJS(payments),
         barsData: fromJS(barChart || []),
         barsUnit,
-        pieData: fromJS(pieChart || []),
+        pieData: fromJS(pieChart),
         paymentsCount: totalCount,
       }),
     [ACTIONS.load.error]: state =>

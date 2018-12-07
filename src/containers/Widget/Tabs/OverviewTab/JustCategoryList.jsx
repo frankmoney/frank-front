@@ -37,17 +37,17 @@ const styles = theme => ({
 type Props = {|
   ...InjectStylesProps,
   //
-  data: PieChartCategories,
+  pieItems: PieChartCategories,
   onCategoryClick: CategoryCb,
 |}
 
 const JustCategoryList = ({
   classes,
   className,
-  data,
   onCategoryClick,
+  pieItems,
 }: Props) => {
-  const limitedCategories = limitCategories(999)(data)
+  const limitedCategories = limitCategories(999)(pieItems)
   return (
     <CategoryList
       className={cx(classes.root, className)}

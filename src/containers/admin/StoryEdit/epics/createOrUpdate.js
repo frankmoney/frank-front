@@ -3,9 +3,10 @@ import * as R from 'ramda'
 import { createRouteUrl } from '@frankmoney/utils'
 import { replace as replaceLocation } from 'react-router-redux'
 import { getFormValues } from 'redux-form/immutable'
-import { currentAccountIdSelector } from 'redux/selectors/user'
-import { ROUTES } from 'const'
 import createFilesApi from 'data/api/files'
+import { currentAccountIdSelector } from 'redux/selectors/user'
+import type { Store } from 'flow/redux'
+import { ROUTES } from 'const'
 import ACTIONS from '../actions'
 import QUERIES from '../queries'
 import {
@@ -55,7 +56,7 @@ const cropCoverImage = async (httpClient, { image, crop }) => {
 
 export default (
   action$: any, // flowlint-line unclear-type:off
-  store: Object, // flowlint-line unclear-type:off
+  store: Store,
   { http: httpClient, graphql }: Object // flowlint-line unclear-type:off
 ) =>
   action$

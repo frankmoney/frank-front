@@ -48,10 +48,10 @@ export type Props = {|
   //
   CategoryList?: CategoryListComponent,
   categoryType: string,
-  data: PieChartCategories,
   onCategoryClick: CategoryCb,
   onCategoryTypeChange: CategoryCb,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
+  pieItems: PieChartCategories,
   widgetSize: 375 | 500 | 625 | 800,
   // Styles
   periodSelectClassName?: string,
@@ -63,12 +63,12 @@ const OverviewChart = ({
   categoryType,
   classes,
   className,
-  data,
   onCategoryClick,
   onCategoryTypeChange,
   periodSelectClassName,
   pieChartRootComponent,
   pieClassName,
+  pieItems,
   widgetSize,
 }: Props) => (
   <>
@@ -85,7 +85,7 @@ const OverviewChart = ({
       chartClassName={pieClassName}
       chartSize={pieSize(widgetSize)}
       className={cx(classes.root, className)}
-      data={data}
+      data={pieItems}
       component={pieChartRootComponent}
       onCategoryClick={onCategoryClick}
       onCategoryTypeChange={onCategoryTypeChange}

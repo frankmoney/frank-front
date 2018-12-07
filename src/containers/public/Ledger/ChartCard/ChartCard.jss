@@ -10,7 +10,12 @@ export default {
     marginTop: 4,
   },
   overview: {
-    marginTop: 39,
+    marginTop: 29,
+  },
+  pie: {
+    flex: 1,
+    width: 260,
+    margin: [0, 30, 0, 10],
   },
   bottomRow: {
     margin: [60, -CARD_PADDING, 0],

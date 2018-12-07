@@ -6,10 +6,4 @@ export type Category = {|
   name: string,
 |}
 
-export type GraphqlCategoryType = 'revenue' | 'spending'
-
 export type CategoryType = 'income' | 'spending'
-
-export const serializeCategoryType = (
-  categoryType: CategoryType
-): GraphqlCategoryType => (categoryType === 'income' ? 'revenue' : categoryType)

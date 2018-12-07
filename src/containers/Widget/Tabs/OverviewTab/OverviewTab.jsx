@@ -4,6 +4,7 @@ import type {
   CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
+  PieChartCategories,
 } from 'components/OverviewPieChart'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
 import ConnectedCategoryTypeSelect from 'containers/Widget/ConnectedCategoryTypeSelect'
@@ -12,7 +13,6 @@ import Footer, {
   type FooterClasses,
   type FooterProps,
 } from 'containers/Widget/Footer'
-import type { GroupedPieData } from 'data/models/pieData'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import JustCategoryList from './JustCategoryList'
 import OverviewChart from './OverviewChart'
@@ -36,9 +36,9 @@ export type Props = {|
   categoryCount?: number,
   CategoryList?: CategoryListComponent,
   categoryType: string,
-  data: GroupedPieData,
   paymentCount?: number,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
+  pieItems: PieChartCategories,
   showTotals?: boolean,
   widgetSize: 375 | 400 | 500 | 625 | 800,
   // Handlers
@@ -62,7 +62,6 @@ const OverviewTab = ({
   chartClassName,
   classes,
   contentClassName,
-  data,
   FooterClasses: footerClasses,
   FooterProps: footerProps,
   onCategoryClick,
@@ -71,46 +70,44 @@ const OverviewTab = ({
   paymentCount,
   pieChartRootComponent,
   pieClassName,
+  pieItems,
   showTotals,
   widgetSize,
-}: Props) => {
-  const categories = data[categoryType] // TODO: move to selector?
-  return (
-    <div className={contentClassName}>
-      {showTotals && <Totals />}
-      {widgetSize !== 400 ? (
-        <OverviewChart
-          CategoryList={CategoryList}
-          categoryType={categoryType}
-          pieClassName={pieClassName}
-          className={chartClassName}
-          data={categories}
-          pieChartRootComponent={pieChartRootComponent}
-          onCategoryClick={onCategoryClick}
-          onCategoryTypeChange={onCategoryTypeChange}
-          widgetSize={widgetSize}
-        />
-      ) : (
-        <>
-          <div className={classes.selects}>
-            <ConnectedPeriodSelect />
-            <ConnectedCategoryTypeSelect className={classes.categoryType} />
-          </div>
-          <JustCategoryList
-            data={categories}
-            onCategoryClick={onCategoryClick}
-          />
-        </>
-      )}
-      <Footer
-        categoryCount={categoryCount}
-        Classes={footerClasses}
-        onSeeAllClick={onSeeAllClick}
-        paymentCount={paymentCount}
-        {...footerProps}
+}: Props) => (
+  <div className={contentClassName}>
+    {showTotals && <Totals />}
+    {widgetSize !== 400 ? (
+      <OverviewChart
+        CategoryList={CategoryList}
+        categoryType={categoryType}
+        className={chartClassName}
+        onCategoryClick={onCategoryClick}
+        onCategoryTypeChange={onCategoryTypeChange}
+        pieChartRootComponent={pieChartRootComponent}
+        pieClassName={pieClassName}
+        pieItems={pieItems}
+        widgetSize={widgetSize}
       />
-    </div>
-  )
-}
+    ) : (
+      <>
+        <div className={classes.selects}>
+          <ConnectedPeriodSelect />
+          <ConnectedCategoryTypeSelect className={classes.categoryType} />
+        </div>
+        <JustCategoryList
+          onCategoryClick={onCategoryClick}
+          pieItems={pieItems}
+        />
+      </>
+    )}
+    <Footer
+      categoryCount={categoryCount}
+      Classes={footerClasses}
+      onSeeAllClick={onSeeAllClick}
+      paymentCount={paymentCount}
+      {...footerProps}
+    />
+  </div>
+)
 
 export default injectStyles(styles)(OverviewTab)
