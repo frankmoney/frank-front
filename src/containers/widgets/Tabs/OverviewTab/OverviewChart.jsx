@@ -10,7 +10,7 @@ import type {
   OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
-import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
+import { ConnectedPeriodSelect } from 'containers/widgets/PeriodSelect'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import OverviewCategoryList from './OverviewCategoryList'
 

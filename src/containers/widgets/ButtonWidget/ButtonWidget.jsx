@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import Widget from 'containers/Widget/Widget'
+import Widget from 'containers/widgets/Widget'
 import colors from 'styles/colors'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Expander from './Expander'

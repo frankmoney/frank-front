@@ -4,8 +4,8 @@ import * as R from 'ramda'
 import { createStructuredSelector } from 'reselect'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as ACTIONS from 'containers/Widget/actions'
-import { periodSelector, periodsSelector } from 'containers/Widget/selectors'
+import * as ACTIONS from 'containers/widgets/actions'
+import { periodSelector, periodsSelector } from 'containers/widgets/selectors'
 import PeriodSelector, { type Period, type OnChangeCb } from './PeriodSelect'
 
 type Props = {|

@@ -10,7 +10,7 @@ import CurrencyProvider from 'components/CurrencyProvider'
 import {
   paymentsSelector,
   showCategoriesSelector,
-} from 'containers/Widget/selectors'
+} from 'containers/widgets/selectors'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import PaymentBlock from './PaymentBlock'
 import type { PaymentProps } from './Payment.flow'

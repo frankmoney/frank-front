@@ -1,7 +1,7 @@
 import { createReducer } from '@frankmoney/webapp'
 import widgetDataReducer, {
   REDUCER_KEY as widgetDataKey,
-} from 'containers/Widget/reducer'
+} from 'containers/widgets/reducer'
 import adminLedgerReducer, {
   REDUCER_KEY as adminLedgerKey,
 } from 'containers/admin/Ledger/reducer'

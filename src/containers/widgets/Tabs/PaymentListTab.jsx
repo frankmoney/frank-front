@@ -3,9 +3,9 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
 import Bar from 'components/Charts/Bar'
-import { CategoryName, Header } from 'containers/Widget/Header'
-import Payments from 'containers/Widget/Payments'
-import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
+import { CategoryName, Header } from 'containers/widgets/Header'
+import Payments from 'containers/widgets/Payments'
+import { ConnectedPeriodSelect } from 'containers/widgets/PeriodSelect'
 import type { Props } from './PaymentListTab.flow'
 
 const styles = {

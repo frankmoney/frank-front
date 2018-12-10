@@ -7,7 +7,7 @@ import type {
   PieChartCategories,
 } from 'components/OverviewPieChart'
 import type { BarData } from 'components/Charts/Bar'
-import type { FooterClasses, FooterProps } from 'containers/Widget/Footer'
+import type { FooterClasses, FooterProps } from 'containers/widgets/Footer'
 
 type EmptyCb = () => void
 type TabSwitchCb = string => void

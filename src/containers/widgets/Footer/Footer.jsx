@@ -2,7 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from '@frankmoney/ui'
-import ChartIcon from 'containers/Widget/Footer/Chart.svg'
+import ChartIcon from 'containers/widgets/Footer/Chart.svg'
 import type { Props } from './Footer.flow'
 
 const styles = {

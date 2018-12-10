@@ -1,7 +1,7 @@
 import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
-import ButtonWidget from 'containers/Widget/ButtonWidget'
-import InlineWidget from 'containers/Widget/InlineWidget'
+import ButtonWidget from 'containers/widgets/ButtonWidget'
+import InlineWidget from 'containers/widgets/InlineWidget'
 import Title from 'containers/admin/Ledger/ChartCard/Title'
 
 const styles = {

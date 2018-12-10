@@ -7,12 +7,12 @@ import type {
   OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
-import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
-import Totals from 'containers/Widget/Totals'
+import { ConnectedPeriodSelect } from 'containers/widgets/PeriodSelect'
+import Totals from 'containers/widgets/Totals'
 import Footer, {
   type FooterClasses,
   type FooterProps,
-} from 'containers/Widget/Footer'
+} from 'containers/widgets/Footer'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import ConnectedPieTotalSelect from './ConnectedPieTotalSelect'
 import JustCategoryList from './JustCategoryList'
