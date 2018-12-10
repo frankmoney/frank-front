@@ -48,7 +48,7 @@ const ConfirmDialog = ({
   ...dialogProps
 }: Props) => (
   <Dialog onClose={onClose} {...dialogProps}>
-    {title && <DialogTitle>{title}</DialogTitle>}
+    {title && <DialogTitle withMessage={!!message}>{title}</DialogTitle>}
     {message && <DialogMessage>{message}</DialogMessage>}
     {children}
     <DialogButtons>

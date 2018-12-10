@@ -101,5 +101,8 @@ export default theme => ({
     '&$twitter': {
       paddingLeft: 20,
     },
+    '&$email': {
+      paddingLeft: 20,
+    },
   },
 })

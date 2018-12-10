@@ -20,9 +20,9 @@ type Props = {|
 |}
 
 const PublicLinkButton = ({ classes, className, label, url }: Props) => (
-  <Link to={url} className={cx(classes.anchor, className)}>
+  <a href={url} className={cx(classes.anchor, className)}>
     <TextButton icon={<GlobeIcon />} larger label={label} />
-  </Link>
+  </a>
 )
 
 export default injectStyles(styles)(PublicLinkButton)
