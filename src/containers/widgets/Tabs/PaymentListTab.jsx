@@ -1,11 +1,11 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import Bar from 'components/Charts/Bar'
-import { CategoryName, Header } from 'containers/widgets/Header'
 import Payments from 'containers/widgets/Payments'
 import { ConnectedPeriodSelect } from 'containers/widgets/PeriodSelect'
+import { injectStyles } from 'utils/styles'
+import { CategoryName, Header } from '../TabbedLayout/Header'
 import type { Props } from './PaymentListTab.flow'
 
 const styles = {

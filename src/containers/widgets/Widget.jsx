@@ -1,11 +1,9 @@
 // @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
-import { createStructuredSelector } from 'reselect'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
+import reconnect from 'utils/reconnect'
+import TabbedLayout from './TabbedLayout'
 import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
-import { Header, HeaderItem } from './Header'
 import {
   barChartDataSelector,
   currentCategoryColorSelector,
@@ -26,7 +24,6 @@ const Widget = ({
   barsHeight,
   barsWidth,
   CategoryList,
-  className,
   contentClassName,
   currentCategoryColor,
   currentCategoryName,
@@ -34,7 +31,6 @@ const Widget = ({
   onCategoryClick,
   onPieTotalChange,
   onSeeAllClick,
-  onTabSwitch,
   overviewChartClassName,
   OverviewFooterClasses,
   OverviewFooterProps,
@@ -52,38 +48,17 @@ const Widget = ({
   showBarChart,
   showCategoryCount,
   showOverviewTotals,
-  tab,
   widgetSize,
+  // omit
+  pieTotalSelectClassName,
+  pieTotalSelectLabel,
+  ...layoutProps
 }: Props) => {
-  const isOverviewTab = tab === 'overview'
-  const isPaymentListTab = tab === 'payments'
-  const isStoriesTab = tab === 'stories'
-  const isAboutTab = tab === 'about'
-
   const categoryCount = showCategoryCount ? R.length(pieItems) : null
-
   return (
-    <div className={className}>
-      {!isPaymentListTab && (
-        <Header>
-          <HeaderItem
-            name="Payments"
-            active={isOverviewTab}
-            onClick={() => onTabSwitch('overview')}
-          />
-          <HeaderItem
-            name="Stories"
-            active={isStoriesTab}
-            onClick={() => onTabSwitch('stories')}
-          />
-          <HeaderItem
-            name="About"
-            active={isAboutTab}
-            onClick={() => onTabSwitch('about')}
-          />
-        </Header>
-      )}
-      {isOverviewTab && (
+    <TabbedLayout
+      {...layoutProps}
+      OverviewTab={
         <OverviewTab
           categoryCount={categoryCount}
           CategoryList={CategoryList}
@@ -103,8 +78,8 @@ const Widget = ({
           showTotals={showOverviewTotals}
           widgetSize={widgetSize}
         />
-      )}
-      {isPaymentListTab && (
+      }
+      PaymentListTab={
         <PaymentListTab
           barChartClassName={barChartClassName}
           barsData={barsData}
@@ -122,35 +97,29 @@ const Widget = ({
           paymentsPeriodClassName={paymentsPeriodClassName}
           showBarChart={showBarChart}
         />
-      )}
-      {isStoriesTab && <StoriesTab />}
-      {isAboutTab && <AboutTab />}
-    </div>
+      }
+      StoriesTab={<StoriesTab />}
+      AboutTab={<AboutTab />}
+    />
   )
 }
 
-const mapStateToProps = createStructuredSelector({
-  barsData: barChartDataSelector,
-  currentCategoryColor: currentCategoryColorSelector,
-  currentCategoryName: currentCategoryNameSelector,
-  paymentCount: paymentCountSelector,
-  pieItems: pieItemsSelector,
-  pieTotal: pieTotalSelector,
-  pieTotalSelectable: totalSelectableSelector,
-  tab: tabSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
+export default reconnect(
+  {
+    barsData: barChartDataSelector,
+    currentCategoryColor: currentCategoryColorSelector,
+    currentCategoryName: currentCategoryNameSelector,
+    paymentCount: paymentCountSelector,
+    pieItems: pieItemsSelector,
+    pieTotal: pieTotalSelector,
+    pieTotalSelectable: totalSelectableSelector,
+    tab: tabSelector,
+  },
   {
     onCancelCategoryClick: ACTIONS.cancelCategory,
     onCategoryClick: ACTIONS.selectCategory,
     onPieTotalChange: ACTIONS.selectPieTotal,
     onSeeAllClick: ACTIONS.selectAllCategories,
     onTabSwitch: ACTIONS.switchTab,
-  },
-])
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  }
 )(Widget)

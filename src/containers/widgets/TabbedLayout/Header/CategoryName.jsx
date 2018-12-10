@@ -1,7 +1,7 @@
-// @flow
+// @flow strict
 import React from 'react'
 import cx from 'classnames'
-import { ArrowBack as IconArrowBack } from 'material-ui-icons'
+import IconArrowBack from 'material-ui-icons/ArrowBack'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = theme => ({

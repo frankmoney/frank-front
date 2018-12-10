@@ -1,10 +1,10 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import colors from 'styles/colors'
-import Widget from './Widget'
+import Widget from '../Widget'
 
 const styles = theme => ({
   root: {
