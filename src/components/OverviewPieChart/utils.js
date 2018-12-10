@@ -1,7 +1,7 @@
 // @flow strict
 import * as R from 'ramda'
 import type { Category } from 'data/models/category'
-import type { PieChartCategory } from 'data/models/pieData'
+import { FILLER, type PieChartCategory } from 'data/models/pieData'
 
 const INDEX_PROP = 'index'
 const VALUE_PROP = 'value'
@@ -20,6 +20,7 @@ export type IndexedPieChartCategory = {|
 export type CategoryCb = IndexedPieChartCategory => void
 
 export type CategoryListData = {|
+  filler?: IndexedPieChartCategory,
   items: Array<IndexedPieChartCategory>,
   other: ?IndexedPieChartCategory,
   tooltipItems: Array<IndexedPieChartCategory>,
@@ -67,7 +68,7 @@ const doLimit = (maxEntries: number): LimitCategoriesFn =>
     })
   )
 
-const limitCategories = (maxEntries: number): LimitCategoriesFn =>
+const limitRealCategories = (maxEntries: number): LimitCategoriesFn =>
   R.pipe(
     sortDescBy(VALUE_PROP),
     injectKey,
@@ -81,5 +82,19 @@ const limitCategories = (maxEntries: number): LimitCategoriesFn =>
       doLimit(maxEntries)
     )
   )
+
+export const fillerIndex = (maxEntries: number) => maxEntries + 2
+
+const limitCategories = (maxEntries: number): LimitCategoriesFn => items => {
+  const [fillers, categories] = R.partition(R.eqProps('id', FILLER), items)
+  const filler = R.head(fillers)
+  const result = limitRealCategories(maxEntries)(categories)
+  return filler
+    ? {
+        ...result,
+        filler: R.assoc('index', fillerIndex(maxEntries), filler),
+      }
+    : result
+}
 
 export default limitCategories

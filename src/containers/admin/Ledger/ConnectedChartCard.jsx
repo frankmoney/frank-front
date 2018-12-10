@@ -7,10 +7,11 @@ import {
   barChartColorSelector,
   barChartDataSelector,
   barChartOnlySelector,
-  categoryTypeSelector,
   chartsVisibleSelector,
   periodSelector,
   pieItemsSelector,
+  pieTotalSelector,
+  totalSelectableSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 
@@ -21,15 +22,16 @@ export default compose(
       barsColor: barChartColorSelector,
       barsData: barChartDataSelector,
       barsOnly: barChartOnlySelector,
-      categoryType: categoryTypeSelector,
       period: periodSelector,
       pieItems: pieItemsSelector,
+      pieTotal: pieTotalSelector,
+      pieTotalSelectable: totalSelectableSelector,
       visible: chartsVisibleSelector,
     },
     {
-      onCategoryClick: ACTIONS.selectCategory,
-      onCategoryTypeChange: ACTIONS.selectCategoryType,
       onBarsZoomIn: ACTIONS.barZoomIn,
+      onCategoryClick: ACTIONS.selectCategory,
+      onPieTotalChange: ACTIONS.selectPieTotal,
     }
   ),
   branch(props => !props.visible, renderNothing)

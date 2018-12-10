@@ -3,6 +3,7 @@ import type {
   CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
+  OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
 import type { BarData } from 'components/Charts/Bar'
@@ -12,6 +13,8 @@ type EmptyCb = () => void
 type TabSwitchCb = string => void
 
 export type Props = {|
+  ...OverviewPieChartProps,
+  //
   barsFooterPadding: number,
   barsHeight: number,
   barsWidth: number,
@@ -23,13 +26,11 @@ export type Props = {|
   widgetSize: number,
   // Handlers
   onCategoryClick: CategoryCb,
-  onCategoryTypeChange: CategoryCb,
   onSeeAllClick: EmptyCb,
   onTabSwitch: TabSwitchCb,
   onCancelCategoryClick: EmptyCb,
   // Selectors
   barsData: BarData,
-  categoryType?: string,
   currentCategoryColor?: string,
   currentCategoryName?: string,
   paymentCount?: number,

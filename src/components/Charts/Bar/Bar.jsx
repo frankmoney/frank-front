@@ -42,6 +42,9 @@ const styles = {
   positiveBars: {
     transform: `translateY(-${BASE_LINE_OFFSET}px)`,
   },
+  negativeBars: {
+    transform: `translateY(${BASE_LINE_OFFSET}px)`,
+  },
 }
 
 const negateWithEpsilon = x => (x === 0 ? -EPSILON : -x)
@@ -123,7 +126,7 @@ class BarChart extends React.PureComponent<Props> {
             padding={{ left: 0, right: 0 }}
             tick={<AxisLabel />}
             tickLine={false}
-            tickMargin={footerPadding + BASE_LINE_OFFSET}
+            tickMargin={footerPadding}
             tickSize={4}
           />
           <ReTooltip
@@ -149,7 +152,10 @@ class BarChart extends React.PureComponent<Props> {
           {showBars &&
             dual && (
               <Bar
-                className={cx({ [classes.clickableBar]: clickable })}
+                className={cx({
+                  [classes.clickableBar]: clickable,
+                  [classes.negativeBars]: dual,
+                })}
                 dataKey={NEGATIVE_VALUE_PROP}
                 fill={barColor}
                 minPointSize={5}
