@@ -66,7 +66,7 @@ const HeaderBarButtons = ({
       </>
     )}
     <RouterLink
-      to={createRouteUrl(ROUTES.manage.stories.storyEdit, { id: storyId })}
+      to={createRouteUrl(ROUTES.manage.stories.storyEdit, { storyId })}
     >
       <Button
         label="Edit story"

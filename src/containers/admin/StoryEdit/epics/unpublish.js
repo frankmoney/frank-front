@@ -7,8 +7,8 @@ export default (action$, store, { graphql }) =>
     .ofType(ACTIONS.unpublish)
     .switchMapFromPromise(() => {
       const state = store.getState()
-      const storyPid = storySelector(state).pid
+      const storyId = storySelector(state).id
 
-      return graphql(QUERIES.unpublishStory, { storyPid })
+      return graphql(QUERIES.unpublishStory, { storyId })
     })
     .map(story => ACTIONS.unpublish.success({ story }))

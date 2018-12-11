@@ -8,7 +8,7 @@ export default {
         stories(
           sortBy: publishedAt_DESC
         ) {
-          pid
+          id: pid
           draft {
             title
             cover

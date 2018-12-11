@@ -34,15 +34,11 @@ const protectedRoute = compose(
 )
 
 const ComposedStoryEdit = compose(
-  withProps(props => ({
-    storyId: props.match.params.id,
-  }))
+  withProps(({ match: { params: { storyId } } }) => ({ storyId }))
 )(StoryEdit)
 
 const ComposedStoryPreview = compose(
-  withProps(props => ({
-    storyId: props.match.params.id,
-  }))
+  withProps(({ match: { params: { storyId } } }) => ({ storyId }))
 )(StoryPreview)
 
 const ComposedRecipient = compose(

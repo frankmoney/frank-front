@@ -10,9 +10,9 @@ export default (action$, store, { graphql }) =>
     .ofType(ACTIONS.delete)
     .switchMap(() => {
       const state = store.getState()
-      const storyPid = storySelector(state).pid
+      const storyId = storySelector(state).id
 
-      return graphql(QUERIES.deleteStory, { storyPid })
+      return graphql(QUERIES.deleteStory, { storyId })
     })
     .mergeMap(() => [
       ACTIONS.delete.success(),

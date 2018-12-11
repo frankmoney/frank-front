@@ -9,7 +9,7 @@ export default (action$, store, { graphql }) =>
     .ofType(ACTIONS.filterPayments)
     .switchMap(async () => {
       const state = store.getState()
-      const accountPid = currentAccountIdSelector(state)
+      const accountId = currentAccountIdSelector(state)
       const {
         dateMin: postedOnMin,
         dateMax: postedOnMax,
@@ -17,13 +17,13 @@ export default (action$, store, { graphql }) =>
 
       const result = await Promise.all([
         graphql(QUERIES.getPayments, {
-          accountPid,
+          accountId,
           postedOnMin,
           postedOnMax,
           take: PAGE_SIZE,
         }),
         graphql(QUERIES.countPayments, {
-          accountPid,
+          accountId,
           postedOnMin,
           postedOnMax,
         }),

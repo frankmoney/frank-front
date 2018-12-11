@@ -38,7 +38,7 @@ export default handleActions(
       state.merge({
         loading: false,
         loaded: true,
-        saved: story && story.pid,
+        saved: story && story.id,
         story: fromJS(story),
         payments: fromJS(payments),
         paymentsLoadedPagesCount: 1,
@@ -110,19 +110,17 @@ export default handleActions(
       state.merge({
         processing: true,
       }),
-    [ACTIONS.publish.success]: (state, { payload: { story } }) => {
+    [ACTIONS.publish.success]: (state, { payload: { accountId, story } }) => {
       if (story.draft.published) {
         const publicUrl = createRouteUrl(ROUTES.public.story.idRoot, {
-          accountId: 'FIXME', // TODO: pass correct account id
-          storyId: story.pid,
+          accountId,
+          storyId: story.id,
         })
         storage.setItem(LS_FLAGS.lastPublishedStoryUrl, publicUrl)
       }
       return state.merge({
         processing: false,
       })
-      // .mergeIn(['story', 'isPublished'], story.isPublished)
-      // .mergeIn(['story', 'hasUnpublishedDraft'], story.hasUnpublishedDraft)
     },
     [ACTIONS.publish.error]: state =>
       state.merge({
