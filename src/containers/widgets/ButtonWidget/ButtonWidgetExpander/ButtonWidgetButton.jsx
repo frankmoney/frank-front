@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import ChartIcon from 'containers/widgets/Footer/Chart.svg'
@@ -59,25 +59,25 @@ type EmptyCb = () => void
 type Props = {|
   ...InjectStylesProps,
   //
-  closed: boolean,
   onClick?: EmptyCb,
   onClose?: EmptyCb,
+  open: boolean,
   subtitle?: string,
   title?: string,
 |}
 
-const Expander = ({
+const ButtonWidgetButton = ({
   classes,
   className,
-  closed,
   onClick,
   onClose,
+  open,
   subtitle,
   title,
 }: Props) => (
   // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
-    className={cx(classes.root, { [classes.collapsed]: closed }, className)}
+    className={cx(classes.root, { [classes.collapsed]: !open }, className)}
     onClick={onClick}
   >
     <ChartIcon className={classes.chartIcon} />
@@ -95,8 +95,4 @@ const Expander = ({
   </div>
 )
 
-Expander.defaultProps = {
-  closed: false,
-}
-
-export default injectStyles(styles)(Expander)
+export default injectStyles(styles)(ButtonWidgetButton)
