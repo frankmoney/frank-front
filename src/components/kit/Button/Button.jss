@@ -22,6 +22,9 @@ export default theme => ({
       outline: 0,
     },
   },
+  compactHeight: {
+    height: 40,
+  },
   hover: {},
   active: {},
   focus: {},

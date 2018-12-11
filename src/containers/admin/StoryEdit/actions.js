@@ -9,9 +9,5 @@ export default createActions('adminStoryEdit', {
   unpublish: true,
   updatePublished: true,
   modifyStoryPaymentsList: false,
-  filterPayments: true,
-  loadMorePayments: true,
   leave: false,
-  openPaymentsDrawer: false,
-  closePaymentsDrawer: false,
 })

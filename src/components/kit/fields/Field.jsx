@@ -10,6 +10,7 @@ import Placeholder from './Placeholder'
 import Underline from './Underline'
 import ValidationLabel from './ValidationLabel'
 import FieldContext from './FieldContext'
+import Adornment from './Adornment'
 import styles from './Field.jss'
 
 type Value = any // flowlint-line unclear-type:off
@@ -56,6 +57,8 @@ type Props = {|
   onKeyPress?: KeyboardEvent => void,
   onKeyUp?: KeyboardEvent => void,
   controlRef?: Function,
+  adornment?: React.Element,
+  adornmentWidth?: number,
 |}
 
 type State = {|
@@ -69,6 +72,7 @@ class Field extends React.Component<Props, State> {
   static defaultProps = {
     loadingText: 'Loading',
     noUnderline: false,
+    adornmentWidth: 30,
   }
 
   state = {
@@ -83,6 +87,8 @@ class Field extends React.Component<Props, State> {
     disabled: this.props.disabled,
     loading: this.props.loading,
     filled: !!this.getValue(state),
+    adornmentWidth: this.props.adornmentWidth,
+    hasAdornment: !!this.props.adornment,
   })
 
   // flowlint-next-line unsafe-getters-setters:off
@@ -159,6 +165,7 @@ class Field extends React.Component<Props, State> {
       loadingText,
       placeholder,
       stretch,
+      adornment,
       style,
       autoFocus,
       noUnderline,
@@ -171,7 +178,7 @@ class Field extends React.Component<Props, State> {
     const control = React.Children.only(children)
 
     const combinedState = this.getState()
-    const { focus, invalid, filled, value } = combinedState
+    const { focus, invalid, filled, value, hasAdornment } = combinedState
     const hidePlaceholder = (floatingLabel && !focus) || filled
     const showFloatingLabel = !loading && !!floatingLabel
     const additionalText = !error && !hint && additionalLabel
@@ -188,6 +195,7 @@ class Field extends React.Component<Props, State> {
               [classes.filled]: filled,
               [classes.disabled]: disabled,
               [classes.loading]: loading,
+              [classes.hasAdornment]: hasAdornment,
             },
             className
           )}
@@ -205,6 +213,9 @@ class Field extends React.Component<Props, State> {
             <Label className={classes.label} additionalText={additionalText}>
               {label}
             </Label>
+          )}
+          {adornment && (
+            <Adornment className={classes.adornment}>{adornment}</Adornment>
           )}
           {React.cloneElement(control, {
             value,
@@ -226,19 +237,6 @@ class Field extends React.Component<Props, State> {
             onChange: chainCallbacks(this.handleChange, control.props.onChange),
             disabled: disabled || loading,
           })}
-          {/* {placeholder && */}
-          {/*! loading && ( */}
-          {/* <Placeholder */}
-          {/* active={focus} */}
-          {/* className={cx( */}
-          {/* classes.placeholder, */}
-          {/* ((floatingLabel && !focus) || filled) && */}
-          {/* classes.placeholderOff */}
-          {/* )} */}
-          {/* > */}
-          {/* {placeholder} */}
-          {/* </Placeholder> */}
-          {/* )} */}
           {loading && (
             <Placeholder className={classes.placeholder}>
               {loading && (

@@ -1,10 +1,9 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { BigButton } from 'components/kit/Button'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import Button from 'components/kit/Button'
 import VerifiedByFrank from './Verified'
-import ManageButton from './ManageButton'
 import List from './PaymentsList'
 import styles from './StoryPayments.jss'
 
@@ -24,20 +23,39 @@ const StoryPayments = ({
   onEdit,
   payments,
   readOnly,
+  onRemovePayment,
 }: Props) => (
-  <>
-    {payments && payments.length ? (
-      <div className={cx(classes.container, className)}>
-        <div className={classes.header}>
-          <div className={classes.title}>Attached payments</div>
-          {readOnly ? <VerifiedByFrank /> : <ManageButton onClick={onEdit} />}
-        </div>
-        <List payments={payments} className={classes.list} />
-      </div>
-    ) : (
-      <BigButton label="Add payments" onClick={onEdit} />
+  <div
+    className={cx(
+      classes.container,
+      {
+        [classes.empty]: !payments || !payments.length,
+      },
+      className
     )}
-  </>
+  >
+    <div className={classes.header}>
+      <div className={classes.title}>Attached payments</div>
+      {readOnly ? (
+        <VerifiedByFrank />
+      ) : (
+        <Button
+          compactHeight
+          color="blue"
+          label="Add payments"
+          onClick={() => onEdit()}
+        />
+      )}
+    </div>
+    {payments &&
+      !!payments.length && (
+        <List
+          payments={payments}
+          className={classes.list}
+          onRemoveItem={onRemovePayment}
+        />
+      )}
+  </div>
 )
 
 export default injectStyles(styles)(StoryPayments)

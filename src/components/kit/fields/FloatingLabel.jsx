@@ -13,7 +13,9 @@ const styles = {
     top: 0,
     left: 0,
     fontSize: LABEL_FONT_SIZE,
-    transform: `translate(0, 19px) scale(${FONT_SIZE / LABEL_FONT_SIZE})`,
+    transform: props =>
+      `translate(${props.marginLeft || 0}px, 19px) scale(${FONT_SIZE /
+        LABEL_FONT_SIZE})`,
     transformOrigin: 'top left',
     transition:
       'color 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms,transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms, font-weight 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms',
@@ -48,7 +50,7 @@ const styles = {
   },
 }
 
-const FloatingLabel = ({
+let FloatingLabel = ({
   classes,
   name,
   active,
@@ -56,26 +58,42 @@ const FloatingLabel = ({
   disabled,
   className,
   larger,
+  invalid,
   children,
 }) => (
+  <label
+    htmlFor={name}
+    className={cx(
+      classes.root,
+      {
+        [classes.active]: active,
+        [classes.invalid]: invalid,
+        [classes.larger]: larger,
+        [classes.shrink]: shrink,
+        [classes.disabled]: disabled,
+      },
+      className
+    )}
+  >
+    {children}
+  </label>
+)
+
+FloatingLabel = injectStyles(styles)(FloatingLabel)
+
+const FieldFloatingLabel = props => (
   <FieldContext.Consumer>
     {field => (
-      <label
-        htmlFor={name}
-        className={cx(
-          classes.root,
-          (active || field.focus) && classes.active,
-          field.invalid && field.focus && classes.invalid,
-          larger && classes.larger,
-          (shrink || (field.focus || field.filled)) && classes.shrink,
-          (disabled || field.disabled) && classes.disabled,
-          className
-        )}
-      >
-        {children}
-      </label>
+      <FloatingLabel
+        marginLeft={field.hasAdornment ? field.adornmentWidth : 0}
+        active={field.focus}
+        invalid={field.invalid && field.focus}
+        shrink={field.focus || field.filled}
+        disabled={field.disabled}
+        {...props}
+      />
     )}
   </FieldContext.Consumer>
 )
 
-export default injectStyles(styles)(FloatingLabel)
+export default FieldFloatingLabel

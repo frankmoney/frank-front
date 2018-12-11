@@ -15,20 +15,24 @@ const ListVirtualized = forwardRef(
       itemCount: rowCount,
       itemComponent: rowRenderer,
       itemHeight: rowHeight,
+      width,
+      height,
+      ...otherProps
     },
     ref
   ) => (
     <AutoSizer>
-      {({ height, width }) => (
+      {({ height: autoHeight, width: autoWidth }) => (
         <List
           ref={ref}
           className={className}
           style={styles}
-          width={width}
-          height={height}
+          width={autoWidth}
+          height={autoHeight}
           rowCount={rowCount}
           rowHeight={rowHeight}
           rowRenderer={rowRenderer}
+          {...otherProps}
         />
       )}
     </AutoSizer>

@@ -12,9 +12,7 @@ const styles = {
     padding: 30,
     width: props => props.width,
   },
-  button: {
-    height: 40,
-  },
+  button: {},
   body: {
     marginBottom: 30,
     '& > *': {
