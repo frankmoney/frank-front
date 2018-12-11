@@ -3,16 +3,10 @@ import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
 import { compose } from 'recompose'
-import {
-  Delete as RemoveIcon,
-  Check as PublishIcon,
-  Close as UnpublishIcon,
-} from 'material-ui-icons'
+import { Delete as RemoveIcon, Check as PublishIcon } from 'material-ui-icons'
 import reconnect from 'utils/reconnect'
 import { ConfirmDialog } from 'components/kit/Dialog'
 import Button, { IconButton } from 'components/kit/Button'
-import MenuItem from 'components/kit/Menu/MenuItem'
-import EllipsisButtonMenu from 'components/EllipsisButtonMenu'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import {
   isSavingSelector,
@@ -25,6 +19,7 @@ import {
   isPublishButtonDisabledSelector,
   saveButtonLabelSelector,
   publishButtonLabelSelector,
+  updateButtonLabelSelector,
 } from './selectors'
 import ACTIONS from './actions'
 
@@ -44,7 +39,7 @@ const styles = {
     padding: '0 26px !important',
   },
   saveButton: {
-    width: 87,
+    width: 96,
   },
   unpublishedButton: {
     width: 130,
@@ -59,6 +54,16 @@ const SaveButton = compose(
       label: saveButtonLabelSelector,
     },
     { onClick: ACTIONS.createOrUpdate }
+  )
+)(Button)
+
+const UpdateButton = compose(
+  reconnect(
+    {
+      disabled: isSaveButtonDisabledSelector,
+      loading: isSavingSelector,
+    },
+    { onClick: ACTIONS.updatePublished }
   )
 )(Button)
 
@@ -154,33 +159,29 @@ class HeaderBarButtons extends React.PureComponent<Props, State> {
 
     return (
       <div className={cx(classes.container, className)}>
-        <SaveButton className={classes.saveButton} />
+        {isPublished ? (
+          <UpdateButton
+            color="blue"
+            label="Update"
+            className={classes.saveButton}
+          />
+        ) : (
+          <SaveButton className={classes.saveButton} />
+        )}
         <PublishButton
           className={!isPublished && classes.unpublishedButton}
-          color="green"
-          icon={<PublishIcon />}
-          onClick={this.getConfigDialogToggleHandler('publish')}
+          color={isPublished ? 'gray' : 'green'}
+          icon={!isPublished && <PublishIcon />}
+          onClick={this.getConfigDialogToggleHandler(
+            isPublished ? 'unpublish' : 'publish'
+          )}
         />
-        {saved &&
-          (isPublished ? (
-            <EllipsisButtonMenu>
-              <MenuItem
-                onSelect={this.getConfigDialogToggleHandler('unpublish')}
-                icon={<UnpublishIcon />}
-                label="Unpublish"
-              />
-              <MenuItem
-                onSelect={this.getConfigDialogToggleHandler('delete')}
-                icon={<RemoveIcon />}
-                label="Delete"
-              />
-            </EllipsisButtonMenu>
-          ) : (
-            <DeleteButton
-              icon={<RemoveIcon />}
-              onClick={() => this.getConfigDialogToggleHandler('delete')}
-            />
-          ))}
+        {saved && (
+          <DeleteButton
+            icon={<RemoveIcon />}
+            onClick={this.getConfigDialogToggleHandler('delete')}
+          />
+        )}
 
         <ConfirmDialog
           open={isConfirmDialogOpen}

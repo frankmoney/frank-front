@@ -34,9 +34,9 @@ import {
 import * as ACTIONS from './actions'
 import styles from './Stories.jss'
 
-const LinkedStoryCard = withProps(({ pid }) => ({
+const LinkedStoryCard = withProps(({ storyId }) => ({
   component: Link,
-  to: createRouteUrl(ROUTES.manage.stories.storyPreview, { id: pid }),
+  to: createRouteUrl(ROUTES.manage.stories.storyPreview, { storyId }),
 }))(StoryCard)
 
 const Stories = ({ classes, noStories, stories, className }) => (
@@ -51,7 +51,11 @@ const Stories = ({ classes, noStories, stories, className }) => (
         <NewButton />
         {!noStories &&
           stories.map(story => (
-            <LinkedStoryCard {...story.draft} key={story.pid} pid={story.pid} />
+            <LinkedStoryCard
+              {...story.draft}
+              key={story.id}
+              storyId={story.id}
+            />
           ))}
       </div>
     </div>

@@ -4,6 +4,7 @@ import cx from 'classnames'
 import { compose } from 'recompose'
 import Button from 'components/kit/Button'
 import EditCategoryDialog from 'components/EditCategoryDialog'
+import { OnboardingCategoryList } from 'components/admin/CategoryList'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import StepLayout from '../../ConnectedStepLayout'
@@ -15,7 +16,6 @@ import {
   openEditCategoryDialogSelector,
 } from '../../selectors'
 import * as ACTIONS from '../../actions'
-import CategoriesList from './CategoriesList'
 
 const styles = {
   root: {},
@@ -60,7 +60,7 @@ const Categories = ({
     </StepDescription>
     {categories &&
       categories.length > 0 && (
-        <CategoriesList
+        <OnboardingCategoryList
           className={classes.list}
           categories={categories}
           onEdit={onEditCategory}

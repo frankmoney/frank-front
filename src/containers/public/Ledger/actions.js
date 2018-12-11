@@ -9,9 +9,7 @@ export const update = createDeferredAction('public/ledger/update')
 export const resetSearch = createDeferredAction('public/ledger/resetSearch')
 export const searchTyping = createAction('public/ledger/search')
 export const selectPage = createAction('public/ledger/select-page')
-export const selectCategoryType = createAction(
-  'public/ledger/select-category-type'
-)
+export const selectPieTotal = createAction('public/ledger/select-pie-total')
 export const selectCategory = createAction('public/ledger/select-category')
 export const cancelCategory = createAction('public/ledger/cancel-category')
 

@@ -12,11 +12,6 @@ export default {
     justifyContent: 'center',
     marginRight: '7%',
   },
-  categoryTypeSelect: {
-    paddingTop: 2,
-    position: 'absolute',
-    whiteSpace: 'nowrap',
-  },
   categoryList: {
     flex: [0, 0, 'auto'],
   },

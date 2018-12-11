@@ -77,7 +77,6 @@ export type Props = {|
   renderControl: (RenderControlProps, Object) => React.Element<any>, // TODO
   stretchDropdown?: boolean,
   value?: Value,
-  values?: Array<Value>,
 |}
 
 type State = {|

@@ -33,11 +33,11 @@ export default {
   getStory: [
     `
     query(
-      $accountPid: ID!
-      $storyPid: ID!
+      $accountId: ID!
+      $storyId: ID!
     ) {
-      account(pid: $accountPid) {
-        story(pid: $storyPid) {
+      account(pid: $accountId) {
+        story(pid: $storyId) {
           ${storyFields}
           draft {
             ${storyDraftFields}

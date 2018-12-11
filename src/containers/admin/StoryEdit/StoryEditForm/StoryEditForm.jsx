@@ -1,10 +1,11 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { compose } from 'recompose'
+import { compose, renderNothing } from 'recompose'
 import { reduxForm } from 'redux-form-actions/immutable'
 import reconnect from 'utils/reconnect'
 import createUploaderField from 'controls/forms/createUploaderField'
+import ReduxFormControl from 'components/kit/ReduxFormControl'
 import TitleField from 'controls/forms/TitleField'
 import DescriptionField from 'controls/forms/DescriptionField'
 import StoryPayments from 'components/StoryPayments'
@@ -94,6 +95,7 @@ const StoryEditForm = ({ classes, className }: Props) => (
         placeholder="Your story..."
       />
     </div>
+    <ReduxFormControl.Field name="payments" component={renderNothing} />
 
     <ConnectedStoryPayments />
     <ConnectedPaymentsSelectDrawer />

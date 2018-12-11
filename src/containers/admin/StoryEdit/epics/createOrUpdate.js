@@ -66,6 +66,8 @@ export default (
       const isNew = isNewStorySelector(state)
       const isDirty = isDirtySelector(state)
 
+      const accountId = currentAccountIdSelector(state)
+
       let story = storySelector(state)
 
       if (isNew || isDirty) {
@@ -86,47 +88,45 @@ export default (
               )
             : null
 
-        const paymentPids = payments && payments.map(R.prop('pid'))
+        const paymentIds = payments && payments.map(R.prop('id'))
 
         const queryArgs = {
           title,
           cover: croppedCover,
           body,
-          paymentPids,
+          paymentIds,
         }
 
         if (isNew) {
-          const accountPid = currentAccountIdSelector(state)
-
           story = await graphql(QUERIES.createStory, {
             ...queryArgs,
-            accountPid,
+            accountId,
           })
         } else {
-          const pid = storySelector(state).draft.pid
+          const id = storySelector(state).draft.id
 
           story = await graphql(QUERIES.updateStoryDraft, {
             ...queryArgs,
-            pid,
+            id,
           })
         }
       }
 
       if (payload && payload.publish) {
-        const draftPid = story.draft.pid
-
-        story = await graphql(QUERIES.publishStoryDraft, { draftPid })
+        const draftId = story.draft.id
+        story = await graphql(QUERIES.publishStoryDraft, { draftId })
       }
 
       return {
+        accountId,
         story,
         published: payload && payload.publish,
       }
     })
-    .mergeMap(({ story, published }) =>
+    .mergeMap(({ accountId, story, published }) =>
       R.filter(R.identity, [
         ACTIONS.createOrUpdate.success({ story }),
-        published && ACTIONS.publish.success({ story }),
+        published && ACTIONS.publish.success({ accountId, story }),
         published &&
           replaceLocation(createRouteUrl(ROUTES.manage.stories.root)),
       ])

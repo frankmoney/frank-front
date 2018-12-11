@@ -7,6 +7,7 @@ import type {
   CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
+  OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
 import { ConnectedPeriodSelect } from 'containers/Widget/PeriodSelect'
@@ -21,7 +22,7 @@ const pieSize = R.cond([
   [R.T, R.always(0)],
 ])
 
-const categoryTypeSelectLabel = R.cond([
+const dynamicPieTotalSelectLabel = R.cond([
   [R.equals(375), R.always('% of total')],
   [R.equals(500), R.always('% of')],
   [R.equals(625), R.always('% of')],
@@ -33,7 +34,7 @@ const styles = {
   root: {
     paddingBottom: 5,
   },
-  categoryTypeSelect: {
+  customPieTotalSelect: {
     fontSize: 15,
   },
   periodSelect: {
@@ -44,12 +45,11 @@ const styles = {
 }
 
 export type Props = {|
+  ...OverviewPieChartProps,
   ...InjectStylesProps,
   //
   CategoryList?: CategoryListComponent,
-  categoryType: string,
   onCategoryClick: CategoryCb,
-  onCategoryTypeChange: CategoryCb,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   pieItems: PieChartCategories,
   widgetSize: 375 | 500 | 625 | 800,
@@ -60,35 +60,34 @@ export type Props = {|
 
 const OverviewChart = ({
   CategoryList,
-  categoryType,
   classes,
   className,
-  onCategoryClick,
-  onCategoryTypeChange,
   periodSelectClassName,
   pieChartRootComponent,
   pieClassName,
   pieItems,
   widgetSize,
+  // omit
+  pieTotalSelectClassName,
+  pieTotalSelectLabel,
+  ...pieChartProps
 }: Props) => (
   <>
     <ConnectedPeriodSelect
       className={cx(classes.periodSelect, periodSelectClassName)}
     />
     <OverviewPieChart
+      {...pieChartProps}
       CategoryList={CategoryList && <CategoryList />}
-      categoryType={categoryType}
-      categoryTypeSelectClassName={{
-        [classes.categoryTypeSelect]: widgetSize === 500,
-      }}
-      categoryTypeSelectLabel={categoryTypeSelectLabel(widgetSize)}
       chartClassName={pieClassName}
       chartSize={pieSize(widgetSize)}
       className={cx(classes.root, className)}
-      data={pieItems}
       component={pieChartRootComponent}
-      onCategoryClick={onCategoryClick}
-      onCategoryTypeChange={onCategoryTypeChange}
+      data={pieItems}
+      pieTotalSelectLabel={dynamicPieTotalSelectLabel(widgetSize)}
+      pieTotalSelectClassName={{
+        [classes.customPieTotalSelect]: widgetSize === 500,
+      }}
     />
   </>
 )
