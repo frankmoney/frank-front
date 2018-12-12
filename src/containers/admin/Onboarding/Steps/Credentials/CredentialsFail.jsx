@@ -33,7 +33,7 @@ const CredentialsFail = ({
   <StepLayout
     className={cx(classes.root, className)}
     noFooter
-    backButtonText="Cancel connecting to the account"
+    backLabel="Cancel connecting to the account"
   >
     <StepBankLogo />
     <StepTitle>Connection failed</StepTitle>

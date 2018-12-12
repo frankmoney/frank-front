@@ -9,7 +9,7 @@ export default (
 ) => {
   const rect = el.getBoundingClientRect()
 
-  const isWindow = !container || container === window
+  const isWindow = !container || container === window || container === 'window'
   if (isWindow) {
     const docEl = document.documentElement
     const viewportHeight = window.innerHeight || (docEl && docEl.clientHeight)

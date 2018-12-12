@@ -14,22 +14,31 @@ import {
   categoriesSelector,
   editingCategorySelector,
   openEditCategoryDialogSelector,
+  categoryTypeSelector,
 } from '../../selectors'
 import * as ACTIONS from '../../actions'
 
 const styles = {
   root: {},
-  addCategoryButton: {
-    width: 360,
-  },
   list: {
     marginTop: 50,
   },
 }
 
+const PAGE_TITLE_BY_TYPE = {
+  spending: 'Spending categories',
+  revenue: 'Income categories',
+}
+
+const LIST_TITLE_BY_TYPE = {
+  spending: 'Spending',
+  revenue: 'Income',
+}
+
 const Categories = ({
   className,
   classes,
+  categoryType,
   categories,
   editingCategory,
   openEditDialog,
@@ -42,17 +51,17 @@ const Categories = ({
 }) => (
   <StepLayout
     className={cx(classes.root, className)}
-    backButtonText="Back to account info"
+    backLabel="Back to account info"
     footerButton={
       <Button
         color="blue"
-        className={classes.addCategoryButton}
+        width={360}
         label="Add new category"
         onClick={onAddCategory}
       />
     }
   >
-    <StepTitle>List your categories</StepTitle>
+    <StepTitle>{LIST_TITLE_BY_TYPE[categoryType]}</StepTitle>
     <StepDescription>
       To visualise your spending we require every payment to be categorized.
       <br />Please list all categories of your spending. You can edit it later
@@ -61,6 +70,7 @@ const Categories = ({
     {categories &&
       categories.length > 0 && (
         <OnboardingCategoryList
+          title={LIST_TITLE_BY_TYPE[categoryType]}
           className={classes.list}
           categories={categories}
           onEdit={onEditCategory}
@@ -83,6 +93,7 @@ export default compose(
       categories: categoriesSelector,
       openEditDialog: openEditCategoryDialogSelector,
       editingCategory: editingCategorySelector,
+      categoryType: categoryTypeSelector,
     },
     {
       onAddCategory: ACTIONS.addNewCategory,

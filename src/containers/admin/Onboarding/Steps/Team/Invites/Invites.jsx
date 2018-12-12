@@ -29,7 +29,7 @@ const styles = theme => ({
 const Invites = ({ classes, className, invites }) => (
   <div className={cx(classes.root, className)}>
     {invites.map(({ email }) => (
-      <div className={classes.item}>
+      <div key={email} className={classes.item}>
         <div className={classes.email}>{email}</div>
         <div className={classes.role}>Invited</div>
       </div>

@@ -28,7 +28,7 @@ const Credentials = ({ className, classes, fields, isMfa, isChecking }) => (
         ? 'Verifying credentials... It’s can take up to 60 seconds.'
         : 'We never store account credentials'
     }
-    backButtonText={isMfa ? 'Enter new credentials' : 'Select another bank'}
+    backLabel={isMfa ? 'Enter new credentials' : 'Select another bank'}
   >
     <StepBankLogo />
     <StepTitle>Enter your credentials</StepTitle>

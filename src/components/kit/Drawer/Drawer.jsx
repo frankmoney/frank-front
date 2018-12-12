@@ -28,7 +28,7 @@ type Props = {|
   noCloseButton?: boolean,
   footerButtonLabel?: string,
   footerButtonProps?: React.ElementConfig<typeof Button>,
-  footerText?: string,
+  footerText?: string | React.Element<any>,
   footerTextSmaller?: boolean,
   children?: React.ChildrenArray<React.Element<any>> | React.Element<any>,
 |}

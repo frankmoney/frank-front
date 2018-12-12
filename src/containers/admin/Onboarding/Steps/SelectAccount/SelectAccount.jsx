@@ -27,7 +27,7 @@ const SelectAccount = ({
 }) => (
   <StepLayout
     className={cx(classes.root, className)}
-    backButtonText="Enter new credentials"
+    backLabel="Enter new credentials"
   >
     <StepBankLogo />
     <StepTitle>Select your account</StepTitle>
@@ -36,7 +36,6 @@ const SelectAccount = ({
         <AccountListItem
           accountName={name}
           accountBalance={formatCurrency({ value: balance, precision: 2 })}
-          accountNumber="······· 5951"
           selected={selectedAccountId === id}
           onClick={() => onAccountSelect(id)}
         />

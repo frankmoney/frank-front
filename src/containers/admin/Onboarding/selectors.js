@@ -83,6 +83,8 @@ export const credentialsFieldsSelector = createPlainObjectSelector(
 export const categoriesSelector = createPlainObjectSelector(
   get('stepData', 'list')
 )
+export const categoryTypeSelector = get('stepData', 'categoryType')
+
 export const openEditCategoryDialogSelector = get('stepData', 'openEditDialog')
 
 export const editingCategorySelector = createSelector(

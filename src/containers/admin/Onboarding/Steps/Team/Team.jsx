@@ -37,7 +37,7 @@ const Team = ({
 }) => (
   <StepLayout
     className={cx(classes.root, className)}
-    backButtonText="Back to categories"
+    backLabel="Back to categories"
   >
     <StepTitle>Invite teammates</StepTitle>
     <StepDescription>

@@ -13,6 +13,7 @@ import Button from 'components/kit/Button'
 import SearchBar from 'components/SearchCard'
 import { injectStyles } from 'utils/styles'
 import openIntercom from 'utils/openIntercom'
+import BankList from 'components/BankList'
 import StepLayout from '../../ConnectedStepLayout'
 import StepTitle from '../../StepTitle'
 import StepDescription from '../../StepDescription'
@@ -25,7 +26,6 @@ import {
 } from '../../selectors'
 import * as ACTIONS from '../../actions'
 import Terms from '../Terms'
-import BankList from './BankList'
 
 const styles = theme => ({
   root: {},
@@ -57,6 +57,9 @@ const styles = theme => ({
   },
 })
 
+const banksSelectListProps =
+  typeof window !== 'undefined' ? { scrollContainer: window } : {}
+
 const SelectBank = ({
   className,
   classes,
@@ -87,6 +90,7 @@ const SelectBank = ({
     />
     {loaded && (
       <BankList
+        selectListProps={banksSelectListProps}
         className={classes.banks}
         selectedId={selectedBankId}
         onBankSelect={selectBank}
