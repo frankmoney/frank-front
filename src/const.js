@@ -113,32 +113,43 @@ export const CATEGORY_COLORS = {
 
 export const DEFAULT_CATEGORIES = [
   {
-    name: 'Certification',
-    color: '#fde282',
+    name: 'Program expenses',
+    color: '#8725FB',
   },
   {
-    name: 'Taxes',
+    name: 'Administration',
+    color: '#0a70dd',
+  },
+  {
+    name: 'Fundraising',
     color: '#ffb54c',
   },
+]
+
+export const DEFAULT_INCOME_CATEGORIES = [
   {
-    name: 'Product development',
-    color: '#3cd5c1',
+    name: 'Contributions',
+    color: '#21CB61',
   },
   {
-    name: 'Product design',
-    color: '#0aaddb',
+    name: 'Grants',
+    color: '#049371',
   },
   {
-    name: 'Fundraising events',
-    color: '#00bd6a',
+    name: 'Program services',
+    color: '#049371',
   },
   {
-    name: 'Operating expenses',
-    color: '#b259ad',
+    name: 'Investments',
+    color: '#049371',
   },
   {
-    name: 'Administrative expenses',
-    color: '#0a70dd',
+    name: 'Special events',
+    color: '#049371',
+  },
+  {
+    name: 'Sales',
+    color: '#049371',
   },
 ]
 

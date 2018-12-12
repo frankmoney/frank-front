@@ -36,7 +36,7 @@ const validation = {
 const AccountInfo = ({ className, classes }) => (
   <StepLayout
     className={cx(classes.root, className)}
-    backButtonText="Select another account"
+    backLabel="Select another account"
   >
     <StepTitle>Account info</StepTitle>
     <StepDescription>

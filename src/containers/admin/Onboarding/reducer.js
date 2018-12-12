@@ -1,13 +1,16 @@
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
-import { DEFAULT_CATEGORIES } from 'const'
+import { DEFAULT_CATEGORIES, DEFAULT_INCOME_CATEGORIES } from 'const'
 import * as ACTIONS from './actions'
 import { CREDENTIALS_STATUS } from './constants'
 
 export const REDUCER_KEY = 'onboarding'
 
-const getDefaultCategories = () =>
-  DEFAULT_CATEGORIES.map(category => ({
+const getDefaultCategories = categoryType =>
+  (categoryType === 'spending'
+    ? DEFAULT_CATEGORIES
+    : DEFAULT_INCOME_CATEGORIES
+  ).map(category => ({
     ...category,
     id: Math.random().toString(),
   }))
@@ -83,12 +86,15 @@ const getStepData = session => {
         accountDescription: account.frankDescription,
       },
     }
-  } else if (step === 'categories') {
+  } else if (step === 'spendingCategories' || step === 'revenueCategories') {
+    const categoryType = step === 'spendingCategories' ? 'spending' : 'revenue'
+
     return {
       currentStep: 'categories',
       session,
       stepData: {
-        list: categories || getDefaultCategories(),
+        list: categories || getDefaultCategories(categoryType),
+        categoryType,
       },
     }
   } else if (step === 'team') {
