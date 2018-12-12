@@ -1,24 +1,33 @@
-// @flow
+// @flow strict-local
 import React from 'react'
-import * as R from 'ramda'
 import DropdownSwitcher from 'components/DropdownSwitcher'
 
 export type Period = string
 
-export type OnChangeCb = Period => void
+export type OnPeriodChangeCb = Period => void
 
-type Props = {|
-  className?: string,
-  onChange?: OnChangeCb,
-  value: Period,
-  values: Array<Period>,
+export type PeriodSelectProps = {|
+  onPeriodChange: OnPeriodChangeCb,
+  period: Period,
+  periods: Array<Period>,
 |}
 
-const PeriodSelect = ({ className, onChange, value, values }: Props) => {
-  const handlePeriodChange = onChange && (event => onChange(event.target.value))
-  const keyedValues = R.map(R.objOf('key'))(values)
+type Props = {|
+  ...PeriodSelectProps,
+  className?: string,
+|}
+
+const PeriodSelect = ({
+  className,
+  onPeriodChange,
+  period,
+  periods,
+}: Props) => {
+  const handlePeriodChange = event => onPeriodChange(event.target.value)
+  const keyedValues = [{ key: 'All time' }]
+  const value = 'All time' // FIXME
   return (
-    <DropdownSwitcher
+    <DropdownSwitcher // TODO: rewrite using kit
       className={className}
       onChange={handlePeriodChange}
       value={value}

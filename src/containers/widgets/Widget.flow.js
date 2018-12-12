@@ -1,19 +1,17 @@
 // @flow strict-local
 import type {
-  CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
   OverviewPieChartProps,
-  PieChartCategories,
 } from 'components/OverviewPieChart'
-import type { BarData } from 'components/Charts/Bar'
+import { type LedgerPieChart } from 'data/models/pieData'
 import type { FooterClasses, FooterProps } from 'containers/widgets/Footer'
-
-type EmptyCb = () => void
-type TabSwitchCb = string => void
 
 export type Props = {|
   ...OverviewPieChartProps,
+  // FIXME: placeholders
+  rawPayments: Array<Object>, // flowlint-line unclear-type:off
+  rawPieData: LedgerPieChart,
   //
   barsFooterPadding: number,
   barsHeight: number,
@@ -24,18 +22,6 @@ export type Props = {|
   showCategoryCount: boolean,
   showOverviewTotals?: boolean,
   widgetSize: number,
-  // Handlers
-  onCategoryClick: CategoryCb,
-  onSeeAllClick: EmptyCb,
-  onTabSwitch: TabSwitchCb,
-  onCancelCategoryClick: EmptyCb,
-  // Selectors
-  barsData: BarData,
-  currentCategoryColor?: string,
-  currentCategoryName?: string,
-  paymentCount?: number,
-  pieItems: PieChartCategories,
-  tab: 'overview' | 'payments' | 'stories' | 'about',
   // Styles
   barChartClassName?: string,
   className?: string,

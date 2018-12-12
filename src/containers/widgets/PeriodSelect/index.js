@@ -1,2 +1,7 @@
-export { default as ConnectedPeriodSelect } from './ConnectedPeriodSelect'
-export { default as PeriodSelect } from './PeriodSelect'
+// @flow strict-local
+export { default } from './PeriodSelect'
+export type {
+  PeriodSelectProps,
+  Period,
+  OnPeriodChangeCb,
+} from './PeriodSelect'

@@ -10,8 +10,8 @@ import type {
   OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
-import { ConnectedPeriodSelect } from 'containers/widgets/PeriodSelect'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import PeriodSelect, { type PeriodSelectProps } from '../../PeriodSelect'
 import OverviewCategoryList from './OverviewCategoryList'
 
 const pieSize = R.cond([
@@ -47,6 +47,7 @@ const styles = {
 export type Props = {|
   ...OverviewPieChartProps,
   ...InjectStylesProps,
+  ...PeriodSelectProps,
   //
   CategoryList?: CategoryListComponent,
   onCategoryClick: CategoryCb,
@@ -67,14 +68,21 @@ const OverviewChart = ({
   pieClassName,
   pieItems,
   widgetSize,
+  // period select
+  onPeriodChange,
+  period,
+  periods,
   // omit
   pieTotalSelectClassName,
   pieTotalSelectLabel,
   ...pieChartProps
 }: Props) => (
   <>
-    <ConnectedPeriodSelect
+    <PeriodSelect
       className={cx(classes.periodSelect, periodSelectClassName)}
+      onPeriodChange={onPeriodChange}
+      period={period}
+      periods={periods}
     />
     <OverviewPieChart
       {...pieChartProps}
@@ -85,9 +93,9 @@ const OverviewChart = ({
       component={pieChartRootComponent}
       data={pieItems}
       pieTotalSelectLabel={dynamicPieTotalSelectLabel(widgetSize)}
-      pieTotalSelectClassName={{
+      pieTotalSelectClassName={cx({
         [classes.customPieTotalSelect]: widgetSize === 500,
-      }}
+      })}
     />
   </>
 )

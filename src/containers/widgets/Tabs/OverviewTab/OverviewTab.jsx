@@ -7,14 +7,14 @@ import type {
   OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
-import { ConnectedPeriodSelect } from 'containers/widgets/PeriodSelect'
+import PieTotalSelect from 'components/OverviewPieChart/PieTotalSelect'
 import Totals from 'containers/widgets/Totals'
 import Footer, {
   type FooterClasses,
   type FooterProps,
 } from 'containers/widgets/Footer'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import ConnectedPieTotalSelect from './ConnectedPieTotalSelect'
+import PeriodSelect, { type PeriodSelectProps } from '../../PeriodSelect'
 import JustCategoryList from './JustCategoryList'
 import OverviewChart from './OverviewChart'
 
@@ -37,6 +37,7 @@ type EmptyCb = () => void
 export type Props = {|
   ...OverviewPieChartProps,
   ...InjectStylesProps,
+  ...PeriodSelectProps,
   //
   categoryCount?: number,
   CategoryList?: CategoryListComponent,
@@ -77,6 +78,10 @@ const OverviewTab = ({
   pieTotalSelectable,
   showTotals,
   widgetSize,
+  // period select
+  onPeriodChange,
+  period,
+  periods,
 }: Props) => (
   <div className={contentClassName}>
     {showTotals && <Totals />}
@@ -86,6 +91,8 @@ const OverviewTab = ({
         className={chartClassName}
         onCategoryClick={onCategoryClick}
         onPieTotalChange={onPieTotalChange}
+        period={period}
+        periods={periods}
         pieChartRootComponent={pieChartRootComponent}
         pieClassName={pieClassName}
         pieItems={pieItems}
@@ -96,8 +103,16 @@ const OverviewTab = ({
     ) : (
       <>
         <div className={classes.selects}>
-          <ConnectedPeriodSelect />
-          <ConnectedPieTotalSelect className={classes.standaloneCategoryType} />
+          <PeriodSelect
+            onPeriodChange={onPeriodChange}
+            period={period}
+            periods={periods}
+          />
+          <PieTotalSelect
+            className={classes.standaloneCategoryType}
+            onChange={onPieTotalChange}
+            value={pieTotal}
+          />
         </div>
         <JustCategoryList
           onCategoryClick={onCategoryClick}

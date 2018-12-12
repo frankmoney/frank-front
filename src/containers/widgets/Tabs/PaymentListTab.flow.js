@@ -1,11 +1,15 @@
-// @flow
+// @flow strict-local
 import type { BarData } from 'components/Charts/Bar'
 import type { InjectStylesProps } from 'utils/styles'
+import type { PaymentsProps } from '../Payments'
+import type { PeriodSelectProps } from '../PeriodSelect'
 
 type EmptyCb = () => void
 
 export type Props = {|
   ...InjectStylesProps,
+  ...PaymentsProps,
+  ...PeriodSelectProps,
   //
   currentCategoryColor: string,
   currentCategoryName: string,

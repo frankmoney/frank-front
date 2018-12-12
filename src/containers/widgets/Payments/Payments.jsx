@@ -1,23 +1,10 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
-import cx from 'classnames'
 import D from 'date-fns/fp'
-import { compose } from 'recompose'
-import { createStructuredSelector } from 'reselect'
-import { connect } from 'react-redux'
 import CurrencyProvider from 'components/CurrencyProvider'
-import {
-  paymentsSelector,
-  showCategoriesSelector,
-} from 'containers/widgets/selectors'
-import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import PaymentBlock from './PaymentBlock'
 import type { PaymentProps } from './Payment.flow'
-
-const styles = {
-  root: {},
-}
 
 const dateProp = R.prop('postedOn')
 const fullMonthProp = R.pipe(
@@ -35,31 +22,33 @@ const groupPayments = R.pipe(
   }))
 )
 
-type Props = {|
-  ...InjectStylesProps,
-  //
-  data: Array<PaymentProps>,
+export type PaymentsProps = {|
+  paymentsData: Array<PaymentProps>,
   showCategories: boolean,
-  // Styles
+|}
+
+type Props = {|
+  ...PaymentsProps,
+  //
   blockClassName?: string,
   blockTitleClassName?: string,
+  className?: string,
   paymentClassName?: string,
 |}
 
 const Payments = ({
   blockClassName,
   blockTitleClassName,
-  classes,
   className,
-  data,
   paymentClassName,
+  paymentsData,
   showCategories,
 }: Props) => {
-  const groups = groupPayments(data)
+  const groups = groupPayments(paymentsData)
 
   return (
     <CurrencyProvider code="USD">
-      <div className={cx(classes.root, className)}>
+      <div className={className}>
         {R.map(
           group => (
             <PaymentBlock
@@ -77,12 +66,4 @@ const Payments = ({
   )
 }
 
-const mapStateToProps = createStructuredSelector({
-  data: paymentsSelector,
-  showCategories: showCategoriesSelector,
-})
-
-export default compose(
-  connect(mapStateToProps),
-  injectStyles(styles)
-)(Payments)
+export default Payments
