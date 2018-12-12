@@ -2,5 +2,5 @@ import ACTIONS from '../actions'
 
 export default action$ =>
   action$
-    .ofType(ACTIONS.publish)
+    .ofType(ACTIONS.updatePublished)
     .map(() => ACTIONS.createOrUpdate({ publish: true }))

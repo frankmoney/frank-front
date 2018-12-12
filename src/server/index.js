@@ -7,34 +7,40 @@ import initRoutes from './router'
 
 const isProd = process.env.NODE_ENV === 'production'
 const findUser = ({ graphqlClient, req }) => {
-  const promise = graphqlClient(
+  const mePromise = graphqlClient(
     `{
-      me {
+      user: me {
         id: pid
         email
         lastName
         firstName
       }
-      accounts {
-        id: pid
-        name
-      }
     }`
   )
 
-  return promise.then(
-    ({ me: user, accounts }) =>
-      user && {
+  return mePromise.then(({ user }) => {
+    if (user) {
+      const accountsPromise = graphqlClient(
+        `{
+            accounts {
+              id: pid
+              name
+            }
+          }`
+      )
+
+      return accountsPromise.then(({ accounts }) => ({
         ...user,
         accounts,
-        // last account is default
         accountId:
           req.cookies[ACCOUNT_COOKIE_NAME] ||
           (accounts && accounts.length > 0
             ? accounts[accounts.length - 1].id
             : null),
-      }
-  )
+      }))
+    }
+    return null
+  })
 }
 
 const server = new Server({

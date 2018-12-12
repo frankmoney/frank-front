@@ -1,28 +1,23 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { compose } from 'recompose'
+import { compose, renderNothing } from 'recompose'
 import { reduxForm } from 'redux-form-actions/immutable'
 import reconnect from 'utils/reconnect'
 import createUploaderField from 'controls/forms/createUploaderField'
+import ReduxFormControl from 'components/kit/ReduxFormControl'
 import TitleField from 'controls/forms/TitleField'
 import DescriptionField from 'controls/forms/DescriptionField'
 import StoryPayments from 'components/StoryPayments'
-import PaymentsSelectorDrawer from 'components/PaymentsSelectorDrawer'
+import PaymentsSelectDrawer from 'containers/admin/PaymentsSelect/PaymentsSelectDrawer'
+import DRAWER_ACTIONS from 'containers/admin/PaymentsSelect/actions'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import ACTIONS from '../actions'
 import {
   formInitialValuesSelector,
-  paymentsSelector,
   storySelectedPaymentsSelector,
   storySelectedPaymentsIdsSelector,
-  paymentsListMoreLoadingSelector,
-  paymentsListUpdatingSelector,
-  paymentsTotalPagesCounterSelector,
-  paymentsLoadedPagesCounterSelector,
-  paymentsFiltersSelector,
-  paymentsDrawerOpenedSelector,
 } from '../selectors'
-import ACTIONS from '../actions'
 import { FORM_NAME } from '../constants'
 import { CoverUploader } from './MediaUploader'
 import { validate } from './validation'
@@ -55,33 +50,24 @@ const styles = theme => ({
   },
 })
 
-const ConnectedPaymentsSelectorDrawer = compose(
+const ConnectedPaymentsSelectDrawer = compose(
   reconnect(
     {
-      open: paymentsDrawerOpenedSelector,
-      isLoadingMore: paymentsListMoreLoadingSelector,
-      isLoading: paymentsListUpdatingSelector,
-      payments: paymentsSelector,
-      filter: paymentsFiltersSelector,
-      selectedPayments: storySelectedPaymentsIdsSelector,
-      totalPagesCounter: paymentsTotalPagesCounterSelector,
-      loadedPagesCounter: paymentsLoadedPagesCounterSelector,
+      initialSelectedPayments: storySelectedPaymentsIdsSelector,
     },
     {
-      onChange: ACTIONS.modifyStoryPaymentsList,
-      onLoadMore: ACTIONS.loadMorePayments,
-      onFilter: ACTIONS.filterPayments,
-      onClose: ACTIONS.closePaymentsDrawer,
+      onApply: ACTIONS.modifyStoryPaymentsList,
     }
   )
-)(PaymentsSelectorDrawer)
+)(PaymentsSelectDrawer)
 
 const ConnectedStoryPayments = reconnect(
   {
     payments: storySelectedPaymentsSelector,
   },
   {
-    onEdit: ACTIONS.openPaymentsDrawer,
+    onEdit: () => DRAWER_ACTIONS.open({ pending: false, verified: true }),
+    onRemovePayment: id => ACTIONS.modifyStoryPaymentsList({ removeIds: [id] }),
   }
 )(StoryPayments)
 
@@ -109,9 +95,10 @@ const StoryEditForm = ({ classes, className }: Props) => (
         placeholder="Your story..."
       />
     </div>
+    <ReduxFormControl.Field name="payments" component={renderNothing} />
 
     <ConnectedStoryPayments />
-    <ConnectedPaymentsSelectorDrawer />
+    <ConnectedPaymentsSelectDrawer />
   </div>
 )
 

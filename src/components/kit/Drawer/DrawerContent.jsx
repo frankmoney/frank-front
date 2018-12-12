@@ -36,7 +36,6 @@ class DrawerContent extends React.Component {
   }
 
   componentDidMount() {
-    this.checkOverflow()
     window.addEventListener('resize', this.handleResize)
   }
 
@@ -46,9 +45,23 @@ class DrawerContent extends React.Component {
 
   handleRef = ref => {
     this.element = unsafeFindDOMNode(ref)
+    if (typeof this.props.scrollRef === 'function') {
+      this.props.scrollRef(ref)
+    }
+    if (this.element) {
+      setImmediate(this.checkOverflow)
+    }
   }
 
-  handleScroll = throttle(() => {
+  handleScroll = () => {
+    if (this.element && typeof this.props.onScroll === 'function') {
+      this.props.onScroll(this.element.scrollTop)
+    }
+
+    this.handleScrollThrottle()
+  }
+
+  handleScrollThrottle = throttle(() => {
     this.checkOverflow()
   }, 100)
 
@@ -96,14 +109,30 @@ class DrawerContent extends React.Component {
       inset,
       disableOverflowTop,
       disableOverflowBottom,
+      onScroll,
+      scrollRef,
+      children,
       ...otherProps
     } = this.props
     const { overflow } = this.state
 
+    const isRenderProps = typeof children === 'function'
+
+    const content = isRenderProps
+      ? children({
+          onScroll: this.handleScroll,
+          scrollRef: this.handleRef,
+        })
+      : children
+
     return (
       <div
-        ref={this.handleRef}
-        onScroll={this.handleScroll}
+        {...(isRenderProps
+          ? {}
+          : {
+              onScroll: this.handleScroll,
+              ref: this.handleRef,
+            })}
         className={cx(
           classes.root,
           {
@@ -116,7 +145,9 @@ class DrawerContent extends React.Component {
           className
         )}
         {...otherProps}
-      />
+      >
+        {content}
+      </div>
     )
   }
 }

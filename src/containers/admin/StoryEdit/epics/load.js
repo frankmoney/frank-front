@@ -5,13 +5,13 @@ import QUERIES from '../queries'
 export default (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.load)
-    .switchMap(async ({ payload: storyPid }) => {
+    .switchMap(async ({ payload: storyId }) => {
       const state = store.getState()
-      const accountPid = currentAccountIdSelector(state)
+      const accountId = currentAccountIdSelector(state)
 
       const result = await Promise.all([
-        storyPid
-          ? graphql(QUERIES.getStory, { accountPid, storyPid })
+        storyId
+          ? graphql(QUERIES.getStory, { accountId, storyId })
           : Promise.resolve({}),
       ])
 

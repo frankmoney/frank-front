@@ -26,7 +26,7 @@ export const isDirtySelector = isDirty(FORM_NAME)
 export const isNewStorySelector = createSelector(
   storySelector,
   R.pipe(
-    R.prop('pid'),
+    R.prop('id'),
     R.isNil
   )
 )
@@ -89,22 +89,31 @@ export const formInitialValuesSelector = createSelector(
 
 const storyEditFormValueSelector = formValueSelector(FORM_NAME)
 
+export const validSelector = state => isValid(FORM_NAME)(state)
+
+export const dirtySelector = state => isDirty(FORM_NAME)(state)
+
 export const isSaveButtonDisabledSelector = createSelector(
-  isValid(FORM_NAME),
-  isDirty(FORM_NAME),
+  dirtySelector,
   isProcessingSelector,
-  (valid, dirty, processing) => processing || !dirty || !(valid && dirty)
+  (dirty, processing) => processing || !dirty
 )
 
 export const saveButtonLabelSelector = createSelector(
-  isDirty(FORM_NAME),
+  dirtySelector,
   savedSelector,
   (dirty, saved) => (saved && !dirty ? 'Saved' : 'Save')
 )
 
+export const updateButtonLabelSelector = createSelector(
+  dirtySelector,
+  savedSelector,
+  (dirty, saved) => (saved && !dirty ? 'Updated' : 'Update')
+)
+
 export const isPublishButtonDisabledSelector = createSelector(
-  isValid(FORM_NAME),
-  isDirty(FORM_NAME),
+  validSelector,
+  dirtySelector,
   isSavingSelector,
   isProcessingSelector,
   isDraftPublishedSelector,
@@ -113,23 +122,17 @@ export const isPublishButtonDisabledSelector = createSelector(
       return true
     }
     if (published) {
-      return !dirty || !valid
+      return false
     }
-    return dirty ? !valid : false
+    return !valid
   }
 )
 
 export const publishButtonLabelSelector = createSelector(
-  isValid(FORM_NAME),
-  isDirty(FORM_NAME),
+  validSelector,
+  dirtySelector,
   isPublishedSelector,
-  isDraftPublishedSelector,
-  (valid, dirty, storyPublished, draftPublished) => {
-    if (storyPublished) {
-      return draftPublished && !dirty ? 'Published' : 'Republish'
-    }
-    return 'Publish'
-  }
+  (valid, dirty, storyPublished) => (storyPublished ? 'Unpublish' : 'Publish')
 )
 
 export const isDeleteButtonDisabledSelector = createSelector(
@@ -145,28 +148,3 @@ export const storySelectedPaymentsIdsSelector = createSelector(
   storySelectedPaymentsSelector,
   R.map(R.prop('id'))
 )
-
-export const paymentsFilterDateMinSelector = get('paymentsFilterDateMin')
-
-export const paymentsFilterDateMaxSelector = get('paymentsFilterDateMax')
-
-export const paymentsFiltersSelector = createSelector(
-  paymentsFilterDateMinSelector,
-  paymentsFilterDateMaxSelector,
-  (dateMin, dateMax) => ({
-    dateMin: dateMin || null,
-    dateMax: dateMax || null,
-  })
-)
-
-export const paymentsLoadedPagesCounterSelector = get(
-  'paymentsLoadedPagesCount'
-)
-
-export const paymentsTotalPagesCounterSelector = get('paymentsTotalPagesCount')
-
-export const paymentsListUpdatingSelector = get('paymentsListLoading')
-export const paymentsListMoreLoadingSelector = get('paymentsListMoreLoading')
-
-export const paymentsSelector = createPlainObjectSelector(get('payments'))
-export const paymentsDrawerOpenedSelector = get('paymentsDrawerOpen')

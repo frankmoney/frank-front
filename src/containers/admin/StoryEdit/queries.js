@@ -1,11 +1,11 @@
 const storyFields = `
-  pid
+  id: pid
   title
   publishedAt
 `
 
 const storyDraftFields = `
-  pid
+  id: pid
   title
   cover
   body
@@ -34,13 +34,13 @@ export default {
   getPayments: [
     `
     query(
-      $accountPid: ID!
+      $accountId: ID!
       $postedOnMin: Date
       $postedOnMax: Date
       $take: Int
       $skip: Int
     ) {
-      account(pid: $accountPid) {
+      account(pid: $accountId) {
         payments(
           sortBy: postedOn_DESC
           postedOnMin: $postedOnMin
@@ -58,11 +58,11 @@ export default {
   countPayments: [
     `
     query(
-      $accountPid: ID!
+      $accountId: ID!
       $postedOnMin: Date
       $postedOnMax: Date
     ) {
-      account(pid: $accountPid) {
+      account(pid: $accountId) {
         countPayments(
           postedOnMin: $postedOnMin
           postedOnMax: $postedOnMax
@@ -75,11 +75,11 @@ export default {
   getStory: [
     `
     query(
-      $accountPid: ID!
-      $storyPid: ID!
+      $accountId: ID!
+      $storyId: ID!
     ) {
-      account(pid: $accountPid) {
-        story(pid: $storyPid) {
+      account(pid: $accountId) {
+        story(pid: $storyId) {
           ${storyFields}
           draft {
             ${storyDraftFields}
@@ -98,18 +98,18 @@ export default {
   createStory: [
     `
     mutation(
-      $accountPid: ID!
+      $accountId: ID!
       $title: String
       $cover: JSON
       $body: JSON
-      $paymentPids: [ID!]
+      $paymentIds: [ID!]
     ) {
       storyCreate(
-        accountPid: $accountPid
+        accountPid: $accountId
         title: $title
         cover: $cover
         body: $body
-        paymentPids: $paymentPids
+        paymentPids: $paymentIds
       ) {
         ${storyFields}
         draft {
@@ -128,9 +128,9 @@ export default {
   deleteStory: [
     `
     mutation(
-      $storyPid: ID!
+      $storyId: ID!
     ) {
-      storyDelete(pid: $storyPid) {
+      storyDelete(pid: $storyId) {
         pid
       }
     }
@@ -140,9 +140,9 @@ export default {
   unpublishStory: [
     `
     mutation(
-      $storyPid: ID!
+      $storyId: ID!
     ) {
-      storyUnpublish(pid: $storyPid) {
+      storyUnpublish(pid: $storyId) {
         ${storyFields}
         draft {
           ${storyDraftFields}
@@ -160,18 +160,18 @@ export default {
   updateStoryDraft: [
     `
     mutation(
-      $pid: ID!
+      $id: ID!
       $title: String
       $cover: JSON
       $body: JSON
-      $paymentPids: [ID!]
+      $paymentIds: [ID!]
     ) {
       storyDraftUpdate(
-        pid: $pid
+        pid: $id
         title: $title
         cover: $cover
         body: $body
-        paymentPids: $paymentPids
+        paymentPids: $paymentIds
       ) {
         story {
           ${storyFields}
@@ -192,10 +192,10 @@ export default {
   publishStoryDraft: [
     `
     mutation(
-      $draftPid: ID!
+      $draftId: ID!
     ) {
       storyDraftPublish(
-        pid: $draftPid
+        pid: $draftId
       ) {
         story {
           ${storyFields}

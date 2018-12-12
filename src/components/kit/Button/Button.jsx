@@ -33,6 +33,7 @@ export type ButtonProps = {|
   loading: boolean,
   Mixins?: ButtonMixins,
   stretch: boolean,
+  compactHeight: boolean,
 |}
 
 type Props = {|
@@ -51,6 +52,7 @@ const Button = ({
   hover,
   loading,
   stretch,
+  compactHeight,
   // content
   label,
   counter,
@@ -74,6 +76,7 @@ const Button = ({
         [classes.focus]: focus,
         [classes.hover]: hover,
         [classes.stretch]: stretch,
+        [classes.compactHeight]: compactHeight,
       },
       className
     )}

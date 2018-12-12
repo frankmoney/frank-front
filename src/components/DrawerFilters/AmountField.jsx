@@ -23,25 +23,31 @@ const parseNumber = value => {
   return isNaN(number) ? null : number
 }
 
-const AmountField = ({ classes, from, to, onChange }) => (
+const AmountField = ({ classes, min, max, from, to, onChange }) => (
   <Drawer.Field label="Amount">
     <div className={classes.wrap}>
       <TextField
         stretch
         value={from || ''}
         label="min"
+        placeholder={min}
         onChange={({ target: { value } }) =>
           onChange({ min: parseNumber(value), max: to })
         }
         className={classes.field}
+        adornment="$"
+        adornmentWidth={12}
       />
       <TextField
         value={to || ''}
         label="max"
+        placeholder={max}
         onChange={({ target: { value } }) =>
           onChange({ min: from, max: parseNumber(value) })
         }
         className={classes.field}
+        adornment="$"
+        adornmentWidth={12}
       />
     </div>
   </Drawer.Field>
