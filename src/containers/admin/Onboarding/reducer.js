@@ -82,7 +82,7 @@ const getStepData = session => {
       currentStep: 'accountInfo',
       session,
       stepData: {
-        accountName: account.frankName || account.name,
+        accountName: account.frankTitle,
         accountDescription: account.frankDescription,
       },
     }

@@ -112,7 +112,11 @@ export const selectedAccountIdSelector = get('stepData', 'selectedAccountId')
 
 // Step: AccountInfo
 const isAccountInfoFormValid = isFormValid(ACCOUNT_FORM)
-export const accountInfoInitialValuesSelector = R.always({})
+export const accountInfoInitialValuesSelector = createSelector(
+  get('stepData', 'accountName'),
+  get('stepData', 'accountDescription'),
+  (name, description) => ({ name, description })
+)
 
 export const accountInfoFormSelector = createPlainObjectSelector(
   getFormValues(ACCOUNT_FORM)
