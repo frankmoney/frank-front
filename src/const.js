@@ -68,6 +68,7 @@ export const ROUTES = {
     switches: '/demo/switches',
     widgets: '/demo/widgets',
     forms: '/demo/forms',
+    palette: '/demo/palette',
   },
 }
 
@@ -110,6 +111,16 @@ export const CATEGORY_COLORS = {
   '#574D43': 'Brown',
   '#CAB268': 'Sorrell Brown',
 }
+
+export const CATEGORY_PALETTE = [
+  ['#FFDD5B', '#FED432', '#FBBA28', '#F68618'],
+  ['#C88F58', '#9E7147', '#815328', '#703D0D'],
+  ['#F15D59', '#E64238', '#DB382F', '#C22222'],
+  ['#E73E79', '#D21D62', '#C11859', '#8E1050'],
+  ['#A946BA', '#8E25A6', '#7A1D9F', '#4D168D'],
+  ['#7C57C1', '#5F35B1', '#512DA7', '#331C91'],
+  ['#43A0F0', '#1E85E1', '#1972CE', '#015CA2'],
+]
 
 export const DEFAULT_CATEGORIES = [
   {
