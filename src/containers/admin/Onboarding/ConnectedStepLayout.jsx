@@ -5,14 +5,14 @@ import {
   canGoBackSelector,
   canGoNextSelector,
   loadingBackSelector,
-  loadingNextSelector,
+  isLoadingNextOrPollingSelector,
 } from './selectors'
 
 export default reconnect(
   {
     canGoBack: canGoBackSelector,
     canGoNext: canGoNextSelector,
-    loadingNext: loadingNextSelector,
+    loadingNext: isLoadingNextOrPollingSelector,
     loadingBack: loadingBackSelector,
   },
   {

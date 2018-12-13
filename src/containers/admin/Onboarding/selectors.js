@@ -81,6 +81,12 @@ export const isCredentialsErrorSelector = createSelector(
   ])
 )
 
+export const isLoadingNextOrPollingSelector = createSelector(
+  loadingNextSelector,
+  isCredentialsCheckingSelector,
+  R.or
+)
+
 export const credentialsFieldsSelector = createPlainObjectSelector(
   get('stepData', 'fields')
 )
@@ -134,21 +140,13 @@ export const teamMembersSelector = createPlainObjectSelector(
 export const canGoNextSelector = createSelector(
   currentStepSelector,
   selectedBankIdSelector,
-  isCredentialsCheckingSelector,
   isCredentialsFormValid,
   selectedAccountIdSelector,
   isAccountInfoFormValid,
-  (
-    step,
-    selectedBankId,
-    isCredentialsChecking,
-    isCredentialsValid,
-    accountId,
-    isAccountInfoValid
-  ) =>
+  (step, selectedBankId, isCredentialsValid, accountId, isAccountInfoValid) =>
     (step === 'bank' && !!selectedBankId) ||
-    (step === 'credentials' && isCredentialsValid && !isCredentialsChecking) ||
-    (step === 'mfa' && isCredentialsValid && !isCredentialsChecking) ||
+    (step === 'credentials' && isCredentialsValid) ||
+    (step === 'mfa' && isCredentialsValid) ||
     (step === 'account' && accountId) ||
     (step === 'accountInfo' && isAccountInfoValid) ||
     step === 'categories' ||

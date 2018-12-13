@@ -43,7 +43,7 @@ const styles = {
 
 const renderField = ({
   classes,
-  isChecking,
+  disabled,
   label,
   guid: id,
   type,
@@ -64,7 +64,7 @@ const renderField = ({
       <OptionsField
         className={classes.optionsField}
         name={id}
-        disabled={isChecking}
+        disabled={disabled}
       >
         {options.map(({ label: optionLabel, value }) => (
           <OptionsListItem primaryText={optionLabel} value={value} />
@@ -76,7 +76,7 @@ const renderField = ({
       <ImageOptionsField
         name={id}
         className={classes.imageOptionsField}
-        disabled={isChecking}
+        disabled={disabled}
       >
         {imageOptions.map(({ value, dataUri }) => (
           <ImageListItem value={value} src={dataUri} />
@@ -100,7 +100,7 @@ const renderField = ({
         disableAutoComplete
         type={type === 'PASSWORD' ? 'password' : 'text'}
         autoFocus={idx === 0}
-        disabled={isChecking}
+        disabled={disabled}
         onKeyPress={handleTextFieldKeyPress}
       />
     </>
@@ -117,12 +117,12 @@ const renderMainLabel = fields => {
   return null
 }
 
-const StepForm = ({ classes, fields, submit, isChecking }) => (
+const StepForm = ({ classes, fields, submit, disabled }) => (
   <>
     {renderMainLabel(fields)}
     <div className={classes.form}>
       {fields.map((field, idx) =>
-        renderField({ ...field, classes, onSubmit: submit, isChecking, idx })
+        renderField({ ...field, classes, onSubmit: submit, disabled, idx })
       )}
     </div>
   </>

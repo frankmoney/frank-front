@@ -29,7 +29,16 @@ const StepLayout = ({
   centered,
   children,
 }) => (
-  <div className={cx(classes.root, centered && classes.centered, className)}>
+  <div
+    className={cx(
+      classes.root,
+      {
+        [classes.centered]: centered,
+        [classes.disabled]: loadingNext || loadingBack,
+      },
+      className
+    )}
+  >
     <Link to={ROUTES.root}>
       <FrankLogo className={classes.logo} />
     </Link>
@@ -42,6 +51,7 @@ const StepLayout = ({
             color="gray"
             icon={<ArrowBack />}
             loading={loadingBack}
+            disabled={loadingNext}
             onClick={() => onBack()}
             {...backButtonProps}
           />
@@ -56,7 +66,7 @@ const StepLayout = ({
           label={nextLabel}
           color="green"
           {...nextButtonProps}
-          disabled={!canGoNext}
+          disabled={!canGoNext || loadingBack}
           loading={loadingNext}
           onClick={() => onNext()}
         />

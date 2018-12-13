@@ -50,4 +50,7 @@ export default theme => ({
       justifyContent: 'center',
     },
   },
+  disabled: {
+    pointerEvents: 'none',
+  },
 })
