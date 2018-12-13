@@ -34,15 +34,15 @@ const parseValue = (value: ?boolean): VerificationValue => {
 }
 
 const VerificationField = ({ value, onChange }: Props) => (
-  <Drawer.Field label="Verification">
+  <Drawer.Field label="Published">
     <SelectField
       stretch
       value={parseValue(value)}
       onChange={v => onChange(formatValue(v))}
     >
       <MenuItem value="all" label="All payments" />
-      <MenuItem value="verified" label="Verified only" />
-      <MenuItem value="not_verified" label="Not verified only" />
+      <MenuItem value="verified" label="Published only" />
+      <MenuItem value="not_verified" label="Not published only" />
     </SelectField>
   </Drawer.Field>
 )

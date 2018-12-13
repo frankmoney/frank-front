@@ -1,6 +1,7 @@
 // @flow strict
 import * as R from 'ramda'
 import type { Category } from 'data/models/category'
+import { UNCATEGORIZED_CATEGORY } from 'const'
 
 type LedgerPieChartItem = {|
   category: ?Category,
@@ -24,11 +25,20 @@ export type PieChartCategory = {|
 
 export type PieChartItems = Array<PieChartCategory>
 
-const UNCATEGORIZED: Category = {
-  color: '#B3B3B3',
-  id: '#Uncategorized',
-  name: '#Uncategorized',
-}
+type PieDataMapperOptions = {|
+  nameEmptyCategoryAs: string,
+|}
+
+type PieDataMapperFn = (
+  percentageOf: PieTotal,
+  data: LedgerPieChart
+) => PieChartItems
+
+type CreatePieDataMapperFn = PieDataMapperOptions => PieDataMapperFn
+
+type AddFillerFn = number => PieChartItems => PieChartItems
+
+type ForceFn = (percentageOf: PieTotal, data: LedgerPieChart) => PieTotal
 
 export const FILLER: Category = {
   color: '#EFEFEF',
@@ -53,13 +63,12 @@ const sortByValueDescend: PieChartItems => PieChartItems = R.sortBy(
 const toPieChartCategory = (
   category: ?Category,
   value: number,
-  total: number
+  total: number,
+  uncategorizedName
 ): PieChartCategory => ({
   value: percentOf(value, total),
-  ...(category || UNCATEGORIZED),
+  ...(category || { ...UNCATEGORIZED_CATEGORY, name: uncategorizedName }),
 })
-
-type AddFillerFn = number => PieChartItems => PieChartItems
 
 const addFiller: AddFillerFn = total => items => {
   if (total <= 0) {
@@ -71,24 +80,20 @@ const addFiller: AddFillerFn = total => items => {
     : items
 }
 
-type RemapFn = (percentageOf: PieTotal, data: LedgerPieChart) => PieChartItems
-
-export const remapPieData: RemapFn = (
-  percentageOf,
-  { items, totalRevenue, totalSpending }
-) => {
+export const createPieDataMapper: CreatePieDataMapperFn = ({
+  nameEmptyCategoryAs = 'Uncategorized',
+}) => (percentageOf, { items, totalRevenue, totalSpending }) => {
   const total = percentageOf === 'spending' ? totalSpending : totalRevenue
+
   return R.pipe(
     R.map(({ spending, category }: LedgerPieChartItem) =>
-      toPieChartCategory(category, spending, total)
+      toPieChartCategory(category, spending, total, nameEmptyCategoryAs)
     ),
     sortByValueDescend,
     addFiller(total),
     roundValues
   )(items)
 }
-
-type ForceFn = (percentageOf: PieTotal, data: LedgerPieChart) => PieTotal
 
 export const forceValidPieTotal: ForceFn = (
   total,
