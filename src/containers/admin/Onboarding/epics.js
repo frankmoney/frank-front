@@ -21,7 +21,7 @@ export const loadEpic = (action$, store, { graphql }) =>
     .ofType(ACTIONS.load)
     .switchMap(() => graphql(QUERIES.getOnboardingSession))
     .switchMap(async session => {
-      if (session.step === 'team') {
+      if (session && session.step === 'team') {
         const team = await graphql(QUERIES.getTeam)
         return { ...session, team }
       }

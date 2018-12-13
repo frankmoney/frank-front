@@ -34,6 +34,12 @@ export const selectedBankLogoSelector = get(
   'selectedBank',
   'mediumLogoUrl'
 )
+export const sessionBankNameSelector = get('session', 'institution', 'name')
+export const sessionBankImageSelector = get(
+  'session',
+  'institution',
+  'mediumLogoUrl'
+)
 
 // Banks
 
