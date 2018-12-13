@@ -24,6 +24,7 @@ type Props = {|
   className?: string,
   confirmButtonProps?: React.ElementConfig<typeof Button>,
   confirmLabel: string,
+  disableCloseOnConfirm?: boolean,
   danger: boolean,
   message?: string,
   onCancel?: EmptyCb,
@@ -42,6 +43,7 @@ const ConfirmDialog = ({
   onCancel,
   onClose,
   onConfirm,
+  disableCloseOnConfirm,
   title,
   // omit
   classes,
@@ -60,7 +62,7 @@ const ConfirmDialog = ({
       />
       <DialogButton
         color={danger ? 'red' : 'green'}
-        onClick={chainCallbacks(onConfirm, onClose)}
+        onClick={chainCallbacks(onConfirm, !disableCloseOnConfirm && onClose)}
         label={confirmLabel}
         {...confirmButtonProps}
       />

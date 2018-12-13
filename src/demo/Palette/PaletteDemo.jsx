@@ -7,11 +7,7 @@ import Palette from 'components/kit/Palette'
 import { CATEGORY_PALETTE } from 'const'
 
 const styles = theme => ({
-  paletteWrap: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-  },
+  paletteWrap: {},
   paletteValue: {
     marginTop: 30,
     textAlign: 'center',
@@ -29,7 +25,7 @@ const PaletteDemo = ({ classes }) => (
     <PaletteState>
       {state => (
         <Row centered>
-          <div className={classes.palletteWrap}>
+          <div className={classes.paletteWrap}>
             <Palette palette={CATEGORY_PALETTE} {...state} />
             <div className={classes.paletteValue}>
               {state.value || 'Nothing selected'}

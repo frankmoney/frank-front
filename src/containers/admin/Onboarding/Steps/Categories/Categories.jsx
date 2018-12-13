@@ -92,14 +92,18 @@ const Categories = ({
           onDeleteAll={onDeleteAll}
         />
       )}
-    <EditCategoryDialog
-      category={editingCategory}
-      open={openEditDialog}
-      onCancel={onCancelEdit}
-      onSubmitForm={onSubmitEdit}
-    />
+    {openEditDialog && (
+      <EditCategoryDialog
+        category={editingCategory}
+        open={openEditDialog}
+        onCancel={onCancelEdit}
+        onSubmitForm={onSubmitEdit}
+      />
+    )}
   </StepLayout>
 )
+
+const noargs = fn => () => fn()
 
 export default compose(
   reconnect(
@@ -111,13 +115,13 @@ export default compose(
       empty: emptyCategoriesSelector,
     },
     {
-      onAddCategory: ACTIONS.addNewCategory,
+      onAddCategory: noargs(ACTIONS.addNewCategory),
       onEditCategory: ACTIONS.editCategory,
       onDeleteCategory: ACTIONS.removeCategory,
-      onCancelEdit: ACTIONS.cancelEditCategory,
+      onCancelEdit: noargs(ACTIONS.cancelEditCategory),
       onSubmitEdit: ACTIONS.submitEditCategory,
-      onDeleteAll: ACTIONS.cleanAllCategories,
-      onRestoreCategories: ACTIONS.restoreCategories,
+      onDeleteAll: noargs(ACTIONS.cleanAllCategories),
+      onRestoreCategories: noargs(ACTIONS.restoreCategories),
     }
   ),
   injectStyles(styles)

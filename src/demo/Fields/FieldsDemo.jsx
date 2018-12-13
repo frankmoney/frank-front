@@ -1,6 +1,7 @@
 // @flow strict-local
 import React from 'react'
 import { Search as IconSearch } from 'material-ui-icons'
+import CategoryTextField from 'components/kit/CategoryTextField'
 import Demo, { Row } from 'demo/Demo'
 import Switch from 'components/kit/Switch'
 import SwitchBase from 'components/kit/SwitchBase'
@@ -309,6 +310,15 @@ const FieldsDemo = ({ classes }) => {
         >
           <TextBox />
         </Field>
+      </Row>
+      <h2>Category adornment</h2>
+      <Row centered>
+        <CategoryTextField
+          label="Category name"
+          placeholder="Type category name"
+          color="#512DA7"
+          defaultValue="Investments"
+        />
       </Row>
       <SwitchBase defaultOn>
         {({ on: disabled, toggle }) => (

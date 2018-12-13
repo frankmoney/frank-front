@@ -6,16 +6,15 @@ const styles = {
   root: {
     display: 'flex',
     flexWrap: 'wrap',
+    outline: 'none',
   },
   sampleGroup: {
     display: 'flex',
     flexDirection: 'column',
   },
-  sample: {
-    outline: 'none',
-  },
+  sample: {},
   sampleSelected: {
-    border: '1px solid white',
+    border: '1px solid rgba(255,255,255,0.7)',
   },
 }
 
@@ -31,7 +30,12 @@ const getPaletteIndex = (color, palette) => {
 }
 
 const getPaletteNearbyColor = (direction, color, palette) => {
-  const [colorIdx, toneIdx] = getPaletteIndex(color, palette)
+  const palettePosition = getPaletteIndex(color, palette)
+  if (!palettePosition) {
+    return palette[0][0]
+  }
+
+  const [colorIdx, toneIdx] = palettePosition
   if (direction === 'up') {
     // move to upper tone
     const tones = palette[colorIdx]
@@ -54,8 +58,8 @@ const getPaletteNearbyColor = (direction, color, palette) => {
 class Palette extends React.Component {
   static defaultProps = {
     palette: [],
-    sampleWidth: 82,
-    sampleHeight: 42,
+    sampleWidth: 80,
+    sampleHeight: 40,
   }
 
   state = {
@@ -103,6 +107,10 @@ class Palette extends React.Component {
         this.setValue(getPaletteNearbyColor(direction, value, palette))
       }
     }
+
+    if (typeof this.props.onKeyDown === 'function') {
+      this.props.onKeyDown(event)
+    }
   }
 
   render() {
@@ -114,6 +122,7 @@ class Palette extends React.Component {
       sampleHeight,
       value: valueProp,
       onChange,
+      onKeyDown,
       ...otherProps
     } = this.props
 
