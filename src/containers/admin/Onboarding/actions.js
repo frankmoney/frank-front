@@ -27,6 +27,7 @@ export const submitEditCategory = createAction(
 )
 export const cleanAllCategories = createAction('onboarding/categories/clean')
 export const removeCategory = createAction('onboarding/categories/remove')
+export const restoreCategories = createAction('onboarding/categories/restore')
 
 // Step: Accounts
 export const accountSelect = createAction('onboarding/accounts/select')

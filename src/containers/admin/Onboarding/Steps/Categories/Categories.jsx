@@ -2,6 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
+import { Refresh as IconRefresh } from 'material-ui-icons'
 import Button from 'components/kit/Button'
 import EditCategoryDialog from 'components/EditCategoryDialog'
 import { OnboardingCategoryList } from 'components/admin/CategoryList'
@@ -15,6 +16,7 @@ import {
   editingCategorySelector,
   openEditCategoryDialogSelector,
   categoryTypeSelector,
+  emptyCategoriesSelector,
 } from '../../selectors'
 import * as ACTIONS from '../../actions'
 
@@ -40,6 +42,7 @@ const Categories = ({
   classes,
   categoryType,
   categories,
+  empty,
   editingCategory,
   openEditDialog,
   onCancelEdit,
@@ -48,10 +51,21 @@ const Categories = ({
   onSubmitEdit,
   onDeleteCategory,
   onDeleteAll,
+  onRestoreCategories,
 }) => (
   <StepLayout
     className={cx(classes.root, className)}
-    backLabel="Back to account info"
+    backButtonProps={
+      empty
+        ? {
+            label: 'Restore categories',
+            icon: <IconRefresh />,
+            onClick: () => onRestoreCategories(),
+          }
+        : {
+            label: 'Back to account info',
+          }
+    }
     footerButton={
       <Button
         color="blue"
@@ -61,7 +75,7 @@ const Categories = ({
       />
     }
   >
-    <StepTitle>{LIST_TITLE_BY_TYPE[categoryType]}</StepTitle>
+    <StepTitle>{PAGE_TITLE_BY_TYPE[categoryType]}</StepTitle>
     <StepDescription>
       To visualise your spending we require every payment to be categorized.
       <br />Please list all categories of your spending. You can edit it later
@@ -94,6 +108,7 @@ export default compose(
       openEditDialog: openEditCategoryDialogSelector,
       editingCategory: editingCategorySelector,
       categoryType: categoryTypeSelector,
+      empty: emptyCategoriesSelector,
     },
     {
       onAddCategory: ACTIONS.addNewCategory,
@@ -102,6 +117,7 @@ export default compose(
       onCancelEdit: ACTIONS.cancelEditCategory,
       onSubmitEdit: ACTIONS.submitEditCategory,
       onDeleteAll: ACTIONS.cleanAllCategories,
+      onRestoreCategories: ACTIONS.restoreCategories,
     }
   ),
   injectStyles(styles)

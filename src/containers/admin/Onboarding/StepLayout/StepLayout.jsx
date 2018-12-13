@@ -20,6 +20,7 @@ const StepLayout = ({
   nextLabel,
   nextButtonProps,
   backLabel,
+  backButtonProps,
   onNext,
   onBack,
   noFooter,
@@ -40,8 +41,9 @@ const StepLayout = ({
             label={backLabel}
             color="gray"
             icon={<ArrowBack />}
-            onClick={() => onBack()}
             loading={loadingBack}
+            onClick={() => onBack()}
+            {...backButtonProps}
           />
         ) : (
           <div />

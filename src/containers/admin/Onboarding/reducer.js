@@ -227,6 +227,10 @@ export default handleActions(
       state.mergeIn(['stepData'], {
         list: [],
       }),
+    [ACTIONS.restoreCategories]: state =>
+      state.mergeIn(['stepData'], {
+        list: getDefaultCategories(state.getIn(['stepData', 'categoryType'])),
+      }),
 
     // Team
     [ACTIONS.openInvite]: state =>

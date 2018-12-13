@@ -99,6 +99,11 @@ export const editingCategorySelector = createSelector(
   (list, id) => id && list && R.find(R.propEq('id', id), list)
 )
 
+export const emptyCategoriesSelector = createSelector(
+  categoriesSelector,
+  R.isEmpty
+)
+
 // Step: Select Account
 export const accountsSelector = createPlainObjectSelector(
   get('stepData', 'accounts')
