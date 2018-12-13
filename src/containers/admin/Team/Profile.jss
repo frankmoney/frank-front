@@ -29,10 +29,4 @@ export default theme => ({
   removeButton: {
     visibility: 'hidden',
   },
-  menu: {
-    color: 'rgba(37, 43, 67, 0.5)',
-  },
-  menuDeleteUserItem: {
-    color: '#ff3939',
-  },
 })

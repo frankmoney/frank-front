@@ -20,6 +20,14 @@ export const loadEpic = (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.load)
     .switchMap(() => graphql(QUERIES.getOnboardingSession))
+    .switchMap(async session => {
+      if (session.step === 'team') {
+        const team = await graphql(QUERIES.getTeam)
+        return { ...session, team }
+      }
+
+      return session
+    })
     .map(session =>
       ACTIONS.load.success({
         session,
@@ -100,13 +108,17 @@ export const nextStepEpic = (action$, store, { graphql }) =>
           : QUERIES.completeRevenueCategories
       )
 
+      if (session.step === 'team') {
+        const team = await graphql(QUERIES.getTeam)
+        session.team = team
+      }
+
       return [ACTIONS.goNext.success(session)]
     } else if (step === 'team') {
       const members = teamMembersSelector(state)
       await graphql(QUERIES.updateTeam, {
-        members: members.map(({ email, role, note }) => ({
+        members: members.map(({ email, note }) => ({
           email,
-          role,
           note,
         })),
       })

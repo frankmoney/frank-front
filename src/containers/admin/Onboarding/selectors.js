@@ -109,8 +109,11 @@ export const accountInfoFormSelector = createPlainObjectSelector(
 
 // Step: Team
 export const isInviteDrawerOpenSelector = get('stepData', 'inviteDrawerOpen')
+export const teamInvitesSelector = createPlainObjectSelector(
+  get('stepData', 'invites')
+)
 export const teamMembersSelector = createPlainObjectSelector(
-  get('stepData', 'members')
+  get('stepData', 'team', 'members')
 )
 
 export const canGoNextSelector = createSelector(

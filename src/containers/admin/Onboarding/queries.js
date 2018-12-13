@@ -172,4 +172,20 @@ export default {
     }`,
     ({ result }) => result,
   ],
+  getTeam: [
+    `query {
+      team {
+        id: pid
+        name
+        members {
+          id: pid
+          email
+          firstName
+          lastName
+          avatar
+        }
+      }
+    }`,
+    ({ team }) => team,
+  ],
 }

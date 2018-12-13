@@ -102,7 +102,8 @@ const getStepData = session => {
       currentStep: 'team',
       session,
       stepData: {
-        members: [],
+        invites: session.invites || [],
+        team: session.team,
       },
     }
   }
@@ -238,7 +239,7 @@ export default handleActions(
       }),
     [ACTIONS.submitInvite]: (state, { payload: invite }) =>
       state
-        .updateIn(['stepData', 'members'], list => list.push(fromJS(invite)))
+        .updateIn(['stepData', 'invites'], list => list.push(fromJS(invite)))
         .mergeIn(['stepData'], {
           inviteDrawerOpen: false,
         }),
