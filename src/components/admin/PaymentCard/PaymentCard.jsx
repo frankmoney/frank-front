@@ -196,7 +196,7 @@ const pickCardState = ({ category, peer, description = '' }) => ({
 
 export default compose(
   injectStyles(styles),
-  withPropsOnChange(['id', 'peerName', 'categoryId', 'description'], props => ({
+  withPropsOnChange(['id', 'peer', 'category', 'description'], props => ({
     initialValues: pickCardState(props),
     form: `payment-${props.id}`,
   })),
