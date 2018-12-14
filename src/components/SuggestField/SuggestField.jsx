@@ -14,7 +14,14 @@ const ForwardInputRef = React.forwardRef((inputProps, ref) => (
   <TextField controlRef={ref} {...inputProps} />
 ))
 
-type SuggestItem = { suggestion: string }
+type SuggestItem = {
+  text: string,
+  // value passed to input when suggesion is clicked, if empty `text` value will be used instead
+  inputValue?: string,
+  secondaryText?: string,
+  data: Object,
+  faint?: boolean,
+}
 
 type Props = {|
   ...InjectStylesProps,
@@ -30,7 +37,7 @@ class SuggestField extends React.PureComponent<Props> {
     value: '',
   }
 
-  getSuggestionValue = suggestion => suggestion
+  getSuggestionValue = suggestion => suggestion.inputValue || suggestion.text
 
   handleChange = (event, { newValue, suggestion, method }) => {
     if (suggestion) {
@@ -69,8 +76,13 @@ class SuggestField extends React.PureComponent<Props> {
 
   shouldRenderSuggestions = value => value.length > 1
 
-  renderSuggestion = (suggestion, { isHighlighted }) => (
-    <SuggestMenuItem active={isHighlighted} {...suggestion} />
+  renderSuggestion = ({ text, secondaryText, faint }, { isHighlighted }) => (
+    <SuggestMenuItem
+      active={isHighlighted}
+      text={text}
+      secondaryText={secondaryText}
+      faint={faint}
+    />
   )
 
   renderSuggestionsContainer = ({ containerProps, children }) => {

@@ -1,5 +1,4 @@
-const formatCount = (count, word) =>
-  `${count} ${word}${(count === 0 || count > 1) && 's'}`
+import pluralize from 'utils/pluralize'
 
 const suggestDescriptions = [
   `
@@ -26,7 +25,7 @@ const suggestDescriptions = [
     suggestedDescriptions.map(({ text, count }) => ({
       text,
       data: text,
-      secondaryText: formatCount(count, 'payment'),
+      secondaryText: pluralize('payment', count),
     })),
 ]
 
@@ -54,7 +53,7 @@ const suggestPeers = [
     peers.map(({ id, name, count }) => ({
       text: name,
       data: { id, name },
-      secondaryText: formatCount(count, 'payment'),
+      secondaryText: pluralize('payment', count),
     })),
 ]
 
