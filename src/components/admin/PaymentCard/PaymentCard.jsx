@@ -17,10 +17,12 @@ import CategorySelect from 'components/CategorySelect'
 import CurrencyDelta from 'components/CurrencyDelta'
 import BankDescription from 'components/common/BankDescription'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
+import reconnect from 'utils/reconnect'
 import DescriptionField from './DescriptionField'
 import EchoFormDataButton from './EchoFormDataButton'
 import PeerField from './PeerField'
 import styles from './PaymentCard.jss'
+import * as SELECTORS from './selectors'
 
 const validation = {
   categoryId: [required],
@@ -55,6 +57,9 @@ const PaymentCard = ({
   pristine,
   invalid,
   form: formName,
+  descriptionLoading,
+  peerLoading,
+  categoryLoading,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
@@ -77,6 +82,7 @@ const PaymentCard = ({
             placeholder="Specify recipient..."
             larger
             accountId={accountId}
+            loading={peerLoading}
           />
         </div>
         <div className={classes.category}>
@@ -90,6 +96,7 @@ const PaymentCard = ({
             label="Category"
             placeholder="Choose a category"
             larger
+            loading={categoryLoading}
           />
         </div>
       </div>
@@ -108,6 +115,7 @@ const PaymentCard = ({
             className={classes.field}
             paymentId={paymentId}
             accountId={accountId}
+            loading={descriptionLoading}
           />
         </div>
       </div>
@@ -216,6 +224,30 @@ export default compose(
       }
     },
   }),
+  reconnect((_, props) => ({
+    descriptionChanged: SELECTORS.descriptionChanged(props.form),
+    peerChanged: SELECTORS.peerChanged(props.form),
+    categoryChanged: SELECTORS.categoryChanged(props.form),
+  })),
+  withPropsOnChange(
+    ['saving'],
+    ({
+      saving,
+      description,
+      peer,
+      category,
+      descriptionChanged,
+      peerChanged,
+      categoryChanged,
+    }) =>
+      saving
+        ? {
+            descriptionLoading: !descriptionChanged && !description,
+            peerLoading: !peerChanged && !peer,
+            categoryLoading: !categoryChanged && !category,
+          }
+        : {}
+  ),
   withHandlers({
     onUpdateClick: props => () => {
       props.change('publishing', false)
