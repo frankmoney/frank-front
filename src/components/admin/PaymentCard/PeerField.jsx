@@ -13,5 +13,5 @@ export default compose(
     onSelect: ({ data: peer }) => onChange(peer.name),
     onChange: name => onChange(name),
   })),
-  withProps({ forceCurrentTextSuggestion: false })
+  withProps({ forceCurrentTextSuggestion: true })
 )(PaymentSuggestField)
