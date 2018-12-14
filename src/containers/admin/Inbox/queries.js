@@ -1,10 +1,3 @@
-const mapPayment = ({ peer, category, ...other }) => ({
-  ...other,
-  peerName: peer && peer.name,
-  peerId: peer && peer.id,
-  categoryId: category && category.id,
-})
-
 const PAYMENTS = `
 id: pid
 postedOn
@@ -66,7 +59,7 @@ export default {
   `,
     ({ account: { categories, payments, countPayments: totalCount } }) => ({
       categories,
-      payments: payments.map(mapPayment),
+      payments,
       totalCount,
     }),
   ],
@@ -75,25 +68,25 @@ export default {
     mutation(
       $accountId: ID!
       $paymentId: ID!
-      $peerId: ID
+      $description: String
       $peerName: String
       $categoryId: ID
-      $description: String
       $verified: Boolean
     ) {
-      payment: paymentUpdate(
+      result: paymentUpdate(
         accountPid: $accountId
         paymentPid: $paymentId
-        peerPid: $peerId
         peerName: $peerName
         categoryPid: $categoryId
         description: $description
         verified: $verified
       ) {
-        ${PAYMENTS}
+        payment {
+          ${PAYMENTS}
+        }
       }
     }
     `,
-    ({ payment }) => mapPayment(payment),
+    ({ result: { payment } }) => payment,
   ],
 }

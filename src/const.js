@@ -95,7 +95,7 @@ export const TEAM_ROLE_TITLES = {
   [TEAM_ROLES.observer]: 'Observer',
 }
 
-export const UNCATEGORIZED_COLOR = 'rgb(211, 213, 217)'
+export const UNCATEGORIZED_COLOR = 'rgba(37,43,67,0.2)'
 
 export const CATEGORY_COLORS = {
   '#3240A8': 'Navy Blue',
@@ -165,7 +165,7 @@ export const DEFAULT_INCOME_CATEGORIES = [
 ]
 
 export const UNCATEGORIZED_CATEGORY = {
-  id: 'UNCATEGORIZED_CATEGORY_ID',
+  id: '#UNCATEGORIZED',
   name: 'Uncategorized',
   color: UNCATEGORIZED_COLOR,
 }

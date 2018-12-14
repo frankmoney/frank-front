@@ -2,8 +2,7 @@ import React from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import { Public as PublicIcon } from 'material-ui-icons'
 import Paper from 'components/kit/Paper'
-import MenuItem from 'components/kit/Menu/MenuItem'
-import Menu from 'components/kit/Menu'
+import Menu, { MenuItem, MenuItemSeparator } from 'components/kit/Menu'
 import ArrowMenu from 'components/kit/ArrowMenu'
 import OptionsList from 'components/kit/OptionsList'
 import CategoryMenuItem from 'components/CategoryMenuItem'
@@ -132,6 +131,22 @@ const SelectListsDemo = ({ classes }) => (
           />
         </Menu>
       </div>
+    </div>
+    <h2>List separator</h2>
+    <div className={classes.rowCentered}>
+      <Menu style={{ width: 200 }}>
+        <CategoryMenuItem label="Marketing" color="#FF7970" value={0} />
+        <CategoryMenuItem label="Street outreach" color="#F8C018" value={1} />
+        <CategoryMenuItem
+          active
+          label="Advertising"
+          color="#19DAE7"
+          value={2}
+        />
+        <MenuItemSeparator />
+        <CategoryMenuItem active label="Grants" color="#21CB61" value={3} />
+        <CategoryMenuItem active label="Donations" color="#049371" value={4} />
+      </Menu>
     </div>
     <h2>Max visible items</h2>
     <div className={classes.rowCentered}>

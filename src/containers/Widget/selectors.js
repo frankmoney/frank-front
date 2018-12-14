@@ -4,7 +4,7 @@ import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import {
   forceValidPieTotal,
-  remapPieData,
+  createPieDataMapper,
   type LedgerPieChart,
   type PieChartItems,
   type PieTotal,
@@ -53,7 +53,7 @@ export const totalSelectableSelector: Selector<boolean> = createSelector(
 export const pieItemsSelector: Selector<PieChartItems> = createSelector(
   pieTotalSelector,
   rawPieDataSelector,
-  remapPieData
+  createPieDataMapper({ nameEmptyCategoryAs: 'Uncategorized' })
 )
 
 const selectedAllCategories = get('selectedAll')
