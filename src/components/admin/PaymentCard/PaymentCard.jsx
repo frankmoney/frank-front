@@ -7,7 +7,7 @@ import {
   FormatListBulleted as SimilarIcon,
 } from 'material-ui-icons'
 import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
-import { compose, withPropsOnChange, withState, withHandlers } from 'recompose'
+import { compose, withPropsOnChange, withHandlers } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
@@ -18,9 +18,9 @@ import CurrencyDelta from 'components/CurrencyDelta'
 import BankDescription from 'components/common/BankDescription'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import DescriptionField from './DescriptionField'
+import EchoFormDataButton from './EchoFormDataButton'
 import PeerField from './PeerField'
 import styles from './PaymentCard.jss'
-import UpdateInfoConfirmDialog from './UpdateInfoConfirmDialog'
 
 const validation = {
   categoryId: [required],
@@ -51,9 +51,7 @@ const PaymentCard = ({
   published,
   onSaveClick,
   onPublishClick,
-  confirmOpen,
-  handleCloseConfirm,
-  handleSubmitConfirm,
+  onUpdateClick,
   pristine,
   invalid,
   form: formName,
@@ -140,15 +138,29 @@ const PaymentCard = ({
         />
         ---NOT IN MVP--
         */}
-        <Button
-          width={95}
-          className={classes.rightButton}
-          label={published ? 'Update' : pristine ? 'Saved' : 'Save'}
-          color={published ? 'blue' : 'gray'}
-          disabled={saved || publishing || pristine}
-          loading={saving}
-          onClick={onSaveClick}
-        />
+        {published ? (
+          <Button
+            width={95}
+            className={classes.rightButton}
+            label={pristine ? 'Updated' : 'Update'}
+            color={'blue'}
+            disabled={saved || publishing || pristine}
+            loading={saving}
+            onClick={onUpdateClick}
+          />
+        ) : (
+          <EchoFormDataButton
+            form={formName}
+            width={95}
+            className={classes.rightButton}
+            label={pristine ? 'Saved' : 'Save'}
+            color={'gray'}
+            disabled={saved || publishing || pristine}
+            loading={saving}
+            onClick={onSaveClick}
+          />
+        )}
+
         {published && (
           <Button
             width={130}
@@ -173,12 +185,6 @@ const PaymentCard = ({
         )}
       </div>
     </div>
-    <UpdateInfoConfirmDialog
-      form={formName}
-      open={confirmOpen}
-      onConfirm={handleSubmitConfirm}
-      onClose={handleCloseConfirm}
-    />
   </Paper>
 )
 
@@ -190,7 +196,6 @@ const pickCardState = ({ category, peer, description = '' }) => ({
 
 export default compose(
   injectStyles(styles),
-  withState('confirmOpen', 'changeConfirmOpen', false),
   withPropsOnChange(['id', 'peerName', 'categoryId', 'description'], props => ({
     initialValues: pickCardState(props),
     form: `payment-${props.id}`,
@@ -201,6 +206,7 @@ export default compose(
     onSubmit: (data, _, props) => {
       const { publishing, ...otherData } = data.toJS()
       const payment = { paymentId: props.id, ...otherData }
+
       if (!publishing) {
         props.onPaymentSave(payment)
       } else if (props.published) {
@@ -211,13 +217,12 @@ export default compose(
     },
   }),
   withHandlers({
-    onSaveClick: props => () => {
-      if (props.published && props.invalid) {
-        props.changeConfirmOpen(true)
-      } else {
-        props.change('publishing', false)
-        setTimeout(() => props.submit(), 100)
-      }
+    onUpdateClick: props => () => {
+      props.change('publishing', false)
+      setTimeout(() => props.submit(), 100)
+    },
+    onSaveClick: props => (event, formData) => {
+      props.onPaymentSave({ paymentId: props.id, ...formData })
     },
     onPublishClick: props => () => {
       props.change('publishing', true)

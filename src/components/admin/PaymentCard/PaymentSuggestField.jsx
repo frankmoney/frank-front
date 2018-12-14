@@ -19,7 +19,8 @@ class PaymentSuggestField extends React.Component {
       // если саджест единственный и соответствует текущему значению
       list.length === 1 && list[0].text.trim() === search.trim()
         ? []
-        : list.length === 0 && !this.props.forceCurrentTextSuggestion
+        : // не показываем `use ""` когда это единственный саджест айтем, если не указан флаг forceCurrentTextSuggestion
+          list.length === 0 && !this.props.forceCurrentTextSuggestion
           ? list
           : [
               {
