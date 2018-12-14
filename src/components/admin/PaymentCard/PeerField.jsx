@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { compose, withPropsOnChange, getContext } from 'recompose'
+import { compose, withPropsOnChange, getContext, withProps } from 'recompose'
 import PaymentSuggestField from './PaymentSuggestField'
 import QUERY from './queries'
 
@@ -12,5 +12,6 @@ export default compose(
   withPropsOnChange(['onChange'], ({ onChange }) => ({
     onSelect: ({ data: peer }) => onChange(peer.name),
     onChange: name => onChange(name),
-  }))
+  })),
+  withProps({ forceCurrentTextSuggestion: false })
 )(PaymentSuggestField)
