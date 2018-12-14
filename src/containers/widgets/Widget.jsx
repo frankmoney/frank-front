@@ -9,7 +9,11 @@ import {
   type PieTotal,
 } from 'data/models/pieData'
 import reconnect from 'utils/reconnect'
-import TabbedLayout, { PAYMENTS_TAB, type WidgetTab } from './TabbedLayout'
+import TabbedLayout, {
+  OVERVIEW_TAB,
+  PAYMENTS_TAB,
+  type WidgetTab,
+} from './TabbedLayout'
 import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
 import type { Period } from './PeriodSelect'
 import { rawPaymentsSelector, rawPieDataSelector } from './selectors'
@@ -30,7 +34,7 @@ type State = {|
   currentCategory: ?Category,
   pieTotal: PieTotal,
   period: Period,
-  tab: ?WidgetTab,
+  tab: WidgetTab,
 |}
 
 const filterPayments = (categoryId, items) =>
@@ -43,7 +47,7 @@ class Widget extends React.PureComponent<Props, State> {
     currentCategory: null,
     pieTotal: 'income',
     period: 'All Time',
-    tab: null,
+    tab: OVERVIEW_TAB,
   }
 
   get currentCategoryId(): ?number {
@@ -80,13 +84,15 @@ class Widget extends React.PureComponent<Props, State> {
     return ['All time', '2018', 'TBD'] // TODO: dynamic list?
   }
 
+  handleTabSwitch = (tab: WidgetTab) => this.setState({ tab })
+
   handleCategorySelect = (category: Category) =>
     this.setState({ currentCategory: category, tab: PAYMENTS_TAB })
 
   handleCategoryCancel = () =>
     this.setState({
       currentCategory: null,
-      tab: null,
+      tab: OVERVIEW_TAB,
     })
 
   handlePieTotalChange = (pieTotal: PieTotal) => this.setState({ pieTotal })
@@ -131,6 +137,7 @@ class Widget extends React.PureComponent<Props, State> {
     return (
       <TabbedLayout
         className={className}
+        onTabSwitch={this.handleTabSwitch}
         tab={tab}
         OverviewTab={
           <OverviewTab
