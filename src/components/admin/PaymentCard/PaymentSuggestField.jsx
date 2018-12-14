@@ -1,10 +1,11 @@
 import React from 'react'
+import * as Rx from 'rxjs'
 import SuggestField from 'components/SuggestField'
 
 class PaymentSuggestField extends React.Component {
   static defaultProps = {
     suggestProps: {
-      shouldRenderSuggestions: () => true,
+      shouldRenderSuggestions: value => value.length > 0,
     },
     forceCurrentTextSuggestion: false,
   }
@@ -14,38 +15,20 @@ class PaymentSuggestField extends React.Component {
     suggestions: [],
   }
 
+  requestFetchSubject = new Rx.Subject()
+
   handleUpdateSuggest = search => {
-    const formatList = list =>
-      // если саджест единственный и соответствует текущему значению
-      list.length === 1 && list[0].text.trim() === search.trim()
-        ? []
-        : // не показываем `use ""` когда это единственный саджест айтем, если не указан флаг forceCurrentTextSuggestion
-          list.length === 0 && !this.props.forceCurrentTextSuggestion
-          ? list
-          : [
-              {
-                text: `Use “${search}”`,
-                inputValue: search,
-                data: search,
-                faint: true,
-              },
-              ...list,
-            ]
-
-    this.setState({
-      searching: true,
-    })
-
-    this.props.querySuggestions(search).then(list => {
+    if (!this.state.searching) {
       this.setState({
-        searching: false,
-        suggestions: formatList(list),
+        searching: true,
       })
-    })
+    }
+
+    this.requestFetchSubject.next(search)
   }
 
   handleClearSuggest = () => {
-    this.setState({ suggestions: [] })
+    this.setState({ suggestions: [], searching: false })
   }
 
   // TODO воркэраунд чтобы данный контрол работал с филдом редакс формы(редакс формы ожидает в блуре евент с таргетом инпута)
@@ -54,6 +37,37 @@ class PaymentSuggestField extends React.Component {
     if (typeof this.props.onBlur === 'function') {
       this.props.onBlur()
     }
+  }
+
+  formatList = (list, search) =>
+    // если саджест единственный и соответствует текущему значению
+    list.length === 1 && list[0].text.trim() === search.trim()
+      ? []
+      : // не показываем `use ""` когда это единственный саджест айтем, если не указан флаг forceCurrentTextSuggestion
+        list.length === 0 && !this.props.forceCurrentTextSuggestion
+        ? list
+        : [
+            {
+              text: `Use “${search}”`,
+              inputValue: search,
+              data: search,
+              faint: true,
+            },
+            ...list,
+          ]
+
+  componentDidMount() {
+    this.requestFetchSubject
+      .debounceTime(200)
+      .flatMap(search =>
+        this.props.querySuggestions(search).then(list => [search, list])
+      )
+      .subscribe(([search, list]) => {
+        this.setState({
+          searching: false,
+          suggestions: this.formatList(list, search),
+        })
+      })
   }
 
   render() {
