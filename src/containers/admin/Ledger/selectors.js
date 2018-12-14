@@ -14,7 +14,7 @@ import {
   DEFAULT_PIE_TOTAL,
   PIE_TOTAL_PARAMETER_NAME,
   forceValidPieTotal,
-  remapPieData,
+  createPieDataMapper,
   type LedgerPieChart,
   type PieChartItems,
   type PieTotal,
@@ -31,7 +31,6 @@ import {
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
-import { UNCATEGORIZED_CATEGORY } from 'const'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
@@ -43,10 +42,7 @@ export const listIsUpdatingSelector = get('updatingList')
 export const isTypingSelector = get('typing')
 export const paymentsTotalCountSelector = get('paymentsCount')
 export const categoriesSelector = createPlainObjectSelector(get('categories'))
-export const paymentCardCategoriesSelector = createSelector(
-  categoriesSelector,
-  R.insert(0, UNCATEGORIZED_CATEGORY)
-)
+export const paymentCardCategoriesSelector = categoriesSelector
 
 export const paymentsSelector = createPlainObjectSelector(get('payments'))
 
@@ -239,7 +235,12 @@ const rawPieDataSelector: Selector<LedgerPieChart> = createPlainObjectSelector(
 export const chartsVisibleSelector = createSelector(
   noTextSearchSelector,
   rawPieDataSelector,
-  (noSearch, { items }: LedgerPieChart) => noSearch && R.length(items) > 0
+  currentFiltersSelector,
+  (noSearch, { items }: LedgerPieChart, filters) =>
+    noSearch &&
+    R.length(items) > 0 &&
+    // means show only Unpublished or without category
+    filters.verified !== false
 )
 
 export const pieTotalSelector: Selector<PieTotal> = createSelector(
@@ -257,7 +258,7 @@ export const totalSelectableSelector: Selector<boolean> = createSelector(
 export const pieItemsSelector: Selector<PieChartItems> = createSelector(
   pieTotalSelector,
   rawPieDataSelector,
-  remapPieData
+  createPieDataMapper({ nameEmptyCategoryAs: 'Unpublished' })
 )
 
 export const isPaymentSavingSelector = R.memoizeWith(R.identity, id =>

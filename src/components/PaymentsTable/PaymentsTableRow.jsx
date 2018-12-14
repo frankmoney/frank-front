@@ -98,15 +98,7 @@ const styles = theme => ({
 const PaymentsTableRow = ({
   classes,
   className,
-  data: {
-    description,
-    peerName,
-    amount,
-    category,
-    postedOn,
-    published,
-    pending,
-  },
+  data: { description, peer, amount, category, postedOn, published, pending },
   tall,
   short,
   canEdit,
@@ -140,10 +132,10 @@ const PaymentsTableRow = ({
             )}
           </div>
           <div className={classes.info}>
-            {peerName && (
+            {peer && (
               <div className={classes.client}>
                 {' '}
-                <HighlightText text={peerName} />
+                <HighlightText text={peer.name} />
               </div>
             )}
             {category && (

@@ -28,6 +28,7 @@ const mapPayment = ({ peer, category, ...other }) => ({
   ...other,
   peerName: peer && peer.name,
   peerId: peer && peer.id,
+  category,
   categoryId: category && category.id,
 })
 
@@ -60,6 +61,7 @@ export default {
             id: pid
             name
             color
+            type
           }`) ||
           ''}
                  
@@ -147,7 +149,7 @@ export default {
       },
     }) => ({
       categories: includeCategories ? categories : null,
-      payments: (categoryScoped ? category.payments : payments).map(mapPayment),
+      payments: categoryScoped ? category.payments : payments,
       totalCount: categoryScoped ? category.countPayments : countPayments,
       barChart: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars
@@ -163,25 +165,25 @@ export default {
     mutation(
       $accountId: ID!
       $paymentId: ID!
-      $peerId: ID
       $peerName: String
       $categoryId: ID
       $description: String
       $verified: Boolean
     ) {
-      payment: paymentUpdate(
+      result: paymentUpdate(
         accountPid: $accountId
         paymentPid: $paymentId
-        peerPid: $peerId
         peerName: $peerName
         categoryPid: $categoryId
         description: $description
         verified: $verified
       ) {
-        ${PAYMENTS}
+        payment {
+          ${PAYMENTS}
+        }
       }
     }
     `,
-    ({ payment }) => mapPayment(payment),
+    ({ result: { payment } }) => payment,
   ],
 }

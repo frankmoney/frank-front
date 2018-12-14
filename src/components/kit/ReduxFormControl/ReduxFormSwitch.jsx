@@ -1,4 +1,3 @@
-// import React from 'react'
 import { Field } from 'redux-form-actions/immutable'
 import { compose, mapProps, withPropsOnChange } from 'recompose'
 

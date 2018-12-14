@@ -34,6 +34,12 @@ export const selectedBankLogoSelector = get(
   'selectedBank',
   'mediumLogoUrl'
 )
+export const sessionBankNameSelector = get('session', 'institution', 'name')
+export const sessionBankImageSelector = get(
+  'session',
+  'institution',
+  'mediumLogoUrl'
+)
 
 // Banks
 
@@ -75,6 +81,12 @@ export const isCredentialsErrorSelector = createSelector(
   ])
 )
 
+export const isLoadingNextOrPollingSelector = createSelector(
+  loadingNextSelector,
+  isCredentialsCheckingSelector,
+  R.or
+)
+
 export const credentialsFieldsSelector = createPlainObjectSelector(
   get('stepData', 'fields')
 )
@@ -83,12 +95,19 @@ export const credentialsFieldsSelector = createPlainObjectSelector(
 export const categoriesSelector = createPlainObjectSelector(
   get('stepData', 'list')
 )
+export const categoryTypeSelector = get('stepData', 'categoryType')
+
 export const openEditCategoryDialogSelector = get('stepData', 'openEditDialog')
 
 export const editingCategorySelector = createSelector(
   categoriesSelector,
   get('stepData', 'editingCategoryId'),
   (list, id) => id && list && R.find(R.propEq('id', id), list)
+)
+
+export const emptyCategoriesSelector = createSelector(
+  categoriesSelector,
+  R.isEmpty
 )
 
 // Step: Select Account
@@ -99,7 +118,11 @@ export const selectedAccountIdSelector = get('stepData', 'selectedAccountId')
 
 // Step: AccountInfo
 const isAccountInfoFormValid = isFormValid(ACCOUNT_FORM)
-export const accountInfoInitialValuesSelector = R.always({})
+export const accountInfoInitialValuesSelector = createSelector(
+  get('stepData', 'accountName'),
+  get('stepData', 'accountDescription'),
+  (name, description) => ({ name, description })
+)
 
 export const accountInfoFormSelector = createPlainObjectSelector(
   getFormValues(ACCOUNT_FORM)
@@ -107,28 +130,23 @@ export const accountInfoFormSelector = createPlainObjectSelector(
 
 // Step: Team
 export const isInviteDrawerOpenSelector = get('stepData', 'inviteDrawerOpen')
+export const teamInvitesSelector = createPlainObjectSelector(
+  get('stepData', 'invites')
+)
 export const teamMembersSelector = createPlainObjectSelector(
-  get('stepData', 'members')
+  get('stepData', 'team', 'members')
 )
 
 export const canGoNextSelector = createSelector(
   currentStepSelector,
   selectedBankIdSelector,
-  isCredentialsCheckingSelector,
   isCredentialsFormValid,
   selectedAccountIdSelector,
   isAccountInfoFormValid,
-  (
-    step,
-    selectedBankId,
-    isCredentialsChecking,
-    isCredentialsValid,
-    accountId,
-    isAccountInfoValid
-  ) =>
+  (step, selectedBankId, isCredentialsValid, accountId, isAccountInfoValid) =>
     (step === 'bank' && !!selectedBankId) ||
-    (step === 'credentials' && isCredentialsValid && !isCredentialsChecking) ||
-    (step === 'mfa' && isCredentialsValid && !isCredentialsChecking) ||
+    (step === 'credentials' && isCredentialsValid) ||
+    (step === 'mfa' && isCredentialsValid) ||
     (step === 'account' && accountId) ||
     (step === 'accountInfo' && isAccountInfoValid) ||
     step === 'categories' ||

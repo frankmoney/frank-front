@@ -15,6 +15,7 @@ import Drawers from './Drawers'
 import SwitchesDemo from './SwitchesDemo'
 import WidgetDemo from './Widgets'
 import FormsDemo from './Forms'
+import PaletteDemo from './Palette'
 
 export default [
   {
@@ -85,6 +86,11 @@ export default [
   {
     component: FormsDemo,
     path: ROUTES.demo.forms,
+    exact: true,
+  },
+  {
+    component: PaletteDemo,
+    path: ROUTES.demo.palette,
     exact: true,
   },
 ]

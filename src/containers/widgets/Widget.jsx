@@ -4,8 +4,8 @@ import React from 'react'
 import * as R from 'ramda'
 import { type PieChartCategories } from 'components/OverviewPieChart'
 import {
+  createPieDataMapper,
   forceValidPieTotal,
-  remapPieData,
   type PieTotal,
 } from 'data/models/pieData'
 import reconnect from 'utils/reconnect'
@@ -72,6 +72,9 @@ class Widget extends React.PureComponent<Props, State> {
   }
 
   get pieItems(): PieChartCategories {
+    const remapPieData = createPieDataMapper({
+      nameEmptyCategoryAs: 'Uncategorized',
+    })
     return remapPieData(this.pieTotal, this.props.rawPieData)
   }
 

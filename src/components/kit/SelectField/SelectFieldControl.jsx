@@ -44,7 +44,7 @@ const styles = {
   },
 }
 
-type Props = Object
+type Props = {}
 
 class SelectFieldControl extends React.Component<Props> {
   render() {

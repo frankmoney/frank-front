@@ -20,13 +20,14 @@ export const bankSelect = createAction('onboarding/bank/select')
 export const addNewCategory = createAction('onboarding/categories/start-add')
 export const editCategory = createAction('onboarding/categories/start-edit')
 export const cancelEditCategory = createAction(
-  'onboarding/categories/cancel-add'
+  'onboarding/categories/cancel-dialog'
 )
 export const submitEditCategory = createAction(
-  'onboarding/categories/submit-add'
+  'onboarding/categories/submit-dialog'
 )
 export const cleanAllCategories = createAction('onboarding/categories/clean')
 export const removeCategory = createAction('onboarding/categories/remove')
+export const restoreCategories = createAction('onboarding/categories/restore')
 
 // Step: Accounts
 export const accountSelect = createAction('onboarding/accounts/select')

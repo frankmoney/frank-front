@@ -85,11 +85,12 @@ const PaymentCard = ({
           <ReduxFormControl.Field
             name="categoryId"
             component={CategorySelect}
+            typeSeparated
             className={classes.categorySelect}
             categories={categories}
             value={categoryId}
             label="Category"
-            placeholder="Choose category"
+            placeholder="Choose a category"
             larger
           />
         </div>
@@ -181,9 +182,9 @@ const PaymentCard = ({
   </Paper>
 )
 
-const pickCardState = ({ categoryId, peerName = '', description = '' }) => ({
-  categoryId,
-  peerName,
+const pickCardState = ({ category, peer, description = '' }) => ({
+  categoryId: category && category.id,
+  peerName: (peer && peer.name) || '',
   description,
 })
 

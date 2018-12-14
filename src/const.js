@@ -68,6 +68,7 @@ export const ROUTES = {
     switches: '/demo/switches',
     widgets: '/demo/widgets',
     forms: '/demo/forms',
+    palette: '/demo/palette',
   },
 }
 
@@ -94,7 +95,7 @@ export const TEAM_ROLE_TITLES = {
   [TEAM_ROLES.observer]: 'Observer',
 }
 
-export const UNCATEGORIZED_COLOR = 'rgb(211, 213, 217)'
+export const UNCATEGORIZED_COLOR = 'rgba(37,43,67,0.2)'
 
 export const CATEGORY_COLORS = {
   '#3240A8': 'Navy Blue',
@@ -111,39 +112,60 @@ export const CATEGORY_COLORS = {
   '#CAB268': 'Sorrell Brown',
 }
 
+export const CATEGORY_PALETTE = [
+  ['#FFDD5B', '#FED432', '#FBBA28', '#F68618'],
+  ['#C88F58', '#9E7147', '#815328', '#703D0D'],
+  ['#F15D59', '#E64238', '#DB382F', '#C22222'],
+  ['#E73E79', '#D21D62', '#C11859', '#8E1050'],
+  ['#A946BA', '#8E25A6', '#7A1D9F', '#4D168D'],
+  ['#7C57C1', '#5F35B1', '#512DA7', '#331C91'],
+  ['#43A0F0', '#1E85E1', '#1972CE', '#015CA2'],
+]
+
 export const DEFAULT_CATEGORIES = [
   {
-    name: 'Certification',
-    color: '#fde282',
+    name: 'Program expenses',
+    color: '#8725FB',
   },
   {
-    name: 'Taxes',
+    name: 'Administration',
+    color: '#0a70dd',
+  },
+  {
+    name: 'Fundraising',
     color: '#ffb54c',
   },
+]
+
+export const DEFAULT_INCOME_CATEGORIES = [
   {
-    name: 'Product development',
-    color: '#3cd5c1',
+    name: 'Contributions',
+    color: '#21CB61',
   },
   {
-    name: 'Product design',
-    color: '#0aaddb',
+    name: 'Grants',
+    color: '#049371',
   },
   {
-    name: 'Fundraising events',
-    color: '#00bd6a',
+    name: 'Program services',
+    color: '#049371',
   },
   {
-    name: 'Operating expenses',
-    color: '#b259ad',
+    name: 'Investments',
+    color: '#049371',
   },
   {
-    name: 'Administrative expenses',
-    color: '#0a70dd',
+    name: 'Special events',
+    color: '#049371',
+  },
+  {
+    name: 'Sales',
+    color: '#049371',
   },
 ]
 
 export const UNCATEGORIZED_CATEGORY = {
-  id: 'UNCATEGORIZED_CATEGORY_ID',
+  id: '#UNCATEGORIZED',
   name: 'Uncategorized',
   color: UNCATEGORIZED_COLOR,
 }

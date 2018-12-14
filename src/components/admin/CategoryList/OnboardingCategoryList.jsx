@@ -42,10 +42,11 @@ const CategoriesList = ({
   onDeleteAll,
   onEdit,
   onDelete,
+  title,
 }) => (
   <div className={cx(classes.root, className)}>
     <div className={classes.titleWrap}>
-      <div className={classes.title}>Categories</div>
+      <div className={classes.title}>{title}</div>
       <div className={classes.deleteAll} onClick={onDeleteAll}>
         Delete All
       </div>

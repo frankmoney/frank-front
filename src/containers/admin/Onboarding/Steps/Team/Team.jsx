@@ -10,53 +10,75 @@ import StepTitle from '../../StepTitle'
 import StepDescription from '../../StepDescription'
 import {
   isInviteDrawerOpenSelector,
+  teamInvitesSelector,
   teamMembersSelector,
 } from '../../selectors'
 import * as ACTIONS from '../../actions'
 import InviteDrawer from './InviteDrawer'
 import Invites from './Invites'
+import Members from './Members'
 
-const styles = {
+const styles = theme => ({
   root: {},
-  inviteButton: {
+  content: {
     width: 550,
+    paddingBottom: 70,
+  },
+  inviteButton: {
+    width: '100%',
     marginTop: 50,
   },
   list: {
-    marginTop: 40,
+    marginTop: 35,
   },
-}
+  title: {
+    marginTop: 50,
+    color: '#252B43',
+    ...theme.fontRegular(22, 22),
+  },
+})
 
 const Team = ({
   className,
   classes,
   members,
+  invites,
   drawerOpen,
   onAddMemberClick,
   onCloseDrawer,
 }) => (
   <StepLayout
     className={cx(classes.root, className)}
-    backButtonText="Back to categories"
+    backLabel="Back to categories"
   >
     <StepTitle>Invite teammates</StepTitle>
     <StepDescription>
       Invite your team members and assign roles to work together faster<br />
       and avoid bottlenecks in your workflow
     </StepDescription>
-    <BigButton
-      className={classes.inviteButton}
-      onClick={onAddMemberClick}
-      label="Invite a teammate"
-    />
-    <Invites className={classes.list} invites={members} />
-    <InviteDrawer open={drawerOpen} onClose={onCloseDrawer} />
+    <div className={classes.content}>
+      <BigButton
+        className={classes.inviteButton}
+        onClick={onAddMemberClick}
+        label="Invite a teammate"
+      />
+      {invites.length > 0 && <div className={classes.title}>Invited</div>}
+      {invites.length > 0 && (
+        <Invites className={classes.list} invites={invites} />
+      )}
+      {members.length > 0 && <div className={classes.title}>Team</div>}
+      {members.length > 0 && (
+        <Members className={classes.list} members={members} />
+      )}
+      <InviteDrawer open={drawerOpen} onClose={onCloseDrawer} />
+    </div>
   </StepLayout>
 )
 
 export default compose(
   reconnect(
     {
+      invites: teamInvitesSelector,
       members: teamMembersSelector,
       drawerOpen: isInviteDrawerOpenSelector,
     },

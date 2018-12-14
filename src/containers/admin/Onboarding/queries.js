@@ -15,7 +15,9 @@ export default {
         mfa
         accounts
         account
-        categories
+        spendingCategories
+        revenueCategories
+        team
       }
     }
     `,
@@ -34,7 +36,7 @@ export default {
     ({ onboarding }) => onboarding,
   ],
   sendCredentials: [
-    `mutation($credentials: [JSON!]!) {
+    `mutation($credentials: [OnboardingCredentials!]!) {
       onboarding: onboardingEnterCredentials(
           credentials: $credentials
       ) {
@@ -48,7 +50,7 @@ export default {
     ({ onboarding }) => onboarding,
   ],
   sendMfa: [
-    `mutation($challenges: [JSON!]!) {
+    `mutation($challenges: [OnboardingMfaChallenges!]!) {
       onboarding: onboardingEnterMfaChallenges(
           challenges: $challenges
       ) {
@@ -66,6 +68,7 @@ export default {
           accountGuid: $id
       ) {
         step
+        institution
         account
       }
     }`,
@@ -92,27 +95,46 @@ export default {
     }`,
     ({ onboarding }) => onboarding,
   ],
-  updateCategories: [
-    `mutation($categories: [JSON!]!) {
-      onboarding: onboardingUpdateCategories(
+  updateSpendingCategories: [
+    `mutation($categories: [OnboardingCategoryCreate!]!) {
+      onboarding: onboardingUpdateSpendingCategories(
           categories: $categories
       ) {
         step
-        categories
+        spendingCategories
       }
     }`,
     ({ onboarding }) => onboarding,
   ],
-  completeCategories: [
+  updateRevenueCategories: [
+    `mutation($categories: [OnboardingCategoryCreate!]!) {
+      onboarding: onboardingUpdateRevenueCategories(
+          categories: $categories
+      ) {
+        step
+        revenueCategories
+      }
+    }`,
+    ({ onboarding }) => onboarding,
+  ],
+  completeSpendingCategories: [
     `mutation {
-      onboarding: onboardingCompleteCategories {
+      onboarding: onboardingCompleteSpendingCategories {
+        step
+      }
+    }`,
+    ({ onboarding }) => onboarding,
+  ],
+  completeRevenueCategories: [
+    `mutation {
+      onboarding: onboardingCompleteRevenueCategories {
         step
       }
     }`,
     ({ onboarding }) => onboarding,
   ],
   updateTeam: [
-    `mutation($members: [JSON!]!) {
+    `mutation($members: [OnboardingMemberCreate!]!) {
       onboarding: onboardingUpdateTeam(
           members: $members
       ) {
@@ -139,7 +161,8 @@ export default {
         credentials
         accounts
         account
-        categories
+        spendingCategories
+        spendingCategories
       }
     }`,
     ({ result }) => result,
@@ -149,5 +172,21 @@ export default {
       result: onboardingCancel
     }`,
     ({ result }) => result,
+  ],
+  getTeam: [
+    `query {
+      team {
+        id: pid
+        name
+        members {
+          id: pid
+          email
+          firstName
+          lastName
+          avatar
+        }
+      }
+    }`,
+    ({ team }) => team,
   ],
 }

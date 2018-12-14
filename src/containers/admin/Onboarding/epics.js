@@ -13,12 +13,21 @@ import {
   selectedBankIdSelector,
   categoriesSelector,
   teamMembersSelector,
+  categoryTypeSelector,
 } from './selectors'
 
 export const loadEpic = (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.load)
     .switchMap(() => graphql(QUERIES.getOnboardingSession))
+    .switchMap(async session => {
+      if (session && session.step === 'team') {
+        const team = await graphql(QUERIES.getTeam)
+        return { ...session, team }
+      }
+
+      return session
+    })
     .map(session =>
       ACTIONS.load.success({
         session,
@@ -53,17 +62,19 @@ export const nextStepEpic = (action$, store, { graphql }) =>
     } else if (step === 'credentials') {
       const credentials = credentialsFormSelector(state)
       const session = await graphql(QUERIES.sendCredentials, {
-        credentials: Object.entries(credentials).map(([guid, value]) =>
-          JSON.stringify({ guid, value })
-        ),
+        credentials: Object.entries(credentials).map(([guid, value]) => ({
+          guid,
+          value,
+        })),
       })
       return [ACTIONS.goNext.success(session)]
     } else if (step === 'mfa') {
       const formData = credentialsFormSelector(state)
       const session = await graphql(QUERIES.sendMfa, {
-        challenges: Object.entries(formData).map(([guid, value]) =>
-          JSON.stringify({ guid, value })
-        ),
+        challenges: Object.entries(formData).map(([guid, value]) => ({
+          guid,
+          value,
+        })),
       })
       return [ACTIONS.goNext.success(session)]
     } else if (step === 'account') {
@@ -82,20 +93,34 @@ export const nextStepEpic = (action$, store, { graphql }) =>
       return [ACTIONS.goNext.success(session)]
     } else if (step === 'categories') {
       const categories = categoriesSelector(state)
-      await graphql(QUERIES.updateCategories, {
-        categories: categories.map(({ name, color }) =>
-          JSON.stringify({ name, color })
-        ),
-      })
-      const session = await graphql(QUERIES.completeCategories)
+      const categoryType = categoryTypeSelector(state)
+      await graphql(
+        categoryType === 'spending'
+          ? QUERIES.updateSpendingCategories
+          : QUERIES.updateRevenueCategories,
+        {
+          categories: categories.map(({ name, color }) => ({ name, color })),
+        }
+      )
+      const session = await graphql(
+        categoryType === 'spending'
+          ? QUERIES.completeSpendingCategories
+          : QUERIES.completeRevenueCategories
+      )
+
+      if (session.step === 'team') {
+        const team = await graphql(QUERIES.getTeam)
+        session.team = team
+      }
 
       return [ACTIONS.goNext.success(session)]
     } else if (step === 'team') {
       const members = teamMembersSelector(state)
       await graphql(QUERIES.updateTeam, {
-        members: members.map(({ email, role, note }) =>
-          JSON.stringify({ email, role, note })
-        ),
+        members: members.map(({ email, note }) => ({
+          email,
+          note,
+        })),
       })
 
       const account = await graphql(QUERIES.finish)
