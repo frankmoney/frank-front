@@ -52,6 +52,7 @@ const PaymentCard = ({
   published,
   onSaveClick,
   onPublishClick,
+  onUnpublishClick,
   onUpdateClick,
   pristine,
   invalid,
@@ -182,7 +183,7 @@ const PaymentCard = ({
             label="Unpublish"
             color="gray"
             loading={publishing}
-            onClick={onPublishClick}
+            onClick={onUnpublishClick}
           />
         )}
         {!published && (
@@ -193,7 +194,6 @@ const PaymentCard = ({
             label="Publish"
             color="green"
             loading={publishing}
-            disabled={invalid}
             onClick={onPublishClick}
           />
         )}
@@ -270,12 +270,11 @@ export default compose(
       props.onPaymentSave({ id: props.id })
     },
     onPublishClick: props => () => {
-      if (props.published) {
-        props.onPaymentUnpublish({ id: props.id })
-      } else {
-        props.change('publishing', true)
-        setImmediate(() => props.submit())
-      }
+      props.change('publishing', true)
+      setImmediate(() => props.submit())
+    },
+    onUnpublishClick: props => () => {
+      props.onPaymentUnpublish({ id: props.id })
     },
   })
 )(PaymentCard)
