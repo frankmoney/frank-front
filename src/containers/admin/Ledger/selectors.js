@@ -260,10 +260,3 @@ export const pieItemsSelector: Selector<PieChartItems> = createSelector(
   rawPieDataSelector,
   createPieDataMapper({ nameEmptyCategoryAs: 'Unpublished' })
 )
-
-export const isPaymentSavingSelector = R.memoizeWith(R.identity, id =>
-  createSelector(get('paymentIdsSaving'), ids => ids.has(id))
-)
-export const isPaymentPublishingSelector = R.memoizeWith(R.identity, id =>
-  createSelector(get('paymentIdsPublishing'), ids => ids.has(id))
-)

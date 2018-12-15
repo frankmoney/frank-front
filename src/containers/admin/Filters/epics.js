@@ -9,15 +9,15 @@ import QUERIES from './queries'
 
 const requestTotalCount = (
   graphql,
-  { sumLimit, dateLimit, verified, search, accountId }
+  { sum, date, verified, search, accountId }
 ) =>
   graphql(QUERIES.getOnlyTotalCount, {
     accountId,
     search,
-    amountMin: sumLimit && sumLimit.min,
-    amountMax: sumLimit && sumLimit.max,
-    dateMin: dateLimit && dateLimit.from && formatDate(dateLimit.from),
-    dateMax: dateLimit && dateLimit.to && formatDate(dateLimit.to),
+    amountMin: sum && sum.min,
+    amountMax: sum && sum.max,
+    dateMin: date && date.from && formatDate(date.from),
+    dateMax: date && date.to && formatDate(date.to),
     verified,
   })
 
@@ -49,24 +49,27 @@ export const loadRequest = (action$, store, { graphql }) =>
         payload: { amountMin, amountMax, dateMin, dateMax, verified },
       }) => {
         const filters = {
-          sumLimit: {
-            // TODO async getting amount min/max from a server
-            min: amountMin || -80000,
-            max: amountMax || 40000,
+          sum: {
+            min: amountMin,
+            max: amountMax,
           },
-          dateLimit: { from: dateMin, to: dateMax },
+          date: { from: dateMin, to: dateMax },
           verified,
         }
 
         const accountId = currentAccountIdSelector(store.getState())
-        const totalCount = await requestTotalCount(graphql, {
-          ...filters,
-          accountId,
-        })
+        const [totalCount, aggregated] = await Promise.all([
+          requestTotalCount(graphql, {
+            ...filters,
+            accountId,
+          }),
+          graphql(QUERIES.getAccountAggregatedPayments, { accountId }),
+        ])
 
         return ACTIONS.load.success({
           filters,
           totalCount,
+          aggregated,
         })
       }
     )

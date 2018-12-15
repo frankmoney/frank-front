@@ -2,17 +2,13 @@ import { compose, mapProps, withProps, withHandlers } from 'recompose'
 import { injectStyles } from '@frankmoney/ui'
 import { Table } from '@frankmoney/components'
 import { PaymentsTableRow } from 'components/PaymentsTable'
-import PaymentCard from 'components/admin/PaymentCard'
+import PaymentCard from 'containers/admin/PaymentCard'
 import reconnect from 'utils/reconnect'
-import { currentAccountIdSelector } from 'redux/selectors/user'
 import {
   dataSourceSelector,
   rowDataSelector,
   paymentCardCategoriesSelector,
-  isPaymentSavingSelector,
-  isPaymentPublishingSelector,
 } from '../selectors'
-import * as ACTIONS from '../actions'
 
 const ComposedPaymentsTableRow = withProps({
   tablePadding: 30,
@@ -22,34 +18,14 @@ const ComposedPaymentsTableRow = withProps({
 })(PaymentsTableRow)
 
 const ConnectedPaymentsTableDetailRow = compose(
-  reconnect(
-    (_, initialProps) => ({
-      categories: paymentCardCategoriesSelector,
-      accountId: currentAccountIdSelector,
-      saving: isPaymentSavingSelector(initialProps.rowId),
-      publishing: isPaymentPublishingSelector(initialProps.rowId),
-    }),
-    {
-      paymentUpdate: ACTIONS.paymentUpdate,
-    }
-  ),
-  mapProps(({ categories, peers, data, ...otherProps }) => ({
+  reconnect({
+    categories: paymentCardCategoriesSelector,
+  }),
+  mapProps(({ categories, data, ...otherProps }) => ({
     categories,
-    peers,
     ...data,
     ...otherProps,
-  })),
-  withHandlers({
-    onPaymentSave: ({ paymentUpdate }) => changes => {
-      paymentUpdate(changes)
-    },
-    onPaymentPublish: ({ paymentUpdate }) => changes => {
-      paymentUpdate({ ...changes, publish: true })
-    },
-    onPaymentUnpublish: ({ paymentUpdate }) => changes => {
-      paymentUpdate({ ...changes, unpublish: true })
-    },
-  })
+  }))
 )(PaymentCard)
 
 const styles = {

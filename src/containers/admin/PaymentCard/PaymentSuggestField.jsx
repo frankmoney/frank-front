@@ -1,6 +1,6 @@
 import React from 'react'
 import * as Rx from 'rxjs'
-import SuggestField from 'components/SuggestField'
+import SuggestField from 'components/SuggestField/index'
 
 class PaymentSuggestField extends React.Component {
   static defaultProps = {

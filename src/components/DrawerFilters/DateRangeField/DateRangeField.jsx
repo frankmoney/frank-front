@@ -122,8 +122,12 @@ const DateRangeField = ({
             label={D.format(prevYear, 'YYYY')}
           />
         )}
-        <MenuItem value={DATE_FILTER.last12Months} label="Last 12 months" />
-        <MenuItem value={DATE_FILTER.last3Months} label="Last 3 months" />
+        {startDate <= last12Months && (
+          <MenuItem value={DATE_FILTER.last12Months} label="Last 12 months" />
+        )}
+        {startDate <= last3Months && (
+          <MenuItem value={DATE_FILTER.last3Months} label="Last 3 months" />
+        )}
         <MenuItem
           value={DATE_FILTER.currentMonth}
           label={D.format(currentMonth, 'MMMM YYYY')}

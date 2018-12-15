@@ -17,12 +17,16 @@ export default handleActions(
     [ACTIONS.change]: (state, { payload: newFilters }) =>
       state.merge({ data: newFilters }),
     [ACTIONS.load]: state => state.merge({ loaded: false }),
-    [ACTIONS.load.success]: (state, { payload: { filters, totalCount } }) =>
+    [ACTIONS.load.success]: (
+      state,
+      { payload: { filters, totalCount, aggregated } }
+    ) =>
       state.merge({
         loaded: true,
         data: filters,
         totalCount,
         initialData: filters,
+        aggregated,
       }),
     [ACTIONS.reset]: state =>
       state.merge({

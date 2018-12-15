@@ -3,7 +3,11 @@ import * as R from 'ramda'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 
-export default function reconnect(selectorsToProps, connectDispatch) {
+export default function reconnect(
+  selectorsToProps,
+  connectDispatch,
+  ...connectArgs
+) {
   const mapStateToProps = selectorsToProps
     ? typeof selectorsToProps === 'function'
       ? (...args) => createStructuredSelector(selectorsToProps(...args))
@@ -16,6 +20,7 @@ export default function reconnect(selectorsToProps, connectDispatch) {
 
   return connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
+    ...connectArgs
   )
 }

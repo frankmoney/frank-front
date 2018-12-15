@@ -45,6 +45,9 @@ import inboxReducer, {
 import settingsReducer, {
   REDUCER_KEY as settingsKey,
 } from 'containers/admin/Settings/reducer'
+import paymentReducer, {
+  REDUCER_KEY as paymentKey,
+} from 'containers/admin/PaymentCard/reducer'
 
 export default createReducer({
   [adminLedgerKey]: adminLedgerReducer,
@@ -63,4 +66,5 @@ export default createReducer({
   [inboxKey]: inboxReducer,
   [paymentsSelectKey]: paymentsSelectReducer,
   [settingsKey]: settingsReducer,
+  [paymentKey]: paymentReducer,
 })

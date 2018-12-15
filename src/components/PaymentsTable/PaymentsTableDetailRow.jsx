@@ -1,5 +1,5 @@
 import { mapProps, compose } from 'recompose'
-import PaymentCard from 'components/admin/PaymentCard'
+import PaymentCard from 'containers/admin/PaymentCard'
 
 export default compose(
   mapProps(({ data, ...otherProps }) => ({

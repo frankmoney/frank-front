@@ -17,6 +17,4 @@ export const filtersOpen = createAction('admin/ledger/filters/open')
 
 export const barZoomIn = createAction('admin/ledger/bars/zoom-in')
 
-export const paymentUpdate = createDeferredAction('admin/ledger/card/update')
-
 export const leave = createAction('admin/ledger/leave')

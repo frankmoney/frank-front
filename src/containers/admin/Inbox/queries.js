@@ -14,6 +14,15 @@ category {
   name
   color
 }
+descriptionUpdater {
+  isSystem
+}
+peerUpdater {
+  isSystem
+}
+categoryUpdater {
+  isSystem
+}
 `
 
 export default {
@@ -62,31 +71,5 @@ export default {
       payments,
       totalCount,
     }),
-  ],
-  paymentUpdate: [
-    `
-    mutation(
-      $accountId: ID!
-      $paymentId: ID!
-      $description: String
-      $peerName: String
-      $categoryId: ID
-      $verified: Boolean
-    ) {
-      result: paymentUpdate(
-        accountPid: $accountId
-        paymentPid: $paymentId
-        peerName: $peerName
-        categoryPid: $categoryId
-        description: $description
-        verified: $verified
-      ) {
-        payment {
-          ${PAYMENTS}
-        }
-      }
-    }
-    `,
-    ({ result: { payment } }) => payment,
   ],
 }
