@@ -22,15 +22,16 @@ const PAYMENTS = `
   category {
     ${CATEGORY}
   }
+  descriptionUpdater {
+    isSystem
+  }
+  peerUpdater {
+    isSystem
+  }
+  categoryUpdater {
+    isSystem
+  }
 `
-
-const mapPayment = ({ peer, category, ...other }) => ({
-  ...other,
-  peerName: peer && peer.name,
-  peerId: peer && peer.id,
-  category,
-  categoryId: category && category.id,
-})
 
 export default {
   buildQuery: ({

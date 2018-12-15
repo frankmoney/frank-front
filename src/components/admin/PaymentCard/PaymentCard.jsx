@@ -196,7 +196,7 @@ const PaymentCard = ({
   </Paper>
 )
 
-const pickCardState = ({ category, peer, description = '' }) => ({
+const pickFormValues = ({ category, peer, description = '' }) => ({
   categoryId: category && category.id,
   peerName: (peer && peer.name) || '',
   description,
@@ -205,7 +205,7 @@ const pickCardState = ({ category, peer, description = '' }) => ({
 export default compose(
   injectStyles(styles),
   withPropsOnChange(['id', 'peer', 'category', 'description'], props => ({
-    initialValues: pickCardState(props),
+    initialValues: pickFormValues(props),
     form: `payment-${props.id}`,
   })),
   reduxForm({
@@ -239,12 +239,24 @@ export default compose(
       descriptionChanged,
       peerChanged,
       categoryChanged,
+      descriptionUpdater,
+      peerUpdater,
+      categoryUpdater,
     }) =>
       saving
         ? {
-            descriptionLoading: !descriptionChanged && !description,
-            peerLoading: !peerChanged && !peer,
-            categoryLoading: !categoryChanged && !category,
+            // При сохранении карточки заполенные поля могут изменить значения других
+            // Поменяться могут другие нетронуте поля, если они были пустые либо изменялись системным юзером
+            // для этого показываем в этом поле лоадинг
+            descriptionLoading:
+              !descriptionChanged &&
+              (!description ||
+                (descriptionUpdater && descriptionUpdater.isSystem)),
+            peerLoading:
+              !peerChanged && (!peer || (peerUpdater && peerUpdater.isSystem)),
+            categoryLoading:
+              !categoryChanged &&
+              (!category || (categoryUpdater && categoryUpdater.isSystem)),
           }
         : {}
   ),

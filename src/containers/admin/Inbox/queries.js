@@ -14,6 +14,15 @@ category {
   name
   color
 }
+descriptionUpdater {
+  isSystem
+}
+peerUpdater {
+  isSystem
+}
+categoryUpdater {
+  isSystem
+}
 `
 
 export default {
