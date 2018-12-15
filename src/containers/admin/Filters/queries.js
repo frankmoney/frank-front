@@ -1,4 +1,7 @@
 import * as R from 'ramda'
+import { parseDate } from 'utils/dates'
+
+const parseDateIfNotNil = R.when(R.complement(R.isNil), parseDate)
 
 // TODO add pending filter
 export default {
@@ -26,5 +29,27 @@ export default {
     }
     `,
     R.path(['account', 'countPayments']),
+  ],
+  getAccountAggregatedPayments: [
+    `
+    query(
+      $accountId: ID!
+    ) {
+      account(pid: $accountId) {
+        aggregatePayments {
+          dateMin: postedOnMin
+          dateMax: postedOnMax
+          sumMin: amountMin
+          sumMax: amountMax
+        }
+      }
+    }`,
+    R.pipe(
+      R.path(['account', 'aggregatePayments']),
+      R.evolve({
+        dateMin: parseDateIfNotNil,
+        dateMax: parseDateIfNotNil,
+      })
+    ),
   ],
 }
