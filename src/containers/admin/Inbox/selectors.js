@@ -45,13 +45,6 @@ export const currentFiltersCount = createSelector(
 export const categories = createPlainObjectSelector(get('categories'))
 export const payments = createPlainObjectSelector(get('payments'))
 
-export const isPaymentSaving = R.memoizeWith(R.identity, id =>
-  createSelector(get('paymentIdsSaving'), ids => ids.has(id))
-)
-export const isPaymentPublishing = R.memoizeWith(R.identity, id =>
-  createSelector(get('paymentIdsPublishing'), ids => ids.has(id))
-)
-
 // PAGINATION
 export const paymentsCount = get('paymentsCount')
 export const currentPage = createSelector(

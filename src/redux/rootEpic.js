@@ -15,6 +15,7 @@ import * as filtersEpics from 'containers/admin/Filters/epics'
 import * as paymentsSelectEpics from 'containers/admin/PaymentsSelect/epics'
 import * as inboxEpics from 'containers/admin/Inbox/epics'
 import * as settingsEpics from 'containers/admin/Settings/epics'
+import * as paymentEpics from 'containers/admin/PaymentCard/epics'
 
 export default createRootEpic([
   userEpics,
@@ -33,4 +34,5 @@ export default createRootEpic([
   paymentsSelectEpics,
   inboxEpics,
   settingsEpics,
+  paymentEpics,
 ])

@@ -11,18 +11,17 @@ import { compose, withPropsOnChange, withHandlers } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
-import Button from 'components/kit/Button'
-import Paper from 'components/kit/Paper'
-import CategorySelect from 'components/CategorySelect'
-import CurrencyDelta from 'components/CurrencyDelta'
-import BankDescription from 'components/common/BankDescription'
-import ReduxFormControl from 'components/kit/ReduxFormControl'
-import reconnect from 'utils/reconnect'
+import Button from 'components/kit/Button/index'
+import Paper from 'components/kit/Paper/index'
+import CategorySelect from 'components/CategorySelect/index'
+import CurrencyDelta from 'components/CurrencyDelta/index'
+import BankDescription from 'components/common/BankDescription/index'
+import ReduxFormControl from 'components/kit/ReduxFormControl/index'
 import DescriptionField from './DescriptionField'
-import EchoFormDataButton from './EchoFormDataButton'
 import PeerField from './PeerField'
 import styles from './PaymentCard.jss'
-import * as SELECTORS from './selectors'
+import connectCard from './connectCard'
+import { getFormName } from './const'
 
 const validation = {
   categoryId: [required],
@@ -60,6 +59,8 @@ const PaymentCard = ({
   descriptionLoading,
   peerLoading,
   categoryLoading,
+  handleFieldBlur,
+  handleFieldChange,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
@@ -83,6 +84,8 @@ const PaymentCard = ({
             larger
             accountId={accountId}
             loading={peerLoading}
+            onBlur={handleFieldBlur}
+            onChange={handleFieldChange}
           />
         </div>
         <div className={classes.category}>
@@ -97,6 +100,8 @@ const PaymentCard = ({
             placeholder="Choose a category"
             larger
             loading={categoryLoading}
+            onBlur={handleFieldBlur}
+            onChange={handleFieldChange}
           />
         </div>
       </div>
@@ -116,6 +121,8 @@ const PaymentCard = ({
             paymentId={paymentId}
             accountId={accountId}
             loading={descriptionLoading}
+            onBlur={handleFieldBlur}
+            onChange={handleFieldChange}
           />
         </div>
       </div>
@@ -153,22 +160,21 @@ const PaymentCard = ({
             label={pristine ? 'Updated' : 'Update'}
             color={'blue'}
             disabled={saved || publishing || pristine}
-            loading={saving}
+            loading={!publishing && saving}
             onClick={onUpdateClick}
           />
         ) : (
-          <EchoFormDataButton
+          <Button
             form={formName}
             width={95}
             className={classes.rightButton}
             label={pristine ? 'Saved' : 'Save'}
             color={'gray'}
             disabled={saved || publishing || pristine}
-            loading={saving}
+            loading={!publishing && saving}
             onClick={onSaveClick}
           />
         )}
-
         {published && (
           <Button
             width={130}
@@ -204,35 +210,30 @@ const pickFormValues = ({ category, peer, description = '' }) => ({
 
 export default compose(
   injectStyles(styles),
+  connectCard,
   withPropsOnChange(['id', 'peer', 'category', 'description'], props => ({
     initialValues: pickFormValues(props),
-    form: `payment-${props.id}`,
+    form: getFormName(props.id),
   })),
   reduxForm({
     enableReinitialize: true,
     validate,
     onSubmit: (data, _, props) => {
-      const { publishing, ...otherData } = data.toJS()
-      const payment = { paymentId: props.id, ...otherData }
+      const { publishing } = data.toJS()
+      const payment = { id: props.id }
 
       if (!publishing) {
         props.onPaymentSave(payment)
-      } else if (props.published) {
-        props.onPaymentUnpublish(payment)
-      } else {
+      } else if (!props.published) {
         props.onPaymentPublish(payment)
       }
     },
   }),
-  reconnect((_, props) => ({
-    descriptionChanged: SELECTORS.descriptionChanged(props.form),
-    peerChanged: SELECTORS.peerChanged(props.form),
-    categoryChanged: SELECTORS.categoryChanged(props.form),
-  })),
   withPropsOnChange(
-    ['saving'],
+    ['saving', 'publishing'],
     ({
       saving,
+      publishing,
       description,
       peer,
       category,
@@ -243,7 +244,7 @@ export default compose(
       peerUpdater,
       categoryUpdater,
     }) =>
-      saving
+      saving || publishing
         ? {
             // При сохранении карточки заполенные поля могут изменить значения других
             // Поменяться могут другие нетронуте поля, если они были пустые либо изменялись системным юзером
@@ -265,21 +266,16 @@ export default compose(
       props.change('publishing', false)
       setTimeout(() => props.submit(), 100)
     },
-    onSaveClick: props => (event, formData) => {
-      props.onPaymentSave({ paymentId: props.id, ...formData })
+    onSaveClick: props => () => {
+      props.onPaymentSave({ id: props.id })
     },
     onPublishClick: props => () => {
-      props.change('publishing', true)
-      setImmediate(() => props.submit())
-    },
-    handleCloseConfirm: props => () => {
-      props.changeConfirmOpen(false)
-    },
-    // анпаблишим карточку
-    handleSubmitConfirm: props => data => {
-      const payment = { paymentId: props.id, ...data.toJS() }
-
-      props.onPaymentUnpublish(payment)
+      if (props.published) {
+        props.onPaymentUnpublish({ id: props.id })
+      } else {
+        props.change('publishing', true)
+        setImmediate(() => props.submit())
+      }
     },
   })
 )(PaymentCard)

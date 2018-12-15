@@ -1,5 +1,32 @@
 import pluralize from 'utils/pluralize'
 
+const PAYMENTS = `
+id: pid
+postedOn
+amount
+peer {
+  id: pid
+  name
+}
+published: verified
+pending
+description
+category {
+  id: pid
+  name
+  color
+}
+descriptionUpdater {
+  isSystem
+}
+peerUpdater {
+  isSystem
+}
+categoryUpdater {
+  isSystem
+}
+`
+
 const suggestDescriptions = [
   `
     query(
@@ -57,7 +84,35 @@ const suggestPeers = [
     })),
 ]
 
+const updatePayment = [
+  `
+    mutation(
+      $accountId: ID!
+      $paymentId: ID!
+      $peerName: String
+      $categoryId: ID
+      $description: String
+      $verified: Boolean
+    ) {
+      result: paymentUpdate(
+        accountPid: $accountId
+        paymentPid: $paymentId
+        peerName: $peerName
+        categoryPid: $categoryId
+        description: $description
+        verified: $verified
+      ) {
+        payment {
+          ${PAYMENTS}
+        }
+      }
+    }
+    `,
+  ({ result: { payment } }) => payment,
+]
+
 export default {
   suggestDescriptions,
   suggestPeers,
+  updatePayment,
 }

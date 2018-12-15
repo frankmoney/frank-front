@@ -7,6 +7,4 @@ export default createActions('adminInbox', {
   filtersOpen: false,
   selectPage: false,
   resetSearch: false,
-  paymentSave: true,
-  paymentPublish: true,
 })

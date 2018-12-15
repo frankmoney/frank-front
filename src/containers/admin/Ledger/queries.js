@@ -161,30 +161,4 @@ export default {
       pieChart: includePie ? ledgerPieChart : null,
     }),
   ],
-  paymentUpdate: [
-    `
-    mutation(
-      $accountId: ID!
-      $paymentId: ID!
-      $peerName: String
-      $categoryId: ID
-      $description: String
-      $verified: Boolean
-    ) {
-      result: paymentUpdate(
-        accountPid: $accountId
-        paymentPid: $paymentId
-        peerName: $peerName
-        categoryPid: $categoryId
-        description: $description
-        verified: $verified
-      ) {
-        payment {
-          ${PAYMENTS}
-        }
-      }
-    }
-    `,
-    ({ result: { payment } }) => payment,
-  ],
 }
