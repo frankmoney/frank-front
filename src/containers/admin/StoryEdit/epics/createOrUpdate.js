@@ -1,5 +1,6 @@
 // @flow strict-local
 import * as R from 'ramda'
+import { convertToRaw } from 'draft-js'
 import { createRouteUrl } from '@frankmoney/utils'
 import { replace as replaceLocation } from 'react-router-redux'
 import { getFormValues } from 'redux-form/immutable'
@@ -71,11 +72,14 @@ export default (
       let story = storySelector(state)
 
       if (isNew || isDirty) {
-        const formValues = getFormValues(FORM_NAME)(state).toJS()
+        const formValues = getFormValues(FORM_NAME)(state)
 
-        const { title, description, cover, coverCrop, payments } = formValues
+        const { title, cover, coverCrop, payments } = formValues.toJS()
+        const description = formValues.get('description')
 
-        const body = JSON.stringify(description ? { text: description } : {})
+        const body = JSON.stringify(
+          description ? convertToRaw(description) : {}
+        )
 
         const serializeImage = R.omit(['loading'])
         const croppedCover =

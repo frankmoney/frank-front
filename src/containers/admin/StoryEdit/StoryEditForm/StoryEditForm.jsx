@@ -6,8 +6,8 @@ import { reduxForm } from 'redux-form-actions/immutable'
 import reconnect from 'utils/reconnect'
 import createUploaderField from 'controls/forms/createUploaderField'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
-import TitleField from 'controls/forms/TitleField'
-import DescriptionField from 'controls/forms/DescriptionField'
+import TitleField from 'components/fields/TitleField'
+import DescriptionField from 'components/fields/DescriptionField'
 import StoryPayments from 'components/StoryPayments'
 import PaymentsSelectDrawer from 'containers/admin/PaymentsSelect/PaymentsSelectDrawer'
 import DRAWER_ACTIONS from 'containers/admin/PaymentsSelect/actions'
@@ -84,15 +84,18 @@ const StoryEditForm = ({ classes, className }: Props) => (
       className={classes.coverImageUploader}
     />
     <div className={classes.textFields}>
-      <TitleField
-        name="title"
+      <ReduxFormControl.Field
         className={classes.title}
+        name="title"
         placeholder="Title..."
+        component={TitleField}
       />
-      <DescriptionField
-        name="description"
+
+      <ReduxFormControl.RichTextField
         className={classes.description}
+        name="description"
         placeholder="Your story..."
+        component={DescriptionField}
       />
     </div>
     <ReduxFormControl.Field name="payments" component={renderNothing} />

@@ -18,7 +18,6 @@ const paymentFields = `
   postedOn
   amount
   description
-  peerName
   peer {
     id: pid
     name

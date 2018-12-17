@@ -2,6 +2,7 @@
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { formValueSelector, isValid, isDirty } from 'redux-form/immutable'
+import { ContentState, convertFromRaw } from 'draft-js'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import type { Store } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
@@ -67,9 +68,9 @@ export const formInitialValuesSelector = createSelector(
         }
 
         if (!values.body) {
-          values.description = ''
+          values.description = ContentState.createFromText('')
         } else {
-          values.description = values.body.text
+          values.description = convertFromRaw(JSON.parse(values.body))
         }
 
         if (!values.payments) {

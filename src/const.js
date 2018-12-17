@@ -20,8 +20,8 @@ export const ROUTES = {
     },
     stories: {
       root: '/manage/stories',
-      storyPreview: '/manage/story/:id?',
-      storyEdit: '/manage/story/:id?/edit',
+      storyPreview: '/manage/story/:storyId?',
+      storyEdit: '/manage/story/:storyId?/edit',
       storyNew: '/manage/story/new',
     },
     directory: {

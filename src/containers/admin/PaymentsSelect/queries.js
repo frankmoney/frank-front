@@ -63,7 +63,6 @@ export default {
           postedOn
           amount
           description
-          peerName
           peer {
             id: pid
             name
