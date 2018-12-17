@@ -29,7 +29,7 @@ export const startLoadAfterOpen = action$ =>
 export const estimateResultsRequest = (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.estimateResults)
-    .debounceTime(300)
+    .debounceTime(500)
     .switchMap(() =>
       requestTotalCount(graphql, {
         ...SELECTORS.data(store.getState()),

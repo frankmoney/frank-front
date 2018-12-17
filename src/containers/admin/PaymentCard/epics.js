@@ -32,14 +32,15 @@ export const save = (action$, store, { graphql }) =>
         categoryId,
         description,
         verified: publish,
-      }).then(payment => ({
+      }).then(({ payment, cascade }) => ({
         payment,
+        cascade,
         published: publish === true,
         unpublished: publish === false,
       }))
     })
-    .mergeMap(({ payment, published, unpublished }) => [
-      ACTIONS.save.success(payment),
+    .mergeMap(({ payment, cascade, published, unpublished }) => [
+      ACTIONS.save.success({ payment, cascade }),
       ...(published ? [ACTIONS.publish.success(payment)] : []),
       ...(unpublished ? [ACTIONS.unpublish.success(payment)] : []),
     ])

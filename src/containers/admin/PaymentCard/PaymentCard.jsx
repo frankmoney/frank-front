@@ -55,7 +55,6 @@ const PaymentCard = ({
   onUnpublishClick,
   onUpdateClick,
   pristine,
-  invalid,
   form: formName,
   descriptionLoading,
   peerLoading,

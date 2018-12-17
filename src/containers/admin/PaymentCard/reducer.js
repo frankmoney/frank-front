@@ -23,8 +23,14 @@ export default handleActions(
       updateMeta(id, { publishing: false }, state),
     [ACTIONS.save]: (state, { payload: { id } }) =>
       updateMeta(id, { saving: true }, state),
-    [ACTIONS.save.success]: (state, { payload: { id } }) =>
-      updateMeta(id, { saving: false }, state),
+    [ACTIONS.save.success]: (
+      state,
+      {
+        payload: {
+          payment: { id },
+        },
+      }
+    ) => updateMeta(id, { saving: false }, state),
   },
   defaultState
 )

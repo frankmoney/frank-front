@@ -66,8 +66,6 @@ const suggestPeers = [
       peers(
         sortBy: name_ASC
         search: $search
-        donors: true
-        recipients: true
       ) {
         id: pid
         name
@@ -105,10 +103,16 @@ const updatePayment = [
         payment {
           ${PAYMENTS}
         }
+        suggestedPayments {
+          ${PAYMENTS}
+        }
       }
     }
     `,
-  ({ result: { payment } }) => payment,
+  ({ result: { payment, suggestedPayments: cascade } }) => ({
+    payment,
+    cascade,
+  }),
 ]
 
 export default {

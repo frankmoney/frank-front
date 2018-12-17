@@ -4,9 +4,6 @@ import SuggestField from 'components/SuggestField/index'
 
 class PaymentSuggestField extends React.Component {
   static defaultProps = {
-    suggestProps: {
-      shouldRenderSuggestions: value => value.length > 0,
-    },
     forceCurrentTextSuggestion: false,
   }
 
@@ -17,14 +14,18 @@ class PaymentSuggestField extends React.Component {
 
   requestFetchSubject = new Rx.Subject()
 
-  handleUpdateSuggest = search => {
-    if (!this.state.searching) {
-      this.setState({
-        searching: true,
-      })
-    }
+  handleUpdateSuggest = ({ value, reason }) => {
+    if (reason === 'input-changed' || reason === 'input-focused') {
+      const search = value.trim()
 
-    this.requestFetchSubject.next(search)
+      if (!this.state.searching) {
+        this.setState({
+          searching: true,
+        })
+      }
+
+      this.requestFetchSubject.next(search)
+    }
   }
 
   handleClearSuggest = () => {
@@ -44,7 +45,8 @@ class PaymentSuggestField extends React.Component {
     list.length === 1 && list[0].text.trim() === search.trim()
       ? []
       : // не показываем `use ""` когда это единственный саджест айтем, если не указан флаг forceCurrentTextSuggestion
-        list.length === 0 && !this.props.forceCurrentTextSuggestion
+        // или когда поиск пустой
+        !search || (list.length === 0 && !this.props.forceCurrentTextSuggestion)
         ? list
         : [
             {
@@ -77,11 +79,13 @@ class PaymentSuggestField extends React.Component {
       <SuggestField
         {...props}
         onBlur={this.handleBlur}
-        onRequestFetchSuggestions={this.handleUpdateSuggest}
-        onRequestClearSuggestions={this.handleClearSuggest}
         suggestions={this.state.suggestions}
         searching={this.state.searching}
-        suggestProps={suggestProps}
+        suggestProps={{
+          shouldRenderSuggestions: () => true,
+          onSuggestionsFetchRequested: this.handleUpdateSuggest,
+          onSuggestionsClearRequested: this.handleClearSuggest,
+        }}
       />
     )
   }

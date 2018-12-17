@@ -52,14 +52,16 @@ export default handleActions(
         loading: false,
         typing: false,
       }),
-    [CARD_ACTIONS.save.success]: (state, { payload: { id, ...payment } }) =>
-      state.update('payments', list => {
-        const idx = list.findIndex(x => x.get('id') === id)
-        if (idx === -1) {
-          return list
-        }
-        return list.update(idx, x => x.merge(payment))
-      }),
+    [CARD_ACTIONS.save.success]: (state, { payload: { payment, cascade } }) =>
+      state.update('payments', list =>
+        [payment, ...cascade].reduce((l, p) => {
+          const idx = l.findIndex(x => x.get('id') === p.id)
+          if (idx === -1) {
+            return l
+          }
+          return l.update(idx, x => x.merge(p))
+        }, list)
+      ),
     [ACTIONS.leave]: () => defaultState,
   },
   defaultState

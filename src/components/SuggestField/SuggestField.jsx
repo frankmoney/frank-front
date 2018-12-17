@@ -53,21 +53,6 @@ class SuggestField extends React.PureComponent<Props> {
     }
   }
 
-  handleSuggestionsFetchRequested = ({ value, reason }) => {
-    if (reason === 'input-changed') {
-      const searchValue = value.trim()
-      const searchLength = searchValue.length
-
-      if (searchLength !== 0) {
-        this.props.onRequestFetchSuggestions(searchValue)
-      }
-    }
-  }
-
-  handleSuggestionsClearRequested = () => {
-    this.props.onRequestClearSuggestions()
-  }
-
   handleSelect = (event, { suggestion }) => {
     if (typeof this.props.onSelect === 'function') {
       this.props.onSelect(suggestion)
@@ -121,8 +106,6 @@ class SuggestField extends React.PureComponent<Props> {
           suggestionsList: classes.suggestionsList,
           suggestion: classes.suggestion,
         }}
-        onSuggestionsFetchRequested={this.handleSuggestionsFetchRequested}
-        onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
         suggestions={suggestions}
         getSuggestionValue={this.getSuggestionValue}
         renderSuggestionsContainer={this.renderSuggestionsContainer}
