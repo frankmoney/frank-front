@@ -1,1 +1,2 @@
-export default from './ButtonWidget'
+// @flow strict-local
+export { default } from './ButtonWidget'

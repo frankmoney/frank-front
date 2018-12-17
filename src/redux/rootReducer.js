@@ -1,7 +1,4 @@
 import { createReducer } from '@frankmoney/webapp'
-import widgetDataReducer, {
-  REDUCER_KEY as widgetDataKey,
-} from 'containers/widgets/reducer'
 import adminLedgerReducer, {
   REDUCER_KEY as adminLedgerKey,
 } from 'containers/admin/Ledger/reducer'
@@ -57,7 +54,6 @@ export default createReducer({
   [storyEditKey]: storyEditReducer,
   [publicPaymentKey]: publicPaymentReducer,
   [teamKey]: teamReducer,
-  [widgetDataKey]: widgetDataReducer,
   [onboardingKey]: onboardingReducer,
   [filtersKey]: filtersReducer,
   [inboxKey]: inboxReducer,

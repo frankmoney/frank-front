@@ -70,6 +70,9 @@ const DemoMenu = ({ classes }) => (
     <a href={ROUTES.demo.palette} className={classes.link}>
       Palette
     </a>
+    <a href={ROUTES.demo.widgets} className={classes.link}>
+      Widgets
+    </a>
   </div>
 )
 

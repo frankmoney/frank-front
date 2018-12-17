@@ -1,7 +1,7 @@
 // @flow strict-local
 import React from 'react'
-import Widget from 'containers/widgets/Widget'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import ConnectedWidget, { type WidgetAPI } from '../ConnectedWidget'
 import ButtonWidgetExpander from './ButtonWidgetExpander'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
@@ -44,13 +44,15 @@ const styles = theme => ({
 
 type Props = {|
   ...InjectStylesProps,
-  //
-  expanded?: boolean, // demo flag
+  // Public API
+  ...WidgetAPI,
+  open?: boolean,
 |}
 
-const ButtonWidget = ({ classes, expanded }: Props) => (
-  <ButtonWidgetExpander open={expanded} width={WIDTH}>
-    <Widget
+const ButtonWidget = ({ accountId, classes, open }: Props) => (
+  <ButtonWidgetExpander open={open} width={WIDTH}>
+    <ConnectedWidget
+      accountId={accountId}
       barsFooterPadding={12}
       barsHeight={196}
       barsWidth={337}

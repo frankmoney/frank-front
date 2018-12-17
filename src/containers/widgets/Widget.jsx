@@ -2,13 +2,19 @@
 // flowlint unsafe-getters-setters:off
 import React from 'react'
 import * as R from 'ramda'
-import { type PieChartCategories } from 'components/OverviewPieChart'
+import type { BarData } from 'components/Charts/Bar'
+import type {
+  CategoryListComponent,
+  CategoryListPieChartRootComponent,
+  PieChartCategories,
+} from 'components/OverviewPieChart'
 import {
   createPieDataMapper,
   forceValidPieTotal,
+  type LedgerPieChart,
   type PieTotal,
 } from 'data/models/pieData'
-import reconnect from 'utils/reconnect'
+import type { FooterClasses, FooterProps } from './Footer'
 import TabbedLayout, {
   OVERVIEW_TAB,
   PAYMENTS_TAB,
@@ -16,8 +22,6 @@ import TabbedLayout, {
 } from './TabbedLayout'
 import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
 import type { Period } from './PeriodSelect'
-import { rawPaymentsSelector, rawPieDataSelector } from './selectors'
-import type { Props } from './Widget.flow'
 
 type Category = {
   color?: string,
@@ -29,6 +33,43 @@ const ALL_CATEGORIES: Category = {
   name: 'Payments',
   id: null,
 }
+
+export type WidgetProps = {|
+  barsFooterPadding: number,
+  barsHeight: number,
+  barsWidth: number,
+  CategoryList?: CategoryListComponent,
+  pieChartRootComponent?: CategoryListPieChartRootComponent,
+  showBarChart: boolean,
+  showCategoryCount: boolean,
+  showOverviewTotals?: boolean,
+  widgetSize: number,
+  // Styles
+  barChartClassName?: string,
+  className?: string,
+  contentClassName?: string,
+  overviewChartClassName?: string,
+  paymentBlockClassName?: string,
+  paymentBlockTitleClassName?: string,
+  paymentClassName?: string,
+  paymentListClassName?: string,
+  paymentsPeriodClassName?: string,
+  pieChartClassName?: string,
+  //
+  OverviewFooterClasses?: FooterClasses,
+  OverviewFooterProps?: FooterProps,
+|}
+
+export type WidgetDataProps = {|
+  barChart: BarData,
+  payments: Array<Object>, // flowlint-line unclear-type:warn
+  pieChart: LedgerPieChart,
+|}
+
+type Props = {|
+  ...WidgetDataProps,
+  ...WidgetProps,
+|}
 
 type State = {|
   currentCategory: ?Category,
@@ -56,15 +97,15 @@ class Widget extends React.PureComponent<Props, State> {
 
   get payments() {
     // TODO: use period in the filter
-    return filterPayments(this.currentCategoryId, this.props.rawPayments)
+    return filterPayments(this.currentCategoryId, this.props.payments)
   }
 
   get paymentCount(): number {
-    return R.length(this.props.rawPayments)
+    return R.length(this.props.payments)
   }
 
   get pieTotal(): PieTotal {
-    return forceValidPieTotal(this.state.pieTotal, this.props.rawPieData)
+    return forceValidPieTotal(this.state.pieTotal, this.props.pieChart)
   }
 
   get pieTotalSelectable(): boolean {
@@ -75,7 +116,11 @@ class Widget extends React.PureComponent<Props, State> {
     const remapPieData = createPieDataMapper({
       nameEmptyCategoryAs: 'Uncategorized',
     })
-    return remapPieData(this.pieTotal, this.props.rawPieData)
+    return remapPieData(this.pieTotal, this.props.pieChart)
+  }
+
+  get barsData(): BarData {
+    return [] // this.props.barChart // FIXME: convert to the right format
   }
 
   get period(): Period {
@@ -135,8 +180,6 @@ class Widget extends React.PureComponent<Props, State> {
 
     const categoryCount = showCategoryCount ? R.length(this.pieItems) : null
 
-    const barsData = [] // FIXME: data shape
-
     return (
       <TabbedLayout
         className={className}
@@ -169,7 +212,7 @@ class Widget extends React.PureComponent<Props, State> {
         PaymentListTab={
           <PaymentListTab
             barChartClassName={barChartClassName}
-            barsData={barsData}
+            barsData={this.barsData}
             barsHeight={barsHeight}
             barsWidth={barsWidth}
             contentClassName={contentClassName}
@@ -197,10 +240,4 @@ class Widget extends React.PureComponent<Props, State> {
   }
 }
 
-export default reconnect(
-  {
-    rawPayments: rawPaymentsSelector,
-    rawPieData: rawPieDataSelector,
-  },
-  {}
-)(Widget)
+export default Widget

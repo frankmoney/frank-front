@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import { Redirect } from 'react-router-dom'
 import { withProps } from 'recompose'
 import { ROUTES } from 'const'
@@ -13,7 +13,7 @@ import DateSelectsDemo from './Selects/DateSelectsDemo'
 import Dialogs from './Dialogs'
 import Drawers from './Drawers'
 import SwitchesDemo from './SwitchesDemo'
-import WidgetDemo from './Widgets'
+import WidgetsDemo from './Widgets'
 import FormsDemo from './Forms'
 import PaletteDemo from './Palette'
 
@@ -74,7 +74,7 @@ export default [
     exact: true,
   },
   {
-    component: WidgetDemo,
+    component: WidgetsDemo,
     path: ROUTES.demo.widgets,
     exact: true,
   },
