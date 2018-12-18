@@ -2,12 +2,12 @@
 // flowlint unsafe-getters-setters:off
 import React from 'react'
 import * as R from 'ramda'
-import type { BarData } from 'components/Charts/Bar'
 import type {
   CategoryListComponent,
   CategoryListPieChartRootComponent,
   PieChartCategories,
 } from 'components/OverviewPieChart'
+import { type BarData } from 'data/models/barData'
 import { type Payment } from 'data/models/payment'
 import {
   createPieDataMapper,
@@ -63,7 +63,7 @@ export type WidgetProps = {|
 |}
 
 export type WidgetDataProps = {|
-  barChart: BarData,
+  barData: BarData,
   payments: Array<Payment>,
   pieChart: LedgerPieChart,
 |}
@@ -126,8 +126,8 @@ class Widget extends React.PureComponent<Props, State> {
     return remapPieData(this.pieTotal, this.props.pieChart)
   }
 
-  get barsData(): BarData {
-    return [] // this.props.barChart // FIXME: convert to the right format
+  get barData(): BarData {
+    return this.props.barData
   }
 
   get period(): Period {
@@ -219,7 +219,7 @@ class Widget extends React.PureComponent<Props, State> {
         PaymentListTab={
           <PaymentListTab
             barChartClassName={barChartClassName}
-            barsData={this.barsData}
+            barsData={this.barData}
             barsHeight={barsHeight}
             barsWidth={barsWidth}
             contentClassName={contentClassName}

@@ -3,6 +3,7 @@ import React from 'react'
 import { compose, getContext } from 'recompose'
 import PropTypes from 'prop-types'
 import AreaSpinner from 'components/AreaSpinner'
+import { formatBarDataPoints } from 'data/models/barData'
 import Widget, { type WidgetProps, type WidgetDataProps } from './Widget'
 import { buildQuery } from './utils'
 
@@ -40,14 +41,14 @@ class ConnectedWidget extends React.Component<Props, State> {
       },
       () =>
         graphql(...buildQuery(accountId, categoryId)).then(
-          ({ pieChart, payments, barChart, ...rest }) => {
-            console.log('graphql data', rest, payments)
+          ({ pieChart, payments, barChart, barsUnit, ...rest }) => {
+            console.log('graphql', rest, payments)
             this.setState({
               loading: false,
               data: {
                 pieChart,
                 payments,
-                barChart,
+                barData: formatBarDataPoints(barChart, barsUnit),
               },
             })
           }
