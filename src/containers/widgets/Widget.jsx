@@ -8,12 +8,14 @@ import type {
   CategoryListPieChartRootComponent,
   PieChartCategories,
 } from 'components/OverviewPieChart'
+import { type Payment } from 'data/models/payment'
 import {
   createPieDataMapper,
   forceValidPieTotal,
   type LedgerPieChart,
   type PieTotal,
 } from 'data/models/pieData'
+import { UNCATEGORIZED_CATEGORY } from 'const'
 import type { FooterClasses, FooterProps } from './Footer'
 import TabbedLayout, {
   OVERVIEW_TAB,
@@ -62,7 +64,7 @@ export type WidgetProps = {|
 
 export type WidgetDataProps = {|
   barChart: BarData,
-  payments: Array<Object>, // flowlint-line unclear-type:warn
+  payments: Array<Payment>,
   pieChart: LedgerPieChart,
 |}
 
@@ -78,10 +80,15 @@ type State = {|
   tab: WidgetTab,
 |}
 
-const filterPayments = (categoryId, items) =>
-  categoryId === null
+const filterPayments = (categoryId: ?string, items: Array<Payment>) =>
+  R.isNil(categoryId)
     ? items
-    : R.filter(R.pathEq(['category', 'id'], categoryId))(items)
+    : R.filter(
+        categoryId === UNCATEGORIZED_CATEGORY.id
+          ? R.propEq('category', null)
+          : R.pathEq(['category', 'id'], categoryId),
+        items
+      )
 
 class Widget extends React.PureComponent<Props, State> {
   state = {
@@ -91,8 +98,8 @@ class Widget extends React.PureComponent<Props, State> {
     tab: OVERVIEW_TAB,
   }
 
-  get currentCategoryId(): ?number {
-    return R.prop('id', this.state.currentCategory)
+  get currentCategoryId(): ?string {
+    return R.prop('id', this.state.currentCategory) || null
   }
 
   get payments() {

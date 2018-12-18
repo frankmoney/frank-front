@@ -10,12 +10,10 @@ const WidgetsDemo = () => (
     <Row centered>
       <ButtonWidget accountId={4} open />
     </Row>
-    {/*
     <h2>Button widget (closed)</h2>
     <Row centered>
-      <ButtonWidget accountId={4} />
+      <ButtonWidget accountId={18} />
     </Row>
-    */}
 
     {/*
     <Title>Inline widget 400x275</Title>

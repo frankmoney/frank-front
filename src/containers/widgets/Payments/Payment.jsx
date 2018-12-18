@@ -1,11 +1,12 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { format as formatDate } from 'date-fns'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
-import type { Props } from './Payment.flow'
+import type { Payment as PaymentProps } from 'data/models/payment'
+import { UNCATEGORIZED_CATEGORY } from 'const'
 
 const styles = theme => ({
   root: {
@@ -58,32 +59,39 @@ const styles = theme => ({
   },
 })
 
+type Props = {|
+  ...PaymentProps,
+  ...InjectStylesProps,
+  //
+  showCategory: boolean,
+|}
+
 const Payment = ({
   amount,
-  category: { color, name },
+  category,
   classes,
   className,
   description,
-  peerName,
+  peer,
   postedOn,
   showCategory,
 }: Props) => {
   const date = formatDate(postedOn, 'MMM D')
+  const renderedCategory = category || UNCATEGORIZED_CATEGORY
+  // TODO: update colors for empty data labels, add verified flag (question mark)
+  const peerName = peer ? peer.name : 'Undefined payment'
+  const renderedDescription = description || 'No description yet'
   return (
     <div className={cx(classes.root, className)}>
       <div className={classes.left}>
-        <div className={classes.description}>
-          {description || '[empty description. plz fix]'
-          // FIXME: remove dev placeholder
-          }
-        </div>
+        <div className={classes.description}>{renderedDescription}</div>
         <div className={classes.peerName}>{peerName}</div>
         {showCategory && (
           <CategoryLabel
             className={classes.category}
             iconClassName={classes.categoryIcon}
-            color={color}
-            name={name}
+            color={renderedCategory.color}
+            name={renderedCategory.name}
           />
         )}
       </div>

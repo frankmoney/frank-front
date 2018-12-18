@@ -1,10 +1,10 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import type { Payment as PaymentProps } from 'data/models/payment'
 import Payment from './Payment'
-import type { PaymentProps } from './Payment.flow'
 
 const styles = theme => ({
   root: {},

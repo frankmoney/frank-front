@@ -3,8 +3,8 @@ import React from 'react'
 import * as R from 'ramda'
 import D from 'date-fns/fp'
 import CurrencyProvider from 'components/CurrencyProvider'
+import type { Payment as PaymentProps } from 'data/models/payment'
 import PaymentBlock from './PaymentBlock'
-import type { PaymentProps } from './Payment.flow'
 
 const dateProp = R.prop('postedOn')
 const fullMonthProp = R.pipe(

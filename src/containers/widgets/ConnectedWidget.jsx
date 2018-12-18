@@ -41,7 +41,7 @@ class ConnectedWidget extends React.Component<Props, State> {
       () =>
         graphql(...buildQuery(accountId, categoryId)).then(
           ({ pieChart, payments, barChart, ...rest }) => {
-            console.log('graphql data', rest)
+            console.log('graphql data', rest, payments)
             this.setState({
               loading: false,
               data: {
