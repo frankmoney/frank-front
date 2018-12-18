@@ -1,7 +1,10 @@
+// @flow strict
 import { createPlainObjectSelector } from '@frankmoney/utils'
+import type { ReduxState } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
 
-const getter = (...path) => store => store.getIn([REDUCER_KEY, ...path])
+const getter = (...path) => (state: ReduxState) =>
+  state.getIn([REDUCER_KEY, ...path])
 
 const getters = {
   payment: getter('payment'),

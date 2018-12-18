@@ -3,11 +3,12 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { formValueSelector, isValid, isDirty } from 'redux-form/immutable'
 import { createPlainObjectSelector } from '@frankmoney/utils'
-import type { Store } from 'flow/redux'
+import type { ReduxState } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
 import { FORM_NAME } from './constants'
 
-const get = (...prop) => (store: Store) => store.getIn([REDUCER_KEY, ...prop])
+const get = (...prop) => (state: ReduxState) =>
+  state.getIn([REDUCER_KEY, ...prop])
 
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
@@ -89,9 +90,9 @@ export const formInitialValuesSelector = createSelector(
 
 const storyEditFormValueSelector = formValueSelector(FORM_NAME)
 
-export const validSelector = state => isValid(FORM_NAME)(state)
+export const validSelector = (state: ReduxState) => isValid(FORM_NAME)(state)
 
-export const dirtySelector = state => isDirty(FORM_NAME)(state)
+export const dirtySelector = (state: ReduxState) => isDirty(FORM_NAME)(state)
 
 export const isSaveButtonDisabledSelector = createSelector(
   dirtySelector,

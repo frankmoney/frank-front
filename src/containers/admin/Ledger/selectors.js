@@ -19,7 +19,7 @@ import {
   type PieChartItems,
   type PieTotal,
 } from 'data/models/pieData'
-import type { Selector, Store } from 'flow/redux'
+import type { Selector, ReduxState } from 'flow/redux'
 import {
   formatDateRangeFilter,
   formatMonth,
@@ -34,7 +34,8 @@ import {
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
-const get = (...prop) => (store: Store) => store.getIn([REDUCER_KEY, ...prop])
+const get = (...prop) => (state: ReduxState) =>
+  state.getIn([REDUCER_KEY, ...prop])
 
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')

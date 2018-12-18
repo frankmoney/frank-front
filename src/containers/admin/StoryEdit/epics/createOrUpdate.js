@@ -5,7 +5,7 @@ import { replace as replaceLocation } from 'react-router-redux'
 import { getFormValues } from 'redux-form/immutable'
 import createFilesApi from 'data/api/files'
 import { currentAccountIdSelector } from 'redux/selectors/user'
-import type { Store } from 'flow/redux'
+import type { ReduxStore } from 'flow/redux'
 import { ROUTES } from 'const'
 import ACTIONS from '../actions'
 import QUERIES from '../queries'
@@ -56,7 +56,7 @@ const cropCoverImage = async (httpClient, { image, crop }) => {
 
 export default (
   action$: any, // flowlint-line unclear-type:off
-  store: Store,
+  store: ReduxStore,
   { http: httpClient, graphql }: Object // flowlint-line unclear-type:off
 ) =>
   action$
