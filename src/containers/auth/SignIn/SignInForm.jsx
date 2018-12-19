@@ -4,10 +4,14 @@ import cx from 'classnames'
 import { required, email } from '@frankmoney/forms'
 import { compose } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
+import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import Button from 'components/kit/Button'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import TextField from 'components/kit/TextField'
+import ACTIONS from './actions'
+import { FORM_NAME } from './const'
+import { busySelector } from './selectors'
 
 const styles = {
   root: {},
@@ -24,7 +28,7 @@ const validation = {
   password: [required],
 }
 
-const SignInForm = ({ classes, className, submit, invalid }) => (
+const SignInForm = ({ classes, className, submit, busy, invalid }) => (
   <div className={cx(classes.root, className)}>
     <ReduxFormControl.Field
       name="email"
@@ -53,6 +57,7 @@ const SignInForm = ({ classes, className, submit, invalid }) => (
       color="green"
       label="Sign in"
       stretch
+      loading={busy}
       disabled={invalid}
       onClick={() => submit()}
     />
@@ -60,13 +65,15 @@ const SignInForm = ({ classes, className, submit, invalid }) => (
 )
 
 export default compose(
+  reconnect(
+    { busy: busySelector },
+    {
+      signIn: ACTIONS.signIn,
+    }
+  ),
   reduxForm({
-    form: 'sign-in',
-    onSubmit: data => {
-      window.location = `${window.location.origin}/login?user=${data.get(
-        'email'
-      )}`
-    },
+    form: FORM_NAME,
+    onSubmit: (data, dispatch, { signIn }) => signIn(data.toJS()),
   }),
   injectStyles(styles)
 )(SignInForm)
