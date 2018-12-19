@@ -22,9 +22,22 @@ import {
   isEmptyAccountSelector,
   isLoadingSelector,
   listDisabledSelector,
+  cascadeSnackbarShown,
+  lastCascadeCountSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
+import PaymentCascadeSnackbar from './PaymentCascadeSnackbar'
+
+const ConnectedPaymentCascadeSnackbar = reconnect(
+  {
+    count: lastCascadeCountSelector,
+    shown: cascadeSnackbarShown,
+  },
+  {
+    onDismiss: ACTIONS.dismissCascadeSnackbar,
+  }
+)(PaymentCascadeSnackbar)
 
 const Ledger = ({
   cancelCategory,
@@ -78,6 +91,7 @@ const Ledger = ({
             )}
         </div>
       )}
+      <ConnectedPaymentCascadeSnackbar />
     </div>
   </CurrencyProvider>
 )

@@ -32,8 +32,6 @@ export default handleActions(
         },
       }
     ) => updateMeta(id, { saving: false, cascadeCount: cascade.length }, state),
-    [ACTIONS.dismissCascadeNotification]: (state, { payload: id }) =>
-      updateMeta(id, { cascadeCount: 0 }, state),
   },
   defaultState
 )
