@@ -48,6 +48,7 @@ const ComposedAccountItem = withProps({
         navLinkComponent={ReduxNavLink}
         primaryText="Directory"
         leftIcon={DirectoryIcon}
+        disabled
       />
       <SidebarMenuItem
         navLinkComponent={ReduxNavLink}
