@@ -1,7 +1,7 @@
 // @flow strict-local
 import React from 'react'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import ConnectedWidget, { type WidgetAPI } from '../ConnectedWidget'
+import Widget, { type WidgetAPI } from '../Widget'
 import ButtonWidgetExpander from './ButtonWidgetExpander'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
@@ -51,7 +51,7 @@ type Props = {|
 
 const ButtonWidget = ({ accountId, classes, open }: Props) => (
   <ButtonWidgetExpander open={open} width={WIDTH}>
-    <ConnectedWidget
+    <Widget
       accountId={accountId}
       barsFooterPadding={12}
       barsHeight={196}

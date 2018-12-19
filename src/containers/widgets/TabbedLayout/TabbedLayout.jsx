@@ -15,8 +15,8 @@ type Props = {|
   tab: WidgetTab,
   //
   AboutTab: TabRenderer,
-  OverviewTab: TabRenderer,
-  PaymentListTab: TabRenderer,
+  OverviewTab: ?TabRenderer,
+  PaymentListTab: ?TabRenderer,
   StoriesTab: TabRenderer,
 |}
 

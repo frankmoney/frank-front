@@ -2,20 +2,21 @@
 // flowlint unsafe-getters-setters:off
 import React from 'react'
 import * as R from 'ramda'
+import { compose, getContext } from 'recompose'
+import PropTypes from 'prop-types'
+import AreaSpinner from 'components/AreaSpinner'
 import type {
   CategoryListComponent,
   CategoryListPieChartRootComponent,
   PieChartCategories,
 } from 'components/OverviewPieChart'
-import { type BarData } from 'data/models/barData'
+import { formatBarDataPoints, type BarData } from 'data/models/barData'
 import { type Payment } from 'data/models/payment'
 import {
-  createPieDataMapper,
   forceValidPieTotal,
   type LedgerPieChart,
   type PieTotal,
 } from 'data/models/pieData'
-import { UNCATEGORIZED_CATEGORY } from 'const'
 import type { FooterClasses, FooterProps } from './Footer'
 import TabbedLayout, {
   OVERVIEW_TAB,
@@ -24,16 +25,16 @@ import TabbedLayout, {
 } from './TabbedLayout'
 import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
 import type { Period } from './PeriodSelect'
+import { ALL_CATEGORIES, buildQuery, remapPieData } from './utils'
 
-type Category = {
-  color?: string,
-  id: ?number,
-  name: string,
-}
+export type WidgetAPI = {|
+  accountId: number,
+|}
 
-const ALL_CATEGORIES: Category = {
-  name: 'Payments',
-  id: null,
+interface Category {
+  color?: string;
+  id: string;
+  name: string;
 }
 
 export type WidgetProps = {|
@@ -63,14 +64,16 @@ export type WidgetProps = {|
 |}
 
 export type WidgetDataProps = {|
-  barData: BarData,
+  barData: ?BarData,
   payments: Array<Payment>,
-  pieChart: LedgerPieChart,
+  pieChart: ?LedgerPieChart,
 |}
 
 type Props = {|
-  ...WidgetDataProps,
+  ...WidgetAPI,
   ...WidgetProps,
+  // context
+  graphql: (string, Object) => Promise<Object>, // flowlint-line unclear-type:off
 |}
 
 type State = {|
@@ -78,24 +81,26 @@ type State = {|
   pieTotal: PieTotal,
   period: Period,
   tab: WidgetTab,
+  //
+  ...WidgetDataProps,
+  loading: boolean,
 |}
 
-const filterPayments = (categoryId: ?string, items: Array<Payment>) =>
-  R.isNil(categoryId)
-    ? items
-    : R.filter(
-        categoryId === UNCATEGORIZED_CATEGORY.id
-          ? R.propEq('category', null)
-          : R.pathEq(['category', 'id'], categoryId),
-        items
-      )
-
-class Widget extends React.PureComponent<Props, State> {
+class Widget extends React.Component<Props, State> {
   state = {
     currentCategory: null,
     pieTotal: 'income',
     period: 'All Time',
     tab: OVERVIEW_TAB,
+    //
+    loading: true,
+    barData: null,
+    payments: [],
+    pieChart: null,
+  }
+
+  componentDidMount() {
+    this.loadData(ALL_CATEGORIES.id)
   }
 
   get currentCategoryId(): ?string {
@@ -103,31 +108,31 @@ class Widget extends React.PureComponent<Props, State> {
   }
 
   get payments() {
-    // TODO: use period in the filter
-    return filterPayments(this.currentCategoryId, this.props.payments)
+    return this.state.payments
   }
 
   get paymentCount(): number {
-    return R.length(this.props.payments)
+    return R.length(this.state.payments)
   }
 
-  get pieTotal(): PieTotal {
-    return forceValidPieTotal(this.state.pieTotal, this.props.pieChart)
+  get pieTotal(): ?PieTotal {
+    return this.state.pieChart
+      ? forceValidPieTotal(this.state.pieTotal, this.state.pieChart)
+      : null
   }
 
   get pieTotalSelectable(): boolean {
     return this.state.pieTotal === this.pieTotal
   }
 
-  get pieItems(): PieChartCategories {
-    const remapPieData = createPieDataMapper({
-      nameEmptyCategoryAs: 'Uncategorized',
-    })
-    return remapPieData(this.pieTotal, this.props.pieChart)
+  get pieItems(): ?PieChartCategories {
+    return this.state.pieChart && this.pieTotal
+      ? remapPieData(this.pieTotal, this.state.pieChart)
+      : null
   }
 
-  get barData(): BarData {
-    return this.props.barData
+  get barData(): ?BarData {
+    return this.state.barData
   }
 
   get period(): Period {
@@ -139,22 +144,57 @@ class Widget extends React.PureComponent<Props, State> {
     return ['All time', '2018', 'TBD'] // TODO: dynamic list?
   }
 
+  loadData = (categoryId: ?string) => {
+    const { graphql, accountId } = this.props
+    this.setState(
+      {
+        loading: true,
+      },
+      () =>
+        // TODO: use period in the request
+        graphql(...buildQuery(accountId, categoryId)).then(response => {
+          const { pieChart, payments, barChart, barsUnit } = response
+          console.log('graphql', response)
+          this.setState({
+            loading: false,
+            pieChart,
+            payments,
+            barData: barChart ? formatBarDataPoints(barChart, barsUnit) : null,
+          })
+        })
+    )
+  }
+
   handleTabSwitch = (tab: WidgetTab) => this.setState({ tab })
 
-  handleCategorySelect = (category: Category) =>
-    this.setState({ currentCategory: category, tab: PAYMENTS_TAB })
+  handleCategorySelect = (category: Category) => {
+    this.setState(
+      {
+        currentCategory: category,
+        tab: PAYMENTS_TAB,
+      },
+      () => this.loadData(category.id)
+    )
+  }
 
   handleCategoryCancel = () =>
-    this.setState({
-      currentCategory: null,
-      tab: OVERVIEW_TAB,
-    })
+    this.setState(
+      {
+        currentCategory: null,
+        tab: OVERVIEW_TAB,
+      },
+      () => this.loadData(ALL_CATEGORIES.id)
+    )
 
   handlePieTotalChange = (pieTotal: PieTotal) => this.setState({ pieTotal })
 
   handlePeriodChange = (period: PieTotal) => this.setState({ period })
 
   render() {
+    if (this.state.loading) {
+      return <AreaSpinner />
+    }
+
     const {
       barChartClassName,
       barsFooterPadding,
@@ -193,52 +233,56 @@ class Widget extends React.PureComponent<Props, State> {
         onTabSwitch={this.handleTabSwitch}
         tab={tab}
         OverviewTab={
-          <OverviewTab
-            categoryCount={categoryCount}
-            CategoryList={CategoryList}
-            chartClassName={overviewChartClassName}
-            contentClassName={contentClassName}
-            FooterClasses={OverviewFooterClasses}
-            FooterProps={OverviewFooterProps}
-            onCategoryClick={this.handleCategorySelect}
-            onPeriodChange={this.handlePeriodChange}
-            onPieTotalChange={this.handlePieTotalChange}
-            onSeeAllClick={() => this.handleCategorySelect(ALL_CATEGORIES)}
-            paymentCount={this.paymentCount}
-            period={this.period}
-            periods={this.periods}
-            pieChartRootComponent={pieChartRootComponent}
-            pieClassName={pieChartClassName}
-            pieItems={this.pieItems}
-            pieTotal={this.pieTotal}
-            pieTotalSelectable={this.pieTotalSelectable}
-            showTotals={showOverviewTotals}
-            widgetSize={widgetSize}
-          />
+          this.pieItems && (
+            <OverviewTab
+              categoryCount={categoryCount}
+              CategoryList={CategoryList}
+              chartClassName={overviewChartClassName}
+              contentClassName={contentClassName}
+              FooterClasses={OverviewFooterClasses}
+              FooterProps={OverviewFooterProps}
+              onCategoryClick={this.handleCategorySelect}
+              onPeriodChange={this.handlePeriodChange}
+              onPieTotalChange={this.handlePieTotalChange}
+              onSeeAllClick={() => this.handleCategorySelect(ALL_CATEGORIES)}
+              paymentCount={this.paymentCount}
+              period={this.period}
+              periods={this.periods}
+              pieChartRootComponent={pieChartRootComponent}
+              pieClassName={pieChartClassName}
+              pieItems={this.pieItems}
+              pieTotal={this.pieTotal}
+              pieTotalSelectable={this.pieTotalSelectable}
+              showTotals={showOverviewTotals}
+              widgetSize={widgetSize}
+            />
+          )
         }
         PaymentListTab={
-          <PaymentListTab
-            barChartClassName={barChartClassName}
-            barsData={this.barData}
-            barsHeight={barsHeight}
-            barsWidth={barsWidth}
-            contentClassName={contentClassName}
-            currentCategoryColor={currentCategoryColor}
-            currentCategoryName={currentCategoryName}
-            footerPadding={barsFooterPadding}
-            onCancelCategoryClick={this.handleCategoryCancel}
-            onPeriodChange={this.handlePeriodChange}
-            paymentBlockClassName={paymentBlockClassName}
-            paymentBlockTitleClassName={paymentBlockTitleClassName}
-            paymentClassName={paymentClassName}
-            paymentListClassName={paymentListClassName}
-            paymentsData={this.payments}
-            paymentsPeriodClassName={paymentsPeriodClassName}
-            period={this.period}
-            periods={this.periods}
-            showBarChart={showBarChart}
-            showCategories={showCategories}
-          />
+          this.barData && (
+            <PaymentListTab
+              barChartClassName={barChartClassName}
+              barsData={this.barData}
+              barsHeight={barsHeight}
+              barsWidth={barsWidth}
+              contentClassName={contentClassName}
+              currentCategoryColor={currentCategoryColor}
+              currentCategoryName={currentCategoryName}
+              footerPadding={barsFooterPadding}
+              onCancelCategoryClick={this.handleCategoryCancel}
+              onPeriodChange={this.handlePeriodChange}
+              paymentBlockClassName={paymentBlockClassName}
+              paymentBlockTitleClassName={paymentBlockTitleClassName}
+              paymentClassName={paymentClassName}
+              paymentListClassName={paymentListClassName}
+              paymentsData={this.payments}
+              paymentsPeriodClassName={paymentsPeriodClassName}
+              period={this.period}
+              periods={this.periods}
+              showBarChart={showBarChart}
+              showCategories={showCategories}
+            />
+          )
         }
         StoriesTab={<StoriesTab />}
         AboutTab={<AboutTab />}
@@ -247,4 +291,8 @@ class Widget extends React.PureComponent<Props, State> {
   }
 }
 
-export default Widget
+export default compose(
+  getContext({
+    graphql: PropTypes.func.isRequired,
+  })
+)(Widget)
