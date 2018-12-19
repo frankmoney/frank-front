@@ -24,6 +24,7 @@ export const peerChanged = id => {
 }
 
 export const saving = id => get('meta', id, 'saving')
+export const cascadeCount = id => get('meta', id, 'cascadeCount')
 export const publishing = id => get('meta', id, 'publishing')
 export const paymentData = id =>
   createPlainObjectSelector(getFormValues(getFormName(id)))

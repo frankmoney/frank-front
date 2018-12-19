@@ -7,6 +7,7 @@ export default reconnect(
   (_, initialProps) => ({
     accountId: currentAccountIdSelector,
     saving: SELECTORS.saving(initialProps.id),
+    cascadeCount: SELECTORS.cascadeCount(initialProps.id),
     publishing: SELECTORS.publishing(initialProps.id),
     descriptionChanged: SELECTORS.descriptionChanged(initialProps.id),
     peerChanged: SELECTORS.peerChanged(initialProps.id),
@@ -16,5 +17,6 @@ export default reconnect(
     onPaymentSave: ACTIONS.save,
     onPaymentPublish: ACTIONS.publish,
     onPaymentUnpublish: ACTIONS.unpublish,
+    onDismissSnackbar: ACTIONS.dismissCascadeNotification,
   }
 )

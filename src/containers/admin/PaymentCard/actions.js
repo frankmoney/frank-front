@@ -4,4 +4,5 @@ export default createActions('payment', {
   save: true,
   publish: true,
   unpublish: true,
+  dismissCascadeNotification: false,
 })

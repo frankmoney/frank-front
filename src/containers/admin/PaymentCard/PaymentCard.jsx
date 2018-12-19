@@ -22,6 +22,7 @@ import PeerField from './PeerField'
 import styles from './PaymentCard.jss'
 import connectCard from './connectCard'
 import { getFormName } from './const'
+import PaymentCascadeSnackbar from './PaymentCascadeSnackbar'
 
 const validation = {
   categoryId: [required],
@@ -61,6 +62,8 @@ const PaymentCard = ({
   categoryLoading,
   handleFieldBlur,
   handleFieldChange,
+  cascadeCount,
+  onDismissSnackbar,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
@@ -198,6 +201,11 @@ const PaymentCard = ({
         )}
       </div>
     </div>
+    <PaymentCascadeSnackbar
+      shown={cascadeCount > 1}
+      count={cascadeCount}
+      onDismiss={() => onDismissSnackbar(paymentId)}
+    />
   </Paper>
 )
 
