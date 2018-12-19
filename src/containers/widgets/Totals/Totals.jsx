@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -12,11 +12,14 @@ const styles = {
   },
 }
 
-type Props = {|
-  ...InjectStylesProps,
-  //
+export type TotalsProps = {|
   income: number,
   spending: number,
+|}
+
+type Props = {|
+  ...InjectStylesProps,
+  ...TotalsProps,
 |}
 
 const Totals = ({ className, classes, income, spending }: Props) => {

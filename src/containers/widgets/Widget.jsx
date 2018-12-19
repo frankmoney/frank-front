@@ -64,9 +64,16 @@ export type WidgetProps = {|
 |}
 
 export type WidgetDataProps = {|
+  accountName: ?string,
   barData: ?BarData,
+  categoryCount: ?number,
+  paymentCount: ?number,
   payments: Array<Payment>,
   pieChart: ?LedgerPieChart,
+  totals: ?{
+    income: number,
+    spending: number,
+  },
 |}
 
 type Props = {|
@@ -92,15 +99,23 @@ class Widget extends React.Component<Props, State> {
     pieTotal: 'income',
     period: 'All Time',
     tab: OVERVIEW_TAB,
-    //
-    loading: true,
+    // data
+    accountName: null,
     barData: null,
+    categoryCount: null,
+    loading: true,
+    paymentCount: null,
     payments: [],
     pieChart: null,
+    totals: null,
   }
 
   componentDidMount() {
     this.loadData(ALL_CATEGORIES.id)
+  }
+
+  get categoryCount(): ?number {
+    return this.props.showCategoryCount ? this.state.categoryCount : null
   }
 
   get currentCategoryId(): ?string {
@@ -111,8 +126,8 @@ class Widget extends React.Component<Props, State> {
     return this.state.payments
   }
 
-  get paymentCount(): number {
-    return R.length(this.state.payments)
+  get paymentCount(): ?number {
+    return this.state.paymentCount
   }
 
   get pieTotal(): ?PieTotal {
@@ -152,14 +167,38 @@ class Widget extends React.Component<Props, State> {
       },
       () =>
         // TODO: use period in the request
-        graphql(...buildQuery(accountId, categoryId)).then(response => {
-          const { pieChart, payments, barChart, barsUnit } = response
+        graphql(
+          ...buildQuery(
+            accountId,
+            categoryId,
+            R.isNil(this.state.categoryCount)
+          )
+        ).then(response => {
+          const {
+            barChart,
+            barsUnit,
+            categories,
+            name,
+            payments,
+            pieChart,
+            revenue,
+            spending,
+            totalCount,
+          } = response
           console.log('graphql', response)
           this.setState({
             loading: false,
-            pieChart,
-            payments,
+            //
+            accountName: name,
             barData: barChart ? formatBarDataPoints(barChart, barsUnit) : null,
+            categoryCount: R.length(categories),
+            paymentCount: totalCount,
+            payments,
+            pieChart,
+            totals: {
+              income: revenue,
+              spending,
+            },
           })
         })
     )
@@ -214,7 +253,6 @@ class Widget extends React.Component<Props, State> {
       pieChartClassName,
       pieChartRootComponent,
       showBarChart,
-      showCategoryCount,
       showOverviewTotals,
       widgetSize,
     } = this.props
@@ -224,9 +262,6 @@ class Widget extends React.Component<Props, State> {
     const currentCategoryName = R.prop('name', currentCategory)
 
     const showCategories = R.isNil(this.currentCategoryId)
-
-    const categoryCount = showCategoryCount ? R.length(this.pieItems) : null
-
     return (
       <TabbedLayout
         className={className}
@@ -235,7 +270,7 @@ class Widget extends React.Component<Props, State> {
         OverviewTab={
           this.pieItems && (
             <OverviewTab
-              categoryCount={categoryCount}
+              categoryCount={this.categoryCount}
               CategoryList={CategoryList}
               chartClassName={overviewChartClassName}
               contentClassName={contentClassName}
@@ -253,7 +288,7 @@ class Widget extends React.Component<Props, State> {
               pieItems={this.pieItems}
               pieTotal={this.pieTotal}
               pieTotalSelectable={this.pieTotalSelectable}
-              showTotals={showOverviewTotals}
+              totals={showOverviewTotals ? this.state.totals : null}
               widgetSize={widgetSize}
             />
           )
@@ -285,7 +320,9 @@ class Widget extends React.Component<Props, State> {
           )
         }
         StoriesTab={<StoriesTab />}
-        AboutTab={<AboutTab />}
+        AboutTab={
+          <AboutTab name={this.state.accountName} totals={this.state.totals} />
+        }
       />
     )
   }

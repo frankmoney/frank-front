@@ -14,7 +14,11 @@ export const remapPieData = createPieDataMapper({
   nameEmptyCategoryAs: 'Uncategorized',
 })
 
-export const buildQuery = (accountId: number, categoryId: ?string) => {
+export const buildQuery = (
+  accountId: number,
+  categoryId: ?string,
+  loadCategories: boolean
+) => {
   const reqCategoryId =
     categoryId === ALL_CATEGORIES.id || categoryId === UNCATEGORIZED_CATEGORY.id
       ? null
@@ -26,7 +30,7 @@ export const buildQuery = (accountId: number, categoryId: ?string) => {
   return [
     QUERIES.buildQuery({
       barChart: true, // TODO: optimize
-      categories: false, // FIXME?
+      categories: loadCategories,
       categoryScoped: !!reqCategoryId,
       payments: true,
       pieChart: true, // TODO: optimize

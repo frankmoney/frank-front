@@ -1,8 +1,8 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import Totals from '../Totals'
+import Totals, { type TotalsProps } from '../Totals'
 
 const styles = theme => ({
   root: {
@@ -23,12 +23,15 @@ const styles = theme => ({
 
 type Props = {|
   ...InjectStylesProps,
+  //
+  name: ?string,
+  totals: ?TotalsProps,
 |}
 
-const AboutTab = ({ classes, className }: Props) => (
+const AboutTab = ({ classes, className, name, totals }: Props) => (
   <div className={cx(classes.root, className)}>
-    <div className={classes.title}>MakeaChamp</div>
-    <Totals className={classes.totals} />
+    {name && <div className={classes.title}>{name}</div>}
+    {totals && <Totals className={classes.totals} {...totals} />}
     TODO
   </div>
 )
