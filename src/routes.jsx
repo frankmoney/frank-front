@@ -8,12 +8,11 @@ import demoRoutes from 'demo/routes'
 import { ROUTES } from './const'
 
 export default [
-  // TODO redirect to default account or new
-  // {
-  //   component: withProps({ to: ROUTES.manage.ledger.root })(Redirect),
-  //   path: ROUTES.root,
-  //   exact: true,
-  // },
+  {
+    component: withProps({ to: ROUTES.account.root })(Redirect),
+    path: ROUTES.root,
+    exact: true,
+  },
   {
     component: Login,
     path: ROUTES.auth.login,

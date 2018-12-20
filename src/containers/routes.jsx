@@ -1,9 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { createRouteUrl } from '@frankmoney/utils'
 import { currentUserSelector, queryParamSelector } from '@frankmoney/webapp'
 import { compose, withProps, branch, renderComponent } from 'recompose'
 import { Redirect, Switch, Route } from 'react-router-dom'
 import Helmet from 'react-helmet'
+import { userAccountsSelector } from 'redux/selectors/user'
 import { BASE_TITLE, ROUTES } from 'const'
 import Inbox from 'containers/admin/Inbox'
 import Ledger from 'containers/admin/Ledger'
@@ -28,6 +30,17 @@ const withLayout = Component => props => (
 )
 
 const RedirectToLogin = withProps({ to: ROUTES.auth.login })(Redirect)
+
+const RedirectToDefaultAccount = compose(
+  connect(state => ({
+    accounts: userAccountsSelector(state),
+  })),
+  withProps(props => ({
+    to: createRouteUrl(ROUTES.account.idRoot, {
+      accountId: props.accounts.length > 0 ? props.accounts[0].id : 'new',
+    }),
+  }))
+)(Redirect)
 
 const protectedRoute = compose(
   connect(state => ({
@@ -170,6 +183,11 @@ export default [
   {
     component: routeMappers.payment(PublicPayment),
     path: ROUTES.account.payment.idRoot,
+    exact: true,
+  },
+  {
+    component: protectedRoute(RedirectToDefaultAccount),
+    path: ROUTES.account.root,
     exact: true,
   },
 ]

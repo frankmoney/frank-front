@@ -9,6 +9,7 @@ export const ROUTES = {
     logout: '/logout',
   },
   account: {
+    root: '/accounts',
     onboarding: '/accounts/new',
     idRoot: '/accounts/:accountId?',
     idRootTab: '/accounts/:accountId/:tab(stories)?',

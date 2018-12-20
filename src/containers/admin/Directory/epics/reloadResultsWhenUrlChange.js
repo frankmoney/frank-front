@@ -9,13 +9,6 @@ export default (action$, store) =>
   action$
     .ofType(LOCATION_CHANGE)
     // Epic should occurs only on Directory page!
-    .filter(
-      ({ payload: { pathname } }) =>
-        pathname ===
-        createRouteUrl(ROUTES.account.directory.root, {
-          accountId: currentAccountIdSelector(store.getState()),
-        })
-    )
     .filter(() => loadedSelector(store.getState()))
     .debounceTime(777)
     .mergeMap(() => [ACTIONS.load({ update: true })])
