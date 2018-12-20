@@ -1,6 +1,7 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
+import PublicLinkButton from 'components/PublicLinkButton'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Totals, { type TotalsProps } from '../Totals'
 
@@ -9,15 +10,20 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
+    paddingTop: 8,
   },
   title: {
-    ...theme.fontMedium(28, 40), // TODO: variable font size
+    ...theme.fontSemibold(40, 42),
   },
   totals: {
-    marginTop: 59, // FIXME: tmp
-    width: 360,
-    marginLeft: 2,
-    // TODO: fix font size
+    margin: [30, 0, 0],
+  },
+  link: {
+    margin: [28, 0, 0, -2],
+  },
+  description: {
+    margin: [23, 0, 0, 1],
+    ...theme.fontRegular(18, 28),
   },
 })
 
@@ -32,7 +38,16 @@ const AboutTab = ({ classes, className, name, totals }: Props) => (
   <div className={cx(classes.root, className)}>
     {name && <div className={classes.title}>{name}</div>}
     {totals && <Totals className={classes.totals} {...totals} />}
-    TODO
+    <PublicLinkButton
+      className={classes.link}
+      url={'google.com'}
+      label={'google.com'}
+    />
+    <div className={classes.description}>
+      MakeaChamp is the leader in crowdfunding for competitive sports. Our
+      global platform aims to level the playing field and ensure every
+      competitive athlete.
+    </div>
   </div>
 )
 
