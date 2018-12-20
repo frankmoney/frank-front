@@ -28,9 +28,10 @@ export default handleActions(
       {
         payload: {
           payment: { id },
+          cascade,
         },
       }
-    ) => updateMeta(id, { saving: false }, state),
+    ) => updateMeta(id, { saving: false, cascadeCount: cascade.length }, state),
   },
   defaultState
 )

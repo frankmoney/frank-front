@@ -40,6 +40,12 @@ export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const listIsUpdatingSelector = get('updatingList')
 export const isTypingSelector = get('typing')
+export const lastCascadeCountSelector = get('lastCascadeCount')
+export const cascadeSnackbarShown = createSelector(
+  lastCascadeCountSelector,
+  x => x > 0
+)
+
 export const paymentsTotalCountSelector = get('paymentsCount')
 export const categoriesSelector = createPlainObjectSelector(get('categories'))
 export const paymentCardCategoriesSelector = categoriesSelector
