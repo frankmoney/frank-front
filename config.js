@@ -5,5 +5,5 @@ module.exports = {
   backendUrl,
   graphqlEndpointPath: '',
   apiEndpointPath: '/api',
-  authCookieName: 'currentUser',
+  authCookieName: process.env.AUTHENTICATION_COOKIE || 'at',
 }
