@@ -7,12 +7,19 @@ import type { Payment as PaymentProps } from 'data/models/payment'
 import Payment from './Payment'
 
 const styles = theme => ({
-  root: {},
-  title: {
-    ...theme.fontMedium(18, 26),
+  titleBar: {
+    display: 'flex',
     background: '#F8F9F9',
     borderRadius: 8,
     padding: [6, 10, 8],
+  },
+  title: {
+    ...theme.fontMedium(18, 26),
+    flex: 1,
+  },
+  subtitle: {
+    ...theme.fontRegular(18, 26),
+    color: '#B9BBC2',
   },
 })
 
@@ -22,6 +29,7 @@ type Props = {|
   title: string,
   items: Array<PaymentProps>,
   showCategories: boolean,
+  subtitle?: string,
   // Styles
   paymentClassName?: string,
   titleClassName?: string,
@@ -35,9 +43,13 @@ const PaymentBlock = ({
   showCategories,
   title,
   titleClassName,
+  subtitle,
 }: Props) => (
-  <div className={cx(classes.root, className)}>
-    <div className={cx(classes.title, titleClassName)}>{title}</div>
+  <div className={className}>
+    <div className={cx(classes.titleBar, titleClassName)}>
+      <div className={classes.title}>{title}</div>
+      {subtitle && <div className={classes.subtitle}>{subtitle}</div>}
+    </div>
     {R.map(
       ({ id, ...payment }) => (
         <Payment

@@ -7,6 +7,7 @@ import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
 import type { Payment as PaymentProps } from 'data/models/payment'
 import { UNCATEGORIZED_CATEGORY } from 'const'
+import QuestionIcon from './QuestionMark.svg'
 
 const styles = theme => ({
   root: {
@@ -57,6 +58,15 @@ const styles = theme => ({
     ...theme.fontRegular(16, 22),
     color: '#BCBFC9',
   },
+  unverified: {
+    color: '#BCBFC9',
+  },
+  unverifiedIcon: {
+    color: '#E9E9ED',
+    position: 'relative',
+    right: 1,
+    bottom: 1,
+  },
 })
 
 type Props = {|
@@ -75,17 +85,29 @@ const Payment = ({
   peer,
   postedOn,
   showCategory,
+  verified,
 }: Props) => {
   const date = formatDate(postedOn, 'MMM D')
   const renderedCategory = category || UNCATEGORIZED_CATEGORY
-  // TODO: update colors for empty data labels, add verified flag (question mark)
   const peerName = peer ? peer.name : 'Undefined payment'
   const renderedDescription = description || 'No description yet'
   return (
     <div className={cx(classes.root, className)}>
       <div className={classes.left}>
-        <div className={classes.description}>{renderedDescription}</div>
-        <div className={classes.peerName}>{peerName}</div>
+        <div
+          className={cx(classes.description, {
+            [classes.unverified]: !description || !verified,
+          })}
+        >
+          {renderedDescription}
+        </div>
+        <div
+          className={cx(classes.peerName, {
+            [classes.unverified]: !peer || !verified,
+          })}
+        >
+          {peerName}
+        </div>
         {showCategory && (
           <CategoryLabel
             className={classes.category}
@@ -101,7 +123,11 @@ const Payment = ({
           valueClassName={classes.amountValue}
           value={amount}
         />
-        <div className={classes.date}>{date}</div>
+        {verified ? (
+          <div className={classes.date}>{date}</div>
+        ) : (
+          <QuestionIcon className={classes.unverifiedIcon} />
+        )}
       </div>
     </div>
   )

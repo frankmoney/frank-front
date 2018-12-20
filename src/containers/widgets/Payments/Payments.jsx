@@ -7,19 +7,23 @@ import type { Payment as PaymentProps } from 'data/models/payment'
 import PaymentBlock from './PaymentBlock'
 
 const dateProp = R.prop('postedOn')
-const fullMonthProp = R.pipe(
+const formattedDateProp = R.pipe(
   dateProp,
-  D.format('MMMM')
+  D.format('MMMM YYYY')
 )
 const groupPayments = R.pipe(
   R.sortBy(dateProp),
-  R.groupBy(fullMonthProp),
+  R.groupBy(formattedDateProp),
   R.toPairs,
-  R.addIndex(R.map)(([title, items], key) => ({
-    items,
-    key,
-    title,
-  }))
+  R.addIndex(R.map)(([fullTitle, items], key) => {
+    const [title, subtitle] = R.split(' ', fullTitle)
+    return {
+      items,
+      key,
+      title,
+      subtitle,
+    }
+  })
 )
 
 export type PaymentsProps = {|
@@ -45,7 +49,6 @@ const Payments = ({
   showCategories,
 }: Props) => {
   const groups = groupPayments(paymentsData)
-
   return (
     <CurrencyProvider code="USD">
       <div className={className}>

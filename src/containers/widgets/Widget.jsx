@@ -230,7 +230,8 @@ class Widget extends React.Component<Props, State> {
   handlePeriodChange = (period: PieTotal) => this.setState({ period })
 
   render() {
-    if (this.state.loading) {
+    const { currentCategory, loading, tab } = this.state
+    if (loading) {
       return <AreaSpinner />
     }
 
@@ -256,12 +257,11 @@ class Widget extends React.Component<Props, State> {
       showOverviewTotals,
       widgetSize,
     } = this.props
-    const { currentCategory, tab } = this.state
 
     const currentCategoryColor = R.prop('color', currentCategory)
     const currentCategoryName = R.prop('name', currentCategory)
+    const showCategories = this.currentCategoryId === ALL_CATEGORIES.id
 
-    const showCategories = R.isNil(this.currentCategoryId)
     return (
       <TabbedLayout
         className={className}
