@@ -56,10 +56,14 @@ export default handleActions(
       }),
     [ACTIONS.publish.success]: (state, { payload: { accountId, story } }) => {
       if (story.draft.published) {
-        const publicUrl = createRouteUrl(ROUTES.public.story.idRoot, {
-          accountId,
-          storyId: story.id,
-        })
+        const publicUrl = createRouteUrl(
+          ROUTES.account.stories.idRoot,
+          {
+            accountId,
+            storyId: story.id,
+          },
+          { public: true }
+        )
         storage.setItem(LS_FLAGS.lastPublishedStoryUrl, publicUrl)
       }
       return state.merge({

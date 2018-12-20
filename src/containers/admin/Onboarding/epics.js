@@ -127,8 +127,7 @@ export const nextStepEpic = (action$, store, { graphql }) =>
 
       return [
         USER_ACTIONS.addAccount(account),
-        USER_ACTIONS.selectAccount(account.id),
-        pushRoute(ROUTES.manage.ledger.root),
+        pushRoute(ROUTES.account.idRoot, { accountId: account.id }),
       ]
     }
   })

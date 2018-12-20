@@ -118,6 +118,11 @@ export default compose(
         this.props.load()
       }
     },
+    componentWillReceiveProps(newProps) {
+      if (newProps.accountId !== this.props.accountId) {
+        this.props.load()
+      }
+    },
     componentWillUnmount() {
       this.props.leave()
     },

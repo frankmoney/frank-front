@@ -82,9 +82,7 @@ class Ledger extends React.Component<Props, State> {
               </>
             )}
             {currentTab === 'stories' && (
-              <>
-                <StoriesList className={classes.table} />
-              </>
+              <StoriesList className={classes.table} />
             )}
           </div>
         </CurrencyProvider>

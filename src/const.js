@@ -8,48 +8,32 @@ export const ROUTES = {
     recoverPassword: '/recover-password',
     logout: '/logout',
   },
-  manage: {
-    inbox: {
-      root: '/manage/inbox',
-    },
-    ledger: {
-      root: '/manage/ledger',
-    },
-    payment: {
-      root: '/manage/ledger/:id',
-    },
+  account: {
+    onboarding: '/accounts/new',
+    idRoot: '/accounts/:accountId?',
+    idRootTab: '/accounts/:accountId/:tab(stories)?',
     stories: {
-      root: '/manage/stories',
-      storyPreview: '/manage/story/:id?',
-      storyEdit: '/manage/story/:id?/edit',
-      storyNew: '/manage/story/new',
+      root: '/accounts/:accountId?/stories',
+      idRoot: '/accounts/:accountId?/stories/:storyId?',
+      idRootEdit: '/accounts/:accountId?/stories/:storyId?/edit',
+      idRootNew: '/accounts/:accountId?/stories/new',
+    },
+    inbox: {
+      root: '/accounts/:accountId/inbox',
     },
     directory: {
-      root: '/manage/directory',
-      recipient: '/manage/directory/:id?',
-    },
-    team: {
-      root: '/manage/team',
-    },
-    settings: {
-      root: '/manage/settings',
-    },
-    onboarding: {
-      root: '/onboarding',
-    },
-  },
-  public: {
-    ledger: {
-      idRoot: '/account/:accountId?',
-      idRootTab: '/account/:accountId/:tab(stories)?',
-      stories: '/account/:accountId?/stories',
-    },
-    story: {
-      idRoot: '/account/:accountId?/stories/:storyId?',
+      root: '/accounts/:accountId/directory',
+      recipient: '/accounts/:accountId/directory/:id?',
     },
     payment: {
-      idRoot: '/account/:accountId?/payments/:paymentId?',
+      idRoot: '/accounts/:accountId?/payments/:paymentId?',
     },
+    settings: {
+      root: '/accounts/:accountId/settings',
+    },
+  },
+  team: {
+    root: '/team',
   },
   demo: {
     root: '/demo',
@@ -78,8 +62,6 @@ export const LS_FLAGS = {
   lastPublishedStoryUrl: 'ui/lastPublishedStoryUrl',
   onboardingTermsAccepted: 'onboarding/terms-accepted',
 }
-
-export const ACCOUNT_COOKIE_NAME = 'account-id'
 
 export const BASE_TITLE = 'Frank'
 

@@ -24,7 +24,9 @@ import CurrencyProvider from 'components/CurrencyProvider'
 import StoryCard from 'components/StoryCard'
 import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
-import NewButton from './NewButton'
+import { BigButton } from 'components/kit/Button'
+import ListLayoutContentBlock from 'components/ListLayoutContentBlock/ListLayoutContentBlock'
+import RouterLink from 'components/RouterLink/RouterLink'
 import StoryPublishedDialog from './StoryPublishedDialog'
 import {
   isLoadingSelector,
@@ -34,12 +36,12 @@ import {
 import * as ACTIONS from './actions'
 import styles from './Stories.jss'
 
-const LinkedStoryCard = withProps(({ storyId }) => ({
+const LinkedStoryCard = withProps(({ accountId, storyId }) => ({
   component: Link,
-  to: createRouteUrl(ROUTES.manage.stories.storyPreview, { storyId }),
+  to: createRouteUrl(ROUTES.account.stories.idRoot, { accountId, storyId }),
 }))(StoryCard)
 
-const Stories = ({ classes, noStories, stories, className }) => (
+const Stories = ({ classes, accountId, noStories, stories, className }) => (
   <CurrencyProvider code="USD">
     <div className={cx(classes.root, className)}>
       <FixedHeader className={classes.header}>
@@ -48,10 +50,17 @@ const Stories = ({ classes, noStories, stories, className }) => (
         </Breadcrumbs>
       </FixedHeader>
       <div className={classes.container}>
-        <NewButton />
+        <ListLayoutContentBlock>
+          <RouterLink
+            to={createRouteUrl(ROUTES.account.stories.idRootNew, { accountId })}
+          >
+            <BigButton label="New story" />
+          </RouterLink>
+        </ListLayoutContentBlock>
         {!noStories &&
           stories.map(story => (
             <LinkedStoryCard
+              accountId={accountId}
               {...story.draft}
               key={story.id}
               storyId={story.id}

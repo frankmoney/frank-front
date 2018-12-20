@@ -47,7 +47,7 @@ const Story = ({
           )}
           <ShareButtons
             className={classes.share}
-            url={createRouteUrl(ROUTES.public.story.idRoot, {
+            url={createRouteUrl(ROUTES.account.stories.idRoot, {
               accountId,
               storyId,
             })}

@@ -1,12 +1,11 @@
 /* eslint-disable global-require */
 import path from 'path'
 import Server from '@frankmoney/webapp/es/server/Server'
-import { ACCOUNT_COOKIE_NAME } from 'const'
 import config from '../../config'
 import initRoutes from './router'
 
 const isProd = process.env.NODE_ENV === 'production'
-const findUser = ({ graphqlClient, req }) => {
+const findUser = ({ graphqlClient }) => {
   const mePromise = graphqlClient(
     `{
       user: me {
@@ -32,11 +31,6 @@ const findUser = ({ graphqlClient, req }) => {
       return accountsPromise.then(({ accounts }) => ({
         ...user,
         accounts,
-        accountId:
-          req.cookies[ACCOUNT_COOKIE_NAME] ||
-          (accounts && accounts.length > 0
-            ? accounts[accounts.length - 1].id
-            : null),
       }))
     }
     return null
