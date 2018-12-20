@@ -26,6 +26,7 @@ import TabbedLayout, {
 import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
 import type { Period } from './PeriodSelect'
 import { ALL_CATEGORIES, buildQuery, remapPieData } from './utils'
+import ErrorScreen from './ErrorScreen'
 
 export type WidgetAPI = {|
   accountId: number,
@@ -91,13 +92,15 @@ type State = {|
   //
   ...WidgetDataProps,
   loading: boolean,
+  isPrivate: boolean,
 |}
 
 class Widget extends React.Component<Props, State> {
   state = {
     currentCategory: null,
-    pieTotal: 'income',
+    isPrivate: false,
     period: 'All Time',
+    pieTotal: 'income',
     tab: OVERVIEW_TAB,
     // data
     accountName: null,
@@ -173,8 +176,8 @@ class Widget extends React.Component<Props, State> {
             categoryId,
             R.isNil(this.state.categoryCount)
           )
-        ).then(response => {
-          const {
+        ).then(
+          ({
             barChart,
             barsUnit,
             categories,
@@ -184,23 +187,42 @@ class Widget extends React.Component<Props, State> {
             revenue,
             spending,
             totalCount,
-          } = response
-          console.log('graphql', response)
-          this.setState({
-            loading: false,
-            //
-            accountName: name,
-            barData: barChart ? formatBarDataPoints(barChart, barsUnit) : null,
-            categoryCount: R.length(categories),
-            paymentCount: totalCount,
-            payments,
-            pieChart,
-            totals: {
-              income: revenue,
-              spending,
-            },
-          })
-        })
+          }) =>
+            this.setState({
+              loading: false,
+              //
+              accountName: name,
+              barData: barChart
+                ? formatBarDataPoints(barChart, barsUnit)
+                : null,
+              categoryCount: R.length(categories),
+              paymentCount: totalCount,
+              payments,
+              pieChart,
+              totals: {
+                income: revenue,
+                spending,
+              },
+            }),
+          ({ response: { status, errors } }) => {
+            const error = R.pipe(
+              R.head,
+              R.prop('message')
+            )(errors)
+            if (status === 200) {
+              if (error === 'Not Found') {
+                this.setState({
+                  loading: false,
+                  isPrivate: true,
+                })
+              } else {
+                console.log('GraphQL result', error) // eslint-disable-line no-console
+              }
+            } else {
+              console.error('GraphQL error', error) // eslint-disable-line no-console
+            }
+          }
+        )
     )
   }
 
@@ -230,9 +252,15 @@ class Widget extends React.Component<Props, State> {
   handlePeriodChange = (period: PieTotal) => this.setState({ period })
 
   render() {
-    const { currentCategory, loading, tab } = this.state
+    const { currentCategory, isPrivate, loading, tab } = this.state
     if (loading) {
       return <AreaSpinner />
+    }
+    if (isPrivate) {
+      return <ErrorScreen cause="private" />
+    }
+    if (this.paymentCount === 0) {
+      return <ErrorScreen cause="empty" />
     }
 
     const {
