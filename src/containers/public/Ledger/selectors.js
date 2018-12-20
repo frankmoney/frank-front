@@ -52,8 +52,8 @@ export const totalSelector = get('total')
 // Tabs
 
 export const currentTabSelector = createSelector(pathnameSelector, path => {
-  const match = matchPath(path, ROUTES.public.ledger.idRootTab)
-  return (match && match.params.tab) || 'ledger'
+  const storiesMatch = matchPath(path, ROUTES.account.stories.root)
+  return storiesMatch ? 'stories' : 'ledger'
 })
 
 // Stories

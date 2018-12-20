@@ -8,7 +8,6 @@ import { formatShortDate, type DateString } from 'utils/dates'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { ROUTES } from 'const'
 import { DEFAULT_DRAWER_ROW_HEIGHT as ROW_HEIGHT } from '../constants'
-import { type RouteType } from './PaymentsSimilarDrawer'
 
 export const isNegative = value => typeof value === 'number' && value < 0
 
@@ -79,7 +78,6 @@ type Props = {|
   postedOn?: DateString,
   // Other props
   type?: RowType,
-  routeType?: RouteType,
   style?: any,
 |}
 
@@ -94,14 +92,8 @@ const PaymentSimilarRow = ({
   style,
   type: rowType,
   noSeparator,
-  routeType,
 }: Props) => {
-  const url = createRouteUrl(
-    routeType === 'public'
-      ? ROUTES.public.payment.idRoot
-      : ROUTES.manage.payment.root,
-    { accountId, paymentId }
-  )
+  const url = createRouteUrl(ROUTES.payment.idRoot, { accountId, paymentId })
 
   const marked = rowType === 'marked'
   const last = rowType === 'last'

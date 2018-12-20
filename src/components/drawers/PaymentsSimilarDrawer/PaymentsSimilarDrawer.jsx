@@ -23,8 +23,6 @@ const style = theme => ({
   },
 })
 
-export type RouteType = 'admin' | 'public'
-
 type Payment = Object // flowlint-line unclear-type:warn
 
 type EmptyCb = () => void
@@ -32,7 +30,6 @@ type EmptyCb = () => void
 type Props = {|
   ...InjectStylesProps,
   //
-  routeType: RouteType,
   loadedPagesCounter: number,
   onClose: EmptyCb,
   onLoadMore?: () => void,
@@ -53,7 +50,7 @@ type State = {|
 
 class PaymentsSimilarDrawer extends React.PureComponent<Props, State> {
   renderRow = ({ isLast, onToggle, ...rowProps }) => (
-    <PaymentSimilarRow {...rowProps} routeType={this.props.routeType} />
+    <PaymentSimilarRow {...rowProps} />
   )
 
   render() {
@@ -62,7 +59,6 @@ class PaymentsSimilarDrawer extends React.PureComponent<Props, State> {
       payments,
       paymentsCount,
       paymentsDateRange,
-      routeType,
       totalPagesCounter,
       loadedPagesCounter,
       onLoadMore,
@@ -105,7 +101,6 @@ class PaymentsSimilarDrawer extends React.PureComponent<Props, State> {
 }
 
 PaymentsSimilarDrawer.defaultProps = {
-  routeType: 'public',
   paymentsDateRange: ['2016-10-12', '2018-05-14'],
 }
 

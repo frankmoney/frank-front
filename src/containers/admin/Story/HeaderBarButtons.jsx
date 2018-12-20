@@ -57,16 +57,23 @@ const HeaderBarButtons = ({
           Published {formatFullDate(publishedAt)}
         </div>
         <PublicLinkButton
-          url={createRouteUrl(ROUTES.public.story.idRoot, {
-            accountId,
-            storyId,
-          })}
+          url={createRouteUrl(
+            ROUTES.account.stories.idRoot,
+            {
+              accountId,
+              storyId,
+            },
+            { public: true }
+          )}
           label="See the public page"
         />
       </>
     )}
     <RouterLink
-      to={createRouteUrl(ROUTES.manage.stories.storyEdit, { storyId })}
+      to={createRouteUrl(ROUTES.account.stories.idRootEdit, {
+        accountId,
+        storyId,
+      })}
     >
       <Button
         label="Edit story"

@@ -1,6 +1,7 @@
 import { LOCATION_CHANGE } from 'react-router-redux'
 import { createRouteUrl } from '@frankmoney/utils'
 import { ROUTES } from 'const'
+import { currentAccountIdSelector } from 'redux/selectors/user'
 import * as ACTIONS from '../actions'
 import { loadedSelector, recipientSelector } from '../selectors'
 
@@ -13,8 +14,9 @@ export default (action$, store) =>
       return (
         recipient &&
         pathname ===
-          createRouteUrl(ROUTES.manage.directory.recipient, {
+          createRouteUrl(ROUTES.account.directory.recipient, {
             id: recipient.id,
+            accountId: currentAccountIdSelector(store.getState()),
           })
       )
     })
