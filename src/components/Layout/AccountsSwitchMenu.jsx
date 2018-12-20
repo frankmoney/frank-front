@@ -76,12 +76,16 @@ const AccountsSwitchMenu = ({ accounts = [], selectedAccountId }) => (
         key={id}
         label={name}
         accountId={id}
+        compactHref={createRouteUrl(ROUTES.account.inbox.root, {
+          accountId: id,
+        })}
         compact={id !== selectedAccountId}
       />
     ))}
     <AccountItem
       accountId="new"
       compact
+      compactHref={createRouteUrl(ROUTES.account.onboarding)}
       label="Add new account"
       icon={<PlusIcon />}
     />
