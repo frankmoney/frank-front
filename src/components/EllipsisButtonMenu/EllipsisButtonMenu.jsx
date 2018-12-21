@@ -20,12 +20,7 @@ type Props = {|
 |}
 
 const EllipsisButtonMenu = (props: Props) => (
-  <ButtonMenu
-    arrowEnd
-    alignByArrow
-    renderButton={renderEllipsisButton}
-    {...props}
-  />
+  <ButtonMenu renderButton={renderEllipsisButton} {...props} />
 )
 
 export default EllipsisButtonMenu

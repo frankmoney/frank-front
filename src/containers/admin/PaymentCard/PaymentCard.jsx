@@ -5,18 +5,24 @@ import cx from 'classnames'
 import {
   Check as PublishIcon,
   FormatListBulleted as SimilarIcon,
+  Public as PublicIcon,
 } from 'material-ui-icons'
 import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
 import { compose, withPropsOnChange, withHandlers } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
+import { createRouteUrl } from '@frankmoney/utils'
+import copyToClipboard from 'clipboard-copy'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
+import { MenuItem } from 'components/kit/Menu'
 import Button from 'components/kit/Button/index'
 import Paper from 'components/kit/Paper/index'
 import CategorySelect from 'components/CategorySelect/index'
 import CurrencyDelta from 'components/CurrencyDelta/index'
 import BankDescription from 'components/common/BankDescription/index'
 import ReduxFormControl from 'components/kit/ReduxFormControl/index'
+import EllipsisButtonMenu from 'components/EllipsisButtonMenu'
+import { ROUTES } from 'const'
 import DescriptionField from './DescriptionField'
 import PeerField from './PeerField'
 import styles from './PaymentCard.jss'
@@ -61,6 +67,7 @@ const PaymentCard = ({
   categoryLoading,
   handleFieldBlur,
   handleFieldChange,
+  handleCopyPublicLink,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
@@ -142,19 +149,18 @@ const PaymentCard = ({
         )}
       </div>
       <div className={classes.rightButtons}>
-        {/*
-        ---NOT IN MVP---
-        <IconButton
+        <EllipsisButtonMenu
+          arrowCenter
+          alignByArrow
+          up
           className={classes.rightButton}
-          icon={<MoreActionsButton />}
-        />
-        <Button
-          className={classes.rightButton}
-          icon={<DiscussIcon />}
-          label="Discuss"
-        />
-        ---NOT IN MVP--
-        */}
+        >
+          <MenuItem
+            icon={<PublicIcon />}
+            label="Copy public link"
+            onSelect={handleCopyPublicLink}
+          />
+        </EllipsisButtonMenu>
         {verified ? (
           <Button
             width={95}
@@ -276,6 +282,15 @@ export default compose(
     },
     onUnpublishClick: props => () => {
       props.onPaymentUnpublish({ id: props.id })
+    },
+    handleCopyPublicLink: props => () => {
+      copyToClipboard(
+        window.location.origin +
+          createRouteUrl(ROUTES.account.payment.idRoot, {
+            accountId: props.accountId,
+            paymentId: props.id,
+          })
+      )
     },
   })
 )(PaymentCard)
