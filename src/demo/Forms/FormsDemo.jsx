@@ -6,7 +6,7 @@ import BasicForm from './BasicForm'
 
 const styles = {}
 
-const FormsDemo = ({}) => (
+const FormsDemo = () => (
   <Demo gray>
     <h1>Form</h1>
     <Row centered>

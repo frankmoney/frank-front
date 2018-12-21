@@ -6,6 +6,7 @@ export default frankTheme =>
       fontFamily: frankTheme.fontFamily,
     },
     overrides: {
+      // still used in Table component
       MuiCheckbox: {
         colorPrimary: {
           color: 'rgba(0,0,0,0.2)',

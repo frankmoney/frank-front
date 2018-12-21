@@ -54,6 +54,7 @@ export const ROUTES = {
     widgets: '/demo/widgets',
     forms: '/demo/forms',
     palette: '/demo/palette',
+    snacks: '/demo/snacks',
   },
 }
 
