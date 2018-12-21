@@ -18,12 +18,26 @@ export default handleActions(
     [ACTIONS.load]: state => state.merge({ loading: true }),
     [ACTIONS.load.success]: (
       state,
-      { payload: { name, spendingCategories, incomeCategories } }
+      {
+        payload: {
+          pid,
+          name,
+          description,
+          isPublic,
+          sources,
+          spendingCategories,
+          incomeCategories,
+        },
+      }
     ) =>
       state.merge({
         loading: false,
         loaded: true,
+        pid,
         name,
+        description,
+        isPublic,
+        sources,
         spendingCategories: fromJS(spendingCategories),
         incomeCategories: fromJS(incomeCategories),
       }),
@@ -42,6 +56,14 @@ export default handleActions(
       state.merge({
         openCategoryDialog: false,
       }),
+    [ACTIONS.submitAccountCard.success]: (
+      state,
+      {
+        payload: {
+          account: { name, description, isPublic },
+        },
+      }
+    ) => state.merge({ name, description, isPublic }),
     [ACTIONS.modifyCategoryList.success]: (
       state,
       { payload: { spendingCategories, incomeCategories } }
