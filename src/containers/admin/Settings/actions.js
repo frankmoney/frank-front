@@ -7,5 +7,6 @@ export default createActions('admin/settings', {
   openCategoryDialog: false,
   closeCategoryDialog: false,
   modifyCategoryList: true,
+  submitAccountCard: true,
   leave: false,
 })

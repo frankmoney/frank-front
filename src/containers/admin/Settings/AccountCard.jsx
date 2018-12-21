@@ -3,15 +3,18 @@
 import React from 'react'
 import cx from 'classnames'
 import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
-import { compose } from 'recompose'
-import { reduxForm } from 'redux-form/immutable'
+import { compose, withPropsOnChange } from 'recompose'
+import { formValueSelector, reduxForm } from 'redux-form/immutable'
+import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import Paper from 'components/kit/Paper'
 import TextField from 'components/kit/TextField'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
-import Switch from 'components/kit/Switch'
 import Button from 'components/kit/Button'
+import Switch from 'components/kit/Switch'
 import CardTitle from './CardTitle'
+import ACTIONS from './actions'
+import { accountCardFormValuesSelector } from './selectors'
 
 const validation = {
   name: [required, maxLength(40)],
@@ -49,11 +52,17 @@ const styles = {
   },
 }
 
-const AccountCard = ({ classes, className }) => (
+const AccountCard = ({
+  classes,
+  className,
+  isPrivate,
+  submit,
+  handleIsPrivateChange,
+}) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <CardTitle className={classes.title} text="Account info" />
     <ReduxFormControl.Field
-      name="accountName"
+      name="name"
       validate={validation.name}
       counter={counters.name}
       component={TextField}
@@ -63,7 +72,7 @@ const AccountCard = ({ classes, className }) => (
       autoFocus
     />
     <ReduxFormControl.Field
-      name="accountDescription"
+      name="description"
       validate={validation.description}
       counter={counters.description}
       component={TextField}
@@ -72,18 +81,45 @@ const AccountCard = ({ classes, className }) => (
       multiLine
     />
     <div className={classes.bottomLine}>
-      <Switch className={classes.switch} label="Private account" />
-      <Button className={classes.button} label="Save" color="green" />
+      <Switch
+        className={classes.switch}
+        label="Private account"
+        checked={isPrivate}
+        onChange={handleIsPrivateChange}
+      />
+      <Button
+        className={classes.button}
+        label="Save"
+        color="green"
+        onClick={submit}
+      />
     </div>
   </Paper>
 )
 
+const FORM_NAME = 'admin/settings/account'
+
+const getFormValue = formValueSelector(FORM_NAME)
+const createFormValueSelector = field => state => getFormValue(state, field)
+
 export default compose(
+  reconnect({
+    initialValues: accountCardFormValuesSelector,
+    isPrivate: createFormValueSelector('isPrivate'),
+  }),
   injectStyles(styles),
   reduxForm({
-    form: 'settings-account',
+    form: FORM_NAME,
     enableReinitialize: true,
     validate,
-    onSubmit: (data, _, props) => {},
-  })
+    onSubmit: (data, dispatch) => {
+      const { name, description, isPrivate } = data.toJS()
+      dispatch(
+        ACTIONS.submitAccountCard({ name, description, isPublic: !isPrivate })
+      )
+    },
+  }),
+  withPropsOnChange(['change'], ({ change }) => ({
+    handleIsPrivateChange: value => change('isPrivate', value),
+  }))
 )(AccountCard)
