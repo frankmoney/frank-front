@@ -25,13 +25,13 @@ import { getFormName } from './const'
 
 const validation = {
   categoryId: [required],
-  description: [required, maxLength(200)],
-  peerName: [required, maxLength(40)],
+  description: [required, maxLength(120)],
+  peerName: [required, maxLength(60)],
 }
 
 const counters = {
-  peerName: { unit: 'character', max: 40 },
-  description: { unit: 'character', max: 200 },
+  peerName: { unit: 'character', max: 60 },
+  description: { unit: 'character', max: 120 },
 }
 
 const validate = createValidateFromRules(validation)
