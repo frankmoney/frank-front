@@ -34,6 +34,10 @@ const styles = {
   },
   detailRow: {
     width: 850 + CARD_OUTSET * 2,
+    // transform creates new layer bringing suggest below to next table group block
+    transform: 'unset',
+    left: 'unset',
+    marginLeft: -CARD_OUTSET,
   },
 }
 

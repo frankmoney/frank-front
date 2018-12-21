@@ -9,17 +9,14 @@ const styles = theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     color: '#20284A',
-    padding: [0, 15],
-    height: 50,
+    padding: [12, 15],
+    minHeight: 50,
     cursor: 'pointer',
     transition: theme.transition('background-color'),
   },
   label: {
     flex: 1,
     ...theme.fontRegular(18, 26),
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
   },
   secondaryText: {
     color: 'rgba(32, 40, 74, 0.3)',
@@ -34,6 +31,10 @@ const styles = theme => ({
       color: 'rgba(32, 40, 74, 0.3)',
     },
   },
+  updating: {
+    opacity: 0.5,
+    pointerEvents: 'none',
+  },
 })
 
 type Props = {|
@@ -42,6 +43,7 @@ type Props = {|
   faint?: boolean,
   secondaryText: string,
   text: string,
+  updating?: boolean,
 |}
 
 const SuggestMenuItem = ({
@@ -50,11 +52,13 @@ const SuggestMenuItem = ({
   faint,
   secondaryText,
   text,
+  updating,
 }: Props) => (
   <div
     className={cx(classes.root, {
       [classes.active]: active,
       [classes.faint]: faint,
+      [classes.updating]: updating,
     })}
   >
     <div className={classes.label}>{text}</div>

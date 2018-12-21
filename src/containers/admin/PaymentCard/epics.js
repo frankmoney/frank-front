@@ -30,7 +30,7 @@ export const save = (action$, store, { graphql }) =>
         paymentId: id,
         peerName,
         categoryId,
-        description,
+        description: description || '',
         verified: publish,
       }).then(({ payment, cascade }) => ({
         payment,

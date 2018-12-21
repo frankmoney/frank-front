@@ -1,13 +1,12 @@
 // @flow strict-local
 import React from 'react'
 import Autosuggest from 'react-autosuggest'
-import Spinner from 'components/kit/Spinner'
+import AreaSpinner from 'components/AreaSpinner'
 import Paper from 'components/kit/Paper'
 import TextField from 'components/kit/TextField'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import SuggestMenuItem from './SuggestMenuItem'
 import styles from './SuggestField.jss'
-
 // FIXME react-autosuggest прокидывает внутри себя реф на инпут через ref
 // и ref на TextField почемуто ставится в null, эта времянка форвардит реф в controlRef в который в глубине попадает HtmlInput
 const ForwardInputRef = React.forwardRef((inputProps, ref) => (
@@ -21,11 +20,14 @@ type SuggestItem = {
   secondaryText?: string,
   data: Object,
   faint?: boolean,
+  updating?: boolean,
 }
 
 type Props = {|
   ...InjectStylesProps,
   //
+  searching?: boolean,
+  maxSuggestionsHeight?: number,
   onRequestFetchSuggestions: string => void,
   onRequestClearSuggestions: string => void,
   onChange: string => {},
@@ -35,6 +37,7 @@ type Props = {|
 class SuggestField extends React.PureComponent<Props> {
   static defaultProps = {
     value: '',
+    maxSuggestionsHeight: 300,
   }
 
   getSuggestionValue = suggestion => suggestion.inputValue || suggestion.text
@@ -67,20 +70,16 @@ class SuggestField extends React.PureComponent<Props> {
       text={text}
       secondaryText={secondaryText}
       faint={faint}
+      updating={this.props.searching}
     />
   )
 
   renderSuggestionsContainer = ({ containerProps, children }) => {
-    const { searching, classes } = this.props
+    const { searching } = this.props
     return (
       <Paper type="dropdown" {...containerProps}>
-        {searching ? (
-          <div className={classes.spinnerContainer}>
-            <Spinner className={classes.spinner} />
-          </div>
-        ) : (
-          children
-        )}
+        {searching && <AreaSpinner size={25} />}
+        {children}
       </Paper>
     )
   }
@@ -90,7 +89,6 @@ class SuggestField extends React.PureComponent<Props> {
   render() {
     const {
       classes,
-      className,
       suggestions,
       suggestProps,
       value,
@@ -100,7 +98,6 @@ class SuggestField extends React.PureComponent<Props> {
     return (
       <Autosuggest
         theme={{
-          container: className,
           suggestionsContainer: classes.suggestionsContainer,
           suggestionsContainerOpen: classes.suggestionsContainerOpen,
           suggestionsList: classes.suggestionsList,

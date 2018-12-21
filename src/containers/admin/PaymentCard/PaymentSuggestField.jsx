@@ -78,6 +78,7 @@ class PaymentSuggestField extends React.Component {
     return (
       <SuggestField
         {...props}
+        maxSuggestionsHeight={250}
         onBlur={this.handleBlur}
         suggestions={this.state.suggestions}
         searching={this.state.searching}
