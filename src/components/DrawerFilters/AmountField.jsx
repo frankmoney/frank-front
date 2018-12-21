@@ -18,11 +18,6 @@ const styles = {
   },
 }
 
-const parseNumber = value => {
-  const number = parseInt(value, 10)
-  return isNaN(number) ? null : number
-}
-
 const AmountField = ({ classes, min, max, from, to, onChange }) => (
   <Drawer.Field label="Amount">
     <div className={classes.wrap}>
@@ -31,23 +26,23 @@ const AmountField = ({ classes, min, max, from, to, onChange }) => (
         value={from || ''}
         label="min"
         placeholder={min}
-        onChange={({ target: { value } }) =>
-          onChange({ min: parseNumber(value), max: to })
-        }
+        onChange={({ target: { value } }) => onChange({ min: value, max: to })}
         className={classes.field}
         adornment="$"
         adornmentWidth={12}
+        numeric
       />
       <TextField
         value={to || ''}
         label="max"
         placeholder={max}
         onChange={({ target: { value } }) =>
-          onChange({ min: from, max: parseNumber(value) })
+          onChange({ min: from, max: value })
         }
         className={classes.field}
         adornment="$"
         adornmentWidth={12}
+        numeric
       />
     </div>
   </Drawer.Field>

@@ -18,6 +18,7 @@ const TextField = ({
   minLines,
   disableAutoComplete,
   disableEnter,
+  numeric,
   textBoxProps,
   ...otherProps
 }: Props) => (
@@ -30,6 +31,7 @@ const TextField = ({
       readOnly={readOnly}
       type={type}
       name={name}
+      numeric={numeric}
       {...textBoxProps}
     />
   </Field>

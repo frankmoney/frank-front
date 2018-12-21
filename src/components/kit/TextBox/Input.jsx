@@ -6,6 +6,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 import { placeholderDefaultColor, placeholderActiveColor } from 'styles/const'
 import { adjustTextareaSize } from './utils'
+import NumericInput from './NumericInput'
 
 const styles = theme => ({
   root: {
@@ -69,6 +70,7 @@ type Props = {|
   // Controlled value
   onChange: OnChangeCb,
   value: string | number,
+  numeric?: boolean,
 |}
 
 export type InputProps = Props
@@ -122,6 +124,7 @@ class Input extends React.Component<Props> {
       minLines,
       disableEnter,
       disableAutoComplete,
+      numeric,
       // Omit
       autoComplete: autoCompleteProp,
       //
@@ -152,8 +155,10 @@ class Input extends React.Component<Props> {
       )
     }
 
+    const InputComponent = numeric ? NumericInput : 'input'
+
     return (
-      <input
+      <InputComponent
         ref={controlRef}
         type={type}
         value={value || ''}

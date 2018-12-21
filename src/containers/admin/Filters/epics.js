@@ -7,6 +7,15 @@ import QUERIES from './queries'
 
 // HELPERS
 
+const parseNumber = value => {
+  if (typeof value !== 'number' && typeof value !== 'string' && !value) {
+    return null
+  }
+
+  const number = parseInt(value, 10)
+  return isNaN(number) ? null : number
+}
+
 const requestTotalCount = (
   graphql,
   { sum, date, verified, search, accountId }
@@ -14,8 +23,8 @@ const requestTotalCount = (
   graphql(QUERIES.getOnlyTotalCount, {
     accountId,
     search,
-    amountMin: sum && sum.min,
-    amountMax: sum && sum.max,
+    amountMin: sum && parseNumber(sum.min),
+    amountMax: sum && parseNumber(sum.max),
     dateMin: date && date.from && formatDate(date.from),
     dateMax: date && date.to && formatDate(date.to),
     verified,

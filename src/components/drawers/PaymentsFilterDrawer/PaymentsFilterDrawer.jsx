@@ -12,8 +12,8 @@ import {
 } from 'components/DrawerFilters'
 
 type SumLimit = {|
-  min: number,
-  max: number,
+  min: number | string,
+  max: number | string,
 |}
 
 type Filters = {|
