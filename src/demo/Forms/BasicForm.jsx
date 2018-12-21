@@ -4,6 +4,7 @@ import { compose } from 'recompose'
 import Dialog from 'components/kit/Dialog'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import TextField from 'components/kit/TextField'
+import Switch from 'components/kit/Switch'
 
 const required = value => !value && 'Required'
 const maxLength50 = value =>
@@ -31,6 +32,12 @@ const BasicForm = ({ classes, submit, invalid }) => (
       validate={[required, maxLength50]}
       counter={surnameCounter}
       component={TextField}
+      style={{ marginBottom: 40 }}
+    />
+    <ReduxFormControl.Switch
+      name="contactMe"
+      component={Switch}
+      label="Contact me"
       style={{ marginBottom: 40 }}
     />
     <Dialog.Buttons>
