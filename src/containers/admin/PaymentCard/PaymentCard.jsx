@@ -79,7 +79,7 @@ const PaymentCard = ({
             component={PeerField}
             stretch
             className={classes.field}
-            label="Recipient"
+            label={amount >= 0 ? 'Received from' : 'Transferred to'}
             placeholder="Specify recipient..."
             larger
             accountId={accountId}
