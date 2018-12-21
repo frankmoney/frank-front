@@ -24,6 +24,7 @@ import {
   listDisabledSelector,
   cascadeSnackbarShown,
   lastCascadeCountSelector,
+  chartsVisibleSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
@@ -48,6 +49,7 @@ const Ledger = ({
   listDisabled,
   noResults,
   resetSearch,
+  chartShown,
 }) => (
   <CurrencyProvider code="USD">
     <div className={cx(classes.root, className)}>
@@ -70,18 +72,18 @@ const Ledger = ({
             className={classes.searchCard}
             loading={listDisabled}
           />
-          {!listDisabled && (
-            <ConnectedChartCard className={classes.overviewCard} />
-          )}
+          {!listDisabled &&
+            chartShown && (
+              <ConnectedChartCard className={classes.overviewCard} />
+            )}
           <LedgerHighlightTextProvider>
             <LedgerTable className={classes.table} />
           </LedgerHighlightTextProvider>
-          {!noResults &&
-            !listDisabled && (
-              <div className={classes.tablePagerWrap}>
-                <LedgerPager className={classes.tablePager} />
-              </div>
-            )}
+          {!noResults && (
+            <div className={classes.tablePagerWrap}>
+              <LedgerPager className={classes.tablePager} />
+            </div>
+          )}
           {!listDisabled &&
             noResults && (
               <TableEmptyPlaceholder
@@ -104,6 +106,7 @@ export default compose(
       listDisabled: listDisabledSelector,
       loading: isLoadingSelector,
       noResults: hasNoResultsSelector,
+      chartShown: chartsVisibleSelector,
     },
     {
       load: ACTIONS.load,

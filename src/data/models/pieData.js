@@ -15,6 +15,7 @@ export type LedgerPieChart = {|
 |}
 
 export type PieTotal = 'income' | 'spending'
+
 export const DEFAULT_PIE_TOTAL: PieTotal = 'income'
 export const PIE_TOTAL_PARAMETER_NAME = 'total'
 

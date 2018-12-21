@@ -69,16 +69,6 @@ export const listDisabledSelector = createSelector(
   (updating, typing) => updating || typing
 )
 
-export const paymentsIdsSelector = createSelector(
-  paymentsSelector,
-  get('searchText'),
-  (list, searchText) =>
-    R.pipe(
-      R.filter(filterPaymentByText(searchText)),
-      R.map(R.prop('id'))
-    )(list)
-)
-
 export const hasNoResultsSelector = createSelector(paymentsSelector, R.isEmpty)
 
 export const dataSourceSelector = createSelector(
@@ -242,9 +232,10 @@ export const chartsVisibleSelector = createSelector(
   noTextSearchSelector,
   rawPieDataSelector,
   currentFiltersSelector,
-  (noSearch, { items }: LedgerPieChart, filters) =>
+  (noSearch, pieData: LedgerPieChart, filters) =>
     noSearch &&
-    R.length(items) > 0 &&
+    pieData &&
+    pieData.items.length > 0 &&
     // means show only Unpublished or without category
     filters.verified !== false
 )
