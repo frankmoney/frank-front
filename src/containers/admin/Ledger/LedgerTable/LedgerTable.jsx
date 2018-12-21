@@ -1,6 +1,6 @@
-import { compose, mapProps, withProps, withHandlers } from 'recompose'
-import { injectStyles } from '@frankmoney/ui'
+import { compose, mapProps, withProps } from 'recompose'
 import { Table } from '@frankmoney/components'
+import { injectStyles } from 'utils/styles'
 import { PaymentsTableRow } from 'components/PaymentsTable'
 import PaymentCard from 'containers/admin/PaymentCard'
 import reconnect from 'utils/reconnect'
@@ -28,20 +28,19 @@ const ConnectedPaymentsTableDetailRow = compose(
   }))
 )(PaymentCard)
 
+const CARD_OUTSET = 20
+
 const styles = {
   header: {
     paddingBottom: 19,
   },
   detailRow: {
-    width: props => props.grid.fixed.contentWidth,
-    position: 'unset',
-    left: 'unset',
-    transform: 'unset',
+    width: 850 + CARD_OUTSET * 2,
   },
 }
 
 export default compose(
-  injectStyles(styles, { grid: true }),
+  injectStyles(styles),
   mapProps(({ classes, ...props }) => ({
     name: 'ledger',
     canSelectRows: true,
