@@ -3,8 +3,8 @@
 import React from 'react'
 import cx from 'classnames'
 import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
-import { compose, withPropsOnChange } from 'recompose'
-import { formValueSelector, reduxForm } from 'redux-form/immutable'
+import { compose } from 'recompose'
+import { reduxForm } from 'redux-form/immutable'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import Paper from 'components/kit/Paper'
@@ -18,7 +18,7 @@ import { accountCardFormValuesSelector } from './selectors'
 
 const validation = {
   name: [required, maxLength(40)],
-  description: [required, maxLength(200)],
+  description: [maxLength(200)],
 }
 
 const counters = {
@@ -52,13 +52,7 @@ const styles = {
   },
 }
 
-const AccountCard = ({
-  classes,
-  className,
-  isPrivate,
-  submit,
-  handleIsPrivateChange,
-}) => (
+const AccountCard = ({ classes, className, submit }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <CardTitle className={classes.title} text="Account info" />
     <ReduxFormControl.Field
@@ -81,11 +75,11 @@ const AccountCard = ({
       multiLine
     />
     <div className={classes.bottomLine}>
-      <Switch
+      <ReduxFormControl.Switch
+        name="isPrivate"
+        component={Switch}
         className={classes.switch}
         label="Private account"
-        checked={isPrivate}
-        onChange={handleIsPrivateChange}
       />
       <Button
         className={classes.button}
@@ -99,13 +93,9 @@ const AccountCard = ({
 
 const FORM_NAME = 'admin/settings/account'
 
-const getFormValue = formValueSelector(FORM_NAME)
-const createFormValueSelector = field => state => getFormValue(state, field)
-
 export default compose(
   reconnect({
     initialValues: accountCardFormValuesSelector,
-    isPrivate: createFormValueSelector('isPrivate'),
   }),
   injectStyles(styles),
   reduxForm({
@@ -118,8 +108,5 @@ export default compose(
         ACTIONS.submitAccountCard({ name, description, isPublic: !isPrivate })
       )
     },
-  }),
-  withPropsOnChange(['change'], ({ change }) => ({
-    handleIsPrivateChange: value => change('isPrivate', value),
-  }))
+  })
 )(AccountCard)
