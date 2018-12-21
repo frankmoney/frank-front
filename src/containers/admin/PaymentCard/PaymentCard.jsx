@@ -99,6 +99,7 @@ const PaymentCard = ({
             label="Category"
             placeholder="Choose a category"
             larger
+            stretch
             loading={categoryLoading}
             onBlur={handleFieldBlur}
             onChange={handleFieldChange}

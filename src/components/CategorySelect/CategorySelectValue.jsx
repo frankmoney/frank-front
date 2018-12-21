@@ -16,7 +16,7 @@ const styles = theme => ({
   },
   name: {
     ...theme.fontMedium(22, 26),
-    whiteSpace: 'no-wrap',
+    whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
   },
