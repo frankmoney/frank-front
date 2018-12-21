@@ -1,19 +1,12 @@
 import React from 'react'
-import { SnackBar, SnackBarIconButton } from '@frankmoney/components'
-import { Close as IconDismiss } from 'material-ui-icons'
+import SidebarSnack from 'components/SidebarSnack'
 import pluralize from 'utils/pluralize'
 
 const PaymentCascadeSnackBar = ({ count, ...props }) => (
-  <SnackBar
+  <SidebarSnack
     message={`${pluralize('unpublished payment', count)} updated`}
-    dismissOnTimeout={5000}
-    theme="primary"
-    buttons={[
-      <SnackBarIconButton
-        iconComponent={IconDismiss}
-        onClick={props.onDismiss}
-      />,
-    ]}
+    dismissByTimeout={5000}
+    color="blue"
     {...props}
   />
 )

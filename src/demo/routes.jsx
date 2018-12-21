@@ -16,6 +16,7 @@ import SwitchesDemo from './SwitchesDemo'
 import WidgetDemo from './Widgets'
 import FormsDemo from './Forms'
 import PaletteDemo from './Palette'
+import SnacksDemo from './Snacks'
 
 export default [
   {
@@ -91,6 +92,11 @@ export default [
   {
     component: PaletteDemo,
     path: ROUTES.demo.palette,
+    exact: true,
+  },
+  {
+    component: SnacksDemo,
+    path: ROUTES.demo.snacks,
     exact: true,
   },
 ]

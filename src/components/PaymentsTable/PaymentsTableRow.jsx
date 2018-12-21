@@ -19,9 +19,6 @@ const styles = theme => ({
     maxHeight: FULL_CELL_HEIGHT,
     minHeight: FULL_CELL_HEIGHT,
     padding: [21, 0],
-    '&:hover': {
-      backgroundColor: 'rgba(37, 43, 67, 0.04)',
-    },
   },
   cellLeft: {
     width: '70%',
@@ -94,6 +91,7 @@ const PaymentsTableRow = ({
 }) => (
   <TableRow
     className={cx(classes.root, { [classes.unverified]: !verified }, className)}
+    hoverBackgroundColor="#f6f7f7"
     {...rowProps}
   >
     <TableCell name="description" className={classes.cellLeft}>
