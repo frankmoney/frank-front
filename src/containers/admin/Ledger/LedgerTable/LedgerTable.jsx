@@ -12,9 +12,7 @@ import {
 
 const ComposedPaymentsTableRow = withProps({
   tablePadding: 30,
-  canView: true,
   canEdit: true,
-  tall: true,
 })(PaymentsTableRow)
 
 const ConnectedPaymentsTableDetailRow = compose(

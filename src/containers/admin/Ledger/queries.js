@@ -13,7 +13,7 @@ const PAYMENTS = `
   id: pid
   postedOn
   amount
-  published: verified
+  verified
   pending
   peer {
     ${PEER}

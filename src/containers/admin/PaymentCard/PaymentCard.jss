@@ -37,13 +37,13 @@ export default theme => ({
   },
   recipient: {
     position: 'relative',
-    width: '50%',
+    width: '60%',
     fontWeight: 500,
     marginRight: 40,
   },
   category: {
     fontWeight: 500,
-    maxWidth: '50%',
+    maxWidth: '40%',
     flexGrow: 0,
     flexShrink: 1,
   },

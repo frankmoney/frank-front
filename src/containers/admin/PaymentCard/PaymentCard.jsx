@@ -49,7 +49,7 @@ const PaymentCard = ({
   saving,
   saved,
   publishing,
-  published,
+  verified,
   onSaveClick,
   onPublishClick,
   onUnpublishClick,
@@ -154,7 +154,7 @@ const PaymentCard = ({
         />
         ---NOT IN MVP--
         */}
-        {published ? (
+        {verified ? (
           <Button
             width={95}
             className={classes.rightButton}
@@ -176,7 +176,7 @@ const PaymentCard = ({
             onClick={onSaveClick}
           />
         )}
-        {published && (
+        {verified && (
           <Button
             width={130}
             className={classes.rightButton}
@@ -186,7 +186,7 @@ const PaymentCard = ({
             onClick={onUnpublishClick}
           />
         )}
-        {!published && (
+        {!verified && (
           <Button
             width={130}
             className={classes.rightButton}
@@ -224,7 +224,7 @@ export default compose(
 
       if (!publishing) {
         props.onPaymentSave(payment)
-      } else if (!props.published) {
+      } else if (!props.verified) {
         props.onPaymentPublish(payment)
       }
     },

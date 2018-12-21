@@ -6,7 +6,7 @@ peer {
   id: pid
   name
 }
-published: verified
+verified
 pending
 description
 category {

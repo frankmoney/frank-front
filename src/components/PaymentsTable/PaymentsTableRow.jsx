@@ -6,10 +6,8 @@ import { injectStyles } from 'utils/styles'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
 import HighlightText from 'components/HighlightText'
-import { formatFullDate } from 'utils/dates'
+import { formatShortDate } from 'utils/dates'
 import PaymentStatus from 'components/admin/PaymentStatus'
-
-const SHORT_CELL_HEIGHT = 80
 
 const FULL_CELL_HEIGHT = 110
 
@@ -17,21 +15,13 @@ const styles = theme => ({
   root: {
     color: theme.colors.black,
     textDecoration: 'none',
-    '&:hover': {
-      backgroundColor: '#F6F7F7',
-    },
-  },
-  tall: {
     height: FULL_CELL_HEIGHT,
     maxHeight: FULL_CELL_HEIGHT,
     minHeight: FULL_CELL_HEIGHT,
     padding: [21, 0],
-  },
-  short: {
-    height: SHORT_CELL_HEIGHT,
-    maxHeight: SHORT_CELL_HEIGHT,
-    minHeight: SHORT_CELL_HEIGHT,
-    padding: [25, 0],
+    '&:hover': {
+      backgroundColor: 'rgba(37, 43, 67, 0.04)',
+    },
   },
   cellLeft: {
     width: '70%',
@@ -84,95 +74,72 @@ const styles = theme => ({
   date: {
     ...theme.fontRegular(16, 26),
     color: 'rgba(0,0,0,0.2)',
-    opacity: 0,
-    transition: theme.transition('opacity'),
-    '$root:hover &': {
-      opacity: 1,
-    },
   },
-  verified: {
+  status: {
     marginLeft: 10,
+  },
+  unverified: {
+    '& $description:not($emptyDescription), & $category, & $client': {
+      opacity: 0.5,
+    },
   },
 })
 
 const PaymentsTableRow = ({
   classes,
   className,
-  data: { description, peer, amount, category, postedOn, published, pending },
-  tall,
-  short,
+  data: { verified, description, peer, amount, category, postedOn, pending },
   canEdit,
-  canView,
   ...rowProps
 }) => (
   <TableRow
-    className={cx(
-      classes.root,
-      {
-        [classes.tall]: tall,
-        [classes.short]: short,
-      },
-      className
-    )}
+    className={cx(classes.root, { [classes.unverified]: !verified }, className)}
     {...rowProps}
   >
     <TableCell name="description" className={classes.cellLeft}>
-      {canEdit || canView ? (
-        <>
-          <div
-            className={cx(
-              classes.description,
-              !description && classes.emptyDescription
-            )}
-          >
-            {description ? (
-              <HighlightText text={description} />
-            ) : (
-              'Add description...'
-            )}
+      <div
+        className={cx(
+          classes.description,
+          !description && classes.emptyDescription
+        )}
+      >
+        {description ? (
+          <HighlightText text={description} />
+        ) : canEdit ? (
+          'Add description...'
+        ) : (
+          'No description'
+        )}
+      </div>
+      <div className={classes.info}>
+        {peer && (
+          <div className={classes.client}>
+            {' '}
+            <HighlightText text={peer.name} />
           </div>
-          <div className={classes.info}>
-            {peer && (
-              <div className={classes.client}>
-                {' '}
-                <HighlightText text={peer.name} />
-              </div>
-            )}
-            {category && (
-              <CategoryLabel
-                className={classes.category}
-                iconClassName={classes.categoryIcon}
-                color={category.color}
-                name={category.name}
-              />
-            )}
-          </div>
-        </>
-      ) : (
-        <div
-          className={cx(
-            classes.description,
-            !description && classes.emptyDescription
-          )}
-        >
-          No description
-        </div>
-      )}
+        )}
+        {category && (
+          <CategoryLabel
+            className={classes.category}
+            iconClassName={classes.categoryIcon}
+            color={category.color}
+            name={category.name}
+          />
+        )}
+      </div>
     </TableCell>
     <TableCell name="sum" className={classes.cellRight}>
       <CurrencyDelta className={classes.sum} value={amount} />
-      {canView && (
-        <div className={classes.icons}>
-          <div className={classes.date}>{formatFullDate(postedOn)}</div>
-          {canEdit && (
-            <PaymentStatus
-              className={classes.verified}
-              verified={published}
-              pending={pending}
-            />
-          )}
-        </div>
-      )}
+      <div className={classes.icons}>
+        <div className={classes.date}>{formatShortDate(postedOn)}</div>
+        {canEdit && (
+          <PaymentStatus
+            className={classes.status}
+            verified={verified}
+            pending={pending}
+          />
+        )}
+      </div>
     </TableCell>
   </TableRow>
 )
