@@ -38,7 +38,6 @@ export default theme => ({
   recipient: {
     position: 'relative',
     width: '60%',
-    fontWeight: 500,
     marginRight: 40,
   },
   category: {

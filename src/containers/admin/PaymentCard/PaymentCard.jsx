@@ -82,6 +82,7 @@ const PaymentCard = ({
             label={amount >= 0 ? 'Received from' : 'Transferred to'}
             placeholder="Specify recipient..."
             larger
+            fontBolder
             accountId={accountId}
             loading={peerLoading}
             onBlur={handleFieldBlur}
