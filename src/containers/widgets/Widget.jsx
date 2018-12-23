@@ -294,10 +294,12 @@ class Widget extends React.Component<Props, State> {
     const currentCategoryColor = R.prop('color', currentCategory)
     const currentCategoryName = R.prop('name', currentCategory)
     const showCategories = this.currentCategoryId === ALL_CATEGORIES.id
+    const hideStoriesTab = R.isEmpty(this.state.stories)
 
     return (
       <TabbedLayout
         className={className}
+        hideStoriesTab={hideStoriesTab}
         onTabSwitch={this.handleTabSwitch}
         tab={tab}
         OverviewTab={

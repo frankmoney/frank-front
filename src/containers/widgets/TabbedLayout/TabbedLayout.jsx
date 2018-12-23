@@ -11,6 +11,8 @@ type TabRenderer = React.Element<any> // flowlint-line unclear-type:off
 
 type Props = {|
   className?: string,
+  hideAboutTab?: boolean,
+  hideStoriesTab?: boolean,
   onTabSwitch: WidgetTab => void,
   tab: WidgetTab,
   //
@@ -22,6 +24,8 @@ type Props = {|
 
 const TabbedLayout = ({
   className,
+  hideAboutTab,
+  hideStoriesTab,
   onTabSwitch,
   tab,
   AboutTab,
@@ -43,22 +47,26 @@ const TabbedLayout = ({
             active={isOverviewTab}
             onClick={() => onTabSwitch('overview')}
           />
-          <HeaderItem
-            name="Stories"
-            active={isStoriesTab}
-            onClick={() => onTabSwitch('stories')}
-          />
-          <HeaderItem
-            name="About"
-            active={isAboutTab}
-            onClick={() => onTabSwitch('about')}
-          />
+          {!hideStoriesTab && (
+            <HeaderItem
+              name="Stories"
+              active={isStoriesTab}
+              onClick={() => onTabSwitch('stories')}
+            />
+          )}
+          {!hideAboutTab && (
+            <HeaderItem
+              name="About"
+              active={isAboutTab}
+              onClick={() => onTabSwitch('about')}
+            />
+          )}
         </Header>
       )}
       {isOverviewTab && OverviewTab}
       {isPaymentListTab && PaymentListTab}
-      {isStoriesTab && StoriesTab}
-      {isAboutTab && AboutTab}
+      {isStoriesTab && !hideStoriesTab && StoriesTab}
+      {isAboutTab && !hideAboutTab && AboutTab}
     </div>
   )
 }
