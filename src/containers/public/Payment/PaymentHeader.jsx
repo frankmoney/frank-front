@@ -47,7 +47,7 @@ const StoryHeader = ({ classes, className, account: { id, name } }) => (
     <div className={cx(classes.container, className)}>
       <Link
         className={classes.left}
-        to={createRouteUrl(ROUTES.public.ledger.idRoot, { accountId: id })}
+        to={createRouteUrl(ROUTES.account.idRoot, { accountId: id })}
       >
         <BackIcon className={classes.icon} />
         <div>All payments</div>

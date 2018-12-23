@@ -72,9 +72,9 @@ const styles = theme => ({
 const BankItem = ({
   classes,
   className,
+  name,
   bankLogo,
   bankLink,
-  accountName,
   accountFourDigits,
   accountBalance,
   accountStatus,
@@ -87,16 +87,16 @@ const BankItem = ({
       <div className={classes.info}>
         <div className={classes.rowMedium}>
           <div>
-            <span className={classes.name}>{accountName}</span>
+            <span className={classes.name}>{name}</span>
             <span className={classes.digits}>··· {accountFourDigits}</span>
           </div>
           <div
             className={cx({
-              [classes.statusGreen]: accountStatus === 'connected',
-              [classes.statusRed]: accountStatus !== 'connected',
+              [classes.statusGreen]: accountStatus === 'active',
+              [classes.statusRed]: accountStatus !== 'active',
             })}
           >
-            {accountStatus === 'connected' ? 'Connected' : 'Disconnected'}
+            {accountStatus === 'active' ? 'Connected' : 'Disconnected'}
           </div>
         </div>
         <div className={classes.rowRegular}>
@@ -107,16 +107,14 @@ const BankItem = ({
             />
           </div>
           <div className={classes.date}>
-            {accountStatus === 'connected' ? 'Updates' : 'Updated'}{' '}
+            {accountStatus === 'active' ? 'Updates' : 'Updated'}{' '}
             {formatShortDate(
-              accountStatus === 'connected'
-                ? accountNextUpdate
-                : accountLastUpdate
+              accountStatus === 'active' ? accountNextUpdate : accountLastUpdate
             )}
           </div>
         </div>
       </div>
-      {accountStatus !== 'connected' && (
+      {accountStatus !== 'active' && (
         <div className={classes.warning}>
           <div className={classes.warningText}>
             <span className={classes.warningAccent}>

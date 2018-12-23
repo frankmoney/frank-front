@@ -1,4 +1,4 @@
-import { compose, lifecycle, withProps } from 'recompose'
+import { compose, lifecycle } from 'recompose'
 import reconnect from 'utils/reconnect'
 import PaymentsSimilarDrawer from 'components/drawers/PaymentsSimilarDrawer'
 import {
@@ -29,7 +29,6 @@ export default compose(
       onClose: ACTIONS.closeDrawer,
     }
   ),
-  withProps({ routeType: 'public' }),
   lifecycle({
     componentWillReceiveProps(nextProps) {
       if (

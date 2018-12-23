@@ -6,13 +6,22 @@ peer {
   id: pid
   name
 }
-published: verified
+verified
 pending
 description
 category {
   id: pid
   name
   color
+}
+descriptionUpdater {
+  isSystem
+}
+peerUpdater {
+  isSystem
+}
+categoryUpdater {
+  isSystem
 }
 `
 
@@ -62,31 +71,5 @@ export default {
       payments,
       totalCount,
     }),
-  ],
-  paymentUpdate: [
-    `
-    mutation(
-      $accountId: ID!
-      $paymentId: ID!
-      $description: String
-      $peerName: String
-      $categoryId: ID
-      $verified: Boolean
-    ) {
-      result: paymentUpdate(
-        accountPid: $accountId
-        paymentPid: $paymentId
-        peerName: $peerName
-        categoryPid: $categoryId
-        description: $description
-        verified: $verified
-      ) {
-        payment {
-          ${PAYMENTS}
-        }
-      }
-    }
-    `,
-    ({ result: { payment } }) => payment,
   ],
 }

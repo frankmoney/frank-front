@@ -15,6 +15,8 @@ import BankCard from './BankCard'
 import IncomeCategoriesCard from './IncomeCategoriesCard'
 import SpendingCategoriesCard from './SpendingCategoriesCard'
 import {
+  loadingSelector,
+  loadedSelector,
   openCategoryDialogSelector,
   editingCategorySelector,
 } from './selectors'
@@ -51,6 +53,8 @@ const Settings = ({
 export default compose(
   reconnect(
     {
+      loading: loadingSelector,
+      loaded: loadedSelector,
       openCategoryDialog: openCategoryDialogSelector,
       editingCategory: editingCategorySelector,
     },

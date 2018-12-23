@@ -59,7 +59,7 @@ const LedgerTabs = ({
   <div className={cx(classes.root, className)}>
     <Link
       className={cx(classes.tab, currentTab === 'ledger' && classes.tabActive)}
-      to={createRouteUrl(ROUTES.public.ledger.idRoot, { accountId })}
+      to={createRouteUrl(ROUTES.account.idRoot, { accountId })}
     >
       <LedgerIcon />
       <div className={classes.tabLabel}>Ledger</div>
@@ -67,7 +67,7 @@ const LedgerTabs = ({
 
     <Link
       className={cx(classes.tab, currentTab === 'stories' && classes.tabActive)}
-      to={createRouteUrl(ROUTES.public.ledger.stories, { accountId })}
+      to={createRouteUrl(ROUTES.account.stories.root, { accountId })}
     >
       <StoriesIcon />
       <div className={classes.tabLabel}>

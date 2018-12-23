@@ -1,9 +1,11 @@
 const SPACING = 20
 const SIZE = 40
+
 export default theme => ({
   root: {
     display: 'flex',
     alignItems: 'center',
+    userSelect: 'none',
   },
   pagesWrap: {
     margin: [0, 5],

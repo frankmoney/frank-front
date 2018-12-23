@@ -1,5 +1,6 @@
-import { Set, fromJS } from 'immutable'
+import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
+import CARD_ACTIONS from 'containers/admin/PaymentCard/actions'
 import * as ACTIONS from './actions'
 
 export const REDUCER_KEY = 'adminLedger'
@@ -14,8 +15,6 @@ const defaultState = fromJS({
   pieData: null,
   paymentsCount: 0,
   payments: [],
-  paymentIdsSaving: Set(),
-  paymentIdsPublishing: Set(),
 })
 
 export default handleActions(
@@ -53,25 +52,22 @@ export default handleActions(
         loading: false,
         typing: false,
       }),
-    [ACTIONS.paymentUpdate]: (
-      state,
-      { payload: { publish, unpublish, paymentId } }
-    ) =>
-      state.updateIn(
-        [publish || unpublish ? 'paymentIdsPublishing' : 'paymentIdsSaving'],
-        set => set.add(paymentId)
-      ),
-    [ACTIONS.paymentUpdate.success]: (state, { payload: { id, ...payment } }) =>
+    [CARD_ACTIONS.save.success]: (state, { payload: { payment, cascade } }) =>
       state
-        .updateIn(['paymentIdsSaving'], set => set.delete(id))
-        .updateIn(['paymentIdsPublishing'], set => set.delete(id))
-        .update('payments', list => {
-          const idx = list.findIndex(x => x.get('id') === id)
-          if (idx === -1) {
-            return list
-          }
-          return list.update(idx, x => x.merge(payment))
-        }),
+        .update('payments', list =>
+          [payment, ...cascade].reduce((l, p) => {
+            const idx = l.findIndex(x => x.get('id') === p.id)
+            if (idx === -1) {
+              return l
+            }
+            return l.update(idx, x => x.merge(p))
+          }, list)
+        )
+        .set('lastCascadeCount', cascade.length),
+    [ACTIONS.dismissCascadeSnackbar]: state =>
+      state.merge({
+        lastCascadeCount: 0,
+      }),
     [ACTIONS.leave]: () => defaultState,
   },
   defaultState

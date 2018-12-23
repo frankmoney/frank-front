@@ -3,10 +3,12 @@
 import React from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
+import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import Paper from 'components/kit/Paper'
 import CardTitle from '../CardTitle'
 import TextButton from '../../../../components/kit/Button/TextButton'
+import { accountsSelector } from '../selectors'
 import BankItem from './BankItem'
 
 const styles = {
@@ -59,4 +61,7 @@ BankCard.defaultProps = {
   ],
 }
 
-export default compose(injectStyles(styles))(BankCard)
+export default compose(
+  reconnect({ accounts: accountsSelector }),
+  injectStyles(styles)
+)(BankCard)

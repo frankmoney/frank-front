@@ -24,6 +24,9 @@ export default theme => ({
       top: TEXT_TOP_PADDING_LARGER,
     },
   },
+  fontBolder: {
+    fontWeight: 500,
+  },
   hasAdornment: {
     '& $control': {
       marginLeft: props => props.adornmentWidth,

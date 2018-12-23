@@ -6,6 +6,7 @@ export default {
     right: 0,
     zIndex: 1000,
     display: 'none',
+    maxHeight: props => props.maxSuggestionsHeight,
   },
   suggestionsContainerOpen: {
     display: 'block',
@@ -13,11 +14,6 @@ export default {
   spinnerContainer: {
     display: 'flex',
     justifyContent: 'center',
-  },
-  spinner: {
-    width: 25,
-    height: 25,
-    margin: [10, 0],
   },
   suggestion: {
     display: 'block',

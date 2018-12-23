@@ -128,6 +128,8 @@ export default (
         ACTIONS.createOrUpdate.success({ story }),
         published && ACTIONS.publish.success({ accountId, story }),
         published &&
-          replaceLocation(createRouteUrl(ROUTES.manage.stories.root)),
+          replaceLocation(
+            createRouteUrl(ROUTES.account.stories.root, { accountId })
+          ),
       ])
     )

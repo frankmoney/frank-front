@@ -32,7 +32,7 @@ export default (action$, store, { graphql }) =>
         amountMax,
         dateMin: dateMin && formatDate(dateMin),
         dateMax: dateMax && formatDate(dateMax),
-        pending,
+        pending: pending ? null : false, // show all payments if pending on, exclude pending when filter is off
       })
     })
     .map(R.evolve({ payments: R.map(mapPayment) }))

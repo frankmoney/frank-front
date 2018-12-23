@@ -12,19 +12,22 @@ import {
 } from 'components/DrawerFilters'
 
 type SumLimit = {|
-  min: number,
-  max: number,
+  min: number | string,
+  max: number | string,
 |}
 
 type Filters = {|
-  dateLimit?: DateRangeValue,
+  date?: DateRangeValue,
   pending?: ?boolean,
-  sumLimit?: SumLimit,
+  sum?: SumLimit,
   verified?: ?boolean,
 |}
 
 type Props = {|
-  ...Filters,
+  value: Filters,
+  aggregateStartDate: Date,
+  aggregateSumMin?: Number,
+  aggregateSumMax?: Number,
   //
   disablePendingFilter?: boolean,
   disableVerifiedFilter?: boolean,
@@ -44,43 +47,37 @@ class PaymentsFilterDrawer extends React.Component<Props> {
     disableVerifiedFilter: false,
   }
 
-  // flowlint-next-line unsafe-getters-setters:off
-  get allFilters(): Filters {
-    const { sumLimit, dateLimit, verified, pending } = this.props
-    return { sumLimit, dateLimit, verified, pending }
-  }
-
-  mergeFilters = (data: Filters) => {
+  mergeValue = (data: Filters) => {
     this.props.onChange({
-      ...this.allFilters,
+      ...this.props.value,
       ...data,
     })
   }
 
   handleChangeDateRange = (value: DateRangeValue) => {
-    this.mergeFilters({ dateLimit: value })
+    this.mergeValue({ date: value })
   }
 
   handleChangeSum = ({ min, max }: SumLimit) => {
-    this.mergeFilters({
-      sumLimit: { min, max },
+    this.mergeValue({
+      sum: { min, max },
     })
   }
 
   handleChangeVerification = (value: ?boolean) => {
-    this.mergeFilters({
+    this.mergeValue({
       verified: value,
     })
   }
 
   handleChangePending = (value: ?boolean) => {
-    this.mergeFilters({
+    this.mergeValue({
       pending: value,
     })
   }
 
   handleApply = () => {
-    this.props.onApply(this.allFilters)
+    this.props.onApply(this.props.value)
   }
 
   render() {
@@ -89,10 +86,10 @@ class PaymentsFilterDrawer extends React.Component<Props> {
       onReset,
       onChange,
       loaded,
-      dateLimit,
-      sumLimit,
-      verified,
-      pending,
+      value: { date, sum, verified, pending },
+      aggregateStartDate,
+      aggregateSumMax,
+      aggregateSumMin,
       totalCount,
       estimating,
       disablePendingFilter,
@@ -108,17 +105,20 @@ class PaymentsFilterDrawer extends React.Component<Props> {
       <Drawer.Content>
         <DateRangeField
           label="Date range"
-          // $FlowFixMe: dateLimit is defined at this point
-          from={dateLimit.from}
+          // $FlowFixMe: date is defined at this point
+          from={date.from}
           // $FlowFixMe
-          to={dateLimit.to}
+          to={date.to}
+          startDate={aggregateStartDate}
           onChange={this.handleChangeDateRange}
         />
         <AmountField
-          // $FlowFixMe: sumLimit is defined at this point
-          from={sumLimit.min}
+          min={aggregateSumMin}
+          max={aggregateSumMax}
+          // $FlowFixMe: sum is defined at this point
+          from={sum.min}
           // $FlowFixMe
-          to={sumLimit.max}
+          to={sum.max}
           onChange={this.handleChangeSum}
         />
         {!disableVerifiedFilter && (

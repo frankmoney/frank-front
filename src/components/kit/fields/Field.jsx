@@ -161,6 +161,7 @@ class Field extends React.Component<Props, State> {
       hint,
       label,
       larger,
+      fontBolder,
       loading,
       loadingText,
       placeholder,
@@ -196,6 +197,7 @@ class Field extends React.Component<Props, State> {
               [classes.disabled]: disabled,
               [classes.loading]: loading,
               [classes.hasAdornment]: hasAdornment,
+              [classes.fontBolder]: fontBolder,
             },
             className
           )}

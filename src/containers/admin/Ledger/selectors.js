@@ -36,6 +36,12 @@ export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const listIsUpdatingSelector = get('updatingList')
 export const isTypingSelector = get('typing')
+export const lastCascadeCountSelector = get('lastCascadeCount')
+export const cascadeSnackbarShown = createSelector(
+  lastCascadeCountSelector,
+  x => x > 0
+)
+
 export const paymentsTotalCountSelector = get('paymentsCount')
 export const categoriesSelector = createPlainObjectSelector(get('categories'))
 export const paymentCardCategoriesSelector = categoriesSelector
@@ -57,16 +63,6 @@ export const listDisabledSelector = createSelector(
   listIsUpdatingSelector,
   isTypingSelector,
   (updating, typing) => updating || typing
-)
-
-export const paymentsIdsSelector = createSelector(
-  paymentsSelector,
-  get('searchText'),
-  (list, searchText) =>
-    R.pipe(
-      R.filter(filterPaymentByText(searchText)),
-      R.map(R.prop('id'))
-    )(list)
 )
 
 export const hasNoResultsSelector = createSelector(paymentsSelector, R.isEmpty)
@@ -218,9 +214,10 @@ export const chartsVisibleSelector = createSelector(
   noTextSearchSelector,
   rawPieDataSelector,
   currentFiltersSelector,
-  (noSearch, { items }: LedgerPieChart, filters) =>
+  (noSearch, pieData: LedgerPieChart, filters) =>
     noSearch &&
-    R.length(items) > 0 &&
+    pieData &&
+    pieData.items.length > 0 &&
     // means show only Unpublished or without category
     filters.verified !== false
 )
@@ -241,11 +238,4 @@ export const pieItemsSelector: Selector<PieChartItems> = createSelector(
   pieTotalSelector,
   rawPieDataSelector,
   createPieDataMapper({ nameEmptyCategoryAs: 'Unpublished' })
-)
-
-export const isPaymentSavingSelector = R.memoizeWith(R.identity, id =>
-  createSelector(get('paymentIdsSaving'), ids => ids.has(id))
-)
-export const isPaymentPublishingSelector = R.memoizeWith(R.identity, id =>
-  createSelector(get('paymentIdsPublishing'), ids => ids.has(id))
 )

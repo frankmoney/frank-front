@@ -11,6 +11,7 @@ import {
   BreadcrumbsItem,
   BreadcrumbsItemLink,
 } from '@frankmoney/components'
+import { createRouteUrl } from '@frankmoney/utils'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import Spinner from 'components/kit/Spinner'
@@ -38,13 +39,16 @@ class Recipient extends React.PureComponent {
       recipient,
       paymentCount,
       listIsUpdating,
+      accountId,
     } = this.props
 
     return (
       <div className={cx(classes.root, className)}>
         <FixedHeader className={classes.header}>
           <Breadcrumbs>
-            <BreadcrumbsItemLink to={ROUTES.manage.directory.root}>
+            <BreadcrumbsItemLink
+              to={createRouteUrl(ROUTES.account.directory.root, { accountId })}
+            >
               Directory
             </BreadcrumbsItemLink>
             <BreadcrumbsItem>{recipient.name}</BreadcrumbsItem>

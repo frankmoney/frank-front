@@ -1,5 +1,6 @@
-import { Set, fromJS } from 'immutable'
+import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
+import CARD_ACTIONS from 'containers/admin/PaymentCard/actions'
 import ACTIONS from './actions'
 
 export const REDUCER_KEY = 'adminInbox'
@@ -8,8 +9,6 @@ const defaultState = fromJS({
   loading: false,
   loaded: false,
   payments: [],
-  paymentIdsSaving: Set(),
-  paymentIdsPublishing: Set(),
 })
 
 export default handleActions(
@@ -34,24 +33,16 @@ export default handleActions(
         loading: false,
         typing: false,
       }),
-    [ACTIONS.paymentSave]: (state, { payload: { paymentId } }) =>
-      state.updateIn(['paymentIdsSaving'], set => set.add(paymentId)),
-    [ACTIONS.paymentSave.success]: (state, { payload: { id, ...payment } }) =>
-      state
-        .updateIn(['paymentIdsSaving'], set => set.delete(id))
-        .update('payments', list => {
-          const idx = list.findIndex(x => x.get('id') === id)
+    [CARD_ACTIONS.save.success]: (state, { payload: { payment, cascade } }) =>
+      state.update('payments', list =>
+        [payment, ...cascade].reduce((l, p) => {
+          const idx = l.findIndex(x => x.get('id') === p.id)
           if (idx === -1) {
-            return list
+            return l
           }
-          return list.update(idx, x => x.merge(payment))
-        }),
-    [ACTIONS.paymentPublish]: (state, { payload: { paymentId } }) =>
-      state.updateIn(['paymentIdsPublishing'], set => set.add(paymentId)),
-    [ACTIONS.paymentPublish.success]: (state, { payload: { id } }) =>
-      state
-        .updateIn(['paymentIdsPublishing'], set => set.delete(id))
-        .update('payments', list => list.filter(x => x.get('id') !== id)),
+          return l.update(idx, x => x.merge(p))
+        }, list)
+      ),
     [ACTIONS.leave]: () => defaultState,
   },
   defaultState

@@ -13,7 +13,7 @@ const PAYMENTS = `
   id: pid
   postedOn
   amount
-  published: verified
+  verified
   pending
   peer {
     ${PEER}
@@ -22,15 +22,16 @@ const PAYMENTS = `
   category {
     ${CATEGORY}
   }
+  descriptionUpdater {
+    isSystem
+  }
+  peerUpdater {
+    isSystem
+  }
+  categoryUpdater {
+    isSystem
+  }
 `
-
-const mapPayment = ({ peer, category, ...other }) => ({
-  ...other,
-  peerName: peer && peer.name,
-  peerId: peer && peer.id,
-  category,
-  categoryId: category && category.id,
-})
 
 export default {
   buildQuery: ({
@@ -159,31 +160,5 @@ export default {
         : null,
       pieChart: includePie ? ledgerPieChart : null,
     }),
-  ],
-  paymentUpdate: [
-    `
-    mutation(
-      $accountId: ID!
-      $paymentId: ID!
-      $peerName: String
-      $categoryId: ID
-      $description: String
-      $verified: Boolean
-    ) {
-      result: paymentUpdate(
-        accountPid: $accountId
-        paymentPid: $paymentId
-        peerName: $peerName
-        categoryPid: $categoryId
-        description: $description
-        verified: $verified
-      ) {
-        payment {
-          ${PAYMENTS}
-        }
-      }
-    }
-    `,
-    ({ result: { payment } }) => payment,
   ],
 }

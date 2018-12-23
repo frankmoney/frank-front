@@ -120,6 +120,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
     "browser-cookies": "^1.2.0",
     "classnames": "^2.2.5",
+    "clipboard-copy": "^2.0.1",
     "color-js": "^1.0.4",
     "compression": "^1.7.2",
     "cookie-parser": "^1.4.3",

@@ -6,20 +6,27 @@ import { editingCategoryTypeSelector } from '../selectors'
 export default (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.modifyCategoryList)
-    .switchMap(({ payload: { id, type, color, name } }) => {
+    .switchMap(async ({ payload: { id, type, color, name } }) => {
       const state = store.getState()
       const accountId = currentAccountIdSelector(state)
-      const categoryType = type || editingCategoryTypeSelector(state)
 
       if (!color && !name) {
         // DELETE QUERY
-        return graphql(QUERIES.getAccountInfo, { accountId })
-      }
-      if (!id) {
+        await graphql(QUERIES.deleteCategory, { pid: id })
+      } else if (!id) {
         // ADD QUERY
-        return graphql(QUERIES.getAccountInfo, { accountId })
+        await graphql(QUERIES.createCategory, {
+          accountPid: accountId,
+          type: type || editingCategoryTypeSelector(state),
+          name,
+          color,
+        })
+      } else {
+        // EDIT QUERY
+        await graphql(QUERIES.updateCategory, { pid: id, name, color })
       }
-      // EDIT QUERY
-      return graphql(QUERIES.getAccountInfo, { accountId })
+
+      const result = await graphql(QUERIES.getAccountInfo, { accountId })
+      return result
     })
     .map(ACTIONS.modifyCategoryList.success)

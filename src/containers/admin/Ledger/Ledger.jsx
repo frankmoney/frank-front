@@ -22,9 +22,23 @@ import {
   isEmptyAccountSelector,
   isLoadingSelector,
   listDisabledSelector,
+  cascadeSnackbarShown,
+  lastCascadeCountSelector,
+  chartsVisibleSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
+import PaymentCascadeSnackbar from './PaymentCascadeSnackbar'
+
+const ConnectedPaymentCascadeSnackbar = reconnect(
+  {
+    count: lastCascadeCountSelector,
+    shown: cascadeSnackbarShown,
+  },
+  {
+    onDismiss: ACTIONS.dismissCascadeSnackbar,
+  }
+)(PaymentCascadeSnackbar)
 
 const Ledger = ({
   cancelCategory,
@@ -35,6 +49,7 @@ const Ledger = ({
   listDisabled,
   noResults,
   resetSearch,
+  chartShown,
 }) => (
   <CurrencyProvider code="USD">
     <div className={cx(classes.root, className)}>
@@ -57,18 +72,18 @@ const Ledger = ({
             className={classes.searchCard}
             loading={listDisabled}
           />
-          {!listDisabled && (
-            <ConnectedChartCard className={classes.overviewCard} />
-          )}
+          {!listDisabled &&
+            chartShown && (
+              <ConnectedChartCard className={classes.overviewCard} />
+            )}
           <LedgerHighlightTextProvider>
             <LedgerTable className={classes.table} />
           </LedgerHighlightTextProvider>
-          {!noResults &&
-            !listDisabled && (
-              <div className={classes.tablePagerWrap}>
-                <LedgerPager className={classes.tablePager} />
-              </div>
-            )}
+          {!noResults && (
+            <div className={classes.tablePagerWrap}>
+              <LedgerPager className={classes.tablePager} />
+            </div>
+          )}
           {!listDisabled &&
             noResults && (
               <TableEmptyPlaceholder
@@ -78,6 +93,7 @@ const Ledger = ({
             )}
         </div>
       )}
+      <ConnectedPaymentCascadeSnackbar />
     </div>
   </CurrencyProvider>
 )
@@ -90,6 +106,7 @@ export default compose(
       listDisabled: listDisabledSelector,
       loading: isLoadingSelector,
       noResults: hasNoResultsSelector,
+      chartShown: chartsVisibleSelector,
     },
     {
       load: ACTIONS.load,
@@ -101,6 +118,11 @@ export default compose(
   lifecycle({
     componentWillMount() {
       if (!this.props.loaded) {
+        this.props.load()
+      }
+    },
+    componentWillReceiveProps(newProps) {
+      if (newProps.accountId !== this.props.accountId) {
         this.props.load()
       }
     },

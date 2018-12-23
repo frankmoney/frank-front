@@ -56,21 +56,14 @@ const styles = theme => ({
   },
 })
 
-const Item = ({
-  classes,
-  amount,
-  description,
-  peerName,
-  postedOn,
-  onRemove,
-}) => (
+const Item = ({ classes, amount, description, peer, postedOn, onRemove }) => (
   <div className={classes.item}>
     <div className={classes.amount}>
       <CurrencyDelta value={amount} />
     </div>
     <div className={classes.info}>
       <div className={classes.row}>
-        <div className={classes.recipient}>{peerName}</div>
+        <div className={classes.recipient}>{peer && peer.name}</div>
         <div className={classes.date}>{formatFullDate(postedOn)}</div>
         <div className={classes.remove} onClick={() => onRemove()}>
           Remove
