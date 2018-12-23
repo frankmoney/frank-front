@@ -76,7 +76,7 @@ const Story = ({
   storyId,
   title,
 }: Props) => {
-  const publicUrl = createRouteUrl(ROUTES.public.story.idRoot, {
+  const publicUrl = createRouteUrl(ROUTES.account.stories.idRoot, {
     accountId,
     storyId,
   })
