@@ -25,7 +25,7 @@ import TabbedLayout, {
   type WidgetTab,
 } from './TabbedLayout'
 import { OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
-import PeriodSelect, { type Period } from './PeriodSelect'
+import { type Period } from './PeriodSelect'
 import { ALL_CATEGORIES, buildQuery, remapPieData } from './utils'
 import ErrorScreen from './ErrorScreen'
 
@@ -296,13 +296,17 @@ class Widget extends React.Component<Props, State> {
     const showCategories = this.currentCategoryId === ALL_CATEGORIES.id
     const hideStoriesTab = R.isEmpty(this.state.stories)
 
-    const periodSelect = (
-      <PeriodSelect
-        onPeriodChange={this.handlePeriodChange}
-        period={this.period}
-        periods={this.periods}
-      />
-    )
+    const periodSelect = null
+    // (
+    //   <PeriodSelect
+    //     onPeriodChange={this.handlePeriodChange}
+    //     period={this.period}
+    //     periods={this.periods}
+    //   />
+    // )
+
+    const aboutTab = null
+    // <AboutTab name={this.state.accountName} totals={this.state.totals} />
 
     return (
       <TabbedLayout
@@ -365,8 +369,7 @@ class Widget extends React.Component<Props, State> {
             stories={this.state.stories}
           />
         }
-        AboutTab={null}
-        // <AboutTab name={this.state.accountName} totals={this.state.totals} />
+        AboutTab={aboutTab}
       />
     )
   }
