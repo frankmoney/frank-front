@@ -1,5 +1,5 @@
 // @flow strict-local
-import React from 'react'
+import * as React from 'react'
 import type {
   CategoryCb,
   CategoryListComponent,
@@ -14,7 +14,6 @@ import Footer, {
   type FooterProps,
 } from 'containers/widgets/Footer'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import PeriodSelect, { type PeriodSelectProps } from '../../PeriodSelect'
 import JustCategoryList from './JustCategoryList'
 import OverviewChart from './OverviewChart'
 
@@ -37,7 +36,6 @@ type EmptyCb = () => void
 export type Props = {|
   ...OverviewPieChartProps,
   ...InjectStylesProps,
-  ...PeriodSelectProps,
   //
   categoryCount?: number,
   CategoryList?: CategoryListComponent,
@@ -57,6 +55,8 @@ export type Props = {|
   //
   FooterClasses?: FooterClasses,
   FooterProps?: FooterProps,
+  //
+  PeriodSelect: ?React.Element<any>, // flowlint-line unclear-type:off
 |}
 
 const OverviewTab = ({
@@ -71,6 +71,7 @@ const OverviewTab = ({
   onPieTotalChange,
   onSeeAllClick,
   paymentCount,
+  PeriodSelect,
   pieChartRootComponent,
   pieClassName,
   pieItems,
@@ -78,10 +79,6 @@ const OverviewTab = ({
   pieTotalSelectable,
   totals,
   widgetSize,
-  // period select
-  onPeriodChange,
-  period,
-  periods,
 }: Props) => (
   <div className={contentClassName}>
     {totals && <Totals {...totals} />}
@@ -91,8 +88,7 @@ const OverviewTab = ({
         className={chartClassName}
         onCategoryClick={onCategoryClick}
         onPieTotalChange={onPieTotalChange}
-        period={period}
-        periods={periods}
+        PeriodSelect={PeriodSelect}
         pieChartRootComponent={pieChartRootComponent}
         pieClassName={pieClassName}
         pieItems={pieItems}
@@ -103,11 +99,7 @@ const OverviewTab = ({
     ) : (
       <>
         <div className={classes.selects}>
-          <PeriodSelect
-            onPeriodChange={onPeriodChange}
-            period={period}
-            periods={periods}
-          />
+          {PeriodSelect}
           <PieTotalSelect
             className={classes.standaloneCategoryType}
             onChange={onPieTotalChange}

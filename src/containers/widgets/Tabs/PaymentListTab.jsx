@@ -1,18 +1,46 @@
 // @flow strict-local
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
-import Bar from 'components/Charts/Bar'
-import Payments from 'containers/widgets/Payments'
-import { injectStyles } from 'utils/styles'
-import PeriodSelect from '../PeriodSelect'
+import Bar, { type BarData } from 'components/Charts/Bar'
+import Payments, { type PaymentsProps } from 'containers/widgets/Payments'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { CategoryName, Header } from '../TabbedLayout/Header'
-import type { Props } from './PaymentListTab.flow'
 
 const styles = {
   content: {
     overflowY: 'scroll',
   },
+  periodSelect: {
+    flex: [1, 0],
+    display: 'flex',
+    margin: [4, 0, 14, 2],
+  },
 }
+
+type Props = {|
+  ...InjectStylesProps,
+  ...PaymentsProps,
+  //
+  currentCategoryColor: string,
+  currentCategoryName: string,
+  barsData?: BarData,
+  barsHeight: number,
+  barsWidth: number,
+  footerPadding: number,
+  showBarChart: boolean,
+  // Handlers
+  onCancelCategoryClick: () => void,
+  // Styles
+  barChartClassName?: string,
+  contentClassName?: string,
+  paymentBlockClassName?: string,
+  paymentBlockTitleClassName?: string,
+  paymentClassName?: string,
+  paymentListClassName?: string,
+  paymentsPeriodClassName?: string,
+  //
+  PeriodSelect: ?React.Element<any>, // flowlint-line unclear-type:off
+|}
 
 const PaymentListTab = ({
   barChartClassName,
@@ -30,13 +58,9 @@ const PaymentListTab = ({
   paymentClassName,
   paymentListClassName,
   paymentsData,
-  paymentsPeriodClassName,
   showBarChart,
   showCategories,
-  // period select
-  onPeriodChange,
-  period,
-  periods,
+  PeriodSelect,
 }: Props) => (
   <>
     <Header live={false}>
@@ -48,12 +72,10 @@ const PaymentListTab = ({
     <div className={cx(classes.content, contentClassName)}>
       {showBarChart && (
         <>
-          <PeriodSelect
-            className={paymentsPeriodClassName}
-            onPeriodChange={onPeriodChange}
-            period={period}
-            periods={periods}
-          />
+          {PeriodSelect &&
+            React.cloneElement(PeriodSelect, {
+              className: classes.periodSelect,
+            })}
           <Bar
             barColor={currentCategoryColor}
             className={barChartClassName}

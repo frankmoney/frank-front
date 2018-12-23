@@ -25,7 +25,7 @@ import TabbedLayout, {
   type WidgetTab,
 } from './TabbedLayout'
 import { OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
-import type { Period } from './PeriodSelect'
+import PeriodSelect, { type Period } from './PeriodSelect'
 import { ALL_CATEGORIES, buildQuery, remapPieData } from './utils'
 import ErrorScreen from './ErrorScreen'
 
@@ -254,7 +254,7 @@ class Widget extends React.Component<Props, State> {
 
   handlePieTotalChange = (pieTotal: PieTotal) => this.setState({ pieTotal })
 
-  handlePeriodChange = (period: PieTotal) => this.setState({ period })
+  handlePeriodChange = (period: Period) => this.setState({ period })
 
   render() {
     const { currentCategory, isPrivate, loading, tab } = this.state
@@ -296,6 +296,14 @@ class Widget extends React.Component<Props, State> {
     const showCategories = this.currentCategoryId === ALL_CATEGORIES.id
     const hideStoriesTab = R.isEmpty(this.state.stories)
 
+    const periodSelect = (
+      <PeriodSelect
+        onPeriodChange={this.handlePeriodChange}
+        period={this.period}
+        periods={this.periods}
+      />
+    )
+
     return (
       <TabbedLayout
         className={className}
@@ -313,12 +321,10 @@ class Widget extends React.Component<Props, State> {
               FooterClasses={OverviewFooterClasses}
               FooterProps={OverviewFooterProps}
               onCategoryClick={this.handleCategorySelect}
-              onPeriodChange={this.handlePeriodChange}
               onPieTotalChange={this.handlePieTotalChange}
               onSeeAllClick={() => this.handleCategorySelect(ALL_CATEGORIES)}
               paymentCount={this.paymentCount}
-              period={this.period}
-              periods={this.periods}
+              PeriodSelect={periodSelect}
               pieChartRootComponent={pieChartRootComponent}
               pieClassName={pieChartClassName}
               pieItems={this.pieItems}
@@ -341,15 +347,13 @@ class Widget extends React.Component<Props, State> {
               currentCategoryName={currentCategoryName}
               footerPadding={barsFooterPadding}
               onCancelCategoryClick={this.handleCategoryCancel}
-              onPeriodChange={this.handlePeriodChange}
               paymentBlockClassName={paymentBlockClassName}
               paymentBlockTitleClassName={paymentBlockTitleClassName}
               paymentClassName={paymentClassName}
               paymentListClassName={paymentListClassName}
               paymentsData={this.payments}
               paymentsPeriodClassName={paymentsPeriodClassName}
-              period={this.period}
-              periods={this.periods}
+              PeriodSelect={periodSelect}
               showBarChart={showBarChart}
               showCategories={showCategories}
             />

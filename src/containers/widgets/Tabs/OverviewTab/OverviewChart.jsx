@@ -1,5 +1,5 @@
 // @flow strict-local
-import React from 'react'
+import * as React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
 import OverviewPieChart from 'components/OverviewPieChart'
@@ -11,7 +11,6 @@ import type {
   PieChartCategories,
 } from 'components/OverviewPieChart'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import PeriodSelect, { type PeriodSelectProps } from '../../PeriodSelect'
 import OverviewCategoryList from './OverviewCategoryList'
 
 const pieSize = R.cond([
@@ -47,7 +46,6 @@ const styles = {
 export type Props = {|
   ...OverviewPieChartProps,
   ...InjectStylesProps,
-  ...PeriodSelectProps,
   //
   CategoryList?: CategoryListComponent,
   onCategoryClick: CategoryCb,
@@ -57,6 +55,8 @@ export type Props = {|
   // Styles
   periodSelectClassName?: string,
   pieClassName?: string,
+  //
+  PeriodSelect: ?React.Element<any>, // flowlint-line unclear-type:off
 |}
 
 const OverviewChart = ({
@@ -68,22 +68,17 @@ const OverviewChart = ({
   pieClassName,
   pieItems,
   widgetSize,
-  // period select
-  onPeriodChange,
-  period,
-  periods,
+  PeriodSelect,
   // omit
   pieTotalSelectClassName,
   pieTotalSelectLabel,
   ...pieChartProps
 }: Props) => (
   <>
-    <PeriodSelect
-      className={cx(classes.periodSelect, periodSelectClassName)}
-      onPeriodChange={onPeriodChange}
-      period={period}
-      periods={periods}
-    />
+    {PeriodSelect &&
+      React.cloneElement(PeriodSelect, {
+        className: cx(classes.periodSelect, periodSelectClassName),
+      })}
     <OverviewPieChart
       {...pieChartProps}
       CategoryList={CategoryList && <CategoryList />}
