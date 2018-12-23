@@ -24,7 +24,7 @@ import TabbedLayout, {
   PAYMENTS_TAB,
   type WidgetTab,
 } from './TabbedLayout'
-import { AboutTab, OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
+import { OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
 import type { Period } from './PeriodSelect'
 import { ALL_CATEGORIES, buildQuery, remapPieData } from './utils'
 import ErrorScreen from './ErrorScreen'
@@ -299,6 +299,7 @@ class Widget extends React.Component<Props, State> {
     return (
       <TabbedLayout
         className={className}
+        hideAboutTab
         hideStoriesTab={hideStoriesTab}
         onTabSwitch={this.handleTabSwitch}
         tab={tab}
@@ -360,9 +361,8 @@ class Widget extends React.Component<Props, State> {
             stories={this.state.stories}
           />
         }
-        AboutTab={
-          <AboutTab name={this.state.accountName} totals={this.state.totals} />
-        }
+        AboutTab={null}
+        // <AboutTab name={this.state.accountName} totals={this.state.totals} />
       />
     )
   }

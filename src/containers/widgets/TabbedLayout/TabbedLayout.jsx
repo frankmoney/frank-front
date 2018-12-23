@@ -16,7 +16,7 @@ type Props = {|
   onTabSwitch: WidgetTab => void,
   tab: WidgetTab,
   //
-  AboutTab: TabRenderer,
+  AboutTab: ?TabRenderer,
   OverviewTab: ?TabRenderer,
   PaymentListTab: ?TabRenderer,
   StoriesTab: TabRenderer,
