@@ -17,6 +17,7 @@ import {
   type LedgerPieChart,
   type PieTotal,
 } from 'data/models/pieData'
+import type { Story } from 'data/models/stories'
 import type { FooterClasses, FooterProps } from './Footer'
 import TabbedLayout, {
   OVERVIEW_TAB,
@@ -71,6 +72,7 @@ export type WidgetDataProps = {|
   paymentCount: ?number,
   payments: Array<Payment>,
   pieChart: ?LedgerPieChart,
+  stories: Array<Story>,
   totals: ?{
     income: number,
     spending: number,
@@ -110,6 +112,7 @@ class Widget extends React.Component<Props, State> {
     paymentCount: null,
     payments: [],
     pieChart: null,
+    stories: [],
     totals: null,
   }
 
@@ -186,6 +189,7 @@ class Widget extends React.Component<Props, State> {
             pieChart,
             revenue,
             spending,
+            stories,
             totalCount,
           }) =>
             this.setState({
@@ -199,6 +203,7 @@ class Widget extends React.Component<Props, State> {
               paymentCount: totalCount,
               payments,
               pieChart,
+              stories,
               totals: {
                 income: revenue,
                 spending,
@@ -347,7 +352,12 @@ class Widget extends React.Component<Props, State> {
             />
           )
         }
-        StoriesTab={<StoriesTab />}
+        StoriesTab={
+          <StoriesTab
+            accountId={this.props.accountId}
+            stories={this.state.stories}
+          />
+        }
         AboutTab={
           <AboutTab name={this.state.accountName} totals={this.state.totals} />
         }
