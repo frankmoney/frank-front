@@ -1,19 +1,19 @@
 // @flow strict-local
 import React from 'react'
-import cx from 'classnames'
 import { required, email } from '@frankmoney/forms'
+import { createRouteUrl } from '@frankmoney/utils'
+import cx from 'classnames'
+import { Link } from 'react-router-dom'
 import { compose } from 'recompose'
-import { reduxForm } from 'redux-form/immutable'
-import reconnect from 'utils/reconnect'
+import { reduxForm } from 'redux-form-actions/immutable'
+import { ROUTES } from 'const'
 import { injectStyles } from 'utils/styles'
 import Button from 'components/kit/Button'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import TextField from 'components/kit/TextField'
 import ACTIONS from './actions'
-import { FORM_NAME } from './const'
-import { busySelector } from './selectors'
 
-const styles = {
+const styles = theme => ({
   root: {},
   field: {
     marginBottom: 20,
@@ -21,14 +21,24 @@ const styles = {
   submitButton: {
     marginTop: 70,
   },
-}
+  forgotPasswordLink: {
+    display: 'block',
+    marginTop: 20,
+    width: '100%',
+    flexGrow: 1,
+    color: '#4c51f3',
+    textAlign: 'center',
+    textDecoration: 'none',
+    ...theme.fontRegular(16),
+  },
+})
 
 const validation = {
   email: [required, email],
   password: [required],
 }
 
-const SignInForm = ({ classes, className, submit, busy, invalid }) => (
+const SignInForm = ({ classes, className, invalid, submitting, submit }) => (
   <div className={cx(classes.root, className)}>
     <ReduxFormControl.Field
       name="email"
@@ -57,23 +67,27 @@ const SignInForm = ({ classes, className, submit, busy, invalid }) => (
       color="green"
       label="Sign in"
       stretch
-      loading={busy}
       disabled={invalid}
-      onClick={() => submit()}
+      loading={submitting}
+      onClick={submit}
     />
+    <Link
+      className={classes.forgotPasswordLink}
+      to={createRouteUrl(ROUTES.auth.recoverPassword)}
+    >
+      Forgot password?
+    </Link>
   </div>
 )
 
+const FORM_NAME = 'auth/signIn'
+
 export default compose(
-  reconnect(
-    { busy: busySelector },
-    {
-      signIn: ACTIONS.signIn,
-    }
-  ),
   reduxForm({
     form: FORM_NAME,
-    onSubmit: (data, dispatch, { signIn }) => signIn(data.toJS()),
+    failedAction: ACTIONS.submit.error,
+    succeededAction: ACTIONS.submit.success,
+    onSubmit: (data, dispatch) => dispatch(ACTIONS.submit(data.toJS())),
   }),
   injectStyles(styles)
 )(SignInForm)

@@ -1,9 +1,10 @@
 import createActions from 'utils/createActions'
 
-export const ACTION_PREFIX = 'auth/signIn'
+export const ACTION_PREFIX = 'auth/resetPassword'
 
 const actions = createActions(ACTION_PREFIX, {
-  submit: true,
+  load: true,
+  leave: false,
 })
 
 export default actions

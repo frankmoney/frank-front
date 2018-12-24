@@ -6,6 +6,8 @@ export const ROUTES = {
     login: '/sign-in',
     register: '/sign-up',
     recoverPassword: '/recover-password',
+    recoverPasswordMailSent: '/recover-password/success',
+    resetPassword: '/reset-password/:token',
     logout: '/logout',
   },
   account: {
