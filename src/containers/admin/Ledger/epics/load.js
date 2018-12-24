@@ -33,6 +33,8 @@ export default (action$, store, { graphql }) =>
       } = currentFiltersSelector(state)
       const categoryId = currentCategoryIdSelector(state)
       const needLoadCharts = noTextSearchSelector(state)
+      const reqVerified =
+        verified === false ? false : categoryId !== null ? true : null
 
       return graphql(
         QUERIES.buildQuery({
@@ -54,7 +56,7 @@ export default (action$, store, { graphql }) =>
           first: PAGE_SIZE,
           search: search || null,
           skip: (page - 1) * PAGE_SIZE,
-          verified,
+          verified: reqVerified,
         }
       )
     })
