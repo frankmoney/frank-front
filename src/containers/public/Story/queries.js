@@ -13,7 +13,6 @@ const paymentFields = `
   postedOn
   amount
   description
-  peerName
   peer {
     id: pid
     name
@@ -50,12 +49,12 @@ export default {
     }
     `,
     ({
-       account: {
-         id,
-         name,
-         currency: { code: currencyCode },
-         story,
-       },
-     }) => ({ account: { id, name, currencyCode }, story }),
+      account: {
+        id,
+        name,
+        currency: { code: currencyCode },
+        story,
+      },
+    }) => ({ account: { id, name, currencyCode }, story }),
   ],
 }
