@@ -4,7 +4,7 @@ import React from 'react'
 import cx from 'classnames'
 import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
 import { compose } from 'recompose'
-import { reduxForm } from 'redux-form/immutable'
+import { reduxForm } from 'redux-form-actions/immutable'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import Paper from 'components/kit/Paper'
@@ -52,7 +52,7 @@ const styles = {
   },
 }
 
-const AccountCard = ({ classes, className, submit }) => (
+const AccountCard = ({ classes, className, submitting, submit }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <CardTitle className={classes.title} text="Account info" />
     <ReduxFormControl.Field
@@ -85,6 +85,7 @@ const AccountCard = ({ classes, className, submit }) => (
         className={classes.button}
         label="Save"
         color="green"
+        loading={submitting}
         onClick={submit}
       />
     </div>
@@ -102,6 +103,8 @@ export default compose(
     form: FORM_NAME,
     enableReinitialize: true,
     validate,
+    failedAction: ACTIONS.submitAccountCard.error.toString(),
+    succeededAction: ACTIONS.submitAccountCard.success.toString(),
     onSubmit: (data, dispatch) => {
       const { name, description, isPrivate } = data.toJS()
       dispatch(
