@@ -1,7 +1,7 @@
 // @flow strict-local
 import * as React from 'react'
 import * as R from 'ramda'
-import type { FormattedBarLabels, JSONString } from './Bar.flow'
+import type { FormattedBarLabels, JSONString } from 'data/models/barData'
 
 const LEGEND_COLOR = '#808080'
 const LEGEND_SECOND_COLOR = '#B3B3B3'

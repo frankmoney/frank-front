@@ -9,13 +9,12 @@ import {
   Tooltip as ReTooltip,
   XAxis,
 } from 'recharts'
-import { injectStyles } from 'utils/styles'
-import type { FormattedBarLabels } from 'data/models/barData'
+import type { BarData, FormattedBarLabels } from 'data/models/barData'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import AxisLabel from './AxisLabel'
 import Grid from './Grid'
 import Tooltip from './Tooltip'
 import { EPSILON, type TooltipLineFormatter } from './TooltipLine'
-import type { Props } from './Bar.flow'
 
 const BAR_CORNER_RADIUS = 3
 const BASE_LINE_OFFSET = 3
@@ -46,6 +45,24 @@ const styles = {
     transform: `translateY(${BASE_LINE_OFFSET}px)`,
   },
 }
+
+export type BarZoomInCb = ({| dateFrom: string, dateTo: string |}) => void
+
+type Props = {|
+  ...InjectStylesProps,
+  //
+  barColor: string,
+  data: BarData,
+  dual?: boolean,
+  footerPadding: number,
+  height: number,
+  hideBaseLine?: boolean,
+  labelKey: string,
+  onZoomIn?: BarZoomInCb,
+  positiveBarColor: string,
+  showBars: boolean,
+  width: number,
+|}
 
 const negateWithEpsilon = x => (x === 0 ? -EPSILON : -x)
 const fixNegative = R.over(R.lensProp(NEGATIVE_VALUE_PROP), negateWithEpsilon)

@@ -1,4 +1,5 @@
 // @flow strict
+import * as R from 'ramda'
 import { endOfWeek, format, isSameMonth, isSameYear } from 'date-fns/fp'
 import { parseDate } from 'utils/dates'
 
@@ -8,7 +9,7 @@ type ApiDates = {|
   startDate: string,
 |}
 
-export type BarsDataPoint = {|
+type BarsDataPoint = {|
   ...ApiDates,
   revenue: number,
   spending: number,
@@ -30,7 +31,17 @@ export type FormattedBarLabels = {|
   startDate: string,
 |}
 
-export const convertToBarChartValues = ({
+export type JSONString = string
+
+type BarItem = {|
+  date: JSONString,
+  negativeValue?: number,
+  value: number,
+|}
+
+export type BarData = Array<BarItem>
+
+const convertToBarChartValues = ({
   endDate,
   revenue,
   showDate,
@@ -46,7 +57,7 @@ export const convertToBarChartValues = ({
   },
 })
 
-export type BarsUnit = 'day' | 'week' | 'month' | 'quarter' | 'year'
+type BarsUnit = 'day' | 'week' | 'month' | 'quarter' | 'year'
 
 const formatBarAxisLabel = (
   date: Date,
@@ -87,7 +98,7 @@ const formatBarTooltipLabel = (date: Date, barsUnit: BarsUnit): string => {
   return format(formatter, date)
 }
 
-export const formatBarLabels = (
+const formatBarLabels = (
   item: IntermediateDataPoint,
   prev: ?IntermediateDataPoint,
   barsUnit: BarsUnit
@@ -101,3 +112,21 @@ export const formatBarLabels = (
     tooltipLabel: formatBarTooltipLabel(date, barsUnit),
   }
 }
+
+type FormatItemsFn = (Array<BarsDataPoint>, BarsUnit) => BarData
+
+export const formatBarDataPoints: FormatItemsFn = (data, barsUnit) =>
+  R.pipe(
+    R.map(convertToBarChartValues),
+    list =>
+      list.reduce((acc, item: IntermediateDataPoint, idx) => {
+        const prev = idx > 0 ? list[idx - 1] : null
+        return R.append(
+          {
+            ...item.values,
+            date: JSON.stringify(formatBarLabels(item, prev, barsUnit)),
+          },
+          acc
+        )
+      }, [])
+  )(data)

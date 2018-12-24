@@ -1,5 +1,11 @@
 // @flow strict
 
-export type Store = Object // flowlint-line unclear-type:off
+export interface ReduxState {
+  getIn: (Array<string>) => Object; // flowlint-line unclear-type:off
+}
 
-export type Selector<T> = Store => T
+export interface ReduxStore {
+  getState: () => ReduxState;
+}
+
+export type Selector<T> = ReduxState => T

@@ -1,7 +1,23 @@
 // @flow strict-local
 import * as R from 'ramda'
+import { type Category } from 'data/models/category'
 
-export const mapPayment = ({ ...payment }) => ({
+type Peer = {|
+  id: number | string,
+  name: string,
+|}
+
+export type Payment = {|
+  amount: number,
+  category: ?Category,
+  description: ?string,
+  id: number | string,
+  peer: ?Peer,
+  postedOn: string | Date,
+  verified: ?boolean,
+|}
+
+export const mapPayment = (payment: Payment) => ({
   createdAt: '2018-01-01 05:00',
   categoryAddedFromSimilar: true,
   ...payment,

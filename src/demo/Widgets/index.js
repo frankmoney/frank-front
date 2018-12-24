@@ -1,1 +1,2 @@
-export default from './Demo'
+// @flow strict-local
+export { default } from './WidgetsDemo'

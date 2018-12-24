@@ -57,15 +57,18 @@ const CategoryList = ({
     index,
     ...otherProps
   }: IndexedPieChartCategory) => {
+    const clickable = id !== OTHER.id
     const handleClick =
-      onCategoryClick && id !== OTHER.id
-        ? () => onCategoryClick(items[index])
-        : null
+      clickable && onCategoryClick ? () => onCategoryClick(items[index]) : null
     return (
       <CategoryLabel
         active={index === activeCategoryIndex}
         activeClassName={classes.active}
-        className={cx(classes.item, itemClassName)}
+        className={cx(
+          classes.item,
+          { [classes.nonclickableItem]: !clickable },
+          itemClassName
+        )}
         iconClassName={cx(classes.icon, iconClassName)}
         key={index}
         nameClassName={cx(classes.name, nameClassName)}
