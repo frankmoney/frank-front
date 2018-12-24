@@ -76,7 +76,14 @@ class TimelineChart extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { barsColor, classes, className, data, width } = this.props
+    const {
+      barsColor,
+      classes,
+      className,
+      data,
+      width,
+      ...barProps
+    } = this.props
     const { income, spending } = this.state
 
     const hide = !(income || spending)
@@ -113,6 +120,7 @@ class TimelineChart extends React.PureComponent<Props, State> {
           labelKey="date"
           showBars={!hide}
           width={width}
+          {...barProps}
         />
       </div>
     )

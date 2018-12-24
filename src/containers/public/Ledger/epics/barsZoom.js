@@ -1,22 +1,10 @@
-import FILTERS_ACTIONS from 'containers/admin/Filters/actions'
+import { mergeQuery } from '@frankmoney/webapp'
 import * as ACTIONS from '../actions'
-import { currentFiltersSelector } from '../selectors'
 
-export default (action$, store) =>
-  action$
-    .ofType(ACTIONS.barZoomIn)
-    .map(({ payload: { dateFrom, dateTo } }) => {
-      const filters = currentFiltersSelector(store.getState())
-      return {
-        sumLimit: {
-          min: filters.amountMin,
-          max: filters.amountMax,
-        },
-        verified: filters.verified,
-        dateLimit: {
-          from: dateFrom,
-          to: dateTo,
-        },
-      }
+export default action$ =>
+  action$.ofType(ACTIONS.barZoomIn).map(({ payload: { dateFrom, dateTo } }) =>
+    mergeQuery({
+      dateMin: dateFrom,
+      dateMax: dateTo,
     })
-    .map(FILTERS_ACTIONS.apply)
+  )
