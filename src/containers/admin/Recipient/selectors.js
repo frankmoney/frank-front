@@ -1,14 +1,17 @@
+// @flow strict
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
+import { format } from 'date-fns/fp'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
-import { format } from 'date-fns/fp'
+import type { ReduxState } from 'flow/redux'
 import { formatMonth, parseMonth } from 'utils/dates'
 import { parseQueryStringNumber } from './utils'
 import { PAGE_SIZE, SORT_BY, SORT_BY_DEFAULT } from './constants'
 import { REDUCER_KEY } from './reducer'
 
-const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
+const get = (...prop) => (state: ReduxState) =>
+  state.getIn([REDUCER_KEY, ...prop])
 
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')

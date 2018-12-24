@@ -32,7 +32,7 @@ export default theme => ({
   title: {
     ...theme.fontSemibold(22, 26),
     wordBreak: 'break-word',
-    marginBottom: 15,
+    marginBottom: 7,
     textDecoration: 'none',
     transition: theme.transition('color 0.1s'),
     color: '#252B43',
@@ -42,8 +42,18 @@ export default theme => ({
     ...maxLines(3, 26),
   },
   stats: {
+    ...theme.fontRegular(16, 30),
     fontSize: 16,
-    marginBottom: 14,
+    marginBottom: 13,
+    alignItems: 'center',
+  },
+  statsCounter: {
+    marginRight: 10,
+  },
+  statsSymbol: {
+    width: 20,
+    height: 20,
+    margin: [-3, 5, 0, 0],
   },
   text: {
     ...theme.fontRegular(16, 24),
