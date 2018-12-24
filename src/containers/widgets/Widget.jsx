@@ -171,15 +171,9 @@ class Widget extends React.Component<Props, State> {
       {
         loading: true,
       },
-      () =>
-        // TODO: use period in the request
-        graphql(
-          ...buildQuery(
-            accountId,
-            categoryId,
-            R.isNil(this.state.categoryCount)
-          )
-        ).then(
+      () => {
+        const loadCategories = R.isNil(this.state.categoryCount)
+        graphql(...buildQuery(accountId, categoryId, loadCategories)).then(
           ({
             barChart,
             barsUnit,
@@ -199,7 +193,9 @@ class Widget extends React.Component<Props, State> {
               barData: barChart
                 ? formatBarDataPoints(barChart, barsUnit)
                 : null,
-              categoryCount: R.length(categories),
+              categoryCount: loadCategories
+                ? R.length(categories)
+                : this.state.categoryCount,
               paymentCount: totalCount,
               payments,
               pieChart,
@@ -228,6 +224,7 @@ class Widget extends React.Component<Props, State> {
             }
           }
         )
+      }
     )
   }
 
