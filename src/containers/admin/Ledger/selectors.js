@@ -30,6 +30,11 @@ import { UNCATEGORIZED_CATEGORY } from 'const'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
+const LOCAL_UNCATEGORIZED_CATEGORY = {
+  ...UNCATEGORIZED_CATEGORY,
+  name: 'Unpublished',
+}
+
 const get = (...prop) => (state: ReduxState) =>
   state.getIn([REDUCER_KEY, ...prop])
 
@@ -107,7 +112,7 @@ const currentCategorySelector = createSelector(
   verifiedSelector,
   (categories, id, verified) =>
     verified === false
-      ? UNCATEGORIZED_CATEGORY
+      ? LOCAL_UNCATEGORIZED_CATEGORY
       : R.find(R.propEq('id', id), categories)
 )
 
@@ -232,5 +237,7 @@ export const totalSelectableSelector: Selector<boolean> = createSelector(
 export const pieItemsSelector: Selector<PieChartItems> = createSelector(
   pieTotalSelector,
   rawPieDataSelector,
-  createPieDataMapper({ nameEmptyCategoryAs: 'Unpublished' })
+  createPieDataMapper({
+    nameEmptyCategoryAs: LOCAL_UNCATEGORIZED_CATEGORY.name,
+  })
 )
