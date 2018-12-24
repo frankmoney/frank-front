@@ -74,6 +74,7 @@ export default handleActions(
       state.merge({
         loading: false,
         typing: false,
+        updatingList: false,
       }),
     [ACTIONS.leave]: () => defaultState,
   },
