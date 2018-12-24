@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 import { mapPayment } from 'data/models/payment'
+import { formatDate } from 'utils/dates'
 import * as ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
 import QUERIES from '../queries'
@@ -50,8 +51,8 @@ export default (action$, store, { graphql }) =>
           amountMax,
           amountMin,
           categoryId: categoryId || undefined,
-          dateMax,
-          dateMin,
+          dateMax: dateMax && formatDate(dateMax),
+          dateMin: dateMin && formatDate(dateMin),
           first: PAGE_SIZE,
           search,
           skip: (page - 1) * PAGE_SIZE,
