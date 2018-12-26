@@ -18,6 +18,9 @@ const styles = {
   },
   centered: {
     justifyContent: 'center',
+    '& > *': {
+      marginRight: 0,
+    },
   },
 }
 

@@ -5,12 +5,7 @@ import { matchPath } from 'react-router'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector, pathnameSelector } from '@frankmoney/webapp'
-import {
-  convertToBarChartValues,
-  formatBarLabels,
-  type BarsDataPoint,
-  type BarsUnit,
-} from 'data/models/barData'
+import { formatBarDataPoints, type BarData } from 'data/models/barData'
 import {
   DEFAULT_PIE_TOTAL,
   PIE_TOTAL_PARAMETER_NAME,
@@ -20,7 +15,7 @@ import {
   type PieChartItems,
   type PieTotal,
 } from 'data/models/pieData'
-import type { Selector, Store } from 'flow/redux'
+import type { Selector, ReduxState } from 'flow/redux'
 import {
   formatDateRangeFilter,
   formatMonth,
@@ -36,7 +31,8 @@ import { ROUTES } from 'const'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
-const get = (...prop) => (store: Store) => store.getIn([REDUCER_KEY, ...prop])
+const get = (...prop) => (state: ReduxState) =>
+  state.getIn([REDUCER_KEY, ...prop])
 
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
@@ -212,24 +208,10 @@ export const barChartClickableSelector = createSelector(
   )
 )
 
-export const barChartDataSelector = createSelector(
+export const barChartDataSelector: Selector<BarData> = createSelector(
   createPlainObjectSelector(get('barsData')),
   barsUnitSelector,
-  (data: BarsDataPoint, barsUnit: BarsUnit) =>
-    R.pipe(
-      R.map(convertToBarChartValues),
-      list =>
-        list.reduce((acc, item, idx) => {
-          const prev = idx > 0 ? list[idx - 1] : null
-          return R.append(
-            {
-              ...item.values,
-              date: JSON.stringify(formatBarLabels(item, prev, barsUnit)),
-            },
-            acc
-          )
-        }, [])
-    )(data)
+  formatBarDataPoints
 )
 
 const rawPieDataSelector: Selector<LedgerPieChart> = createPlainObjectSelector(

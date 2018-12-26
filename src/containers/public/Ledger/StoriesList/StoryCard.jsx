@@ -27,14 +27,11 @@ const StoryCard = ({
       {paymentsCount > 0 && (
         <StoryPaymentsStats
           className={classes.stats}
-          // classNames={{
-          //  root: classes.stats,
-          //  symbol: classes.statsSymbol,
-          //  counter: classes.statsCounter,
-          // }}
-          paymentsCurrency={paymentsCurrency}
+          counterClassName={classes.statsCounter}
           paymentsCount={paymentsCount}
+          paymentsCurrency={paymentsCurrency}
           paymentsDateRange={paymentsDateRange}
+          symbolClassName={classes.statsSymbol}
         />
       )}
       {text && <div className={classes.text}>{text}</div>}
