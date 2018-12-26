@@ -7,10 +7,13 @@ import StoriesIcon from 'material-ui-icons/BurstMode'
 import AreaSpinner from 'components/AreaSpinner'
 import FrankLogo from 'components/Layout/FrankLogo.svg'
 import { TextButton } from 'components/kit/Button'
+import PaymentsSummary from 'components/common/PaymentsSummary'
 import {
+  categoryCountSelector,
   descriptionSelector,
   isLoadingSelector,
   nameSelector,
+  paymentCountSelector,
   pieItemsSelector,
   pieTotalSelector,
   revenueSelector,
@@ -81,7 +84,7 @@ const styles = theme => ({
   },
   paymentsSummary: {
     ...theme.fontRegular(18, 26),
-    margin: [37, 20, 0],
+    margin: [35, 17, 0],
   },
   categoryList: {
     margin: [14, 0, 0],
@@ -94,7 +97,9 @@ type Props = {|
   //
   accountId: number | string,
   accountName: string,
+  categoryCount?: number,
   description: ?string,
+  paymentCount: number,
   pieItems: PieChartCategories,
   pieTotal: PieTotal,
   revenue: number,
@@ -103,8 +108,10 @@ type Props = {|
 
 const Ledger = ({
   accountName,
+  categoryCount,
   classes,
   description,
+  paymentCount,
   pieItems,
   pieTotal,
   revenue,
@@ -133,7 +140,12 @@ const Ledger = ({
       pieTotal={pieTotal}
       pieTotalSelectable={false}
     />
-    <div className={classes.paymentsSummary}>TODO: payments summary</div>
+    <PaymentsSummary
+      className={classes.paymentsSummary}
+      categoryCount={categoryCount}
+      onLinkClick={() => console.log('see all')}
+      paymentCount={paymentCount}
+    />
   </div>
 )
 
@@ -141,8 +153,10 @@ export default compose(
   reconnect(
     {
       accountName: nameSelector,
+      categoryCount: categoryCountSelector,
       description: descriptionSelector,
       loading: isLoadingSelector,
+      paymentCount: paymentCountSelector,
       pieItems: pieItemsSelector,
       pieTotal: pieTotalSelector,
       revenue: revenueSelector,

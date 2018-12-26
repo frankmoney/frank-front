@@ -1,7 +1,7 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import ChartIcon from 'containers/widgets/Footer/Chart.svg'
+import ChartIcon from 'material-ui-icons/Assessment'
 import colors from 'styles/colors'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import CloseIcon from './Close.svg'

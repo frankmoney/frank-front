@@ -2,13 +2,14 @@
 import React from 'react'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Totals from 'containers/widgets/Totals'
+import PaymentsSummary from 'components/common/PaymentsSummary'
 import Widget, { type WidgetAPI } from '../Widget'
 import ButtonWidgetExpander from './ButtonWidgetExpander'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
 const WIDTH = 375
 
-const styles = theme => ({
+const styles = {
   root: {
     display: 'flex',
     flexDirection: 'column',
@@ -29,14 +30,8 @@ const styles = theme => ({
     margin: [15, 'auto'],
     position: 'relative',
   },
-  overviewFooter: {
-    ...theme.fontRegular(18, 26),
-    margin: [18, 0, 13],
-  },
-  overviewFooterSeeAll: {
-    flexGrow: 1,
-    marginRight: -2,
-    textAlign: 'right',
+  paymentsSummary: {
+    margin: [16, 0, 13],
   },
   payments: {
     margin: [-3, -9, 0],
@@ -47,7 +42,7 @@ const styles = theme => ({
   statsItem: {
     paddingLeft: 15,
   },
-})
+}
 
 type Props = {|
   ...InjectStylesProps,
@@ -66,14 +61,7 @@ const ButtonWidget = ({ accountId, classes, open }: Props) => (
       CategoryList={ButtonWidgetCategoryList}
       className={classes.root}
       contentClassName={classes.content}
-      OverviewFooterClasses={{
-        root: classes.overviewFooter,
-        seeAll: classes.overviewFooterSeeAll,
-      }}
-      OverviewFooterProps={{
-        hideIcon: true,
-        hideVerifiedBy: true,
-      }}
+      PaymentsSummary={<PaymentsSummary className={classes.paymentsSummary} />}
       paymentListClassName={classes.payments}
       paymentsPeriodClassName={classes.period}
       pieChartClassName={classes.pieChart}

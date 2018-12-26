@@ -18,7 +18,6 @@ import {
   type PieTotal,
 } from 'data/models/pieData'
 import type { Story } from 'data/models/stories'
-import type { FooterClasses, FooterProps } from './Footer'
 import TabbedLayout, {
   OVERVIEW_TAB,
   PAYMENTS_TAB,
@@ -67,9 +66,6 @@ export type WidgetProps = {|
   paymentListClassName?: string,
   paymentsPeriodClassName?: string,
   pieChartClassName?: string,
-  //
-  OverviewFooterClasses?: FooterClasses,
-  OverviewFooterProps?: FooterProps,
 |}
 
 export type WidgetDataProps = {|
@@ -285,13 +281,12 @@ class Widget extends React.Component<Props, State> {
       className,
       contentClassName,
       overviewChartClassName,
-      OverviewFooterClasses,
-      OverviewFooterProps,
       paymentBlockClassName,
       paymentBlockTitleClassName,
       paymentClassName,
       paymentListClassName,
       paymentsPeriodClassName,
+      PaymentsSummary,
       pieChartClassName,
       pieChartRootComponent,
       showBarChart,
@@ -313,6 +308,14 @@ class Widget extends React.Component<Props, State> {
     //   />
     // )
 
+    const paymentsSummary = PaymentsSummary
+      ? React.cloneElement(PaymentsSummary, {
+          categoryCount: this.categoryCount,
+          onLinkClick: () => this.handleCategorySelect(ALL_CATEGORIES),
+          paymentCount: this.paymentCount,
+        })
+      : null
+
     const totals = Totals ? React.cloneElement(Totals, this.state.totals) : null
 
     const aboutTab = (
@@ -332,16 +335,12 @@ class Widget extends React.Component<Props, State> {
         OverviewTab={
           this.pieItems && (
             <OverviewTab
-              categoryCount={this.categoryCount}
               CategoryList={CategoryList}
               chartClassName={overviewChartClassName}
               contentClassName={contentClassName}
-              FooterClasses={OverviewFooterClasses}
-              FooterProps={OverviewFooterProps}
               onCategoryClick={this.handleCategorySelect}
               onPieTotalChange={this.handlePieTotalChange}
-              onSeeAllClick={() => this.handleCategorySelect(ALL_CATEGORIES)}
-              paymentCount={this.paymentCount}
+              PaymentsSummary={paymentsSummary}
               PeriodSelect={periodSelect}
               pieChartRootComponent={pieChartRootComponent}
               pieClassName={pieChartClassName}

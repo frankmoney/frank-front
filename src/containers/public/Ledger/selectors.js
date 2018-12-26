@@ -68,6 +68,13 @@ export const paymentsTotalCountSelector = get('paymentsCount')
 export const categoriesSelector = createPlainObjectSelector(get('categories'))
 export const paymentsSelector = createPlainObjectSelector(get('payments'))
 
+export const categoryCountSelector = createSelector(
+  categoriesSelector,
+  R.length
+)
+
+export const paymentCountSelector = get('paymentsCount')
+
 const propContainsText = (prop, text) => x =>
   (x[prop] || '').toLowerCase().includes(text.toLowerCase())
 
