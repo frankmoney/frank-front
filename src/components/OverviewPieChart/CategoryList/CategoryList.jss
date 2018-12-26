@@ -5,6 +5,9 @@ export default theme => ({
   item: {
     cursor: 'pointer',
   },
+  nonclickableItem: {
+    cursor: 'default',
+  },
   icon: {
     marginRight: 13,
   },

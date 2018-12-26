@@ -1,7 +1,10 @@
+// @flow strict
 import { createPlainObjectSelector } from '@frankmoney/utils'
+import type { ReduxState } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
 
-const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
+const get = (...prop) => (state: ReduxState) =>
+  state.getIn([REDUCER_KEY, ...prop])
 
 export const data = createPlainObjectSelector(get('data'))
 export const estimating = get('estimatingResults')

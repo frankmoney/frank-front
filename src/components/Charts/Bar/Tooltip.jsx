@@ -4,11 +4,11 @@ import React from 'react'
 import { compose, branch, renderNothing } from 'recompose'
 import Paper from 'components/kit/Paper'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import type { FormattedBarLabels, JSONString } from 'data/models/barData'
 import TooltipLine, {
   type TooltipLinePayload,
   type TooltipLineFormatter,
 } from './TooltipLine'
-import type { FormattedBarLabels, JSONString } from './Bar.flow'
 
 const styles = theme => ({
   root: {

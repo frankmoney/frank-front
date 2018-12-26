@@ -1,11 +1,14 @@
+// @flow strict
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { isValid as isFormValid, getFormValues } from 'redux-form/immutable'
+import type { ReduxState } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
 import { STEPS, STEP_FORM, CREDENTIALS_STATUS, ACCOUNT_FORM } from './constants'
 
-const get = (...prop) => store => store.getIn([REDUCER_KEY, ...prop])
+const get = (...prop) => (state: ReduxState) =>
+  state.getIn([REDUCER_KEY, ...prop])
 
 export const loadingSelector = get('loading')
 export const loadedSelector = get('loaded')
