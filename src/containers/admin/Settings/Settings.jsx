@@ -3,10 +3,10 @@ import React from 'react'
 import cx from 'classnames'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
-import Snack from 'components/kit/Snack'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import EditCategoryDialog from 'components/EditCategoryDialog'
+import SidebarSnack from 'components/SidebarSnack'
 import { injectStyles } from 'utils/styles'
 import reconnect from 'utils/reconnect'
 import ACTIONS from './actions'
@@ -64,7 +64,8 @@ const Settings = ({
         }
         onSubmitForm={editingCategory ? updateCategory : createCategory}
       />
-      <Snack
+      <SidebarSnack
+        color="red"
         shown={canNotDeleteNonEmptyCategorySnackShown}
         message="Only a category with no payments can be removed"
         dismissByTimeout={3000}

@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import { compose, withProps } from 'recompose'
 import reconnect from 'utils/reconnect'
 import CategoriesCard from './CategoriesCard'
