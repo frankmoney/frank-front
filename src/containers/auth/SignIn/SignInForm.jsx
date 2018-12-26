@@ -85,8 +85,8 @@ const FORM_NAME = 'auth/signIn'
 export default compose(
   reduxForm({
     form: FORM_NAME,
-    failedAction: ACTIONS.submit.error,
-    succeededAction: ACTIONS.submit.success,
+    failedAction: ACTIONS.submit.error.toString(),
+    succeededAction: ACTIONS.submit.success.toString(),
     onSubmit: (data, dispatch) => dispatch(ACTIONS.submit(data.toJS())),
   }),
   injectStyles(styles)
