@@ -27,12 +27,20 @@ const ButtonBase = ({ children, style, width, ...otherProps }: Props) => {
     computedStyle = { ...computedStyle, ...style }
   }
 
-  const Root = otherProps.href ? HtmlLink : HtmlButton
+  if (otherProps.href) {
+    const { type, ...linkProps } = otherProps
+
+    return (
+      <HtmlLink style={computedStyle} {...linkProps}>
+        {children}
+      </HtmlLink>
+    )
+  }
 
   return (
-    <Root style={computedStyle} {...otherProps}>
+    <HtmlButton style={computedStyle} {...otherProps}>
       {children}
-    </Root>
+    </HtmlButton>
   )
 }
 
