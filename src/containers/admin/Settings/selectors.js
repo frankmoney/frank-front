@@ -32,12 +32,16 @@ export const accountsSelector = createSelector(
     }))
 )
 
-export const spendingCategoriesSelector = createPlainObjectSelector(
-  get('spendingCategories')
+export const categoriesSelector = createPlainObjectSelector(get('categories'))
+export const spendingCategoriesSelector = createSelector(
+  categoriesSelector,
+  R.filter(x => x.type === 'spending' && !x.removed)
 )
-export const incomeCategoriesSelector = createPlainObjectSelector(
-  get('incomeCategories')
+export const incomeCategoriesSelector = createSelector(
+  categoriesSelector,
+  R.filter(x => x.type === 'revenue' && !x.removed)
 )
+
 export const openCategoryDialogSelector = get('openCategoryDialog')
 
 export const editingCategoryTypeSelector = get('editingCategoryType')
@@ -57,4 +61,8 @@ export const accountCardFormValuesSelector = createSelector(
   descriptionSelector,
   isPublicSelector,
   (name, description, isPublic) => ({ name, description, isPrivate: !isPublic })
+)
+
+export const canNotDeleteNonEmptyCategorySnackShownSelector = get(
+  'canNotDeleteNonEmptyCategorySnackShown'
 )

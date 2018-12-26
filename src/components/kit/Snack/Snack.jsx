@@ -9,7 +9,7 @@ import SnackManager from './SnackManager'
 import SnackButton from './SnackButton'
 import styles, { SNACK_HEIGHT } from './Snack.jss'
 
-type SnackColor = 'blue' | 'dark'
+type SnackColor = 'blue' | 'dark' | 'red'
 
 type Props = {
   message: string,

@@ -3,6 +3,7 @@ export const SNACK_HEIGHT = 50
 const SNACK_COLORS = {
   blue: '#484DE7',
   dark: '#252B43',
+  red: '#C70000',
 }
 
 const styles = theme => ({

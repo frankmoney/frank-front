@@ -6,7 +6,10 @@ export default createActions('admin/settings', {
   update: true,
   openCategoryDialog: false,
   closeCategoryDialog: false,
-  modifyCategoryList: true,
   submitAccountCard: true,
+  createCategory: true,
+  deleteCategory: true,
+  updateCategory: true,
+  canNotDeleteNonEmptyCategorySnackDismissed: false,
   leave: false,
 })

@@ -1,3 +1,5 @@
 export load from './load'
-export onModifyCategoryList from './onModifyCategoryList'
+export onCreateCategory from './onCreateCategory'
+export onDeleteCategory from './onDeleteCategory'
 export onSubmitAccountCard from './onSubmitAccountCard'
+export onUpdateCategory from './onUpdateCategory'

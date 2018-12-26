@@ -6,6 +6,7 @@ import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import EditCategoryDialog from 'components/EditCategoryDialog'
+import SidebarSnack from 'components/SidebarSnack'
 import { injectStyles } from 'utils/styles'
 import reconnect from 'utils/reconnect'
 import ACTIONS from './actions'
@@ -19,15 +20,21 @@ import {
   loadedSelector,
   openCategoryDialogSelector,
   editingCategorySelector,
+  editingCategoryTypeSelector,
+  canNotDeleteNonEmptyCategorySnackShownSelector,
 } from './selectors'
 
 const Settings = ({
   classes,
   className,
   editingCategory,
+  editingCategoryType,
   openCategoryDialog,
+  canNotDeleteNonEmptyCategorySnackShown,
   onCancelDialog,
-  onModifyCategoryList,
+  createCategory,
+  updateCategory,
+  handleCanNotDeleteNonEmptyCategorySnackDismiss,
 }) => (
   <div className={cx(classes.root, className)}>
     <FixedHeader className={classes.header}>
@@ -41,10 +48,28 @@ const Settings = ({
       <SpendingCategoriesCard className={classes.card} />
       <IncomeCategoriesCard className={classes.card} />
       <EditCategoryDialog
+        defaultType={editingCategoryType}
         category={editingCategory}
         open={openCategoryDialog}
         onCancel={onCancelDialog}
-        onSubmitForm={onModifyCategoryList}
+        formSubmissionFailedAction={
+          editingCategory
+            ? ACTIONS.updateCategory.error.toString()
+            : ACTIONS.createCategory.error.toString()
+        }
+        formSubmissionSucceededAction={
+          editingCategory
+            ? ACTIONS.updateCategory.success.toString()
+            : ACTIONS.createCategory.success.toString()
+        }
+        onSubmitForm={editingCategory ? updateCategory : createCategory}
+      />
+      <SidebarSnack
+        color="red"
+        shown={canNotDeleteNonEmptyCategorySnackShown}
+        message="Only a category with no payments can be removed"
+        dismissByTimeout={3000}
+        onDismiss={handleCanNotDeleteNonEmptyCategorySnackDismiss}
       />
     </div>
   </div>
@@ -57,12 +82,17 @@ export default compose(
       loaded: loadedSelector,
       openCategoryDialog: openCategoryDialogSelector,
       editingCategory: editingCategorySelector,
+      editingCategoryType: editingCategoryTypeSelector,
+      canNotDeleteNonEmptyCategorySnackShown: canNotDeleteNonEmptyCategorySnackShownSelector,
     },
     {
       load: ACTIONS.load,
       leave: ACTIONS.leave,
       onCancelDialog: ACTIONS.closeCategoryDialog,
-      onModifyCategoryList: ACTIONS.modifyCategoryList,
+      createCategory: ACTIONS.createCategory,
+      updateCategory: ACTIONS.updateCategory,
+      handleCanNotDeleteNonEmptyCategorySnackDismiss:
+        ACTIONS.canNotDeleteNonEmptyCategorySnackDismissed,
     }
   ),
   lifecycle({
