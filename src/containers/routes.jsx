@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { connect } from 'react-redux'
 import { createRouteUrl } from '@frankmoney/utils'
@@ -5,6 +6,8 @@ import { currentUserSelector, queryParamSelector } from '@frankmoney/webapp'
 import { compose, withProps, branch, renderComponent } from 'recompose'
 import { Redirect, Switch, Route } from 'react-router-dom'
 import Helmet from 'react-helmet'
+import { withMobileLayout } from 'containers/mobile/Layout'
+import MobileLedger from 'containers/mobile/Ledger'
 import { userAccountsSelector } from 'redux/selectors/user'
 import { BASE_TITLE, ROUTES } from 'const'
 import Inbox from 'containers/admin/Inbox'
@@ -21,6 +24,7 @@ import Layout from 'components/Layout'
 import PublicPayment from 'containers/public/Payment'
 import PublicStory from 'containers/public/Story'
 import PublicLedger from 'containers/public/Ledger'
+import { parseQueryStringBool } from 'utils/querystring'
 
 const withLayout = Component => props => (
   <Layout>
@@ -56,7 +60,7 @@ const branchPublic = PublicComponent =>
       public: queryParamSelector('public')(state),
     })),
     branch(
-      props => props.public || !props.user,
+      props => parseQueryStringBool(props.public) === true || !props.user,
       renderComponent(PublicComponent)
     )
   )
@@ -78,6 +82,21 @@ const routeMappers = {
     peerId: props.match.params.id,
   })),
 }
+
+const branchMobile = MobileComponent =>
+  compose(
+    connect(state => ({
+      mobile: queryParamSelector('mobile')(state),
+    })),
+    branch(
+      props => parseQueryStringBool(props.mobile) === true,
+      compose(
+        renderComponent,
+        routeMappers.account,
+        withMobileLayout
+      )(MobileComponent)
+    )
+  )
 
 const ComposedPublicLedger = routeMappers.account(PublicLedger)
 const ComposedProtectedLedger = compose(
@@ -122,7 +141,11 @@ export default [
     exact: true,
   },
   {
-    component: branchPublic(ComposedPublicLedger)(LedgerRouter),
+    component: compose(
+      branchMobile(MobileLedger),
+      branchPublic(ComposedPublicLedger),
+      routeMappers.account
+    )(LedgerRouter),
     path: ROUTES.account.idRootTab,
     exact: true,
   },

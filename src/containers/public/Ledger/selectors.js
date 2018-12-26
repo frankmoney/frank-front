@@ -189,7 +189,10 @@ export const periodSelector = createSelector(
 
 const rawPieTotalSelector: Selector<PieTotal> = createSelector(
   queryParamSelector(PIE_TOTAL_PARAMETER_NAME),
-  string => ((string ? parseQueryString(string) : DEFAULT_PIE_TOTAL): PieTotal)
+  string =>
+    string
+      ? (parseQueryString(string): any) // flowlint-line unclear-type:off
+      : DEFAULT_PIE_TOTAL
 )
 
 export const noTextSearchSelector = createSelector(

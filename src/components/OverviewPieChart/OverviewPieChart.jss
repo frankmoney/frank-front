@@ -12,7 +12,4 @@ export default {
     justifyContent: 'center',
     marginRight: '7%',
   },
-  categoryList: {
-    flex: [0, 0, 'auto'],
-  },
 }

@@ -24,7 +24,12 @@ import TabbedLayout, {
   PAYMENTS_TAB,
   type WidgetTab,
 } from './TabbedLayout'
-import { OverviewTab, PaymentListTab, StoriesTab } from './Tabs'
+import {
+  OverviewTab,
+  PaymentListTab,
+  StoriesTab,
+  type OverviewTabProps,
+} from './Tabs'
 import { type Period } from './PeriodSelect'
 import { ALL_CATEGORIES, buildQuery, remapPieData } from './utils'
 import ErrorScreen from './ErrorScreen'
@@ -40,6 +45,8 @@ interface Category {
 }
 
 export type WidgetProps = {|
+  ...OverviewTabProps,
+  //
   barsFooterPadding: number,
   barsHeight: number,
   barsWidth: number,
@@ -47,7 +54,6 @@ export type WidgetProps = {|
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   showBarChart: boolean,
   showCategoryCount: boolean,
-  showOverviewTotals?: boolean,
   widgetSize: number,
   // Styles
   barChartClassName?: string,
@@ -160,10 +166,10 @@ class Widget extends React.Component<Props, State> {
     return this.state.period
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  get periods(): Array<Period> {
-    return ['All time', '2018', 'TBD'] // TODO: dynamic list?
-  }
+  // // eslint-disable-next-line class-methods-use-this
+  // get periods(): Array<Period> {
+  //   return ['All time', '2018', 'TBD'] // TODO: dynamic list?
+  // }
 
   loadData = (categoryId: ?string) => {
     const { graphql, accountId } = this.props
@@ -284,7 +290,7 @@ class Widget extends React.Component<Props, State> {
       pieChartClassName,
       pieChartRootComponent,
       showBarChart,
-      showOverviewTotals,
+      Totals,
       widgetSize,
     } = this.props
 
@@ -331,7 +337,9 @@ class Widget extends React.Component<Props, State> {
               pieItems={this.pieItems}
               pieTotal={this.pieTotal}
               pieTotalSelectable={this.pieTotalSelectable}
-              totals={showOverviewTotals ? this.state.totals : null}
+              Totals={
+                Totals ? React.cloneElement(Totals, this.state.totals) : null
+              }
               widgetSize={widgetSize}
             />
           )
