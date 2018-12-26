@@ -10,10 +10,10 @@ const styles = theme => ({
   },
 })
 
-const RecoverPasswordMailSent = ({ classes, className }) => (
+const RecoverPasswordSuccess = ({ classes, className }) => (
   <PageForm className={className} centered>
     <div className={classes.message}>Reset password letter sent</div>
   </PageForm>
 )
 
-export default injectStyles(styles)(RecoverPasswordMailSent)
+export default injectStyles(styles)(RecoverPasswordSuccess)

@@ -13,7 +13,8 @@ export default handleActions(
   {
     [ACTIONS.load]: state => state.merge({ loading: true, loaded: false }),
     [ACTIONS.load.error]: state => state.set('loading', false),
-    [ACTIONS.load.success]: state => state.merge({ loading: false, loaded: true }),
+    [ACTIONS.load.success]: (state, { payload: { token, email } }) =>
+      state.merge({ loading: false, loaded: true, token, email }),
     [ACTIONS.leave]: () => fromJS(initialState),
   },
   fromJS(initialState)

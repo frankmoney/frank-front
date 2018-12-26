@@ -1,25 +1,29 @@
 // @flow strict-local
 import React from 'react'
+import AreaSpinner from 'components/AreaSpinner'
 import PageForm from 'components/PageForm'
 import reconnect from 'utils/reconnect'
 import ResetPasswordForm from './ResetPasswordForm'
 import ACTIONS from './actions'
+import { loadedSelector } from './selectors'
 
 type Props = {|
-  match?: *,
+  match?: {
+    params: {
+      token: string,
+    },
+  },
   className?: string,
+  loaded: boolean,
   load: () => void,
   leave: () => void,
 |}
 
 class ResetPassword extends React.Component<Props> {
   componentWillMount() {
-    const {
-      match: {
-        params: { token },
-      },
-    } = this.props
-    this.props.load({ token })
+    if (this.props.match) {
+      this.props.load({ token: this.props.match.params.token })
+    }
   }
 
   componentWillUnmount() {
@@ -27,17 +31,22 @@ class ResetPassword extends React.Component<Props> {
   }
 
   render() {
-    const { className } = this.props
+    const { className, loaded } = this.props
 
-    return (
+    return loaded ? (
       <PageForm className={className} title="Reset Password" centered>
         <ResetPasswordForm />
       </PageForm>
+    ) : (
+      <AreaSpinner />
     )
   }
 }
 
-export default reconnect(null, {
-  load: ACTIONS.load,
-  leave: ACTIONS.leave,
-})(ResetPassword)
+export default reconnect(
+  { loaded: loadedSelector },
+  {
+    load: ACTIONS.load,
+    leave: ACTIONS.leave,
+  }
+)(ResetPassword)

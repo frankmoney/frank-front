@@ -4,9 +4,11 @@ import { Redirect } from 'react-router-dom'
 import SignIn from 'containers/auth/SignIn'
 import SignUp from 'containers/auth/SignUp'
 import RecoverPassword, {
-  RecoverPasswordMailSent,
+  RecoverPasswordSuccess,
 } from 'containers/auth/RecoverPassword'
-import ResetPassword from 'containers/auth/ResetPassword'
+import ResetPassword, {
+  ResetPasswordSuccess,
+} from 'containers/auth/ResetPassword'
 import appRoutes from 'containers/routes'
 import demoRoutes from 'demo/routes'
 import { ROUTES } from './const'
@@ -28,13 +30,18 @@ export default [
     exact: true,
   },
   {
-    component: RecoverPasswordMailSent,
-    path: ROUTES.auth.recoverPasswordMailSent,
+    component: RecoverPasswordSuccess,
+    path: ROUTES.auth.recoverPasswordSuccess,
     exact: true,
   },
   {
     component: RecoverPassword,
     path: ROUTES.auth.recoverPassword,
+    exact: true,
+  },
+  {
+    component: ResetPasswordSuccess,
+    path: ROUTES.auth.resetPasswordSuccess,
     exact: true,
   },
   {
