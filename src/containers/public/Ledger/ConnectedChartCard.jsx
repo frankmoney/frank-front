@@ -12,6 +12,7 @@ import {
   pieItemsSelector,
   pieTotalSelector,
   totalSelectableSelector,
+  listIsUpdatingSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 
@@ -22,6 +23,7 @@ export default compose(
       barsColor: barChartColorSelector,
       barsData: barChartDataSelector,
       barsOnly: barChartOnlySelector,
+      loading: listIsUpdatingSelector,
       period: periodSelector,
       pieItems: pieItemsSelector,
       pieTotal: pieTotalSelector,

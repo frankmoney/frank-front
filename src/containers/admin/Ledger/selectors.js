@@ -26,8 +26,14 @@ import {
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
+import { UNCATEGORIZED_CATEGORY } from 'const'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
+
+const LOCAL_UNCATEGORIZED_CATEGORY = {
+  ...UNCATEGORIZED_CATEGORY,
+  name: 'Unpublished',
+}
 
 const get = (...prop) => (state: ReduxState) =>
   state.getIn([REDUCER_KEY, ...prop])
@@ -47,17 +53,6 @@ export const categoriesSelector = createPlainObjectSelector(get('categories'))
 export const paymentCardCategoriesSelector = categoriesSelector
 
 export const paymentsSelector = createPlainObjectSelector(get('payments'))
-
-const propContainsText = (prop, text) => x =>
-  (x[prop] || '').toLowerCase().includes(text.toLowerCase())
-
-const filterPaymentByText = text =>
-  text
-    ? R.anyPass([
-        propContainsText('description', text),
-        propContainsText('categoryName', text),
-      ])
-    : R.always(true)
 
 export const listDisabledSelector = createSelector(
   listIsUpdatingSelector,
@@ -106,10 +101,19 @@ export const currentCategoryIdSelector = createSelector(
   x => x || null
 )
 
+const verifiedSelector: Selector<boolean> = createSelector(
+  queryParamSelector('verified'),
+  parseQueryStringBool
+)
+
 const currentCategorySelector = createSelector(
   categoriesSelector,
   currentCategoryIdSelector,
-  (categories, id) => R.find(R.propEq('id', id), categories)
+  verifiedSelector,
+  (categories, id, verified) =>
+    verified === false
+      ? LOCAL_UNCATEGORIZED_CATEGORY
+      : R.find(R.propEq('id', id), categories)
 )
 
 export const currentCategoryNameSelector = createSelector(
@@ -181,8 +185,8 @@ export const noTextSearchSelector = createSelector(
 )
 
 export const barChartOnlySelector = createSelector(
-  currentCategoryIdSelector,
-  R.complement(R.either(R.isNil, R.isEmpty))
+  currentCategorySelector,
+  R.complement(R.isNil)
 )
 
 const barsUnitSelector = get('barsUnit')
@@ -213,13 +217,9 @@ const rawPieDataSelector: Selector<LedgerPieChart> = createPlainObjectSelector(
 export const chartsVisibleSelector = createSelector(
   noTextSearchSelector,
   rawPieDataSelector,
-  currentFiltersSelector,
-  (noSearch, pieData: LedgerPieChart, filters) =>
-    noSearch &&
-    pieData &&
-    pieData.items.length > 0 &&
-    // means show only Unpublished or without category
-    filters.verified !== false
+  barChartOnlySelector,
+  (noSearch, pieData: LedgerPieChart, showBarsOnly) =>
+    noSearch && ((pieData && pieData.items.length > 0) || showBarsOnly)
 )
 
 export const pieTotalSelector: Selector<PieTotal> = createSelector(
@@ -237,5 +237,7 @@ export const totalSelectableSelector: Selector<boolean> = createSelector(
 export const pieItemsSelector: Selector<PieChartItems> = createSelector(
   pieTotalSelector,
   rawPieDataSelector,
-  createPieDataMapper({ nameEmptyCategoryAs: 'Unpublished' })
+  createPieDataMapper({
+    nameEmptyCategoryAs: LOCAL_UNCATEGORIZED_CATEGORY.name,
+  })
 )

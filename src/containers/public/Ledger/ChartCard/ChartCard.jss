@@ -25,4 +25,9 @@ export default {
   barChart: {
     margin: [26, 0, 10],
   },
+  spinner: {
+    position: 'static',
+    minHeight: 370,
+    paddingBottom: 30,
+  },
 }

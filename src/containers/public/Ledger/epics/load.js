@@ -1,5 +1,6 @@
 import * as R from 'ramda'
 import { mapPayment } from 'data/models/payment'
+import { formatDate } from 'utils/dates'
 import * as ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
 import QUERIES from '../queries'
@@ -32,6 +33,8 @@ export default (action$, store, { graphql }) =>
       } = currentFiltersSelector(state)
       const categoryId = currentCategoryIdSelector(state)
       const needLoadCharts = noTextSearchSelector(state)
+      const reqVerified =
+        verified === false ? false : categoryId !== null ? true : null
 
       return graphql(
         QUERIES.buildQuery({
@@ -48,12 +51,12 @@ export default (action$, store, { graphql }) =>
           amountMax,
           amountMin,
           categoryId: categoryId || undefined,
-          dateMax,
-          dateMin,
+          dateMax: dateMax && formatDate(dateMax),
+          dateMin: dateMin && formatDate(dateMin),
           first: PAGE_SIZE,
           search,
           skip: (page - 1) * PAGE_SIZE,
-          verified,
+          verified: reqVerified,
         }
       )
     })

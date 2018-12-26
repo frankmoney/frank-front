@@ -27,7 +27,7 @@ import {
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
-import { ROUTES } from 'const'
+import { ROUTES, UNCATEGORIZED_CATEGORY } from 'const'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
@@ -134,10 +134,19 @@ export const currentCategoryIdSelector = createSelector(
   x => x || null
 )
 
+const verifiedSelector: Selector<boolean> = createSelector(
+  queryParamSelector('verified'),
+  parseQueryStringBool
+)
+
 export const currentCategorySelector = createSelector(
   categoriesSelector,
   currentCategoryIdSelector,
-  (categories, id) => R.find(R.propEq('id', id), categories)
+  verifiedSelector,
+  (categories, id, verified) =>
+    verified === false
+      ? UNCATEGORIZED_CATEGORY
+      : R.find(R.propEq('id', id), categories)
 )
 
 export const currentCategoryNameSelector = createSelector(
@@ -189,8 +198,8 @@ export const noTextSearchSelector = createSelector(
 )
 
 export const barChartOnlySelector = createSelector(
-  currentCategoryIdSelector,
-  R.complement(R.either(R.isNil, R.isEmpty))
+  currentCategorySelector,
+  R.complement(R.isNil)
 )
 
 export const barChartColorSelector = createSelector(

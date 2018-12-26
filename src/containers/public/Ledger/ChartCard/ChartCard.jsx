@@ -6,6 +6,7 @@ import OverviewPieChart, {
   type PieChartCategories,
 } from 'components/OverviewPieChart'
 import Paper from 'components/kit/Paper'
+import AreaSpinner from 'components/AreaSpinner'
 import type { BarData, BarZoomInCb } from 'components/Charts/Bar'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import TimelineChart from 'components/common/TimelineChart'
@@ -23,6 +24,7 @@ export type Props = {|
   barsColor?: string,
   barsData: BarData,
   barsOnly: boolean,
+  loading?: boolean,
   onBarsZoomIn: BarZoomInCb,
   period: string,
   pieItems: PieChartCategories,
@@ -49,6 +51,7 @@ class ChartCard extends React.PureComponent<Props, State> {
       barsOnly,
       classes,
       className,
+      loading,
       onBarsZoomIn,
       onCategoryClick,
       onPieTotalChange,
@@ -77,33 +80,38 @@ class ChartCard extends React.PureComponent<Props, State> {
           className
         )}
       >
-        <Title className={classes.header}>{period}</Title>
-        {barsOnly ? (
+        {loading && <AreaSpinner className={classes.spinner} />}
+        {!loading && (
           <>
-            <CurrentCategory className={classes.category} />
-            <TimelineChart {...barchartProps} />
-          </>
-        ) : (
-          <>
-            <OverviewPieChart
-              CategoryList={<LedgerCategoryList />}
-              chartClassName={classes.pie}
-              chartSize={260}
-              className={classes.overview}
-              data={pieItems}
-              onCategoryClick={onCategoryClick}
-              onPieTotalChange={onPieTotalChange}
-              pieTotal={pieTotal}
-              pieTotalSelectable={pieTotalSelectable}
-            />
-            <ExpandRow
-              className={classes.bottomRow}
-              expanded={expanded}
-              onToggle={this.handleToggleExpand}
-              title="Timeline"
-            >
-              <TimelineChart {...barchartProps} />
-            </ExpandRow>
+            <Title className={classes.header}>{period}</Title>
+            {barsOnly ? (
+              <>
+                <CurrentCategory className={classes.category} />
+                <TimelineChart {...barchartProps} />
+              </>
+            ) : (
+              <>
+                <OverviewPieChart
+                  CategoryList={<LedgerCategoryList />}
+                  chartClassName={classes.pie}
+                  chartSize={260}
+                  className={classes.overview}
+                  data={pieItems}
+                  onCategoryClick={onCategoryClick}
+                  onPieTotalChange={onPieTotalChange}
+                  pieTotal={pieTotal}
+                  pieTotalSelectable={pieTotalSelectable}
+                />
+                <ExpandRow
+                  className={classes.bottomRow}
+                  expanded={expanded}
+                  onToggle={this.handleToggleExpand}
+                  title="Timeline"
+                >
+                  <TimelineChart {...barchartProps} />
+                </ExpandRow>
+              </>
+            )}
           </>
         )}
       </Paper>
