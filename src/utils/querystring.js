@@ -1,4 +1,6 @@
-export const parseQueryStringBool = value => {
+// @flow strict
+
+export const parseQueryStringBool = (value?: string): ?boolean => {
   switch (value) {
     case 'true':
       return true
@@ -9,9 +11,10 @@ export const parseQueryStringBool = value => {
   }
 }
 
-export const parseQueryStringNumber = value => {
+export const parseQueryStringNumber = (value?: string): ?number => {
   const number = parseInt(value, 10)
   return isNaN(number) ? null : number
 }
 
-export const parseQueryString = value => (value !== undefined ? value : '')
+export const parseQueryString = (value?: string): string =>
+  value !== undefined ? value : ''

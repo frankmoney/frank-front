@@ -84,6 +84,9 @@ const addFiller: AddFillerFn = total => items => {
 export const createPieDataMapper: CreatePieDataMapperFn = ({
   nameEmptyCategoryAs = 'Uncategorized',
 }) => (percentageOf, { items, totalRevenue, totalSpending }) => {
+  if (!items) {
+    return []
+  }
   const total = percentageOf === 'spending' ? totalSpending : totalRevenue
 
   return R.pipe(

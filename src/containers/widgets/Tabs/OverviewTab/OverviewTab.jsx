@@ -8,7 +8,7 @@ import type {
   PieChartCategories,
 } from 'components/OverviewPieChart'
 import PieTotalSelect from 'components/OverviewPieChart/PieTotalSelect'
-import Totals, { type TotalsProps } from 'containers/widgets/Totals'
+import TotalsComponent from 'containers/widgets/Totals'
 import Footer, {
   type FooterClasses,
   type FooterProps,
@@ -33,16 +33,20 @@ const styles = {
 
 type EmptyCb = () => void
 
-export type Props = {|
+export type OverviewTabProps = {|
+  Totals: ?React.Element<typeof TotalsComponent>,
+|}
+
+type Props = {|
   ...OverviewPieChartProps,
   ...InjectStylesProps,
+  ...OverviewTabProps,
   //
   categoryCount?: number,
   CategoryList?: CategoryListComponent,
   paymentCount?: number,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   pieItems: PieChartCategories,
-  totals: ?TotalsProps,
   widgetSize: 375 | 400 | 500 | 625 | 800,
   // Handlers
   onCategoryClick: CategoryCb,
@@ -77,11 +81,11 @@ const OverviewTab = ({
   pieItems,
   pieTotal,
   pieTotalSelectable,
-  totals,
+  Totals,
   widgetSize,
 }: Props) => (
   <div className={contentClassName}>
-    {totals && <Totals {...totals} />}
+    {Totals}
     {widgetSize !== 400 ? (
       <OverviewChart
         CategoryList={CategoryList}
