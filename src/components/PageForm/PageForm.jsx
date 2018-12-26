@@ -45,7 +45,7 @@ const PageForm = ({ classes, className, centered, title, children }) => (
       <FrankLogo className={classes.logo} />
     </Link>
     <div className={classes.container}>
-      <div className={classes.title}>{title}</div>
+      {title && <div className={classes.title}>{title}</div>}
       {children}
     </div>
   </div>
