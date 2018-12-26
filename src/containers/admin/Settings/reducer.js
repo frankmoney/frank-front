@@ -9,8 +9,8 @@ const defaultState = Immutable.fromJS({
   loaded: false,
   updating: false,
   openCategoryDialog: false,
-  spendingCategories: [],
-  incomeCategories: [],
+  categories: [],
+  canNotDeleteNonEmptyCategorySnackShown: false,
 })
 
 export default handleActions(
@@ -18,17 +18,7 @@ export default handleActions(
     [ACTIONS.load]: state => state.merge({ loading: true }),
     [ACTIONS.load.success]: (
       state,
-      {
-        payload: {
-          pid,
-          name,
-          description,
-          isPublic,
-          sources,
-          spendingCategories,
-          incomeCategories,
-        },
-      }
+      { payload: { pid, name, description, isPublic, sources, categories } }
     ) =>
       state.merge({
         loading: false,
@@ -38,8 +28,7 @@ export default handleActions(
         description,
         isPublic,
         sources,
-        spendingCategories: fromJS(spendingCategories),
-        incomeCategories: fromJS(incomeCategories),
+        categories: fromJS(categories),
       }),
     [ACTIONS.load.error]: state =>
       state.merge({
@@ -64,15 +53,38 @@ export default handleActions(
         },
       }
     ) => state.merge({ name, description, isPublic }),
-    [ACTIONS.modifyCategoryList.success]: (
-      state,
-      { payload: { spendingCategories, incomeCategories } }
-    ) =>
-      state.merge({
-        spendingCategories: fromJS(spendingCategories),
-        incomeCategories: fromJS(incomeCategories),
-      }),
-
+    [ACTIONS.createCategory.success]: (state, { payload: { category } }) =>
+      state
+        .set('openCategoryDialog', false)
+        .update('categories', categories => categories.push(fromJS(category))),
+    [ACTIONS.deleteCategory]: (state, { payload: { pid } }) =>
+      state.update('categories', categories =>
+        categories.update(
+          categories.findIndex(x => x.get('id') === pid),
+          category => category.set('removed', true)
+        )
+      ),
+    [ACTIONS.deleteCategory.error]: (state, { payload: { pid, code } }) =>
+      (code === 'hasPayments'
+        ? state.set('canNotDeleteNonEmptyCategorySnackShown', true)
+        : state
+      ).update('categories', categories =>
+        categories.update(
+          categories.findIndex(x => x.get('id') === pid),
+          category => category.set('removed', false)
+        )
+      ),
+    [ACTIONS.updateCategory.success]: (state, { payload: { category } }) =>
+      state
+        .set('openCategoryDialog', false)
+        .update('categories', categories =>
+          categories.set(
+            categories.findIndex(x => x.get('id') === category.id),
+            fromJS(category)
+          )
+        ),
+    [ACTIONS.canNotDeleteNonEmptyCategorySnackDismissed]: state =>
+      state.set('canNotDeleteNonEmptyCategorySnackShown', false),
     [ACTIONS.leave]: () => defaultState,
   },
   defaultState

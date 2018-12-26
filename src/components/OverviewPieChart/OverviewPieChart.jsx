@@ -118,7 +118,6 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
         </div>
         {React.cloneElement(CategoryList, {
           activeCategoryIndex,
-          className: classes.categoryList,
           data: categories,
           onCategoryClick,
           onLabelMouseEnter: this.handleMouseOver,

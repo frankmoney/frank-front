@@ -3,27 +3,26 @@ import React from 'react'
 import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
-const styles = {
+const styles = theme => ({
   root: {
     display: 'inline-flex',
     flexDirection: 'column',
     flexGrow: 1,
     color: '#BEBFC7',
-    // TODO: better pixel?
-    '&:not(:first-child)': {
-      borderLeft: '1px solid #EFF0F2',
-      paddingLeft: 15,
-      marginLeft: 9,
-    },
+    width: '33%',
+    justifyContent: 'space-between',
+  },
+  label: {
+    ...theme.fontRegular(16, 28),
   },
   value: {
-    fontSize: 18,
+    ...theme.fontRegular(18, 26),
   },
   digits: {
     color: '#20284A',
     marginLeft: 4,
   },
-}
+})
 
 type Props = {|
   ...InjectStylesProps,
@@ -36,7 +35,7 @@ const format = x => Math.round(x).toLocaleString('en-US')
 
 const Total = ({ className, classes, label, value }: Props) => (
   <div className={cx(classes.root, className)}>
-    {label}
+    <span className={classes.label}>{label}</span>
     <span className={classes.value}>
       $<span className={classes.digits}>{format(value)}</span>
     </span>

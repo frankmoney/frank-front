@@ -1,5 +1,13 @@
 import { identity } from 'ramda'
 
+const convertCategory = category => ({
+  id: category.pid,
+  type: category.type,
+  name: category.name,
+  color: category.color,
+  paymentCount: category.aggregatePayments.count,
+})
+
 export default {
   getAccountInfo: [
     `
@@ -19,37 +27,27 @@ export default {
           bankLogo
           bankName
         }
-        incomeCategories: categories(type: revenue) {
-          id: pid
+        categories {
+          pid
+          type
           name
           color
-        }
-        spendingCategories: categories(type: spending) {
-          id: pid
-          name
-          color
+          aggregatePayments {
+            count
+          }
         }
       }
     }
     `,
     ({
-      account: {
-        pid,
-        name,
-        description,
-        isPublic,
-        sources,
-        incomeCategories,
-        spendingCategories,
-      },
+      account: { pid, name, description, isPublic, sources, categories },
     }) => ({
       pid,
       name,
       description,
       isPublic,
       sources,
-      incomeCategories,
-      spendingCategories,
+      categories: categories.map(convertCategory),
     }),
   ],
 
@@ -93,10 +91,18 @@ export default {
         color: $color
       ) {
         pid
+        type
+        name
+        color
+        aggregatePayments {
+          count
+        }
       }
     }
     `,
-    identity,
+    ({ category }) => ({
+      category: convertCategory(category),
+    }),
   ],
   deleteCategory: [
     `
@@ -106,9 +112,7 @@ export default {
       result: categoryDelete(
         pid: $pid
       ) {
-        account {
-          pid
-        }
+        result
       }
     }
     `,
@@ -129,9 +133,15 @@ export default {
         }
       ) {
         pid
+        type
+        name
+        color
+        aggregatePayments {
+          count
+        }
       }
     }
     `,
-    identity,
+    ({ category }) => ({ category: convertCategory(category) }),
   ],
 }

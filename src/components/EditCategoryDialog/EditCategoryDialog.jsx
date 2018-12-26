@@ -3,7 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import { compose, withPropsOnChange } from 'recompose'
 import { injectStyles } from '@frankmoney/ui'
-import { reduxForm } from 'redux-form/immutable'
+import { reduxForm } from 'redux-form-actions/immutable'
 import { required } from '@frankmoney/forms'
 import reconnect from 'utils/reconnect'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
@@ -44,6 +44,7 @@ const EditCategoryDialog = ({
   classes,
   className,
   category,
+  submitting,
   submit,
   invalid,
   open,
@@ -60,7 +61,7 @@ const EditCategoryDialog = ({
     )}
     title={`${!category ? 'Add new' : 'Edit'} category`}
     confirmLabel="Done"
-    confirmButtonProps={{ disabled: invalid }}
+    confirmButtonProps={{ loading: submitting, disabled: invalid }}
     open={open}
     onClose={onCancel}
     onCancel={onCancel}
@@ -100,38 +101,64 @@ const EditCategoryDialog = ({
 )
 
 export default compose(
-  withPropsOnChange(['category'], ({ category }) => {
-    if (!category) {
+  withPropsOnChange(
+    ['category', 'defaultType'],
+    ({ category, defaultType }) => {
+      if (!category) {
+        return {
+          initialValues: {
+            ...createEmptyCategory(),
+            type: defaultType,
+          },
+        }
+      }
+
+      const isCustom = isCustomColor(category.color)
+
       return {
-        initialValues: createEmptyCategory(),
+        initialValues: {
+          type: category.type,
+          name: category.name,
+          color: isCustom ? 'custom' : category.color,
+          customColor: isCustom ? category.color : null,
+        },
       }
     }
-
-    const isCustom = isCustomColor(category.color)
-
-    return {
-      initialValues: {
-        name: category.name,
-        color: isCustom ? 'custom' : category.color,
-        customColor: isCustom ? category.color : null,
-      },
-    }
-  }),
+  ),
   reconnect({
     customColorMode: customColorModeSelector,
     customColor: customColorSelector,
   }),
+  withPropsOnChange(
+    [
+      'formSubmissionFailedAction',
+      'formSubmissionSucceededAction',
+      'onSubmitForm',
+    ],
+    ({
+      formSubmissionFailedAction,
+      formSubmissionSucceededAction,
+      onSubmitForm,
+    }) => ({
+      failedAction: formSubmissionFailedAction,
+      succeededAction: formSubmissionSucceededAction,
+      onSubmit: (values, dispatch, props) => {
+        if (onSubmitForm) {
+          const category = props.category
+          const data = values && values.toJS()
+          onSubmitForm({
+            id: category && category.id,
+            type: data.type || (category && category.type) || props.defaultType,
+            name: data.name,
+            color: data.customColor || data.color,
+          })
+        }
+      },
+    })
+  ),
   reduxForm({
     enableReinitialize: true,
     form: FORM_NAME,
-    onSubmit: (values, _, props) => {
-      const data = values && values.toJS()
-      props.onSubmitForm({
-        id: props.category && props.category.id,
-        name: data.name,
-        color: data.customColor || data.color,
-      })
-    },
   }),
   injectStyles(styles)
 )(EditCategoryDialog)

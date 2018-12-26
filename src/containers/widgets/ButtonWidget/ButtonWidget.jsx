@@ -1,6 +1,7 @@
 // @flow strict-local
 import React from 'react'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import Totals from 'containers/widgets/Totals'
 import Widget, { type WidgetAPI } from '../Widget'
 import ButtonWidgetExpander from './ButtonWidgetExpander'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
@@ -40,6 +41,12 @@ const styles = theme => ({
   payments: {
     margin: [-3, -9, 0],
   },
+  stats: {
+    margin: [2, -15, 22],
+  },
+  statsItem: {
+    paddingLeft: 15,
+  },
 })
 
 type Props = {|
@@ -73,7 +80,9 @@ const ButtonWidget = ({ accountId, classes, open }: Props) => (
       pieChartRootComponent={React.Fragment}
       showBarChart
       showCategoryCount
-      showOverviewTotals
+      Totals={
+        <Totals className={classes.stats} itemClassName={classes.statsItem} />
+      }
       widgetSize={WIDTH}
     />
   </ButtonWidgetExpander>
