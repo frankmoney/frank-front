@@ -25,6 +25,7 @@ import TabbedLayout, {
   type WidgetTab,
 } from './TabbedLayout'
 import {
+  AboutTab,
   OverviewTab,
   PaymentListTab,
   StoriesTab,
@@ -72,6 +73,7 @@ export type WidgetProps = {|
 |}
 
 export type WidgetDataProps = {|
+  accountDescription: ?string,
   accountName: ?string,
   barData: ?BarData,
   categoryCount: ?number,
@@ -111,6 +113,7 @@ class Widget extends React.Component<Props, State> {
     pieTotal: 'income',
     tab: OVERVIEW_TAB,
     // data
+    accountDescription: null,
     accountName: null,
     barData: null,
     categoryCount: null,
@@ -184,6 +187,7 @@ class Widget extends React.Component<Props, State> {
             barChart,
             barsUnit,
             categories,
+            description,
             name,
             payments,
             pieChart,
@@ -195,6 +199,7 @@ class Widget extends React.Component<Props, State> {
             this.setState({
               loading: false,
               //
+              accountDescription: description,
               accountName: name,
               barData: barChart
                 ? formatBarDataPoints(barChart, barsUnit)
@@ -308,13 +313,19 @@ class Widget extends React.Component<Props, State> {
     //   />
     // )
 
-    const aboutTab = null
-    // <AboutTab name={this.state.accountName} totals={this.state.totals} />
+    const totals = Totals ? React.cloneElement(Totals, this.state.totals) : null
+
+    const aboutTab = (
+      <AboutTab
+        description={this.state.accountDescription}
+        name={this.state.accountName}
+        Totals={totals}
+      />
+    )
 
     return (
       <TabbedLayout
         className={className}
-        hideAboutTab
         hideStoriesTab={hideStoriesTab}
         onTabSwitch={this.handleTabSwitch}
         tab={tab}
@@ -337,9 +348,7 @@ class Widget extends React.Component<Props, State> {
               pieItems={this.pieItems}
               pieTotal={this.pieTotal}
               pieTotalSelectable={this.pieTotalSelectable}
-              Totals={
-                Totals ? React.cloneElement(Totals, this.state.totals) : null
-              }
+              Totals={totals}
               widgetSize={widgetSize}
             />
           )

@@ -2,15 +2,19 @@
 import * as React from 'react'
 import cx from 'classnames'
 import { branch, compose, renderComponent, lifecycle } from 'recompose'
+import LedgerIcon from 'material-ui-icons/ChromeReaderMode'
+import StoriesIcon from 'material-ui-icons/BurstMode'
 import AreaSpinner from 'components/AreaSpinner'
 import FrankLogo from 'components/Layout/FrankLogo.svg'
+import { TextButton } from 'components/kit/Button'
 import {
+  descriptionSelector,
+  isLoadingSelector,
+  nameSelector,
   pieItemsSelector,
   pieTotalSelector,
-  spendingSelector,
   revenueSelector,
-  nameSelector,
-  isLoadingSelector,
+  spendingSelector,
 } from 'containers/public/Ledger/selectors'
 import OverviewPieChart, {
   type PieChartCategories,
@@ -59,9 +63,18 @@ const styles = theme => ({
       paddingRight: PADDING,
     },
   },
-  tabs: {
-    margin: [45, 0, 0],
+  description: {
+    ...theme.fontRegular(18, 30),
+    color: '#515569',
+    margin: [27, 20, 0],
     textAlign: 'center',
+  },
+  tabs: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: [32, 'auto', 0],
+    textAlign: 'center',
+    width: 245,
   },
   pieChart: {
     margin: [37, 'auto', 0],
@@ -81,6 +94,7 @@ type Props = {|
   //
   accountId: number | string,
   accountName: string,
+  description: ?string,
   pieItems: PieChartCategories,
   pieTotal: PieTotal,
   revenue: number,
@@ -90,6 +104,7 @@ type Props = {|
 const Ledger = ({
   accountName,
   classes,
+  description,
   pieItems,
   pieTotal,
   revenue,
@@ -104,7 +119,11 @@ const Ledger = ({
       income={revenue}
       spending={spending}
     />
-    <div className={classes.tabs}>TODO: tabs</div>
+    {description && <div className={classes.description}>{description}</div>}
+    <div className={classes.tabs}>
+      <TextButton icon={<LedgerIcon />} color="blue" larger label="Ledger" />
+      <TextButton icon={<StoriesIcon />} larger label="Stories" />
+    </div>
     <OverviewPieChart
       CategoryList={<CategoryList className={classes.categoryList} />}
       chartSize={270}
@@ -122,6 +141,7 @@ export default compose(
   reconnect(
     {
       accountName: nameSelector,
+      description: descriptionSelector,
       loading: isLoadingSelector,
       pieItems: pieItemsSelector,
       pieTotal: pieTotalSelector,

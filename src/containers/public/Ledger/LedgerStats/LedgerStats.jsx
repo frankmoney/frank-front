@@ -5,6 +5,7 @@ import { compose } from 'recompose'
 import { Currency } from '@frankmoney/components'
 import reconnect from 'utils/reconnect'
 import {
+  descriptionSelector,
   nameSelector,
   revenueSelector,
   spendingSelector,
@@ -16,7 +17,7 @@ const LedgerStats = ({
   classes,
   className,
   name,
-  // info,
+  description,
   revenue,
   spending,
   total,
@@ -41,32 +42,16 @@ const LedgerStats = ({
         <Currency className={classes.statSum} value={total} />
       </div>
     </div>
-    {/* <About
-      maxLines={4}
-      classNames={{
-        root: classes.info,
-        text: classes.infoText,
-        handler: classes.infoMore,
-      }}
-    >
-      MakeaChamp is the leader in crowdfunding for competitive sports. Our
-      global platform aims to level the playing field and ensure every
-      competitive athlete gets the support they need to succeed. Behind every
-      champion, there’s a crowd of supporters, and we’ve got the stats to prove
-      it. Over 18,000 athletes, teams and clubs from 52 countries leverage the
-      power of crowdfunding on MakeaChamp to raise funds, share their story and
-      grow their fanbase. Six of these athletes made it to the Sochi 2014 Winter
-      Olympics, and more went on to become local, national and international
-      champions.
-    </About> */}
+    {description && <div className={classes.description}>{description}</div>}
   </div>
 )
 
 export default compose(
   reconnect({
+    description: descriptionSelector,
     name: nameSelector,
-    spending: spendingSelector,
     revenue: revenueSelector,
+    spending: spendingSelector,
     total: totalSelector,
   }),
   injectStyles(styles)

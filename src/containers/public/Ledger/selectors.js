@@ -41,6 +41,7 @@ export const accountIdSelector = get('id')
 // Stats
 
 export const nameSelector = get('name')
+export const descriptionSelector = get('description')
 export const spendingSelector = get('spending')
 export const revenueSelector = get('revenue')
 export const totalSelector = get('total')
