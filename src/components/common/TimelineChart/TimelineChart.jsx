@@ -1,6 +1,7 @@
 // @flow strict-local
-import React from 'react'
+import * as React from 'react'
 import * as R from 'ramda'
+import cx from 'classnames'
 import Bar, {
   POSITIVE_BAR_COLOR,
   PRIMARY_BAR_COLOR,
@@ -22,12 +23,29 @@ const styles = {
   },
 }
 
+type CheckboxColor = 'green' | 'blue'
+
+export type CheckboxProps = {
+  checked: boolean,
+  color: CheckboxColor,
+  label: string,
+  onChange: () => void,
+}
+
+type CheckboxMixins = {|
+  checkboxes?: string,
+  checkbox?: string,
+|}
+
 type Props = {|
   ...InjectStylesProps,
   //
+  CheckboxComponent: React.ComponentType<CheckboxProps>,
   barsColor?: string,
   data: BarData,
+  Mixins?: CheckboxMixins,
   width: number,
+  height?: number,
 |}
 
 type State = {|
@@ -48,6 +66,10 @@ const makePositive = R.map(({ date, negativeValue }) => ({
 }))
 
 class TimelineChart extends React.PureComponent<Props, State> {
+  static defaultProps = {
+    CheckboxComponent: Checkbox,
+  }
+
   state = {
     income: true,
     spending: true,
@@ -78,9 +100,12 @@ class TimelineChart extends React.PureComponent<Props, State> {
   render() {
     const {
       barsColor,
+      CheckboxComponent,
       classes,
       className,
       data,
+      height,
+      Mixins,
       width,
       ...barProps
     } = this.props
@@ -98,14 +123,17 @@ class TimelineChart extends React.PureComponent<Props, State> {
     return (
       <div className={className}>
         {showCheckboxes && (
-          <div className={classes.checkboxes}>
-            <Checkbox
+          <div className={cx(classes.checkboxes, Mixins && Mixins.checkboxes)}>
+            <CheckboxComponent
               color="green"
+              className={Mixins && Mixins.checkbox}
               checked={income}
               label="Income"
               onChange={this.handleIncomeChange}
             />
-            <Checkbox
+            <CheckboxComponent
+              color="blue"
+              className={Mixins && Mixins.checkbox}
               checked={spending}
               label="Spending"
               onChange={this.handleSpendingChange}
@@ -120,6 +148,7 @@ class TimelineChart extends React.PureComponent<Props, State> {
           labelKey="date"
           showBars={!hide}
           width={width}
+          height={height}
           {...barProps}
         />
       </div>

@@ -8,7 +8,10 @@ import AreaSpinner from 'components/AreaSpinner'
 import FrankLogo from 'components/Layout/FrankLogo.svg'
 import { TextButton } from 'components/kit/Button'
 import PaymentsSummary from 'components/common/PaymentsSummary'
+import TimelineChart from 'components/common/TimelineChart'
+import { type BarData } from 'components/Charts/Bar'
 import {
+  barChartDataSelector,
   categoryCountSelector,
   descriptionSelector,
   isLoadingSelector,
@@ -28,6 +31,7 @@ import Totals from 'containers/widgets/Totals'
 import type { PieTotal } from 'data/models/pieData'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import reconnect from 'utils/reconnect'
+import CheckboxButton from './CheckboxButton'
 
 const PADDING = 20
 
@@ -79,6 +83,10 @@ const styles = theme => ({
     textAlign: 'center',
     width: 245,
   },
+  overviewContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   pieChart: {
     margin: [37, 'auto', 0],
   },
@@ -89,6 +97,19 @@ const styles = theme => ({
   categoryList: {
     margin: [14, 0, 0],
     padding: [0, 20],
+    order: '',
+  },
+  barChart: {
+    margin: [26, 'auto', 0],
+  },
+  barCheckboxes: {
+    marginBottom: 40,
+  },
+  barCheckbox: {
+    flex: [1, 0],
+    '&:first-child': {
+      marginRight: 20,
+    },
   },
 })
 
@@ -96,6 +117,7 @@ type Props = {|
   ...InjectStylesProps,
   //
   accountId: number | string,
+  barData: BarData,
   accountName: string,
   categoryCount?: number,
   description: ?string,
@@ -108,6 +130,7 @@ type Props = {|
 
 const Ledger = ({
   accountName,
+  barData,
   categoryCount,
   classes,
   description,
@@ -116,43 +139,60 @@ const Ledger = ({
   pieTotal,
   revenue,
   spending,
-}: Props) => (
-  <div className={cx(classes.root, classes.mobileSized)}>
-    <FrankLogo className={classes.logo} />
-    <h1 className={classes.title}>{accountName}</h1>
-    <Totals
-      className={classes.stats}
-      itemClassName={classes.statItem}
-      income={revenue}
-      spending={spending}
-    />
-    {description && <div className={classes.description}>{description}</div>}
-    <div className={classes.tabs}>
-      <TextButton icon={<LedgerIcon />} color="blue" larger label="Ledger" />
-      <TextButton icon={<StoriesIcon />} larger label="Stories" />
+}: Props) => {
+  const timelineWidth = 335 // TODO: calculate from the real size
+  return (
+    <div className={cx(classes.root, classes.mobileSized)}>
+      <FrankLogo className={classes.logo} />
+      <h1 className={classes.title}>{accountName}</h1>
+      <Totals
+        className={classes.stats}
+        itemClassName={classes.statItem}
+        income={revenue}
+        spending={spending}
+      />
+      {description && <div className={classes.description}>{description}</div>}
+      <div className={classes.tabs}>
+        <TextButton icon={<LedgerIcon />} color="blue" larger label="Ledger" />
+        <TextButton icon={<StoriesIcon />} larger label="Stories" />
+      </div>
+      <div className={classes.overviewContainer}>
+        <OverviewPieChart
+          CategoryList={<CategoryList className={classes.categoryList} />}
+          chartSize={270}
+          chartClassName={classes.pieChart}
+          component={React.Fragment}
+          data={pieItems}
+          pieTotal={pieTotal}
+          pieTotalSelectable={false}
+        />
+        <PaymentsSummary
+          className={classes.paymentsSummary}
+          categoryCount={categoryCount}
+          onLinkClick={() => console.log('see all')}
+          paymentCount={paymentCount}
+        />
+      </div>
+      <TimelineChart
+        CheckboxComponent={CheckboxButton}
+        Mixins={{
+          checkboxes: classes.barCheckboxes,
+          checkbox: classes.barCheckbox,
+        }}
+        className={classes.barChart}
+        data={barData}
+        width={timelineWidth}
+        height={220}
+      />
     </div>
-    <OverviewPieChart
-      CategoryList={<CategoryList className={classes.categoryList} />}
-      chartSize={270}
-      chartClassName={classes.pieChart}
-      component={React.Fragment}
-      data={pieItems}
-      pieTotal={pieTotal}
-      pieTotalSelectable={false}
-    />
-    <PaymentsSummary
-      className={classes.paymentsSummary}
-      categoryCount={categoryCount}
-      onLinkClick={() => console.log('see all')}
-      paymentCount={paymentCount}
-    />
-  </div>
-)
+  )
+}
 
 export default compose(
   reconnect(
     {
       accountName: nameSelector,
+      barData: barChartDataSelector,
       categoryCount: categoryCountSelector,
       description: descriptionSelector,
       loading: isLoadingSelector,
