@@ -8,7 +8,13 @@ import {
   Public as PublicIcon,
 } from 'material-ui-icons'
 import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
-import { compose, withPropsOnChange, withHandlers } from 'recompose'
+import {
+  compose,
+  withPropsOnChange,
+  withHandlers,
+  branch,
+  renderComponent,
+} from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
 import { createRouteUrl } from '@frankmoney/utils'
 import { injectStyles } from 'utils/styles'
@@ -23,11 +29,13 @@ import ReduxFormControl from 'components/kit/ReduxFormControl/index'
 import EllipsisButtonMenu from 'components/EllipsisButtonMenu'
 import { ROUTES } from 'const'
 import Copied from 'components/Copied'
+import PaymentStatus from 'components/admin/PaymentStatus'
 import DescriptionField from './DescriptionField'
 import PeerField from './PeerField'
 import styles from './PaymentCard.jss'
 import connectCard from './connectCard'
 import { getFormName } from './const'
+import PendingPaymentCard from './PendingPaymentCard'
 
 const validation = {
   categoryId: [required],
@@ -67,13 +75,18 @@ const PaymentCard = ({
   categoryLoading,
   handleFieldBlur,
   handleFieldChange,
-  handleCopyPublicLink,
+  pending,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
       <div className={classes.createdAt}>{formatFullDate(postedOn, true)}</div>
       <div className={classes.amount}>
         <CurrencyDelta value={amount} />
+        <PaymentStatus
+          className={classes.status}
+          verified={verified}
+          pending={pending}
+        />
       </div>
     </div>
     <BankDescription className={classes.bank} />
@@ -229,6 +242,7 @@ const pickFormValues = ({ category, peer, description = '' }) => ({
 
 export default compose(
   injectStyles(styles),
+  branch(props => props.pending, renderComponent(PendingPaymentCard)),
   connectCard,
   withPropsOnChange(['id', 'peer', 'category', 'description'], props => ({
     initialValues: pickFormValues(props),

@@ -14,6 +14,10 @@ export default theme => ({
     color: '#20284A',
     opacity: 0.3,
   },
+  pendingText: {
+    color: '#20284A',
+    marginRight: 10,
+  },
   amount: {
     display: 'flex',
     textAlign: 'right',
@@ -22,6 +26,9 @@ export default theme => ({
   bank: {
     marginBottom: 44,
     maxWidth: 620,
+  },
+  status: {
+    marginLeft: 10,
   },
 
   body: {},
@@ -72,6 +79,12 @@ export default theme => ({
   rightButton: {
     '&:not(:first-child)': {
       marginLeft: 10,
+    },
+  },
+
+  pending: {
+    '& $bank': {
+      marginBottom: 0,
     },
   },
 })

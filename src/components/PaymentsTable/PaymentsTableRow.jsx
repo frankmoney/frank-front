@@ -98,10 +98,12 @@ const PaymentsTableRow = ({
       <div
         className={cx(
           classes.description,
-          !description && classes.emptyDescription
+          !pending && !description && classes.emptyDescription
         )}
       >
-        {description ? (
+        {pending ? (
+          'Pending'
+        ) : description ? (
           <HighlightText text={description} />
         ) : canEdit ? (
           'Add description...'
@@ -127,7 +129,7 @@ const PaymentsTableRow = ({
       </div>
     </TableCell>
     <TableCell name="sum" className={classes.cellRight}>
-      <CurrencyDelta className={classes.sum} value={amount} />
+      <CurrencyDelta className={classes.sum} value={amount} faint={pending} />
       <div className={classes.icons}>
         <div className={classes.date}>{formatShortDate(postedOn)}</div>
         {canEdit && (
