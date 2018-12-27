@@ -137,6 +137,20 @@ export const totalPagesSelector = createSelector(
 
 // Filters
 
+export const currentFiltersCountSelector = createSelector(
+  queryParamSelector('amountMin'),
+  queryParamSelector('amountMax'),
+  queryParamSelector('dateMin'),
+  queryParamSelector('dateMax'),
+  queryParamSelector('verified'),
+  R.unapply(
+    R.pipe(
+      R.filter(x => typeof x !== 'undefined' && x !== ''),
+      R.length
+    )
+  )
+)
+
 export const currentCategoryIdSelector = createSelector(
   queryParamSelector('category'),
   x => x || null

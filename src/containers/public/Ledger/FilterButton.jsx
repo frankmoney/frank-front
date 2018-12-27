@@ -1,33 +1,24 @@
+// @flow strict-local
 import React from 'react'
-import cx from 'classnames'
-import { Tune as FilterIcon } from 'material-ui-icons'
-import { compose } from 'recompose'
-import { injectStyles } from '@frankmoney/ui'
 import reconnect from 'utils/reconnect'
-import { IconPlainButton } from 'components/kit/Button'
+import PageFilter from 'components/PageFilter'
 import * as ACTIONS from './actions'
+import { currentFiltersCountSelector } from './selectors'
 
-const styles = {
-  icon: {
-    width: 24,
-    height: 24,
-  },
-}
-
-const FilterButton = ({ classes, className, onToggleFilter }) => (
-  <IconPlainButton
-    className={cx(classes.icon, className)}
-    icon={<FilterIcon />}
-    onClick={() => onToggleFilter()}
+const FilterButton = ({ className, filtersCount, onToggleFilter }) => (
+  <PageFilter
+    noLabel={!filtersCount}
+    count={filtersCount}
+    onClick={onToggleFilter}
+    className={className}
   />
 )
 
-export default compose(
-  reconnect(
-    {},
-    {
-      onToggleFilter: ACTIONS.filtersOpen,
-    }
-  ),
-  injectStyles(styles)
+export default reconnect(
+  {
+    filtersCount: currentFiltersCountSelector,
+  },
+  {
+    onToggleFilter: ACTIONS.filtersOpen,
+  }
 )(FilterButton)
