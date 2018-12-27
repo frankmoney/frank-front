@@ -44,8 +44,8 @@ type Props = {|
 const JustCategoryList = ({
   classes,
   className,
-  onCategoryClick,
   pieItems,
+  ...props
 }: Props) => {
   const limitedCategories = limitCategories(999)(pieItems)
   return (
@@ -55,9 +55,9 @@ const JustCategoryList = ({
       iconClassName={classes.icon}
       itemClassName={classes.item}
       nameClassName={classes.name}
-      onCategoryClick={onCategoryClick}
       valueClassName={classes.value}
       valueUnit="%"
+      {...props}
     />
   )
 }

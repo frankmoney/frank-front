@@ -34,9 +34,10 @@ type Props = {|
   //
   activeSegmentIndex?: number,
   data: PieData,
-  size: number,
+  mobile?: boolean,
   onSegmentMouseEnter?: SegmentIndex => void,
   onSegmentMouseLeave?: () => void,
+  size: number,
 |}
 
 const injectActive = current => item =>
@@ -56,6 +57,7 @@ const Pie = ({
   classes,
   className,
   data,
+  mobile,
   onSegmentMouseEnter,
   onSegmentMouseLeave,
   size,
@@ -97,8 +99,8 @@ const Pie = ({
         </RePie>
         <RePie
           innerRadius={0}
-          onMouseEnter={handlePieEnter}
-          onMouseLeave={onSegmentMouseLeave}
+          onMouseEnter={mobile ? undefined : handlePieEnter}
+          onMouseLeave={mobile ? undefined : onSegmentMouseLeave}
           opacity={0}
           {...pieProps}
         />

@@ -37,29 +37,14 @@ type Props = {|
   ...InjectStylesProps,
 |}
 
-const ButtonWidgetCategoryList = ({
-  classes,
-  className,
-  data,
-  //
-  activeCategoryIndex,
-  onCategoryClick,
-  onLabelMouseEnter,
-  onLabelMouseLeave,
-  valueUnit,
-}: Props) => (
+const ButtonWidgetCategoryList = ({ classes, className, ...props }: Props) => (
   <CategoryList
-    activeCategoryIndex={activeCategoryIndex}
     className={cx(classes.root, className)}
-    data={data}
     iconClassName={classes.icon}
     itemClassName={classes.item}
     nameClassName={classes.name}
-    onCategoryClick={onCategoryClick}
-    onLabelMouseEnter={onLabelMouseEnter}
-    onLabelMouseLeave={onLabelMouseLeave}
     valueClassName={classes.value}
-    valueUnit={valueUnit}
+    {...props}
   />
 )
 

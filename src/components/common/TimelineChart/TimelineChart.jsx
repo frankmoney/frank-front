@@ -40,12 +40,13 @@ type CheckboxMixins = {|
 type Props = {|
   ...InjectStylesProps,
   //
-  CheckboxComponent: React.ComponentType<CheckboxProps>,
   barsColor?: string,
+  CheckboxComponent: React.ComponentType<CheckboxProps>,
   data: BarData,
-  Mixins?: CheckboxMixins,
-  width: number,
   height?: number,
+  Mixins?: CheckboxMixins,
+  mobile?: boolean,
+  width: number,
 |}
 
 type State = {|
@@ -104,9 +105,7 @@ class TimelineChart extends React.PureComponent<Props, State> {
       classes,
       className,
       data,
-      height,
       Mixins,
-      width,
       ...barProps
     } = this.props
     const { income, spending } = this.state
@@ -149,8 +148,6 @@ class TimelineChart extends React.PureComponent<Props, State> {
           dual={renderDual}
           labelKey="date"
           showBars={!hide}
-          width={width}
-          height={height}
           {...barProps}
         />
       </div>

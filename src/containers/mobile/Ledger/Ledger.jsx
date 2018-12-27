@@ -266,6 +266,7 @@ const Ledger = ({
             chartClassName={classes.pieChart}
             component={React.Fragment}
             data={pieItems}
+            mobile
             onCategoryClick={handleCategoryClick}
             pieTotal={pieTotal}
             pieTotalSelectable={false}
@@ -287,6 +288,7 @@ const Ledger = ({
         barsColor={barsColor}
         className={classes.barChart}
         data={barData}
+        mobile
         width={timelineWidth}
         height={220}
       />

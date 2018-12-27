@@ -34,29 +34,14 @@ type Props = {|
   ...InjectStylesProps,
 |}
 
-const LedgerCategoryList = ({
-  classes,
-  className,
-  data,
-  //
-  activeCategoryIndex,
-  onCategoryClick,
-  onLabelMouseEnter,
-  onLabelMouseLeave,
-  valueUnit,
-}: Props) => (
+const LedgerCategoryList = ({ classes, className, ...props }: Props) => (
   <CategoryList
-    activeCategoryIndex={activeCategoryIndex}
     className={cx(classes.root, className)}
-    data={data}
     itemClassName={classes.item}
     iconClassName={classes.icon}
     nameClassName={classes.name}
     valueClassName={classes.value}
-    onCategoryClick={onCategoryClick}
-    onLabelMouseEnter={onLabelMouseEnter}
-    onLabelMouseLeave={onLabelMouseLeave}
-    valueUnit={valueUnit}
+    {...props}
   />
 )
 

@@ -46,7 +46,12 @@ const styles = {
   },
 }
 
-export type BarZoomInCb = ({| dateFrom: string, dateTo: string |}) => void
+type BarItemDates = {|
+  dateFrom: string,
+  dateTo: string,
+|}
+
+export type BarZoomInCb = BarItemDates => void
 
 type Props = {|
   ...InjectStylesProps,
@@ -58,6 +63,7 @@ type Props = {|
   height: number,
   hideBaseLine?: boolean,
   labelKey: string,
+  mobile?: boolean,
   onZoomIn?: BarZoomInCb,
   positiveBarColor: string,
   showBars: boolean,
@@ -103,6 +109,7 @@ class BarChart extends React.PureComponent<Props> {
       height,
       hideBaseLine,
       labelKey,
+      mobile,
       onZoomIn,
       positiveBarColor,
       showBars,
@@ -146,11 +153,13 @@ class BarChart extends React.PureComponent<Props> {
             tickMargin={footerPadding}
             tickSize={4}
           />
-          <ReTooltip
-            content={<Tooltip lineFormatter={tooltipLineFormatter} />}
-            isAnimationActive={false}
-            cursor={false}
-          />
+          {!mobile && (
+            <ReTooltip
+              content={<Tooltip lineFormatter={tooltipLineFormatter} />}
+              isAnimationActive={false}
+              cursor={false}
+            />
+          )}
           {showBars && (
             <Bar
               className={cx({
