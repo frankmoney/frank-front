@@ -1,14 +1,9 @@
 // @flow strict
 import { createPieDataMapper } from 'data/models/pieData'
-import { UNCATEGORIZED_CATEGORY } from 'const'
+import { ALL_CATEGORIES, UNCATEGORIZED_CATEGORY } from 'const'
 // Reusing 'public' api code here because everything should be the same
 import QUERIES from 'containers/public/Ledger/queries'
 import { PAGE_SIZE } from 'containers/public/Ledger/constants'
-
-export const ALL_CATEGORIES = {
-  name: 'Payments',
-  id: 'all',
-}
 
 export const remapPieData = createPieDataMapper({
   nameEmptyCategoryAs: 'Uncategorized',

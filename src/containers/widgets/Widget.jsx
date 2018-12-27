@@ -18,6 +18,7 @@ import {
   type PieTotal,
 } from 'data/models/pieData'
 import type { Story } from 'data/models/stories'
+import { ALL_CATEGORIES } from 'const'
 import TabbedLayout, {
   OVERVIEW_TAB,
   PAYMENTS_TAB,
@@ -31,7 +32,7 @@ import {
   type OverviewTabProps,
 } from './Tabs'
 import { type Period } from './PeriodSelect'
-import { ALL_CATEGORIES, buildQuery, remapPieData } from './utils'
+import { buildQuery, remapPieData } from './utils'
 import ErrorScreen from './ErrorScreen'
 
 export type WidgetAPI = {|

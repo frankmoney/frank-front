@@ -1,6 +1,7 @@
 import * as R from 'ramda'
 import { mapPayment } from 'data/models/payment'
 import { formatDate } from 'utils/dates'
+import { ALL_CATEGORIES, UNCATEGORIZED_CATEGORY } from 'const'
 import * as ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
 import QUERIES from '../queries'
@@ -33,14 +34,19 @@ export default (action$, store, { graphql }) =>
       } = currentFiltersSelector(state)
       const categoryId = currentCategoryIdSelector(state)
       const needLoadCharts = noTextSearchSelector(state)
+      const reqCategoryId =
+        categoryId === ALL_CATEGORIES.id ||
+        categoryId === UNCATEGORIZED_CATEGORY.id
+          ? null
+          : categoryId
       const reqVerified =
-        verified === false ? false : categoryId !== null ? true : null
+        verified === false ? false : reqCategoryId !== null ? true : null
 
       return graphql(
         QUERIES.buildQuery({
           barChart: needLoadCharts,
           categories: !categoriesLoaded,
-          categoryScoped: !!categoryId,
+          categoryScoped: !!reqCategoryId,
           payments: true,
           pieChart: needLoadCharts,
           stories: true,
@@ -50,7 +56,7 @@ export default (action$, store, { graphql }) =>
           accountId,
           amountMax,
           amountMin,
-          categoryId: categoryId || undefined,
+          categoryId: reqCategoryId || undefined,
           dateMax: dateMax && formatDate(dateMax),
           dateMin: dateMin && formatDate(dateMin),
           first: PAGE_SIZE,

@@ -111,13 +111,15 @@ class TimelineChart extends React.PureComponent<Props, State> {
     } = this.props
     const { income, spending } = this.state
 
+    const forcedSingle = typeof barsColor === 'string'
+
     const hide = !(income || spending)
-    const trimmedData = !income ? makePositive(data) : data
+    const trimmedData = income && !forcedSingle ? data : makePositive(data)
 
     const barColor =
       barsColor ||
       (income && !spending ? POSITIVE_BAR_COLOR : PRIMARY_BAR_COLOR)
-    const showCheckboxes = typeof barsColor !== 'string'
+    const showCheckboxes = !forcedSingle
     const renderDual = showCheckboxes && income && spending
 
     return (

@@ -21,8 +21,22 @@ const styles = theme => ({
   },
 })
 
-const Header = ({ classes, className, children }) => (
-  <div className={cx(classes.fixedHeader, className)}>{children}</div>
+const Header = ({
+  children,
+  classes,
+  className,
+  isScrolled,
+  scrolledClassName,
+}) => (
+  <div
+    className={cx(
+      classes.fixedHeader,
+      isScrolled && scrolledClassName,
+      className
+    )}
+  >
+    {children}
+  </div>
 )
 
 export default compose(

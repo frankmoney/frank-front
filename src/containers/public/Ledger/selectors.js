@@ -27,7 +27,7 @@ import {
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
-import { ROUTES, UNCATEGORIZED_CATEGORY } from 'const'
+import { ALL_CATEGORIES, ROUTES, UNCATEGORIZED_CATEGORY } from 'const'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
@@ -142,7 +142,7 @@ export const currentCategoryIdSelector = createSelector(
   x => x || null
 )
 
-const verifiedSelector: Selector<boolean> = createSelector(
+const verifiedSelector: Selector<?boolean> = createSelector(
   queryParamSelector('verified'),
   parseQueryStringBool
 )
@@ -154,7 +154,9 @@ export const currentCategorySelector = createSelector(
   (categories, id, verified) =>
     verified === false
       ? UNCATEGORIZED_CATEGORY
-      : R.find(R.propEq('id', id), categories)
+      : id === ALL_CATEGORIES.id
+        ? ALL_CATEGORIES
+        : R.find(R.propEq('id', id), categories)
 )
 
 export const currentCategoryNameSelector = createSelector(
