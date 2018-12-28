@@ -9,6 +9,8 @@ const csrfToken = window.__CSRF_TOKEN
 
 const { frankTheme, muiTheme } = createTheme()
 
+console.log('URL', __API_URL, __GRAPHQL_URL)
+
 const httpClient = createHttpClient({
   url: __API_URL,
   headers: {
