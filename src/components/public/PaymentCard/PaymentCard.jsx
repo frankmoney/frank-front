@@ -1,13 +1,11 @@
-// @flow
-// spellchecker:ignore mmaa
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import CurrencyDelta from 'components/CurrencyDelta'
 import Paper from 'components/kit/Paper'
-import { formatShortDate } from 'utils/dates'
-import { injectStyles } from 'utils/styles'
 import CategoryLabel from 'components/CategoryLabel'
 import BankDescription from 'components/common/BankDescription'
+import { injectStyles } from 'utils/styles'
+import PaymentCardHead from './PaymentCardHead'
 import styles from './PaymentCard.jss'
 
 const PaymentCard = ({
@@ -24,16 +22,12 @@ const PaymentCard = ({
   ...otherProps
 }) => (
   <Paper className={cx(classes.root, className)} {...otherProps}>
-    <div className={classes.head}>
-      <div className={classes.headLeft}>{!verified && 'No description'}</div>
-      <div className={classes.headRight}>
-        <CurrencyDelta className={classes.amount} value={amount} />
-        <div className={classes.postedOn}>
-          {formatShortDate(postedOn, true)}
-        </div>
-      </div>
-    </div>
-
+    <PaymentCardHead
+      className={classes.head}
+      amount={amount}
+      postedOn={postedOn}
+      verified={verified}
+    />
     <div className={classes.info}>
       {verified && (
         <>

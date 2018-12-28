@@ -46,7 +46,7 @@ export const formatHour12Time = D.format(HOUR12_TIME_FORMAT)
 
 // ACTUALLY IN USE ( START )
 
-type FormatFn = (date: Date, ?boolean) => string
+type FormatFn = (date: Date | string, ?boolean) => string
 
 export const formatMonthDate: FormatFn = (date, withYear = false) =>
   D.format(

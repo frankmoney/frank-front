@@ -38,6 +38,7 @@ type Props = {|
   description: string,
   logoUrl?: string,
   name?: string,
+  textClassName?: string,
 |}
 
 const BankDescription = ({
@@ -46,10 +47,11 @@ const BankDescription = ({
   description,
   logoUrl,
   name,
+  textClassName,
 }: Props) => (
   <div className={cx(classes.root, className)}>
     {logoUrl && <BankLogo className={classes.icon} src={logoUrl} />}
-    <div className={classes.description}>
+    <div className={cx(classes.description, textClassName)}>
       <span className={classes.descriptionAccent}>
         {name || 'Banking description'}:{' '}
       </span>

@@ -46,15 +46,9 @@ import Payments from './MobilePayments'
 const PADDING = 20
 
 const styles = theme => ({
-  mobileSized: {
-    // debug wrapper
-    width: 375,
-    margin: [0, 'auto'],
-  },
   root: {
     display: 'flex',
     flexDirection: 'column',
-    boxShadow: [0, 0, 0, 1, 'black'], // FIXME: remove in production
   },
   logo: {
     color: '#D3D5D9',
@@ -186,6 +180,7 @@ const Ledger = ({
   accountName,
   barData,
   categoryCount,
+  className,
   currentCategoryColor,
   currentCategoryId,
   currentCategoryName,
@@ -214,9 +209,13 @@ const Ledger = ({
 
   return (
     <div
-      className={cx(classes.root, classes.mobileSized, {
-        [classes.withFixedHeader]: isPaymentsPage,
-      })}
+      className={cx(
+        classes.root,
+        {
+          [classes.withFixedHeader]: isPaymentsPage,
+        },
+        className
+      )}
     >
       {!isPaymentsPage && (
         <>

@@ -13,6 +13,7 @@ const paymentFields = `
     color
   }
   similarCount: countSimilar(includeSelf: true)
+  verified
 `
 
 const similarPaymentFields = `

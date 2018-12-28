@@ -13,7 +13,8 @@ export type Payment = {|
   description: ?string,
   id: number | string,
   peer: ?Peer,
-  postedOn: string | Date,
+  postedOn: string,
+  similarCount?: number,
   verified: ?boolean,
 |}
 

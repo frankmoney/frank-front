@@ -8,8 +8,10 @@ import AreaSpinner from 'components/AreaSpinner'
 import Button from 'components/kit/Button'
 import CurrencyProvider from 'components/CurrencyProvider'
 import PaymentCard from 'components/public/PaymentCard'
+import { type Account } from 'data/models/account'
+import { type Payment as PaymentProps } from 'data/models/payment'
 import reconnect from 'utils/reconnect'
-import { injectStyles } from 'utils/styles'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { BASE_TITLE } from 'const'
 import PaymentHeader from './PaymentHeader'
 import { accountSelector, isLoadedSelector, paymentSelector } from './selectors'
@@ -17,34 +19,50 @@ import ACTIONS from './actions'
 import SimilarDrawer from './SimilarDrawer'
 import styles from './Payment.jss'
 
+type Props = {|
+  ...InjectStylesProps,
+  //
+  account: Account,
+  payment: PaymentProps,
+  onOpenDrawer: () => void,
+|}
+
 const Payment = ({
   classes,
   className,
-  account: { currencyCode } = {},
-  payment = {},
+  account,
+  payment,
   onOpenDrawer,
-}) => (
-  <div className={cx(classes.paymentPage, className)}>
-    <Helmet title={BASE_TITLE} />
-    <PaymentHeader />
-    <div className={classes.container}>
-      <CurrencyProvider code={currencyCode}>
-        <PaymentCard className={classes.card} {...payment} paperPadding={30} />
-        {payment.similarCount > 0 && (
-          <>
-            <Button
-              className={classes.similarButton}
-              icon={<SimilarIcon />}
-              label={`${payment.similarCount} similar payments`}
-              onClick={() => onOpenDrawer()}
-            />
-            <SimilarDrawer />
-          </>
-        )}
-      </CurrencyProvider>
+}: Props) => {
+  const { similarCount, ...paymentProps } = payment
+  return (
+    <div className={cx(classes.paymentPage, className)}>
+      <Helmet title={BASE_TITLE} />
+      <PaymentHeader />
+      <div className={classes.container}>
+        <CurrencyProvider code={account.currencyCode}>
+          <PaymentCard
+            className={classes.card}
+            {...paymentProps}
+            paperPadding={30}
+          />
+          {typeof similarCount === 'number' &&
+            similarCount > 0 && (
+              <>
+                <Button
+                  className={classes.similarButton}
+                  icon={<SimilarIcon />}
+                  label={`${similarCount} similar payments`}
+                  onClick={() => onOpenDrawer()}
+                />
+                <SimilarDrawer />
+              </>
+            )}
+        </CurrencyProvider>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default compose(
   reconnect(
