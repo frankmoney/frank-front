@@ -7,6 +7,11 @@ export default {
       color: 'rgba(37, 43, 67, 0.9)',
     },
   },
+  EditorLink: {
+    root: {
+      color: '#4C51F3',
+    },
+  },
   EditorToolbar: {
     toolbar: {
       background: '#20284A',
