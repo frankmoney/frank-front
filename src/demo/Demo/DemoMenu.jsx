@@ -40,6 +40,9 @@ const DemoMenu = ({ classes }) => (
     <a href={ROUTES.demo.fields} className={classes.link}>
       Fields
     </a>
+    <a href={ROUTES.demo.editor} className={classes.link}>
+      Editor
+    </a>
     <a href={ROUTES.demo.fieldsLeft} className={classes.link}>
       (WIP)Fields:left
     </a>

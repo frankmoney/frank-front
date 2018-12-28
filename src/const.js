@@ -58,6 +58,7 @@ export const ROUTES = {
     forms: '/demo/forms',
     palette: '/demo/palette',
     snacks: '/demo/snacks',
+    editor: '/demo/editor',
   },
 }
 
