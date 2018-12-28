@@ -2,7 +2,7 @@ import ACTIONS from './actions'
 
 export const onSubmitEpic = (action$, store, { http }) =>
   action$
-    .ofType(ACTIONS.signIn)
+    .ofType(ACTIONS.submit)
     .switchMap(async ({ payload: { email, password } }) => {
       const { code } = await http.post('/http/sign-in', {
         username: email,
