@@ -11,12 +11,12 @@ import Button, { IconPlainButton } from 'components/kit/Button'
 import CategoryLabel from 'components/CategoryLabel'
 import CurrencyProvider from 'components/CurrencyProvider'
 import PaymentCardHead from 'components/public/PaymentCard/PaymentCardHead'
-import { type Account } from 'data/models/account'
+import { type Account, type AccountId } from 'data/models/account'
 import { type Payment } from 'data/models/payment'
 import reconnect from 'utils/reconnect'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import ACTIONS from 'containers/public/Payment/actions'
 import { ROUTES } from 'const'
+import ACTIONS from 'containers/public/Payment/actions'
 import {
   accountSelector,
   isLoadedSelector,
@@ -36,18 +36,28 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    height: 63,
+    position: 'relative',
   },
   back: {
     color: '#8F93A4',
-    height: 63,
+    position: 'absolute',
+    left: 0,
+    top: '50%',
+    transform: 'translateY(-50%)',
   },
   title: {
     ...theme.fontMedium(18),
+    flex: 1,
     marginTop: -1,
+    textAlign: 'center',
   },
   share: {
     color: '#8F93A4',
-    marginRight: -1,
+    position: 'absolute',
+    right: -1,
+    top: '50%',
+    transform: 'translateY(-50%)',
   },
   head: {
     margin: [87, -1, 27, 0],
@@ -91,12 +101,18 @@ type Props = {|
   ...InjectStylesProps,
   //
   account: Account,
+  accountId: AccountId,
   payment: Payment,
 |}
 
-const PaymentPage = ({ account, classes, className, payment }: Props) => {
-  console.log('render', account, payment)
-  const { name, id, currencyCode } = account
+const PaymentPage = ({
+  account,
+  accountId,
+  classes,
+  className,
+  payment,
+}: Props) => {
+  const { name, currencyCode } = account
   const {
     amount,
     category,
@@ -107,20 +123,33 @@ const PaymentPage = ({ account, classes, className, payment }: Props) => {
     verified,
   } = payment
 
-  const backUrl = createMobileUrl(ROUTES.account.idRoot, { accountId: id })
+  const backUrl = createMobileUrl(ROUTES.account.idRoot, { accountId })
+
+  // Native share only works on some Androids and we actually need to think about meta here.
+  const canNativeShare = false
+  const handleNativeShare = null
+
+  // const canNativeShare = !!navigator.share
+  // const handleNativeShare = canNativeShare ? () => navigator.share({
+  //   title: document.title,
+  //   text: 'Hello World',
+  //   url: 'https://developer.mozilla.org',
+  // }) : null
 
   return (
     <div className={cx(classes.root, className)}>
       <div className={classes.header}>
-        <Link to={backUrl}>
-          <IconPlainButton className={classes.back} icon={<ArrowBackIcon />} />
+        <Link to={backUrl} className={classes.back}>
+          <IconPlainButton icon={<ArrowBackIcon />} />
         </Link>
         <span className={classes.title}>{name}</span>
-        <IconPlainButton
-          className={classes.share}
-          icon={<ShareIcon />}
-          // onClick={onCancelCategory}
-        />
+        {canNativeShare && (
+          <IconPlainButton
+            className={classes.share}
+            icon={<ShareIcon />}
+            onClick={handleNativeShare}
+          />
+        )}
       </div>
       <CurrencyProvider code={currencyCode}>
         <PaymentCardHead
@@ -171,7 +200,7 @@ export default compose(
     },
     {
       load: ACTIONS.load,
-      // leave: ACTIONS.leave,
+      leave: ACTIONS.leave,
       loadSimilarPayments: ACTIONS.loadSimilarPayments,
     }
   ),
@@ -183,6 +212,9 @@ export default compose(
           paymentId: this.props.paymentId,
         })
       }
+    },
+    componentWillUnmount() {
+      this.props.leave()
     },
   }),
   branch(props => !props.isLoaded, renderComponent(AreaSpinner)),

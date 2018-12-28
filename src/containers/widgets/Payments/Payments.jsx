@@ -4,6 +4,7 @@ import * as R from 'ramda'
 import D from 'date-fns/fp'
 import CurrencyProvider from 'components/CurrencyProvider'
 import type { Payment as PaymentProps } from 'data/models/payment'
+import { type PaymentCbProps } from './Payment'
 import PaymentBlock from './PaymentBlock'
 
 const dateProp = R.prop('postedOn')
@@ -13,6 +14,7 @@ const formattedDateProp = R.pipe(
 )
 const groupPayments = R.pipe(
   R.sortBy(dateProp),
+  R.reverse,
   R.groupBy(formattedDateProp),
   R.toPairs,
   R.addIndex(R.map)(([fullTitle, items], key) => {
@@ -27,6 +29,7 @@ const groupPayments = R.pipe(
 )
 
 export type PaymentsProps = {|
+  ...PaymentCbProps,
   paymentsData: Array<PaymentProps>,
   showCategories: boolean,
 |}
@@ -44,6 +47,7 @@ const Payments = ({
   blockClassName,
   blockTitleClassName,
   className,
+  onPaymentClick,
   paymentClassName,
   paymentsData,
   showCategories,
@@ -56,6 +60,7 @@ const Payments = ({
           group => (
             <PaymentBlock
               className={blockClassName}
+              onPaymentClick={onPaymentClick}
               paymentClassName={paymentClassName}
               showCategories={showCategories}
               titleClassName={blockTitleClassName}

@@ -21,6 +21,7 @@ import {
   currentCategoryNameSelector,
   descriptionSelector,
   isLoadingSelector,
+  loadedSelector,
   nameSelector,
   paymentCountSelector,
   paymentsSelector,
@@ -39,7 +40,8 @@ import { type Payment } from 'data/models/payment'
 import { type PieTotal } from 'data/models/pieData'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import reconnect from 'utils/reconnect'
-import { ALL_CATEGORIES } from 'const'
+import { ALL_CATEGORIES, ROUTES } from 'const'
+import { createMobileUrl } from '../utils'
 import CheckboxButton from './CheckboxButton'
 import Payments from './MobilePayments'
 
@@ -154,6 +156,9 @@ type Category = {
   color: string,
 }
 
+// react-router History proxy
+type History = Object // flowlint-line unclear-type:off
+
 type Props = {|
   ...InjectStylesProps,
   //
@@ -174,9 +179,12 @@ type Props = {|
   pieTotal: PieTotal,
   revenue: number,
   spending: number,
+  //
+  history?: History,
 |}
 
 const Ledger = ({
+  accountId,
   accountName,
   barData,
   categoryCount,
@@ -195,11 +203,23 @@ const Ledger = ({
   pieTotal,
   revenue,
   spending,
+  //
+  history,
 }: Props) => {
   const handleCategoryClick = category => {
     window.scrollTo(0, 0)
     onCategoryClick(category)
   }
+
+  const handlePaymentClick = history
+    ? paymentId => {
+        const paymentUrl = createMobileUrl(ROUTES.account.payment.idRoot, {
+          accountId,
+          paymentId,
+        })
+        history.push(paymentUrl)
+      }
+    : null
 
   const timelineWidth = 335 // TODO: calculate from the real size?
   const showCategories =
@@ -293,6 +313,7 @@ const Ledger = ({
       />
       <Payments
         className={classes.payments}
+        onPaymentClick={handlePaymentClick}
         paymentsData={payments}
         showCategories={showCategories}
       />
@@ -311,6 +332,7 @@ export default compose(
       currentCategoryName: currentCategoryNameSelector,
       description: descriptionSelector,
       isPaymentsPage: barChartOnlySelector,
+      loaded: loadedSelector,
       loading: isLoadingSelector,
       paymentCount: paymentCountSelector,
       payments: paymentsSelector,
@@ -321,6 +343,7 @@ export default compose(
     },
     {
       load: ACTIONS.load,
+      leave: ACTIONS.leave,
       onCancelCategory: ACTIONS.cancelCategory,
       onCategoryClick: ACTIONS.selectCategory,
     }
@@ -330,6 +353,9 @@ export default compose(
       if (!this.props.loaded) {
         this.props.load({ accountId: this.props.accountId })
       }
+    },
+    componentWillUnmount() {
+      this.props.leave()
     },
   }),
   branch(props => props.loading, renderComponent(AreaSpinner)),

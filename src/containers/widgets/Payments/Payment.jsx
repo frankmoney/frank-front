@@ -5,7 +5,10 @@ import { format as formatDate } from 'date-fns'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
-import type { Payment as PaymentProps } from 'data/models/payment'
+import {
+  type Payment as PaymentObject,
+  type PaymentId,
+} from 'data/models/payment'
 import { UNCATEGORIZED_CATEGORY } from 'const'
 import QuestionIcon from './QuestionMark.svg'
 
@@ -17,6 +20,9 @@ const styles = theme => ({
     '&:not(:last-child)': {
       borderBottom: '1px solid #E9EAEC',
     },
+  },
+  clickable: {
+    cursor: 'pointer',
   },
   left: {
     display: 'flex',
@@ -69,9 +75,16 @@ const styles = theme => ({
   },
 })
 
+type PaymentClickCb = PaymentId => void
+
+export type PaymentCbProps = {|
+  onPaymentClick: ?PaymentClickCb,
+|}
+
 type Props = {|
-  ...PaymentProps,
+  ...PaymentObject,
   ...InjectStylesProps,
+  ...PaymentCbProps,
   //
   showCategory: boolean,
 |}
@@ -82,6 +95,7 @@ const Payment = ({
   classes,
   className,
   description,
+  onPaymentClick,
   peer,
   postedOn,
   showCategory,
@@ -92,7 +106,14 @@ const Payment = ({
   const peerName = peer ? peer.name : 'Undefined payment'
   const renderedDescription = description || 'No description yet'
   return (
-    <div className={cx(classes.root, className)}>
+    <div
+      className={cx(
+        classes.root,
+        { [classes.clickable]: !!onPaymentClick },
+        className
+      )}
+      onClick={onPaymentClick}
+    >
       <div className={classes.left}>
         <div
           className={cx(classes.description, {

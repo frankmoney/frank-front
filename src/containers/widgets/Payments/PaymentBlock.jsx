@@ -2,9 +2,9 @@
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
+import { type Payment as PaymentProps } from 'data/models/payment'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import type { Payment as PaymentProps } from 'data/models/payment'
-import Payment from './Payment'
+import Payment, { type PaymentCbProps } from './Payment'
 
 const styles = theme => ({
   titleBar: {
@@ -25,11 +25,12 @@ const styles = theme => ({
 
 type Props = {|
   ...InjectStylesProps,
+  ...PaymentCbProps,
   //
-  title: string,
   items: Array<PaymentProps>,
   showCategories: boolean,
   subtitle?: string,
+  title: string,
   // Styles
   paymentClassName?: string,
   titleClassName?: string,
@@ -39,11 +40,12 @@ const PaymentBlock = ({
   classes,
   className,
   items,
+  onPaymentClick,
   paymentClassName,
   showCategories,
+  subtitle,
   title,
   titleClassName,
-  subtitle,
 }: Props) => (
   <div className={className}>
     <div className={cx(classes.titleBar, titleClassName)}>
@@ -56,6 +58,7 @@ const PaymentBlock = ({
           className={paymentClassName}
           showCategory={showCategories}
           key={id}
+          onPaymentClick={onPaymentClick ? () => onPaymentClick(id) : null}
           {...payment}
         />
       ),

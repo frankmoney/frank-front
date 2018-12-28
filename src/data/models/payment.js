@@ -7,11 +7,13 @@ type Peer = {|
   name: string,
 |}
 
+export type PaymentId = number | string
+
 export type Payment = {|
   amount: number,
   category: ?Category,
   description: ?string,
-  id: number | string,
+  id: PaymentId,
   peer: ?Peer,
   postedOn: string,
   similarCount?: number,

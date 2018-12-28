@@ -16,11 +16,12 @@ import LedgerTabs from './LedgerTabs'
 import StoriesList from './StoriesList'
 import styles from './Ledger.jss'
 import {
-  isLoadingSelector,
-  listDisabledSelector,
-  hasNoResultsSelector,
   currentCategoryNameSelector,
   currentTabSelector,
+  hasNoResultsSelector,
+  isLoadingSelector,
+  listDisabledSelector,
+  loadedSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 
@@ -94,6 +95,7 @@ class Ledger extends React.Component<Props, State> {
 export default compose(
   reconnect(
     {
+      loaded: loadedSelector,
       loading: isLoadingSelector,
       listDisabled: listDisabledSelector,
       noResults: hasNoResultsSelector,
