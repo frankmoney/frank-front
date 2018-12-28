@@ -3909,9 +3909,9 @@ framesync@^3.1.8, framesync@^3.1.9:
   version "3.1.9"
   resolved "https://registry.npmjs.org/framesync/-/framesync-3.1.9.tgz#f65f815c711cf876f343b1f63da6e18b1384172f"
 
-frank-redactor@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/frank-redactor/-/frank-redactor-0.2.0.tgz#635c7a6e36a1a0a8f079cdb74057963170e2984b"
+frank-redactor@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.npmjs.org/frank-redactor/-/frank-redactor-0.2.1.tgz#6a5bd1259fcea1f52ae5b6943883b3484da2a385"
 
 fresh@0.5.2:
   version "0.5.2"
