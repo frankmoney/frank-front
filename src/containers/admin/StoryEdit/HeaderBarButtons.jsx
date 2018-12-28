@@ -19,7 +19,6 @@ import {
   isPublishButtonDisabledSelector,
   saveButtonLabelSelector,
   publishButtonLabelSelector,
-  updateButtonLabelSelector,
 } from './selectors'
 import ACTIONS from './actions'
 
@@ -53,7 +52,7 @@ const SaveButton = compose(
       loading: isSavingSelector,
       label: saveButtonLabelSelector,
     },
-    { onClick: ACTIONS.createOrUpdate }
+    { onClick: () => ACTIONS.createOrUpdate() }
   )
 )(Button)
 
@@ -63,7 +62,7 @@ const UpdateButton = compose(
       disabled: isSaveButtonDisabledSelector,
       loading: isSavingSelector,
     },
-    { onClick: ACTIONS.updatePublished }
+    { onClick: () => ACTIONS.updatePublished() }
   )
 )(Button)
 

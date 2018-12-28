@@ -17,6 +17,7 @@ import WidgetsDemo from './Widgets'
 import FormsDemo from './Forms'
 import PaletteDemo from './Palette'
 import SnacksDemo from './Snacks'
+import EditorDemo from './Editor'
 
 export default [
   {
@@ -97,6 +98,11 @@ export default [
   {
     component: SnacksDemo,
     path: ROUTES.demo.snacks,
+    exact: true,
+  },
+  {
+    component: EditorDemo,
+    path: ROUTES.demo.editor,
     exact: true,
   },
 ]
