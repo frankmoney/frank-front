@@ -39,9 +39,9 @@ type Props = {|
   paymentsDateRange: DateRange,
   totalPagesCounter: number,
   // список полностью перезагружается
-  isLoading: boolean,
+  isLoading?: boolean,
   // список загружает айтемы в конец
-  isLoadingMore: boolean,
+  isLoadingMore?: boolean,
 |}
 
 type State = {|

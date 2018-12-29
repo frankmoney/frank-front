@@ -5,7 +5,7 @@ import PaymentListRowMore from 'components/PaymentListRowMore'
 import List from 'components/ListVirtualized'
 
 type Id = string
-type Payment = { id: String }
+type Payment = { id: Id }
 
 type Props = {
   payments: Array<Payment>,

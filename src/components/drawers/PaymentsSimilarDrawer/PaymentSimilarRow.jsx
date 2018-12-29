@@ -9,7 +9,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { ROUTES } from 'const'
 import { DEFAULT_DRAWER_ROW_HEIGHT as ROW_HEIGHT } from '../constants'
 
-export const isNegative = value => typeof value === 'number' && value < 0
+export const isNegative = (value: any) => typeof value === 'number' && value < 0
 
 const styles = theme => ({
   root: {
@@ -93,7 +93,10 @@ const PaymentSimilarRow = ({
   type: rowType,
   noSeparator,
 }: Props) => {
-  const url = createRouteUrl(ROUTES.payment.idRoot, { accountId, paymentId })
+  const url = createRouteUrl(ROUTES.account.payment.idRoot, {
+    accountId,
+    paymentId,
+  })
 
   const marked = rowType === 'marked'
   const last = rowType === 'last'
@@ -120,7 +123,9 @@ const PaymentSimilarRow = ({
           valueClassName={classes.sumValue}
         />
         <div className={classes.description}>{description}</div>
-        <div className={classes.date}>{formatShortDate(postedOn, true)}</div>
+        {postedOn && (
+          <div className={classes.date}>{formatShortDate(postedOn, true)}</div>
+        )}
       </div>
     </Link>
   )
