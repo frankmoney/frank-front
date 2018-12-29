@@ -42,6 +42,7 @@ class SidebarContainer extends React.Component<Props> {
       AccountsSwitchMenuComponent,
       renderGlobalMenuItems,
       BottomMenuComponent,
+      panelProps,
     } = this.props
 
     return (
@@ -53,6 +54,7 @@ class SidebarContainer extends React.Component<Props> {
           AccountsSwitchMenuComponent={AccountsSwitchMenuComponent}
           renderGlobalMenuItems={renderGlobalMenuItems}
           BottomMenuComponent={BottomMenuComponent}
+          {...panelProps}
         />
         <Fade
           timeout={TOGGLE_DURATION}
