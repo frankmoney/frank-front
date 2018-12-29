@@ -5,7 +5,6 @@ import { injectStyles } from '@frankmoney/ui'
 const styles = {
   root: {
     display: 'flex',
-    flexWrap: 'wrap',
     outline: 'none',
   },
   sampleGroup: {
@@ -15,6 +14,14 @@ const styles = {
   sample: {},
   sampleSelected: {
     border: '1px solid rgba(255,255,255,0.7)',
+  },
+  autoWidth: {
+    '& $sampleGroup': {
+      width: '100%',
+    },
+  },
+  stretch: {
+    width: '100%',
   },
 }
 
@@ -58,7 +65,8 @@ const getPaletteNearbyColor = (direction, color, palette) => {
 class Palette extends React.Component {
   static defaultProps = {
     palette: [],
-    sampleWidth: 80,
+    stretch: false,
+    sampleWidth: 'auto',
     sampleHeight: 40,
   }
 
@@ -120,6 +128,7 @@ class Palette extends React.Component {
       palette,
       sampleWidth,
       sampleHeight,
+      stretch,
       value: valueProp,
       onChange,
       onKeyDown,
@@ -130,9 +139,18 @@ class Palette extends React.Component {
 
     const { value } = this.getState(this.state)
 
+    const isAutoWidth = sampleWidth === 'auto'
+
     return (
       <div
-        className={cx(classes.root, className)}
+        className={cx(
+          classes.root,
+          {
+            [classes.autoWidth]: isAutoWidth,
+            [classes.stretch]: stretch,
+          },
+          className
+        )}
         tabIndex={0}
         onKeyDown={this.handleKeyDown}
         {...otherProps}

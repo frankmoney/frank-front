@@ -110,6 +110,12 @@ export const CATEGORY_PALETTE = [
   ['#43A0F0', '#1E85E1', '#1972CE', '#015CA2'],
 ]
 
+export const INCOME_CATEGORY_PALETTE = [
+  ['#77E19E', '#04D854', '#03C14A', '#0E9340'],
+  ['#51B59B', '#03B184', '#00805A', '#135F4A'],
+  ['#99CE7E', '#79C060', '#6B9527', '#50611D'],
+]
+
 export const DEFAULT_CATEGORIES = [
   {
     name: 'Program expenses',

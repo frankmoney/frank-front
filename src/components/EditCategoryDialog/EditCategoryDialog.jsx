@@ -8,17 +8,10 @@ import { required } from '@frankmoney/forms'
 import reconnect from 'utils/reconnect'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import { ConfirmDialog } from 'components/kit/Dialog'
-import { CATEGORY_PALETTE } from 'const'
-import TextField from 'components/kit/TextField'
+import { CATEGORY_PALETTE, INCOME_CATEGORY_PALETTE } from 'const'
 import CategoryTextField from 'components/kit/CategoryTextField'
-import CategorySelect from 'components/CategorySelect'
-import { customColorModeSelector, customColorSelector } from './selectors'
-import {
-  COLORS_AND_CUSTOM,
-  FORM_NAME,
-  createEmptyCategory,
-  isCustomColor,
-} from './constants'
+import { colorSelector } from './selectors'
+import { FORM_NAME, createEmptyCategory } from './constants'
 
 const styles = {
   root: {},
@@ -28,17 +21,16 @@ const styles = {
   colorField: {
     composes: '$field',
   },
-  customColorMode: {
-    '& $colorField': {
-      display: 'none',
-    },
-  },
 }
 
 const validations = {
   name: [required],
   color: [required],
 }
+
+const ConnectedCategoryTextField = reconnect({
+  color: colorSelector,
+})(CategoryTextField)
 
 const EditCategoryDialog = ({
   classes,
@@ -49,16 +41,11 @@ const EditCategoryDialog = ({
   invalid,
   open,
   onCancel,
-  customColorMode,
-  customColor,
+  defaultType,
 }) => (
   <ConfirmDialog
     fallInsideFocus={false}
-    className={cx(
-      classes.root,
-      { [classes.customColorMode]: customColorMode },
-      className
-    )}
+    className={cx(classes.root, className)}
     title={`${!category ? 'Add new' : 'Edit'} category`}
     confirmLabel="Done"
     confirmButtonProps={{ loading: submitting, disabled: invalid }}
@@ -69,34 +56,25 @@ const EditCategoryDialog = ({
     onConfirm={submit}
   >
     <ReduxFormControl.Field
-      component={CategorySelect}
-      categories={COLORS_AND_CUSTOM}
-      label="Color"
-      name="color"
-      className={classes.colorField}
-      validate={validations.color}
-    />
-    <ReduxFormControl.Field
       name="name"
       className={classes.field}
       label="Category name"
       validate={validations.name}
       autoFocus
       stretch
-      color={customColor}
-      component={customColorMode ? CategoryTextField : TextField}
+      component={ConnectedCategoryTextField}
     />
-    {customColorMode && (
-      <ReduxFormControl.Palette
-        palette={CATEGORY_PALETTE}
-        defaultValue={CATEGORY_PALETTE[0][0]}
-        label="Color"
-        name="customColor"
-        className={classes.field}
-        validate={validations.field}
-        sampleWidth={81.4}
-      />
-    )}
+    <ReduxFormControl.Palette
+      palette={
+        defaultType === 'spending' ? CATEGORY_PALETTE : INCOME_CATEGORY_PALETTE
+      }
+      defaultValue={CATEGORY_PALETTE[0][0]}
+      label="Color"
+      name="color"
+      className={classes.field}
+      validate={validations.field}
+      stretch
+    />
   </ConfirmDialog>
 )
 
@@ -107,28 +85,21 @@ export default compose(
       if (!category) {
         return {
           initialValues: {
-            ...createEmptyCategory(),
+            ...createEmptyCategory(defaultType),
             type: defaultType,
           },
         }
       }
 
-      const isCustom = isCustomColor(category.color)
-
       return {
         initialValues: {
           type: category.type,
           name: category.name,
-          color: isCustom ? 'custom' : category.color,
-          customColor: isCustom ? category.color : null,
+          color: category.color,
         },
       }
     }
   ),
-  reconnect({
-    customColorMode: customColorModeSelector,
-    customColor: customColorSelector,
-  }),
   withPropsOnChange(
     [
       'formSubmissionFailedAction',
