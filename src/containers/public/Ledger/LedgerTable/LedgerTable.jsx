@@ -11,6 +11,7 @@ const ComposedPaymentsTableRow = withPropsOnChange(
     tablePadding: 30,
     data: {
       ...otherData,
+      verified,
       description: verified ? description : null,
       peer: verified ? peer : null,
       category: verified ? category : null,
