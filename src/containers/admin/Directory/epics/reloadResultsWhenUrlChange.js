@@ -8,6 +8,7 @@ import { loadedSelector } from '../selectors'
 export default (action$, store) =>
   action$
     .ofType(LOCATION_CHANGE)
+      //TODO filter by URL
     // Epic should occurs only on Directory page!
     .filter(() => loadedSelector(store.getState()))
     .debounceTime(777)
