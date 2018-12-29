@@ -8,6 +8,7 @@ import { loadedSelector, recipientSelector } from '../selectors'
 export default (action$, store) =>
   action$
     .ofType(LOCATION_CHANGE)
+    // TODO filter by pathname payload
     // Epic occurs only on Recipient page!
     .filter(({ payload: { pathname } }) => {
       const recipient = recipientSelector(store.getState())
