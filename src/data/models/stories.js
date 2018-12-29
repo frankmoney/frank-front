@@ -31,5 +31,5 @@ export const mapToPlainTextBody = body => {
       .trim()
   }
 
-  return body.text.trim()
+  return (body.text || '').trim()
 }

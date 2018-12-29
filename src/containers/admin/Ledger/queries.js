@@ -1,3 +1,6 @@
+import * as R from 'ramda'
+import { mapPaymentSource } from 'data/models/payment'
+
 const PEER = `
   id: pid
   name
@@ -30,6 +33,11 @@ const PAYMENTS = `
   }
   categoryUpdater {
     isSystem
+  }
+  bankDescription
+  source {
+    bankName
+    bankLogo
   }
 `
 
@@ -150,7 +158,10 @@ export default {
       },
     }) => ({
       categories: includeCategories ? categories : null,
-      payments: categoryScoped ? category.payments : payments,
+      payments: R.map(
+        mapPaymentSource,
+        categoryScoped ? category.payments : payments
+      ),
       totalCount: categoryScoped ? category.countPayments : countPayments,
       barChart: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars

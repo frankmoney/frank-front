@@ -1,5 +1,4 @@
 import * as R from 'ramda'
-import { mapPayment } from 'data/models/payment'
 import { formatDate } from 'utils/dates'
 import * as ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
@@ -60,5 +59,4 @@ export default (action$, store, { graphql }) =>
         }
       )
     })
-    .map(R.evolve({ payments: R.map(mapPayment) }))
     .map(ACTIONS.load.success)

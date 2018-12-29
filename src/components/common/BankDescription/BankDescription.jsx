@@ -43,25 +43,19 @@ type Props = {|
 const BankDescription = ({
   classes,
   className,
-  description,
-  logoUrl,
-  name,
+  bankDescription,
+  bankLogo,
+  bankName,
 }: Props) => (
   <div className={cx(classes.root, className)}>
-    {logoUrl && <BankLogo className={classes.icon} src={logoUrl} />}
+    {bankLogo && <BankLogo className={classes.icon} src={bankLogo} />}
     <div className={classes.description}>
       <span className={classes.descriptionAccent}>
-        {name || 'Banking description'}:{' '}
+        {bankName || 'Banking description'}:{' '}
       </span>
-      <span className={classes.descriptionText}>{description}</span>
+      <span className={classes.descriptionText}>{bankDescription}</span>
     </div>
   </div>
 )
-
-BankDescription.defaultProps = {
-  description:
-    'ONLINE INTERNATIONAL WIRE TRANSFER A/C: BANK HAPOALIM B M TEL-AVIV' +
-    'ISRAEL REF: BUSINESS EXPENSES TRN: 4597800186ES 07/05 WIRE_OUTGOING',
-}
 
 export default injectStyles(styles)(BankDescription)

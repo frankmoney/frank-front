@@ -17,15 +17,11 @@ export type Payment = {|
   verified: ?boolean,
 |}
 
-export const mapPayment = (payment: Payment) => ({
-  createdAt: '2018-01-01 05:00',
-  categoryAddedFromSimilar: true,
-  ...payment,
-})
+export const mapPaymentSource = x =>
+  R.evolve({ source: R.assoc('bankDescription', x.bankDescription) }, x)
 
-export const verifyPayment = R.ifElse(
-  R.propEq('verified', true),
-  oldPayment => oldPayment,
+export const ignoreUnverifiedData = R.when(
+  R.propEq('verified', false),
   R.evolve({
     category: R.always(null),
     description: R.always(null),

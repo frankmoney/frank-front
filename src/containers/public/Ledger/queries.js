@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { verifyPayment } from 'data/models/payment'
+import { ignoreUnverifiedData, mapPaymentSource } from 'data/models/payment'
 
 const PEER = `
   id: pid
@@ -20,10 +20,15 @@ const PAYMENT = `
     ${PEER}
   }
   description
+  bankDescription
   category {
     ${CATEGORY}
   }
   verified
+  source {
+    bankName
+    bankLogo
+  }
 `
 
 export default {
@@ -169,9 +174,13 @@ export default {
       revenue,
       total,
       categories: includeCategories ? categories : null,
-      payments: categoryScoped
-        ? category.payments // R.map(verifyPayment, category.payments)
-        : R.map(verifyPayment, payments) /* R.map(verifyPayment, payments) */,
+      payments: R.map(
+        R.pipe(
+          ignoreUnverifiedData,
+          mapPaymentSource
+        ),
+        categoryScoped ? category.payments : payments
+      ),
       totalCount: categoryScoped ? category.countPayments : countPayments,
       barChart: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars

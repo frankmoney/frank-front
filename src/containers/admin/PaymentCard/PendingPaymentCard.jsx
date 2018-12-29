@@ -17,6 +17,7 @@ const PendingPaymentCard = ({
   amount,
   verified,
   pending,
+  source,
 }) => (
   <Paper type="card" className={cx(classes.root, classes.pending, className)}>
     <div className={classes.header}>
@@ -31,7 +32,7 @@ const PendingPaymentCard = ({
         />
       </div>
     </div>
-    <BankDescription className={classes.bank} />
+    <BankDescription className={classes.bank} {...source} />
   </Paper>
 )
 

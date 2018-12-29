@@ -76,6 +76,7 @@ const PaymentCard = ({
   handleFieldBlur,
   handleFieldChange,
   pending,
+  source,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
@@ -89,7 +90,7 @@ const PaymentCard = ({
         />
       </div>
     </div>
-    <BankDescription className={classes.bank} />
+    <BankDescription className={classes.bank} {...source} />
     <div className={classes.body}>
       <div className={classes.bodyRow}>
         <div className={classes.recipient}>

@@ -21,6 +21,7 @@ const PaymentCard = ({
   description = null,
   verified = false,
   paperPadding,
+  source,
   ...otherProps
 }) => (
   <Paper className={cx(classes.root, className)} {...otherProps}>
@@ -48,7 +49,7 @@ const PaymentCard = ({
           />
         </>
       )}
-      <BankDescription className={classes.bank} />
+      <BankDescription className={classes.bank} {...source} />
     </div>
   </Paper>
 )
