@@ -24,6 +24,7 @@ const StoryPaymentsStats = ({
   className,
   paymentsCount,
   paymentsDateRange,
+  dateRangeClassName,
   symbolClassName,
   counterClassName,
 }: Props) => (
@@ -36,7 +37,7 @@ const StoryPaymentsStats = ({
     <span className={cx(classes.counter, counterClassName)}>
       {`${paymentsCount} payment${paymentsCount > 1 ? 's' : ''} `}
     </span>
-    <span className={classes.dateRange}>
+    <span className={cx(classes.dateRange, dateRangeClassName)}>
       {formatDateRange(...paymentsDateRange, {
         short: true,
       })}

@@ -1,7 +1,7 @@
 // @flow strict-local
 import * as React from 'react'
+import CleanLink from 'components/kit/CleanLink'
 import HtmlButton from './HtmlButton'
-import HtmlLink from './HtmlLink'
 
 export type ButtonBaseProps = {|
   width?: number,
@@ -31,9 +31,9 @@ const ButtonBase = ({ children, style, width, ...otherProps }: Props) => {
     const { type, ...linkProps } = otherProps
 
     return (
-      <HtmlLink style={computedStyle} {...linkProps}>
+      <CleanLink style={computedStyle} {...linkProps}>
         {children}
-      </HtmlLink>
+      </CleanLink>
     )
   }
 

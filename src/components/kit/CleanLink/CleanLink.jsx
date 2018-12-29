@@ -9,9 +9,9 @@ const styles = {
   },
 }
 
-const HtmlLink = ({ classes, className, ...props }) => (
+const CleanLink = ({ classes, className, ...props }) => (
   // eslint-disable-next-line jsx-a11y/anchor-has-content
   <a className={cx(classes.resetStyles, className)} {...props} />
 )
 
-export default injectStyles(styles)(HtmlLink)
+export default injectStyles(styles)(CleanLink)

@@ -11,8 +11,12 @@ const styles = theme => ({
   description: {},
   descriptionTextBox: {
     ...theme.fontRegular(20, 32),
-    width: '100%',
-    // padding: [7, 0, 5, 0],
+    width: 770,
+    flexShrink: 0,
+    boxSizing: 'content-box',
+    paddingRight: 150,
+    // pixel perfect
+    marginLeft: -2,
   },
 })
 

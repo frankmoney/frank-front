@@ -11,7 +11,7 @@ const StoryCard = ({
   component: RootElement,
   title,
   cover,
-  body: { text },
+  text,
   published,
   paymentsCount,
   paymentsDateRange,
@@ -32,6 +32,7 @@ const StoryCard = ({
           paymentsCurrency={paymentsCurrency}
           paymentsDateRange={paymentsDateRange}
           symbolClassName={classes.statsSymbol}
+          dateRangeClassName={classes.statsDate}
         />
       )}
       {text && <div className={classes.text}>{text}</div>}

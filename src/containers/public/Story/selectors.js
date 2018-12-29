@@ -1,5 +1,8 @@
 // @flow strict
 import { createPlainObjectSelector } from '@frankmoney/utils'
+import { ContentState, convertFromRaw, EditorState } from 'draft-js'
+import { createSelector } from 'reselect'
+import * as R from 'ramda'
 import type { ReduxState } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
 
@@ -10,10 +13,32 @@ const getters = {
   story: getter('story'),
   isLoaded: getter('isLoaded'),
   account: getter('account'),
+  accountId: getter('account', 'id'),
 }
 
 export const isLoadedSelector = getters.isLoaded
 
-export const storySelector = createPlainObjectSelector(getters.story)
-
 export const accountSelector = createPlainObjectSelector(getters.account)
+
+export const storySelector = createSelector(
+  createPlainObjectSelector(getters.story),
+  getters.accountId,
+  (story, accountId) =>
+    story &&
+    R.evolve({ payments: R.map(R.assoc('accountId', accountId)) }, story)
+)
+
+export const storyEditorStateSelector = createSelector(storySelector, story => {
+  if (!story) {
+    return null
+  }
+  const { body } = story
+  if (body.draftjs) {
+    return EditorState.createWithContent(
+      convertFromRaw(JSON.parse(body.draftjs))
+    )
+  }
+  return EditorState.createWithContent(
+    ContentState.createFromText(body.text || '')
+  )
+})

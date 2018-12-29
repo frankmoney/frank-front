@@ -1,5 +1,7 @@
+import { createRouteUrl } from '@frankmoney/utils'
 import React from 'react'
 import CurrencyProvider from 'components/CurrencyProvider'
+import { ROUTES } from '../../const'
 import PaymentsListItem from './PaymentsListItem'
 
 const PaymentsList = ({
@@ -13,7 +15,15 @@ const PaymentsList = ({
       {payments &&
         payments.map(payment => (
           <PaymentsListItem
-            onRemove={() => onRemoveItem(payment.id)}
+            onRemove={onRemoveItem ? () => onRemoveItem(payment.id) : null}
+            href={
+              onRemoveItem
+                ? null
+                : createRouteUrl(ROUTES.account.payment.idRoot, {
+                    paymentId: payment.id,
+                    accountId: payment.accountId,
+                  })
+            }
             {...payment}
           />
         ))}

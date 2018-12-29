@@ -6,7 +6,7 @@ const styles = {
   root: {
     display: 'flex',
     borderRight: '1px solid rgba(37, 43, 67, 0.08)',
-    marginRight: 25,
+    marginRight: 20,
     padding: [0, 20, 0, 5],
   },
   icon: {

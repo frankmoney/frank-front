@@ -12,8 +12,14 @@ import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import { BASE_TITLE, ROUTES } from 'const'
 import ShareButtons from 'components/common/ShareButtons'
+import Editor from 'components/kit/Editor'
 import StoryHeader from './StoryHeader'
-import { accountSelector, isLoadedSelector, storySelector } from './selectors'
+import {
+  accountSelector,
+  isLoadedSelector,
+  storySelector,
+  storyEditorStateSelector,
+} from './selectors'
 import ACTIONS from './actions'
 import styles from './Story.jss'
 
@@ -25,11 +31,11 @@ const Story = ({
     id: storyId,
     title,
     cover,
-    body: { text },
     payments,
     paymentsCount,
     paymentsDateRange,
   },
+  editorState,
 }) => (
   <div className={cx(classes.storyPage, className)}>
     <CurrencyProvider code={currencyCode}>
@@ -63,7 +69,9 @@ const Story = ({
             />
           </div>
         )}
-        {text && <div className={classes.text}>{text}</div>}
+        {editorState && (
+          <Editor className={classes.text} editorState={editorState} readOnly />
+        )}
         {paymentsCount > 0 && (
           <StoryPayments
             className={classes.payments}
@@ -82,6 +90,7 @@ export default compose(
       isLoaded: isLoadedSelector,
       story: storySelector,
       account: accountSelector,
+      editorState: storyEditorStateSelector,
     },
     {
       load: ACTIONS.load,

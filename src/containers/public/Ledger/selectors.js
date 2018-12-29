@@ -28,6 +28,7 @@ import {
   parseQueryString,
 } from 'utils/querystring'
 import { ROUTES, UNCATEGORIZED_CATEGORY } from 'const'
+import { mapToPlainTextBody } from 'data/models/stories'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
 
@@ -54,7 +55,13 @@ export const currentTabSelector = createSelector(pathnameSelector, path => {
 
 // Stories
 
-export const storiesSelector = createPlainObjectSelector(get('stories'))
+export const storiesSelector = createSelector(
+  createPlainObjectSelector(get('stories')),
+  R.map(({ body, ...story }) => ({
+    text: mapToPlainTextBody(body),
+    ...story,
+  }))
+)
 export const storiesCountSelector = createSelector(
   storiesSelector,
   stories => stories.length
