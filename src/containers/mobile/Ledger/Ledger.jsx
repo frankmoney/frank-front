@@ -40,8 +40,8 @@ import { type Payment } from 'data/models/payment'
 import { type PieTotal } from 'data/models/pieData'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import reconnect from 'utils/reconnect'
-import { ALL_CATEGORIES, ROUTES } from 'const'
-import { createMobileUrl } from '../utils'
+import { ALL_CATEGORIES } from 'const'
+import { createPaymentClickHandler, type WithHistoryProps } from '../utils'
 import CheckboxButton from './CheckboxButton'
 import Payments from './MobilePayments'
 
@@ -156,11 +156,9 @@ type Category = {
   color: string,
 }
 
-// react-router History proxy
-type History = Object // flowlint-line unclear-type:off
-
 type Props = {|
   ...InjectStylesProps,
+  ...WithHistoryProps,
   //
   accountId: number | string,
   accountName: string,
@@ -179,8 +177,6 @@ type Props = {|
   pieTotal: PieTotal,
   revenue: number,
   spending: number,
-  //
-  history?: History,
 |}
 
 const Ledger = ({
@@ -211,15 +207,7 @@ const Ledger = ({
     onCategoryClick(category)
   }
 
-  const handlePaymentClick = history
-    ? paymentId => {
-        const paymentUrl = createMobileUrl(ROUTES.account.payment.idRoot, {
-          accountId,
-          paymentId,
-        })
-        history.push(paymentUrl)
-      }
-    : null
+  const handlePaymentClick = createPaymentClickHandler(accountId, history)
 
   const timelineWidth = 335 // TODO: calculate from the real size?
   const showCategories =

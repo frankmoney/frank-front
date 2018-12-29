@@ -19,10 +19,12 @@ import { ROUTES } from 'const'
 import ACTIONS from 'containers/public/Payment/actions'
 import {
   accountSelector,
+  drawerOpenedSelector,
   isLoadedSelector,
   paymentSelector,
 } from 'containers/public/Payment/selectors'
 import { createMobileUrl } from '../utils'
+import SimilarPayments from './SimilarPayments'
 
 const styles = theme => ({
   root: {
@@ -102,6 +104,7 @@ type Props = {|
   //
   account: Account,
   accountId: AccountId,
+  openSimilarList: () => void,
   payment: Payment,
 |}
 
@@ -110,6 +113,7 @@ const PaymentPage = ({
   accountId,
   classes,
   className,
+  openSimilarList,
   payment,
 }: Props) => {
   const { name, currencyCode } = account
@@ -185,6 +189,7 @@ const PaymentPage = ({
           <Button
             className={classes.similarButton}
             label={`Show ${similarCount} similar payments`}
+            onClick={openSimilarList}
           />
         )}
     </div>
@@ -194,14 +199,16 @@ const PaymentPage = ({
 export default compose(
   reconnect(
     {
+      account: accountSelector,
       isLoaded: isLoadedSelector,
       payment: paymentSelector,
-      account: accountSelector,
+      similarListOpen: drawerOpenedSelector,
     },
     {
-      load: ACTIONS.load,
       leave: ACTIONS.leave,
+      load: ACTIONS.load,
       loadSimilarPayments: ACTIONS.loadSimilarPayments,
+      openSimilarList: ACTIONS.openDrawer,
     }
   ),
   lifecycle({
@@ -218,5 +225,6 @@ export default compose(
     },
   }),
   branch(props => !props.isLoaded, renderComponent(AreaSpinner)),
+  branch(props => props.similarListOpen, renderComponent(SimilarPayments)),
   injectStyles(styles)
 )(PaymentPage)
