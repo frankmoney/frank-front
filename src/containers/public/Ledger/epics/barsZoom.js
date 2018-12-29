@@ -6,5 +6,6 @@ export default action$ =>
     mergeQuery({
       dateMin: dateFrom,
       dateMax: dateTo,
+      page: null,
     })
   )

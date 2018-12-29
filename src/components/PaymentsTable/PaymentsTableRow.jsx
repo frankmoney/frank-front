@@ -34,7 +34,16 @@ const styles = theme => ({
     overflow: 'hidden',
   },
   emptyDescription: {
-    opacity: 0.2,
+    color: 'rgba(32, 40, 74, 0.5)',
+    '$editable &': {
+      color: 'rgba(32, 40, 74, 0.3)',
+    },
+    '$editable:hover &': {
+      color: 'rgba(32, 40, 74, 0.4)',
+    },
+  },
+  pendingDescription: {
+    color: 'rgba(32, 40, 74, 0.5)',
   },
   info: {
     marginTop: 12,
@@ -70,16 +79,17 @@ const styles = theme => ({
   },
   date: {
     ...theme.fontRegular(16, 26),
-    color: 'rgba(0,0,0,0.2)',
+    color: 'rgba(37, 43, 67, 0.3)',
   },
   status: {
     marginLeft: 10,
   },
   unverified: {
-    '& $description:not($emptyDescription), & $category, & $client': {
+    '& $description:not($emptyDescription):not($pendingDescription), & $category, & $client': {
       opacity: 0.5,
     },
   },
+  editable: {},
 })
 
 const PaymentsTableRow = ({
@@ -90,16 +100,23 @@ const PaymentsTableRow = ({
   ...rowProps
 }) => (
   <TableRow
-    className={cx(classes.root, { [classes.unverified]: !verified }, className)}
+    className={cx(
+      classes.root,
+      {
+        [classes.unverified]: !verified,
+        [classes.editable]: canEdit,
+      },
+      className
+    )}
     hoverBackgroundColor="#f6f7f7"
     {...rowProps}
   >
     <TableCell name="description" className={classes.cellLeft}>
       <div
-        className={cx(
-          classes.description,
-          !pending && !description && classes.emptyDescription
-        )}
+        className={cx(classes.description, {
+          [classes.emptyDescription]: !pending && !description,
+          [classes.pendingDescription]: !!pending,
+        })}
       >
         {pending ? (
           'Pending'
