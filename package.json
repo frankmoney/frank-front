@@ -132,7 +132,7 @@
     "draft-js": "^0.10.5",
     "express": "^4.16.2",
     "focus-trap": "^3.0.0",
-    "frank-redactor": "^0.2.3",
+    "frank-redactor": "^0.2.4",
     "http-proxy-middleware": "^0.17.4",
     "humps": "^2.0.1",
     "immutable": "^3.8.1",

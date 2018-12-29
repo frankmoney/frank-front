@@ -101,5 +101,5 @@ export default compose(
     },
   }),
   branch(props => props.loading, renderComponent(AreaSpinner)),
-  injectStyles(styles, { grid: true })
+  injectStyles(styles)
 )(Stories)
