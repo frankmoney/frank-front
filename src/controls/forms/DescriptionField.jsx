@@ -2,6 +2,7 @@ import React from 'react'
 import cx from 'classnames'
 import { Subject as DescriptionIcon } from 'material-ui-icons'
 import { injectStyles } from '@frankmoney/ui'
+import Editor from 'components/Editor'
 import { FieldWithIcon as FieldContainer } from 'components/Field'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import FieldIcon from 'components/FieldIcon'
@@ -21,6 +22,7 @@ const DescriptionField = ({ classes, className, ...props }) => (
     className={cx(classes.description, className)}
   >
     <ReduxFormControl.Editor
+      component={Editor}
       className={classes.descriptionTextBox}
       {...props}
     />

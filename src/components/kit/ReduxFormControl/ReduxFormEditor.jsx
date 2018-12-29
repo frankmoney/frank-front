@@ -78,7 +78,7 @@ class EditorField extends React.Component {
     const { editorState } = this.state
     const {
       label,
-      component: EditorComponent = Editor,
+      editorComponent: EditorComponent = Editor,
       counter,
       input: { value, onChange, onBlur, ...otherInputProps },
       ...custom
@@ -110,8 +110,13 @@ const parse = editorState => {
   })
 }
 
-const ReduxFormEditor = ({ ...props }) => (
-  <Field parse={parse} component={EditorField} {...props} />
+const ReduxFormEditor = ({ component, ...props }) => (
+  <Field
+    parse={parse}
+    component={EditorField}
+    editorComponent={component}
+    {...props}
+  />
 )
 
 export default ReduxFormEditor
