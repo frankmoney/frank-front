@@ -10,6 +10,9 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 export const isNegative = value => typeof value === 'number' && value < 0
 
+const POSITIVE_COLOR = '#2fce6b'
+const NEGATIVE_COLOR = 'rgba(37, 43, 67)'
+
 const styles = {
   root: {
     display: 'inline-block',
@@ -25,10 +28,18 @@ const styles = {
   value: {
     display: 'inline-block',
     '&$negative': {
-      color: 'rgba(37, 43, 67)',
+      color: NEGATIVE_COLOR,
     },
     '&$positive': {
-      color: '#2fce6b',
+      color: POSITIVE_COLOR,
+    },
+  },
+  faint: {
+    '& $value$negative': {
+      color: 'rgba(33, 203, 97, 0.7)',
+    },
+    '& $value$positive': {
+      color: 'rgba(37, 43, 67, 0.5)',
     },
   },
   negative: {},
@@ -41,6 +52,7 @@ type CommonProps = {|
   symbol?: string,
   value: number,
   valueClassName?: string,
+  faint?: boolean,
 |}
 
 type RenderProps = {|
@@ -59,9 +71,10 @@ const render = ({
   formatter,
   symbol,
   value,
+  faint,
   valueClassName,
 }: RenderProps) => (
-  <div className={cx(classes.root, className)}>
+  <div className={cx(classes.root, { [classes.faint]: !!faint }, className)}>
     <div
       className={classes.sign}
       // eslint-disable-next-line react/no-danger
@@ -92,6 +105,7 @@ const CurrencyDelta = ({
   symbol,
   value,
   valueClassName,
+  ...otherProps
 }: Props) => (
   <CurrencyContext.Consumer>
     {(context = {}) =>
@@ -103,6 +117,7 @@ const CurrencyDelta = ({
         symbol: symbol || (context && context.symbol),
         value,
         valueClassName,
+        ...otherProps,
       })
     }
   </CurrencyContext.Consumer>

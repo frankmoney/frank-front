@@ -1,5 +1,4 @@
 import * as R from 'ramda'
-import { mapPayment } from 'data/models/payment'
 import { formatDate } from 'utils/dates'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import ACTIONS from '../actions'
@@ -35,5 +34,4 @@ export default (action$, store, { graphql }) =>
         pending: pending ? null : false, // show all payments if pending on, exclude pending when filter is off
       })
     })
-    .map(R.evolve({ payments: R.map(mapPayment) }))
     .map(ACTIONS.load.success)

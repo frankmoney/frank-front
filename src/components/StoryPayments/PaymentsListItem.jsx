@@ -1,19 +1,22 @@
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
+import cx from 'classnames'
+import { injectStyles } from 'utils/styles'
 import CurrencyDelta from 'components/CurrencyDelta'
 import { formatFullDate } from 'utils/datesLight'
+import CleanLink from 'components/kit/CleanLink'
 
 const styles = theme => ({
   item: {
     display: 'flex',
     flexDirection: 'row',
     padding: [25, 30],
+    color: '#252B43',
     '&:hover': {
       background: 'rgba(37, 43, 67, 0.03)',
       '& $remove': {
         display: 'block',
       },
-      '& $date': {
+      '&:not($readOnly) $date': {
         display: 'none',
       },
     },
@@ -54,25 +57,50 @@ const styles = theme => ({
     padding: [0, 4],
     userSelect: 'none',
   },
+  readOnly: {},
 })
 
-const Item = ({ classes, amount, description, peer, postedOn, onRemove }) => (
-  <div className={classes.item}>
-    <div className={classes.amount}>
-      <CurrencyDelta value={amount} />
-    </div>
-    <div className={classes.info}>
-      <div className={classes.row}>
-        <div className={classes.recipient}>{peer && peer.name}</div>
-        <div className={classes.date}>{formatFullDate(postedOn)}</div>
-        <div className={classes.remove} onClick={() => onRemove()}>
-          Remove
+const Item = ({
+  classes,
+  className,
+  amount,
+  description,
+  peer,
+  postedOn,
+  onRemove,
+  href,
+}) => {
+  const rootProps = {
+    className: cx(classes.item, { [classes.readOnly]: !onRemove }, className),
+  }
+
+  const Root = href ? CleanLink : 'div'
+
+  if (href) {
+    rootProps.href = href
+    rootProps.target = '_blank'
+  }
+
+  return (
+    <Root {...rootProps}>
+      <div className={classes.amount}>
+        <CurrencyDelta value={amount} />
+      </div>
+      <div className={classes.info}>
+        <div className={classes.row}>
+          <div className={classes.recipient}>{peer && peer.name}</div>
+          <div className={classes.date}>{formatFullDate(postedOn)}</div>
+          {onRemove && (
+            <div className={classes.remove} onClick={() => onRemove()}>
+              Remove
+            </div>
+          )}
+        </div>
+        <div className={classes.row}>
+          <div className={classes.description}>{description}</div>
         </div>
       </div>
-      <div className={classes.row}>
-        <div className={classes.description}>{description}</div>
-      </div>
-    </div>
-  </div>
-)
+    </Root>
+  )
+}
 export default injectStyles(styles)(Item)

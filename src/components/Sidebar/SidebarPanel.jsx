@@ -49,12 +49,19 @@ class SidebarPanel extends React.Component<Props, void> {
       AccountsSwitchMenuComponent: AccountsSwitchMenu,
       BottomMenuComponent: BottomMenu,
       renderGlobalMenuItems,
+      delimiter,
     } = this.props
 
     const globalMenuItems = renderGlobalMenuItems()
 
     return (
-      <div className={cx(classes.root, className)}>
+      <div
+        className={cx(
+          classes.root,
+          { [classes.hasDelimiter]: delimiter },
+          className
+        )}
+      >
         <Logo className={classes.logo} />
         <div className={classes.menuWrap}>
           <div className={classes.menuGroupWrapper} ref={this.handleMenuRef}>

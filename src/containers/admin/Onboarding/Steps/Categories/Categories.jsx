@@ -63,7 +63,10 @@ const Categories = ({
             onClick: () => onRestoreCategories(),
           }
         : {
-            label: 'Back to account info',
+            label:
+              categoryType === 'spending'
+                ? 'Back to account info'
+                : 'Back to spending categories',
           }
     }
     footerButton={
@@ -94,10 +97,13 @@ const Categories = ({
       )}
     {openEditDialog && (
       <EditCategoryDialog
+        defaultType={categoryType}
         category={editingCategory}
         open={openEditDialog}
         onCancel={onCancelEdit}
         onSubmitForm={onSubmitEdit}
+        formSubmissionSucceededAction={ACTIONS.submitEditCategory.toString()}
+        formSubmissionFailAction={'never-fail'}
       />
     )}
   </StepLayout>

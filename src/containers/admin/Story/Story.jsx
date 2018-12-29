@@ -13,7 +13,12 @@ import StoryPaymentsStats, {
 } from 'components/StoryPaymentsStats'
 import StoryPayments, { type PaymentList } from 'components/StoryPayments'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import { isLoadedSelector, storySelector } from './selectors'
+import Editor from 'components/kit/Editor'
+import {
+  isLoadedSelector,
+  storySelector,
+  storyEditorStateSelector,
+} from './selectors'
 import ACTIONS from './actions'
 import HeaderBarButtons from './HeaderBarButtons'
 import styles from './Story.jss'
@@ -38,15 +43,9 @@ const Story = ({
   classes,
   className,
   story: {
-    draft: {
-      title,
-      cover,
-      body: { text },
-      payments,
-      paymentsCount,
-      paymentsDateRange,
-    },
+    draft: { title, cover, payments, paymentsCount, paymentsDateRange },
   },
+  editorState,
 }: Props) => (
   <div className={cx(classes.storyPreviewPage, className)}>
     <FixedHeader>
@@ -71,7 +70,9 @@ const Story = ({
             paymentsDateRange={paymentsDateRange}
           />
         )}
-        {text && <div className={classes.text}>{text}</div>}
+        {editorState && (
+          <Editor className={classes.text} editorState={editorState} readOnly />
+        )}
         {paymentsCount > 0 && <StoryPayments payments={payments} readOnly />}
       </div>
     </div>
@@ -81,6 +82,7 @@ const Story = ({
 const mapStateToProps = createStructuredSelector({
   isLoaded: isLoadedSelector,
   story: storySelector,
+  editorState: storyEditorStateSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [

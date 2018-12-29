@@ -1,3 +1,6 @@
+import * as R from 'ramda'
+import { mapPaymentSource } from 'data/models/payment'
+
 const paymentFields = `
   id: pid
   postedOn
@@ -14,6 +17,11 @@ const paymentFields = `
   }
   similarCount: countSimilar(includeSelf: true)
   verified
+  bankDescription
+  source {
+    bankName
+    bankLogo
+  }
 `
 
 const similarPaymentFields = `
@@ -74,6 +82,13 @@ export default {
         accountId,
         payment: { payments },
       },
-    }) => payments.map(({ ...params }) => ({ accountId, ...params })),
+    }) =>
+      R.map(
+        R.pipe(
+          R.assoc('accountId', accountId),
+          mapPaymentSource
+        ),
+        payments
+      ),
   ],
 }

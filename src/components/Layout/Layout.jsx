@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { responsiveSidebar } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
 import { PageLayout, ReduxNavLink } from '@frankmoney/webapp'
-import { compose, withProps } from 'recompose'
+import { compose, withProps, withPropsOnChange } from 'recompose'
 import { RecentActors as TeamIcon, Help as HelpIcon } from 'material-ui-icons'
 import { Sidebar, SidebarMenuItem } from 'components/Sidebar'
 import CurrencyProvider from 'components/CurrencyProvider'
@@ -31,9 +31,10 @@ const Logo = injectStyles(logoStyles)(({ classes, className }) => (
   </div>
 ))
 
-export default withProps({
+export default withPropsOnChange(['sidebarProps'], props => ({
   sidebarComponent: compose(
     withProps({
+      ...props.sidebarProps,
       LogoComponent: Logo,
       AccountsSwitchMenuComponent: AccountsSwitchMenu,
       BottomMenuComponent: BottomMenu,
@@ -56,4 +57,4 @@ export default withProps({
     }),
     responsiveSidebar
   )(Sidebar),
-})(Layout)
+}))(Layout)

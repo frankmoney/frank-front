@@ -35,5 +35,4 @@ export default (action$, store, { graphql }) =>
         sortBy,
       })
     })
-    // .map(R.evolve({ payments: R.map(mapPayment) }))
     .map(ACTIONS.load.success)

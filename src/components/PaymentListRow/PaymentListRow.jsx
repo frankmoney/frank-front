@@ -48,7 +48,7 @@ type Props = {|
   selected?: boolean,
   // Payment details
   amount?: number,
-  peerName?: string,
+  peer?: { id: string, name: string },
   postedOn?: DateDefaultString,
   selectable?: boolean,
   // Other props
@@ -74,7 +74,7 @@ class PaymentListRow extends React.Component<Props> {
       className,
       selected,
       amount,
-      peerName,
+      peer,
       postedOn,
       selectable,
       style,
@@ -103,7 +103,7 @@ class PaymentListRow extends React.Component<Props> {
           />
         )}
         <CurrencyDelta className={classes.sum} value={amount} />
-        <div className={classes.name}>{peerName}</div>
+        <div className={classes.name}>{peer && peer.name}</div>
         <div className={classes.date}>{formatDate(postedOn)}</div>
       </div>
     )

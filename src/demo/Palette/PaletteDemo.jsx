@@ -4,7 +4,7 @@ import { withState, toRenderProps } from 'recompose'
 import { injectStyles } from 'utils/styles'
 import Demo, { Row } from 'demo/Demo'
 import Palette from 'components/kit/Palette'
-import { CATEGORY_PALETTE } from 'const'
+import { CATEGORY_PALETTE, INCOME_CATEGORY_PALETTE } from 'const'
 
 const styles = theme => ({
   paletteWrap: {},
@@ -26,7 +26,20 @@ const PaletteDemo = ({ classes }) => (
       {state => (
         <Row centered>
           <div className={classes.paletteWrap}>
-            <Palette palette={CATEGORY_PALETTE} {...state} />
+            <Palette palette={CATEGORY_PALETTE} sampleWidth={80} {...state} />
+            <div className={classes.paletteValue}>
+              {state.value || 'Nothing selected'}
+            </div>
+          </div>
+        </Row>
+      )}
+    </PaletteState>
+    <h2>Auto width</h2>
+    <PaletteState>
+      {state => (
+        <Row centered>
+          <div className={classes.paletteWrap} style={{ width: 400 }}>
+            <Palette palette={INCOME_CATEGORY_PALETTE} {...state} />
             <div className={classes.paletteValue}>
               {state.value || 'Nothing selected'}
             </div>

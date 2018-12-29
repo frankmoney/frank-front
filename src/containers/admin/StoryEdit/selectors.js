@@ -3,6 +3,7 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { formValueSelector, isValid, isDirty } from 'redux-form/immutable'
 import { createPlainObjectSelector } from '@frankmoney/utils'
+import { EditorState, ContentState, convertFromRaw } from 'draft-js'
 import type { ReduxState } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
 import { FORM_NAME } from './constants'
@@ -67,10 +68,10 @@ export const formInitialValuesSelector = createSelector(
           values.cover = [values.cover]
         }
 
-        if (!values.body) {
-          values.description = ''
+        if (values.body && values.body.draftjs) {
+          values.description = convertFromRaw(JSON.parse(values.body.draftjs))
         } else {
-          values.description = values.body.text
+          values.description = ContentState.createFromText(values.body.text)
         }
 
         if (!values.payments) {

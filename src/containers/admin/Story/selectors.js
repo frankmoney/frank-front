@@ -1,5 +1,7 @@
 // @flow strict
+import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
+import { EditorState, ContentState, convertFromRaw } from 'draft-js'
 import type { ReduxState } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
 
@@ -14,3 +16,20 @@ const getters = {
 export const isLoadedSelector = getters.isLoaded
 
 export const storySelector = createPlainObjectSelector(getters.story)
+
+export const storyEditorStateSelector = createSelector(storySelector, story => {
+  if (!story) {
+    return null
+  }
+  const {
+    draft: { body },
+  } = story
+  if (body.draftjs) {
+    return EditorState.createWithContent(
+      convertFromRaw(JSON.parse(body.draftjs))
+    )
+  }
+  return EditorState.createWithContent(
+    ContentState.createFromText(body.text || '')
+  )
+})

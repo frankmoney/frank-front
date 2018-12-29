@@ -1,22 +1,13 @@
-import { compose, withPropsOnChange, mapProps, pure } from 'recompose'
+import { compose, withProps, mapProps, pure } from 'recompose'
 import { injectStyles } from '@frankmoney/ui'
 import { Table } from '@frankmoney/components'
 import { PaymentsTableRow } from 'components/PaymentsTable'
 import PaymentCard from 'components/public/PaymentCard'
 import { dataSourceSelector, rowDataSelector } from '../selectors'
 
-const ComposedPaymentsTableRow = withPropsOnChange(
-  ['data'],
-  ({ data: { description, peer, verified, category, ...otherData } }) => ({
-    tablePadding: 30,
-    data: {
-      ...otherData,
-      description: verified ? description : null,
-      peer: verified ? peer : null,
-      category: verified ? category : null,
-    },
-  })
-)(PaymentsTableRow)
+const ComposedPaymentsTableRow = withProps({
+  tablePadding: 30,
+})(PaymentsTableRow)
 
 const ConnectedPaymentsTableDetailRow = compose(
   mapProps(({ data, ...otherProps }) => ({

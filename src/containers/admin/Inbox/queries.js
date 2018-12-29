@@ -1,3 +1,6 @@
+import * as R from 'ramda'
+import { mapPaymentSource } from 'data/models/payment'
+
 const PAYMENTS = `
 id: pid
 postedOn
@@ -22,6 +25,11 @@ peerUpdater {
 }
 categoryUpdater {
   isSystem
+}
+bankDescription
+source {
+  bankName
+  bankLogo
 }
 `
 
@@ -68,7 +76,7 @@ export default {
   `,
     ({ account: { categories, payments, countPayments: totalCount } }) => ({
       categories,
-      payments,
+      payments: R.map(mapPaymentSource, payments),
       totalCount,
     }),
   ],

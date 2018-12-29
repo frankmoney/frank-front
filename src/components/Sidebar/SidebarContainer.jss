@@ -1,3 +1,5 @@
+import zIndex from 'styles/zIndex'
+
 export const TOGGLE_DURATION = 450
 
 const getPosition = props => (props.isFixed ? 'fixed' : 'absolute')
@@ -11,7 +13,7 @@ export default {
     backgroundColor: 'rgba(0,0,0,0.3)',
     top: 0,
     left: 0,
-    zIndex: 15,
+    zIndex: zIndex.sidebar - 1,
     outline: 'none',
   },
   content: {
@@ -27,9 +29,10 @@ export default {
     },
   },
   panel: {
+    zIndex: zIndex.sidebar,
     position: getPosition,
     boxShadow: ({ open, overlayOn }) =>
-      open && overlayOn ? '0 0 20px 0 rgba(0,0,0,0.20)' : 'inherit',
+      open && overlayOn ? '0 0 20px 0 rgba(0,0,0,0.20)' : null,
     transform: props =>
       props.open ? 'translateX(0px)' : `translateX(-${props.width}px)`,
     transition: `all ${TOGGLE_DURATION}ms cubic-bezier(0.23, 1, 0.32, 1) 0ms`,

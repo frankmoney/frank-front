@@ -4,7 +4,6 @@ export default {
     left: 0,
     bottom: 0,
     top: 0,
-    zIndex: 20,
     width: props => props.width,
     height: '100%',
     backgroundColor: '#F3F3F3',
@@ -14,7 +13,8 @@ export default {
   logo: {
     padding: [25, 0, 36, 25],
     backgroundColor: '#FFF',
-    height: 80,
+    // позиция лого должна сочетаться с FixedHeader для пиксель перфекта
+    height: 78,
     marginBottom: 1,
   },
   menuWrap: {
@@ -70,5 +70,8 @@ export default {
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  hasDelimiter: {
+    boxShadow: '0 0 0 1px rgba(229, 229, 229, 1)',
   },
 }

@@ -3,6 +3,7 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import type { ReduxState } from 'flow/redux'
+import { mapToPlainTextBody } from 'data/models/stories'
 import { REDUCER_KEY } from './reducer'
 
 const get = (...prop) => (state: ReduxState) =>
@@ -11,7 +12,13 @@ const get = (...prop) => (state: ReduxState) =>
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 
-export const storiesSelector = createPlainObjectSelector(get('stories'))
+export const storiesSelector = createSelector(
+  createPlainObjectSelector(get('stories')),
+  R.map(({ draft: { body, ...draft }, ...story }) => ({
+    draft: { text: mapToPlainTextBody(body), ...draft },
+    ...story,
+  }))
+)
 
 export const hasNoStoriesSelector = createSelector(storiesSelector, R.isEmpty)
 

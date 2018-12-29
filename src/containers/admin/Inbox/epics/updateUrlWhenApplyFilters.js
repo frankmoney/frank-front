@@ -7,13 +7,13 @@ export default (action$, store) =>
   action$
     .ofType(FILTER_ACTIONS.apply)
     .filter(() => SELECTORS.loaded(store.getState()))
-    .map(({ payload: { sumLimit, dateLimit, pending } }) =>
+    .map(({ payload: { sum, date, verified } }) =>
       mergeQuery({
-        amountMin: sumLimit && sumLimit.min,
-        amountMax: sumLimit && sumLimit.max,
-        dateMin: dateLimit && dateLimit.from && formatDate(dateLimit.from),
-        dateMax: dateLimit && dateLimit.to && formatDate(dateLimit.to),
-        pending,
+        amountMin: sum && sum.min,
+        amountMax: sum && sum.max,
+        dateMin: date && date.from && formatDate(date.from),
+        dateMax: date && date.to && formatDate(date.to),
+        verified,
         page: null,
       })
     )

@@ -28,8 +28,14 @@ import PublicStory from 'containers/public/Story'
 import PublicLedger from 'containers/public/Ledger'
 import { parseQueryStringBool } from 'utils/querystring'
 
-const withLayout = Component => props => (
-  <Layout>
+const delimiterSidebarProps = {
+  sidebarProps: { panelProps: { delimiter: true } },
+}
+
+const withLayout = (
+  layoutProps = delimiterSidebarProps
+) => Component => props => (
+  <Layout {...layoutProps}>
     <Component {...props} />
     <Helmet title={BASE_TITLE} />
   </Layout>
@@ -101,11 +107,11 @@ const routeMappers = {
 
 const ComposedProtectedLedger = compose(
   routeMappers.account,
-  withLayout
+  withLayout()
 )(Ledger)
 const ComposedProtectedStories = compose(
   routeMappers.account,
-  withLayout
+  withLayout()
 )(Stories)
 
 const LedgerRouter = () => (
@@ -126,7 +132,7 @@ export default [
     exact: true,
   },
   {
-    component: protectedRoute(withLayout(Team)),
+    component: protectedRoute(withLayout()(Team)),
     path: ROUTES.team.root,
     exact: true,
   },
@@ -134,7 +140,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout,
+      withLayout(),
       routeMappers.account
     )(Inbox),
     path: ROUTES.account.inbox.root,
@@ -157,7 +163,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout,
+      withLayout(),
       routeMappers.account
     )(Directory),
     path: ROUTES.account.directory.root,
@@ -166,7 +172,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout,
+      withLayout(),
       routeMappers.recipient
     )(Recipient),
     path: ROUTES.account.directory.recipient,
@@ -175,7 +181,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout,
+      withLayout(delimiterSidebarProps),
       routeMappers.account
     )(StoryEdit),
     path: ROUTES.account.stories.idRootNew,
@@ -184,7 +190,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout,
+      withLayout(delimiterSidebarProps),
       routeMappers.story
     )(StoryEdit),
     path: ROUTES.account.stories.idRootEdit,
@@ -194,7 +200,7 @@ export default [
     component: compose(
       routeMappers.story,
       branchPublic(PublicStory),
-      withLayout
+      withLayout(delimiterSidebarProps)
     )(StoryPreview),
     path: ROUTES.account.stories.idRoot,
     exact: true,
@@ -202,7 +208,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout,
+      withLayout(),
       routeMappers.account
     )(Settings),
     path: ROUTES.account.settings.root,

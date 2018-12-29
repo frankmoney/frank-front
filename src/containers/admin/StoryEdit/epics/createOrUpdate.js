@@ -3,6 +3,7 @@ import * as R from 'ramda'
 import { createRouteUrl } from '@frankmoney/utils'
 import { replace as replaceLocation } from 'react-router-redux'
 import { getFormValues } from 'redux-form/immutable'
+import { convertToRaw } from 'draft-js'
 import createFilesApi from 'data/api/files'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import type { ReduxStore } from 'flow/redux'
@@ -71,11 +72,15 @@ export default (
       let story = storySelector(state)
 
       if (isNew || isDirty) {
-        const formValues = getFormValues(FORM_NAME)(state).toJS()
+        const formValues = getFormValues(FORM_NAME)(state)
 
-        const { title, description, cover, coverCrop, payments } = formValues
+        const descriptionContentState = formValues.get('description')
 
-        const body = JSON.stringify(description ? { text: description } : {})
+        const { title, cover, coverCrop, payments } = formValues.toJS()
+
+        const body = JSON.stringify({
+          draftjs: JSON.stringify(convertToRaw(descriptionContentState)),
+        })
 
         const serializeImage = R.omit(['loading'])
         const croppedCover =

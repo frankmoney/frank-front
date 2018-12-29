@@ -11,7 +11,7 @@ const StoryCard = ({
   component: RootElement,
   title,
   cover,
-  body: { text },
+  text,
   published,
   paymentsCount,
   paymentsDateRange,

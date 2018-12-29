@@ -124,6 +124,7 @@ const PaymentPage = ({
     peer,
     postedOn,
     similarCount,
+    source,
     verified,
   } = payment
 
@@ -179,10 +180,13 @@ const PaymentPage = ({
             </div>
           </>
         )}
-        <BankDescription
-          className={classes.bank}
-          textClassName={classes.bankText}
-        />
+        {source && (
+          <BankDescription
+            className={classes.bank}
+            textClassName={classes.bankText}
+            {...source}
+          />
+        )}
       </CurrencyProvider>
       {typeof similarCount === 'number' &&
         similarCount > 0 && (
