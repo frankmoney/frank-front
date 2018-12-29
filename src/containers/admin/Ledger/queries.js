@@ -34,6 +34,7 @@ const PAYMENTS = `
   categoryUpdater {
     isSystem
   }
+  similarCount: countSimilar(includeSelf: true)
   bankDescription
   source {
     bankName

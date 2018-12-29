@@ -156,7 +156,9 @@ const PaymentCard = ({
           <Button
             className={classes.similarButton}
             icon={<SimilarIcon />}
-            label={`${similarCount} similar payment${similarCount > 1 && 's'}`}
+            label={`${similarCount} similar payment${
+              similarCount > 1 ? 's' : ''
+            }`}
           />
         ) : (
           'No similar payments found'
