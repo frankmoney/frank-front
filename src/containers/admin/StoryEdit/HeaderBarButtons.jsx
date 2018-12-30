@@ -81,18 +81,24 @@ const HeaderBarButtons = ({
       className={classes.saveButton}
       color={publishedAt && dirty ? 'blue' : 'gray'}
       disabled={
-        (processing || !valid || !dirty) && saving !== SAVE_MODE.createOrUpdate
+        (processing || !dirty || (publishedAt && !valid)) &&
+        saving !== SAVE_MODE.createOrUpdate
       }
       label={dirty || !pid ? (publishedAt ? 'Update' : 'Save') : 'Saved'}
       loading={saving === SAVE_MODE.createOrUpdate}
-      onClick={() => createOrUpdateStory({ mode: SAVE_MODE.createOrUpdate })}
+      onClick={() =>
+        createOrUpdateStory({
+          mode: SAVE_MODE.createOrUpdate,
+          published: !!publishedAt,
+        })
+      }
     />
 
     <Button
       className={!publishedAt && classes.unpublishButton}
       color={publishedAt ? 'gray' : 'green'}
       icon={!publishedAt && <PublishIcon />}
-      disabled={processing || !valid}
+      disabled={processing}
       label={publishedAt ? 'Unpublish' : 'Publish'}
       onClick={() => showPublishOrUnpublishConfirmDialog({ show: true })}
     />
@@ -103,8 +109,7 @@ const HeaderBarButtons = ({
       confirmLabel={publishedAt ? 'Unpublish' : 'Publish'}
       confirmButtonProps={{
         color: publishedAt ? 'blue' : 'green',
-        disabled:
-          (!valid || processing) && saving !== SAVE_MODE.publishOrUnpublish,
+        disabled: processing && saving !== SAVE_MODE.publishOrUnpublish,
         loading: saving === SAVE_MODE.publishOrUnpublish,
       }}
       cancelButtonProps={{ disabled: saving === SAVE_MODE.publishOrUnpublish }}

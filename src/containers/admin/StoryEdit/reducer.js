@@ -15,6 +15,7 @@ const initialState = fromJS({
   story: null,
   publishOrUnpublishConfirmDialogShown: false,
   deleteConfirmDialogShown: false,
+  canNotPublishSnackShown: false,
 })
 
 export default handleActions(
@@ -41,9 +42,12 @@ export default handleActions(
     ) => state.merge({ publishOrUnpublishConfirmDialogShown: show }),
     [ACTIONS.showDeleteConfirmDialog]: (state, { payload: { show } }) =>
       state.merge({ deleteConfirmDialogShown: show }),
+    [ACTIONS.showCanNotPublishSnack]: (state, { payload: { show } }) =>
+      state.merge({ canNotPublishSnackShown: show }),
     [ACTIONS.createOrUpdate]: (state, { payload: { mode } }) =>
       state.merge({
         saving: mode,
+        canNotPublishSnackShown: false,
       }),
     [ACTIONS.createOrUpdate.success]: (
       state,

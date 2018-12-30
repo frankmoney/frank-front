@@ -12,7 +12,8 @@ const styles = {
   icon: {
     width: 24,
     height: 24,
-    color: ({ focus }) => (focus ? '#484DE7' : 'rgba(37, 43, 67, 0.2)'),
+    color: ({ focus, invalid }) =>
+      invalid ? '#c40a0a' : focus ? '#484DE7' : 'rgba(37, 43, 67, 0.2)',
     alignSelf: 'center',
   },
 }
@@ -22,6 +23,7 @@ const FieldIcon = ({
   className,
   iconComponent: Icon,
   focus,
+  invalid,
   ...otherProps
 }) => (
   <div className={cx(className, classes.root)} {...otherProps}>

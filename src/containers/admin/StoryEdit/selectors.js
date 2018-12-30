@@ -24,12 +24,12 @@ export const processingSelector = createSelector(
 
 export const storySelector = createPlainObjectSelector(get('story'))
 
-export const isDirtySelector = isDirty(FORM_NAME)
-
 export const publishOrUnpublishConfirmDialogShownSelector = get(
   'publishOrUnpublishConfirmDialogShown'
 )
 export const deleteConfirmDialogShownSelector = get('deleteConfirmDialogShown')
+
+export const canNotPublishSnackShownSelector = get('canNotPublishSnackShown')
 
 const sortByPostedDateAsc = R.sort((a, b) => a.postedDate < b.postedDate)
 

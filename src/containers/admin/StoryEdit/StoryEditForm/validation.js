@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { createValidateFromRules, minItems, required } from '@frankmoney/forms'
+import { createValidateFromRules } from '@frankmoney/forms'
 
 const isFileLoading = R.propEq('loading', true)
 
@@ -10,7 +10,6 @@ const validateFilesIsLoaded = R.ifElse(
 )
 
 const validations = {
-  payments: [required, minItems(1)],
   cover: [validateFilesIsLoaded],
 }
 

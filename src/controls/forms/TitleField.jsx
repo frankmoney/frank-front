@@ -14,9 +14,15 @@ const styles = theme => ({
   },
 })
 
-const TitleField = ({ classes, className, placeholder, ...props }) => (
+const TitleField = ({
+  classes,
+  className,
+  placeholder,
+  iconProps,
+  ...props
+}) => (
   <FieldContainer
-    label={<FieldIcon iconComponent={TitleIcon} />}
+    label={<FieldIcon iconComponent={TitleIcon} {...iconProps} />}
     className={cx(classes.title, className)}
   >
     <TextBox

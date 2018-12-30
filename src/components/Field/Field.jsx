@@ -1,4 +1,4 @@
-import React, { isValidElement, cloneElement } from 'react'
+import React, { cloneElement } from 'react'
 import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
 import FieldLabel from 'components/FieldLabel'
@@ -29,9 +29,8 @@ class Field extends React.Component {
     return this.props.onClick && this.props.onClick(...args)
   }
 
-  handleKeyDown = (...args) => {
+  handleKeyDown = (...args) =>
     this.props.onKeyDown && this.props.onKeyDown(...args)
-  }
 
   handleMouseDown = (...args) => {
     this.setState({ fieldFocused: true }, () => {

@@ -2,7 +2,7 @@
 import * as R from 'ramda'
 import { createRouteUrl } from '@frankmoney/utils'
 import { push } from 'react-router-redux'
-import { getFormValues } from 'redux-form/immutable'
+import { getFormValues, stopAsyncValidation } from 'redux-form/immutable'
 import { convertToRaw } from 'draft-js'
 import createFilesApi from 'data/api/files'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -10,10 +10,7 @@ import type { ReduxStore } from 'flow/redux'
 import { ROUTES } from 'const'
 import ACTIONS from '../actions'
 import QUERIES from '../queries'
-import {
-  isDirtySelector,
-  storySelector,
-} from '../selectors'
+import { storySelector } from '../selectors'
 import { FORM_NAME } from '../constants'
 
 const cropCoverImage = async (httpClient, { image, crop }) => {
@@ -72,9 +69,36 @@ export default (
 
       const { title, cover, coverCrop, payments } = formValues.toJS()
 
-      const body = JSON.stringify({
-        draftjs: JSON.stringify(convertToRaw(descriptionContentState)),
-      })
+      if (published) {
+        const errors = {}
+
+        if (!title || !title.trim()) {
+          errors.title = 'Add title to publish'
+        }
+
+        if (!descriptionContentState || !descriptionContentState.hasText()) {
+          errors.description = 'Add story text to publish'
+        }
+
+        if (!payments || !payments.length) {
+          errors.payments = 'Attach payments to publish'
+        }
+
+        if (Object.keys(errors).length) {
+          return [
+            ACTIONS.createOrUpdate.error(),
+            ACTIONS.showCanNotPublishSnack({ show: true }),
+            stopAsyncValidation(FORM_NAME, errors),
+          ]
+        }
+      }
+
+      const body =
+        descriptionContentState && descriptionContentState.hasText()
+          ? JSON.stringify({
+              draftjs: JSON.stringify(convertToRaw(descriptionContentState)),
+            })
+          : null
 
       const serializeImage = R.omit(['loading'])
       const croppedCover =
@@ -109,13 +133,14 @@ export default (
         })
       }
 
-      return { accountId, story }
+      const successAction = ACTIONS.createOrUpdate.success({ accountId, story })
+
+      return story.publishedAt
+        ? [
+            successAction,
+            push(createRouteUrl(ROUTES.account.stories.root, { accountId })),
+          ]
+        : [successAction]
     })
-    .mergeMap(({ accountId, story }) =>
-      [
-        ACTIONS.createOrUpdate.success({ accountId, story }),
-        story.publishedAt &&
-          push(createRouteUrl(ROUTES.account.stories.root, { accountId })),
-      ].filter(R.identity)
-    )
+    .mergeMap(R.identity)
     .catchAndRethrow(ACTIONS.createOrUpdate.error)
