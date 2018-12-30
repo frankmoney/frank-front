@@ -60,10 +60,15 @@ const Stories = ({ classes, accountId, noStories, stories, className }) => (
         {!noStories &&
           stories.map(story => (
             <LinkedStoryCard
-              accountId={accountId}
-              {...story.draft}
               key={story.id}
-              storyId={story.id}
+              accountId={accountId}
+              storyId={story.pid}
+              title={story.title}
+              cover={story.cover}
+              text={story.text}
+              published={story.published}
+              paymentsCount={story.paymentsCount}
+              paymentsDateRange={story.paymentsDateRange}
             />
           ))}
       </div>

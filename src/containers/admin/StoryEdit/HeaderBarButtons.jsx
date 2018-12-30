@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import * as R from 'ramda'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { Delete as RemoveIcon, Check as PublishIcon } from 'material-ui-icons'
@@ -8,19 +7,18 @@ import reconnect from 'utils/reconnect'
 import { ConfirmDialog } from 'components/kit/Dialog'
 import Button, { IconButton } from 'components/kit/Button'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import {
-  isSavingSelector,
-  savedSelector,
-  isProcessingSelector,
-  isPublishedSelector,
-  isNewStorySelector,
-  isDeleteButtonDisabledSelector,
-  isSaveButtonDisabledSelector,
-  isPublishButtonDisabledSelector,
-  saveButtonLabelSelector,
-  publishButtonLabelSelector,
-} from './selectors'
 import ACTIONS from './actions'
+import { SAVE_MODE } from './constants'
+import {
+  storySelector,
+  dirtySelector,
+  validSelector,
+  savingSelector,
+  deletingSelector,
+  processingSelector,
+  publishOrUnpublishConfirmDialogShownSelector,
+  deleteConfirmDialogShownSelector,
+} from './selectors'
 
 const styles = {
   container: {
@@ -40,174 +38,130 @@ const styles = {
   saveButton: {
     width: 96,
   },
-  unpublishedButton: {
+  unpublishButton: {
     width: 130,
   },
 }
 
-const SaveButton = compose(
-  reconnect(
-    {
-      disabled: isSaveButtonDisabledSelector,
-      loading: isSavingSelector,
-      label: saveButtonLabelSelector,
-    },
-    { onClick: () => ACTIONS.createOrUpdate() }
-  )
-)(Button)
-
-const UpdateButton = compose(
-  reconnect(
-    {
-      disabled: isSaveButtonDisabledSelector,
-      loading: isSavingSelector,
-    },
-    { onClick: () => ACTIONS.updatePublished() }
-  )
-)(Button)
-
-const PublishButton = compose(
-  reconnect({
-    disabled: isPublishButtonDisabledSelector,
-    label: publishButtonLabelSelector,
-  })
-)(Button)
-
-const DeleteButton = compose(
-  reconnect({
-    disabled: isDeleteButtonDisabledSelector,
-  })
-)(IconButton)
-
-type ConfirmDialogType = 'delete' | 'publish' | 'unpublish'
-
 type Props = {|
   ...InjectStylesProps,
   //
-  delete: Function,
-  isPublished?: boolean | string, // TODO: fix those selectors
-  processing?: boolean,
-  publish: Function,
-  saved?: boolean | string,
-  unpublish: Function,
+  story: { publishedAt: string },
+  dirty: boolean,
+  valid: boolean,
+  saving: number,
+  deleting: boolean,
+  processing: boolean,
+  publishOrUnpublishConfirmDialogShown: boolean,
+  deleteConfirmDialogShown: boolean,
+  createOrUpdateStory: (payload: { mode: number, published?: boolean }) => void,
+  deleteStory: () => void,
+  showPublishOrUnpublishConfirmDialog: (payload: { show: boolean }) => void,
+  showDeleteConfirmDialog: (payload: { show: boolean }) => void,
 |}
 
-type State = {|
-  confirmDialogType: ?ConfirmDialogType,
-  isConfirmDialogOpen: boolean,
-  isDrawerOpen: boolean,
-|}
+const HeaderBarButtons = ({
+  classes,
+  className,
+  story: { pid, publishedAt },
+  dirty,
+  valid,
+  saving,
+  deleting,
+  processing,
+  publishOrUnpublishConfirmDialogShown,
+  deleteConfirmDialogShown,
+  createOrUpdateStory,
+  deleteStory,
+  showPublishOrUnpublishConfirmDialog,
+  showDeleteConfirmDialog,
+}: Props) => (
+  <div className={cx(classes.container, className)}>
+    <Button
+      className={classes.saveButton}
+      color={publishedAt && dirty ? 'blue' : 'gray'}
+      disabled={
+        (processing || !dirty || (publishedAt && !valid)) &&
+        saving !== SAVE_MODE.createOrUpdate
+      }
+      label={dirty || !pid ? (publishedAt ? 'Update' : 'Save') : 'Saved'}
+      loading={saving === SAVE_MODE.createOrUpdate}
+      onClick={() =>
+        createOrUpdateStory({
+          mode: SAVE_MODE.createOrUpdate,
+          published: !!publishedAt,
+        })
+      }
+    />
 
-class HeaderBarButtons extends React.PureComponent<Props, State> {
-  state = {
-    confirmDialogType: null,
-    isConfirmDialogOpen: false,
-    isDrawerOpen: false,
-  }
+    <Button
+      className={!publishedAt && classes.unpublishButton}
+      color={publishedAt ? 'gray' : 'green'}
+      icon={!publishedAt && <PublishIcon />}
+      disabled={processing}
+      label={publishedAt ? 'Unpublish' : 'Publish'}
+      onClick={() => showPublishOrUnpublishConfirmDialog({ show: true })}
+    />
 
-  getConfigDialogToggleHandler = R.memoizeWith(R.identity, type => () => {
-    this.setState({
-      confirmDialogType: type,
-      isConfirmDialogOpen: !this.state.isConfirmDialogOpen,
-    })
-  })
+    <ConfirmDialog
+      open={publishOrUnpublishConfirmDialogShown}
+      title={`${publishedAt ? 'Unpublish' : 'Publish'} this story?`}
+      confirmLabel={publishedAt ? 'Unpublish' : 'Publish'}
+      confirmButtonProps={{
+        color: publishedAt ? 'blue' : 'green',
+        disabled: processing && saving !== SAVE_MODE.publishOrUnpublish,
+        loading: saving === SAVE_MODE.publishOrUnpublish,
+      }}
+      cancelButtonProps={{ disabled: saving === SAVE_MODE.publishOrUnpublish }}
+      onCancel={() => showPublishOrUnpublishConfirmDialog({ show: false })}
+      onConfirm={() =>
+        createOrUpdateStory({
+          mode: SAVE_MODE.publishOrUnpublish,
+          published: !publishedAt,
+        })
+      }
+    />
 
-  handleDialogConfirmClick = type => {
-    // eslint-disable-next-line default-case
-    switch (type) {
-      case 'delete':
-        this.props.delete()
-        break
-      case 'publish':
-        this.props.publish()
-        break
-      case 'unpublish':
-        this.props.unpublish()
-        break
-    }
-  }
+    <IconButton
+      icon={<RemoveIcon />}
+      disabled={!pid || processing}
+      onClick={() => showDeleteConfirmDialog({ show: true })}
+    />
 
-  render() {
-    const { classes, className, isPublished, saved, processing } = this.props
-
-    const { isConfirmDialogOpen, confirmDialogType } = this.state
-
-    const dialogTitle =
-      confirmDialogType === 'delete'
-        ? `Delete ${isPublished ? 'story?' : 'draft?'}`
-        : `${
-            confirmDialogType !== 'publish'
-              ? 'Unpublish story?'
-              : 'Publish story?'
-          }`
-
-    const dialogConfirmLabel =
-      confirmDialogType === 'delete'
-        ? `Delete`
-        : `${confirmDialogType !== 'publish' ? 'Unpublish' : 'Publish'}`
-
-    const dialogConfirmButtonColor =
-      confirmDialogType === 'delete'
-        ? `red`
-        : `${confirmDialogType !== 'publish' ? 'blue' : 'green'}`
-
-    const dialogConfirmButtonProps = {
-      color: dialogConfirmButtonColor,
-      loading: processing,
-    }
-
-    return (
-      <div className={cx(classes.container, className)}>
-        {isPublished ? (
-          <UpdateButton
-            color="blue"
-            label="Update"
-            className={classes.saveButton}
-          />
-        ) : (
-          <SaveButton className={classes.saveButton} />
-        )}
-        <PublishButton
-          className={!isPublished && classes.unpublishedButton}
-          color={isPublished ? 'gray' : 'green'}
-          icon={!isPublished && <PublishIcon />}
-          onClick={this.getConfigDialogToggleHandler(
-            isPublished ? 'unpublish' : 'publish'
-          )}
-        />
-        {saved && (
-          <DeleteButton
-            icon={<RemoveIcon />}
-            onClick={this.getConfigDialogToggleHandler('delete')}
-          />
-        )}
-
-        <ConfirmDialog
-          open={isConfirmDialogOpen}
-          title={dialogTitle}
-          confirmLabel={dialogConfirmLabel}
-          confirmButtonProps={dialogConfirmButtonProps}
-          onClose={this.getConfigDialogToggleHandler(confirmDialogType)}
-          onConfirm={() => this.handleDialogConfirmClick(confirmDialogType)}
-        />
-      </div>
-    )
-  }
-}
+    <ConfirmDialog
+      open={deleteConfirmDialogShown}
+      title={`Delete ${publishedAt ? 'story' : 'draft'}?`}
+      confirmLabel="Delete"
+      confirmButtonProps={{
+        color: 'red',
+        disabled: (!pid || processing) && !deleting,
+        loading: deleting,
+      }}
+      cancelButtonProps={{ disabled: deleting }}
+      onCancel={() => showDeleteConfirmDialog({ show: false })}
+      onConfirm={() => deleteStory()}
+    />
+  </div>
+)
 
 export default compose(
   reconnect(
     {
-      processing: isProcessingSelector,
-      saved: savedSelector,
-      isNew: isNewStorySelector,
-      isPublished: isPublishedSelector,
+      story: storySelector,
+      dirty: dirtySelector,
+      valid: validSelector,
+      saving: savingSelector,
+      deleting: deletingSelector,
+      processing: processingSelector,
+      publishOrUnpublishConfirmDialogShown: publishOrUnpublishConfirmDialogShownSelector,
+      deleteConfirmDialogShown: deleteConfirmDialogShownSelector,
     },
     {
-      createOrUpdate: ACTIONS.createOrUpdate,
-      delete: ACTIONS.delete,
-      publish: ACTIONS.publish,
-      unpublish: ACTIONS.unpublish,
+      createOrUpdateStory: ACTIONS.createOrUpdate,
+      deleteStory: ACTIONS.delete,
+      showPublishOrUnpublishConfirmDialog:
+        ACTIONS.showPublishOrUnpublishConfirmDialog,
+      showDeleteConfirmDialog: ACTIONS.showDeleteConfirmDialog,
     }
   ),
   injectStyles(styles)

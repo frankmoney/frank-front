@@ -2,7 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { compose, renderNothing } from 'recompose'
-import { reduxForm } from 'redux-form-actions/immutable'
+import { getFormAsyncErrors, reduxForm } from 'redux-form-actions/immutable'
 import reconnect from 'utils/reconnect'
 import createUploaderField from 'controls/forms/createUploaderField'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
@@ -48,6 +48,11 @@ const styles = theme => ({
       color: 'rgba(37, 43, 67, 0.3)',
     },
   },
+  paymentsValidationMessage: {
+    ...theme.fontRegular(16),
+    marginBottom: 20,
+    color: '#c40a0a',
+  },
 })
 
 const ConnectedPaymentsSelectDrawer = compose(
@@ -73,9 +78,12 @@ const ConnectedStoryPayments = reconnect(
 
 type Props = {|
   ...InjectStylesProps,
+  formAsyncErrors: ?{
+    get(field: 'title' | 'description' | 'payments'): string,
+  },
 |}
 
-const StoryEditForm = ({ classes, className }: Props) => (
+const StoryEditForm = ({ classes, className, formAsyncErrors }: Props) => (
   <div className={cx(classes.container, className)}>
     <CoverField
       name="cover"
@@ -88,13 +96,26 @@ const StoryEditForm = ({ classes, className }: Props) => (
         name="title"
         className={classes.title}
         placeholder="Title..."
+        iconProps={{
+          invalid: !!(formAsyncErrors && formAsyncErrors.get('title')),
+        }}
       />
       <DescriptionField
         name="description"
         className={classes.description}
         placeholder="Your story..."
+        iconProps={{
+          invalid: !!(formAsyncErrors && formAsyncErrors.get('description')),
+        }}
       />
     </div>
+
+    {formAsyncErrors &&
+      formAsyncErrors.get('payments') && (
+        <div className={classes.paymentsValidationMessage}>
+          Please add payments to publish a story
+        </div>
+      )}
     <ReduxFormControl.Field name="payments" component={renderNothing} />
 
     <ConnectedStoryPayments />
@@ -105,6 +126,7 @@ const StoryEditForm = ({ classes, className }: Props) => (
 export default compose(
   reconnect({
     initialValues: formInitialValuesSelector,
+    formAsyncErrors: getFormAsyncErrors(FORM_NAME),
   }),
   reduxForm({
     form: FORM_NAME,

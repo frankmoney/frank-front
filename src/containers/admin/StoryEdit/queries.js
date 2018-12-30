@@ -1,15 +1,8 @@
 const storyFields = `
-  id: pid
-  title
-  publishedAt
-`
-
-const storyDraftFields = `
-  id: pid
+  pid
   title
   cover
   body
-  published
   publishedAt
 `
 
@@ -80,13 +73,10 @@ export default {
       account(pid: $accountId) {
         story(pid: $storyId) {
           ${storyFields}
-          draft {
-            ${storyDraftFields}
-            payments(
-              sortBy: postedOn_DESC
-            ) {
-              ${paymentFields}
-            }
+          payments(
+            sortBy: postedOn_DESC
+          ) {
+            ${paymentFields}
           }
         }
       }
@@ -101,28 +91,27 @@ export default {
       $title: String
       $cover: JSON
       $body: JSON
+      $published: Boolean
       $paymentIds: [ID!]
     ) {
-      storyCreate(
+      story: storyCreate(
         accountPid: $accountId
         title: $title
         cover: $cover
         body: $body
+        published: $published
         paymentPids: $paymentIds
       ) {
         ${storyFields}
-        draft {
-          ${storyDraftFields}
-          payments(
-            sortBy: amount_DESC
-          ) {
-            ${paymentFields}
-          }
+        payments(
+          sortBy: amount_DESC
+        ) {
+          ${paymentFields}
         }
       }
     }
     `,
-    ({ storyCreate }) => storyCreate,
+    ({ story }) => story,
   ],
   deleteStory: [
     `
@@ -130,86 +119,43 @@ export default {
       $storyId: ID!
     ) {
       storyDelete(pid: $storyId) {
-        pid
+        account {
+          pid
+        }
       }
     }
     `,
     () => null,
   ],
-  unpublishStory: [
+  updateStory: [
     `
     mutation(
-      $storyId: ID!
-    ) {
-      storyUnpublish(pid: $storyId) {
-        ${storyFields}
-        draft {
-          ${storyDraftFields}
-          payments(
-            sortBy: amount_DESC
-          ) {
-            ${paymentFields}
-          }
-        }
-      }
-    }
-    `,
-    ({ storyUnpublish }) => storyUnpublish,
-  ],
-  updateStoryDraft: [
-    `
-    mutation(
-      $id: ID!
+      $pid: ID!
       $title: String
       $cover: JSON
       $body: JSON
+      $published: Boolean
       $paymentIds: [ID!]
     ) {
-      storyDraftUpdate(
-        pid: $id
-        title: $title
-        cover: $cover
-        body: $body
-        paymentPids: $paymentIds
+      story: storyUpdate(
+        pid: $pid
+        update: {
+          title: $title
+          cover: $cover
+          body: $body
+          published: $published
+          paymentPids: $paymentIds
+        }
       ) {
-        story {
-          ${storyFields}
-          draft {
-            ${storyDraftFields}
-            payments(
-              sortBy: amount_DESC
-            ) {
-              ${paymentFields}
-            }
-          }
+        ${storyFields}
+        payments(
+          sortBy: amount_DESC
+        ) {
+          ${paymentFields}
         }
       }
     }
     `,
-    ({ storyDraftUpdate: { story } }) => story,
-  ],
-  publishStoryDraft: [
-    `
-    mutation(
-      $draftId: ID!
-    ) {
-      storyDraftPublish(
-        pid: $draftId
-      ) {
-        story {
-          ${storyFields}
-          draft {
-            ${storyDraftFields}
-            payments(
-              sortBy: amount_DESC
-            ) {
-              ${paymentFields}
-            }
-          }
-        }
-      }
-    }
-    `,
-    ({ storyDraftPublish: { story } }) => story,
+    ({ story }) => story,
   ],
 }

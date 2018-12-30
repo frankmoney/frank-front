@@ -24,13 +24,11 @@ import HeaderBarButtons from './HeaderBarButtons'
 import styles from './Story.jss'
 
 type StoryProps = {|
-  draft: {|
-    title?: string,
-    cover?: { thumbs: { sized: string } },
-    body: {| text?: string |},
-    payments: PaymentList,
-    ...StoryPaymentsStatsProps,
-  |},
+  title?: string,
+  cover?: {| thumbs: { sized: string } |},
+  body: {| text?: string |},
+  payments: PaymentList,
+  ...StoryPaymentsStatsProps,
 |}
 
 type Props = {|
@@ -42,9 +40,7 @@ type Props = {|
 const Story = ({
   classes,
   className,
-  story: {
-    draft: { title, cover, payments, paymentsCount, paymentsDateRange },
-  },
+  story: { title, cover, payments, paymentsCount, paymentsDateRange },
   editorState,
 }: Props) => (
   <div className={cx(classes.storyPreviewPage, className)}>

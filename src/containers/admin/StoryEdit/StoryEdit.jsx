@@ -12,40 +12,61 @@ import {
   BreadcrumbsItem,
 } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
+import SidebarSnack from 'components/SidebarSnack/SidebarSnack'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import HeaderBarButtons from './HeaderBarButtons'
-import { isNewStorySelector, loadedSelector } from './selectors'
+import {
+  loadedSelector,
+  storySelector,
+  canNotPublishSnackShownSelector,
+} from './selectors'
 import ACTIONS from './actions'
 import StoryEditForm from './StoryEditForm'
 import styles from './StoryEdit.jss'
 
 type Props = {|
   ...InjectStylesProps,
-  isNew?: boolean,
 |}
 
-const StoryEdit = ({ classes, className, isNew }: Props) => (
+const StoryEdit = ({
+  classes,
+  className,
+  story,
+  canNotPublishSnackShown,
+  showCanNotPublishSnack,
+}: Props) => (
   // TODO ui-fixed class маркирует этот элемент чтобы любой другой элемент блочащий скролл страницы(через замену скроллбара) корректировал падинг и этого элемента
   <div className={cx(classes.root, className)}>
     <FixedHeader className="ui-fixed">
       <Breadcrumbs>
-        <BreadcrumbsItem>{isNew ? 'New story' : 'Edit story'}</BreadcrumbsItem>
+        <BreadcrumbsItem>
+          {story && story.pid ? 'Edit ' : 'New '}story
+        </BreadcrumbsItem>
       </Breadcrumbs>
       <HeaderBarButtons />
     </FixedHeader>
     <StoryEditForm className={classes.form} />
+    <SidebarSnack
+      color="red"
+      shown={canNotPublishSnackShown}
+      message="Only a category with no payments can be removed"
+      dismissByTimeout={3000}
+      onDismiss={() => showCanNotPublishSnack({ show: false })}
+    />
   </div>
 )
 
 const mapStateToProps = createStructuredSelector({
   loaded: loadedSelector,
-  isNew: isNewStorySelector,
+  story: storySelector,
+  canNotPublishSnackShown: canNotPublishSnackShownSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
   {
     load: ACTIONS.load,
     leave: ACTIONS.leave,
+    showCanNotPublishSnack: ACTIONS.showCanNotPublishSnack,
   },
 ])
 

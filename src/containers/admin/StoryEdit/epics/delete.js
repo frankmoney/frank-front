@@ -23,3 +23,4 @@ export default (action$, store, { graphql }) =>
         })
       ),
     ])
+    .catchAndRethrow(ACTIONS.delete.error)

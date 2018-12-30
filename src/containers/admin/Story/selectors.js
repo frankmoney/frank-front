@@ -21,9 +21,7 @@ export const storyEditorStateSelector = createSelector(storySelector, story => {
   if (!story) {
     return null
   }
-  const {
-    draft: { body },
-  } = story
+  const { body } = story
   if (body.draftjs) {
     return EditorState.createWithContent(
       convertFromRaw(JSON.parse(body.draftjs))
