@@ -4,17 +4,17 @@ import { handleActions } from 'redux-actions'
 import { createRouteUrl } from '@frankmoney/utils'
 import { LS_FLAGS, ROUTES } from 'const'
 import ACTIONS from './actions'
-import { PAGE_SIZE } from './constants'
 
 export const REDUCER_KEY = 'adminStoryEdit'
 
 const initialState = fromJS({
   loading: true,
   loaded: false,
-  saving: false,
-  processing: false,
-  saved: false,
+  saving: 0,
+  deleting: false,
   story: null,
+  publishOrUnpublishConfirmDialogShown: false,
+  deleteConfirmDialogShown: false,
 })
 
 export default handleActions(
@@ -28,7 +28,6 @@ export default handleActions(
       state.merge({
         loading: false,
         loaded: true,
-        saved: story && story.id,
         story: fromJS(story),
       }),
     [ACTIONS.load.error]: state =>
@@ -36,26 +35,21 @@ export default handleActions(
         loading: false,
         loaded: false,
       }),
-    [ACTIONS.createOrUpdate]: state =>
+    [ACTIONS.showPublishOrUnpublishConfirmDialog]: (
+      state,
+      { payload: { show } }
+    ) => state.merge({ publishOrUnpublishConfirmDialogShown: show }),
+    [ACTIONS.showDeleteConfirmDialog]: (state, { payload: { show } }) =>
+      state.merge({ deleteConfirmDialogShown: show }),
+    [ACTIONS.createOrUpdate]: (state, { payload: { mode } }) =>
       state.merge({
-        saving: true,
+        saving: mode,
       }),
-    [ACTIONS.createOrUpdate.success]: (state, { payload: { story } }) =>
-      state.merge({
-        saving: false,
-        saved: !!story,
-        story: fromJS(story),
-      }),
-    [ACTIONS.createOrUpdate.error]: state =>
-      state.merge({
-        saving: false,
-      }),
-    [ACTIONS.publish]: state =>
-      state.merge({
-        processing: true,
-      }),
-    [ACTIONS.publish.success]: (state, { payload: { accountId, story } }) => {
-      if (story.draft.published) {
+    [ACTIONS.createOrUpdate.success]: (
+      state,
+      { payload: { accountId, story } }
+    ) => {
+      if (story.publishedAt) {
         const publicUrl = createRouteUrl(
           ROUTES.account.stories.idRoot,
           {
@@ -66,38 +60,31 @@ export default handleActions(
         )
         storage.setItem(LS_FLAGS.lastPublishedStoryUrl, publicUrl)
       }
+
       return state.merge({
-        processing: false,
+        saving: 0,
+        story: fromJS(story),
+        publishOrUnpublishConfirmDialogShown: false,
       })
     },
-    [ACTIONS.publish.error]: state =>
+    [ACTIONS.createOrUpdate.error]: state =>
       state.merge({
-        processing: false,
-      }),
-    [ACTIONS.unpublish]: state =>
-      state.merge({
-        processing: true,
-      }),
-    [ACTIONS.unpublish.success]: (state, { payload: { story } }) =>
-      state.merge({
-        processing: false,
-        story: fromJS(story),
-      }),
-    [ACTIONS.unpublish.error]: state =>
-      state.merge({
-        processing: false,
+        saving: 0,
+        publishOrUnpublishConfirmDialogShown: false,
       }),
     [ACTIONS.delete]: state =>
       state.merge({
-        processing: true,
+        deleting: true,
       }),
     [ACTIONS.delete.success]: state =>
       state.merge({
-        processing: false,
+        deleting: false,
+        deleteConfirmDialogShown: false,
       }),
     [ACTIONS.delete.error]: state =>
       state.merge({
-        processing: false,
+        deleting: false,
+        deleteConfirmDialogShown: false,
       }),
     [ACTIONS.leave]: () => initialState,
   },

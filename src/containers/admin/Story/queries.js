@@ -1,33 +1,3 @@
-const storyFields = `
-  id: pid
-  publishedAt
-`
-
-const storyDraftFields = `
-  id: pid
-  title
-  cover
-  body
-  published
-  publishedAt
-`
-
-const paymentFields = `
-  id: pid
-  postedOn
-  amount
-  description
-  peer {
-    id: pid
-    name
-  }
-  category {
-    id: pid
-    name
-    color
-  }
-`
-
 export default {
   getStory: [
     `
@@ -37,16 +7,32 @@ export default {
     ) {
       account(pid: $accountId) {
         story(pid: $storyId) {
-          ${storyFields}
-          draft {
-            ${storyDraftFields}
-            payments(
-              sortBy: amount_DESC
-            ) {
-              ${paymentFields}
+          pid
+          title
+          cover
+          body
+          publishedAt
+          payments(
+            sortBy: postedOn_DESC
+          ) {
+            id: pid
+            postedOn
+            amount
+            description
+            peer {
+              id: pid
+              name
             }
-            countPayments
-            paymentsDateRange
+            category {
+              id: pid
+              name
+              color
+            }
+          }
+          aggregatePayments {
+            count
+            postedOnMin
+            postedOnMax
           }
         }
       }
@@ -54,17 +40,14 @@ export default {
     `,
     ({
       account: {
-        story: {
-          draft: { countPayments: paymentsCount, ...draft },
-          ...story
-        },
+        story: { aggregatePayments, ...other },
       },
     }) => ({
-      ...story,
-      draft: {
-        ...draft,
-        paymentsCount,
-      },
+      ...other,
+      paymentsCount: aggregatePayments.count,
+      paymentsDateRange: aggregatePayments.count
+        ? [aggregatePayments.postedOnMin, aggregatePayments.postedOnMax]
+        : null,
     }),
   ],
 }

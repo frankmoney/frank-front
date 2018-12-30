@@ -1,7 +1,7 @@
 // @flow strict-local
 import * as R from 'ramda'
 import { createRouteUrl } from '@frankmoney/utils'
-import { replace as replaceLocation } from 'react-router-redux'
+import { push } from 'react-router-redux'
 import { getFormValues } from 'redux-form/immutable'
 import { convertToRaw } from 'draft-js'
 import createFilesApi from 'data/api/files'
@@ -12,7 +12,6 @@ import ACTIONS from '../actions'
 import QUERIES from '../queries'
 import {
   isDirtySelector,
-  isNewStorySelector,
   storySelector,
 } from '../selectors'
 import { FORM_NAME } from '../constants'
@@ -62,79 +61,61 @@ export default (
 ) =>
   action$
     .ofType(ACTIONS.createOrUpdate)
-    .switchMapFromPromise(async ({ payload }) => {
+    .switchMapFromPromise(async ({ payload: { published } }) => {
       const state = store.getState()
-      const isNew = isNewStorySelector(state)
-      const isDirty = isDirtySelector(state)
-
       const accountId = currentAccountIdSelector(state)
-
       let story = storySelector(state)
 
-      if (isNew || isDirty) {
-        const formValues = getFormValues(FORM_NAME)(state)
+      const formValues = getFormValues(FORM_NAME)(state)
 
-        const descriptionContentState = formValues.get('description')
+      const descriptionContentState = formValues.get('description')
 
-        const { title, cover, coverCrop, payments } = formValues.toJS()
+      const { title, cover, coverCrop, payments } = formValues.toJS()
 
-        const body = JSON.stringify({
-          draftjs: JSON.stringify(convertToRaw(descriptionContentState)),
+      const body = JSON.stringify({
+        draftjs: JSON.stringify(convertToRaw(descriptionContentState)),
+      })
+
+      const serializeImage = R.omit(['loading'])
+      const croppedCover =
+        cover && cover.length
+          ? JSON.stringify(
+              await cropCoverImage(httpClient, {
+                image: serializeImage(cover[0]),
+                crop: coverCrop,
+              })
+            )
+          : null
+
+      const paymentIds = payments && payments.map(R.prop('id'))
+
+      const queryArgs = {
+        title,
+        cover: croppedCover,
+        body,
+        published,
+        paymentIds,
+      }
+
+      if (!story || !story.pid) {
+        story = await graphql(QUERIES.createStory, {
+          ...queryArgs,
+          accountId,
         })
-
-        const serializeImage = R.omit(['loading'])
-        const croppedCover =
-          cover && cover.length
-            ? JSON.stringify(
-                await cropCoverImage(httpClient, {
-                  image: serializeImage(cover[0]),
-                  crop: coverCrop,
-                })
-              )
-            : null
-
-        const paymentIds = payments && payments.map(R.prop('id'))
-
-        const queryArgs = {
-          title,
-          cover: croppedCover,
-          body,
-          paymentIds,
-        }
-
-        if (isNew) {
-          story = await graphql(QUERIES.createStory, {
-            ...queryArgs,
-            accountId,
-          })
-        } else {
-          const id = storySelector(state).draft.id
-
-          story = await graphql(QUERIES.updateStoryDraft, {
-            ...queryArgs,
-            id,
-          })
-        }
+      } else {
+        story = await graphql(QUERIES.updateStory, {
+          ...queryArgs,
+          pid: story.pid,
+        })
       }
 
-      if (payload && payload.publish) {
-        const draftId = story.draft.id
-        story = await graphql(QUERIES.publishStoryDraft, { draftId })
-      }
-
-      return {
-        accountId,
-        story,
-        published: payload && payload.publish,
-      }
+      return { accountId, story }
     })
-    .mergeMap(({ accountId, story, published }) =>
-      R.filter(R.identity, [
-        ACTIONS.createOrUpdate.success({ story }),
-        published && ACTIONS.publish.success({ accountId, story }),
-        published &&
-          replaceLocation(
-            createRouteUrl(ROUTES.account.stories.root, { accountId })
-          ),
-      ])
+    .mergeMap(({ accountId, story }) =>
+      [
+        ACTIONS.createOrUpdate.success({ accountId, story }),
+        story.publishedAt &&
+          push(createRouteUrl(ROUTES.account.stories.root, { accountId })),
+      ].filter(R.identity)
     )
+    .catchAndRethrow(ACTIONS.createOrUpdate.error)

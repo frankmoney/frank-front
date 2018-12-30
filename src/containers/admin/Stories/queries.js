@@ -8,19 +8,29 @@ export default {
         stories(
           sortBy: publishedAt_DESC
         ) {
-          id: pid
-          draft {
-            title
-            cover
-            body
-            published
-            paymentsCount: countPayments
-            paymentsDateRange
+          pid
+          title
+          cover
+          body
+          publishedAt
+          aggregatePayments {
+            count
+            postedOnMin
+            postedOnMax
           }
         }
       }
     }
     `,
-    ({ account: { stories } }) => ({ stories }),
+    ({ account: { stories } }) => ({
+      stories: stories.map(({ publishedAt, aggregatePayments, ...other }) => ({
+        ...other,
+        published: !!publishedAt,
+        paymentCount: aggregatePayments.count,
+        paymentsDateRange: aggregatePayments.count
+          ? [aggregatePayments.postedOnMin, aggregatePayments.postedOnMax]
+          : null,
+      })),
+    }),
   ],
 }

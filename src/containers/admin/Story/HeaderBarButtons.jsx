@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 import EditIcon from 'material-ui-icons/Edit'
 import { createRouteUrl } from '@frankmoney/utils'
 import PublicLinkButton from 'components/PublicLinkButton'
-import RouterLink from 'components/RouterLink'
 import Button from 'components/kit/Button'
 import { formatFullDate } from 'utils/datesLight'
 import { injectStyles } from 'utils/styles'
@@ -43,14 +42,10 @@ const HeaderBarButtons = ({
   classes,
   className,
   accountId,
-  story: {
-    id: storyId,
-    publishedAt,
-    draft: { published },
-  },
+  story: { pid: storyId, publishedAt },
 }) => (
   <div className={cx(classes.container, className)}>
-    {!published && <div className={classes.draft}>Draft</div>}
+    {!publishedAt && <div className={classes.draft}>Draft</div>}
     {publishedAt && (
       <>
         <div className={classes.published}>
@@ -69,18 +64,15 @@ const HeaderBarButtons = ({
         />
       </>
     )}
-    <RouterLink
-      to={createRouteUrl(ROUTES.account.stories.idRootEdit, {
+    <Button
+      label="Edit story"
+      icon={<EditIcon />}
+      href={createRouteUrl(ROUTES.account.stories.idRootEdit, {
         accountId,
         storyId,
       })}
-    >
-      <Button
-        label="Edit story"
-        icon={<EditIcon />}
-        className={classes.editButton}
-      />
-    </RouterLink>
+      className={classes.editButton}
+    />
   </div>
 )
 

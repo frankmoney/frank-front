@@ -14,9 +14,9 @@ export const loadedSelector = get('loaded')
 
 export const storiesSelector = createSelector(
   createPlainObjectSelector(get('stories')),
-  R.map(({ draft: { body, ...draft }, ...story }) => ({
-    draft: { text: mapToPlainTextBody(body), ...draft },
-    ...story,
+  R.map(({ body, ...other }) => ({
+    ...other,
+    text: mapToPlainTextBody(body),
   }))
 )
 

@@ -49,7 +49,7 @@ StoryCard.propTypes = {
   eventDateId: PropTypes.string.isRequired,
   title: PropTypes.string,
   description: PropTypes.string,
-  coverImage: PropTypes.shape({ url: PropTypes.string }),
+  cover: PropTypes.shape({ url: PropTypes.string }),
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
   startTime: PropTypes.string.isRequired,
