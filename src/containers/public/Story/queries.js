@@ -4,8 +4,11 @@ const storyFields = `
   cover
   body
   publishedAt
-  paymentsCount: countPayments
-  paymentsDateRange
+  aggregatePayments {
+    count
+    postedOnMin
+    postedOnMax
+  }
 `
 
 const paymentFields = `
@@ -53,8 +56,18 @@ export default {
         id,
         name,
         currency: { code: currencyCode },
-        story,
+        story: {
+          aggregatePayments: { count, postedOnMin, postedOnMax },
+          ...story
+        },
       },
-    }) => ({ account: { id, name, currencyCode }, story }),
+    }) => ({
+      account: { id, name, currencyCode },
+      story: {
+        ...story,
+        paymentsCount: count,
+        paymentsDateRange: postedOnMin ? [postedOnMin, postedOnMax] : null,
+      },
+    }),
   ],
 }

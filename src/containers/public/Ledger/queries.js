@@ -145,8 +145,11 @@ export default {
             title
             body
             cover
-            paymentsDateRange
-            paymentsCount: countPayments
+            aggregatePayments {
+              count
+              postedOnMin
+              postedOnMax
+            }
           }`) ||
           ''}
       }
@@ -189,7 +192,18 @@ export default {
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).barSize
         : null,
       pieChart: includePie ? ledgerPieChart : null,
-      stories,
+      stories:
+        stories &&
+        stories.map(
+          ({
+            aggregatePayments: { count, postedOnMin, postedOnMax },
+            ...story
+          }) => ({
+            ...story,
+            paymentsCount: count,
+            paymentsDateRange: postedOnMin ? [postedOnMin, postedOnMax] : null,
+          })
+        ),
     }),
   ],
   getOnlyTotalCount: [
