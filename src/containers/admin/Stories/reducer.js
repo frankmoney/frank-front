@@ -24,12 +24,10 @@ export default handleActions(
   {
     [ACTIONS.load]: state => state.merge({ loading: true }),
     [ACTIONS.load.success]: (state, { payload: { stories, totalCount } }) => {
-      const { host } = window.location
-      const publishedStoryUrl =
-        host + storage.getItem(LS_FLAGS.lastPublishedStoryUrl)
-      const shareDialogIsOpen = !!storage.getItem(
-        LS_FLAGS.lastPublishedStoryUrl
-      )
+      const { protocol, host } = window.location
+      const relativeUrl = storage.getItem(LS_FLAGS.lastPublishedStoryUrl)
+      const publishedStoryUrl = `${protocol}//${host}${relativeUrl}`
+      const shareDialogIsOpen = !!relativeUrl
       storage.removeItem(LS_FLAGS.lastPublishedStoryUrl)
 
       return state.merge({
