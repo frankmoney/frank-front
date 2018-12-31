@@ -1,9 +1,19 @@
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
+import { DEFAULT_DRAWER_PAYMENTS_PAGE_SIZE as PAGE_SIZE } from 'components/drawers/constants'
 import CARD_ACTIONS from 'containers/admin/PaymentCard/actions'
 import * as ACTIONS from './actions'
 
 export const REDUCER_KEY = 'adminLedger'
+
+const similarPaymentsDefaultState = {
+  similarDrawerOpen: false,
+  similarListLoading: false,
+  similarListMoreLoading: false,
+  similarPayments: [],
+  similarTotalPagesCount: 0,
+  similarLoadedPagesCount: 0,
+}
 
 const defaultState = fromJS({
   typing: false,
@@ -15,6 +25,8 @@ const defaultState = fromJS({
   pieData: null,
   paymentsCount: 0,
   payments: [],
+  //
+  ...similarPaymentsDefaultState,
 })
 
 export default handleActions(
@@ -69,6 +81,47 @@ export default handleActions(
         lastCascadeCount: 0,
       }),
     [ACTIONS.leave]: () => defaultState,
+
+    // Similar payments
+    [ACTIONS.openSimilarPaymentsDrawer]: state =>
+      state.merge({
+        similarDrawerOpen: true,
+      }),
+    [ACTIONS.closeSimilarPaymentsDrawer]: state =>
+      state.merge({
+        ...similarPaymentsDefaultState,
+      }),
+    [ACTIONS.loadSimilarPayments]: (state, { payload: totalCount }) =>
+      state.merge({
+        similarListLoading: true,
+        similarLoadedPagesCount: 0,
+        similarTotalPagesCount: Math.ceil(totalCount / PAGE_SIZE),
+      }),
+    [ACTIONS.loadSimilarPayments.success]: (state, { payload: payments }) =>
+      state.merge({
+        similarListLoading: false,
+        similarPayments: fromJS(payments),
+        similarLoadedPagesCount: 1,
+      }),
+    [ACTIONS.loadSimilarPayments.error]: state =>
+      state.merge({
+        similarListLoading: false,
+      }),
+    [ACTIONS.loadMoreSimilarPayments]: state =>
+      state.merge({
+        similarListMoreLoading: true,
+      }),
+    [ACTIONS.loadMoreSimilarPayments.success]: (state, { payload: payments }) =>
+      state
+        .merge({
+          similarListMoreLoading: false,
+        })
+        .update('similarLoadedPagesCount', counter => counter + 1)
+        .update('similarPayments', list => list.concat(fromJS(payments))),
+    [ACTIONS.loadMoreSimilarPayments.error]: state =>
+      state.merge({
+        similarListMoreLoading: false,
+      }),
   },
   defaultState
 )

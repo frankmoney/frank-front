@@ -30,6 +30,7 @@ import EllipsisButtonMenu from 'components/EllipsisButtonMenu'
 import { ROUTES } from 'const'
 import Copied from 'components/Copied'
 import PaymentStatus from 'components/admin/PaymentStatus'
+import SimilarPaymentsDrawer from 'containers/admin/Ledger/SimilarPaymentsDrawer'
 import DescriptionField from './DescriptionField'
 import PeerField from './PeerField'
 import styles from './PaymentCard.jss'
@@ -64,8 +65,9 @@ const PaymentCard = ({
   saved,
   publishing,
   verified,
-  onSaveClick,
   onPublishClick,
+  onSaveClick,
+  onSimilarDrawerOpen,
   onUnpublishClick,
   onUpdateClick,
   pristine,
@@ -153,13 +155,20 @@ const PaymentCard = ({
     <div className={classes.footer}>
       <div className={classes.leftButtons}>
         {similarCount > 0 ? (
-          <Button
-            className={classes.similarButton}
-            icon={<SimilarIcon />}
-            label={`${similarCount} similar payment${
-              similarCount > 1 ? 's' : ''
-            }`}
-          />
+          <>
+            <Button
+              className={classes.similarButton}
+              icon={<SimilarIcon />}
+              label={`${similarCount} similar payment${
+                similarCount > 1 ? 's' : ''
+              }`}
+              onClick={() => onSimilarDrawerOpen()}
+            />
+            <SimilarPaymentsDrawer
+              paymentId={paymentId}
+              similarCount={similarCount}
+            />
+          </>
         ) : (
           'No similar payments found'
         )}

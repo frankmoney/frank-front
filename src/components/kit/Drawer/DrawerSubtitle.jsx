@@ -7,7 +7,7 @@ const styles = theme => ({
     color: 'rgba(37,43,67,0.7)',
     ...theme.fontRegular(18, 26),
     marginTop: -10,
-    paddingBottom: 27,
+    padding: [0, 30, 27],
   },
 })
 
