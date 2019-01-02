@@ -134,28 +134,20 @@ export const DEFAULT_CATEGORIES = [
 export const DEFAULT_INCOME_CATEGORIES = [
   {
     name: 'Contributions',
-    color: '#21CB61',
+    color: '#51B59B',
   },
   {
     name: 'Grants',
-    color: '#049371',
+    color: '#03B184',
   },
   {
     name: 'Program services',
-    color: '#049371',
+    color: '#00805A',
   },
   {
     name: 'Investments',
-    color: '#049371',
-  },
-  {
-    name: 'Special events',
-    color: '#049371',
-  },
-  {
-    name: 'Sales',
-    color: '#049371',
-  },
+    color: '#135F4A',
+  }
 ]
 
 export const UNCATEGORIZED_CATEGORY = {
