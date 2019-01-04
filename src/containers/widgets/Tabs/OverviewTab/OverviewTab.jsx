@@ -7,12 +7,10 @@ import type {
   OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
+import PaymentsSummaryComponent from 'components/common/PaymentsSummary'
+import PeriodSelectComponent from 'containers/widgets/PeriodSelect'
 import PieTotalSelect from 'components/OverviewPieChart/PieTotalSelect'
 import TotalsComponent from 'containers/widgets/Totals'
-import Footer, {
-  type FooterClasses,
-  type FooterProps,
-} from 'containers/widgets/Footer'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import JustCategoryList from './JustCategoryList'
 import OverviewChart from './OverviewChart'
@@ -31,9 +29,8 @@ const styles = {
   },
 }
 
-type EmptyCb = () => void
-
 export type OverviewTabProps = {|
+  PaymentsSummary: ?React.Element<typeof PaymentsSummaryComponent>,
   Totals: ?React.Element<typeof TotalsComponent>,
 |}
 
@@ -50,31 +47,22 @@ type Props = {|
   widgetSize: 375 | 400 | 500 | 625 | 800,
   // Handlers
   onCategoryClick: CategoryCb,
-  onSeeAllClick: EmptyCb,
   // Styles
   chartClassName?: string,
   contentClassName?: string,
   periodSelectClassName?: string,
   pieClassName?: string,
-  //
-  FooterClasses?: FooterClasses,
-  FooterProps?: FooterProps,
-  //
-  PeriodSelect: ?React.Element<any>, // flowlint-line unclear-type:off
+  PeriodSelect: ?React.Element<typeof PeriodSelectComponent>,
 |}
 
 const OverviewTab = ({
-  categoryCount,
   CategoryList,
   chartClassName,
   classes,
   contentClassName,
-  FooterClasses: footerClasses,
-  FooterProps: footerProps,
   onCategoryClick,
   onPieTotalChange,
-  onSeeAllClick,
-  paymentCount,
+  PaymentsSummary,
   PeriodSelect,
   pieChartRootComponent,
   pieClassName,
@@ -116,13 +104,7 @@ const OverviewTab = ({
         />
       </>
     )}
-    <Footer
-      categoryCount={categoryCount}
-      Classes={footerClasses}
-      onSeeAllClick={onSeeAllClick}
-      paymentCount={paymentCount}
-      {...footerProps}
-    />
+    {PaymentsSummary}
   </div>
 )
 

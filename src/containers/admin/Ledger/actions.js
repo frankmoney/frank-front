@@ -22,3 +22,16 @@ export const dismissCascadeSnackbar = createAction(
 )
 
 export const leave = createAction('admin/ledger/leave')
+
+export const openSimilarPaymentsDrawer = createAction(
+  'admin/ledger/open-similar-drawer'
+)
+export const closeSimilarPaymentsDrawer = createAction(
+  'admin/ledger/close-similar-drawer'
+)
+export const loadSimilarPayments = createDeferredAction(
+  'admin/ledger/load-similar-payments'
+)
+export const loadMoreSimilarPayments = createDeferredAction(
+  'admin/ledger/load-more-similar-payments'
+)

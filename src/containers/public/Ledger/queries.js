@@ -57,6 +57,7 @@ export default {
       account(pid: $accountId) {
         id: pid
         name
+        description
         total: countTotal
         revenue: countRevenue
         spending: countSpending
@@ -157,26 +158,28 @@ export default {
     `,
     ({
       account: {
-        id,
-        name,
-        spending,
-        revenue,
-        total,
         categories,
         category,
-        payments,
-        stories,
         countPayments,
+        description,
+        id,
         ledgerBarChart,
         ledgerPieChart,
+        name,
+        payments,
+        revenue,
+        spending,
+        stories,
+        total,
       },
     }) => ({
+      categories: includeCategories ? categories : null,
+      description,
       id,
       name,
-      spending,
       revenue,
+      spending,
       total,
-      categories: includeCategories ? categories : null,
       payments: R.map(
         R.pipe(
           ignoreUnverifiedData,

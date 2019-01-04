@@ -4,6 +4,7 @@ import { injectStyles } from 'utils/styles'
 import { PaymentsTableRow } from 'components/PaymentsTable'
 import PaymentCard from 'containers/admin/PaymentCard'
 import reconnect from 'utils/reconnect'
+import * as ACTIONS from '../actions'
 import {
   dataSourceSelector,
   rowDataSelector,
@@ -16,9 +17,14 @@ const ComposedPaymentsTableRow = withProps({
 })(PaymentsTableRow)
 
 const ConnectedPaymentsTableDetailRow = compose(
-  reconnect({
-    categories: paymentCardCategoriesSelector,
-  }),
+  reconnect(
+    {
+      categories: paymentCardCategoriesSelector,
+    },
+    {
+      onSimilarDrawerOpen: ACTIONS.openSimilarPaymentsDrawer,
+    }
+  ),
   mapProps(({ categories, data, ...otherProps }) => ({
     categories,
     ...data,

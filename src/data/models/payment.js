@@ -1,4 +1,4 @@
-// @flow strict-local
+// @flow strict
 import * as R from 'ramda'
 import { type Category } from 'data/models/category'
 
@@ -7,13 +7,23 @@ type Peer = {|
   name: string,
 |}
 
+export type PaymentId = number | string
+
+export type PaymentSource = {|
+  bankDescription?: string,
+  bankLogo?: string,
+  bankName?: string,
+|}
+
 export type Payment = {|
   amount: number,
+  source: ?PaymentSource,
   category: ?Category,
   description: ?string,
-  id: number | string,
+  id: PaymentId,
   peer: ?Peer,
-  postedOn: string | Date,
+  postedOn: string,
+  similarCount?: number,
   verified: ?boolean,
 |}
 
@@ -52,5 +62,7 @@ const parseSimilarBasedOnDescription = R.curry(
   }
 )
 
-export const mapSimilarBasedOnDescription = (markedId, similar) =>
-  mapIndexed(parseSimilarBasedOnDescription(markedId), similar)
+export const mapSimilarBasedOnDescription = (
+  markedId: PaymentId,
+  similar: Payment
+) => mapIndexed(parseSimilarBasedOnDescription(markedId), similar)

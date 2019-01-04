@@ -30,17 +30,11 @@ export default theme => ({
   statSum: {
     ...theme.fontRegular(20, 24),
   },
-  info: {
-    width: 660,
+  description: {
     ...theme.fontRegular(20, 35),
-    textAlign: 'center',
     marginBottom: 45,
-  },
-  infoText: {
     opacity: 0.7,
-  },
-  infoMore: {
-    opacity: 0.3,
-    cursor: 'hand',
+    textAlign: 'center',
+    width: 660,
   },
 })

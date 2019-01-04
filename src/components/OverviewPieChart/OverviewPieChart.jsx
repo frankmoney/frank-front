@@ -23,12 +23,13 @@ export type CategoryListComponent = React.ComponentType<CategoryListProps>
 export type CategoryListPieChartRootComponent = React.ComponentType<any> // flowlint-line unclear-type:warn
 
 export type OverviewPieChartProps = {|
+  mobile?: boolean,
   onCategoryClick?: CategoryCb,
   onPieTotalChange?: TotalSelectCb,
   pieTotal: PieTotal,
+  pieTotalSelectable?: boolean,
   pieTotalSelectClassName?: string,
   pieTotalSelectLabel?: string,
-  pieTotalSelectable?: boolean,
 |}
 
 type Props = {|
@@ -72,18 +73,19 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
   render() {
     const {
       CategoryList,
-      pieTotalSelectClassName,
-      pieTotalSelectLabel,
       chartClassName,
       chartSize,
       classes,
       className,
       component: Root,
       data,
+      mobile,
       onCategoryClick,
       onPieTotalChange,
       pieTotal,
       pieTotalSelectable,
+      pieTotalSelectClassName,
+      pieTotalSelectLabel,
     } = this.props
     const { activeCategoryIndex } = this.state
 
@@ -104,6 +106,7 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
           <Pie
             activeSegmentIndex={activeCategoryIndex}
             data={pieData}
+            mobile={mobile}
             onSegmentMouseEnter={this.handleMouseOver}
             onSegmentMouseLeave={this.handleMouseOut}
             size={chartSize}
@@ -119,6 +122,7 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
         {React.cloneElement(CategoryList, {
           activeCategoryIndex,
           data: categories,
+          mobile,
           onCategoryClick,
           onLabelMouseEnter: this.handleMouseOver,
           onLabelMouseLeave: this.handleMouseOut,

@@ -121,4 +121,28 @@ export const applyColors = theme => ({
       color: '#4C51F3',
     },
   },
+
+  lightGray: {
+    backgroundColor: '#F6F7F7',
+    color: '#A2A5AF',
+    transition: theme.transition('background-color'),
+    '&:hover, &$hover': {
+      backgroundColor: '#E9EAEC',
+      color: '#9B9EA8',
+    },
+    '&:focus, &$focus': {
+      backgroundColor: '#E9EAEC',
+      color: '#9B9EA8',
+    },
+    '&:active, &$active, &$loading': {
+      backgroundColor: '#E9EAEC',
+      color: '#9B9EA8',
+    },
+    '&$disabled': {
+      ...DISABLED_COLORS,
+    },
+    '& $spinner': {
+      color: '#4C51F3',
+    },
+  },
 })

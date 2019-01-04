@@ -2,6 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import BankLogo from 'components/BankLogo'
+import { type PaymentSource } from 'data/models/payment'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = theme => ({
@@ -34,10 +35,9 @@ const styles = theme => ({
 
 type Props = {|
   ...InjectStylesProps,
+  ...PaymentSource,
   //
-  description: string,
-  logoUrl?: string,
-  name?: string,
+  textClassName?: string,
 |}
 
 const BankDescription = ({
@@ -46,10 +46,11 @@ const BankDescription = ({
   bankDescription,
   bankLogo,
   bankName,
+  textClassName,
 }: Props) => (
   <div className={cx(classes.root, className)}>
     {bankLogo && <BankLogo className={classes.icon} src={bankLogo} />}
-    <div className={classes.description}>
+    <div className={cx(classes.description, textClassName)}>
       <span className={classes.descriptionAccent}>
         {bankName || 'Banking description'}:{' '}
       </span>

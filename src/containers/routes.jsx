@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import * as R from 'ramda'
 import { connect } from 'react-redux'
 import { createRouteUrl } from '@frankmoney/utils'
 import { currentUserSelector, queryParamSelector } from '@frankmoney/webapp'
@@ -8,6 +9,7 @@ import { Redirect, Switch, Route } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import { withMobileLayout } from 'containers/mobile/Layout'
 import MobileLedger from 'containers/mobile/Ledger'
+import MobilePayment from 'containers/mobile/Payment'
 import { userAccountsSelector } from 'redux/selectors/user'
 import { BASE_TITLE, ROUTES } from 'const'
 import Inbox from 'containers/admin/Inbox'
@@ -71,6 +73,20 @@ const branchPublic = PublicComponent =>
     )
   )
 
+const branchMobile = MobileComponent =>
+  compose(
+    connect(state => ({
+      mobile: queryParamSelector('mobile')(state),
+    })),
+    branch(
+      props => parseQueryStringBool(props.mobile) === true,
+      compose(
+        renderComponent,
+        withMobileLayout
+      )(MobileComponent)
+    )
+  )
+
 const routeMappers = {
   account: withProps(props => ({
     accountId: props.match.params.accountId,
@@ -89,22 +105,6 @@ const routeMappers = {
   })),
 }
 
-const branchMobile = MobileComponent =>
-  compose(
-    connect(state => ({
-      mobile: queryParamSelector('mobile')(state),
-    })),
-    branch(
-      props => parseQueryStringBool(props.mobile) === true,
-      compose(
-        renderComponent,
-        routeMappers.account,
-        withMobileLayout
-      )(MobileComponent)
-    )
-  )
-
-const ComposedPublicLedger = routeMappers.account(PublicLedger)
 const ComposedProtectedLedger = compose(
   routeMappers.account,
   withLayout()
@@ -148,9 +148,14 @@ export default [
   },
   {
     component: compose(
-      branchMobile(MobileLedger),
-      branchPublic(ComposedPublicLedger),
-      routeMappers.account
+      compose(
+        branchMobile,
+        routeMappers.account
+      )(MobileLedger),
+      compose(
+        branchPublic,
+        routeMappers.account
+      )(PublicLedger)
     )(LedgerRouter),
     path: ROUTES.account.idRootTab,
     exact: true,
@@ -210,7 +215,13 @@ export default [
     exact: true,
   },
   {
-    component: routeMappers.payment(PublicPayment),
+    component: compose(
+      compose(
+        branchMobile,
+        routeMappers.payment
+      )(MobilePayment),
+      routeMappers.payment
+    )(PublicPayment),
     path: ROUTES.account.payment.idRoot,
     exact: true,
   },

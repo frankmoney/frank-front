@@ -16,6 +16,7 @@ const paymentFields = `
     color
   }
   similarCount: countSimilar(includeSelf: true)
+  verified
   bankDescription
   source {
     bankName

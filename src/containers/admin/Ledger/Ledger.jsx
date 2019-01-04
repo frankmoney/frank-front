@@ -10,7 +10,7 @@ import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import ConnectedChartCard from './ConnectedChartCard'
-import EmptyAccoutPlaceholder from './EmptyAccountPlaceholder'
+import EmptyAccountPlaceholder from './EmptyAccountPlaceholder'
 import LedgerHighlightTextProvider from './LedgerHighlightTextProvider'
 import LedgerPager from './LedgerPager'
 import LedgerSearch from './LedgerSearch'
@@ -64,7 +64,7 @@ const Ledger = ({
         </Breadcrumbs>
         <LedgerFilter />
       </FixedHeader>
-      {isEmptyAccount && <EmptyAccoutPlaceholder />}
+      {isEmptyAccount && <EmptyAccountPlaceholder />}
       {!isEmptyAccount && (
         <div className={classes.container}>
           <LedgerSearch

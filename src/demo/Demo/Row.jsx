@@ -7,8 +7,8 @@ const styles = {
   row: {
     display: 'flex',
     alignItems: 'center',
-    minWidth: 450,
-    '& > *': {
+    minWidth: 375,
+    '& > :not(:last-child)': {
       marginRight: 20,
     },
     marginBottom: 20,
@@ -18,9 +18,6 @@ const styles = {
   },
   centered: {
     justifyContent: 'center',
-    '& > *': {
-      marginRight: 0,
-    },
   },
 }
 

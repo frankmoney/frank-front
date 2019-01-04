@@ -1,6 +1,7 @@
 // @flow strict-local
-import React from 'react'
+import * as React from 'react'
 import * as R from 'ramda'
+import cx from 'classnames'
 import Bar, {
   POSITIVE_BAR_COLOR,
   PRIMARY_BAR_COLOR,
@@ -22,11 +23,29 @@ const styles = {
   },
 }
 
+type CheckboxColor = 'green' | 'blue'
+
+export type CheckboxProps = {
+  checked: boolean,
+  color: CheckboxColor,
+  label: string,
+  onChange: () => void,
+}
+
+type CheckboxMixins = {|
+  checkboxes?: string,
+  checkbox?: string,
+|}
+
 type Props = {|
   ...InjectStylesProps,
   //
   barsColor?: string,
+  CheckboxComponent: React.ComponentType<CheckboxProps>,
   data: BarData,
+  height?: number,
+  Mixins?: CheckboxMixins,
+  mobile?: boolean,
   width: number,
 |}
 
@@ -48,6 +67,10 @@ const makePositive = R.map(({ date, negativeValue }) => ({
 }))
 
 class TimelineChart extends React.PureComponent<Props, State> {
+  static defaultProps = {
+    CheckboxComponent: Checkbox,
+  }
+
   state = {
     income: true,
     spending: true,
@@ -78,34 +101,40 @@ class TimelineChart extends React.PureComponent<Props, State> {
   render() {
     const {
       barsColor,
+      CheckboxComponent,
       classes,
       className,
       data,
-      width,
+      Mixins,
       ...barProps
     } = this.props
     const { income, spending } = this.state
 
+    const forcedSingle = typeof barsColor === 'string'
+
     const hide = !(income || spending)
-    const trimmedData = !income ? makePositive(data) : data
+    const trimmedData = income && !forcedSingle ? data : makePositive(data)
 
     const barColor =
       barsColor ||
       (income && !spending ? POSITIVE_BAR_COLOR : PRIMARY_BAR_COLOR)
-    const showCheckboxes = typeof barsColor !== 'string'
+    const showCheckboxes = !forcedSingle
     const renderDual = showCheckboxes && income && spending
 
     return (
       <div className={className}>
         {showCheckboxes && (
-          <div className={classes.checkboxes}>
-            <Checkbox
+          <div className={cx(classes.checkboxes, Mixins && Mixins.checkboxes)}>
+            <CheckboxComponent
               color="green"
+              className={Mixins && Mixins.checkbox}
               checked={income}
               label="Income"
               onChange={this.handleIncomeChange}
             />
-            <Checkbox
+            <CheckboxComponent
+              color="blue"
+              className={Mixins && Mixins.checkbox}
               checked={spending}
               label="Spending"
               onChange={this.handleSpendingChange}
@@ -119,7 +148,6 @@ class TimelineChart extends React.PureComponent<Props, State> {
           dual={renderDual}
           labelKey="date"
           showBars={!hide}
-          width={width}
           {...barProps}
         />
       </div>

@@ -22,9 +22,9 @@ const styles = theme => ({
   },
 })
 
-const PageFilter = ({ classes, className, count, ...otherProps }) => (
+const PageFilter = ({ classes, className, noLabel, count, ...otherProps }) => (
   <div className={cx(classes.root, className)} {...otherProps}>
-    Filter
+    {!noLabel && 'Filter'}
     {count > 0 ? (
       <Counter className={classes.rightIcon}>{count}</Counter>
     ) : (

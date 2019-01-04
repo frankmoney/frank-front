@@ -27,7 +27,7 @@ import {
   parseQueryStringBool,
   parseQueryString,
 } from 'utils/querystring'
-import { ROUTES, UNCATEGORIZED_CATEGORY } from 'const'
+import { ALL_CATEGORIES, ROUTES, UNCATEGORIZED_CATEGORY } from 'const'
 import { mapToPlainTextBody } from 'data/models/stories'
 import { PAGE_SIZE } from './constants'
 import { REDUCER_KEY } from './reducer'
@@ -42,6 +42,7 @@ export const accountIdSelector = get('id')
 // Stats
 
 export const nameSelector = get('name')
+export const descriptionSelector = get('description')
 export const spendingSelector = get('spending')
 export const revenueSelector = get('revenue')
 export const totalSelector = get('total')
@@ -73,6 +74,13 @@ export const listIsUpdatingSelector = get('updatingList')
 export const paymentsTotalCountSelector = get('paymentsCount')
 export const categoriesSelector = createPlainObjectSelector(get('categories'))
 export const paymentsSelector = createPlainObjectSelector(get('payments'))
+
+export const categoryCountSelector = createSelector(
+  categoriesSelector,
+  R.length
+)
+
+export const paymentCountSelector = get('paymentsCount')
 
 const propContainsText = (prop, text) => x =>
   (x[prop] || '').toLowerCase().includes(text.toLowerCase())
@@ -136,12 +144,26 @@ export const totalPagesSelector = createSelector(
 
 // Filters
 
+export const currentFiltersCountSelector = createSelector(
+  queryParamSelector('amountMin'),
+  queryParamSelector('amountMax'),
+  queryParamSelector('dateMin'),
+  queryParamSelector('dateMax'),
+  queryParamSelector('verified'),
+  R.unapply(
+    R.pipe(
+      R.filter(x => typeof x !== 'undefined' && x !== ''),
+      R.length
+    )
+  )
+)
+
 export const currentCategoryIdSelector = createSelector(
   queryParamSelector('category'),
   x => x || null
 )
 
-const verifiedSelector: Selector<boolean> = createSelector(
+const verifiedSelector: Selector<?boolean> = createSelector(
   queryParamSelector('verified'),
   parseQueryStringBool
 )
@@ -153,7 +175,9 @@ export const currentCategorySelector = createSelector(
   (categories, id, verified) =>
     verified === false
       ? UNCATEGORIZED_CATEGORY
-      : R.find(R.propEq('id', id), categories)
+      : id === ALL_CATEGORIES.id
+        ? ALL_CATEGORIES
+        : R.find(R.propEq('id', id), categories)
 )
 
 export const currentCategoryNameSelector = createSelector(

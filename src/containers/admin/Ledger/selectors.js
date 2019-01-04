@@ -176,7 +176,10 @@ export const periodSelector = createSelector(
 
 const rawPieTotalSelector: Selector<PieTotal> = createSelector(
   queryParamSelector(PIE_TOTAL_PARAMETER_NAME),
-  string => ((string ? parseQueryString(string) : DEFAULT_PIE_TOTAL): PieTotal)
+  string =>
+    string
+      ? (parseQueryString(string): any) // flowlint-line unclear-type:off
+      : DEFAULT_PIE_TOTAL
 )
 
 export const noTextSearchSelector = createSelector(
@@ -241,3 +244,14 @@ export const pieItemsSelector: Selector<PieChartItems> = createSelector(
     nameEmptyCategoryAs: LOCAL_UNCATEGORIZED_CATEGORY.name,
   })
 )
+
+// Similar payments
+
+export const SIMILAR = {
+  drawerOpenedSelector: get('similarDrawerOpen'),
+  listLoadingSelector: get('similarListLoading'),
+  listMoreLoadingSelector: get('similarListMoreLoading'),
+  similarPaymentsSelector: createPlainObjectSelector(get('similarPayments')),
+  loadedPagesCounterSelector: get('similarLoadedPagesCount'),
+  totalPagesCounterSelector: get('similarTotalPagesCount'),
+}

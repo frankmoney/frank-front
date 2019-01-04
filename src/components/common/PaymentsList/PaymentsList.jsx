@@ -3,13 +3,11 @@ import * as React from 'react'
 import CurrencyProvider from 'components/CurrencyProvider'
 import PaymentListRowMore from 'components/PaymentListRowMore'
 import List from 'components/ListVirtualized'
-
-type Id = string
-type Payment = { id: String }
+import { type Payment, type PaymentId } from 'data/models/payment'
 
 type Props = {
   payments: Array<Payment>,
-  selectedIds: Array<Id>,
+  selectedIds: Array<PaymentId>,
   canRequestMore?: boolean,
   inset?: number,
   isLoadingMore?: boolean,
@@ -17,7 +15,7 @@ type Props = {
   onRequestMore?: () => void,
   itemHeight: number,
   renderRow: Function,
-  onSelectionChange?: (Array<Id>) => void,
+  onSelectionChange?: (Array<PaymentId>) => void,
 }
 
 // Нам необходим контекст чтобы передать изменение некоторых пропов внутрь айтем компонент листа,

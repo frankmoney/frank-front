@@ -5,6 +5,7 @@ import Drawer from 'components/kit/Drawer'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import AreaSpinner from 'components/AreaSpinner'
 import { DRAWER_INSET } from 'components/kit/Drawer/styles'
+import { type Payment, type PaymentId } from 'data/models/payment'
 import { formatDateRange, type DateRange } from 'utils/dates'
 import {
   DEFAULT_DRAWER_PAYMENTS_PAGE_SIZE as PAGE_SIZE,
@@ -23,25 +24,20 @@ const style = theme => ({
   },
 })
 
-type Payment = Object // flowlint-line unclear-type:warn
-
-type EmptyCb = () => void
-
 type Props = {|
   ...InjectStylesProps,
   //
   loadedPagesCounter: number,
-  onClose: EmptyCb,
-  onLoadMore?: () => void,
+  loading?: boolean, // список полностью перезагружается
+  loadingMore?: boolean, // список загружает айтемы в конец
+  onClose: () => void,
+  onLoadMore?: ({ paymentId: PaymentId }) => void,
   open?: boolean,
+  paymentId: PaymentId,
   payments: Array<Payment>,
   paymentsCount: number,
   paymentsDateRange: DateRange,
   totalPagesCounter: number,
-  // список полностью перезагружается
-  isLoading: boolean,
-  // список загружает айтемы в конец
-  isLoadingMore: boolean,
 |}
 
 type State = {|
@@ -49,6 +45,10 @@ type State = {|
 |}
 
 class PaymentsSimilarDrawer extends React.PureComponent<Props, State> {
+  static defaultProps = {
+    paymentsDateRange: ['2016-10-12', '2018-05-14'],
+  }
+
   renderRow = ({ isLast, onToggle, ...rowProps }) => (
     <PaymentSimilarRow {...rowProps} />
   )
@@ -65,6 +65,7 @@ class PaymentsSimilarDrawer extends React.PureComponent<Props, State> {
       onClose,
       loading,
       loadingMore,
+      paymentId,
       ...otherProps
     } = this.props
 
@@ -89,7 +90,9 @@ class PaymentsSimilarDrawer extends React.PureComponent<Props, State> {
               payments={payments}
               isLoadingMore={loadingMore}
               canRequestMore={totalPagesCounter > loadedPagesCounter}
-              onRequestMore={onLoadMore}
+              onRequestMore={
+                onLoadMore ? () => onLoadMore({ paymentId }) : undefined
+              }
               moreButtonLabel={`Show ${PAGE_SIZE} more payments`}
               inset={DRAWER_INSET}
             />
@@ -98,10 +101,6 @@ class PaymentsSimilarDrawer extends React.PureComponent<Props, State> {
       </Drawer>
     )
   }
-}
-
-PaymentsSimilarDrawer.defaultProps = {
-  paymentsDateRange: ['2016-10-12', '2018-05-14'],
 }
 
 export default injectStyles(style)(PaymentsSimilarDrawer)

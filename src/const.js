@@ -155,3 +155,9 @@ export const UNCATEGORIZED_CATEGORY = {
   name: 'Uncategorized',
   color: UNCATEGORIZED_COLOR,
 }
+
+export const ALL_CATEGORIES = {
+  name: 'All payments',
+  id: 'all',
+  color: '#252B43',
+}

@@ -14,6 +14,7 @@ type ButtonColor =
   | 'gray'
   | 'lightBlue'
   | 'lightGreen'
+  | 'lightGray'
 
 type ButtonMixins = {|
   icon?: string,
@@ -70,6 +71,7 @@ const Button = ({
         [classes.blue]: color === 'blue',
         [classes.lightBlue]: color === 'lightBlue',
         [classes.lightGreen]: color === 'lightGreen',
+        [classes.lightGray]: color === 'lightGray',
         [classes.disabled]: disabled,
         [classes.loading]: loading,
         [classes.active]: active,

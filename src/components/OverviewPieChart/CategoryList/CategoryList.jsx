@@ -20,6 +20,7 @@ export type CategoryListProps = {|
   activeCategoryIndex: ?number,
   className?: string,
   data: CategoryListData,
+  mobile?: boolean,
   onCategoryClick?: CategoryCb,
   onLabelMouseEnter?: number => void,
   onLabelMouseLeave?: () => void,
@@ -44,6 +45,7 @@ const CategoryList = ({
   iconClassName,
   itemClassName,
   nameClassName,
+  mobile,
   onCategoryClick,
   onLabelMouseEnter,
   onLabelMouseLeave,
@@ -60,6 +62,9 @@ const CategoryList = ({
     const clickable = id !== OTHER.id
     const handleClick =
       clickable && onCategoryClick ? () => onCategoryClick(items[index]) : null
+    const handleMouseEnter =
+      !mobile && onLabelMouseEnter ? () => onLabelMouseEnter(index) : undefined
+    const handleMouseLeave = mobile ? undefined : onLabelMouseLeave
     return (
       <CategoryLabel
         active={index === activeCategoryIndex}
@@ -73,8 +78,8 @@ const CategoryList = ({
         key={index}
         nameClassName={cx(classes.name, nameClassName)}
         onClick={handleClick}
-        onMouseEnter={onLabelMouseEnter && (() => onLabelMouseEnter(index))}
-        onMouseLeave={onLabelMouseLeave}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         valueClassName={cx(classes.value, valueClassName)}
         valueUnit={valueUnit}
         {...otherProps}
@@ -91,13 +96,16 @@ const CategoryList = ({
       )}
     >
       {R.map(renderItem, items)}
-      {other && (
-        <OtherCategories
-          anchor={renderItem(other)}
-          items={tooltipItems}
-          valueUnit={valueUnit}
-        />
-      )}
+      {other &&
+        (mobile ? (
+          renderItem(other)
+        ) : (
+          <OtherCategories
+            anchor={renderItem(other)}
+            items={tooltipItems}
+            valueUnit={valueUnit}
+          />
+        ))}
     </div>
   )
 }
