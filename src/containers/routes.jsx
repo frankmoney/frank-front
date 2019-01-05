@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import * as R from 'ramda'
 import { connect } from 'react-redux'
 import { createRouteUrl } from '@frankmoney/utils'
 import { currentUserSelector, queryParamSelector } from '@frankmoney/webapp'

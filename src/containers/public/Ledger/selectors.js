@@ -1,4 +1,4 @@
-// @flow strict
+// @flow strict-local
 import * as R from 'ramda'
 import * as D from 'date-fns/fp'
 import { matchPath } from 'react-router'
@@ -35,13 +35,15 @@ import { REDUCER_KEY } from './reducer'
 const get = (...prop) => (state: ReduxState) =>
   state.getIn([REDUCER_KEY, ...prop])
 
+export const accountSelector = createPlainObjectSelector(get('account'))
+
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
-export const accountIdSelector = get('id')
+export const accountIdSelector = createSelector(accountSelector, R.prop('id'))
 
 // Stats
 
-export const nameSelector = get('name')
+export const nameSelector = createSelector(accountSelector, R.prop('name'))
 export const descriptionSelector = get('description')
 export const spendingSelector = get('spending')
 export const revenueSelector = get('revenue')
@@ -58,10 +60,7 @@ export const currentTabSelector = createSelector(pathnameSelector, path => {
 
 export const storiesSelector = createSelector(
   createPlainObjectSelector(get('stories')),
-  R.map(({ body, ...story }) => ({
-    text: mapToPlainTextBody(body),
-    ...story,
-  }))
+  R.map(mapToPlainTextBody)
 )
 export const storiesCountSelector = createSelector(
   storiesSelector,

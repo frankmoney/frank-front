@@ -57,6 +57,9 @@ export default {
       account(pid: $accountId) {
         id: pid
         name
+        currency {
+          code
+        }
         description
         total: countTotal
         revenue: countRevenue
@@ -161,6 +164,7 @@ export default {
         categories,
         category,
         countPayments,
+        currency: { code: currencyCode },
         description,
         id,
         ledgerBarChart,
@@ -173,10 +177,9 @@ export default {
         total,
       },
     }) => ({
+      account: { id, name, currencyCode },
       categories: includeCategories ? categories : null,
       description,
-      id,
-      name,
       revenue,
       spending,
       total,

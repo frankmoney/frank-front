@@ -21,6 +21,9 @@ const styles = theme => ({
   root: {
     marginBottom: 28,
     textDecoration: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    flex: [1, 0],
   },
   image: {
     width: '100%',
@@ -61,6 +64,7 @@ type Props = {|
   accountId: number | string,
   storyId: number | string,
   key?: React.Key,
+  url?: string,
 |}
 
 const Story = ({
@@ -69,17 +73,20 @@ const Story = ({
   key,
   //
   accountId,
-  body: { text },
+  text,
   cover,
   paymentsCount,
   paymentsDateRange,
   storyId,
   title,
+  url,
 }: Props) => {
-  const publicUrl = createRouteUrl(ROUTES.account.stories.idRoot, {
-    accountId,
-    storyId,
-  })
+  const publicUrl =
+    url ||
+    createRouteUrl(ROUTES.account.stories.idRoot, {
+      accountId,
+      storyId,
+    })
   return (
     <a
       className={cx(classes.root, className)}

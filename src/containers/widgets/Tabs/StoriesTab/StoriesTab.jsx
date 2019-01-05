@@ -3,6 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import CurrencyProvider from 'components/CurrencyProvider'
 import { type CurrencyCode } from 'contexts/CurrencyContext'
+import { type AccountId } from 'data/models/account'
 import type { Story as StoryProps } from 'data/models/stories'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Story from './Story'
@@ -22,7 +23,7 @@ const styles = {
 type Props = {|
   ...InjectStylesProps,
   //
-  accountId: string | number,
+  accountId: AccountId,
   stories: Array<StoryProps>,
   currencyCode?: CurrencyCode,
 |}
