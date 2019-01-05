@@ -226,7 +226,6 @@ const Ledger = ({
     onCategoryClick(category)
   }
   const { name: accountName, currencyCode } = account
-  console.log('stories', stories)
 
   const handlePaymentClick = createPaymentClickHandler(accountId, history)
 

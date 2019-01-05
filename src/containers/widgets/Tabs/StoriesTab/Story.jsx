@@ -1,11 +1,9 @@
 // @flow strict-local
 import * as React from 'react'
 import cx from 'classnames'
-import { createRouteUrl } from '@frankmoney/utils'
 import StoryPaymentsStats from 'components/StoryPaymentsStats'
-import type { Story as StoryProps } from 'data/models/stories'
+import { type Story as StoryProps } from 'data/models/stories'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import { ROUTES } from 'const'
 
 const maxLines = (lineCount, lineHeight) => ({
   display: '-webkit-box',
@@ -61,59 +59,48 @@ type Props = {|
   ...InjectStylesProps,
   ...StoryProps,
   //
-  accountId: number | string,
-  storyId: number | string,
-  key?: React.Key,
-  url?: string,
+  component: React.ElementType,
 |}
 
 const Story = ({
   classes,
   className,
-  key,
+  component: Root,
   //
-  accountId,
   text,
   cover,
   paymentsCount,
   paymentsDateRange,
-  storyId,
   title,
-  url,
-}: Props) => {
-  const publicUrl =
-    url ||
-    createRouteUrl(ROUTES.account.stories.idRoot, {
-      accountId,
-      storyId,
-    })
-  return (
-    <a
-      className={cx(classes.root, className)}
-      key={key}
-      href={publicUrl}
-      target="blank"
-    >
-      {cover && (
-        <img
-          className={classes.image}
-          src={cover.thumbs.sized}
-          alt="Story cover"
-        />
-      )}
-      <div className={classes.title}>{title}</div>
-      {paymentsCount > 0 && (
-        <StoryPaymentsStats
-          className={classes.stats}
-          paymentsCount={paymentsCount}
-          paymentsDateRange={paymentsDateRange}
-          counterClassName={classes.statsCounter}
-          symbolClassName={classes.statsSymbol}
-        />
-      )}
-      {text && <div className={classes.text}>{text}</div>}
-    </a>
-  )
+  // omit
+  body,
+  id,
+  ...props
+}: Props) => (
+  <Root className={cx(classes.root, className)} {...props}>
+    {cover && (
+      <img
+        className={classes.image}
+        src={cover.thumbs.sized}
+        alt="Story cover"
+      />
+    )}
+    <div className={classes.title}>{title}</div>
+    {paymentsCount > 0 && (
+      <StoryPaymentsStats
+        className={classes.stats}
+        paymentsCount={paymentsCount}
+        paymentsDateRange={paymentsDateRange}
+        counterClassName={classes.statsCounter}
+        symbolClassName={classes.statsSymbol}
+      />
+    )}
+    {text && <div className={classes.text}>{text}</div>}
+  </Root>
+)
+
+Story.defaultProps = {
+  component: 'div',
 }
 
 export default injectStyles(styles)(Story)

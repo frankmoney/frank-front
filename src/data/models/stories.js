@@ -16,10 +16,12 @@ type StoryBody = {|
   draftjs?: string,
 |}
 
+export type StoryId = string | number
+
 export type Story = {|
   body: StoryBody,
   cover: ?Cover,
-  id: string | number,
+  id: StoryId,
   paymentsCount: number,
   paymentsDateRange: DateRange,
   text: ?string,

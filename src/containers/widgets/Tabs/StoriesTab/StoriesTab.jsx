@@ -1,11 +1,13 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
+import { createRouteUrl } from '@frankmoney/utils'
 import CurrencyProvider from 'components/CurrencyProvider'
 import { type CurrencyCode } from 'contexts/CurrencyContext'
 import { type AccountId } from 'data/models/account'
 import type { Story as StoryProps } from 'data/models/stories'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import { ROUTES } from 'const'
 import Story from './Story'
 
 const styles = {
@@ -38,7 +40,16 @@ const StoriesTab = ({
   <div className={cx(classes.root, className)}>
     <CurrencyProvider code={currencyCode}>
       {stories.map(({ id, ...story }) => (
-        <Story accountId={accountId} key={id} storyId={id} {...story} />
+        <Story
+          component={'a'}
+          key={id}
+          href={createRouteUrl(ROUTES.account.stories.idRoot, {
+            accountId,
+            storyId: id,
+          })}
+          target="blank"
+          {...story}
+        />
       ))}
     </CurrencyProvider>
   </div>

@@ -1,6 +1,7 @@
 // @flow strict-local
 import * as React from 'react'
 import cx from 'classnames'
+import { Link } from 'react-router-dom'
 import CurrencyProvider from 'components/CurrencyProvider'
 import { type CurrencyCode } from 'contexts/CurrencyContext'
 import Story from 'containers/widgets/Tabs/StoriesTab/Story'
@@ -41,11 +42,10 @@ const Stories = ({
     <CurrencyProvider code={currencyCode}>
       {stories.map(({ id, ...story }) => (
         <Story
-          accountId={accountId}
           className={classes.story}
           key={id}
-          storyId={id}
-          url={createMobileUrl(ROUTES.account.stories.idRoot, {
+          component={Link}
+          to={createMobileUrl(ROUTES.account.stories.idRoot, {
             accountId,
             storyId: id,
           })}
