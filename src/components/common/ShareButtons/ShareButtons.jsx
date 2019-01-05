@@ -18,7 +18,14 @@ const styles = {
   },
 }
 
-const ShareButtons = ({ classes, className, url, small, large }) => (
+const ShareButtons = ({
+  classes,
+  className,
+  large,
+  shortEmail,
+  small,
+  url,
+}) => (
   <div className={cx(classes.container, className)}>
     <FacebookShareButton url={url}>
       <SocialButton type="facebook" small={small} large={large} />
@@ -27,7 +34,12 @@ const ShareButtons = ({ classes, className, url, small, large }) => (
       <SocialButton type="twitter" small={small} large={large} />
     </TwitterShareButton>
     <EmailShareButton url={url}>
-      <SocialButton type="email" small={small} large={large} />
+      <SocialButton
+        type="email"
+        small={small}
+        large={large}
+        noLabel={shortEmail}
+      />
     </EmailShareButton>
   </div>
 )

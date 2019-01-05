@@ -9,7 +9,7 @@ import { type AccountId } from 'data/models/account'
 import { type Story as StoryProps } from 'data/models/stories'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { ROUTES } from 'const'
-import { createMobileUrl } from './utils'
+import { createMobileUrl } from '../utils'
 
 const styles = {
   root: {

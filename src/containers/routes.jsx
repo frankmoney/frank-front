@@ -9,6 +9,7 @@ import Helmet from 'react-helmet'
 import { withMobileLayout } from 'containers/mobile/Layout'
 import MobileLedger from 'containers/mobile/Ledger'
 import MobilePayment from 'containers/mobile/Payment'
+import MobileStory from 'containers/mobile/Story'
 import { userAccountsSelector } from 'redux/selectors/user'
 import { BASE_TITLE, ROUTES } from 'const'
 import Inbox from 'containers/admin/Inbox'
@@ -198,6 +199,7 @@ export default [
   {
     component: compose(
       routeMappers.story,
+      branchMobile(MobileStory),
       branchPublic(PublicStory),
       withLayout(delimiterSidebarProps)
     )(StoryPreview),

@@ -51,7 +51,7 @@ import {
   createPaymentClickHandler,
   type WithHistoryProps,
 } from '../utils'
-import Stories from '../Stories'
+import Stories from '../Story/Stories'
 import CheckboxButton from './CheckboxButton'
 import Payments from './MobilePayments'
 
