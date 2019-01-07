@@ -4,14 +4,13 @@ const team = [
   `
   query {
     accounts {
-      pid
+      id: pid
       name
     }
   
     team {
-      pid
+      id: pid
       name
-      
       members {
         pid
         self
@@ -64,8 +63,20 @@ const changePassword = [
   R.prop('meChangePassword'),
 ]
 
+const sendInvite = [
+  `
+  mutation($teamId: ID!, $email: String!, $note: String) {
+    teamMemberInviteCreate(teamPid: $teamId, email: $email, note: $note) {
+      email
+    }
+  }
+  `,
+  R.prop('teamMemberInviteCreate'),
+]
+
 export default {
   team,
   changeAvatar,
   changePassword,
+  sendInvite,
 }
