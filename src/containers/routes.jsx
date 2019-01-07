@@ -1,9 +1,12 @@
 // @flow
 import React from 'react'
-import * as R from 'ramda'
 import { connect } from 'react-redux'
 import { createRouteUrl } from '@frankmoney/utils'
-import { currentUserSelector, queryParamSelector } from '@frankmoney/webapp'
+import {
+  currentUserSelector,
+  queryParamSelector,
+  mediaTypeSelector,
+} from '@frankmoney/webapp'
 import { compose, withProps, branch, renderComponent } from 'recompose'
 import { Redirect, Switch, Route } from 'react-router-dom'
 import Helmet from 'react-helmet'
@@ -27,6 +30,8 @@ import PublicPayment from 'containers/public/Payment'
 import PublicStory from 'containers/public/Story'
 import PublicLedger from 'containers/public/Ledger'
 import { parseQueryStringBool } from 'utils/querystring'
+
+// todo refactor
 
 const delimiterSidebarProps = {
   sidebarProps: { panelProps: { delimiter: true } },
@@ -75,11 +80,15 @@ const branchPublic = PublicComponent =>
 
 const branchMobile = MobileComponent =>
   compose(
-    connect(state => ({
-      mobile: queryParamSelector('mobile')(state),
-    })),
+    connect(state => {
+      const media = mediaTypeSelector(state)
+
+      return {
+        mobile: media === 'phoneLandscape' || media === 'phonePortrait',
+      }
+    }),
     branch(
-      props => parseQueryStringBool(props.mobile) === true,
+      props => props.mobile,
       compose(
         renderComponent,
         withMobileLayout
