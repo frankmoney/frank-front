@@ -14,7 +14,7 @@ const getters = {
   profiles: getter('profiles'),
   ownProfilePid: getter('ownProfilePid'),
   otherProfilePids: getter('otherProfilePids'),
-  team: getter('team'),
+  invites: getter('invites'),
 }
 
 export const loadedSelector = getters.loaded
@@ -44,5 +44,7 @@ export const canInviteSelector = createSelector(
   createSelector(ownProfileSelector, R.prop('role')),
   role => role === 'administrator'
 )
+
+export const invitesSelector = createPlainObjectSelector(getters.invites)
 
 export const teamIdSelector = getter('team', 'id')
