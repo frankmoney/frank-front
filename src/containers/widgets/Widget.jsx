@@ -17,7 +17,7 @@ import {
   type LedgerPieChart,
   type PieTotal,
 } from 'data/models/pieData'
-import type { Story } from 'data/models/stories'
+import { mapToPlainTextBody, type Story } from 'data/models/stories'
 import { ALL_CATEGORIES } from 'const'
 import TabbedLayout, {
   OVERVIEW_TAB,
@@ -166,6 +166,10 @@ class Widget extends React.Component<Props, State> {
     return this.state.period
   }
 
+  get stories(): Array<Story> {
+    return R.map(mapToPlainTextBody, this.state.stories)
+  }
+
   // // eslint-disable-next-line class-methods-use-this
   // get periods(): Array<Period> {
   //   return ['All time', '2018', 'TBD'] // TODO: dynamic list?
@@ -298,7 +302,7 @@ class Widget extends React.Component<Props, State> {
     const currentCategoryColor = R.prop('color', currentCategory)
     const currentCategoryName = R.prop('name', currentCategory)
     const showCategories = this.currentCategoryId === ALL_CATEGORIES.id
-    const hideStoriesTab = R.isEmpty(this.state.stories)
+    const hideStoriesTab = R.isEmpty(this.stories)
 
     const periodSelect = null
     // (
@@ -378,10 +382,7 @@ class Widget extends React.Component<Props, State> {
           )
         }
         StoriesTab={
-          <StoriesTab
-            accountId={this.props.accountId}
-            stories={this.state.stories}
-          />
+          <StoriesTab accountId={this.props.accountId} stories={this.stories} />
         }
         AboutTab={aboutTab}
       />

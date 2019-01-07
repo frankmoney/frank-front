@@ -17,6 +17,7 @@ import * as inboxEpics from 'containers/admin/Inbox/epics'
 import * as settingsEpics from 'containers/admin/Settings/epics'
 import * as paymentEpics from 'containers/admin/PaymentCard/epics'
 import * as authSignInEpics from 'containers/auth/SignIn/epics'
+import * as authSignUpEpics from 'containers/auth/SignUp/epics'
 import * as authRecoverPasswordEpics from 'containers/auth/RecoverPassword/epics'
 import * as authResetPasswordEpics from 'containers/auth/ResetPassword/epics'
 
@@ -39,6 +40,7 @@ export default createRootEpic([
   settingsEpics,
   paymentEpics,
   authSignInEpics,
+  authSignUpEpics,
   authRecoverPasswordEpics,
   authResetPasswordEpics,
 ])

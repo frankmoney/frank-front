@@ -1,4 +1,4 @@
-// @flow strict
+// @flow strict-local
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
@@ -14,10 +14,7 @@ export const loadedSelector = get('loaded')
 
 export const storiesSelector = createSelector(
   createPlainObjectSelector(get('stories')),
-  R.map(({ body, ...other }) => ({
-    ...other,
-    text: mapToPlainTextBody(body),
-  }))
+  R.map(mapToPlainTextBody)
 )
 
 export const hasNoStoriesSelector = createSelector(storiesSelector, R.isEmpty)
