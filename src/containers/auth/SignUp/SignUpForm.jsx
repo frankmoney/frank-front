@@ -3,13 +3,14 @@ import React from 'react'
 import cx from 'classnames'
 import { required, email } from '@frankmoney/forms'
 import { compose } from 'recompose'
-import { reduxForm } from 'redux-form/immutable'
+import { reduxForm } from 'redux-form-actions/immutable'
 import { injectStyles } from 'utils/styles'
 import Button from 'components/kit/Button'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import TextField from 'components/kit/TextField'
 import SelectField from 'components/kit/SelectField'
 import { MenuItem } from 'components/kit/Menu'
+import ACTIONS from './actions'
 
 const styles = {
   root: {},
@@ -31,7 +32,7 @@ const validation = {
   password: [required],
 }
 
-const SignUpForm = ({ classes, className, submit }) => (
+const SignUpForm = ({ classes, className, invalid, submitting, submit }) => (
   <div className={cx(classes.root, className)}>
     <ReduxFormControl.Field
       name="teamName"
@@ -120,12 +121,21 @@ const SignUpForm = ({ classes, className, submit }) => (
       color="green"
       label="Create new team"
       stretch
-      onClick={() => submit()}
+      disabled={invalid}
+      loading={submitting}
+      onClick={submit}
     />
   </div>
 )
 
+const FORM_NAME = 'auth/signUp'
+
 export default compose(
-  reduxForm({ form: 'sign-up', onSubmit: () => {} }),
+  reduxForm({
+    form: FORM_NAME,
+    failedAction: ACTIONS.submit.error.toString(),
+    succeededAction: ACTIONS.submit.success.toString(),
+    onSubmit: (data, dispatch) => dispatch(ACTIONS.submit(data.toJS())),
+  }),
   injectStyles(styles)
 )(SignUpForm)
