@@ -4,13 +4,13 @@ import { required, email } from '@frankmoney/forms'
 import { createRouteUrl } from '@frankmoney/utils'
 import cx from 'classnames'
 import { Link } from 'react-router-dom'
-import { compose, withState } from 'recompose'
-import { reduxForm } from 'redux-form-actions/immutable'
+import { compose } from 'recompose'
+import { clearSubmitErrors, reduxForm } from 'redux-form-actions/immutable'
 import { ROUTES } from 'const'
-import SidebarSnack from 'components/SidebarSnack/SidebarSnack'
 import Button from 'components/kit/Button'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import TextField from 'components/kit/TextField'
+import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import ACTIONS from './actions'
 
@@ -39,14 +39,16 @@ const validation = {
   password: [required],
 }
 
+const FORM_NAME = 'auth/signIn'
+
 const SignInForm = ({
   classes,
   className,
-  invalidCredentialsSnackOpen,
   invalid,
   submitting,
   submit,
-  showInvalidCredentialsSnack,
+  // eslint-disable-next-line no-shadow
+  clearSubmitErrors,
 }) => (
   <>
     <div className={cx(classes.root, className)}>
@@ -60,6 +62,7 @@ const SignInForm = ({
         stretch
         larger
         autoFocus
+        onChange={() => clearSubmitErrors(FORM_NAME)}
       />
       <ReduxFormControl.Field
         name="password"
@@ -87,24 +90,12 @@ const SignInForm = ({
       >
         Forgot password?
       </Link>
-      <SidebarSnack
-        color="red"
-        shown={invalidCredentialsSnackOpen}
-        message="Invalid credentials"
-        onDismiss={() => showInvalidCredentialsSnack(false)}
-      />
     </div>
   </>
 )
 
-const FORM_NAME = 'auth/signIn'
-
 export default compose(
-  withState(
-    'invalidCredentialsSnackOpen',
-    'showInvalidCredentialsSnack',
-    false
-  ),
+  reconnect(null, { clearSubmitErrors }),
   reduxForm({
     form: FORM_NAME,
     failedAction: ACTIONS.submit.error.toString(),
