@@ -60,7 +60,6 @@ const SimilarPayment = ({
       <div className={classes.postedOn}>{formatShortDate(postedOn, true)}</div>
     </div>
     {peer && <div className={classes.peer}>{peer.name}</div>}
-    <div className={classes.peer}>Amazon Cloud Services, LLC</div>
   </div>
 )
 

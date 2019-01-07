@@ -22,6 +22,7 @@ const defaultState = fromJS({
   pieData: {},
   revenue: 0,
   spending: 0,
+  stories: [],
   total: 0,
   typing: false,
 })
@@ -32,18 +33,23 @@ export default handleActions(
       state.merge(
         updateListOnly
           ? { updatingList: true }
-          : { loading: true, id: accountId }
+          : {
+              loading: true,
+              account: {
+                id: accountId,
+              },
+            }
       ),
     [ACTIONS.load.success]: (
       state,
       {
         payload: {
+          account,
           allPeers,
           barChart,
           barsUnit,
           categories,
           description,
-          name,
           payments,
           pieChart,
           revenue,
@@ -55,6 +61,7 @@ export default handleActions(
       }
     ) =>
       state.merge({
+        account,
         allPeers: fromJS(allPeers),
         barsData: fromJS(barChart || []),
         barsUnit,
@@ -62,7 +69,6 @@ export default handleActions(
         description,
         loaded: true,
         loading: false,
-        name,
         payments: fromJS(payments),
         paymentsCount: totalCount,
         pieData: fromJS(pieChart),

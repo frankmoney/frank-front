@@ -17,6 +17,7 @@ type Props = {|
   //
   counterClassName?: string,
   symbolClassName?: string,
+  dateRangeClassName?: string,
 |}
 
 const StoryPaymentsStats = ({

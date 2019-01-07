@@ -105,4 +105,11 @@ export default theme => ({
       paddingLeft: 20,
     },
   },
+
+  noLabel: {
+    width: 'auto',
+    '&$email': {
+      padding: [0, 11],
+    },
+  },
 })

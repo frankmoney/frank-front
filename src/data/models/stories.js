@@ -1,5 +1,5 @@
-// @flow strict
-
+// @flow strict-local
+// spellchecker:ignore draftjs
 import { convertFromRaw } from 'draft-js'
 
 interface Cover {
@@ -11,16 +11,24 @@ interface Cover {
 
 type DateRange = [string, string]
 
+type StoryBody = {|
+  text?: string,
+  draftjs?: string,
+|}
+
+export type StoryId = string | number
+
 export type Story = {|
-  body: {| text: string |},
+  body: StoryBody,
   cover: ?Cover,
-  id: string | number,
+  id: StoryId,
   paymentsCount: number,
   paymentsDateRange: DateRange,
+  text: ?string,
   title: string,
 |}
 
-export const mapToPlainTextBody = body => {
+export const mapBodyToPlainText = (body: StoryBody): ?string => {
   if (!body) {
     return null
   }
@@ -33,3 +41,9 @@ export const mapToPlainTextBody = body => {
 
   return (body.text || '').trim()
 }
+
+export const mapToPlainTextBody = ({ body, ...story }: Story): Story => ({
+  text: mapBodyToPlainText(body),
+  body,
+  ...story,
+})

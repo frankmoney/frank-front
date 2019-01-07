@@ -17,6 +17,7 @@ type Props = {|
   active?: boolean,
   hover?: boolean,
   large?: boolean,
+  noLabel?: boolean,
   type: SocialButtonType,
 |}
 
@@ -41,6 +42,7 @@ const SocialButton = ({
   className,
   hover,
   large,
+  noLabel,
   type,
   ...baseButtonProps
 }: Props) => {
@@ -57,13 +59,14 @@ const SocialButton = ({
           [classes.large]: large,
           [classes.active]: active,
           [classes.hover]: hover,
+          [classes.noLabel]: noLabel,
         },
         className
       )}
       {...baseButtonProps}
     >
       <Icon className={classes.icon} />
-      <div className={classes.label}>{label}</div>
+      {!noLabel && <div className={classes.label}>{label}</div>}
     </ButtonBase>
   )
 }

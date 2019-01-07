@@ -13,22 +13,25 @@ import PaymentsSummary from 'components/common/PaymentsSummary'
 import TimelineChart from 'components/common/TimelineChart'
 import { type BarData } from 'components/Charts/Bar'
 import {
+  accountSelector,
   barChartColorSelector,
   barChartDataSelector,
   barChartOnlySelector,
   categoryCountSelector,
   currentCategoryIdSelector,
   currentCategoryNameSelector,
+  currentTabSelector,
   descriptionSelector,
   isLoadingSelector,
   loadedSelector,
-  nameSelector,
   paymentCountSelector,
   paymentsSelector,
   pieItemsSelector,
   pieTotalSelector,
   revenueSelector,
   spendingSelector,
+  storiesSelector,
+  storiesCountSelector,
 } from 'containers/public/Ledger/selectors'
 import OverviewPieChart, {
   type PieChartCategories,
@@ -36,12 +39,19 @@ import OverviewPieChart, {
 import CategoryList from 'containers/widgets/ButtonWidget/ButtonWidgetCategoryList'
 import * as ACTIONS from 'containers/public/Ledger/actions'
 import Totals from 'containers/widgets/Totals'
+import { type Account, type AccountId } from 'data/models/account'
 import { type Payment } from 'data/models/payment'
 import { type PieTotal } from 'data/models/pieData'
+import { type Story } from 'data/models/stories'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import reconnect from 'utils/reconnect'
-import { ALL_CATEGORIES } from 'const'
-import { createPaymentClickHandler, type WithHistoryProps } from '../utils'
+import { ALL_CATEGORIES, ROUTES } from 'const'
+import {
+  createMobileUrl,
+  createPaymentClickHandler,
+  type WithHistoryProps,
+} from '../utils'
+import Stories from '../Story/Stories'
 import CheckboxButton from './CheckboxButton'
 import Payments from './MobilePayments'
 
@@ -156,17 +166,21 @@ type Category = {
   color: string,
 }
 
+type CurrentTab = 'ledger' | 'stories'
+
 type Props = {|
   ...InjectStylesProps,
   ...WithHistoryProps,
   //
-  accountId: number | string,
-  accountName: string,
+  accountId: AccountId,
+  account: Account,
+  // accountName: string,
   barData: BarData,
   categoryCount?: number,
   currentCategoryColor: ?string,
   currentCategoryId: ?string,
   currentCategoryName: ?string,
+  currentTab: CurrentTab,
   description: ?string,
   isPaymentsPage: boolean,
   onCancelCategory: () => void,
@@ -177,17 +191,20 @@ type Props = {|
   pieTotal: PieTotal,
   revenue: number,
   spending: number,
+  stories: Array<Story>,
+  storiesCount: number,
 |}
 
 const Ledger = ({
+  account,
   accountId,
-  accountName,
   barData,
   categoryCount,
   className,
   currentCategoryColor,
   currentCategoryId,
   currentCategoryName,
+  currentTab,
   classes,
   description,
   isPaymentsPage,
@@ -199,6 +216,8 @@ const Ledger = ({
   pieTotal,
   revenue,
   spending,
+  stories,
+  storiesCount,
   //
   history,
 }: Props) => {
@@ -206,6 +225,7 @@ const Ledger = ({
     window.scrollTo(0, 0)
     onCategoryClick(category)
   }
+  const { name: accountName, currencyCode } = account
 
   const handlePaymentClick = createPaymentClickHandler(accountId, history)
 
@@ -214,6 +234,13 @@ const Ledger = ({
     currentCategoryId === ALL_CATEGORIES.id || currentCategoryId === null
   const barsColor =
     currentCategoryId === ALL_CATEGORIES.id ? null : currentCategoryColor
+
+  const tab =
+    currentTab === 'ledger'
+      ? isPaymentsPage
+        ? 'payments'
+        : 'overview'
+      : 'stories'
 
   return (
     <div
@@ -225,7 +252,7 @@ const Ledger = ({
         className
       )}
     >
-      {!isPaymentsPage && (
+      {tab !== 'payments' && (
         <>
           <FrankLogo className={classes.logo} />
           <h1 className={classes.title}>{accountName}</h1>
@@ -238,18 +265,37 @@ const Ledger = ({
           {description && (
             <div className={classes.description}>{description}</div>
           )}
-          <div className={classes.tabs}>
-            <TextButton
-              icon={<LedgerIcon />}
-              color="blue"
-              larger
-              label="Ledger"
-            />
-            <TextButton icon={<StoriesIcon />} larger label="Stories" />
-          </div>
+          {storiesCount > 0 && (
+            <div className={classes.tabs}>
+              <TextButton
+                icon={<LedgerIcon />}
+                color={currentTab === 'ledger' ? 'blue' : 'black'}
+                href={
+                  currentTab === 'stories'
+                    ? createMobileUrl(ROUTES.account.idRoot, { accountId })
+                    : undefined
+                }
+                larger
+                label="Ledger"
+              />
+              <TextButton
+                icon={<StoriesIcon />}
+                color={currentTab === 'stories' ? 'blue' : 'black'}
+                href={
+                  currentTab === 'ledger'
+                    ? createMobileUrl(ROUTES.account.stories.root, {
+                        accountId,
+                      })
+                    : undefined
+                }
+                larger
+                label="Stories"
+              />
+            </div>
+          )}
         </>
       )}
-      {isPaymentsPage && (
+      {tab === 'payments' && (
         <FixedHeader
           className={cx(classes.fixedHeader, classes.mobileSized)}
           scrolledClassName={classes.fixedHeaderScrolled}
@@ -265,7 +311,7 @@ const Ledger = ({
           </span>
         </FixedHeader>
       )}
-      {!isPaymentsPage && (
+      {tab === 'overview' && (
         <div className={classes.overviewContainer}>
           <OverviewPieChart
             CategoryList={<CategoryList className={classes.categoryList} />}
@@ -286,25 +332,36 @@ const Ledger = ({
           />
         </div>
       )}
-      <TimelineChart
-        CheckboxComponent={CheckboxButton}
-        Mixins={{
-          checkboxes: classes.barCheckboxes,
-          checkbox: classes.barCheckbox,
-        }}
-        barsColor={barsColor}
-        className={classes.barChart}
-        data={barData}
-        mobile
-        width={timelineWidth}
-        height={220}
-      />
-      <Payments
-        className={classes.payments}
-        onPaymentClick={handlePaymentClick}
-        paymentsData={payments}
-        showCategories={showCategories}
-      />
+      {tab !== 'stories' && (
+        <>
+          <TimelineChart
+            CheckboxComponent={CheckboxButton}
+            Mixins={{
+              checkboxes: classes.barCheckboxes,
+              checkbox: classes.barCheckbox,
+            }}
+            barsColor={barsColor}
+            className={classes.barChart}
+            data={barData}
+            mobile
+            width={timelineWidth}
+            height={220}
+          />
+          <Payments
+            className={classes.payments}
+            onPaymentClick={handlePaymentClick}
+            paymentsData={payments}
+            showCategories={showCategories}
+          />
+        </>
+      )}
+      {tab === 'stories' && (
+        <Stories
+          accountId={accountId}
+          currencyCode={currencyCode}
+          stories={stories}
+        />
+      )}
     </div>
   )
 }
@@ -312,12 +369,13 @@ const Ledger = ({
 export default compose(
   reconnect(
     {
-      accountName: nameSelector,
+      account: accountSelector,
       barData: barChartDataSelector,
       categoryCount: categoryCountSelector,
       currentCategoryColor: barChartColorSelector,
       currentCategoryId: currentCategoryIdSelector,
       currentCategoryName: currentCategoryNameSelector,
+      currentTab: currentTabSelector,
       description: descriptionSelector,
       isPaymentsPage: barChartOnlySelector,
       loaded: loadedSelector,
@@ -328,6 +386,8 @@ export default compose(
       pieTotal: pieTotalSelector,
       revenue: revenueSelector,
       spending: spendingSelector,
+      stories: storiesSelector,
+      storiesCount: storiesCountSelector,
     },
     {
       load: ACTIONS.load,
