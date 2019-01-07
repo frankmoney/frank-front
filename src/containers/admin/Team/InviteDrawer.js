@@ -2,10 +2,16 @@ import { compose } from 'recompose'
 import TeamInviteDrawer from 'components/drawers/TeamInviteDrawer'
 import reconnect from 'utils/reconnect'
 import ACTIONS from './actions'
+import { inviteDrawerSubmittingSelector } from './selectors'
 
 export default compose(
-  reconnect(null, {
-    onClose: ACTIONS.closeInviteDrawer,
-    onSubmit: ACTIONS.invite,
-  })
+  reconnect(
+    {
+      loading: inviteDrawerSubmittingSelector,
+    },
+    {
+      onClose: ACTIONS.closeInviteDrawer,
+      onSubmit: ACTIONS.invite,
+    }
+  )
 )(TeamInviteDrawer)

@@ -1,5 +1,6 @@
 // @flow strict-local
 import React from 'react'
+import { compose, withPropsOnChange } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
 import { email as validateEmail, required } from '@frankmoney/forms'
 import SendIcon from 'material-ui-icons/Send'
@@ -20,6 +21,7 @@ const InviteDrawer = ({
   onRoleChange,
   submit,
   invalid,
+  loading,
   ...props
 }) => (
   <Drawer
@@ -35,6 +37,7 @@ const InviteDrawer = ({
       icon: <SendIcon />,
       disabled: invalid,
       onClick: submit,
+      loading,
     }}
     title="Invite a teammate"
     {...props}
@@ -63,6 +66,11 @@ const InviteDrawer = ({
   </Drawer>
 )
 
-export default reduxForm({
-  form: 'team-invite',
-})(InviteDrawer)
+export default compose(
+  withPropsOnChange(['onSubmit'], props => ({
+    onSubmit: data => props.onSubmit(data.toJS()),
+  })),
+  reduxForm({
+    form: 'team-invite',
+  })
+)(InviteDrawer)

@@ -4,14 +4,16 @@ const team = [
   `
   query {
     accounts {
-      pid
+      id: pid
       name
     }
   
     team {
-      pid
+      id: pid
       name
-      
+      invites {
+        email
+      }
       members {
         pid
         self
@@ -31,12 +33,13 @@ const team = [
     }
   }
   `,
-  ({ accounts, team: { id, name, members } }) => ({
+  ({ accounts, team: { id, name, members, invites } }) => ({
     team: {
       id,
       name,
       accounts,
     },
+    invites,
     self: R.find(x => x.self, members),
     others: R.filter(x => !x.self, members),
   }),
@@ -64,8 +67,20 @@ const changePassword = [
   R.prop('meChangePassword'),
 ]
 
+const sendInvite = [
+  `
+  mutation($teamId: ID!, $email: String!, $note: String) {
+    teamMemberInviteCreate(teamPid: $teamId, email: $email, note: $note) {
+      email
+    }
+  }
+  `,
+  R.prop('teamMemberInviteCreate'),
+]
+
 export default {
   team,
   changeAvatar,
   changePassword,
+  sendInvite,
 }

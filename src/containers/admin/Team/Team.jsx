@@ -14,13 +14,20 @@ import ACTIONS from './actions'
 import {
   canInviteSelector,
   inviteDrawerOpenSelector,
+  invitesSelector,
   loadedSelector,
   loadingSelector,
   otherProfilesSelector,
   ownProfileSelector,
 } from './selectors'
 
-const Team = ({ canInvite, ownProfile, otherProfiles, inviteDrawerOpen }) => (
+const Team = ({
+  canInvite,
+  invites,
+  ownProfile,
+  otherProfiles,
+  inviteDrawerOpen,
+}) => (
   <>
     <FixedHeader>
       <Breadcrumbs>
@@ -30,7 +37,7 @@ const Team = ({ canInvite, ownProfile, otherProfiles, inviteDrawerOpen }) => (
     <ListLayoutContent>
       {canInvite && <InviteButton />}
       <OwnProfile profile={ownProfile} />
-      <ProfileList profiles={otherProfiles} />
+      <ProfileList profiles={otherProfiles} invites={invites} />
     </ListLayoutContent>
     <InviteDrawer open={inviteDrawerOpen} />
   </>
@@ -43,6 +50,7 @@ export default compose(
       loading: loadingSelector,
       canInvite: canInviteSelector,
       ownProfile: ownProfileSelector,
+      invites: invitesSelector,
       otherProfiles: otherProfilesSelector,
       inviteDrawerOpen: inviteDrawerOpenSelector,
     },

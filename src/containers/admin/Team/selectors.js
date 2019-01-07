@@ -9,16 +9,19 @@ const getters = {
   loaded: getter('loaded'),
   loading: getter('loading'),
   inviteDrawerOpen: getter('inviteDrawerOpen'),
+  inviteDrawerLoading: getter('inviteDrawerLoading'),
   changePasswordPopupOpen: getter('changePasswordPopupOpen'),
   profiles: getter('profiles'),
   ownProfilePid: getter('ownProfilePid'),
   otherProfilePids: getter('otherProfilePids'),
+  invites: getter('invites'),
 }
 
 export const loadedSelector = getters.loaded
 export const loadingSelector = getters.loading
 
 export const inviteDrawerOpenSelector = getters.inviteDrawerOpen
+export const inviteDrawerSubmittingSelector = getters.inviteDrawerLoading
 export const changePasswordPopupOpen = getters.changePasswordPopupOpen
 
 export const ownProfileSelector = createPlainObjectSelector(
@@ -41,3 +44,7 @@ export const canInviteSelector = createSelector(
   createSelector(ownProfileSelector, R.prop('role')),
   role => role === 'administrator'
 )
+
+export const invitesSelector = createPlainObjectSelector(getters.invites)
+
+export const teamIdSelector = getter('team', 'id')

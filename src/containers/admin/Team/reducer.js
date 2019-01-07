@@ -11,6 +11,7 @@ const initialState = fromJS({
   ownProfileId: null,
   otherProfileIds: null,
   inviteDrawerOpen: false,
+  inviteDrawerLoading: false,
   changePasswordPopupOpen: false,
 })
 
@@ -21,10 +22,15 @@ const teamReducer = handleActions(
     [ACTIONS.load.error]: state =>
       state.merge({ loaded: false, loading: false }),
 
-    [ACTIONS.load.success]: (state, { payload: { self, others } }) =>
+    [ACTIONS.load.success]: (
+      state,
+      { payload: { team, self, others, invites } }
+    ) =>
       state.merge({
         loaded: true,
         loading: false,
+        team: fromJS(team),
+        invites,
         profiles: R.fromPairs([self, ...others].map(x => [x.pid, x])),
         ownProfilePid: self.pid,
         otherProfilePids: others.map(R.prop('pid')),
@@ -37,8 +43,12 @@ const teamReducer = handleActions(
     [ACTIONS.openChangePasswordPopup]: state =>
       state.set('changePasswordPopupOpen', true),
 
-    [ACTIONS.invite]: state => state.set('inviteDrawerOpen', false),
-
+    [ACTIONS.invite]: state => state.set('inviteDrawerLoading', true),
+    [ACTIONS.invite.success]: (state, { payload: invite }) =>
+      state
+        .set('inviteDrawerOpen', false)
+        .set('inviteDrawerLoading', false)
+        .update('invites', list => list.push(invite)),
     [ACTIONS.leave]: () => initialState,
   },
   initialState

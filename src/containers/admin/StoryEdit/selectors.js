@@ -51,7 +51,9 @@ export const formInitialValuesSelector = createSelector(
         if (values.body && values.body.draftjs) {
           values.description = convertFromRaw(JSON.parse(values.body.draftjs))
         } else {
-          values.description = ContentState.createFromText(values.body.text)
+          values.description = ContentState.createFromText(
+            (values.body && values.body.text) || ''
+          )
         }
 
         if (!values.payments) {
