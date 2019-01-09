@@ -225,11 +225,6 @@ const rawPieTotalSelector: Selector<PieTotal> = createSelector(
       : DEFAULT_PIE_TOTAL
 )
 
-export const noTextSearchSelector = createSelector(
-  searchTextSelector,
-  R.either(R.isNil, R.isEmpty)
-)
-
 export const barChartOnlySelector = createSelector(
   currentCategorySelector,
   R.complement(R.isNil)
@@ -260,10 +255,9 @@ const rawPieDataSelector: Selector<LedgerPieChart> = createPlainObjectSelector(
   get('pieData')
 )
 
-export const chartsVisibleSelector = createSelector(
-  noTextSearchSelector,
+export const pieChartVisibleSelector = createSelector(
   rawPieDataSelector,
-  (noSearch, { items }: LedgerPieChart) => noSearch && R.length(items) > 0
+  ({ items }: LedgerPieChart) => R.length(items) > 0
 )
 
 export const pieTotalSelector: Selector<PieTotal> = createSelector(
