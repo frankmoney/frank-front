@@ -164,12 +164,6 @@ export const currentFiltersCountSelector = createSelector(
   )
 )
 
-export const isEmptyAccountSelector = createSelector(
-  hasNoResultsSelector,
-  currentFiltersCountSelector,
-  (noResults, filterCount) => noResults && filterCount === 0
-)
-
 export const periodSelector = createSelector(
   queryParamSelector('dateMin'),
   queryParamSelector('dateMax'),
@@ -189,6 +183,14 @@ const rawPieTotalSelector: Selector<PieTotal> = createSelector(
 export const noTextSearchSelector = createSelector(
   searchTextSelector,
   R.either(R.isNil, R.isEmpty)
+)
+
+export const isEmptyAccountSelector = createSelector(
+  hasNoResultsSelector,
+  noTextSearchSelector,
+  currentFiltersCountSelector,
+  (noResults, noTextSearch, filterCount) =>
+    noResults && noTextSearch && filterCount === 0
 )
 
 export const barChartOnlySelector = createSelector(
