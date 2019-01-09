@@ -8,7 +8,6 @@ import {
   publishedSelector,
   validSelector,
   dirtySelector,
-  publishIssuesSelector,
 } from '../selectors'
 
 const changeType = change().type
@@ -25,10 +24,9 @@ export default (action$, store) =>
         form === FORM_NAME &&
         !isLoadingSelector(store.getState()) &&
         !processingSelector(store.getState()) &&
-        publishedSelector(store.getState()) &&
+        !publishedSelector(store.getState()) &&
         dirtySelector(store.getState()) &&
-        validSelector(store.getState()) &&
-        !publishIssuesSelector(store.getState())
+        validSelector(store.getState())
     )
     .map(() =>
       ACTIONS.createOrUpdate({
