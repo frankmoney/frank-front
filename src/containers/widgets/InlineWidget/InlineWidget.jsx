@@ -2,19 +2,24 @@
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
+import PaymentsSummary from 'components/common/PaymentsSummary'
+import Totals from 'containers/widgets/Totals'
+import { type AccountId } from 'data/models/account'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import colors from 'styles/colors'
 import Widget from '../Widget'
 
-const styles = theme => ({
+const styles = {
   root: {
-    ...theme.fontRegular(16, 26),
-    background: '#FFFFFF',
+    background: '#FFF',
     border: '1px solid #E9EAEC',
     borderRadius: 8,
-    color: colors.black,
+    display: 'flex',
+    position: 'relative',
+  },
+  widget: {
     display: 'flex',
     flexDirection: 'column',
+    flex: 1,
     padding: [0, 18, 19],
   },
   size400: {
@@ -44,11 +49,6 @@ const styles = theme => ({
       overflowY: 'scroll',
     },
   },
-  paymentsPeriodSelect: {
-    marginTop: 4,
-    paddingLeft: 2,
-    textAlign: 'left',
-  },
   barChart: {
     margin: [10, 'auto', 0],
     '$size500 &': {
@@ -67,13 +67,14 @@ const styles = theme => ({
       width: 'auto',
     },
   },
-})
+}
 
-type InlineWidgetSize = 400 | 500 | 625 | 800
+type InlineWidgetSize = 400 | 500 | 625 | 800 // TODO: support 280x190
 
 type Props = {|
   ...InjectStylesProps,
   //
+  accountId: AccountId,
   size: InlineWidgetSize,
 |}
 
@@ -84,25 +85,33 @@ const barsHeight = R.cond([
   [R.T, R.always(0)],
 ])
 
-const InlineWidget = ({ classes, size }: Props) => (
-  <Widget
+const InlineWidget = ({ accountId, classes, size }: Props) => (
+  <div
     className={cx(classes.root, {
       [classes.size400]: size === 400,
       [classes.size500]: size === 500,
       [classes.size625]: size === 625,
       [classes.size800]: size === 800,
     })}
-    barChartClassName={classes.barChart}
-    barsFooterPadding={10}
-    barsHeight={barsHeight(size)}
-    barsWidth={size > 500 ? 516 : 468}
-    contentClassName={classes.content}
-    paymentListClassName={classes.payments}
-    paymentsPeriodClassName={classes.paymentsPeriodSelect}
-    showBarChart={size > 400}
-    showCategoryCount={size > 400}
-    widgetSize={size}
-  />
+  >
+    <Widget
+      accountId={accountId}
+      barChartClassName={classes.barChart}
+      barsFooterPadding={10}
+      barsHeight={barsHeight(size)}
+      barsWidth={size > 500 ? 516 : 468}
+      contentClassName={classes.content}
+      className={classes.widget}
+      paymentListClassName={classes.payments}
+      PaymentsSummary={<PaymentsSummary className={classes.paymentsSummary} />}
+      showBarChart={size > 400}
+      showCategoryCount={size > 400}
+      Totals={
+        <Totals className={classes.stats} itemClassName={classes.statsItem} />
+      }
+      widgetSize={size}
+    />
+  </div>
 )
 
 export default injectStyles(styles)(InlineWidget)
