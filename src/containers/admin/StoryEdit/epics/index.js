@@ -1,3 +1,4 @@
+export autosave from './autosave'
 export load from './load'
 export resetCoverCropOnUnregister from './resetCoverCropOnUnregister'
 export modifyStoryPaymentsList from './modifyStoryPaymentsList'
