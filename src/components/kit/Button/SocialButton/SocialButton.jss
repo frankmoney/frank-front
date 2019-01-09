@@ -108,6 +108,12 @@ export default theme => ({
 
   noLabel: {
     width: 'auto',
+    '&$facebook': {
+      padding: [0, 13],
+    },
+    '&$twitter': {
+      padding: [0, 12],
+    },
     '&$email': {
       padding: [0, 11],
     },
