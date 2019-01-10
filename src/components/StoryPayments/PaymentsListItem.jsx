@@ -12,7 +12,9 @@ const styles = theme => ({
     padding: [25, 30],
     color: '#252B43',
     '&:hover': {
-      background: 'rgba(37, 43, 67, 0.03)',
+      '&:not($readOnly)': {
+        background: 'rgba(37, 43, 67, 0.03)',
+      },
       '& $remove': {
         display: 'block',
       },

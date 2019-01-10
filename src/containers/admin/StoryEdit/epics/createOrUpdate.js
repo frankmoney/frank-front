@@ -1,16 +1,21 @@
 // @flow strict-local
 import * as R from 'ramda'
 import { createRouteUrl } from '@frankmoney/utils'
+import storage from 'local-storage-fallback'
 import { push } from 'react-router-redux'
-import { getFormValues, stopAsyncValidation } from 'redux-form/immutable'
+import { stopAsyncValidation } from 'redux-form/immutable'
 import { convertToRaw } from 'draft-js'
 import createFilesApi from 'data/api/files'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import type { ReduxStore } from 'flow/redux'
-import { ROUTES } from 'const'
+import { LS_FLAGS, ROUTES } from 'const'
 import ACTIONS from '../actions'
 import QUERIES from '../queries'
-import { storySelector } from '../selectors'
+import {
+  storySelector,
+  formValuesSelector,
+  publishIssuesSelector,
+} from '../selectors'
 import { FORM_NAME } from '../constants'
 
 const cropCoverImage = async (httpClient, { image, crop }) => {
@@ -62,29 +67,13 @@ export default (
       const state = store.getState()
       const accountId = currentAccountIdSelector(state)
       let story = storySelector(state)
+      const wasPublished = !!story.publishedAt
 
-      const formValues = getFormValues(FORM_NAME)(state)
-
-      const descriptionContentState = formValues.get('description')
-
-      const { title, cover, coverCrop, payments } = formValues.toJS()
+      const formValues = formValuesSelector(state)
 
       if (published) {
-        const errors = {}
-
-        if (!title || !title.trim()) {
-          errors.title = 'Add title to publish'
-        }
-
-        if (!descriptionContentState || !descriptionContentState.hasText()) {
-          errors.description = 'Add story text to publish'
-        }
-
-        if (!payments || !payments.length) {
-          errors.payments = 'Attach payments to publish'
-        }
-
-        if (Object.keys(errors).length) {
+        const errors = publishIssuesSelector(state)
+        if (errors) {
           return [
             ACTIONS.createOrUpdate.error(),
             ACTIONS.showCanNotPublishSnack({ show: true }),
@@ -92,6 +81,10 @@ export default (
           ]
         }
       }
+
+      const descriptionContentState = formValues.get('description')
+
+      const { title, cover, coverCrop, payments } = formValues.toJS()
 
       const body =
         descriptionContentState && descriptionContentState.hasText()
@@ -135,12 +128,20 @@ export default (
 
       const successAction = ACTIONS.createOrUpdate.success({ accountId, story })
 
-      return story.publishedAt
-        ? [
-            successAction,
-            push(createRouteUrl(ROUTES.account.stories.root, { accountId })),
-          ]
-        : [successAction]
+      if (story.publishedAt && !wasPublished) {
+        const publicUrl = createRouteUrl(ROUTES.account.stories.idRoot, {
+          accountId,
+          storyId: story.id,
+        })
+        storage.setItem(LS_FLAGS.lastPublishedStoryUrl, publicUrl)
+
+        return [
+          successAction,
+          push(createRouteUrl(ROUTES.account.stories.root, { accountId })),
+        ]
+      }
+
+      return [successAction]
     })
     .mergeMap(R.identity)
     .catchAndRethrow(ACTIONS.createOrUpdate.error)

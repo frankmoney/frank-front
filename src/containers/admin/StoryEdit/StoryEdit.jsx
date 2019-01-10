@@ -49,7 +49,7 @@ const StoryEdit = ({
     <SidebarSnack
       color="red"
       shown={canNotPublishSnackShown}
-      message="Only a category with no payments can be removed"
+      message="Attach payments, add titile and story text to publish"
       dismissByTimeout={3000}
       onDismiss={() => showCanNotPublishSnack({ show: false })}
     />

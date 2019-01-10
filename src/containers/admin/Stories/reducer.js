@@ -18,6 +18,7 @@ const defaultState = Immutable.fromJS({
   storiesCount: 0,
   shareDialogIsOpen: false,
   shareDialogUrl: null,
+  deletedSnackShown: false,
 })
 
 export default handleActions(
@@ -30,6 +31,9 @@ export default handleActions(
       const shareDialogIsOpen = !!relativeUrl
       storage.removeItem(LS_FLAGS.lastPublishedStoryUrl)
 
+      const deletedSnackShown = !!storage.getItem(LS_FLAGS.storyDeleted)
+      storage.removeItem(LS_FLAGS.storyDeleted)
+
       return state.merge({
         loading: false,
         loaded: true,
@@ -37,11 +41,12 @@ export default handleActions(
         storiesCount: totalCount,
         shareDialogIsOpen,
         shareDialogUrl: publishedStoryUrl,
+        deletedSnackShown,
       })
     },
     [ACTIONS.load.error]: state => state.merge({ loading: false }),
-    [ACTIONS.toggleShareDialog]: state =>
-      state.merge({ shareDialogIsOpen: false }),
+    [ACTIONS.toggleShareDialog]: state => state.set('shareDialogIsOpen', false),
+    [ACTIONS.hideDeletedSnack]: state => state.set('deletedSnackShown', false),
     [ACTIONS.leave]: () => defaultState,
   },
   defaultState
