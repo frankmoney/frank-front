@@ -4,7 +4,11 @@ import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { queryParamSelector } from '@frankmoney/webapp'
 import { format } from 'date-fns/fp'
-import { formatBarDataPoints, type BarData } from 'data/models/barData'
+import {
+  formatBarDataPoints,
+  type BarData,
+  type BarsDataPoint,
+} from 'data/models/barData'
 import {
   DEFAULT_PIE_TOTAL,
   PIE_TOTAL_PARAMETER_NAME,
@@ -160,12 +164,6 @@ export const currentFiltersCountSelector = createSelector(
   )
 )
 
-export const isEmptyAccountSelector = createSelector(
-  hasNoResultsSelector,
-  currentFiltersCountSelector,
-  (noResults, filterCount) => noResults && filterCount === 0
-)
-
 export const periodSelector = createSelector(
   queryParamSelector('dateMin'),
   queryParamSelector('dateMax'),
@@ -185,6 +183,14 @@ const rawPieTotalSelector: Selector<PieTotal> = createSelector(
 export const noTextSearchSelector = createSelector(
   searchTextSelector,
   R.either(R.isNil, R.isEmpty)
+)
+
+export const isEmptyAccountSelector = createSelector(
+  hasNoResultsSelector,
+  noTextSearchSelector,
+  currentFiltersCountSelector,
+  (noResults, noTextSearch, filterCount) =>
+    noResults && noTextSearch && filterCount === 0
 )
 
 export const barChartOnlySelector = createSelector(
@@ -207,8 +213,12 @@ export const barChartColorSelector = createSelector(
   R.prop('color')
 )
 
+const rawBarDataSelector: Selector<
+  Array<BarsDataPoint>
+> = createPlainObjectSelector(get('barsData'))
+
 export const barChartDataSelector: Selector<BarData> = createSelector(
-  createPlainObjectSelector(get('barsData')),
+  rawBarDataSelector,
   barsUnitSelector,
   formatBarDataPoints
 )
@@ -221,8 +231,16 @@ export const chartsVisibleSelector = createSelector(
   noTextSearchSelector,
   rawPieDataSelector,
   barChartOnlySelector,
-  (noSearch, pieData: LedgerPieChart, showBarsOnly) =>
-    noSearch && ((pieData && pieData.items.length > 0) || showBarsOnly)
+  rawBarDataSelector,
+  (
+    noSearch: boolean,
+    pieData: LedgerPieChart,
+    showBarsOnly: boolean,
+    barData: Array<BarsDataPoint>
+  ) =>
+    noSearch &&
+    ((pieData && pieData.items.length > 0) ||
+      (showBarsOnly && barData.length > 0))
 )
 
 export const pieTotalSelector: Selector<PieTotal> = createSelector(

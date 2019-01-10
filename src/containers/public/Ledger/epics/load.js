@@ -1,4 +1,3 @@
-import * as R from 'ramda'
 import { formatDate } from 'utils/dates'
 import { ALL_CATEGORIES, UNCATEGORIZED_CATEGORY } from 'const'
 import * as ACTIONS from '../actions'
@@ -10,7 +9,6 @@ import {
   currentCategoryIdSelector,
   currentFiltersSelector,
   currentPageSelector,
-  noTextSearchSelector,
   searchTextSelector,
 } from '../selectors'
 
@@ -32,7 +30,6 @@ export default (action$, store, { graphql }) =>
         verified,
       } = currentFiltersSelector(state)
       const categoryId = currentCategoryIdSelector(state)
-      const needLoadCharts = noTextSearchSelector(state)
       const reqCategoryId =
         categoryId === ALL_CATEGORIES.id ||
         categoryId === UNCATEGORIZED_CATEGORY.id
@@ -43,11 +40,11 @@ export default (action$, store, { graphql }) =>
 
       return graphql(
         QUERIES.buildQuery({
-          barChart: needLoadCharts,
+          barChart: true,
           categories: !categoriesLoaded,
           categoryScoped: !!reqCategoryId,
           payments: true,
-          pieChart: needLoadCharts,
+          pieChart: true,
           stories: true,
           totalCount: true,
         }),

@@ -9,7 +9,7 @@ type ApiDates = {|
   startDate: string,
 |}
 
-type BarsDataPoint = {|
+export type BarsDataPoint = {|
   ...ApiDates,
   revenue: number,
   spending: number,
