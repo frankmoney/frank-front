@@ -6,6 +6,7 @@ import PaymentsSummary from 'components/common/PaymentsSummary'
 import Widget, { type WidgetAPI } from '../Widget'
 import AboutTab from '../Tabs/AboutTab'
 import OverviewTab, { type ButtonWidgetSize } from '../Tabs/OverviewTab'
+import StoriesTab from '../Tabs/StoriesTab'
 import ButtonWidgetExpander from './ButtonWidgetExpander'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
@@ -91,6 +92,7 @@ const ButtonWidget = ({ accountId, classes, open }: Props) => (
       }
       showBarChart
       showCategoryCount
+      StoriesTab={<StoriesTab />}
       Totals={
         <Totals className={classes.stats} itemClassName={classes.statsItem} />
       }

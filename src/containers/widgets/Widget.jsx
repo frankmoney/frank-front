@@ -28,7 +28,7 @@ import {
   AboutTab as AboutTabComponent,
   OverviewTab as OverviewTabComponent,
   PaymentListTab,
-  StoriesTab,
+  StoriesTab as StoriesTabComponent,
   type OverviewTabProps,
 } from './Tabs'
 import { type Period } from './PeriodSelect'
@@ -57,6 +57,7 @@ export type WidgetProps = {|
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   showBarChart: boolean,
   showCategoryCount: boolean,
+  StoriesTab: React.Element<typeof StoriesTabComponent>,
   // Styles
   barChartClassName?: string,
   className?: string,
@@ -294,6 +295,7 @@ class Widget extends React.Component<Props, State> {
       paymentsRootClassName,
       PaymentsSummary,
       showBarChart,
+      StoriesTab,
       Totals,
     } = this.props
 
@@ -334,6 +336,11 @@ class Widget extends React.Component<Props, State> {
           Totals: totals,
         })
 
+    const storiesTab = React.cloneElement(StoriesTab, {
+      accountId: this.props.accountId,
+      stories: this.stories,
+    })
+
     const aboutTab = AboutTab
       ? React.cloneElement(AboutTab, {
           description: this.state.accountDescription,
@@ -373,9 +380,7 @@ class Widget extends React.Component<Props, State> {
             />
           )
         }
-        StoriesTab={
-          <StoriesTab accountId={this.props.accountId} stories={this.stories} />
-        }
+        StoriesTab={storiesTab}
         AboutTab={aboutTab}
       />
     )

@@ -8,7 +8,7 @@ import { type AccountId } from 'data/models/account'
 import type { Story as StoryProps } from 'data/models/stories'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { ROUTES } from 'const'
-import Story from './Story'
+import Story, { type ImageBorderRadius } from './Story'
 
 const styles = {
   root: {
@@ -27,6 +27,9 @@ type Props = {|
   //
   accountId: AccountId,
   stories: Array<StoryProps>,
+  storyClassName?: string,
+  storyImageBorderRadius: ImageBorderRadius,
+  storyImageClassName?: string,
   currencyCode?: CurrencyCode,
 |}
 
@@ -35,12 +38,18 @@ const StoriesTab = ({
   classes,
   className,
   stories,
+  storyClassName,
+  storyImageBorderRadius,
+  storyImageClassName,
   currencyCode = 'USD',
 }: Props) => (
   <div className={cx(classes.root, className)}>
     <CurrencyProvider code={currencyCode}>
       {stories.map(({ id, ...story }) => (
         <Story
+          className={storyClassName}
+          imageBorderRadius={storyImageBorderRadius}
+          imageClassName={storyImageClassName}
           component={'a'}
           key={id}
           href={createRouteUrl(ROUTES.account.stories.idRoot, {

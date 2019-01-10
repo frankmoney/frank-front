@@ -8,6 +8,7 @@ import { type AccountId } from 'data/models/account'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import AboutTab from '../Tabs/AboutTab'
 import OverviewTab, { type InlineWidgetSize } from '../Tabs/OverviewTab'
+import StoriesTab from '../Tabs/StoriesTab'
 import Widget from '../Widget'
 
 const PADDING = 15
@@ -93,6 +94,23 @@ const styles = theme => ({
   paymentsSummary: {
     flex: 0,
   },
+  stories: {
+    maxWidth: 585,
+    '$size625 &, $size800 &': {
+      margin: [0, 'auto'],
+    },
+  },
+  story: {
+    boxShadow: [0, 0, 4, 'rgba(0, 0, 0, 0.1)'],
+    borderRadius: 5,
+    padding: [17, 23],
+  },
+  storyImage: {
+    margin: [-17, -23, 12],
+  },
+  about: {
+    maxWidth: 585,
+  },
   aboutTitle: {
     ...theme.fontSemibold(32, 40),
   },
@@ -136,6 +154,7 @@ const InlineWidget = ({ accountId, classes, size }: Props) => (
     <Widget
       AboutTab={
         <AboutTab
+          className={classes.about}
           descriptionClassName={classes.aboutDescription}
           titleClassName={classes.aboutTitle}
           totalsClassName={classes.aboutTotals}
@@ -165,6 +184,14 @@ const InlineWidget = ({ accountId, classes, size }: Props) => (
       }
       showBarChart={size > 400}
       showCategoryCount={size > 400}
+      StoriesTab={
+        <StoriesTab
+          className={classes.stories}
+          storyClassName={classes.story}
+          storyImageBorderRadius={[[5, 5, 0, 0]]}
+          storyImageClassName={classes.storyImage}
+        />
+      }
       Totals={
         <Totals className={classes.stats} itemClassName={classes.statsItem} />
       }
