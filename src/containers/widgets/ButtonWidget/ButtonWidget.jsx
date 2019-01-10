@@ -4,6 +4,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Totals from 'containers/widgets/Totals'
 import PaymentsSummary from 'components/common/PaymentsSummary'
 import Widget, { type WidgetAPI } from '../Widget'
+import OverviewTab from '../Tabs/OverviewTab'
 import ButtonWidgetExpander from './ButtonWidgetExpander'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
@@ -58,20 +59,26 @@ const ButtonWidget = ({ accountId, classes, open }: Props) => (
       barsFooterPadding={12}
       barsHeight={196}
       barsWidth={337}
-      CategoryList={ButtonWidgetCategoryList}
       className={classes.root}
-      contentClassName={classes.content}
-      PaymentsSummary={<PaymentsSummary className={classes.paymentsSummary} />}
+      OverviewTab={
+        <OverviewTab
+          CategoryList={ButtonWidgetCategoryList}
+          className={classes.content}
+          pieChartClassName={classes.pieChart}
+          pieChartRootComponent={React.Fragment}
+          showTotals
+          widgetSize={WIDTH}
+        />
+      }
       paymentListClassName={classes.payments}
       paymentsPeriodClassName={classes.period}
-      pieChartClassName={classes.pieChart}
-      pieChartRootComponent={React.Fragment}
+      paymentsRootClassName={classes.content}
+      PaymentsSummary={<PaymentsSummary className={classes.paymentsSummary} />}
       showBarChart
       showCategoryCount
       Totals={
         <Totals className={classes.stats} itemClassName={classes.statsItem} />
       }
-      widgetSize={WIDTH}
     />
   </ButtonWidgetExpander>
 )

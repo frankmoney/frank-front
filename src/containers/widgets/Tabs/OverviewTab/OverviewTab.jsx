@@ -39,27 +39,23 @@ type Props = {|
   ...InjectStylesProps,
   ...OverviewTabProps,
   //
-  categoryCount?: number,
-  CategoryList?: CategoryListComponent,
-  paymentCount?: number,
-  pieChartRootComponent?: CategoryListPieChartRootComponent,
-  pieItems: PieChartCategories,
-  widgetSize: 375 | 400 | 500 | 625 | 800,
-  // Handlers
-  onCategoryClick: CategoryCb,
-  // Styles
+  CategoryList: CategoryListComponent,
   chartClassName?: string,
-  contentClassName?: string,
-  periodSelectClassName?: string,
-  pieClassName?: string,
+  className?: string,
+  onCategoryClick: CategoryCb,
   PeriodSelect: ?React.Element<typeof PeriodSelectComponent>,
+  pieChartRootComponent?: CategoryListPieChartRootComponent,
+  pieClassName?: string,
+  pieItems: PieChartCategories,
+  showTotals: boolean,
+  widgetSize: 375 | 400 | 500 | 625 | 800,
 |}
 
 const OverviewTab = ({
   CategoryList,
   chartClassName,
   classes,
-  contentClassName,
+  className,
   onCategoryClick,
   onPieTotalChange,
   PaymentsSummary,
@@ -69,11 +65,12 @@ const OverviewTab = ({
   pieItems,
   pieTotal,
   pieTotalSelectable,
+  showTotals,
   Totals,
   widgetSize,
 }: Props) => (
-  <div className={contentClassName}>
-    {Totals}
+  <div className={className}>
+    {showTotals && Totals}
     {widgetSize !== 400 ? (
       <OverviewChart
         CategoryList={CategoryList}

@@ -6,6 +6,7 @@ import PaymentsSummary from 'components/common/PaymentsSummary'
 import Totals from 'containers/widgets/Totals'
 import { type AccountId } from 'data/models/account'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import OverviewTab from '../Tabs/OverviewTab'
 import Widget from '../Widget'
 
 const styles = {
@@ -100,16 +101,18 @@ const InlineWidget = ({ accountId, classes, size }: Props) => (
       barsFooterPadding={10}
       barsHeight={barsHeight(size)}
       barsWidth={size > 500 ? 516 : 468}
-      contentClassName={classes.content}
       className={classes.widget}
+      OverviewTab={
+        <OverviewTab className={classes.content} widgetSize={size} />
+      }
       paymentListClassName={classes.payments}
+      paymentsRootClassName={classes.content}
       PaymentsSummary={<PaymentsSummary className={classes.paymentsSummary} />}
       showBarChart={size > 400}
       showCategoryCount={size > 400}
       Totals={
         <Totals className={classes.stats} itemClassName={classes.statsItem} />
       }
-      widgetSize={size}
     />
   </div>
 )

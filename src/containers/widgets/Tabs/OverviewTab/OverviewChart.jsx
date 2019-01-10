@@ -4,7 +4,6 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import OverviewPieChart from 'components/OverviewPieChart'
 import type {
-  CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
   OverviewPieChartProps,
@@ -47,23 +46,18 @@ export type Props = {|
   ...OverviewPieChartProps,
   ...InjectStylesProps,
   //
-  CategoryList?: CategoryListComponent,
-  onCategoryClick: CategoryCb,
+  CategoryList: CategoryListComponent,
+  PeriodSelect: ?React.Element<any>, // flowlint-line unclear-type:off
   pieChartRootComponent?: CategoryListPieChartRootComponent,
+  pieClassName?: string,
   pieItems: PieChartCategories,
   widgetSize: 375 | 500 | 625 | 800,
-  // Styles
-  periodSelectClassName?: string,
-  pieClassName?: string,
-  //
-  PeriodSelect: ?React.Element<any>, // flowlint-line unclear-type:off
 |}
 
 const OverviewChart = ({
   CategoryList,
   classes,
   className,
-  periodSelectClassName,
   pieChartRootComponent,
   pieClassName,
   pieItems,
@@ -77,11 +71,11 @@ const OverviewChart = ({
   <>
     {PeriodSelect &&
       React.cloneElement(PeriodSelect, {
-        className: cx(classes.periodSelect, periodSelectClassName),
+        className: classes.periodSelect,
       })}
     <OverviewPieChart
       {...pieChartProps}
-      CategoryList={CategoryList && <CategoryList />}
+      CategoryList={<CategoryList />}
       chartClassName={pieClassName}
       chartSize={pieSize(widgetSize)}
       className={cx(classes.root, className)}

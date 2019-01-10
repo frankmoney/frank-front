@@ -8,13 +8,8 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { CategoryName, Header } from '../TabbedLayout/Header'
 
 const styles = {
-  content: {
+  root: {
     overflowY: 'scroll',
-  },
-  periodSelect: {
-    flex: [1, 0],
-    display: 'flex',
-    margin: [4, 0, 14, 2],
   },
 }
 
@@ -49,7 +44,7 @@ const PaymentListTab = ({
   barsHeight,
   barsWidth,
   classes,
-  contentClassName,
+  className,
   currentCategoryColor,
   currentCategoryName,
   footerPadding,
@@ -70,13 +65,10 @@ const PaymentListTab = ({
         onClick={onCancelCategoryClick}
       />
     </Header>
-    <div className={cx(classes.content, contentClassName)}>
+    <div className={cx(classes.root, className)}>
       {showBarChart && (
         <>
-          {PeriodSelect &&
-            React.cloneElement(PeriodSelect, {
-              className: classes.periodSelect,
-            })}
+          {PeriodSelect}
           <Bar
             barColor={currentCategoryColor}
             className={barChartClassName}

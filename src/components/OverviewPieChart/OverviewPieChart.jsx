@@ -102,7 +102,7 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
         : { className: cx(classes.root, className) }
     return (
       <Root {...rootProps}>
-        <div className={cx(classes.chartContainer, chartClassName)}>
+        <div className={cx(classes.chart, chartClassName)}>
           <Pie
             activeSegmentIndex={activeCategoryIndex}
             data={pieData}
