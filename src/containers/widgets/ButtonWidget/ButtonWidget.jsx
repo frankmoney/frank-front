@@ -4,6 +4,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Totals from 'containers/widgets/Totals'
 import PaymentsSummary from 'components/common/PaymentsSummary'
 import Widget, { type WidgetAPI } from '../Widget'
+import AboutTab from '../Tabs/AboutTab'
 import OverviewTab, { type ButtonWidgetSize } from '../Tabs/OverviewTab'
 import ButtonWidgetExpander from './ButtonWidgetExpander'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
@@ -43,6 +44,12 @@ const styles = {
   statsItem: {
     paddingLeft: 15,
   },
+  aboutTitle: {
+    marginTop: 8,
+  },
+  aboutTotals: {
+    margin: [29, -15, 0],
+  },
 }
 
 type Props = {|
@@ -55,6 +62,12 @@ type Props = {|
 const ButtonWidget = ({ accountId, classes, open }: Props) => (
   <ButtonWidgetExpander open={open} width={WIDTH}>
     <Widget
+      AboutTab={
+        <AboutTab
+          titleClassName={classes.aboutTitle}
+          totalsClassName={classes.aboutTotals}
+        />
+      }
       accountId={accountId}
       barsFooterPadding={12}
       barsHeight={196}

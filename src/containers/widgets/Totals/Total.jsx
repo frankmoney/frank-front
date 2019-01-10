@@ -15,9 +15,7 @@ const styles = theme => ({
   label: {
     ...theme.fontRegular(16, 28),
   },
-  value: {
-    ...theme.fontRegular(18, 26),
-  },
+  value: {},
   digits: {
     color: '#20284A',
     marginLeft: 4,

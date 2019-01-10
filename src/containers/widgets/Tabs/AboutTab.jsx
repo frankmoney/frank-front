@@ -9,13 +9,17 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    paddingTop: 8,
+    margin: [0, 'auto'],
+    maxWidth: 585,
+    width: '100%',
+    overflowY: 'scroll',
   },
+  small: {},
   title: {
     ...theme.fontSemibold(40, 42),
   },
   totals: {
-    margin: [29, -15, 0],
+    margin: [13, 0, 0],
   },
   link: {
     margin: [28, 0, 0, -2],
@@ -31,20 +35,39 @@ type Props = {|
   ...InjectStylesProps,
   //
   description: ?string,
+  descriptionClassName?: string,
   name: ?string,
+  titleClassName?: string,
   Totals: ?React.Element<typeof TotalsComponent>,
+  totalsClassName?: string,
 |}
 
-const AboutTab = ({ classes, className, description, name, Totals }: Props) => (
+const AboutTab = ({
+  classes,
+  className,
+  description,
+  descriptionClassName,
+  name,
+  titleClassName,
+  Totals,
+  totalsClassName,
+}: Props) => (
   <div className={cx(classes.root, className)}>
-    {name && <div className={classes.title}>{name}</div>}
-    {Totals && React.cloneElement(Totals, { className: classes.totals })}
+    {name && <div className={cx(classes.title, titleClassName)}>{name}</div>}
+    {Totals &&
+      React.cloneElement(Totals, {
+        className: cx(classes.totals, totalsClassName),
+      })}
     {/* <PublicLinkButton
       className={classes.link}
       url={'google.com'}
       label={'google.com'}
     /> */}
-    {description && <div className={classes.description}>{description}</div>}
+    {description && (
+      <div className={cx(classes.description, descriptionClassName)}>
+        {description}
+      </div>
+    )}
   </div>
 )
 

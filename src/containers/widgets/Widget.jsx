@@ -25,7 +25,7 @@ import TabbedLayout, {
   type WidgetTab,
 } from './TabbedLayout'
 import {
-  AboutTab,
+  AboutTab as AboutTabComponent,
   OverviewTab as OverviewTabComponent,
   PaymentListTab,
   StoriesTab,
@@ -48,6 +48,7 @@ interface Category {
 export type WidgetProps = {|
   ...OverviewTabProps,
   //
+  AboutTab?: React.Element<typeof AboutTabComponent>,
   barsFooterPadding: number,
   barsHeight: number,
   barsWidth: number,
@@ -278,6 +279,7 @@ class Widget extends React.Component<Props, State> {
     }
 
     const {
+      AboutTab,
       barChartClassName,
       barsFooterPadding,
       barsHeight,
@@ -332,13 +334,13 @@ class Widget extends React.Component<Props, State> {
           Totals: totals,
         })
 
-    const aboutTab = (
-      <AboutTab
-        description={this.state.accountDescription}
-        name={this.state.accountName}
-        Totals={totals}
-      />
-    )
+    const aboutTab = AboutTab
+      ? React.cloneElement(AboutTab, {
+          description: this.state.accountDescription,
+          name: this.state.accountName,
+          Totals: totals,
+        })
+      : null
 
     return (
       <TabbedLayout

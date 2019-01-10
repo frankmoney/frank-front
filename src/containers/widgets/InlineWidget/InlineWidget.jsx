@@ -6,12 +6,13 @@ import PaymentsSummary from 'components/common/PaymentsSummary'
 import Totals from 'containers/widgets/Totals'
 import { type AccountId } from 'data/models/account'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import AboutTab from '../Tabs/AboutTab'
 import OverviewTab, { type InlineWidgetSize } from '../Tabs/OverviewTab'
 import Widget from '../Widget'
 
 const PADDING = 15
 
-const styles = {
+const styles = theme => ({
   root: {
     background: '#FFF',
     border: '1px solid #E9EAEC',
@@ -92,7 +93,21 @@ const styles = {
   paymentsSummary: {
     flex: 0,
   },
-}
+  aboutTitle: {
+    ...theme.fontSemibold(32, 40),
+  },
+  aboutTotals: {
+    ...theme.fontRegular(20, 26),
+    maxWidth: 400,
+    '& > :not(:first-child)': {
+      paddingLeft: 14,
+    },
+  },
+  aboutDescription: {
+    ...theme.fontRegular(20, 30),
+    marginTop: 17,
+  },
+})
 
 type Props = {|
   ...InjectStylesProps,
@@ -119,6 +134,13 @@ const InlineWidget = ({ accountId, classes, size }: Props) => (
     })}
   >
     <Widget
+      AboutTab={
+        <AboutTab
+          descriptionClassName={classes.aboutDescription}
+          titleClassName={classes.aboutTitle}
+          totalsClassName={classes.aboutTotals}
+        />
+      }
       accountId={accountId}
       barChartClassName={classes.barChart}
       barsFooterPadding={10}
