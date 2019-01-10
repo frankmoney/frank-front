@@ -16,6 +16,11 @@ const WidgetsDemo = () => (
       <ButtonWidget accountId={18} />
     </Row>
 
+    <h2>Inline widget 280x190</h2>
+    <Row centered>
+      <InlineWidget accountId={4} size={280} />
+    </Row>
+
     <h2>Inline widget 400x275</h2>
     <Row centered>
       <InlineWidget accountId={4} size={400} />
@@ -35,11 +40,6 @@ const WidgetsDemo = () => (
     <Row centered>
       <InlineWidget accountId={4} size={800} />
     </Row>
-
-    {/* <h2>Inline widget 280x190</h2>
-    <Row centered>
-      <InlineWidget accountId={4} size={280} />
-    </Row> */}
   </Demo>
 )
 

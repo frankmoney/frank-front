@@ -56,7 +56,6 @@ export type WidgetProps = {|
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   showBarChart: boolean,
   showCategoryCount: boolean,
-  widgetSize: number,
   // Styles
   barChartClassName?: string,
   className?: string,

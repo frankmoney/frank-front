@@ -40,6 +40,8 @@ const styles = {
   },
 }
 
+type WidgetWithChartSize = 375 | 500 | 625 | 800
+
 export type Props = {|
   ...OverviewPieChartProps,
   ...InjectStylesProps,
@@ -49,7 +51,7 @@ export type Props = {|
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   pieClassName?: string,
   pieItems: PieChartCategories,
-  widgetSize: 375 | 500 | 625 | 800,
+  widgetSize: WidgetWithChartSize,
 |}
 
 const OverviewChart = ({

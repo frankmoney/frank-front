@@ -6,7 +6,7 @@ import PaymentsSummary from 'components/common/PaymentsSummary'
 import Totals from 'containers/widgets/Totals'
 import { type AccountId } from 'data/models/account'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import OverviewTab from '../Tabs/OverviewTab'
+import OverviewTab, { type InlineWidgetSize } from '../Tabs/OverviewTab'
 import Widget from '../Widget'
 
 const PADDING = 15
@@ -25,9 +25,19 @@ const styles = {
     flex: 1,
     padding: [0, 18, 19],
   },
+  size280: {
+    width: 280,
+    height: 190,
+    '& $content': {
+      overflowY: 'scroll',
+    },
+  },
   size400: {
     width: 400,
     height: 275,
+    '& $content': {
+      overflowY: 'scroll',
+    },
   },
   size500: {
     width: 500,
@@ -48,9 +58,6 @@ const styles = {
     flexGrow: 1,
     margin: [0, -PADDING],
     padding: [0, PADDING],
-    '$size400 &': {
-      overflowY: 'scroll',
-    },
     position: 'relative',
   },
   barChart: {
@@ -79,8 +86,6 @@ const styles = {
   },
 }
 
-type InlineWidgetSize = 400 | 500 | 625 | 800 // TODO: support 280x190
-
 type Props = {|
   ...InjectStylesProps,
   //
@@ -98,6 +103,7 @@ const barsHeight = R.cond([
 const InlineWidget = ({ accountId, classes, size }: Props) => (
   <div
     className={cx(classes.root, {
+      [classes.size280]: size === 280,
       [classes.size400]: size === 400,
       [classes.size500]: size === 500,
       [classes.size625]: size === 625,
