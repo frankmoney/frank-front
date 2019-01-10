@@ -78,11 +78,19 @@ const styles = {
       width: 'auto',
     },
   },
+  pieChart: {
+    '$size500 &': {
+      margin: [0, 35, 0, 5],
+    },
+    '$size625 &': {
+      margin: [0, 53],
+    },
+    '$size800 &': {
+      margin: [0, 55, 0, 86],
+    },
+  },
   paymentsSummary: {
-    position: 'absolute',
-    bottom: 0,
-    left: PADDING,
-    right: PADDING,
+    flex: 0,
   },
 }
 
@@ -118,7 +126,11 @@ const InlineWidget = ({ accountId, classes, size }: Props) => (
       barsWidth={size > 500 ? 516 : 468}
       className={classes.widget}
       OverviewTab={
-        <OverviewTab className={classes.content} widgetSize={size} />
+        <OverviewTab
+          className={classes.content}
+          pieClassName={classes.pieChart}
+          widgetSize={size}
+        />
       }
       paymentListClassName={classes.payments}
       paymentsRootClassName={classes.content}

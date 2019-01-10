@@ -1,3 +1,7 @@
 // @flow strict-local
 export { default } from './OverviewTab'
-export type { OverviewTabProps, InlineWidgetSize } from './OverviewTab'
+export type {
+  ButtonWidgetSize,
+  InlineWidgetSize,
+  OverviewTabProps,
+} from './OverviewTab'

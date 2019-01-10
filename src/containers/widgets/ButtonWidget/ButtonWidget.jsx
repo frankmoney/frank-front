@@ -4,11 +4,11 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Totals from 'containers/widgets/Totals'
 import PaymentsSummary from 'components/common/PaymentsSummary'
 import Widget, { type WidgetAPI } from '../Widget'
-import OverviewTab from '../Tabs/OverviewTab'
+import OverviewTab, { type ButtonWidgetSize } from '../Tabs/OverviewTab'
 import ButtonWidgetExpander from './ButtonWidgetExpander'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
-const WIDTH = 375
+const WIDTH: ButtonWidgetSize = 375
 
 const styles = {
   root: {

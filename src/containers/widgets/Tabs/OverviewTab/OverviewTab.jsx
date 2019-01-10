@@ -35,7 +35,7 @@ const styles = {
 }
 
 export type InlineWidgetSize = 280 | 400 | 500 | 625 | 800
-type ButtonWidgetSize = 375
+export type ButtonWidgetSize = 375
 type WidgetSize = InlineWidgetSize | ButtonWidgetSize
 
 export type OverviewTabProps = {|
@@ -56,7 +56,7 @@ type Props = {|
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   pieClassName?: string,
   pieItems: PieChartCategories,
-  showTotals: boolean,
+  showTotals?: boolean,
   widgetSize: WidgetSize,
 |}
 
@@ -80,7 +80,7 @@ const OverviewTab = ({
 }: Props) => (
   <div className={className}>
     {showTotals && Totals}
-    {widgetSize > 400 ? (
+    {widgetSize > 400 || widgetSize === 375 ? (
       <OverviewChart
         CategoryList={CategoryList}
         className={chartClassName}

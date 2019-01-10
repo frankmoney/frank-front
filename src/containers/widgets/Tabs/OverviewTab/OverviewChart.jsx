@@ -29,7 +29,9 @@ const dynamicPieTotalSelectLabel = R.cond([
 ])
 
 const styles = {
-  root: {},
+  root: {
+    justifyContent: 'left',
+  },
   customPieTotalSelect: {
     fontSize: 15,
   },
