@@ -9,6 +9,8 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import OverviewTab from '../Tabs/OverviewTab'
 import Widget from '../Widget'
 
+const PADDING = 15
+
 const styles = {
   root: {
     background: '#FFF',
@@ -44,11 +46,12 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    margin: [0, -15],
-    padding: [0, 15],
+    margin: [0, -PADDING],
+    padding: [0, PADDING],
     '$size400 &': {
       overflowY: 'scroll',
     },
+    position: 'relative',
   },
   barChart: {
     margin: [10, 'auto', 0],
@@ -67,6 +70,12 @@ const styles = {
       margin: [-5, -8, 0],
       width: 'auto',
     },
+  },
+  paymentsSummary: {
+    position: 'absolute',
+    bottom: 0,
+    left: PADDING,
+    right: PADDING,
   },
 }
 
@@ -107,7 +116,13 @@ const InlineWidget = ({ accountId, classes, size }: Props) => (
       }
       paymentListClassName={classes.payments}
       paymentsRootClassName={classes.content}
-      PaymentsSummary={<PaymentsSummary className={classes.paymentsSummary} />}
+      PaymentsSummary={
+        <PaymentsSummary
+          className={cx({ [classes.paymentsSummary]: size > 400 })}
+          showIcon
+          showVerified
+        />
+      }
       showBarChart={size > 400}
       showCategoryCount={size > 400}
       Totals={

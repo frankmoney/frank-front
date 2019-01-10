@@ -20,12 +20,17 @@ const styles = {
     display: 'flex',
     flexShrink: 0,
     margin: [6, 0, -1, 2],
+    '& > :not(:last-child)': {
+      marginRight: 27,
+    },
   },
   standaloneCategoryType: {
-    alignItems: 'normal',
-    marginLeft: 27,
-    padding: 0,
+    fontSize: 18,
+    padding: [3, 0, 0],
     position: 'static',
+  },
+  standaloneCategoryList: {
+    padding: [19, 2],
   },
 }
 
@@ -92,10 +97,12 @@ const OverviewTab = ({
           <PieTotalSelect
             className={classes.standaloneCategoryType}
             onChange={onPieTotalChange}
+            selectable={pieTotalSelectable}
             value={pieTotal}
           />
         </div>
         <JustCategoryList
+          className={classes.standaloneCategoryList}
           onCategoryClick={onCategoryClick}
           pieItems={pieItems}
         />

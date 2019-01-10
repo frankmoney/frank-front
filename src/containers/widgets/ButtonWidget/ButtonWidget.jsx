@@ -73,7 +73,9 @@ const ButtonWidget = ({ accountId, classes, open }: Props) => (
       paymentListClassName={classes.payments}
       paymentsPeriodClassName={classes.period}
       paymentsRootClassName={classes.content}
-      PaymentsSummary={<PaymentsSummary className={classes.paymentsSummary} />}
+      PaymentsSummary={
+        <PaymentsSummary className={classes.paymentsSummary} large />
+      }
       showBarChart
       showCategoryCount
       Totals={

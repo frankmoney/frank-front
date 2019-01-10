@@ -29,9 +29,7 @@ const dynamicPieTotalSelectLabel = R.cond([
 ])
 
 const styles = {
-  root: {
-    paddingBottom: 5,
-  },
+  root: {},
   customPieTotalSelect: {
     fontSize: 15,
   },
