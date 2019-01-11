@@ -142,6 +142,7 @@
     "lodash": "^4.17.2",
     "material-ui": "1.0.0-beta.43",
     "material-ui-icons": "1.0.0-beta.36",
+    "mobile-detect": "^1.4.3",
     "prop-types": "^15.6.2",
     "querystring": "^0.2.0",
     "ramda": "^0.25.0",

@@ -71,8 +71,8 @@ class ButtonWidget extends React.Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
-        {mobile && <BodyFixer />}
-        {hover && <BodyPreventScrolling />}
+        {mobile && open && <BodyFixer />}
+        {!mobile && hover && <BodyPreventScrolling />}
         {wasOpened && (
           <div className={classes.popup}>
             <ButtonWidgetEmbed
@@ -108,7 +108,7 @@ class ButtonWidget extends React.Component {
 export default compose(
   defaultProps({
     position: 'right',
-    mobile: true,
+    mobile: false,
     accountId: null,
     openImmediately: false,
     openImmediatelyTimeout: 700,

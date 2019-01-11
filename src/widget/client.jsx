@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import defaults from 'lodash/defaults'
 import assign from 'lodash/assign'
+import MobileDetect from 'mobile-detect'
 import Widget from './app'
 
 const CONTAINER_ID = 'frank-embed-container'
@@ -21,6 +22,7 @@ const defaultSettings = {
   position: 'right',
   autoloadButton: true,
   openImmediately: false,
+  mobile: !!new MobileDetect(navigator.userAgent).phone(),
 }
 
 const parseQueryString = url => {
@@ -102,7 +104,7 @@ const load = () => {
       document.body.appendChild(container)
     }
 
-    console.log(container);
+    console.log(container)
     Frank.widget = ReactDOM.render(
       React.createElement(Widget, widgetOptions),
       container

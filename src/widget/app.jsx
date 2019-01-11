@@ -23,6 +23,6 @@ const App = createApp({
 
 export default props => (
   <App>
-    <ButtonWidget defaultOpen {...props} />
+    <ButtonWidget {...props} />
   </App>
 )
