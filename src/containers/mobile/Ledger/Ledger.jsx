@@ -36,7 +36,7 @@ import {
 import OverviewPieChart, {
   type PieChartCategories,
 } from 'components/OverviewPieChart'
-import CategoryList from 'containers/widgets/ButtonWidget/ButtonWidgetCategoryList'
+import CategoryList from 'widget/components/ButtonWidget/ButtonWidgetEmbed/ButtonWidgetCategoryList'
 import * as ACTIONS from 'containers/public/Ledger/actions'
 import Totals from 'containers/widgets/Totals'
 import { type Account, type AccountId } from 'data/models/account'

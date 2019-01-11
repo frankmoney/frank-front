@@ -1,6 +1,6 @@
 // @flow strict-local
 import React from 'react'
-import ButtonWidget from 'containers/widgets/ButtonWidget'
+import ButtonWidget from 'widget/components'
 // import InlineWidget from 'containers/widgets/InlineWidget'
 import Demo, { Row } from 'demo/Demo'
 
