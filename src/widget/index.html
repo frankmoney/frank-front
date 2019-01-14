@@ -1,0 +1,51 @@
+<html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <meta charset="utf-8"/>
+      <script type="application/javascript" src="http://0.0.0.0:8082/assets/main.js?accountId=4&debug=info" async></script>
+
+      <script type="text/javascript">
+        window.Frank = {
+            settings: {
+            }
+        }
+
+        function handleShowWidget() {
+            Frank.widget.showPopup()
+        }
+
+        function handleLeft() {
+          Frank.widget.setPosition('left')
+        }
+
+        function handleRight() {
+          Frank.widget.setPosition('right')
+        }
+
+      </script>
+        <!--<script type="application/javascript" src="//assets.frank.ly/embed/widget.js?accountId=1&debug=info" async></script>-->
+        <style type="text/css">
+            #red {
+                background-color: red;
+                height: 800px;
+            }
+
+            #blue {
+                background-color: blue;
+                height: 800px;
+            }
+
+            #frank-embed-container {
+              z-index: 21!important;
+            }
+        </style>
+    </head>
+    <body>
+        <!--<a href="https://google.com">Google</a>-->
+        <!--<button onclick="window.handleShowWidget()">Show me Frank widget!</button>-->
+        <!--<button onclick="window.handleLeft()">Left</button>-->
+        <!--<button onclick="window.handleRight()">Right</button>-->
+        <div id="red"></div>
+        <div id="blue"></div>
+    </body>
+</html>

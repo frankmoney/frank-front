@@ -1,5 +1,6 @@
 // @flow strict-local
 import React from 'react'
+import cx from 'classnames'
 import { injectStyles } from 'utils/styles'
 import DemoMenu from './DemoMenu'
 
@@ -34,8 +35,8 @@ const styles = {
   },
 }
 
-const Demo = ({ classes, children, gray, ...props }) => (
-  <div className={classes.demo} {...props}>
+const Demo = ({ classes, className, children, gray, ...props }) => (
+  <div className={cx(classes.demo, className)} {...props}>
     <DemoMenu />
     {children}
   </div>
