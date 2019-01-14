@@ -12,6 +12,12 @@ steps:
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'deploy:assets']
   env: ['PUBLIC_PATH=//frankassets-cdn.azureedge.net/assets/frank/']
+- name: 'mhart/alpine-node:9'
+  args: ['yarn', 'run', 'build-widget']
+  env: ['PUBLIC_PATH=//frankassets-cdn.azureedge.net/assets/frank/']
+- name: 'mhart/alpine-node:9'
+  args: ['yarn', 'run', 'deploy:widget']
+  env: ['PUBLIC_PATH=//frankassets-cdn.azureedge.net/assets/frank/']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/frank-front:$BRANCH_NAME-$SHORT_SHA', '.']
 - name: 'gcr.io/cloud-builders/docker'

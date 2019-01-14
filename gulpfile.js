@@ -1,6 +1,9 @@
+const fs = require('fs')
 const gulp = require('gulp')
 const azure = require('gulp-deploy-azure-cdn')
 const gutil = require('gulp-util')
+const gcPub = require('gulp-gcloud-publish')
+const gzip = require('gulp-gzip') // optional
 
 gulp.task('azure', () =>
   gulp
@@ -23,3 +26,30 @@ gulp.task('azure', () =>
     )
     .on('error', gutil.log)
 )
+
+gulp.task('gcloud-widget', () => {
+  const base64Keys = process.env.GOOGLE_KEYS
+  const bucket = process.env.GOOGLE_BUCKET_NAME
+  const projectId = process.env.GOOGLE_PROJECT
+  const bucketPath = process.env.GOOGLE_BUCKET_PATH
+  const keysFile = 'google_keys.json'
+
+  fs.writeFileSync(keysFile, Buffer.from(base64Keys, 'base64').toString('utf8'))
+
+  return gulp
+    .src('build/widget/**')
+    .pipe(gzip()) // optional
+    .pipe(
+      gcPub({
+        bucket,
+        keyFilename: keysFile,
+        projectId,
+        base: bucketPath,
+        public: true,
+        metadata: {
+          cacheControl: 'max-age=315360000, no-transform, public',
+        },
+      })
+    )
+    .on('end', () => fs.unlinkSync(keysFile))
+})
