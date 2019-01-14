@@ -29,6 +29,11 @@ export const processingSelector = createSelector(
 
 export const storySelector = createPlainObjectSelector(get('story'))
 
+export const newSelector = createSelector(
+  storySelector,
+  story => !story || !story.pid
+)
+
 export const publishedSelector = createSelector(
   storySelector,
   story => !!story.publishedAt

@@ -5,8 +5,8 @@ import { FORM_NAME, SAVE_MODE } from '../constants'
 import {
   isLoadingSelector,
   processingSelector,
+  newSelector,
   publishedSelector,
-  validSelector,
   dirtySelector,
 } from '../selectors'
 
@@ -19,18 +19,20 @@ export default (action$, store) =>
     action$.ofType(blurType)
   )
     .debounceTime(2000)
-    .filter(
-      ({ meta: { form } }) =>
+    .filter(({ meta: { form } }) => {
+      const state = store.getState()
+      return (
         form === FORM_NAME &&
-        !isLoadingSelector(store.getState()) &&
-        !processingSelector(store.getState()) &&
-        !publishedSelector(store.getState()) &&
-        dirtySelector(store.getState()) &&
-        validSelector(store.getState())
-    )
+        !isLoadingSelector(state) &&
+        !processingSelector(state) &&
+        !newSelector(state) &&
+        !publishedSelector(state) &&
+        dirtySelector(state)
+      )
+    })
     .map(() =>
       ACTIONS.createOrUpdate({
         mode: SAVE_MODE.createOrUpdate,
-        published: true,
+        published: false,
       })
     )
