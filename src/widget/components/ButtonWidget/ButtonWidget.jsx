@@ -2,7 +2,8 @@
 import React from 'react'
 import cx from 'classnames'
 import { withState, compose, defaultProps } from 'recompose'
-import { injectStyles } from 'utils/styles'
+import { type AccountId } from 'data/models/account'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import BodyFixer from 'widget/components/utility/BodyFixer'
 import BodyPreventScrolling from 'widget/components/utility/BodyPreventScrolling'
 import calcScreenSize from 'widget/components/utility/calcScreenSize'
@@ -14,10 +15,17 @@ import styles from './ButtonWidget.jss'
 const MAX_FRAME_HEIGHT = 667
 
 type Props = {|
+  ...InjectStylesProps,
+  //
+  accountId?: AccountId,
+  buttonColor?: string,
   changeOpen: boolean => void,
+  mobile?: boolean,
   open: boolean,
   openImmediately?: boolean,
   openImmediatelyTimeout: number,
+  screenWidth: number,
+  width: number, // TODO: support random size
 |}
 
 type State = {|
@@ -99,7 +107,7 @@ class ButtonWidget extends React.Component<Props, State> {
         <ButtonWidgetToggle
           className={classes.expander}
           title={open ? 'Real-time report' : 'We’re transparent'}
-          expanded={open}
+          open={open}
           color={buttonColor}
           subtitle={
             open ? (

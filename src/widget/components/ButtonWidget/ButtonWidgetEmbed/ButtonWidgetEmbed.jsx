@@ -3,15 +3,11 @@ import React from 'react'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Totals from 'containers/widgets/Totals/index'
 import AboutTab from 'containers/widgets/Tabs/AboutTab'
-import OverviewTab, {
-  type ButtonWidgetSize,
-} from 'containers/widgets/Tabs/OverviewTab'
+import OverviewTab from 'containers/widgets/Tabs/OverviewTab'
 import StoriesTab from 'containers/widgets/Tabs/StoriesTab'
 import PaymentsSummary from 'components/common/PaymentsSummary/index'
 import Widget, { type WidgetAPI } from 'containers/widgets/Widget'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
-
-const WIDTH: ButtonWidgetSize = 375
 
 const styles = {
   root: {
@@ -46,6 +42,9 @@ const styles = {
   statsItem: {
     paddingLeft: 15,
   },
+  barchart: {
+    margin: [8, 'auto', 20],
+  },
 }
 
 type Props = {|
@@ -53,9 +52,10 @@ type Props = {|
   // Public API
   ...WidgetAPI,
   open?: boolean,
+  width: number,
 |}
 
-const ButtonWidgetEmbed = ({ accountId, classes }: Props) => (
+const ButtonWidgetEmbed = ({ accountId, classes, width }: Props) => (
   <Widget
     AboutTab={
       <AboutTab
@@ -64,6 +64,7 @@ const ButtonWidgetEmbed = ({ accountId, classes }: Props) => (
       />
     }
     accountId={accountId}
+    barChartClassName={classes.barchart}
     barsFooterPadding={12}
     barsHeight={196}
     barsWidth={337}
@@ -75,7 +76,7 @@ const ButtonWidgetEmbed = ({ accountId, classes }: Props) => (
         pieChartClassName={classes.pieChart}
         pieChartRootComponent={React.Fragment}
         showTotals
-        widgetSize={WIDTH}
+        widgetSize={width}
       />
     }
     paymentListClassName={classes.payments}
