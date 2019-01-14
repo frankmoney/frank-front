@@ -7,6 +7,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import BodyFixer from 'widget/components/utility/BodyFixer'
 import BodyPreventScrolling from 'widget/components/utility/BodyPreventScrolling'
 import calcScreenSize from 'widget/components/utility/calcScreenSize'
+import { type WidgetWidth } from 'containers/widgets/Tabs/OverviewTab'
 import ButtonWidgetEmbed from './ButtonWidgetEmbed'
 import ButtonWidgetToggle from './ButtonWidgetToggle'
 import { BUTTON_HEIGHT } from './constants'
@@ -25,7 +26,7 @@ type Props = {|
   openImmediately?: boolean,
   openImmediatelyTimeout: number,
   screenWidth: number,
-  width: number, // TODO: support random size
+  width: WidgetWidth,
 |}
 
 type State = {|

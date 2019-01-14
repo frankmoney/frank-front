@@ -1,9 +1,13 @@
 // @flow strict
+import * as R from 'ramda'
 import { createPieDataMapper } from 'data/models/pieData'
 import { ALL_CATEGORIES, UNCATEGORIZED_CATEGORY } from 'const'
 // Reusing 'public' api code here because everything should be the same
 import QUERIES from 'containers/public/Ledger/queries'
 import { PAGE_SIZE } from 'containers/public/Ledger/constants'
+
+export const between: (number, number) => number => boolean = (min, max) =>
+  R.both(R.gte(R.__, min), R.lt(R.__, max))
 
 export const remapPieData = createPieDataMapper({
   nameEmptyCategoryAs: 'Uncategorized',

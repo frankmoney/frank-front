@@ -13,7 +13,7 @@ import PieTotalSelect from 'components/OverviewPieChart/PieTotalSelect'
 import TotalsComponent from 'containers/widgets/Totals'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import JustCategoryList from './JustCategoryList'
-import OverviewChart from './OverviewChart'
+import OverviewChart, { type WidgetWidth } from './OverviewChart'
 
 const styles = {
   selects: {
@@ -34,10 +34,6 @@ const styles = {
   },
 }
 
-export type InlineWidgetSize = 280 | 400 | 500 | 625 | 800
-export type ButtonWidgetSize = 375
-type WidgetSize = InlineWidgetSize | ButtonWidgetSize
-
 export type OverviewTabProps = {|
   PaymentsSummary: ?React.Element<typeof PaymentsSummaryComponent>,
   Totals: ?React.Element<typeof TotalsComponent>,
@@ -56,8 +52,9 @@ type Props = {|
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   pieClassName?: string,
   pieItems: PieChartCategories,
+  showPieChart?: boolean,
   showTotals?: boolean,
-  widgetSize: WidgetSize,
+  widgetWidth: WidgetWidth,
 |}
 
 const OverviewTab = ({
@@ -74,13 +71,14 @@ const OverviewTab = ({
   pieItems,
   pieTotal,
   pieTotalSelectable,
+  showPieChart,
   showTotals,
   Totals,
-  widgetSize,
+  widgetWidth,
 }: Props) => (
   <div className={className}>
     {showTotals && Totals}
-    {widgetSize > 400 || widgetSize === 375 ? (
+    {showPieChart ? (
       <OverviewChart
         CategoryList={CategoryList}
         className={chartClassName}
@@ -92,7 +90,7 @@ const OverviewTab = ({
         pieItems={pieItems}
         pieTotal={pieTotal}
         pieTotalSelectable={pieTotalSelectable}
-        widgetSize={widgetSize}
+        widgetWidth={widgetWidth}
       />
     ) : (
       <>

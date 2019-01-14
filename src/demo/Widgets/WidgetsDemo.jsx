@@ -21,27 +21,37 @@ const WidgetsDemo = ({ classes }) => (
 
     <h2>Inline widget 280x190</h2>
     <Row centered>
-      <InlineWidget accountId={4} size={280} />
+      <InlineWidget accountId={4} width={280} />
     </Row>
 
     <h2>Inline widget 400x275</h2>
     <Row centered>
-      <InlineWidget accountId={4} size={400} />
+      <InlineWidget accountId={4} width={400} />
+    </Row>
+
+    <h2>Inline widget 450px</h2>
+    <Row centered>
+      <InlineWidget accountId={4} width={450} />
     </Row>
 
     <h2>Inline widget 500x345</h2>
     <Row centered>
-      <InlineWidget accountId={4} size={500} />
+      <InlineWidget accountId={4} width={500} />
     </Row>
 
     <h2>Inline widget 625x430</h2>
     <Row centered>
-      <InlineWidget accountId={4} size={625} />
+      <InlineWidget accountId={4} width={625} />
+    </Row>
+
+    <h2>Inline widget 700px</h2>
+    <Row centered>
+      <InlineWidget accountId={4} width={700} />
     </Row>
 
     <h2>Inline widget 800x550</h2>
     <Row centered>
-      <InlineWidget accountId={4} size={800} />
+      <InlineWidget accountId={4} width={800} />
     </Row>
   </Demo>
 )

@@ -3,7 +3,9 @@ import React from 'react'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Totals from 'containers/widgets/Totals/index'
 import AboutTab from 'containers/widgets/Tabs/AboutTab'
-import OverviewTab from 'containers/widgets/Tabs/OverviewTab'
+import OverviewTab, {
+  type WidgetWidth,
+} from 'containers/widgets/Tabs/OverviewTab'
 import StoriesTab from 'containers/widgets/Tabs/StoriesTab'
 import PaymentsSummary from 'components/common/PaymentsSummary/index'
 import Widget, { type WidgetAPI } from 'containers/widgets/Widget'
@@ -52,7 +54,7 @@ type Props = {|
   // Public API
   ...WidgetAPI,
   open?: boolean,
-  width: number,
+  width: WidgetWidth,
 |}
 
 const ButtonWidgetEmbed = ({ accountId, classes, width }: Props) => (
@@ -75,8 +77,9 @@ const ButtonWidgetEmbed = ({ accountId, classes, width }: Props) => (
         className={classes.content}
         pieChartClassName={classes.pieChart}
         pieChartRootComponent={React.Fragment}
+        showPieChart
         showTotals
-        widgetSize={width}
+        widgetWidth={width}
       />
     }
     paymentListClassName={classes.payments}

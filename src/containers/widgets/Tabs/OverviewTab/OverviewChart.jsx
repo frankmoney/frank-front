@@ -9,24 +9,23 @@ import type {
   OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
+import { between } from 'containers/widgets/utils'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import OverviewCategoryList from './OverviewCategoryList'
 
-const pieSize = R.cond([
+export type WidgetWidth = number
+
+export type DynamicSizeFn = WidgetWidth => number
+
+const pieSize: DynamicSizeFn = R.cond([
   [R.equals(375), R.always(270)], // button widget size
-  [R.equals(500), R.always(170)],
-  [R.equals(625), R.always(220)],
-  [R.equals(800), R.always(275)],
-  [R.T, R.always(0)],
+  [between(500, 625), R.always(170)],
+  [between(625, 800), R.always(220)],
+  [R.gte(R.__, 800), R.always(275)],
 ])
 
-const dynamicPieTotalSelectLabel = R.cond([
-  [R.equals(375), R.always('% of total')],
-  [R.equals(500), R.always('% of')],
-  [R.equals(625), R.always('% of')],
-  [R.equals(800), R.always('% of total')],
-  [R.T, R.always('FIX ME')],
-])
+const dynamicPieTotalSelectLabel: WidgetWidth => string = width =>
+  width === 375 || width >= 800 ? '% of total' : '% of'
 
 const styles = {
   root: {
@@ -42,8 +41,6 @@ const styles = {
   },
 }
 
-type WidgetWithChartSize = 375 | 500 | 625 | 800
-
 export type Props = {|
   ...OverviewPieChartProps,
   ...InjectStylesProps,
@@ -53,7 +50,7 @@ export type Props = {|
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   pieClassName?: string,
   pieItems: PieChartCategories,
-  widgetSize: WidgetWithChartSize,
+  widgetWidth: number,
 |}
 
 const OverviewChart = ({
@@ -63,7 +60,7 @@ const OverviewChart = ({
   pieChartRootComponent,
   pieClassName,
   pieItems,
-  widgetSize,
+  widgetWidth,
   PeriodSelect,
   // omit
   pieTotalSelectClassName,
@@ -79,13 +76,13 @@ const OverviewChart = ({
       {...pieChartProps}
       CategoryList={<CategoryList />}
       chartClassName={pieClassName}
-      chartSize={pieSize(widgetSize)}
+      chartSize={pieSize(widgetWidth)}
       className={cx(classes.root, className)}
       component={pieChartRootComponent}
       data={pieItems}
-      pieTotalSelectLabel={dynamicPieTotalSelectLabel(widgetSize)}
+      pieTotalSelectLabel={dynamicPieTotalSelectLabel(widgetWidth)}
       pieTotalSelectClassName={cx({
-        [classes.customPieTotalSelect]: widgetSize === 500,
+        [classes.customPieTotalSelect]: widgetWidth === 500,
       })}
     />
   </>
