@@ -27,6 +27,7 @@ export type Props = {|
   loading?: boolean,
   onBarsZoomIn: BarZoomInCb,
   period: string,
+  pieChartVisible: boolean,
   pieItems: PieChartCategories,
 |}
 
@@ -56,6 +57,7 @@ class ChartCard extends React.PureComponent<Props, State> {
       onCategoryClick,
       onPieTotalChange,
       period,
+      pieChartVisible,
       pieItems,
       pieTotal,
       pieTotalSelectable,
@@ -89,7 +91,7 @@ class ChartCard extends React.PureComponent<Props, State> {
                 <CurrentCategory className={classes.category} />
                 <TimelineChart {...barchartProps} />
               </>
-            ) : (
+            ) : pieChartVisible ? (
               <>
                 <OverviewPieChart
                   CategoryList={<LedgerCategoryList />}
@@ -111,6 +113,8 @@ class ChartCard extends React.PureComponent<Props, State> {
                   <TimelineChart {...barchartProps} />
                 </ExpandRow>
               </>
+            ) : (
+              <TimelineChart {...barchartProps} />
             )}
           </>
         )}

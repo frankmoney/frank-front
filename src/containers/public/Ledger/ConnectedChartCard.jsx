@@ -1,5 +1,4 @@
 // @flow strict-local
-import { branch, compose, renderNothing } from 'recompose'
 import reconnect from 'utils/reconnect'
 import ChartCard from './ChartCard'
 import {
@@ -7,34 +6,31 @@ import {
   barChartColorSelector,
   barChartDataSelector,
   barChartOnlySelector,
-  chartsVisibleSelector,
+  listIsUpdatingSelector,
   periodSelector,
+  pieChartVisibleSelector,
   pieItemsSelector,
   pieTotalSelector,
   totalSelectableSelector,
-  listIsUpdatingSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 
-export default compose(
-  reconnect(
-    {
-      barsAreClickable: barChartClickableSelector,
-      barsColor: barChartColorSelector,
-      barsData: barChartDataSelector,
-      barsOnly: barChartOnlySelector,
-      loading: listIsUpdatingSelector,
-      period: periodSelector,
-      pieItems: pieItemsSelector,
-      pieTotal: pieTotalSelector,
-      pieTotalSelectable: totalSelectableSelector,
-      visible: chartsVisibleSelector,
-    },
-    {
-      onBarsZoomIn: ACTIONS.barZoomIn,
-      onCategoryClick: ACTIONS.selectCategory,
-      onPieTotalChange: ACTIONS.selectPieTotal,
-    }
-  ),
-  branch(props => !props.visible, renderNothing)
+export default reconnect(
+  {
+    barsAreClickable: barChartClickableSelector,
+    barsColor: barChartColorSelector,
+    barsData: barChartDataSelector,
+    barsOnly: barChartOnlySelector,
+    loading: listIsUpdatingSelector,
+    period: periodSelector,
+    pieChartVisible: pieChartVisibleSelector,
+    pieItems: pieItemsSelector,
+    pieTotal: pieTotalSelector,
+    pieTotalSelectable: totalSelectableSelector,
+  },
+  {
+    onBarsZoomIn: ACTIONS.barZoomIn,
+    onCategoryClick: ACTIONS.selectCategory,
+    onPieTotalChange: ACTIONS.selectPieTotal,
+  }
 )(ChartCard)

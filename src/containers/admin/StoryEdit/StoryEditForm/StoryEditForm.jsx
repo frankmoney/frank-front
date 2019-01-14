@@ -3,6 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import { compose, renderNothing } from 'recompose'
 import { getFormAsyncErrors, reduxForm } from 'redux-form-actions/immutable'
+import { LeaveUnsavedFormPrompt } from '@frankmoney/webapp'
 import reconnect from 'utils/reconnect'
 import createUploaderField from 'controls/forms/createUploaderField'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
@@ -78,12 +79,18 @@ const ConnectedStoryPayments = reconnect(
 
 type Props = {|
   ...InjectStylesProps,
+  dirty: ?boolean,
   formAsyncErrors: ?{
     get(field: 'title' | 'description' | 'payments'): string,
   },
 |}
 
-const StoryEditForm = ({ classes, className, formAsyncErrors }: Props) => (
+const StoryEditForm = ({
+  classes,
+  className,
+  dirty,
+  formAsyncErrors,
+}: Props) => (
   <div className={cx(classes.container, className)}>
     <CoverField
       name="cover"
@@ -120,6 +127,15 @@ const StoryEditForm = ({ classes, className, formAsyncErrors }: Props) => (
 
     <ConnectedStoryPayments />
     <ConnectedPaymentsSelectDrawer />
+
+    <LeaveUnsavedFormPrompt
+      whenUrlChange
+      whenPageClose
+      when={dirty}
+      message={
+        'This story has unsaved changes.\r\nAny unsaved changes will be lost if you leave.'
+      }
+    />
   </div>
 )
 

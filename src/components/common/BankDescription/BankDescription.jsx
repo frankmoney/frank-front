@@ -54,7 +54,9 @@ const BankDescription = ({
       <span className={classes.descriptionAccent}>
         {bankName || 'Banking description'}:{' '}
       </span>
-      <span className={classes.descriptionText}>{bankDescription}</span>
+      <span className={classes.descriptionText}>
+        {bankDescription || 'No description yet'}
+      </span>
     </div>
   </div>
 )

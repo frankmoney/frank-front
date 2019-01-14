@@ -473,6 +473,11 @@ const ButtonsDemo = ({ classes }) => (
       <SocialButton type="twitter" large hover />
       <SocialButton type="twitter" large active />
     </Row>
+    <Row centered>
+      <SocialButton type="facebook" noLabel />
+      <SocialButton type="twitter" noLabel />
+      <SocialButton type="email" noLabel />
+    </Row>
     <h2>Render button as Link</h2>
     <Row centered>
       <Button

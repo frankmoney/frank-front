@@ -1,4 +1,3 @@
-import storage from 'local-storage-fallback'
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import { createRouteUrl } from '@frankmoney/utils'
@@ -53,18 +52,6 @@ export default handleActions(
       state,
       { payload: { accountId, story } }
     ) => {
-      if (story.publishedAt) {
-        const publicUrl = createRouteUrl(
-          ROUTES.account.stories.idRoot,
-          {
-            accountId,
-            storyId: story.id,
-          },
-          { public: true }
-        )
-        storage.setItem(LS_FLAGS.lastPublishedStoryUrl, publicUrl)
-      }
-
       return state.merge({
         saving: 0,
         story: fromJS(story),
