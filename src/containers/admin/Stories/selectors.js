@@ -21,3 +21,5 @@ export const hasNoStoriesSelector = createSelector(storiesSelector, R.isEmpty)
 
 export const isShareDialogOpenSelector = get('shareDialogIsOpen')
 export const shareDialogUrlSelector = get('shareDialogUrl')
+
+export const deletedSnackShownSelector = get('deletedSnackShown')

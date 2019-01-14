@@ -21,6 +21,7 @@ import {
 import { createRouteUrl } from '@frankmoney/utils'
 import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
+import SidebarSnack from 'components/SidebarSnack/SidebarSnack'
 import StoryCard from 'components/StoryCard'
 import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
@@ -32,6 +33,7 @@ import {
   isLoadingSelector,
   hasNoStoriesSelector,
   storiesSelector,
+  deletedSnackShownSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 import styles from './Stories.jss'
@@ -41,7 +43,15 @@ const LinkedStoryCard = withProps(({ accountId, storyId }) => ({
   to: createRouteUrl(ROUTES.account.stories.idRoot, { accountId, storyId }),
 }))(StoryCard)
 
-const Stories = ({ classes, accountId, noStories, stories, className }) => (
+const Stories = ({
+  classes,
+  accountId,
+  noStories,
+  stories,
+  className,
+  deletedSnackShown,
+  hideDeletedSnack,
+}) => (
   <CurrencyProvider code="USD">
     <div className={cx(classes.root, className)}>
       <FixedHeader className={classes.header}>
@@ -74,6 +84,13 @@ const Stories = ({ classes, accountId, noStories, stories, className }) => (
       </div>
     </div>
     <StoryPublishedDialog />
+    <SidebarSnack
+      color="dark"
+      shown={deletedSnackShown}
+      message="The story was deleted"
+      dismissByTimeout={3000}
+      onDismiss={hideDeletedSnack}
+    />
   </CurrencyProvider>
 )
 
@@ -81,12 +98,14 @@ const mapStateToProps = createStructuredSelector({
   loading: isLoadingSelector,
   noStories: hasNoStoriesSelector,
   stories: storiesSelector,
+  deletedSnackShown: deletedSnackShownSelector,
 })
 
 const mapDispatchToProps = R.partial(bindActionCreators, [
   {
     load: ACTIONS.load,
     leave: ACTIONS.leave,
+    hideDeletedSnack: ACTIONS.hideDeletedSnack,
   },
 ])
 

@@ -116,9 +116,9 @@ export default {
   deleteStory: [
     `
     mutation(
-      $storyId: ID!
+      $storyPid: ID!
     ) {
-      storyDelete(pid: $storyId) {
+      storyDelete(pid: $storyPid) {
         account {
           pid
         }
