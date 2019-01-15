@@ -5,6 +5,7 @@ export const ROUTES = {
   auth: {
     login: '/sign-in',
     register: '/sign-up',
+    acceptInvitation: '/accept-invitation/:token',
     recoverPassword: '/recover-password',
     recoverPasswordSuccess: '/recover-password/success',
     resetPassword: '/reset-password/:token',

@@ -1,3 +1,4 @@
+import { querySelector } from '@frankmoney/webapp'
 import { identity } from 'ramda'
 import ACTIONS from './actions'
 
@@ -12,7 +13,8 @@ export const onSubmitEpic = (action$, store, { http }) =>
         })
 
         if (code === 'signed_in') {
-          window.location = '/'
+          const query = querySelector(store.getState())
+          window.location = (query && query.r) || '/'
           return [
             // ACTIONS.submit.success(),
           ]

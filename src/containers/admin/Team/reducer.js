@@ -7,12 +7,16 @@ import { REDUCER_NAME } from './constants'
 const initialState = fromJS({
   loaded: false,
   loading: false,
+  inviteToken: null,
   profiles: null,
   ownProfileId: null,
   otherProfileIds: null,
+  welcomePopupOpen: false,
+  leaveTeamConfirmationPopupOpen: false,
   inviteDrawerOpen: false,
   inviteDrawerLoading: false,
   changePasswordPopupOpen: false,
+  acceptingInvite: false,
 })
 
 const teamReducer = handleActions(
@@ -24,16 +28,38 @@ const teamReducer = handleActions(
 
     [ACTIONS.load.success]: (
       state,
-      { payload: { team, self, others, invites } }
+      { payload: { inviteToken, code, team, invite, self, others, invites } }
     ) =>
       state.merge({
         loaded: true,
         loading: false,
+        inviteToken,
+        welcomePopupOpen: code === 'outdated',
+        leaveTeamConfirmationPopupOpen: code === 'lastTeamMember',
         team: fromJS(team),
+        invite: fromJS(invite),
         invites,
         profiles: R.fromPairs([self, ...others].map(x => [x.pid, x])),
         ownProfilePid: self.pid,
         otherProfilePids: others.map(R.prop('pid')),
+      }),
+
+    [ACTIONS.acknowledgeInvite]: state => state.set('welcomePopupOpen', false),
+
+    [ACTIONS.acceptInvite]: state => state.set('acceptingInvite', true),
+
+    [ACTIONS.acceptInvite.success]: state =>
+      state.set('acceptingInvite', false),
+
+    [ACTIONS.acceptInvite.error]: state =>
+      state.set('acceptingInvite', false),
+
+    [ACTIONS.rejectInvite]: state =>
+      state.merge({
+        inviteToken: null,
+        welcomePopupOpen: false,
+        leaveTeamConfirmationPopupOpen: false,
+        invite: null,
       }),
 
     [ACTIONS.openInviteDrawer]: state => state.set('inviteDrawerOpen', true),

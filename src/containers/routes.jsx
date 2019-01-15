@@ -4,10 +4,17 @@ import { connect } from 'react-redux'
 import { createRouteUrl } from '@frankmoney/utils'
 import {
   currentUserSelector,
+  locationSelector,
   queryParamSelector,
   mediaTypeSelector,
 } from '@frankmoney/webapp'
-import { compose, withProps, branch, renderComponent } from 'recompose'
+import {
+  compose,
+  withProps,
+  withPropsOnChange,
+  branch,
+  renderComponent,
+} from 'recompose'
 import { Redirect, Switch, Route } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import { withMobileLayout } from 'containers/mobile/Layout'
@@ -47,7 +54,16 @@ const withLayout = (
   </Layout>
 )
 
-const RedirectToLogin = withProps({ to: ROUTES.auth.login })(Redirect)
+const RedirectToLogin = compose(
+  connect(state => ({
+    location: locationSelector(state),
+  })),
+  withPropsOnChange(['location'], ({ location }) => ({
+    to: createRouteUrl(ROUTES.auth.login, null, {
+      r: `${location.pathname || ''}${location.search || ''}`,
+    }),
+  }))
+)(Redirect)
 
 const RedirectToDefaultAccount = compose(
   connect(state => ({

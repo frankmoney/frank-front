@@ -13,6 +13,7 @@ import TextField from 'components/kit/TextField'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import ACTIONS from './actions'
+import { initialValuesSelector } from './selectors'
 
 const styles = theme => ({
   root: {},
@@ -95,7 +96,7 @@ const SignInForm = ({
 )
 
 export default compose(
-  reconnect(null, { clearSubmitErrors }),
+  reconnect({ initialValues: initialValuesSelector }, { clearSubmitErrors }),
   reduxForm({
     form: FORM_NAME,
     failedAction: ACTIONS.submit.error.toString(),

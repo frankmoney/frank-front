@@ -1,16 +1,19 @@
 // @flow strict-local
 import React from 'react'
-import { required, email } from '@frankmoney/forms'
+import { email, required } from '@frankmoney/forms'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { reduxForm } from 'redux-form-actions/immutable'
-import { injectStyles } from 'utils/styles'
 import Button from 'components/kit/Button'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import TextField from 'components/kit/TextField'
-import SelectField from 'components/kit/SelectField'
-import { MenuItem } from 'components/kit/Menu'
+import reconnect from 'utils/reconnect'
+import { injectStyles } from 'utils/styles'
 import ACTIONS from './actions'
+import {
+  inviteSelector,
+  createUserFormInitialValuesSelector,
+} from './selectors'
 
 const styles = {
   root: {},
@@ -23,15 +26,21 @@ const styles = {
 }
 
 const validation = {
-  teamName: [required],
-  teamSize: [required],
-  city: [required],
   firstName: [required],
   email: [required, email],
   password: [required],
 }
 
-const SignUpForm = ({ classes, className, invalid, submitting, submit }) => (
+const CreateUserForm = ({
+  classes,
+  className,
+  invite: {
+    team: { name: teamName },
+  },
+  invalid,
+  submitting,
+  submit,
+}) => (
   <div className={cx(classes.root, className)}>
     <ReduxFormControl.Field
       name="teamName"
@@ -41,30 +50,7 @@ const SignUpForm = ({ classes, className, invalid, submitting, submit }) => (
       floatingLabel="Team name"
       stretch
       larger
-      autoFocus
-    />
-    <ReduxFormControl.Field
-      name="teamSize"
-      validate={validation.teamSize}
-      component={SelectField}
-      className={classes.field}
-      floatingLabel="Team size"
-      stretch
-      larger
-    >
-      <MenuItem label="1-5 people" value="1-5" />
-      <MenuItem label="6-10 people" value="6-10" />
-      <MenuItem label="10-20 people" value="10-20" />
-      <MenuItem label="20+ people" value="20+" />
-    </ReduxFormControl.Field>
-    <ReduxFormControl.Field
-      name="city"
-      validate={validation.city}
-      component={TextField}
-      className={classes.field}
-      floatingLabel="City"
-      stretch
-      larger
+      disabled
     />
     <ReduxFormControl.Field
       name="phone"
@@ -75,6 +61,7 @@ const SignUpForm = ({ classes, className, invalid, submitting, submit }) => (
       placeholder="123 456 7890"
       stretch
       larger
+      autoFocus
     />
     <ReduxFormControl.Field
       name="firstName"
@@ -118,7 +105,7 @@ const SignUpForm = ({ classes, className, invalid, submitting, submit }) => (
       className={classes.submitButton}
       type="submit"
       color="green"
-      label="Create new team"
+      label={`Join ${teamName}`}
       stretch
       disabled={invalid}
       loading={submitting}
@@ -127,14 +114,18 @@ const SignUpForm = ({ classes, className, invalid, submitting, submit }) => (
   </div>
 )
 
-const FORM_NAME = 'auth/signUp'
+const FORM_NAME = 'auth/acceptInvitation/createUser'
 
 export default compose(
+  reconnect({
+    invite: inviteSelector,
+    initialValues: createUserFormInitialValuesSelector,
+  }),
   reduxForm({
     form: FORM_NAME,
-    failedAction: ACTIONS.submit.error.toString(),
-    succeededAction: ACTIONS.submit.success.toString(),
-    onSubmit: (data, dispatch) => dispatch(ACTIONS.submit(data.toJS())),
+    failedAction: ACTIONS.createUser.error.toString(),
+    succeededAction: ACTIONS.createUser.success.toString(),
+    onSubmit: (data, dispatch) => dispatch(ACTIONS.createUser(data.toJS())),
   }),
   injectStyles(styles)
-)(SignUpForm)
+)(CreateUserForm)
