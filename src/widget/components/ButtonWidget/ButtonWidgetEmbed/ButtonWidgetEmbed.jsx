@@ -33,6 +33,7 @@ const styles = {
     position: 'relative',
   },
   paymentsSummary: {
+    flex: [1, 0, 'auto'],
     margin: [16, 0, 13],
   },
   payments: {
