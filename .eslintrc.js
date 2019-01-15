@@ -8,7 +8,6 @@ module.exports = {
     "__PUBLIC_PATH": true,
     "__API_URL": true,
     "__GRAPHQL_URL": true,
-    "__WS_URL": true,
   },
   plugins: ['flowtype', 'import'],
   "settings": {

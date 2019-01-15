@@ -1,11 +1,11 @@
-const webpack = require('webpack')
 const path = require('path')
+const webpack = require('webpack')
 const WriteFilePlugin = require('write-file-webpack-plugin') // here so you can see what chunks are built
 
 const sourcePath = path.join(__dirname, './src')
 const buildPath = path.join(__dirname, './build')
 
-const publicPath = process.env.PUBLIC_PATH || '/assets/'
+const publicPath = process.env.WEBAPP_ASSETS_PATH || '/assets/'
 const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
