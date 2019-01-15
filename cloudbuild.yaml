@@ -17,7 +17,7 @@ steps:
   env: ['PUBLIC_PATH=//frankassets-cdn.azureedge.net/assets/frank/']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'deploy:widget']
-  env: ['PUBLIC_PATH=//frankassets-cdn.azureedge.net/assets/frank/']
+  env: ['GOOGLE_BUCKET_NAME=$_GOOGLE_BUCKET_NAME', 'GOOGLE_BUCKET_PATH=$_GOOGLE_BUCKET_PATH', 'GOOGLE_KEYS=$_GOOGLE_KEYS', 'GOOGLE_PROJECT=$PROJECT_ID']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/frank-front:$BRANCH_NAME-$SHORT_SHA', '.']
 - name: 'gcr.io/cloud-builders/docker'
