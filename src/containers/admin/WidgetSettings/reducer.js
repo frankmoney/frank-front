@@ -5,11 +5,8 @@ import * as ACTIONS from './actions'
 export const REDUCER_KEY = 'adminWidget'
 
 const defaultState = fromJS({
-  position: 'left',
-  // scriptSrc: 'https://assets2.frank.ly/widget/main.js',
-  scriptSrc: 'http://0.0.0.0:8082/assets/main.js',
-  // scriptSrc:
-  //   'https://storage.googleapis.com/frank-dev-assets/frank/widget/main.js',
+  position: 'right',
+  scriptSrc: __WIDGET_SCRIPT_URL,
 })
 
 export default handleActions(

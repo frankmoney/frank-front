@@ -8,7 +8,7 @@ const publicPath = process.env.WEBAPP_ASSETS_PATH || '/assets/'
 const sourcePath = path.join(__dirname, './src')
 const buildPath = path.join(__dirname, 'build', 'client')
 
-const { graphqlEndpointPath, apiEndpointPath } = require('./config')
+const { graphqlEndpointPath, apiEndpointPath, widgetScriptUrl } = require('./config')
 
 module.exports = {
   name: 'client',
@@ -70,6 +70,7 @@ module.exports = {
     new webpack.DefinePlugin({
       __SERVER: false,
       __CLIENT: true,
+      __WIDGET_SCRIPT_URL: JSON.stringify(widgetScriptUrl),
       __API_URL: JSON.stringify(apiEndpointPath),
       __GRAPHQL_URL: JSON.stringify(
         path.join(apiEndpointPath, graphqlEndpointPath)
