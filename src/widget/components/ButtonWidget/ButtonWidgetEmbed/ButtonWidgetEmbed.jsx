@@ -76,6 +76,7 @@ const ButtonWidgetEmbed = ({ accountId, classes, width }: Props) => (
       <OverviewTab
         CategoryList={ButtonWidgetCategoryList}
         className={classes.content}
+        noHover
         pieChartClassName={classes.pieChart}
         pieChartRootComponent={React.Fragment}
         showPieChart

@@ -222,6 +222,7 @@ const InlineWidget = ({ accountId, classes, width }: Props) => {
           <OverviewTab
             className={cx(classes.content, { [classes.scrollable]: light })}
             chartClassName={classes.overview}
+            noHover
             pieClassName={classes.pieChart}
             showPieChart={!light}
             small={small}

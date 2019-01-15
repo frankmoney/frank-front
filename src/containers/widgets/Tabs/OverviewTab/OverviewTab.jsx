@@ -64,6 +64,7 @@ type Props = {|
   CategoryList: CategoryListComponent,
   chartClassName?: string,
   className?: string,
+  noHover?: boolean,
   onCategoryClick: CategoryCb,
   PeriodSelect: ?React.Element<typeof PeriodSelectComponent>,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
@@ -80,6 +81,7 @@ const OverviewTab = ({
   chartClassName,
   classes,
   className,
+  noHover,
   onCategoryClick,
   onPieTotalChange,
   PaymentsSummary,
@@ -101,6 +103,7 @@ const OverviewTab = ({
       <OverviewChart
         CategoryList={CategoryList}
         className={chartClassName}
+        mobile={noHover}
         onCategoryClick={onCategoryClick}
         onPieTotalChange={onPieTotalChange}
         PeriodSelect={PeriodSelect}
