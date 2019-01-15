@@ -18,7 +18,7 @@ const styles = {
     overflow: 'hidden',
     transform: 'translate3d(0, 0, 0)',
     borderRadius: BORDER_RADIUS,
-    zIndex: 10,
+    zIndex: props => props.zIndex,
     '&:not($mobile)': {
       boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.07)',
       transition: 'all 0.2s',

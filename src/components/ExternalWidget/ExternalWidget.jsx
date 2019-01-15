@@ -19,14 +19,15 @@ const cleanScript = () => {
 
 const deinitWidgetApp = () => {
   if (typeof window !== 'undefined' && typeof window.Frank !== 'undefined') {
-    window.Frank.clean()
+    // window.Frank.clean()
+    if (document.getElementById('frank-embed-container')) {
+      document.getElementById('frank-embed-container').remove()
+    }
   }
 }
 
 class ExternalWidget extends React.Component {
   static defaultProps = {
-    // scriptSrc: 'https://assets2.frank.ly/widget/main.js',
-    scriptSrc: 'http://0.0.0.0:8082/assets/main.js',
     widgetOptions: {
       position: 'right',
     },
@@ -40,7 +41,12 @@ class ExternalWidget extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.widgetOptions !== nextProps.widgetOptions) {
-      window.Frank.changeOptions(nextProps.widgetOptions)
+      // window.Frank.changeOptions(nextProps.widgetOptions)
+      cleanScript()
+      deinitWidgetApp()
+      addScriptTag(
+        `${nextProps.scriptSrc}?${qs.stringify(nextProps.widgetOptions)}`
+      )
     }
   }
 

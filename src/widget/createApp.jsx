@@ -1,7 +1,6 @@
 import React from 'react'
 import { JssProvider } from 'react-jss'
 import { ThemeProvider } from '@frankmoney/ui'
-import { ThemeFontsLoader } from '@frankmoney/fonts'
 import {
   GraphqlProvider,
   HttpClientProvider,
@@ -16,7 +15,7 @@ export default ({ frankTheme, httpClient, graphqlClient }) => {
       <ThemeProvider theme={frankTheme}>
         <GraphqlProvider graphql={graphqlClient}>
           <HttpClientProvider httpClient={httpClient}>
-            <ThemeFontsLoader>{children}</ThemeFontsLoader>
+            {children}
           </HttpClientProvider>
         </GraphqlProvider>
       </ThemeProvider>

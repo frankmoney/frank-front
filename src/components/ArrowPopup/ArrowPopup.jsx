@@ -43,8 +43,16 @@ const ArrowPopup = ({
   children,
   classes,
   className,
+  onClose,
+  onChangeOpen,
 }: Props) => (
-  <Popup place={place} align={align} distance={15}>
+  <Popup
+    place={place}
+    align={align}
+    distance={15}
+    onClose={onClose}
+    onChangeOpen={onChangeOpen}
+  >
     {({
       open,
       toggle,

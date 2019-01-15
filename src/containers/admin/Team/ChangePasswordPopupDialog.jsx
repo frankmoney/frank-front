@@ -28,6 +28,8 @@ const ChangePasswordPopoverDialog = ({ children, submit, invalid }) => (
       stretch
       type="password"
       floatingLabel="New password"
+      // TODO jss
+      style={{ marginBottom: 30 }}
     />
     <ReduxFormControl.Field
       name="repeatPassword"
