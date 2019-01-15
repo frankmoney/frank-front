@@ -47,7 +47,7 @@ gulp.task('gcloud-widget', () => {
         base: bucketPath,
         public: true,
         metadata: {
-          cacheControl: 'max-age=315360000, no-transform, public',
+          cacheControl: 'max-age=3600, no-transform, public',
         },
       })
     )
