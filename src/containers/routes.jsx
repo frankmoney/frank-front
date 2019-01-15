@@ -24,6 +24,7 @@ import MobileStory from 'containers/mobile/Story'
 import { userAccountsSelector } from 'redux/selectors/user'
 import { BASE_TITLE, ROUTES } from 'const'
 import Inbox from 'containers/admin/Inbox'
+import Widgets from 'containers/admin/WidgetSettings'
 import Ledger from 'containers/admin/Ledger'
 import Stories from 'containers/admin/Stories'
 import StoryPreview from 'containers/admin/Story'
@@ -163,6 +164,15 @@ export default [
     exact: true,
   },
   // Account dependent
+  {
+    component: compose(
+      protectedRoute,
+      withLayout(),
+      routeMappers.account
+    )(Widgets),
+    path: ROUTES.account.widget,
+    exact: true,
+  },
   {
     component: compose(
       protectedRoute,

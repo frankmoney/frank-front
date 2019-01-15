@@ -53,10 +53,10 @@ const ComposedAccountItem = withPropsOnChange(
           disabled
         />
         <SidebarMenuItem
+          href={createRouteUrl(ROUTES.account.widget, { accountId })}
           navLinkComponent={ReduxNavLink}
           primaryText="Widgets"
           leftIcon={WidgetsIcon}
-          disabled
         />
         <SidebarMenuItem
           href={createRouteUrl(ROUTES.account.settings.root, { accountId })}

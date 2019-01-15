@@ -51,6 +51,9 @@ import authAcceptInvitationReducer, {
 import authResetPasswordReducer, {
   REDUCER_KEY as authResetPasswordKey,
 } from 'containers/auth/ResetPassword/reducer'
+import adminWidgetReducer, {
+  REDUCER_KEY as adminWidgetKey,
+} from 'containers/admin/WidgetSettings/reducer'
 
 export default createReducer({
   [adminLedgerKey]: adminLedgerReducer,
@@ -71,4 +74,5 @@ export default createReducer({
   [paymentKey]: paymentReducer,
   [authAcceptInvitationKey]: authAcceptInvitationReducer,
   [authResetPasswordKey]: authResetPasswordReducer,
+  [adminWidgetKey]: adminWidgetReducer,
 })

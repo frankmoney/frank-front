@@ -2,6 +2,8 @@
 import * as React from 'react'
 import { injectStyles as originInjectStyles } from '@frankmoney/ui'
 
+export { withTheme } from '@frankmoney/ui'
+
 export type Styles = Object // flowlint-line unclear-type:off
 
 export type Theme = Object // flowlint-line unclear-type:off

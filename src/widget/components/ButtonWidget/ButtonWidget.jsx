@@ -140,6 +140,7 @@ export default compose(
     maxHeight: MAX_FRAME_HEIGHT + BUTTON_HEIGHT,
     shrinkWidth: 215,
     width: 375,
+    zIndex: 1000000,
     defaultOpen: false,
   }),
   withState('open', 'changeOpen', props => props.defaultOpen),

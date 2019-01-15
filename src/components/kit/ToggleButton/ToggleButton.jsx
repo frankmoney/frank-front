@@ -1,6 +1,6 @@
 // @flow strict-local
 import * as React from 'react'
-import Button, { IconButton } from 'components/kit/Button'
+import Button, { IconButton, TextButton } from 'components/kit/Button'
 import SwitchBase from 'components/kit/SwitchBase'
 import forwardRef from 'utils/forwardRef'
 import type { ReactComponent } from 'flow/react'
@@ -48,5 +48,6 @@ const withToggle = (
 const ToggleButton: any = withToggle(Button, 'gray', 'lightBlue')
 
 ToggleButton.Icon = withToggle(IconButton, 'gray', 'lightBlue')
+ToggleButton.Text = withToggle(TextButton, 'gray', 'blue')
 
 export default (ToggleButton: ToggleButtonExport)
