@@ -4,6 +4,9 @@ import { ACTION_PREFIX } from './constants'
 const actions = createActions(ACTION_PREFIX, {
   load: true,
   leave: false,
+  acknowledgeInvite: false,
+  acceptInvite: true,
+  rejectInvite: false,
   openInviteDrawer: false,
   closeInviteDrawer: false,
   openChangePasswordPopup: false,

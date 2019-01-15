@@ -3,6 +3,7 @@ import { withProps } from 'recompose'
 import { Redirect } from 'react-router-dom'
 import SignIn from 'containers/auth/SignIn'
 import SignUp from 'containers/auth/SignUp'
+import AcceptInvitation from 'containers/auth/AcceptInvitation'
 import RecoverPassword, {
   RecoverPasswordSuccess,
 } from 'containers/auth/RecoverPassword'
@@ -27,6 +28,11 @@ export default [
   {
     component: SignUp,
     path: ROUTES.auth.register,
+    exact: true,
+  },
+  {
+    component: AcceptInvitation,
+    path: ROUTES.auth.acceptInvitation,
     exact: true,
   },
   {

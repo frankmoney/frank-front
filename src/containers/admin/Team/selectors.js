@@ -8,9 +8,15 @@ const getter = (...path) => s => s.getIn([REDUCER_NAME, ...path])
 const getters = {
   loaded: getter('loaded'),
   loading: getter('loading'),
+  acceptingInvite: getter('acceptingInvite'),
+  welcomePopupOpen: getter('welcomePopupOpen'),
+  leaveTeamConfirmationPopupOpen: getter('leaveTeamConfirmationPopupOpen'),
   inviteDrawerOpen: getter('inviteDrawerOpen'),
   inviteDrawerLoading: getter('inviteDrawerLoading'),
   changePasswordPopupOpen: getter('changePasswordPopupOpen'),
+  inviteToken: getter('inviteToken'),
+  team: getter('team'),
+  invite: getter('invite'),
   profiles: getter('profiles'),
   ownProfilePid: getter('ownProfilePid'),
   otherProfilePids: getter('otherProfilePids'),
@@ -20,9 +26,32 @@ const getters = {
 export const loadedSelector = getters.loaded
 export const loadingSelector = getters.loading
 
+export const acceptingInviteSelector = getters.acceptingInvite
+
+export const welcomePopupOpenSelector = getters.welcomePopupOpen
+
+export const leaveTeamConfirmationPopupOpenSelector =
+  getters.leaveTeamConfirmationPopupOpen
+
 export const inviteDrawerOpenSelector = getters.inviteDrawerOpen
 export const inviteDrawerSubmittingSelector = getters.inviteDrawerLoading
 export const changePasswordPopupOpen = getters.changePasswordPopupOpen
+
+export const inviteTokenSelector = getters.inviteToken
+
+export const teamSelector = createPlainObjectSelector(getters.team)
+
+export const inviteSelector = createPlainObjectSelector(getters.invite)
+
+export const inviteCreatorSelector = createSelector(
+  inviteSelector,
+  R.path(['creator', 'firstName'])
+)
+
+export const inviteTeamSelector = createSelector(
+  inviteSelector,
+  R.path(['team', 'name'])
+)
 
 export const ownProfileSelector = createPlainObjectSelector(
   createSelector(
@@ -42,7 +71,7 @@ export const otherProfilesSelector = createPlainObjectSelector(
 
 export const canInviteSelector = createSelector(
   createSelector(ownProfileSelector, R.prop('role')),
-  role => role === 'administrator'
+  role => role === 'manager' || role === 'administrator'
 )
 
 export const invitesSelector = createPlainObjectSelector(getters.invites)

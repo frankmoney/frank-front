@@ -45,6 +45,9 @@ import settingsReducer, {
 import paymentReducer, {
   REDUCER_KEY as paymentKey,
 } from 'containers/admin/PaymentCard/reducer'
+import authAcceptInvitationReducer, {
+  REDUCER_KEY as authAcceptInvitationKey,
+} from 'containers/auth/AcceptInvitation/reducer'
 import authResetPasswordReducer, {
   REDUCER_KEY as authResetPasswordKey,
 } from 'containers/auth/ResetPassword/reducer'
@@ -66,5 +69,6 @@ export default createReducer({
   [paymentsSelectKey]: paymentsSelectReducer,
   [settingsKey]: settingsReducer,
   [paymentKey]: paymentReducer,
+  [authAcceptInvitationKey]: authAcceptInvitationReducer,
   [authResetPasswordKey]: authResetPasswordReducer,
 })
