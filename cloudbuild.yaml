@@ -14,7 +14,7 @@ steps:
   env: ['PUBLIC_PATH=//frankassets-cdn.azureedge.net/assets/frank/']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'build-widget']
-  env: ['PUBLIC_PATH=//frankassets-cdn.azureedge.net/assets/frank/']
+  env: ['WIDGET_PUBLIC_PATH=$_WIDGET_PUBLIC_PATH]
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'deploy:widget']
   env: ['GOOGLE_BUCKET_NAME=$_GOOGLE_BUCKET_NAME', 'GOOGLE_BUCKET_PATH=$_GOOGLE_BUCKET_PATH', 'GOOGLE_KEYS=$_GOOGLE_KEYS', 'GOOGLE_PROJECT=$PROJECT_ID']
