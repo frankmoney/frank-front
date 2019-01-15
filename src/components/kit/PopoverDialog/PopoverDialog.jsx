@@ -15,11 +15,6 @@ const styles = {
   button: {},
   body: {
     marginBottom: 30,
-    '& > *': {
-      '&:not(:last-child)': {
-        marginBottom: 30,
-      },
-    },
   },
   changePasswordPopupField: {
     paddingBottom: 30,
@@ -37,7 +32,9 @@ const PopoverDialog = ({
   confirmButtonProps,
   confirmLabel,
   danger,
+  disableCloseOnConfirm,
   onConfirm,
+  onClose,
   place,
 }) => (
   <ArrowPopup
@@ -45,6 +42,7 @@ const PopoverDialog = ({
     place={place}
     align={align}
     button={button}
+    onClose={onClose}
   >
     {({ closePopup }) => (
       <>
@@ -58,7 +56,10 @@ const PopoverDialog = ({
           />
           <PopoverDialogButton
             color={danger ? 'red' : 'green'}
-            onClick={chainCallbacks(onConfirm, closePopup)}
+            onClick={chainCallbacks(
+              onConfirm,
+              !disableCloseOnConfirm && closePopup
+            )}
             label={confirmLabel}
             {...confirmButtonProps}
           />
