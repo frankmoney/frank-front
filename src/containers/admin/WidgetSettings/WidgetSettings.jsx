@@ -1,4 +1,6 @@
 import React from 'react'
+import { compose } from 'recompose'
+import { withTheme } from 'utils/styles'
 import ExternalWidget from 'components/ExternalWidget'
 import reconnect from 'utils/reconnect'
 import WidgetSettingsHeader from './WidgetSettingsHeader'
@@ -12,6 +14,7 @@ const WidgetSettings = ({
   position,
   codeText,
   changePosition,
+  theme,
 }) => (
   <div className={className}>
     <WidgetSettingsHeader
@@ -21,19 +24,23 @@ const WidgetSettings = ({
     />
     <ExternalWidget
       scriptSrc={scriptSrc}
-      widgetOptions={{ accountId, position }}
+      // widget should be behind sidebar
+      widgetOptions={{ accountId, position, zIndex: theme.zIndex.sidebar - 1 }}
     />
   </div>
 )
 
-export default reconnect(
-  {
-    accountId: SELECTORS.accountId,
-    position: SELECTORS.position,
-    scriptSrc: SELECTORS.scriptSrc,
-    codeText: SELECTORS.widgetCodeText,
-  },
-  {
-    changePosition: ACTIONS.changePosition,
-  }
+export default compose(
+  reconnect(
+    {
+      accountId: SELECTORS.accountId,
+      position: SELECTORS.position,
+      scriptSrc: SELECTORS.scriptSrc,
+      codeText: SELECTORS.widgetCodeText,
+    },
+    {
+      changePosition: ACTIONS.changePosition,
+    }
+  ),
+  withTheme
 )(WidgetSettings)

@@ -5,7 +5,8 @@ module.exports = {
   port: process.env.PORT || 33307,
   backendUrl,
   widgetPublicBackendUrl: backendUrl,
-  widgetScriptUrl: process.env.WIDGET_SCRIPT_PATH,
+  widgetScriptUrl:
+    process.env.WIDGET_SCRIPT_PATH || 'http://localhost:8082/assets/main.js',
   graphqlEndpointPath: '',
   apiEndpointPath: '/api',
   authCookieName: process.env.AUTHENTICATION_COOKIE || 'at',

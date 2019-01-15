@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const WriteFilePlugin = require('write-file-webpack-plugin') // here so you can see what chunks are built
+const { widgetScriptUrl } = require('./config')
 
 const sourcePath = path.join(__dirname, './src')
 const buildPath = path.join(__dirname, './build')
@@ -99,6 +100,7 @@ module.exports = {
     new WriteFilePlugin(),
     new webpack.DefinePlugin({
       __PUBLIC_PATH: JSON.stringify(publicPath),
+      __WIDGET_SCRIPT_URL: JSON.stringify(widgetScriptUrl),
     }),
   ],
 }
