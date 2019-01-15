@@ -14,11 +14,14 @@ const graphqlClient = createGraphqlClient({
   url: __GRAPHQL_URL,
 })
 
+const baseUri = 'https://frank.ly' // FIXME
+
 const App = createApp({
   httpClient,
   graphqlClient,
   frankTheme,
   muiTheme,
+  baseUri,
 })
 
 export default props => (

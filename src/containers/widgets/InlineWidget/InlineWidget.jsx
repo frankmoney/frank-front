@@ -85,9 +85,6 @@ const styles = theme => ({
   },
   barChart: {
     margin: [10, 'auto', 0],
-    '$size500 &': {
-      margin: [10, -3, 0],
-    },
   },
   payments: {
     margin: [-5, -8, 0],
