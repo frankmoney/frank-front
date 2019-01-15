@@ -66,6 +66,9 @@ type Props = {|
   component: React.ElementType,
   imageBorderRadius: ImageBorderRadius,
   imageClassName?: string,
+  statsClassName?: string,
+  symbolClassName?: string,
+  titleClassName?: string,
 |}
 
 const Story = ({
@@ -73,12 +76,15 @@ const Story = ({
   className,
   component: Root,
   //
-  text,
   cover,
   imageClassName,
   paymentsCount,
   paymentsDateRange,
+  statsClassName,
+  symbolClassName,
+  text,
   title,
+  titleClassName,
   // omit
   body,
   id,
@@ -95,14 +101,14 @@ const Story = ({
         />
       </div>
     )}
-    <div className={classes.title}>{title}</div>
+    <div className={cx(classes.title, titleClassName)}>{title}</div>
     {paymentsCount > 0 && (
       <StoryPaymentsStats
-        className={classes.stats}
+        className={cx(classes.stats, statsClassName)}
         paymentsCount={paymentsCount}
         paymentsDateRange={paymentsDateRange}
         counterClassName={classes.statsCounter}
-        symbolClassName={classes.statsSymbol}
+        symbolClassName={cx(classes.statsSymbol, symbolClassName)}
       />
     )}
     {text && <div className={classes.text}>{text}</div>}

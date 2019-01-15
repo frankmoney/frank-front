@@ -35,6 +35,7 @@ type Props = {|
   //
   description: ?string,
   descriptionClassName?: string,
+  multilineTotals?: boolean,
   name: ?string,
   titleClassName?: string,
   Totals: ?React.Element<typeof TotalsComponent>,
@@ -46,6 +47,7 @@ const AboutTab = ({
   className,
   description,
   descriptionClassName,
+  multilineTotals,
   name,
   titleClassName,
   Totals,
@@ -56,6 +58,7 @@ const AboutTab = ({
     {Totals &&
       React.cloneElement(Totals, {
         className: cx(classes.totals, totalsClassName),
+        multiline: multilineTotals,
       })}
     {/* <PublicLinkButton
       className={classes.link}

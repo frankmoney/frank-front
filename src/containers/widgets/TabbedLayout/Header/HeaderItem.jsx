@@ -9,7 +9,8 @@ const styles = theme => ({
     color: '#A8AAB4',
     cursor: 'pointer',
     outline: 'none',
-    padding: [18, 0, 0],
+    display: 'inline-flex',
+    alignItems: 'center',
     '&:not(:first-child)': {
       marginLeft: 24,
     },
@@ -18,6 +19,13 @@ const styles = theme => ({
     color: '#252B43',
     borderBottom: '1px solid #252B43',
     marginBottom: -1,
+  },
+  small: {
+    fontSize: 18,
+    paddingBottom: 2,
+    '&:not(:first-child)': {
+      marginLeft: 18,
+    },
   },
 })
 
@@ -30,6 +38,7 @@ type Props = {|
   key?: React.Key,
   name: string,
   onClick?: EmptyCb,
+  small?: boolean,
 |}
 
 const HeaderItem = ({
@@ -39,6 +48,7 @@ const HeaderItem = ({
   key,
   name,
   onClick,
+  small,
 }: Props) => {
   const stateProps = active
     ? {}
@@ -49,7 +59,14 @@ const HeaderItem = ({
       }
   return (
     <div
-      className={cx(classes.item, { [classes.active]: active }, className)}
+      className={cx(
+        classes.item,
+        {
+          [classes.small]: small,
+          [classes.active]: active,
+        },
+        className
+      )}
       key={key}
       {...stateProps}
     >

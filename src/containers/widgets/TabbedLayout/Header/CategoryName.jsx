@@ -9,16 +9,20 @@ const styles = theme => ({
     cursor: 'pointer',
     display: 'flex',
     outline: 'none',
-    padding: [18, 0, 0],
+    alignItems: 'center',
+    ...theme.fontRegular(20, 26),
   },
   title: {
-    ...theme.fontRegular(20, 26),
     color: '#252B43',
     marginLeft: 9,
   },
+  small: {
+    fontSize: 18,
+    paddingBottom: 2,
+  },
   icon: {
     color: '#A8AAB4',
-    margin: [1, 0, 0, -4],
+    marginRight: -4,
   },
 })
 
@@ -29,11 +33,12 @@ type Props = {|
   //
   name: string,
   onClick?: EmptyCb,
+  small?: boolean,
 |}
 
-const CategoryName = ({ classes, className, name, onClick }: Props) => (
+const CategoryName = ({ classes, className, name, onClick, small }: Props) => (
   <div
-    className={cx(classes.root, className)}
+    className={cx(classes.root, { [classes.small]: small }, className)}
     onClick={onClick}
     role="button"
     tabIndex={0}

@@ -26,11 +26,14 @@ type Props = {|
   ...InjectStylesProps,
   //
   accountId: AccountId,
+  currencyCode?: CurrencyCode,
   stories: Array<StoryProps>,
   storyClassName?: string,
   storyImageBorderRadius: ImageBorderRadius,
   storyImageClassName?: string,
-  currencyCode?: CurrencyCode,
+  storyStatsClassName?: string,
+  storySymbolClassName?: string,
+  storyTitleClassName?: string,
 |}
 
 const StoriesTab = ({
@@ -41,6 +44,9 @@ const StoriesTab = ({
   storyClassName,
   storyImageBorderRadius,
   storyImageClassName,
+  storyStatsClassName,
+  storySymbolClassName,
+  storyTitleClassName,
   currencyCode = 'USD',
 }: Props) => (
   <div className={cx(classes.root, className)}>
@@ -56,7 +62,10 @@ const StoriesTab = ({
             accountId,
             storyId: id,
           })}
+          statsClassName={storyStatsClassName}
+          symbolClassName={storySymbolClassName}
           target="blank"
+          titleClassName={storyTitleClassName}
           {...story}
         />
       ))}

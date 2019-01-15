@@ -60,6 +60,7 @@ const styles = theme => ({
     border: '1px solid #E9EAEC',
     borderRadius: 8,
     display: 'flex',
+    flexDirection: 'column',
     position: 'relative',
     width: ({ width }) => clampedWidgetWidth(width),
     height: ({ width }) => widgetHeight(width),
@@ -77,6 +78,7 @@ const styles = theme => ({
     margin: [0, -PADDING],
     padding: [0, PADDING],
     position: 'relative',
+    overflow: 'hidden',
   },
   scrollable: {
     overflowY: 'scroll',
@@ -94,6 +96,10 @@ const styles = theme => ({
   noBarChart: {
     margin: [4, -8, 0],
   },
+  smallPayments: {
+    marginTop: 8,
+    fontSize: 16,
+  },
   paymentsCapped: {
     margin: [-5, 'auto', 0],
     width: 550,
@@ -108,6 +114,13 @@ const styles = theme => ({
   paymentsSummary: {
     flex: 0,
   },
+  smallSummary: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    margin: [0, -1],
+    justifyContent: 'space-between',
+    minHeight: 55,
+  },
   capped: {
     maxWidth: MAX_CONTENT_WIDTH,
     margin: [0, 'auto'],
@@ -116,6 +129,21 @@ const styles = theme => ({
     boxShadow: [0, 0, 4, 'rgba(0, 0, 0, 0.1)'],
     borderRadius: 5,
     padding: [17, 23],
+  },
+  smallStory: {
+    padding: [15, 16],
+  },
+  smallStoryTitle: {
+    fontSize: 18,
+  },
+  smallStoryStats: {
+    fontSize: 14,
+    whiteSpace: 'nowrap',
+  },
+  smallStoryStatsSymbol: {
+    width: 18,
+    height: 18,
+    margin: [-2, 2, 0, -6],
   },
   storyImage: {
     margin: [-17, -23, 12],
@@ -134,6 +162,22 @@ const styles = theme => ({
     ...theme.fontRegular(20, 30),
     marginTop: 17,
   },
+  smallAboutTitle: {
+    ...theme.fontSemibold(22, 40),
+    marginTop: -3,
+  },
+  smallAboutTotals: {
+    ...theme.fontRegular(18, 24),
+    marginTop: 7,
+    maxWidth: 400,
+    '& > :not(:first-child)': {
+      paddingLeft: 14,
+    },
+  },
+  smallAboutDescription: {
+    ...theme.fontRegular(18, 28),
+    marginTop: 17,
+  },
 })
 
 type Props = {|
@@ -145,6 +189,7 @@ type Props = {|
 
 const InlineWidget = ({ accountId, classes, width }: Props) => {
   const clampedWidth = clampedWidgetWidth(width)
+  const small = clampedWidth < 400
   const light = clampedWidth < 500
   const capped = clampedWidth >= 625
   return (
@@ -152,10 +197,19 @@ const InlineWidget = ({ accountId, classes, width }: Props) => {
       <Widget
         AboutTab={
           <AboutTab
-            className={cx({ [classes.capped]: capped })}
-            descriptionClassName={classes.aboutDescription}
-            titleClassName={classes.aboutTitle}
-            totalsClassName={classes.aboutTotals}
+            className={cx({
+              [classes.capped]: capped,
+            })}
+            descriptionClassName={cx(classes.aboutDescription, {
+              [classes.smallAboutDescription]: small,
+            })}
+            multilineTotals={small}
+            titleClassName={cx(classes.aboutTitle, {
+              [classes.smallAboutTitle]: small,
+            })}
+            totalsClassName={cx(classes.aboutTotals, {
+              [classes.smallAboutTotals]: small,
+            })}
           />
         }
         accountId={accountId}
@@ -170,11 +224,13 @@ const InlineWidget = ({ accountId, classes, width }: Props) => {
             chartClassName={classes.overview}
             pieClassName={classes.pieChart}
             showPieChart={!light}
+            small={small}
             widgetWidth={clampedWidth}
           />
         }
         paymentListClassName={cx(classes.payments, {
           [classes.noBarChart]: light,
+          [classes.smallPayments]: small,
           [classes.paymentsCapped]: capped,
         })}
         paymentsRootClassName={cx(classes.content, {
@@ -182,7 +238,10 @@ const InlineWidget = ({ accountId, classes, width }: Props) => {
         })}
         PaymentsSummary={
           <PaymentsSummary
-            className={cx({ [classes.paymentsSummary]: !light })}
+            className={cx({
+              [classes.paymentsSummary]: !light,
+              [classes.smallSummary]: small,
+            })}
             showIcon
             showVerified
           />
@@ -192,11 +251,17 @@ const InlineWidget = ({ accountId, classes, width }: Props) => {
         StoriesTab={
           <StoriesTab
             className={cx({ [classes.capped]: capped })}
-            storyClassName={classes.story}
+            storyClassName={cx(classes.story, { [classes.smallStory]: small })}
             storyImageBorderRadius={[[5, 5, 0, 0]]}
             storyImageClassName={classes.storyImage}
+            storyTitleClassName={cx({ [classes.smallStoryTitle]: small })}
+            storyStatsClassName={cx({ [classes.smallStoryStats]: small })}
+            storySymbolClassName={cx({
+              [classes.smallStoryStatsSymbol]: small,
+            })}
           />
         }
+        small={small}
         Totals={
           <Totals className={classes.stats} itemClassName={classes.statsItem} />
         }

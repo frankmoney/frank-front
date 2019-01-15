@@ -1,11 +1,19 @@
 // @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
+import cx from 'classnames'
 import D from 'date-fns/fp'
 import CurrencyProvider from 'components/CurrencyProvider'
 import type { Payment as PaymentProps } from 'data/models/payment'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { type PaymentCbProps } from './Payment'
 import PaymentBlock from './PaymentBlock'
+
+const styles = theme => ({
+  root: {
+    ...theme.fontRegular(18, 26),
+  },
+})
 
 const dateProp = R.prop('postedOn')
 const formattedDateProp = R.pipe(
@@ -35,17 +43,18 @@ export type PaymentsProps = {|
 |}
 
 type Props = {|
+  ...InjectStylesProps,
   ...PaymentsProps,
   //
   blockClassName?: string,
   blockTitleClassName?: string,
-  className?: string,
   paymentClassName?: string,
 |}
 
 const Payments = ({
   blockClassName,
   blockTitleClassName,
+  classes,
   className,
   onPaymentClick,
   paymentClassName,
@@ -55,7 +64,7 @@ const Payments = ({
   const groups = groupPayments(paymentsData)
   return (
     <CurrencyProvider code="USD">
-      <div className={className}>
+      <div className={cx(classes.root, className)}>
         {R.map(
           group => (
             <PaymentBlock
@@ -74,4 +83,4 @@ const Payments = ({
   )
 }
 
-export default Payments
+export default injectStyles(styles)(Payments)

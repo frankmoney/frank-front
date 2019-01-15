@@ -57,6 +57,7 @@ export type WidgetProps = {|
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   showBarChart: boolean,
   showCategoryCount: boolean,
+  small?: boolean,
   StoriesTab: React.Element<typeof StoriesTabComponent>,
   // Styles
   barChartClassName?: string,
@@ -295,6 +296,7 @@ class Widget extends React.Component<Props, State> {
       paymentsRootClassName,
       PaymentsSummary,
       showBarChart,
+      small,
       StoriesTab,
       Totals,
     } = this.props
@@ -351,10 +353,10 @@ class Widget extends React.Component<Props, State> {
 
     return (
       <TabbedLayout
+        AboutTab={aboutTab}
         className={className}
         hideStoriesTab={hideStoriesTab}
         onTabSwitch={this.handleTabSwitch}
-        tab={tab}
         OverviewTab={overviewTab}
         PaymentListTab={
           this.barData && (
@@ -377,11 +379,13 @@ class Widget extends React.Component<Props, State> {
               PeriodSelect={periodSelect}
               showBarChart={showBarChart}
               showCategories={showCategories}
+              small={small}
             />
           )
         }
         StoriesTab={storiesTab}
-        AboutTab={aboutTab}
+        tab={tab}
+        small={small}
       />
     )
   }
