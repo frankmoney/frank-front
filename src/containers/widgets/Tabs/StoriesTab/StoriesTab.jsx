@@ -53,9 +53,7 @@ const StoriesTab = ({
 }: Props) => (
   <div className={cx(classes.root, className)}>
     <BaseUriContext.Consumer>
-      {// flowlint-next-line unclear-type:off
-      (context: any) => {
-        const { baseUri } = context
+      {(baseUri: ?string) => {
         const storyUrl = storyId =>
           (baseUri || '') +
           createRouteUrl(ROUTES.account.stories.idRoot, {

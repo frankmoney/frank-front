@@ -16,7 +16,7 @@ export default ({ frankTheme, httpClient, graphqlClient, baseUri }) => {
       <ThemeProvider theme={frankTheme}>
         <GraphqlProvider graphql={graphqlClient}>
           <HttpClientProvider httpClient={httpClient}>
-            <BaseUriContext.Provider value={{ baseUri }}>
+            <BaseUriContext.Provider value={baseUri}>
               {children}
             </BaseUriContext.Provider>
           </HttpClientProvider>
