@@ -24,14 +24,14 @@ module.exports = merge(common, {
         'node_modules',
         'react',
         'cjs',
-        'react.production.js'
+        'react.production.min.js'
       ),
       'react-dom$': path.join(
         __dirname,
         'node_modules',
         'react-dom',
         'cjs',
-        'react-dom.production.js'
+        'react-dom.production.min.js'
       ),
     },
   },
