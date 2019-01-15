@@ -1,10 +1,14 @@
 // @flow strict-local
 import React from 'react'
-import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Totals from 'containers/widgets/Totals/index'
+import AboutTab from 'containers/widgets/Tabs/AboutTab'
+import OverviewTab, {
+  type WidgetWidth,
+} from 'containers/widgets/Tabs/OverviewTab'
+import StoriesTab from 'containers/widgets/Tabs/StoriesTab'
 import PaymentsSummary from 'components/common/PaymentsSummary/index'
-import Widget, { type WidgetAPI } from '../../../../containers/widgets/Widget'
+import Widget, { type WidgetAPI } from 'containers/widgets/Widget'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
 const styles = {
@@ -40,6 +44,9 @@ const styles = {
   statsItem: {
     paddingLeft: 15,
   },
+  barchart: {
+    margin: [8, 'auto', 20],
+  },
 }
 
 type Props = {|
@@ -47,28 +54,46 @@ type Props = {|
   // Public API
   ...WidgetAPI,
   open?: boolean,
+  width: WidgetWidth,
 |}
 
-const ButtonWidgetEmbed = ({ width, accountId, className, classes }: Props) => (
+const ButtonWidgetEmbed = ({ accountId, classes, width }: Props) => (
   <Widget
+    AboutTab={
+      <AboutTab
+        titleClassName={classes.aboutTitle}
+        totalsClassName={classes.aboutTotals}
+      />
+    }
     accountId={accountId}
+    barChartClassName={classes.barchart}
     barsFooterPadding={12}
     barsHeight={196}
-    barsWidth={width - 40}
-    CategoryList={ButtonWidgetCategoryList}
-    className={cx(classes.root, className)}
-    contentClassName={classes.content}
-    PaymentsSummary={<PaymentsSummary className={classes.paymentsSummary} />}
+    barsWidth={337}
+    className={classes.root}
+    OverviewTab={
+      <OverviewTab
+        CategoryList={ButtonWidgetCategoryList}
+        className={classes.content}
+        pieChartClassName={classes.pieChart}
+        pieChartRootComponent={React.Fragment}
+        showPieChart
+        showTotals
+        widgetWidth={width}
+      />
+    }
     paymentListClassName={classes.payments}
     paymentsPeriodClassName={classes.period}
-    pieChartClassName={classes.pieChart}
-    pieChartRootComponent={React.Fragment}
+    paymentsRootClassName={classes.content}
+    PaymentsSummary={
+      <PaymentsSummary className={classes.paymentsSummary} large />
+    }
     showBarChart
     showCategoryCount
+    StoriesTab={<StoriesTab />}
     Totals={
       <Totals className={classes.stats} itemClassName={classes.statsItem} />
     }
-    widgetSize={width}
   />
 )
 

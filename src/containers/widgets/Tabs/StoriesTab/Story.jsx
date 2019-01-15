@@ -17,16 +17,18 @@ const maxLines = (lineCount, lineHeight) => ({
 
 const styles = theme => ({
   root: {
+    display: 'flex',
+    flex: [1, 0, 'auto'],
+    flexDirection: 'column',
     marginBottom: 28,
     textDecoration: 'none',
-    display: 'flex',
-    flexDirection: 'column',
-    flex: [1, 0],
+  },
+  imageContainer: {
+    marginBottom: 12,
   },
   image: {
     width: '100%',
-    borderRadius: 5,
-    marginBottom: 12,
+    borderRadius: props => props.imageBorderRadius,
   },
   title: {
     ...theme.fontSemibold(22, 28),
@@ -55,11 +57,15 @@ const styles = theme => ({
   },
 })
 
+export type ImageBorderRadius = number | [Array<number>]
+
 type Props = {|
   ...InjectStylesProps,
   ...StoryProps,
   //
   component: React.ElementType,
+  imageBorderRadius: ImageBorderRadius,
+  imageClassName?: string,
 |}
 
 const Story = ({
@@ -69,21 +75,25 @@ const Story = ({
   //
   text,
   cover,
+  imageClassName,
   paymentsCount,
   paymentsDateRange,
   title,
   // omit
   body,
   id,
+  imageBorderRadius,
   ...props
 }: Props) => (
   <Root className={cx(classes.root, className)} {...props}>
     {cover && (
-      <img
-        className={classes.image}
-        src={cover.thumbs.sized}
-        alt="Story cover"
-      />
+      <div className={cx(classes.imageContainer, imageClassName)}>
+        <img
+          className={classes.image}
+          src={cover.thumbs.sized}
+          alt="Story cover"
+        />
+      </div>
     )}
     <div className={classes.title}>{title}</div>
     {paymentsCount > 0 && (
@@ -101,6 +111,7 @@ const Story = ({
 
 Story.defaultProps = {
   component: 'div',
+  imageBorderRadius: 5,
 }
 
 export default injectStyles(styles)(Story)

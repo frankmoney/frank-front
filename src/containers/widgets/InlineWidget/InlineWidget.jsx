@@ -2,52 +2,84 @@
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
+import PaymentsSummary from 'components/common/PaymentsSummary'
+import Totals from 'containers/widgets/Totals'
+import { type AccountId } from 'data/models/account'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import colors from 'styles/colors'
+import { between } from '../utils'
+import AboutTab from '../Tabs/AboutTab'
+import OverviewTab, {
+  type WidgetWidth,
+  type DynamicSizeFn,
+} from '../Tabs/OverviewTab'
+import StoriesTab from '../Tabs/StoriesTab'
 import Widget from '../Widget'
+
+const PADDING = 15
+const MAX_CONTENT_WIDTH = 585
+
+const clampedWidgetWidth: DynamicSizeFn = width => (width < 280 ? 280 : width)
+
+const widgetHeight: DynamicSizeFn = R.pipe(
+  clampedWidgetWidth,
+  R.cond([
+    [between(280, 400), R.multiply(R.__, 0.6785)],
+    [between(400, 500), R.multiply(R.__, 0.6875)],
+    [between(500, 625), R.multiply(R.__, 0.69)],
+    [between(625, 800), R.multiply(R.__, 0.688)],
+    [R.gte(R.__, 800), R.multiply(R.__, 0.6875)],
+  ])
+)
+
+const overviewWidth = R.cond([
+  [R.lt(R.__, 500), R.always(0)], // no pie at this size
+  [between(500, 625), R.always(460)],
+  [between(625, 800), R.always(585)],
+  [R.gte(R.__, 800), R.always(760)],
+])
+
+const pieMargin = R.cond([
+  [R.lt(R.__, 500), R.always(0)], // no pie at this size
+  [between(500, 625), R.always([[0, 35, 0, 5]])],
+  [between(625, 800), R.always([[0, 53]])],
+  [R.gte(R.__, 800), R.always([[0, 55, 0, 86]])],
+])
+
+const barsHeight: DynamicSizeFn = R.cond([
+  [R.lt(R.__, 500), R.always(0)], // no bars at this size
+  [between(500, 625), R.always(146)],
+  [between(625, 800), R.always(198)],
+  [R.gte(R.__, 800), R.always(203)],
+])
+
+const barsWidth: DynamicSizeFn = width => (width > 500 ? 516 : 468)
 
 const styles = theme => ({
   root: {
-    ...theme.fontRegular(16, 26),
-    background: '#FFFFFF',
+    background: '#FFF',
     border: '1px solid #E9EAEC',
     borderRadius: 8,
-    color: colors.black,
+    display: 'flex',
+    position: 'relative',
+    width: ({ width }) => clampedWidgetWidth(width),
+    height: ({ width }) => widgetHeight(width),
+  },
+  widget: {
     display: 'flex',
     flexDirection: 'column',
+    flex: 1,
     padding: [0, 18, 19],
-  },
-  size400: {
-    width: 400,
-    height: 275,
-  },
-  size500: {
-    width: 500,
-    height: 345,
-  },
-  size625: {
-    width: 625,
-    height: 430,
-  },
-  size800: {
-    height: 550,
-    minHeight: 550,
-    width: 800,
   },
   content: {
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
-    margin: [0, -15],
-    padding: [0, 15],
-    '$size400 &': {
-      overflowY: 'scroll',
-    },
+    margin: [0, -PADDING],
+    padding: [0, PADDING],
+    position: 'relative',
   },
-  paymentsPeriodSelect: {
-    marginTop: 4,
-    paddingLeft: 2,
-    textAlign: 'left',
+  scrollable: {
+    overflowY: 'scroll',
   },
   barChart: {
     margin: [10, 'auto', 0],
@@ -56,53 +88,121 @@ const styles = theme => ({
     },
   },
   payments: {
+    margin: [-5, -8, 0],
+    width: 'auto',
+  },
+  noBarChart: {
+    margin: [4, -8, 0],
+  },
+  paymentsCapped: {
     margin: [-5, 'auto', 0],
     width: 550,
-    '$size400 &': {
-      margin: [4, -8, 0],
-      width: 'auto',
-    },
-    '$size500 &': {
-      margin: [-5, -8, 0],
-      width: 'auto',
+  },
+  overview: {
+    width: ({ width }) => overviewWidth(width),
+    margin: [0, 'auto'],
+  },
+  pieChart: {
+    margin: ({ width }) => pieMargin(width),
+  },
+  paymentsSummary: {
+    flex: 0,
+  },
+  capped: {
+    maxWidth: MAX_CONTENT_WIDTH,
+    margin: [0, 'auto'],
+  },
+  story: {
+    boxShadow: [0, 0, 4, 'rgba(0, 0, 0, 0.1)'],
+    borderRadius: 5,
+    padding: [17, 23],
+  },
+  storyImage: {
+    margin: [-17, -23, 12],
+  },
+  aboutTitle: {
+    ...theme.fontSemibold(32, 40),
+  },
+  aboutTotals: {
+    ...theme.fontRegular(20, 26),
+    maxWidth: 400,
+    '& > :not(:first-child)': {
+      paddingLeft: 14,
     },
   },
+  aboutDescription: {
+    ...theme.fontRegular(20, 30),
+    marginTop: 17,
+  },
 })
-
-type InlineWidgetSize = 400 | 500 | 625 | 800
 
 type Props = {|
   ...InjectStylesProps,
   //
-  size: InlineWidgetSize,
+  accountId: AccountId,
+  width: WidgetWidth,
 |}
 
-const barsHeight = R.cond([
-  [R.equals(500), R.always(146)],
-  [R.equals(625), R.always(198)],
-  [R.equals(800), R.always(203)],
-  [R.T, R.always(0)],
-])
-
-const InlineWidget = ({ classes, size }: Props) => (
-  <Widget
-    className={cx(classes.root, {
-      [classes.size400]: size === 400,
-      [classes.size500]: size === 500,
-      [classes.size625]: size === 625,
-      [classes.size800]: size === 800,
-    })}
-    barChartClassName={classes.barChart}
-    barsFooterPadding={10}
-    barsHeight={barsHeight(size)}
-    barsWidth={size > 500 ? 516 : 468}
-    contentClassName={classes.content}
-    paymentListClassName={classes.payments}
-    paymentsPeriodClassName={classes.paymentsPeriodSelect}
-    showBarChart={size > 400}
-    showCategoryCount={size > 400}
-    widgetSize={size}
-  />
-)
+const InlineWidget = ({ accountId, classes, width }: Props) => {
+  const clampedWidth = clampedWidgetWidth(width)
+  const light = clampedWidth < 500
+  const capped = clampedWidth >= 625
+  return (
+    <div className={classes.root}>
+      <Widget
+        AboutTab={
+          <AboutTab
+            className={cx({ [classes.capped]: capped })}
+            descriptionClassName={classes.aboutDescription}
+            titleClassName={classes.aboutTitle}
+            totalsClassName={classes.aboutTotals}
+          />
+        }
+        accountId={accountId}
+        barChartClassName={classes.barChart}
+        barsFooterPadding={10}
+        barsHeight={barsHeight(clampedWidth)}
+        barsWidth={barsWidth(clampedWidth)}
+        className={classes.widget}
+        OverviewTab={
+          <OverviewTab
+            className={cx(classes.content, { [classes.scrollable]: light })}
+            chartClassName={classes.overview}
+            pieClassName={classes.pieChart}
+            showPieChart={!light}
+            widgetWidth={clampedWidth}
+          />
+        }
+        paymentListClassName={cx(classes.payments, {
+          [classes.noBarChart]: light,
+          [classes.paymentsCapped]: capped,
+        })}
+        paymentsRootClassName={cx(classes.content, {
+          [classes.scrollable]: light,
+        })}
+        PaymentsSummary={
+          <PaymentsSummary
+            className={cx({ [classes.paymentsSummary]: !light })}
+            showIcon
+            showVerified
+          />
+        }
+        showBarChart={!light}
+        showCategoryCount={!light}
+        StoriesTab={
+          <StoriesTab
+            className={cx({ [classes.capped]: capped })}
+            storyClassName={classes.story}
+            storyImageBorderRadius={[[5, 5, 0, 0]]}
+            storyImageClassName={classes.storyImage}
+          />
+        }
+        Totals={
+          <Totals className={classes.stats} itemClassName={classes.statsItem} />
+        }
+      />
+    </div>
+  )
+}
 
 export default injectStyles(styles)(InlineWidget)

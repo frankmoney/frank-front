@@ -4,16 +4,17 @@ import cx from 'classnames'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Total from './Total'
 
-const styles = {
+const styles = theme => ({
   root: {
     display: 'flex',
     flexShrink: 0,
+    ...theme.fontRegular(18, 26),
   },
   separators: {
     borderLeft: '1px solid #EFF0F2',
     borderRight: '1px solid #EFF0F2',
   },
-}
+})
 
 export type TotalsProps = {|
   income: number,

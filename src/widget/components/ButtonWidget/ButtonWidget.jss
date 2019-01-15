@@ -18,6 +18,7 @@ const styles = {
     overflow: 'hidden',
     transform: 'translate3d(0, 0, 0)',
     borderRadius: BORDER_RADIUS,
+    zIndex: 10,
     '&:not($mobile)': {
       boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.07)',
       transition: 'all 0.2s',
@@ -73,11 +74,11 @@ const styles = {
     },
   },
   popup: {
+    display: 'flex',
     position: 'fixed',
     background: '#fff',
     top: 0,
     bottom: BUTTON_HEIGHT,
-    overflow: 'hidden',
     padding: [0, 18],
     '$root:not($mobile) &': {
       width: props => props.width,

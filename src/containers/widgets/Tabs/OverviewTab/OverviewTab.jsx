@@ -13,19 +13,24 @@ import PieTotalSelect from 'components/OverviewPieChart/PieTotalSelect'
 import TotalsComponent from 'containers/widgets/Totals'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import JustCategoryList from './JustCategoryList'
-import OverviewChart from './OverviewChart'
+import OverviewChart, { type WidgetWidth } from './OverviewChart'
 
 const styles = {
   selects: {
     display: 'flex',
     flexShrink: 0,
     margin: [6, 0, -1, 2],
+    '& > :not(:last-child)': {
+      marginRight: 27,
+    },
   },
   standaloneCategoryType: {
-    alignItems: 'normal',
-    marginLeft: 27,
-    padding: 0,
+    fontSize: 18,
+    padding: [3, 0, 0],
     position: 'static',
+  },
+  standaloneCategoryList: {
+    padding: [19, 2],
   },
 }
 
@@ -39,27 +44,24 @@ type Props = {|
   ...InjectStylesProps,
   ...OverviewTabProps,
   //
-  categoryCount?: number,
-  CategoryList?: CategoryListComponent,
-  paymentCount?: number,
-  pieChartRootComponent?: CategoryListPieChartRootComponent,
-  pieItems: PieChartCategories,
-  widgetSize: 375 | 400 | 500 | 625 | 800,
-  // Handlers
-  onCategoryClick: CategoryCb,
-  // Styles
+  CategoryList: CategoryListComponent,
   chartClassName?: string,
-  contentClassName?: string,
-  periodSelectClassName?: string,
-  pieClassName?: string,
+  className?: string,
+  onCategoryClick: CategoryCb,
   PeriodSelect: ?React.Element<typeof PeriodSelectComponent>,
+  pieChartRootComponent?: CategoryListPieChartRootComponent,
+  pieClassName?: string,
+  pieItems: PieChartCategories,
+  showPieChart?: boolean,
+  showTotals?: boolean,
+  widgetWidth: WidgetWidth,
 |}
 
 const OverviewTab = ({
   CategoryList,
   chartClassName,
   classes,
-  contentClassName,
+  className,
   onCategoryClick,
   onPieTotalChange,
   PaymentsSummary,
@@ -69,12 +71,14 @@ const OverviewTab = ({
   pieItems,
   pieTotal,
   pieTotalSelectable,
+  showPieChart,
+  showTotals,
   Totals,
-  widgetSize,
+  widgetWidth,
 }: Props) => (
-  <div className={contentClassName}>
-    {Totals}
-    {widgetSize !== 400 ? (
+  <div className={className}>
+    {showTotals && Totals}
+    {showPieChart ? (
       <OverviewChart
         CategoryList={CategoryList}
         className={chartClassName}
@@ -86,7 +90,7 @@ const OverviewTab = ({
         pieItems={pieItems}
         pieTotal={pieTotal}
         pieTotalSelectable={pieTotalSelectable}
-        widgetSize={widgetSize}
+        widgetWidth={widgetWidth}
       />
     ) : (
       <>
@@ -95,10 +99,12 @@ const OverviewTab = ({
           <PieTotalSelect
             className={classes.standaloneCategoryType}
             onChange={onPieTotalChange}
+            selectable={pieTotalSelectable}
             value={pieTotal}
           />
         </div>
         <JustCategoryList
+          className={classes.standaloneCategoryList}
           onCategoryClick={onCategoryClick}
           pieItems={pieItems}
         />

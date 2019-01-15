@@ -1,6 +1,6 @@
 // @flow strict-local
 // flowlint unsafe-getters-setters:off
-import React from 'react'
+import * as React from 'react'
 import * as R from 'ramda'
 import { compose, getContext } from 'recompose'
 import PropTypes from 'prop-types'
@@ -25,10 +25,10 @@ import TabbedLayout, {
   type WidgetTab,
 } from './TabbedLayout'
 import {
-  AboutTab,
-  OverviewTab,
+  AboutTab as AboutTabComponent,
+  OverviewTab as OverviewTabComponent,
   PaymentListTab,
-  StoriesTab,
+  StoriesTab as StoriesTabComponent,
   type OverviewTabProps,
 } from './Tabs'
 import { type Period } from './PeriodSelect'
@@ -48,24 +48,26 @@ interface Category {
 export type WidgetProps = {|
   ...OverviewTabProps,
   //
+  AboutTab?: React.Element<typeof AboutTabComponent>,
   barsFooterPadding: number,
   barsHeight: number,
   barsWidth: number,
   CategoryList?: CategoryListComponent,
+  OverviewTab: React.Element<typeof OverviewTabComponent>,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
   showBarChart: boolean,
   showCategoryCount: boolean,
-  widgetSize: number,
+  StoriesTab: React.Element<typeof StoriesTabComponent>,
   // Styles
   barChartClassName?: string,
   className?: string,
-  contentClassName?: string,
   overviewChartClassName?: string,
   paymentBlockClassName?: string,
   paymentBlockTitleClassName?: string,
   paymentClassName?: string,
   paymentListClassName?: string,
   paymentsPeriodClassName?: string,
+  paymentsRootClassName?: string,
   pieChartClassName?: string,
 |}
 
@@ -185,11 +187,11 @@ class Widget extends React.Component<Props, State> {
         const loadCategories = R.isNil(this.state.categoryCount)
         graphql(...buildQuery(accountId, categoryId, loadCategories)).then(
           ({
+            account: { name },
             barChart,
             barsUnit,
             categories,
             description,
-            name,
             payments,
             pieChart,
             revenue,
@@ -278,25 +280,23 @@ class Widget extends React.Component<Props, State> {
     }
 
     const {
+      AboutTab,
       barChartClassName,
       barsFooterPadding,
       barsHeight,
       barsWidth,
-      CategoryList,
       className,
-      contentClassName,
-      overviewChartClassName,
+      OverviewTab,
       paymentBlockClassName,
       paymentBlockTitleClassName,
       paymentClassName,
       paymentListClassName,
       paymentsPeriodClassName,
+      paymentsRootClassName,
       PaymentsSummary,
-      pieChartClassName,
-      pieChartRootComponent,
       showBarChart,
+      StoriesTab,
       Totals,
-      widgetSize,
     } = this.props
 
     const currentCategoryColor = R.prop('color', currentCategory)
@@ -323,13 +323,31 @@ class Widget extends React.Component<Props, State> {
 
     const totals = Totals ? React.cloneElement(Totals, this.state.totals) : null
 
-    const aboutTab = (
-      <AboutTab
-        description={this.state.accountDescription}
-        name={this.state.accountName}
-        Totals={totals}
-      />
-    )
+    const overviewTab = !this.pieItems
+      ? null
+      : React.cloneElement(OverviewTab, {
+          onCategoryClick: this.handleCategorySelect,
+          onPieTotalChange: this.handlePieTotalChange,
+          PaymentsSummary: paymentsSummary,
+          PeriodSelect: periodSelect,
+          pieItems: this.pieItems,
+          pieTotal: this.pieTotal,
+          pieTotalSelectable: this.pieTotalSelectable,
+          Totals: totals,
+        })
+
+    const storiesTab = React.cloneElement(StoriesTab, {
+      accountId: this.props.accountId,
+      stories: this.stories,
+    })
+
+    const aboutTab = AboutTab
+      ? React.cloneElement(AboutTab, {
+          description: this.state.accountDescription,
+          name: this.state.accountName,
+          Totals: totals,
+        })
+      : null
 
     return (
       <TabbedLayout
@@ -337,26 +355,7 @@ class Widget extends React.Component<Props, State> {
         hideStoriesTab={hideStoriesTab}
         onTabSwitch={this.handleTabSwitch}
         tab={tab}
-        OverviewTab={
-          this.pieItems && (
-            <OverviewTab
-              CategoryList={CategoryList}
-              chartClassName={overviewChartClassName}
-              contentClassName={contentClassName}
-              onCategoryClick={this.handleCategorySelect}
-              onPieTotalChange={this.handlePieTotalChange}
-              PaymentsSummary={paymentsSummary}
-              PeriodSelect={periodSelect}
-              pieChartRootComponent={pieChartRootComponent}
-              pieClassName={pieChartClassName}
-              pieItems={this.pieItems}
-              pieTotal={this.pieTotal}
-              pieTotalSelectable={this.pieTotalSelectable}
-              Totals={totals}
-              widgetSize={widgetSize}
-            />
-          )
-        }
+        OverviewTab={overviewTab}
         PaymentListTab={
           this.barData && (
             <PaymentListTab
@@ -364,7 +363,7 @@ class Widget extends React.Component<Props, State> {
               barsData={this.barData}
               barsHeight={barsHeight}
               barsWidth={barsWidth}
-              contentClassName={contentClassName}
+              className={paymentsRootClassName}
               currentCategoryColor={currentCategoryColor}
               currentCategoryName={currentCategoryName}
               footerPadding={barsFooterPadding}
@@ -381,9 +380,7 @@ class Widget extends React.Component<Props, State> {
             />
           )
         }
-        StoriesTab={
-          <StoriesTab accountId={this.props.accountId} stories={this.stories} />
-        }
+        StoriesTab={storiesTab}
         AboutTab={aboutTab}
       />
     )

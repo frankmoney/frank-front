@@ -1,34 +1,59 @@
 // @flow strict-local
 import React from 'react'
 import ButtonWidget from 'widget/components/ButtonWidget'
-// import InlineWidget from 'containers/widgets/InlineWidget'
+import InlineWidget from 'containers/widgets/InlineWidget'
 import Demo, { Row } from 'demo/Demo'
+import { injectStyles } from 'utils/styles'
 
-const WidgetsDemo = () => (
-  <Demo>
-    <h2>Button widget</h2>
+const styles = {
+  demo: {},
+  buttonDemo: {
+    '$demo > &': {
+      margin: [40, 0, -25],
+    },
+  },
+}
+
+const WidgetsDemo = ({ classes }) => (
+  <Demo className={classes.demo}>
+    <h2 className={classes.buttonDemo}>Button widget ➘</h2>
+    <ButtonWidget accountId={18} />
+
+    <h2>Inline widget 280x190</h2>
     <Row centered>
-      <ButtonWidget accountId={4} open />
+      <InlineWidget accountId={4} width={280} />
     </Row>
-    <h2>Button widget (closed)</h2>
+
+    <h2>Inline widget 400x275</h2>
     <Row centered>
-      <ButtonWidget accountId={18} />
+      <InlineWidget accountId={4} width={400} />
     </Row>
 
-    {/*
-    <Title>Inline widget 400x275</Title>
-    <InlineWidget size={400} />
+    <h2>Inline widget 450px</h2>
+    <Row centered>
+      <InlineWidget accountId={4} width={450} />
+    </Row>
 
-    <Title>Inline widget 500x345</Title>
-    <InlineWidget size={500} />
+    <h2>Inline widget 500x345</h2>
+    <Row centered>
+      <InlineWidget accountId={4} width={500} />
+    </Row>
 
-    <Title>Inline widget 625x430</Title>
-    <InlineWidget size={625} />
+    <h2>Inline widget 625x430</h2>
+    <Row centered>
+      <InlineWidget accountId={4} width={625} />
+    </Row>
 
-    <Title>Inline widget 800x550</Title>
-    <InlineWidget size={800} />
-    */}
+    <h2>Inline widget 700px</h2>
+    <Row centered>
+      <InlineWidget accountId={4} width={700} />
+    </Row>
+
+    <h2>Inline widget 800x550</h2>
+    <Row centered>
+      <InlineWidget accountId={4} width={800} />
+    </Row>
   </Demo>
 )
 
-export default WidgetsDemo
+export default injectStyles(styles)(WidgetsDemo)

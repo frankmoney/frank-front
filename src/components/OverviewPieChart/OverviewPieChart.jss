@@ -5,11 +5,11 @@ export default {
     flex: [1, 0, 0],
     justifyContent: 'center',
   },
-  chartContainer: {
+  chart: {
     alignItems: 'center',
     display: 'flex',
     flex: [0, 0, 'auto'],
     justifyContent: 'center',
-    marginRight: '7%',
+    position: 'relative',
   },
 }

@@ -4,34 +4,32 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import OverviewPieChart from 'components/OverviewPieChart'
 import type {
-  CategoryCb,
   CategoryListComponent,
   CategoryListPieChartRootComponent,
   OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
+import { between } from 'containers/widgets/utils'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import OverviewCategoryList from './OverviewCategoryList'
 
-const pieSize = R.cond([
+export type WidgetWidth = number
+
+export type DynamicSizeFn = WidgetWidth => number
+
+const pieSize: DynamicSizeFn = R.cond([
   [R.equals(375), R.always(270)], // button widget size
-  [R.equals(500), R.always(170)],
-  [R.equals(625), R.always(220)],
-  [R.equals(800), R.always(275)],
-  [R.T, R.always(0)],
+  [between(500, 625), R.always(170)],
+  [between(625, 800), R.always(220)],
+  [R.gte(R.__, 800), R.always(275)],
 ])
 
-const dynamicPieTotalSelectLabel = R.cond([
-  [R.equals(375), R.always('% of total')],
-  [R.equals(500), R.always('% of')],
-  [R.equals(625), R.always('% of')],
-  [R.equals(800), R.always('% of total')],
-  [R.T, R.always('FIX ME')],
-])
+const dynamicPieTotalSelectLabel: WidgetWidth => string = width =>
+  width === 375 || width >= 800 ? '% of total' : '% of'
 
 const styles = {
   root: {
-    paddingBottom: 5,
+    justifyContent: 'left',
   },
   customPieTotalSelect: {
     fontSize: 15,
@@ -47,27 +45,22 @@ export type Props = {|
   ...OverviewPieChartProps,
   ...InjectStylesProps,
   //
-  CategoryList?: CategoryListComponent,
-  onCategoryClick: CategoryCb,
-  pieChartRootComponent?: CategoryListPieChartRootComponent,
-  pieItems: PieChartCategories,
-  widgetSize: 375 | 500 | 625 | 800,
-  // Styles
-  periodSelectClassName?: string,
-  pieClassName?: string,
-  //
+  CategoryList: CategoryListComponent,
   PeriodSelect: ?React.Element<any>, // flowlint-line unclear-type:off
+  pieChartRootComponent?: CategoryListPieChartRootComponent,
+  pieClassName?: string,
+  pieItems: PieChartCategories,
+  widgetWidth: number,
 |}
 
 const OverviewChart = ({
   CategoryList,
   classes,
   className,
-  periodSelectClassName,
   pieChartRootComponent,
   pieClassName,
   pieItems,
-  widgetSize,
+  widgetWidth,
   PeriodSelect,
   // omit
   pieTotalSelectClassName,
@@ -77,19 +70,19 @@ const OverviewChart = ({
   <>
     {PeriodSelect &&
       React.cloneElement(PeriodSelect, {
-        className: cx(classes.periodSelect, periodSelectClassName),
+        className: classes.periodSelect,
       })}
     <OverviewPieChart
       {...pieChartProps}
-      CategoryList={CategoryList && <CategoryList />}
+      CategoryList={<CategoryList />}
       chartClassName={pieClassName}
-      chartSize={pieSize(widgetSize)}
+      chartSize={pieSize(widgetWidth)}
       className={cx(classes.root, className)}
       component={pieChartRootComponent}
       data={pieItems}
-      pieTotalSelectLabel={dynamicPieTotalSelectLabel(widgetSize)}
+      pieTotalSelectLabel={dynamicPieTotalSelectLabel(widgetWidth)}
       pieTotalSelectClassName={cx({
-        [classes.customPieTotalSelect]: widgetSize === 500,
+        [classes.customPieTotalSelect]: widgetWidth === 500,
       })}
     />
   </>

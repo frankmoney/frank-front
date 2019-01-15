@@ -1,5 +1,5 @@
 // @flow strict-local
-import React from 'react'
+import * as React from 'react'
 import cx from 'classnames'
 import { compose, defaultProps } from 'recompose'
 import colors from 'styles/colors'
@@ -17,7 +17,7 @@ type Props = {|
   onClick?: EmptyCb,
   onClose?: EmptyCb,
   open: boolean,
-  subtitle?: string,
+  subtitle?: React.Node,
   title?: string,
   color?: string,
 |}
@@ -26,13 +26,13 @@ const ButtonWidgetToggle = ({
   classes,
   className,
   onClick,
-  expanded,
+  open,
   subtitle,
   title,
 }: Props) => (
   // eslint-disable-next-line jsx-a11y/no-static-element-interactions
   <div
-    className={cx(classes.root, { [classes.expanded]: expanded }, className)}
+    className={cx(classes.root, { [classes.expanded]: open }, className)}
     onClick={onClick}
   >
     <ChartIcon className={classes.chartIcon} />

@@ -1,10 +1,13 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
 import { withState, compose, defaultProps } from 'recompose'
-import { injectStyles } from 'utils/styles'
+import { type AccountId } from 'data/models/account'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import BodyFixer from 'widget/components/utility/BodyFixer'
 import BodyPreventScrolling from 'widget/components/utility/BodyPreventScrolling'
 import calcScreenSize from 'widget/components/utility/calcScreenSize'
+import { type WidgetWidth } from 'containers/widgets/Tabs/OverviewTab'
 import ButtonWidgetEmbed from './ButtonWidgetEmbed'
 import ButtonWidgetToggle from './ButtonWidgetToggle'
 import { BUTTON_HEIGHT } from './constants'
@@ -12,8 +15,28 @@ import styles from './ButtonWidget.jss'
 
 const MAX_FRAME_HEIGHT = 667
 
-class ButtonWidget extends React.Component {
+type Props = {|
+  ...InjectStylesProps,
+  //
+  accountId?: AccountId,
+  buttonColor?: string,
+  changeOpen: boolean => void,
+  mobile?: boolean,
+  open: boolean,
+  openImmediately?: boolean,
+  openImmediatelyTimeout: number,
+  screenWidth: number,
+  width: WidgetWidth,
+|}
+
+type State = {|
+  hover: boolean,
+  wasOpened: boolean,
+|}
+
+class ButtonWidget extends React.Component<Props, State> {
   state = {
+    hover: false,
     // lazy load widget component
     wasOpened: this.props.open,
   }
@@ -85,7 +108,7 @@ class ButtonWidget extends React.Component {
         <ButtonWidgetToggle
           className={classes.expander}
           title={open ? 'Real-time report' : 'We’re transparent'}
-          expanded={open}
+          open={open}
           color={buttonColor}
           subtitle={
             open ? (
