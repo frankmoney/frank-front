@@ -15,6 +15,7 @@ export const ROUTES = {
   account: {
     root: '/accounts',
     onboarding: '/accounts/new',
+    widget: '/accounts/:accountId/widget',
     idRoot: '/accounts/:accountId?',
     idRootTab: '/accounts/:accountId/:tab(stories)?',
     stories: {
