@@ -25,7 +25,8 @@ const deinitWidgetApp = () => {
 
 class ExternalWidget extends React.Component {
   static defaultProps = {
-    scriptSrc: 'https://assets2.frank.ly/widget/main.js',
+    // scriptSrc: 'https://assets2.frank.ly/widget/main.js',
+    scriptSrc: 'http://0.0.0.0:8082/assets/main.js',
     widgetOptions: {
       position: 'right',
     },
