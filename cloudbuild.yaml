@@ -5,16 +5,16 @@ steps:
   args: ['yarn', 'install', '--pure-lockfile']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'build']
-  env: ['PUBLIC_PATH=//frankassets-cdn.azureedge.net/assets/frank/']
+  env: ['WEBAPP_ASSETS_PATH=$_WEBAPP_ASSETS_PATH']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'build:server']
-  env: ['PUBLIC_PATH=//frankassets-cdn.azureedge.net/assets/frank/']
+  env: ['WEBAPP_ASSETS_PATH=$_WEBAPP_ASSETS_PATH']
 - name: 'mhart/alpine-node:9'
-  args: ['yarn', 'run', 'deploy:assets']
-  env: ['PUBLIC_PATH=//frankassets-cdn.azureedge.net/assets/frank/']
+  args: ['yarn', 'run', 'deploy']
+  env: ['GOOGLE_BUCKET_NAME=$_GOOGLE_BUCKET_NAME', 'GOOGLE_BUCKET_PATH=$_GOOGLE_BUCKET_PATH', 'GOOGLE_KEYS=$_GOOGLE_KEYS', 'GOOGLE_PROJECT=$PROJECT_ID']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'build-widget']
-  env: ['WIDGET_PUBLIC_PATH=$_WIDGET_PUBLIC_PATH']
+  env: ['WIDGET_ASSETS_PATH=$_WIDGET_ASSETS_PATH']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'deploy:widget']
   env: ['GOOGLE_BUCKET_NAME=$_GOOGLE_BUCKET_NAME', 'GOOGLE_BUCKET_PATH=$_GOOGLE_BUCKET_PATH', 'GOOGLE_KEYS=$_GOOGLE_KEYS', 'GOOGLE_PROJECT=$PROJECT_ID']

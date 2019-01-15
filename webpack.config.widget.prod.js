@@ -8,7 +8,7 @@ const { backendUrl, apiEndpointPath, graphqlEndpointPath } = require('./config')
 const sourcePath = path.join(__dirname, 'src')
 const widgetSrc = path.join(sourcePath, 'widget')
 const buildPath = path.join(__dirname, 'build', 'widget')
-const publicPath = process.env.WIDGET_PUBLIC_PATH || '/assets'
+const publicPath = process.env.WIDGET_ASSETS_PATH || '/assets'
 
 module.exports = {
   name: 'client',
