@@ -61,15 +61,15 @@ const SidebarMenuItem = ({
 
   return href ? (
     <NavLinkComponent
-      className={cx(classes.menuItem, className)}
-      activeClassName={classes.menuItemActive}
+      className={cx(classes.root, className)}
+      activeClassName={classes.active}
       to={href}
       {...otherProps}
     >
       {content}
     </NavLinkComponent>
   ) : (
-    <div className={cx(classes.menuItem, className)} {...otherProps}>
+    <div className={cx(classes.root, className)} {...otherProps}>
       {content}
     </div>
   )
