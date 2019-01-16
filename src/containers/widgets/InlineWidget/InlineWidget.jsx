@@ -13,6 +13,7 @@ import OverviewTab, {
   type DynamicSizeFn,
 } from '../Tabs/OverviewTab'
 import StoriesTab from '../Tabs/StoriesTab'
+import ErrorScreen from '../ErrorScreen'
 import Widget from '../Widget'
 
 const PADDING = 15
@@ -188,14 +189,14 @@ const InlineWidget = ({ accountId, classes, width }: Props) => {
   const clampedWidth = clampedWidgetWidth(width)
   const small = clampedWidth < 400
   const light = clampedWidth < 500
-  const capped = clampedWidth >= 625
+  const large = clampedWidth >= 625
   return (
     <div className={classes.root}>
       <Widget
         AboutTab={
           <AboutTab
             className={cx({
-              [classes.capped]: capped,
+              [classes.capped]: large,
             })}
             descriptionClassName={cx(classes.aboutDescription, {
               [classes.smallAboutDescription]: small,
@@ -215,6 +216,12 @@ const InlineWidget = ({ accountId, classes, width }: Props) => {
         barsHeight={barsHeight(clampedWidth)}
         barsWidth={barsWidth(clampedWidth)}
         className={classes.widget}
+        ErrorScreen={
+          <ErrorScreen
+            className={classes.widget}
+            size={small ? 'small' : large ? 'large' : 'medium'}
+          />
+        }
         OverviewTab={
           <OverviewTab
             className={cx(classes.content, { [classes.scrollable]: light })}
@@ -229,7 +236,7 @@ const InlineWidget = ({ accountId, classes, width }: Props) => {
         paymentListClassName={cx(classes.payments, {
           [classes.noBarChart]: light,
           [classes.smallPayments]: small,
-          [classes.paymentsCapped]: capped,
+          [classes.paymentsCapped]: large,
         })}
         paymentsRootClassName={cx(classes.content, {
           [classes.scrollable]: light,
@@ -248,7 +255,7 @@ const InlineWidget = ({ accountId, classes, width }: Props) => {
         showCategoryCount={!light}
         StoriesTab={
           <StoriesTab
-            className={cx({ [classes.capped]: capped })}
+            className={cx({ [classes.capped]: large })}
             storyClassName={cx(classes.story, { [classes.smallStory]: small })}
             storyImageBorderRadius={[[5, 5, 0, 0]]}
             storyImageClassName={classes.storyImage}
