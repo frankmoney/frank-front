@@ -1,12 +1,15 @@
 const path = require('path')
+const assert = require('assert')
 const webpack = require('webpack')
 const AssetsPlugin = require('assets-webpack-plugin')
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
 
 const nodeEnv = process.env.NODE_ENV || 'development'
-const publicPath = process.env.WEBAPP_ASSETS_PATH || '/assets/'
-const widgetScriptUrl =
-  process.env.WIDGET_SCRIPT_URL || 'http://localhost:8082/assets/main.js'
+const publicPath = process.env.ASSETS_PATH
+const widgetScriptUrl = process.env.WIDGET_SCRIPT_URL
+assert(publicPath, 'env ASSETS_PATH required')
+assert(widgetScriptUrl, 'env WIDGET_SCRIPT_URL required')
+
 const sourcePath = path.join(__dirname, './src')
 const buildPath = path.join(__dirname, 'build', 'client')
 

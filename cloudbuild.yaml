@@ -5,16 +5,16 @@ steps:
   args: ['yarn', 'install', '--pure-lockfile']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'build']
-  env: ['WEBAPP_ASSETS_PATH=$_WEBAPP_ASSETS_PATH', 'WIDGET_SCRIPT_URL=$_WIDGET_SCRIPT_URL']
+  env: ['ASSETS_PATH=$_WEBAPP_ASSETS_PATH', 'WIDGET_SCRIPT_URL=$_WIDGET_SCRIPT_URL']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'build:server']
-  env: ['WEBAPP_ASSETS_PATH=$_WEBAPP_ASSETS_PATH', 'WIDGET_SCRIPT_URL=$_WIDGET_SCRIPT_URL']
+  env: ['ASSETS_PATH=$_WEBAPP_ASSETS_PATH', 'WIDGET_SCRIPT_URL=$_WIDGET_SCRIPT_URL']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'deploy']
   env: ['GOOGLE_BUCKET_NAME=$_GOOGLE_BUCKET_NAME', 'GOOGLE_BUCKET_PATH=$_WEBAPP_BUCKET_PATH', 'GOOGLE_KEYS=$_GOOGLE_KEYS', 'GOOGLE_PROJECT=$PROJECT_ID']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'build-widget']
-  env: ['WIDGET_ASSETS_PATH=$_WIDGET_ASSETS_PATH', 'WIDGET_BACKEND_URL=$_WIDGET_BACKEND_URL']
+  env: ['ASSETS_PATH=$_WIDGET_ASSETS_PATH', 'WEBAPP_URL=$_WEBAPP_URL']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'deploy:widget']
   env: ['GOOGLE_BUCKET_NAME=$_GOOGLE_BUCKET_NAME', 'GOOGLE_BUCKET_PATH=$_WIDGET_BUCKET_PATH', 'GOOGLE_KEYS=$_GOOGLE_KEYS', 'GOOGLE_PROJECT=$PROJECT_ID']

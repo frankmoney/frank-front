@@ -1,14 +1,18 @@
 const path = require('path')
+const assert = require('assert')
 const url = require('url')
 const webpack = require('webpack')
 
-const widgetPublicBackendUrl =
-  process.env.WIDGET_BACKEND_URL || 'http://back.frank-dev1.frank.ly'
+const nodeEnv = process.env.NODE_ENV || 'development'
+const webappUrl = process.env.WEBAPP_URL
+const publicPath = process.env.ASSETS_PATH
+assert(webappUrl, 'env WEBAPP_URL expected')
+assert(publicPath, 'env ASSETS_PATH expected')
 
+const webappApiUrl = url.resolve(webappUrl, '/api')
 const sourcePath = path.join(__dirname, 'src')
 const widgetSrc = path.join(sourcePath, 'widget')
 const buildPath = path.join(__dirname, 'build', 'widget')
-const publicPath = process.env.WIDGET_ASSETS_PATH || '/assets'
 
 module.exports = {
   name: 'widget',
@@ -73,9 +77,12 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      __API_URL: JSON.stringify(url.resolve(widgetPublicBackendUrl, '/http')),
-      __GRAPHQL_URL: JSON.stringify(widgetPublicBackendUrl),
+      __API_URL: JSON.stringify(url.resolve(webappApiUrl, '/http')),
+      __GRAPHQL_URL: JSON.stringify(webappApiUrl),
       __SCRIPT_BASE_URL: JSON.stringify(url.resolve(publicPath, '/main.js')),
+      'process.env': {
+        NODE_ENV: JSON.stringify(nodeEnv),
+      },
     }),
   ],
   resolve: {
