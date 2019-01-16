@@ -77,6 +77,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
+      __WEBAPP_BASE_URL: JSON.stringify(webappUrl),
       __API_URL: JSON.stringify(url.resolve(webappApiUrl, '/http')),
       __GRAPHQL_URL: JSON.stringify(webappApiUrl),
       __SCRIPT_BASE_URL: JSON.stringify(url.resolve(publicPath, '/main.js')),
@@ -115,6 +116,14 @@ module.exports = {
       ),
       'react-jss$': path.join(__dirname, 'node_modules', 'react-jss', 'lib'),
       jss$: path.join(__dirname, 'node_modules', 'jss', 'lib'),
+      // https://github.com/reduxjs/redux/issues/2878
+      redux$: path.join(
+        __dirname,
+        'node_modules',
+        'redux',
+        'dist',
+        nodeEnv === 'production' ? 'redux.min.js' : 'redux.js'
+      ),
     },
   },
 }

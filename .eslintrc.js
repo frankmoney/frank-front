@@ -9,6 +9,7 @@ module.exports = {
     "__API_URL": true,
     "__GRAPHQL_URL": true,
     "__WIDGET_SCRIPT_URL": true,
+    "__WEBAPP_BASE_URL": true,
   },
   plugins: ['flowtype', 'import'],
   "settings": {

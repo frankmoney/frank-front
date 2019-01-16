@@ -2,7 +2,6 @@
 import React from 'react'
 import cx from 'classnames'
 import { createRouteUrl } from '@frankmoney/utils'
-// import {widgetPublicBackendUrl} from 'config'
 import CurrencyProvider from 'components/CurrencyProvider'
 import { type CurrencyCode } from 'contexts/CurrencyContext'
 import { type AccountId } from 'data/models/account'
@@ -53,9 +52,10 @@ const StoriesTab = ({
 }: Props) => (
   <div className={cx(classes.root, className)}>
     <BaseUriContext.Consumer>
-      {(baseUri: ?string) => {
+      {(baseUri: string) => {
         const storyUrl = storyId =>
-          (baseUri || '') +
+          // TODO Be aware of correct url concatenation
+          baseUri +
           createRouteUrl(ROUTES.account.stories.idRoot, {
             accountId,
             storyId,
@@ -83,7 +83,5 @@ const StoriesTab = ({
     </BaseUriContext.Consumer>
   </div>
 )
-
-StoriesTab.contextType = BaseUriContext
 
 export default injectStyles(styles)(StoriesTab)
