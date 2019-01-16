@@ -1,7 +1,9 @@
 const path = require('path')
 const url = require('url')
 const webpack = require('webpack')
-const { widgetPublicBackendUrl } = require('./config')
+
+const widgetPublicBackendUrl =
+  process.env.WIDGET_BACKEND_URL || 'http://back.frank-dev1.frank.ly'
 
 const sourcePath = path.join(__dirname, 'src')
 const widgetSrc = path.join(sourcePath, 'widget')
