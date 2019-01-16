@@ -5,10 +5,12 @@ const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
 
 const nodeEnv = process.env.NODE_ENV || 'development'
 const publicPath = process.env.WEBAPP_ASSETS_PATH || '/assets/'
+const widgetScriptUrl =
+  process.env.WIDGET_SCRIPT_URL || 'http://localhost:8082/assets/main.js'
 const sourcePath = path.join(__dirname, './src')
 const buildPath = path.join(__dirname, 'build', 'client')
 
-const { graphqlEndpointPath, apiEndpointPath, widgetScriptUrl } = require('./config')
+const { graphqlEndpointPath, apiEndpointPath } = require('./config')
 
 module.exports = {
   name: 'client',

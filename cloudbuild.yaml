@@ -5,10 +5,10 @@ steps:
   args: ['yarn', 'install', '--pure-lockfile']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'build']
-  env: ['WEBAPP_ASSETS_PATH=$_WEBAPP_ASSETS_PATH']
+  env: ['WEBAPP_ASSETS_PATH=$_WEBAPP_ASSETS_PATH', 'WIDGET_SCRIPT_URL=$_WIDGET_SCRIPT_URL']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'build:server']
-  env: ['WEBAPP_ASSETS_PATH=$_WEBAPP_ASSETS_PATH']
+  env: ['WEBAPP_ASSETS_PATH=$_WEBAPP_ASSETS_PATH', 'WIDGET_SCRIPT_URL=$_WIDGET_SCRIPT_URL']
 - name: 'mhart/alpine-node:9'
   args: ['yarn', 'run', 'deploy']
   env: ['GOOGLE_BUCKET_NAME=$_GOOGLE_BUCKET_NAME', 'GOOGLE_BUCKET_PATH=$_WEBAPP_BUCKET_PATH', 'GOOGLE_KEYS=$_GOOGLE_KEYS', 'GOOGLE_PROJECT=$PROJECT_ID']

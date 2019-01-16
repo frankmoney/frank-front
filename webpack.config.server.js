@@ -1,11 +1,11 @@
 const path = require('path')
 const webpack = require('webpack')
 const WriteFilePlugin = require('write-file-webpack-plugin') // here so you can see what chunks are built
-const { widgetScriptUrl } = require('./config')
 
 const sourcePath = path.join(__dirname, './src')
 const buildPath = path.join(__dirname, './build')
-
+const widgetScriptUrl =
+  process.env.WIDGET_SCRIPT_URL || 'http://localhost:8082/assets/main.js'
 const publicPath = process.env.WEBAPP_ASSETS_PATH || '/assets/'
 const nodeExternals = require('webpack-node-externals')
 
