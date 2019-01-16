@@ -24,6 +24,7 @@ type Props = {|
   barsWidth: number,
   footerPadding: number,
   showBarChart: boolean,
+  small?: boolean,
   // Handlers
   onCancelCategoryClick: () => void,
   // Styles
@@ -56,10 +57,11 @@ const PaymentListTab = ({
   paymentsData,
   showBarChart,
   showCategories,
+  small,
   PeriodSelect,
 }: Props) => (
   <>
-    <Header live={false}>
+    <Header live={false} small={small}>
       <CategoryName
         name={currentCategoryName}
         onClick={onCancelCategoryClick}

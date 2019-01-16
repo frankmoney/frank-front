@@ -6,8 +6,9 @@ import {
   HttpClientProvider,
   createJss,
 } from '@frankmoney/webapp'
+import BaseUriContext from './BaseUriContext'
 
-export default ({ frankTheme, httpClient, graphqlClient }) => {
+export default ({ frankTheme, httpClient, graphqlClient, baseUri }) => {
   const jss = createJss()
 
   return ({ children }) => (
@@ -15,7 +16,9 @@ export default ({ frankTheme, httpClient, graphqlClient }) => {
       <ThemeProvider theme={frankTheme}>
         <GraphqlProvider graphql={graphqlClient}>
           <HttpClientProvider httpClient={httpClient}>
-            {children}
+            <BaseUriContext.Provider value={baseUri}>
+              {children}
+            </BaseUriContext.Provider>
           </HttpClientProvider>
         </GraphqlProvider>
       </ThemeProvider>

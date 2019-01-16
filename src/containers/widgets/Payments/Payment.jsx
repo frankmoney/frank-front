@@ -36,7 +36,6 @@ const styles = theme => ({
     justifyContent: 'space-between',
   },
   description: {
-    ...theme.fontRegular(18, 26),
     color: '#8F93A4',
   },
   peerName: {
@@ -44,7 +43,6 @@ const styles = theme => ({
     marginTop: 6,
   },
   amount: {
-    ...theme.fontRegular(18, 26),
     display: 'flex',
     flexWrap: 'nowrap',
   },

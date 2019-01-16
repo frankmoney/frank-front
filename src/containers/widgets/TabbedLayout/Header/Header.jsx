@@ -9,17 +9,22 @@ const styles = {
     borderBottom: '1px solid #E9EAEC',
     display: 'flex',
     margin: [0, 2, 11],
-    minHeight: 64,
+    minHeight: 65,
     position: 'relative',
+  },
+  small: {
+    minHeight: 59,
+    margin: [0, 1, 8],
   },
 }
 
 type Props = {|
   ...InjectStylesProps,
   //
-  children?: React.Node,
+  children: React.Node,
   live: boolean,
   liveClassName?: string,
+  small?: boolean,
 |}
 
 const Header = ({
@@ -28,10 +33,16 @@ const Header = ({
   children,
   live,
   liveClassName,
+  small,
 }: Props) => (
-  <div className={cx(classes.root, className)}>
-    {children}
-    {live && <LiveIndicator className={cx(classes.live, liveClassName)} />}
+  <div className={cx(classes.root, { [classes.small]: small }, className)}>
+    {React.Children.map(children, headerItem =>
+      React.cloneElement(headerItem, {
+        small,
+      })
+    )}
+    {live &&
+      !small && <LiveIndicator className={cx(classes.live, liveClassName)} />}
   </div>
 )
 

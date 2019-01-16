@@ -1,5 +1,6 @@
 // @flow strict-local
 import * as React from 'react'
+import cx from 'classnames'
 import type {
   CategoryCb,
   CategoryListComponent,
@@ -29,8 +30,24 @@ const styles = {
     padding: [3, 0, 0],
     position: 'static',
   },
+  smallSelect: {
+    fontSize: 16,
+  },
   standaloneCategoryList: {
     padding: [19, 2],
+  },
+  smallList: {
+    padding: [14, 1],
+  },
+  smallListItem: {
+    fontSize: 16,
+    '&:not(:last-child)': {
+      paddingBottom: 8,
+    },
+  },
+  smallListItemIcon: {
+    width: 12,
+    height: 12,
   },
 }
 
@@ -47,6 +64,7 @@ type Props = {|
   CategoryList: CategoryListComponent,
   chartClassName?: string,
   className?: string,
+  noHover?: boolean,
   onCategoryClick: CategoryCb,
   PeriodSelect: ?React.Element<typeof PeriodSelectComponent>,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
@@ -54,6 +72,7 @@ type Props = {|
   pieItems: PieChartCategories,
   showPieChart?: boolean,
   showTotals?: boolean,
+  small?: boolean,
   widgetWidth: WidgetWidth,
 |}
 
@@ -62,6 +81,7 @@ const OverviewTab = ({
   chartClassName,
   classes,
   className,
+  noHover,
   onCategoryClick,
   onPieTotalChange,
   PaymentsSummary,
@@ -73,6 +93,7 @@ const OverviewTab = ({
   pieTotalSelectable,
   showPieChart,
   showTotals,
+  small,
   Totals,
   widgetWidth,
 }: Props) => (
@@ -82,6 +103,7 @@ const OverviewTab = ({
       <OverviewChart
         CategoryList={CategoryList}
         className={chartClassName}
+        mobile={noHover}
         onCategoryClick={onCategoryClick}
         onPieTotalChange={onPieTotalChange}
         PeriodSelect={PeriodSelect}
@@ -97,14 +119,24 @@ const OverviewTab = ({
         <div className={classes.selects}>
           {PeriodSelect}
           <PieTotalSelect
-            className={classes.standaloneCategoryType}
+            className={cx(classes.standaloneCategoryType, {
+              [classes.smallSelect]: small,
+            })}
             onChange={onPieTotalChange}
             selectable={pieTotalSelectable}
             value={pieTotal}
           />
         </div>
         <JustCategoryList
-          className={classes.standaloneCategoryList}
+          className={cx(classes.standaloneCategoryList, {
+            [classes.smallList]: small,
+          })}
+          iconClassName={cx({
+            [classes.smallListItemIcon]: small,
+          })}
+          itemClassName={cx({
+            [classes.smallListItem]: small,
+          })}
           onCategoryClick={onCategoryClick}
           pieItems={pieItems}
         />

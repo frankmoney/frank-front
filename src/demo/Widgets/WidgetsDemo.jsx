@@ -24,6 +24,11 @@ const WidgetsDemo = ({ classes }) => (
       <InlineWidget accountId={4} width={280} />
     </Row>
 
+    <h2>Inline widget 350px</h2>
+    <Row centered>
+      <InlineWidget accountId={4} width={350} />
+    </Row>
+
     <h2>Inline widget 400x275</h2>
     <Row centered>
       <InlineWidget accountId={4} width={400} />

@@ -1,6 +1,7 @@
 export default theme => ({
   root: {
     position: 'relative',
+    ...theme.fontRegular(22, 26),
   },
   item: {
     cursor: 'pointer',
@@ -12,11 +13,9 @@ export default theme => ({
     marginRight: 13,
   },
   name: {
-    ...theme.fontMedium(22, 26),
+    fontWeight: 500,
   },
-  value: {
-    ...theme.fontRegular(22, 26),
-  },
+  value: {},
   highlighted: {
     '& > $item': {
       opacity: 0.4,

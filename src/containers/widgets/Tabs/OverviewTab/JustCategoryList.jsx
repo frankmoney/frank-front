@@ -17,16 +17,13 @@ const styles = theme => ({
     padding: [13, 2],
   },
   item: {
+    ...theme.fontMedium(18, 26),
     '&:not(:last-child)': {
       paddingBottom: 9,
     },
   },
   name: {
-    ...theme.fontMedium(18, 26),
     flexGrow: 1,
-  },
-  value: {
-    ...theme.fontRegular(18, 26),
   },
   icon: {
     height: 14,
@@ -37,6 +34,8 @@ const styles = theme => ({
 type Props = {|
   ...InjectStylesProps,
   //
+  iconClassName?: string,
+  itemClassName?: string,
   pieItems: PieChartCategories,
   onCategoryClick: CategoryCb,
 |}
@@ -44,6 +43,8 @@ type Props = {|
 const JustCategoryList = ({
   classes,
   className,
+  iconClassName,
+  itemClassName,
   pieItems,
   ...props
 }: Props) => {
@@ -52,10 +53,9 @@ const JustCategoryList = ({
     <CategoryList
       className={cx(classes.root, className)}
       data={limitedCategories}
-      iconClassName={classes.icon}
-      itemClassName={classes.item}
+      iconClassName={cx(classes.icon, iconClassName)}
+      itemClassName={cx(classes.item, itemClassName)}
       nameClassName={classes.name}
-      valueClassName={classes.value}
       valueUnit="%"
       {...props}
     />

@@ -14,6 +14,7 @@ type Props = {|
   hideAboutTab?: boolean,
   hideStoriesTab?: boolean,
   onTabSwitch: WidgetTab => void,
+  small?: boolean,
   tab: WidgetTab,
   //
   AboutTab: ?TabRenderer,
@@ -27,6 +28,7 @@ const TabbedLayout = ({
   hideAboutTab,
   hideStoriesTab,
   onTabSwitch,
+  small,
   tab,
   AboutTab,
   StoriesTab,
@@ -41,7 +43,7 @@ const TabbedLayout = ({
   return (
     <div className={className}>
       {!isPaymentListTab && (
-        <Header>
+        <Header small={small}>
           <HeaderItem
             name="Payments"
             active={isOverviewTab}

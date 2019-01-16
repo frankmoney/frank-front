@@ -33,6 +33,7 @@ const styles = {
     position: 'relative',
   },
   paymentsSummary: {
+    flex: [1, 0, 'auto'],
     margin: [16, 0, 13],
   },
   payments: {
@@ -75,6 +76,7 @@ const ButtonWidgetEmbed = ({ accountId, classes, width }: Props) => (
       <OverviewTab
         CategoryList={ButtonWidgetCategoryList}
         className={classes.content}
+        noHover
         pieChartClassName={classes.pieChart}
         pieChartRootComponent={React.Fragment}
         showPieChart

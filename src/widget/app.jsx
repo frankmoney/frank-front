@@ -1,6 +1,7 @@
 import React from 'react'
 import { createGraphqlClient, createHttpClient } from '@frankmoney/utils'
 import createTheme from 'styles/createTheme'
+import { publicUrl } from '../../config'
 import ButtonWidget from './components/ButtonWidget/ButtonWidget'
 import createApp from './createApp'
 
@@ -19,6 +20,7 @@ const App = createApp({
   graphqlClient,
   frankTheme,
   muiTheme,
+  baseUri: publicUrl,
 })
 
 export default props => (
