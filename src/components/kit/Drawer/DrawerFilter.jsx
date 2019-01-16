@@ -9,14 +9,14 @@ const styles = theme => ({
   root: {
     ...theme.fontMedium(18, 26),
     height: 34,
-    color: 'rgb(37,43,67,0.4)',
+    color: 'rgba(37,43,67,0.4)',
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
     marginRight: '30px!important',
     transition: theme.transition('color'),
     '&:not($on):hover': {
-      color: 'rgb(37,43,67,0.6)',
+      color: 'rgba(37,43,67,0.6)',
     },
   },
   icon: {
@@ -27,7 +27,7 @@ const styles = theme => ({
     marginLeft: 10,
   },
   on: {
-    color: 'rgb(37,43,67,1)',
+    color: 'rgba(37,43,67,1)',
   },
 })
 

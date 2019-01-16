@@ -24,7 +24,7 @@ export default theme => ({
     pointerEvents: 'none!important',
   },
   icon: {
-    color: props => (props.disabled ? 'rgb(32,40,74,0.5)' : '#20284A'),
+    color: props => (props.disabled ? 'rgba(32,40,74,0.5)' : '#20284A'),
     flexShrink: 0,
   },
   iconLeft: {

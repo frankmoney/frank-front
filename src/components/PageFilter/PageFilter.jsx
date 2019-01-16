@@ -9,12 +9,12 @@ const styles = theme => ({
   root: {
     ...theme.fontMedium(18, 26),
     height: 34,
-    color: 'rgb(37,43,67,0.4)',
+    color: 'rgba(37,43,67,0.4)',
     display: 'flex',
     alignItems: 'center',
     cursor: 'pointer',
     '&:hover': {
-      color: 'rgb(37,43,67,0.6)',
+      color: 'rgba(37,43,67,0.6)',
     },
   },
   rightIcon: {
