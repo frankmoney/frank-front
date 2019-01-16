@@ -38,29 +38,6 @@ const BankCard = ({ accounts, classes, className }) => (
   </Paper>
 )
 
-BankCard.defaultProps = {
-  accounts: [
-    {
-      bankLink: 'http://chase.com',
-      accountName: 'Save the ocean',
-      accountFourDigits: 6713,
-      accountStatus: 'disconnected',
-      accountBalance: 9120,
-      accountLastUpdate: '20180908',
-      accountNextUpdate: '20180908',
-    },
-    {
-      bankLink: 'http://chase.com',
-      accountName: 'Charity Water',
-      accountFourDigits: 1038,
-      accountStatus: 'connected',
-      accountBalance: 15290,
-      accountLastUpdate: '20180908',
-      accountNextUpdate: '20180908',
-    },
-  ],
-}
-
 export default compose(
   reconnect({ accounts: accountsSelector }),
   injectStyles(styles)
