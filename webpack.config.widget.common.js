@@ -79,9 +79,9 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       __WEBAPP_BASE_URL: JSON.stringify(webappUrl),
-      __API_URL: JSON.stringify(url.resolve(apiUrl, '/http')),
+      __API_URL: JSON.stringify(url.resolve(apiUrl, 'http')),
       __GRAPHQL_URL: JSON.stringify(apiUrl),
-      __SCRIPT_BASE_URL: JSON.stringify(url.resolve(publicPath, '/main.js')),
+      __SCRIPT_BASE_URL: JSON.stringify(url.resolve(publicPath, 'main.js')),
       'process.env': {
         NODE_ENV: JSON.stringify(nodeEnv),
       },
