@@ -118,6 +118,34 @@ module.exports = {
       '.jsx',
     ],
     alias: {
+      // somehow webpack bundles multiple react instances. specifiyng fixed path
+      react: path.join(
+        __dirname,
+        'node_modules',
+        'react',
+        'cjs',
+        nodeEnv === 'production'
+          ? 'react.production.min.js'
+          : 'react.development.js'
+      ),
+      'react-dom$': path.join(
+        __dirname,
+        'node_modules',
+        'react-dom',
+        'cjs',
+        nodeEnv === 'production'
+          ? 'react-dom.production.min.js'
+          : 'react-dom.development.js'
+      ),
+      'redux-form-actions/immutable$': path.join(
+        __dirname,
+        'node_modules',
+        'redux-form-actions',
+        'lib',
+        'immutable.js'
+      ),
+      'react-jss$': path.join(__dirname, 'node_modules', 'react-jss', 'lib'),
+      jss$: path.join(__dirname, 'node_modules', 'jss', 'lib'),
       // redux-form/SubmissionError requires both from es/ and lib/ folder that caused error
       'redux-form': path.resolve(
         __dirname,

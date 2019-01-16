@@ -17,32 +17,4 @@ module.exports = merge(common, {
     new WriteFilePlugin(),
     // new BundleAnalyzerPlugin({ disabled: true, openAnalyzer: false }),
   ],
-  resolve: {
-    alias: {
-      // somehow webpack bundles multiple react instances. specifiyng fixed path
-      react: path.join(
-        __dirname,
-        'node_modules',
-        'react',
-        'cjs',
-        'react.development.js'
-      ),
-      'react-dom$': path.join(
-        __dirname,
-        'node_modules',
-        'react-dom',
-        'cjs',
-        'react-dom.development.js'
-      ),
-      'redux-form-actions/immutable$': path.join(
-        __dirname,
-        'node_modules',
-        'redux-form-actions',
-        'lib',
-        'immutable.js'
-      ),
-      'react-jss$': path.join(__dirname, 'node_modules', 'react-jss', 'lib'),
-      jss$: path.join(__dirname, 'node_modules', 'jss', 'lib'),
-    },
-  },
 })
