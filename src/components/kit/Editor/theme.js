@@ -36,6 +36,9 @@ export default {
     },
   },
   EditorMedia: {
+    media: {
+      margin: [25, 0],
+    },
     wrap: {
       boxShadow: 'none',
     },
