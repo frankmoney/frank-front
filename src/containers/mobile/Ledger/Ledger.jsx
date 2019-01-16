@@ -397,8 +397,15 @@ export default compose(
     }
   ),
   lifecycle({
-    componentWillMount() {
+    componentDidMount() {
       if (!this.props.loaded) {
+        this.props.load({ accountId: this.props.accountId })
+      }
+    },
+    // TODO Public/Mobile ledger components both have common redux state
+    // and when router switch between theese components `leave` store mutation not happen right before second component mount
+    componentWillReceiveProps(nextProps) {
+      if (!nextProps.loaded && this.props.loaded) {
         this.props.load({ accountId: this.props.accountId })
       }
     },
