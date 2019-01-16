@@ -6,7 +6,7 @@ module.exports = {
   backendUrl,
   widgetPublicBackendUrl: backendUrl,
   widgetScriptUrl:
-    process.env.WIDGET_SCRIPT_PATH || 'http://localhost:8082/assets/main.js',
+    process.env.WIDGET_SCRIPT_URL || 'http://localhost:8082/assets/main.js',
   graphqlEndpointPath: '',
   apiEndpointPath: '/api',
   authCookieName: process.env.AUTHENTICATION_COOKIE || 'at',
