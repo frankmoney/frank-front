@@ -12,6 +12,7 @@ const httpClient = createHttpClient({
 
 const graphqlClient = createGraphqlClient({
   url: __GRAPHQL_URL,
+  mode: 'no-cors',
 })
 
 const App = createApp({

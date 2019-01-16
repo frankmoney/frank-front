@@ -5,11 +5,12 @@ const webpack = require('webpack')
 
 const nodeEnv = process.env.NODE_ENV || 'development'
 const webappUrl = process.env.WEBAPP_URL
+const apiUrl = process.env.API_URL
 const publicPath = process.env.ASSETS_PATH
 assert(webappUrl, 'env WEBAPP_URL expected')
+assert(apiUrl, 'env API_URL expected')
 assert(publicPath, 'env ASSETS_PATH expected')
 
-const webappApiUrl = url.resolve(webappUrl, '/api')
 const sourcePath = path.join(__dirname, 'src')
 const widgetSrc = path.join(sourcePath, 'widget')
 const buildPath = path.join(__dirname, 'build', 'widget')
@@ -78,8 +79,8 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       __WEBAPP_BASE_URL: JSON.stringify(webappUrl),
-      __API_URL: JSON.stringify(url.resolve(webappApiUrl, '/http')),
-      __GRAPHQL_URL: JSON.stringify(webappApiUrl),
+      __API_URL: JSON.stringify(url.resolve(apiUrl, '/http')),
+      __GRAPHQL_URL: JSON.stringify(apiUrl),
       __SCRIPT_BASE_URL: JSON.stringify(url.resolve(publicPath, '/main.js')),
       'process.env': {
         NODE_ENV: JSON.stringify(nodeEnv),
