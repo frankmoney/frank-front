@@ -2,6 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { createRouteUrl } from '@frankmoney/utils'
+import { createSelector } from 'reselect'
 import {
   currentUserSelector,
   locationSelector,
@@ -17,6 +18,7 @@ import {
 } from 'recompose'
 import { Redirect, Switch, Route } from 'react-router-dom'
 import Helmet from 'react-helmet'
+import reconnect from 'utils/reconnect'
 import { withMobileLayout } from 'containers/mobile/Layout'
 import MobileLedger from 'containers/mobile/Ledger'
 import MobilePayment from 'containers/mobile/Payment'
@@ -84,27 +86,30 @@ const protectedRoute = compose(
   branch(props => !props.user, renderComponent(RedirectToLogin))
 )
 
+const withMobile = connect(state => {
+  const media = mediaTypeSelector(state)
+  return {
+    mobile: media === 'phoneLandscape' || media === 'phonePortrait',
+  }
+})
+
+const publicSelector = createSelector(
+  currentUserSelector,
+  queryParamSelector('public'),
+  (user, publicParam) => parseQueryStringBool(publicParam) === true || !user
+)
+
+const withPublic = reconnect({ public: publicSelector })
+
 const branchPublic = PublicComponent =>
   compose(
-    connect(state => ({
-      user: currentUserSelector(state),
-      public: queryParamSelector('public')(state),
-    })),
-    branch(
-      props => parseQueryStringBool(props.public) === true || !props.user,
-      renderComponent(PublicComponent)
-    )
+    withPublic,
+    branch(props => props.public, renderComponent(PublicComponent))
   )
 
 const branchMobile = MobileComponent =>
   compose(
-    connect(state => {
-      const media = mediaTypeSelector(state)
-
-      return {
-        mobile: media === 'phoneLandscape' || media === 'phonePortrait',
-      }
-    }),
+    withMobile,
     branch(
       props => props.mobile,
       compose(
@@ -184,14 +189,9 @@ export default [
   },
   {
     component: compose(
-      compose(
-        branchMobile,
-        routeMappers.account
-      )(MobileLedger),
-      compose(
-        branchPublic,
-        routeMappers.account
-      )(PublicLedger)
+      routeMappers.account,
+      branchMobile(MobileLedger),
+      branchPublic(PublicLedger)
     )(LedgerRouter),
     path: ROUTES.account.idRootTab,
     exact: true,
