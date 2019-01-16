@@ -22,12 +22,12 @@ export const storyEditorStateSelector = createSelector(storySelector, story => {
     return null
   }
   const { body } = story
-  if (body.draftjs) {
+  if (body && body.draftjs) {
     return EditorState.createWithContent(
       convertFromRaw(JSON.parse(body.draftjs))
     )
   }
   return EditorState.createWithContent(
-    ContentState.createFromText(body.text || '')
+    ContentState.createFromText((body && body.text) || '')
   )
 })
