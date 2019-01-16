@@ -50,7 +50,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'fonts/[name].[ext]',
+              name: './fonts/[name].[ext]',
             },
           },
         ],
@@ -62,7 +62,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'img/[name].[ext]',
+              name: './img/[name].[ext]',
             },
           },
         ],
