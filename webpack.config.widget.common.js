@@ -117,13 +117,7 @@ module.exports = {
       'react-jss$': path.join(__dirname, 'node_modules', 'react-jss', 'lib'),
       jss$: path.join(__dirname, 'node_modules', 'jss', 'lib'),
       // https://github.com/reduxjs/redux/issues/2878
-      redux$: path.join(
-        __dirname,
-        'node_modules',
-        'redux',
-        'dist',
-        nodeEnv === 'production' ? 'redux.min.js' : 'redux.js'
-      ),
+      redux$: path.join(__dirname, 'node_modules', 'redux', 'lib'),
     },
   },
 }
