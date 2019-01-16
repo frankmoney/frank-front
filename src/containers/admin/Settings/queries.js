@@ -26,6 +26,7 @@ export default {
           status
           bankLogo
           bankName
+          balance
         }
         categories {
           pid

@@ -37,11 +37,6 @@ const styles = theme => ({
     composes: '$row',
     ...theme.fontRegular(20, 30),
   },
-  digits: {
-    marginLeft: 8,
-    opacity: 0.3,
-    fontWeight: 400,
-  },
   statusGreen: {
     color: theme.colors.green,
   },
@@ -75,8 +70,7 @@ const BankItem = ({
   name,
   bankLogo,
   bankLink,
-  accountFourDigits,
-  accountBalance,
+  balance,
   accountStatus,
   accountNextUpdate,
   accountLastUpdate,
@@ -88,7 +82,6 @@ const BankItem = ({
         <div className={classes.rowMedium}>
           <div>
             <span className={classes.name}>{name}</span>
-            <span className={classes.digits}>··· {accountFourDigits}</span>
           </div>
           <div
             className={cx({
@@ -101,10 +94,9 @@ const BankItem = ({
         </div>
         <div className={classes.rowRegular}>
           <div className={classes.balance}>
-            <CurrencyDelta
-              className={classes.totalSum}
-              value={accountBalance}
-            />
+            {typeof balance === 'number' && (
+              <CurrencyDelta className={classes.totalSum} value={balance} />
+            )}
           </div>
           <div className={classes.date}>
             {accountStatus === 'active' ? 'Updates' : 'Updated'}{' '}
