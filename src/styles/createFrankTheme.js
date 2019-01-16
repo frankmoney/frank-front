@@ -56,11 +56,6 @@ export default () => {
         },
       },
     },
-    SnackBarItem: {
-      root: {
-        backgroundColor: props => SNACK_COLORS[props.theme],
-      },
-    },
     Calendar: {
       week: {
         '& > *:not(:last-child)': {
