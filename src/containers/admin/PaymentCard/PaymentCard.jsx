@@ -1,5 +1,4 @@
 // @flow strict-local
-// spellchecker:ignore mmaa
 import React from 'react'
 import cx from 'classnames'
 import {
