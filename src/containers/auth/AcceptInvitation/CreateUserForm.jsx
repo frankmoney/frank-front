@@ -77,7 +77,7 @@ const CreateUserForm = ({
       validate={validation.lastName}
       component={TextField}
       className={classes.field}
-      floatingLabel="Second name"
+      floatingLabel="Last name"
       stretch
       larger
     />

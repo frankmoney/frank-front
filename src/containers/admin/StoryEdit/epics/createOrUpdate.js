@@ -128,12 +128,14 @@ export default (
 
       const successAction = ACTIONS.createOrUpdate.success({ accountId, story })
 
-      if (story.publishedAt && !wasPublished) {
-        const publicUrl = createRouteUrl(ROUTES.account.stories.idRoot, {
-          accountId,
-          storyId: story.id,
-        })
-        storage.setItem(LS_FLAGS.lastPublishedStoryUrl, publicUrl)
+      if (story.publishedAt) {
+        if (!wasPublished) {
+          const publicUrl = createRouteUrl(ROUTES.account.stories.idRoot, {
+            accountId,
+            storyId: story.id,
+          })
+          storage.setItem(LS_FLAGS.lastPublishedStoryUrl, publicUrl)
+        }
 
         return [
           successAction,
