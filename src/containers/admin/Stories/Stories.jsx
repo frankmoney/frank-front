@@ -27,7 +27,6 @@ import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import { BigButton } from 'components/kit/Button'
 import ListLayoutContentBlock from 'components/ListLayoutContentBlock/ListLayoutContentBlock'
-import RouterLink from 'components/RouterLink/RouterLink'
 import StoryPublishedDialog from './StoryPublishedDialog'
 import {
   isLoadingSelector,
@@ -61,11 +60,12 @@ const Stories = ({
       </FixedHeader>
       <div className={classes.container}>
         <ListLayoutContentBlock>
-          <RouterLink
-            to={createRouteUrl(ROUTES.account.stories.idRootNew, { accountId })}
-          >
-            <BigButton label="New story" />
-          </RouterLink>
+          <BigButton
+            label="New story"
+            href={createRouteUrl(ROUTES.account.stories.idRootNew, {
+              accountId,
+            })}
+          />
         </ListLayoutContentBlock>
         {!noStories &&
           stories.map(story => (
