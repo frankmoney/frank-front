@@ -59,48 +59,55 @@ type Props = {|
   width: WidgetWidth,
 |}
 
-const ButtonWidgetEmbed = ({ accountId, classes, width }: Props) => (
-  <Widget
-    AboutTab={
-      <AboutTab
-        titleClassName={classes.aboutTitle}
-        totalsClassName={classes.aboutTotals}
+class ButtonWidgetEmbed extends React.Component<Props> {
+  renderError = cause => (
+    <ErrorScreen cause={cause} className={this.props.classes.root} />
+  )
+
+  render() {
+    const { accountId, classes, width } = this.props
+    return (
+      <Widget
+        AboutTab={
+          <AboutTab
+            titleClassName={classes.aboutTitle}
+            totalsClassName={classes.aboutTotals}
+          />
+        }
+        accountId={accountId}
+        barChartClassName={classes.barchart}
+        barsFooterPadding={12}
+        barsHeight={196}
+        barsWidth={337}
+        className={classes.root}
+        OverviewTab={
+          <OverviewTab
+            CategoryList={ButtonWidgetCategoryList}
+            className={classes.content}
+            noHover
+            pieChartClassName={classes.pieChart}
+            pieChartRootComponent={React.Fragment}
+            showPieChart
+            showTotals
+            widgetWidth={width}
+          />
+        }
+        paymentListClassName={classes.payments}
+        paymentsPeriodClassName={classes.period}
+        paymentsRootClassName={classes.content}
+        PaymentsSummary={
+          <PaymentsSummary className={classes.paymentsSummary} large />
+        }
+        renderErrorScreen={this.renderError}
+        showBarChart
+        showCategoryCount
+        StoriesTab={<StoriesTab />}
+        Totals={
+          <Totals className={classes.stats} itemClassName={classes.statsItem} />
+        }
       />
-    }
-    accountId={accountId}
-    barChartClassName={classes.barchart}
-    barsFooterPadding={12}
-    barsHeight={196}
-    barsWidth={337}
-    className={classes.root}
-    OverviewTab={
-      <OverviewTab
-        CategoryList={ButtonWidgetCategoryList}
-        className={classes.content}
-        noHover
-        pieChartClassName={classes.pieChart}
-        pieChartRootComponent={React.Fragment}
-        showPieChart
-        showTotals
-        widgetWidth={width}
-      />
-    }
-    paymentListClassName={classes.payments}
-    paymentsPeriodClassName={classes.period}
-    paymentsRootClassName={classes.content}
-    PaymentsSummary={
-      <PaymentsSummary className={classes.paymentsSummary} large />
-    }
-    renderErrorScreen={cause => (
-      <ErrorScreen className={classes.root} cause={cause} />
-    )}
-    showBarChart
-    showCategoryCount
-    StoriesTab={<StoriesTab />}
-    Totals={
-      <Totals className={classes.stats} itemClassName={classes.statsItem} />
-    }
-  />
-)
+    )
+  }
+}
 
 export default injectStyles(styles)(ButtonWidgetEmbed)
