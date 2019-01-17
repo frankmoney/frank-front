@@ -5,6 +5,7 @@ import ACTIONS from './actions'
 export const REDUCER_KEY = 'payment'
 
 const defaultState = fromJS({
+  clipboard: null,
   meta: {},
 })
 
@@ -32,6 +33,10 @@ export default handleActions(
         },
       }
     ) => updateMeta(id, { saving: false, cascadeCount: cascade.length }, state),
+    [ACTIONS.copy]: (state, { payload: clipboard }) =>
+      state.merge({
+        clipboard,
+      }),
   },
   defaultState
 )

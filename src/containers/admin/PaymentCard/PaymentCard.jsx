@@ -1,11 +1,11 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import {
-  Check as PublishIcon,
-  FormatListBulleted as SimilarIcon,
-  Public as PublicIcon,
-} from 'material-ui-icons'
+import CopyIcon from 'material-ui-icons/FilterNone'
+import PasteIcon from 'material-ui-icons/AddToPhotos'
+import PublicIcon from 'material-ui-icons/Public'
+import PublishIcon from 'material-ui-icons/Check'
+import SimilarIcon from 'material-ui-icons/FormatListBulleted'
 import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
 import {
   compose,
@@ -19,12 +19,12 @@ import { createRouteUrl } from '@frankmoney/utils'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
 import { MenuItem } from 'components/kit/Menu'
-import Button from 'components/kit/Button/index'
-import Paper from 'components/kit/Paper/index'
-import CategorySelect from 'components/CategorySelect/index'
-import CurrencyDelta from 'components/CurrencyDelta/index'
-import BankDescription from 'components/common/BankDescription/index'
-import ReduxFormControl from 'components/kit/ReduxFormControl/index'
+import Button from 'components/kit/Button'
+import Paper from 'components/kit/Paper'
+import CategorySelect from 'components/CategorySelect'
+import CurrencyDelta from 'components/CurrencyDelta'
+import BankDescription from 'components/common/BankDescription'
+import ReduxFormControl from 'components/kit/ReduxFormControl'
 import EllipsisButtonMenu from 'components/EllipsisButtonMenu'
 import { ROUTES } from 'const'
 import Copied from 'components/Copied'
@@ -78,6 +78,13 @@ const PaymentCard = ({
   handleFieldChange,
   pending,
   source,
+  // copy-paste props
+  canPaste,
+  category,
+  description,
+  onPaymentCopy,
+  onPaymentPaste,
+  peer,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
@@ -194,6 +201,24 @@ const PaymentCard = ({
                   )
                 }
               />
+              <MenuItem
+                icon={<CopyIcon />}
+                label="Copy payment info"
+                onSelect={() =>
+                  onPaymentCopy({
+                    category,
+                    description,
+                    peer,
+                  })
+                }
+              />
+              {canPaste && (
+                <MenuItem
+                  icon={<PasteIcon />}
+                  label="Paste payment info"
+                  onSelect={() => onPaymentPaste(paymentId)}
+                />
+              )}
             </EllipsisButtonMenu>
           )}
         </Copied>
