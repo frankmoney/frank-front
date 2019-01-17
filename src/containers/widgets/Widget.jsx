@@ -33,7 +33,7 @@ import {
 } from './Tabs'
 import { type Period } from './PeriodSelect'
 import { buildQuery, remapPieData } from './utils'
-import ErrorScreen from './ErrorScreen'
+import ErrorScreen, { type ErrorCause } from './ErrorScreen'
 
 export type WidgetAPI = {|
   accountId: number,
@@ -55,6 +55,7 @@ export type WidgetProps = {|
   CategoryList?: CategoryListComponent,
   OverviewTab: React.Element<typeof OverviewTabComponent>,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
+  renderErrorScreen: (cause: ErrorCause) => React.Node,
   showBarChart: boolean,
   showCategoryCount: boolean,
   small?: boolean,
@@ -106,6 +107,10 @@ type State = {|
 |}
 
 class Widget extends React.Component<Props, State> {
+  static defaultProps = {
+    renderErrorScreen: cause => <ErrorScreen cause={cause} />,
+  }
+
   state = {
     currentCategory: null,
     isPrivate: false,
@@ -220,7 +225,12 @@ class Widget extends React.Component<Props, State> {
                 spending,
               },
             }),
-          ({ response: { status, errors } }) => {
+          ({ response }) => {
+            if (!response) {
+              console.error('GraphQL error: no response') // eslint-disable-line no-console
+              return
+            }
+            const { status, errors } = response
             const error = R.pipe(
               R.head,
               R.prop('message')
@@ -270,16 +280,6 @@ class Widget extends React.Component<Props, State> {
 
   render() {
     const { currentCategory, isPrivate, loading, tab } = this.state
-    if (loading) {
-      return <AreaSpinner />
-    }
-    if (isPrivate) {
-      return <ErrorScreen cause="private" />
-    }
-    if (this.paymentCount === 0) {
-      return <ErrorScreen cause="empty" />
-    }
-
     const {
       AboutTab,
       barChartClassName,
@@ -295,11 +295,22 @@ class Widget extends React.Component<Props, State> {
       paymentsPeriodClassName,
       paymentsRootClassName,
       PaymentsSummary,
+      renderErrorScreen,
       showBarChart,
       small,
       StoriesTab,
       Totals,
     } = this.props
+
+    if (loading) {
+      return <AreaSpinner />
+    }
+    if (isPrivate) {
+      return renderErrorScreen('private')
+    }
+    if (this.paymentCount === 0) {
+      return renderErrorScreen('empty')
+    }
 
     const currentCategoryColor = R.prop('color', currentCategory)
     const currentCategoryName = R.prop('name', currentCategory)

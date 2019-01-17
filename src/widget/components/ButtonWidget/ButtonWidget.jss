@@ -75,6 +75,7 @@ const styles = {
   },
   popup: {
     display: 'flex',
+    flexDirection: 'column',
     position: 'fixed',
     background: '#fff',
     top: 0,
