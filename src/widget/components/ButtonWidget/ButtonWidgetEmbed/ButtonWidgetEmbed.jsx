@@ -73,7 +73,6 @@ const ButtonWidgetEmbed = ({ accountId, classes, width }: Props) => (
     barsHeight={196}
     barsWidth={337}
     className={classes.root}
-    ErrorScreen={<ErrorScreen className={classes.root} size="large" />}
     OverviewTab={
       <OverviewTab
         CategoryList={ButtonWidgetCategoryList}
@@ -92,6 +91,9 @@ const ButtonWidgetEmbed = ({ accountId, classes, width }: Props) => (
     PaymentsSummary={
       <PaymentsSummary className={classes.paymentsSummary} large />
     }
+    renderErrorScreen={cause => (
+      <ErrorScreen className={classes.root} cause={cause} />
+    )}
     showBarChart
     showCategoryCount
     StoriesTab={<StoriesTab />}

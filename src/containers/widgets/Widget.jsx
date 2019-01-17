@@ -33,7 +33,7 @@ import {
 } from './Tabs'
 import { type Period } from './PeriodSelect'
 import { buildQuery, remapPieData } from './utils'
-import ErrorScreenComponent from './ErrorScreen'
+import ErrorScreen, { type ErrorCause } from './ErrorScreen'
 
 export type WidgetAPI = {|
   accountId: number,
@@ -53,9 +53,9 @@ export type WidgetProps = {|
   barsHeight: number,
   barsWidth: number,
   CategoryList?: CategoryListComponent,
-  ErrorScreen: React.Element<typeof ErrorScreenComponent>,
   OverviewTab: React.Element<typeof OverviewTabComponent>,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
+  renderErrorScreen: (cause: ErrorCause) => React.Node,
   showBarChart: boolean,
   showCategoryCount: boolean,
   small?: boolean,
@@ -107,6 +107,10 @@ type State = {|
 |}
 
 class Widget extends React.Component<Props, State> {
+  static defaultProps = {
+    renderErrorScreen: cause => <ErrorScreen cause={cause} />,
+  }
+
   state = {
     currentCategory: null,
     isPrivate: false,
@@ -283,7 +287,6 @@ class Widget extends React.Component<Props, State> {
       barsHeight,
       barsWidth,
       className,
-      ErrorScreen,
       OverviewTab,
       paymentBlockClassName,
       paymentBlockTitleClassName,
@@ -292,6 +295,7 @@ class Widget extends React.Component<Props, State> {
       paymentsPeriodClassName,
       paymentsRootClassName,
       PaymentsSummary,
+      renderErrorScreen,
       showBarChart,
       small,
       StoriesTab,
@@ -302,10 +306,10 @@ class Widget extends React.Component<Props, State> {
       return <AreaSpinner />
     }
     if (isPrivate) {
-      return React.cloneElement(ErrorScreen, { cause: 'private' })
+      return renderErrorScreen('private')
     }
     if (this.paymentCount === 0) {
-      return React.cloneElement(ErrorScreen, { cause: 'empty' })
+      return renderErrorScreen('empty')
     }
 
     const currentCategoryColor = R.prop('color', currentCategory)

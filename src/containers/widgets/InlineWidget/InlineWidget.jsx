@@ -216,12 +216,6 @@ const InlineWidget = ({ accountId, classes, width }: Props) => {
         barsHeight={barsHeight(clampedWidth)}
         barsWidth={barsWidth(clampedWidth)}
         className={classes.widget}
-        ErrorScreen={
-          <ErrorScreen
-            className={classes.widget}
-            size={small ? 'small' : large ? 'large' : 'medium'}
-          />
-        }
         OverviewTab={
           <OverviewTab
             className={cx(classes.content, { [classes.scrollable]: light })}
@@ -251,6 +245,13 @@ const InlineWidget = ({ accountId, classes, width }: Props) => {
             showVerified
           />
         }
+        renderErrorScreen={cause => (
+          <ErrorScreen
+            cause={cause}
+            className={classes.widget}
+            size={small ? 'small' : large ? 'large' : 'medium'}
+          />
+        )}
         showBarChart={!light}
         showCategoryCount={!light}
         StoriesTab={
