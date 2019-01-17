@@ -484,6 +484,7 @@ const ButtonsDemo = ({ classes }) => (
         className={classes.button}
         label="Google.com"
         href="https://google.com"
+        externalLink
         target="_blank"
       />
     </Row>

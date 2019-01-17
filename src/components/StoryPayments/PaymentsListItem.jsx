@@ -81,6 +81,7 @@ const Item = ({
   if (href) {
     rootProps.href = href
     rootProps.target = '_blank'
+    rootProps.externalLink = true
   }
 
   return (

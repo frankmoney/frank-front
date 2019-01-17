@@ -46,6 +46,7 @@ const CredentialsFail = ({
         primaryTextIcon={<BankIcon />}
         component="a"
         href={bankUrl}
+        externalLink
         target="_blank"
       />
       <OptionsListItem
