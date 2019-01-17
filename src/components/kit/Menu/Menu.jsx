@@ -74,8 +74,9 @@ const Menu = forwardRef(
           {title && <MenuTitle>{title}</MenuTitle>}
           {/* TODO лучше использовать контекст с настройками меню чтобы забирать из айтема, т.к. внутри children может быть что угодно */}
           {menuItemProps
-            ? React.Children.map(children, child =>
-                React.cloneElement(child, menuItemProps)
+            ? React.Children.map(
+                children,
+                child => child && React.cloneElement(child, menuItemProps)
               )
             : children}
         </Root>
