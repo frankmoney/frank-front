@@ -6,7 +6,6 @@ import AboutTab from 'containers/widgets/Tabs/AboutTab'
 import OverviewTab, {
   type WidgetWidth,
 } from 'containers/widgets/Tabs/OverviewTab'
-import StoriesTab from 'containers/widgets/Tabs/StoriesTab'
 import PaymentsSummary from 'components/common/PaymentsSummary/index'
 import ErrorScreen from 'containers/widgets/ErrorScreen'
 import Widget, { type WidgetAPI } from 'containers/widgets/Widget'
@@ -60,6 +59,14 @@ type Props = {|
 |}
 
 class ButtonWidgetEmbed extends React.Component<Props> {
+  renderAboutTab = props => (
+    <AboutTab
+      titleClassName={this.props.classes.aboutTitle}
+      totalsClassName={this.props.classes.aboutTotals}
+      {...props}
+    />
+  )
+
   renderError = cause => (
     <ErrorScreen cause={cause} className={this.props.classes.root} />
   )
@@ -68,12 +75,6 @@ class ButtonWidgetEmbed extends React.Component<Props> {
     const { accountId, classes, width } = this.props
     return (
       <Widget
-        AboutTab={
-          <AboutTab
-            titleClassName={classes.aboutTitle}
-            totalsClassName={classes.aboutTotals}
-          />
-        }
         accountId={accountId}
         barChartClassName={classes.barchart}
         barsFooterPadding={12}
@@ -98,10 +99,10 @@ class ButtonWidgetEmbed extends React.Component<Props> {
         PaymentsSummary={
           <PaymentsSummary className={classes.paymentsSummary} large />
         }
+        renderAboutTab={this.renderAboutTab}
         renderErrorScreen={this.renderError}
         showBarChart
         showCategoryCount
-        StoriesTab={<StoriesTab />}
         Totals={
           <Totals className={classes.stats} itemClassName={classes.statsItem} />
         }

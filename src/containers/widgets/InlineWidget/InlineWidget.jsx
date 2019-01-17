@@ -1,4 +1,5 @@
 // @flow strict-local
+// flowlint unsafe-getters-setters:off
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
@@ -186,50 +187,74 @@ type Props = {|
 |}
 
 class InlineWidget extends React.Component<Props> {
-  // flowlint-next-line unsafe-getters-setters:off
   get clampedWidth() {
     return clampedWidgetWidth(this.props.width)
+  }
+
+  get isLarge() {
+    return this.clampedWidth >= 625
+  }
+
+  get isSmall() {
+    return this.clampedWidth < 400
   }
 
   renderError = cause => (
     <ErrorScreen
       cause={cause}
       className={this.props.classes.widget}
-      size={
-        this.clampedWidth < 400
-          ? 'small'
-          : this.clampedWidth >= 625
-            ? 'large'
-            : 'medium'
-      }
+      size={this.isSmall ? 'small' : this.isLarge ? 'large' : 'medium'}
     />
   )
 
+  renderAboutTab = props => {
+    const { classes } = this.props
+    return (
+      <AboutTab
+        className={cx({
+          [classes.capped]: this.isLarge,
+        })}
+        descriptionClassName={cx(classes.aboutDescription, {
+          [classes.smallAboutDescription]: this.isSmall,
+        })}
+        multilineTotals={this.isSmall}
+        titleClassName={cx(classes.aboutTitle, {
+          [classes.smallAboutTitle]: this.isSmall,
+        })}
+        totalsClassName={cx(classes.aboutTotals, {
+          [classes.smallAboutTotals]: this.isSmall,
+        })}
+        {...props}
+      />
+    )
+  }
+
+  renderStoriesTab = stories => {
+    const { classes } = this.props
+    return (
+      <StoriesTab
+        stories={stories}
+        className={cx({ [classes.capped]: this.isLarge })}
+        storyClassName={cx(classes.story, {
+          [classes.smallStory]: this.isSmall,
+        })}
+        storyImageBorderRadius={[[5, 5, 0, 0]]}
+        storyImageClassName={classes.storyImage}
+        storyTitleClassName={cx({ [classes.smallStoryTitle]: this.isSmall })}
+        storyStatsClassName={cx({ [classes.smallStoryStats]: this.isSmall })}
+        storySymbolClassName={cx({
+          [classes.smallStoryStatsSymbol]: this.isSmall,
+        })}
+      />
+    )
+  }
+
   render() {
     const { accountId, classes } = this.props
-    const small = this.clampedWidth < 400
     const light = this.clampedWidth < 500
-    const large = this.clampedWidth >= 625
     return (
       <div className={classes.root}>
         <Widget
-          AboutTab={
-            <AboutTab
-              className={cx({
-                [classes.capped]: large,
-              })}
-              descriptionClassName={cx(classes.aboutDescription, {
-                [classes.smallAboutDescription]: small,
-              })}
-              multilineTotals={small}
-              titleClassName={cx(classes.aboutTitle, {
-                [classes.smallAboutTitle]: small,
-              })}
-              totalsClassName={cx(classes.aboutTotals, {
-                [classes.smallAboutTotals]: small,
-              })}
-            />
-          }
           accountId={accountId}
           barChartClassName={classes.barChart}
           barsFooterPadding={10}
@@ -243,14 +268,14 @@ class InlineWidget extends React.Component<Props> {
               noHover
               pieClassName={classes.pieChart}
               showPieChart={!light}
-              small={small}
+              small={this.isSmall}
               widgetWidth={this.clampedWidth}
             />
           }
           paymentListClassName={cx(classes.payments, {
             [classes.noBarChart]: light,
-            [classes.smallPayments]: small,
-            [classes.paymentsCapped]: large,
+            [classes.smallPayments]: this.isSmall,
+            [classes.paymentsCapped]: this.isLarge,
           })}
           paymentsRootClassName={cx(classes.content, {
             [classes.scrollable]: light,
@@ -259,31 +284,18 @@ class InlineWidget extends React.Component<Props> {
             <PaymentsSummary
               className={cx({
                 [classes.paymentsSummary]: !light,
-                [classes.smallSummary]: small,
+                [classes.smallSummary]: this.isSmall,
               })}
               showIcon
               showVerified
             />
           }
+          renderAboutTab={this.renderAboutTab}
           renderErrorScreen={this.renderError}
+          renderStoriesTab={this.renderStoriesTab}
           showBarChart={!light}
           showCategoryCount={!light}
-          StoriesTab={
-            <StoriesTab
-              className={cx({ [classes.capped]: large })}
-              storyClassName={cx(classes.story, {
-                [classes.smallStory]: small,
-              })}
-              storyImageBorderRadius={[[5, 5, 0, 0]]}
-              storyImageClassName={classes.storyImage}
-              storyTitleClassName={cx({ [classes.smallStoryTitle]: small })}
-              storyStatsClassName={cx({ [classes.smallStoryStats]: small })}
-              storySymbolClassName={cx({
-                [classes.smallStoryStatsSymbol]: small,
-              })}
-            />
-          }
-          small={small}
+          small={this.isSmall}
           Totals={
             <Totals
               className={classes.stats}
