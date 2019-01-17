@@ -1,5 +1,5 @@
 export default theme => ({
-  menuItem: {
+  root: {
     flexGrow: 0,
     flexShrink: 0,
     display: props => (props.hidden ? 'none' : 'flex'),
@@ -10,7 +10,7 @@ export default theme => ({
     pointerEvents: props => (props.disabled ? 'none' : 'inherit'),
     padding: '0px 25px',
     ...theme.fontMedium(16, 20),
-    color: props => (props.disabled ? 'rgb(32,40,74,0.5)' : '#20284A'),
+    color: props => (props.disabled ? 'rgba(32,40,74,0.5)' : '#20284A'),
     '&:hover': {
       color: theme.colors.primary,
     },
@@ -18,13 +18,13 @@ export default theme => ({
       marginTop: 10,
     },
   },
-  menuItemActive: {
+  active: {
     color: props =>
-      props.disabled ? 'rgb(32,40,74,0.5)' : theme.colors.primary,
+      props.disabled ? 'rgba(32,40,74,0.5)' : theme.colors.primary,
     pointerEvents: 'none!important',
   },
   icon: {
-    color: props => (props.disabled ? 'rgb(32,40,74,0.5)' : '#20284A'),
+    color: props => (props.disabled ? 'rgba(32,40,74,0.5)' : '#20284A'),
     flexShrink: 0,
   },
   iconLeft: {

@@ -7,13 +7,21 @@ import {
   HttpClientProvider,
   createJss,
 } from '@frankmoney/webapp'
+import createGenerateClassName from 'material-ui/styles/createGenerateClassName'
 import BaseUriContext from './BaseUriContext'
 
 export default ({ frankTheme, httpClient, graphqlClient, baseUri }) => {
   const jss = createJss()
 
+  let generateClassName
+  if (process.env.NODE_ENV === 'production') {
+    generateClassName = createGenerateClassName({
+      productionPrefix: 'frnkw',
+    })
+  }
+
   return ({ children }) => (
-    <JssProvider jss={jss}>
+    <JssProvider jss={jss} generateClassName={generateClassName}>
       <ThemeProvider theme={frankTheme}>
         <GraphqlProvider graphql={graphqlClient}>
           <HttpClientProvider httpClient={httpClient}>
