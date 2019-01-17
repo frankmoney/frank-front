@@ -22,6 +22,7 @@ export type DropdownMenuProps = {|
   align?: PopupAlign,
   alignByArrow?: boolean,
   arrowAt?: 'start' | 'center' | 'end',
+  distance?: number,
 |}
 
 export type DropdownMenuChildrenRenderer = PopupRenderProps => React.Node

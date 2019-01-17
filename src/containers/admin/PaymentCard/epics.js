@@ -1,5 +1,6 @@
 import { change, blur, isDirty } from 'redux-form/immutable'
 import * as Rx from 'rxjs'
+import * as LEDGER_ACTIONS from 'containers/admin/Ledger/actions'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import QUERIES from './queries'
 import ACTIONS from './actions'
@@ -65,3 +66,13 @@ export const autosave = (action$, store) => {
       ACTIONS.save({ id: form.replace('payment-', '') })
     )
 }
+
+export const pastePayment = (action$, store) =>
+  action$.ofType(ACTIONS.paste).map(({ payload: paymentId }) => {
+    const state = store.getState()
+    const clipboard = SELECTORS.clipboard(state)
+    return LEDGER_ACTIONS.pastePayment({
+      paymentId,
+      clipboard,
+    })
+  })

@@ -6,15 +6,18 @@ import * as SELECTORS from './selectors'
 export default reconnect(
   (_, initialProps) => ({
     accountId: currentAccountIdSelector,
-    saving: SELECTORS.saving(initialProps.id),
-    publishing: SELECTORS.publishing(initialProps.id),
+    canPaste: SELECTORS.canPaste,
+    categoryChanged: SELECTORS.categoryChanged(initialProps.id),
     descriptionChanged: SELECTORS.descriptionChanged(initialProps.id),
     peerChanged: SELECTORS.peerChanged(initialProps.id),
-    categoryChanged: SELECTORS.categoryChanged(initialProps.id),
+    publishing: SELECTORS.publishing(initialProps.id),
+    saving: SELECTORS.saving(initialProps.id),
   }),
   {
-    onPaymentSave: ACTIONS.save,
+    onPaymentCopy: ACTIONS.copy,
+    onPaymentPaste: ACTIONS.paste,
     onPaymentPublish: ACTIONS.publish,
+    onPaymentSave: ACTIONS.save,
     onPaymentUnpublish: ACTIONS.unpublish,
   }
 )

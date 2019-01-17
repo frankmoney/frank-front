@@ -122,6 +122,15 @@ export default handleActions(
       state.merge({
         similarListMoreLoading: false,
       }),
+    [ACTIONS.pastePayment]: (state, { payload: { paymentId, clipboard } }) => {
+      const payments = state.get('payments')
+      return state.merge({
+        payments: payments.update(
+          payments.findIndex(item => item.get('id') === paymentId),
+          item => item.merge(clipboard)
+        ),
+      })
+    },
   },
   defaultState
 )
