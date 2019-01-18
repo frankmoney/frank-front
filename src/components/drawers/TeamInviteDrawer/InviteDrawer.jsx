@@ -25,12 +25,6 @@ const InviteDrawer = ({
   ...props
 }) => (
   <Drawer
-    footerText={
-      <span>
-        We will notify you via email when<br />
-        your teammate accepts your invitation
-      </span>
-    }
     footerTextSmaller
     footerButtonProps={{
       label: 'Send invitation',
