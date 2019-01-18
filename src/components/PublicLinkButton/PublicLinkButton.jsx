@@ -11,6 +11,7 @@ type Props = {|
 const PublicLinkButton = ({ label, url, ...otherProps }: Props) => (
   <TextButton
     href={url}
+    externalLink
     target="_blank"
     icon={<GlobeIcon />}
     larger

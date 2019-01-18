@@ -8,19 +8,24 @@ import type {
   DropdownMenuProps,
 } from 'components/kit/DropdownMenu'
 
-type Props = {|
-  ...DropdownMenuProps,
-  //
+export type ButtonMenuProps = {|
   alignEnd?: boolean,
   alignStart?: boolean,
   arrowEnd?: boolean,
   arrowStart?: boolean,
   arrowCenter?: boolean,
+  up?: boolean,
+|}
+
+type Props = {|
+  ...ButtonMenuProps,
+  ...DropdownMenuProps,
+  //
   children?: DropdownMenuChildren,
+  className?: string,
   direction?: DropdownMenuDirection,
   down?: boolean,
   renderButton: DropdownMenuChildrenRenderer,
-  up?: boolean,
 |}
 
 const ButtonMenu = ({

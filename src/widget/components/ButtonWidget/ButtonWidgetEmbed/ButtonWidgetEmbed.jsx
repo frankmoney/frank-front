@@ -8,6 +8,7 @@ import OverviewTab, {
 } from 'containers/widgets/Tabs/OverviewTab'
 import StoriesTab from 'containers/widgets/Tabs/StoriesTab'
 import PaymentsSummary from 'components/common/PaymentsSummary/index'
+import ErrorScreen from 'containers/widgets/ErrorScreen'
 import Widget, { type WidgetAPI } from 'containers/widgets/Widget'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
@@ -90,6 +91,9 @@ const ButtonWidgetEmbed = ({ accountId, classes, width }: Props) => (
     PaymentsSummary={
       <PaymentsSummary className={classes.paymentsSummary} large />
     }
+    renderErrorScreen={cause => (
+      <ErrorScreen className={classes.root} cause={cause} />
+    )}
     showBarChart
     showCategoryCount
     StoriesTab={<StoriesTab />}
