@@ -2,17 +2,30 @@
 import React from 'react'
 import { reduxForm, reset } from 'redux-form/immutable'
 import { compose } from 'recompose'
-import { minLength, maxLength, confirmation } from '@frankmoney/forms'
+import { confirmation, required } from '@frankmoney/forms'
 import PopoverDialog from 'components/kit/PopoverDialog'
 import TextField from 'components/kit/TextField'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
+import { injectStyles } from 'utils/styles'
+
+const styles = {
+  password: {
+    marginBottom: 30,
+  },
+}
 
 const validation = {
-  password: [minLength(6), maxLength(20)],
+  // password: [minLength(6), maxLength(20)],
+  password: [required],
   repeatPassword: [confirmation('password')],
 }
 
-const ChangePasswordPopoverDialog = ({ children, submit, invalid }) => (
+const ChangePasswordPopoverDialog = ({
+  classes,
+  children,
+  submit,
+  invalid,
+}) => (
   <PopoverDialog
     width={350}
     place="right"
@@ -22,14 +35,13 @@ const ChangePasswordPopoverDialog = ({ children, submit, invalid }) => (
     button={children}
   >
     <ReduxFormControl.Field
+      className={classes.password}
       name="password"
       validate={validation.password}
       component={TextField}
       stretch
       type="password"
       floatingLabel="New password"
-      // TODO jss
-      style={{ marginBottom: 30 }}
     />
     <ReduxFormControl.Field
       name="repeatPassword"
@@ -51,5 +63,6 @@ export default compose(
         dispatch(reset('change-password'))
       }
     },
-  })
+  }),
+  injectStyles(styles)
 )(ChangePasswordPopoverDialog)

@@ -10,6 +10,7 @@ const actions = createActions(ACTION_PREFIX, {
   openInviteDrawer: false,
   closeInviteDrawer: false,
   openChangePasswordPopup: false,
+  hideChangePasswordSnack: false,
   invite: true,
   remove: true,
   changePassword: true,

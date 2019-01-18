@@ -4,20 +4,24 @@ import cx from 'classnames'
 import LockIcon from 'material-ui-icons/Lock'
 import { compose, withHandlers } from 'recompose'
 import ToggleButton from 'components/kit/ToggleButton'
+import SidebarSnack from 'components/SidebarSnack'
 import UserPic from 'components/UserPic'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
+import ChangePasswordPopupDialog from './ChangePasswordPopupDialog'
 import Paper from './Paper'
 import ACTIONS from './actions'
+import { changePasswordSnackShownSelector } from './selectors'
 import styles from './OwnProfile.jss'
-import ChangePasswordPopupDialog from './ChangePasswordPopupDialog'
 
 const OwnProfile = ({
   classes,
   className,
   profile: { email, lastName, firstName, color, avatar },
+  changePasswordSnackShown,
   changePasswordPopupAnchor,
   openChangePasswordPopup,
+  hideChangePasswordSnack,
   handleNewPasswordChange,
   handleNewPasswordRepeatedChange,
   handleChangePasswordPopupClose,
@@ -47,13 +51,26 @@ const OwnProfile = ({
         <ToggleButton label="Change Password" icon={<LockIcon />} />
       </ChangePasswordPopupDialog>
     </div>
+    <SidebarSnack
+      color="dark"
+      shown={changePasswordSnackShown}
+      message="Your new password was saved!"
+      dismissByTimeout={3000}
+      onDismiss={hideChangePasswordSnack}
+    />
   </Paper>
 )
 
 export default compose(
-  reconnect(null, {
-    changePassword: ACTIONS.changePassword,
-  }),
+  reconnect(
+    {
+      changePasswordSnackShown: changePasswordSnackShownSelector,
+    },
+    {
+      changePassword: ACTIONS.changePassword,
+      hideChangePasswordSnack: ACTIONS.hideChangePasswordSnack,
+    }
+  ),
   withHandlers({
     handleChangePasswordSubmit: props => newPassword => {
       props.changePassword({ newPassword })

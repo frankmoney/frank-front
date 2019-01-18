@@ -16,6 +16,7 @@ const initialState = fromJS({
   inviteDrawerOpen: false,
   inviteDrawerLoading: false,
   changePasswordPopupOpen: false,
+  changePasswordSnackShown: false,
   acceptingInvite: false,
 })
 
@@ -51,8 +52,7 @@ const teamReducer = handleActions(
     [ACTIONS.acceptInvite.success]: state =>
       state.set('acceptingInvite', false),
 
-    [ACTIONS.acceptInvite.error]: state =>
-      state.set('acceptingInvite', false),
+    [ACTIONS.acceptInvite.error]: state => state.set('acceptingInvite', false),
 
     [ACTIONS.rejectInvite]: state =>
       state.merge({
@@ -66,8 +66,14 @@ const teamReducer = handleActions(
 
     [ACTIONS.closeInviteDrawer]: state => state.set('inviteDrawerOpen', false),
 
+    [ACTIONS.changePassword.success]: state =>
+      state.set('changePasswordSnackShown', true),
+
     [ACTIONS.openChangePasswordPopup]: state =>
       state.set('changePasswordPopupOpen', true),
+
+    [ACTIONS.hideChangePasswordSnack]: state =>
+      state.set('changePasswordSnackShown', false),
 
     [ACTIONS.invite]: state => state.set('inviteDrawerLoading', true),
     [ACTIONS.invite.success]: (state, { payload: invite }) =>
