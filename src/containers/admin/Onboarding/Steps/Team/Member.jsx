@@ -1,7 +1,6 @@
-import { Avatar } from '@frankmoney/components'
-import * as R from 'ramda'
 import React from 'react'
 import cx from 'classnames'
+import UserPic from 'components/UserPic'
 import { injectStyles } from 'utils/styles'
 
 const styles = theme => ({
@@ -11,12 +10,13 @@ const styles = theme => ({
     padding: [0, 0],
     alignItems: 'center',
   },
-  avatar: {
+  userPicWrapper: {
     marginRight: 17,
   },
-  avatarComponent: {
+  userPic: {
     width: 60,
     height: 60,
+    ...theme.fontMedium(20),
   },
   info: {
     flex: 1,
@@ -34,14 +34,21 @@ const styles = theme => ({
 const Member = ({
   classes,
   className,
-  avatarUrl,
+  color,
+  avatar,
   firstName,
   lastName,
   email,
 }) => (
   <div className={cx(classes.root, className)}>
-    <div className={classes.avatar}>
-      <Avatar className={classes.avatarComponent} src={avatarUrl} />
+    <div className={classes.userPicWrapper}>
+      <UserPic
+        className={classes.userPic}
+        avatar={avatar}
+        color={color}
+        lastName={lastName}
+        firstName={firstName}
+      />
     </div>
     <div className={classes.info}>
       <div className={classes.name}>

@@ -1,11 +1,10 @@
 // @flow strict-local
 import React from 'react'
-import * as R from 'ramda'
 import cx from 'classnames'
 import LockIcon from 'material-ui-icons/Lock'
-import { Avatar } from '@frankmoney/components'
 import { compose, withHandlers } from 'recompose'
 import ToggleButton from 'components/kit/ToggleButton'
+import UserPic from 'components/UserPic'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import Paper from './Paper'
@@ -16,7 +15,7 @@ import ChangePasswordPopupDialog from './ChangePasswordPopupDialog'
 const OwnProfile = ({
   classes,
   className,
-  profile: { email, lastName, firstName, avatar },
+  profile: { email, lastName, firstName, color, avatar },
   changePasswordPopupAnchor,
   openChangePasswordPopup,
   handleNewPasswordChange,
@@ -28,10 +27,13 @@ const OwnProfile = ({
   ...otherProps
 }) => (
   <Paper className={cx(classes.root, className)} {...otherProps}>
-    <div className={classes.avatar}>
-      <Avatar
-        className={classes.avatarComponent}
-        src={R.prop('preview', avatar)}
+    <div className={classes.userPicWrapper}>
+      <UserPic
+        className={classes.userPic}
+        avatar={avatar}
+        color={color}
+        lastName={lastName}
+        firstName={firstName}
       />
     </div>
     <div className={classes.info}>

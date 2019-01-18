@@ -7,12 +7,13 @@ export default theme => ({
     placeItems: 'center',
     placeContent: 'center',
   },
-  avatar: {
+  userPicWrapper: {
     marginRight: 15,
   },
-  avatarComponent: {
+  userPic: {
     width: 90,
     height: 90,
+    ...theme.fontMedium(30),
   },
   info: {
     flex: 1,

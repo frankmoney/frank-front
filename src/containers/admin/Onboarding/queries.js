@@ -183,6 +183,7 @@ export default {
           email
           firstName
           lastName
+          color
           avatar
         }
       }

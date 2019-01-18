@@ -8,12 +8,13 @@ export default theme => ({
       visibility: 'visible',
     },
   },
-  avatar: {
+  userPicWrapper: {
     marginRight: 17,
   },
-  avatarComponent: {
+  userPic: {
     width: 60,
     height: 60,
+    ...theme.fontMedium(20),
   },
   info: {
     flex: 1,

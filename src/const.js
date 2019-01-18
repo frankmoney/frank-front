@@ -164,3 +164,16 @@ export const ALL_CATEGORIES = {
   id: 'all',
   color: '#252B43',
 }
+
+export const USER_COLORS = [
+  '#dddd44',
+  '#ed6236',
+  '#cab268',
+  '#60d58f',
+  '#54dad2',
+  '#bfafe1',
+  '#e1b3b9',
+  '#dedeea',
+  '#b7ccc4',
+  '#ec6fab',
+]

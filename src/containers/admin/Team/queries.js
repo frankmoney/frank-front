@@ -19,6 +19,7 @@ const team = [
         email
         lastName
         firstName
+        color
         avatar
         role
         acl {

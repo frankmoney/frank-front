@@ -14,10 +14,11 @@ const styles = {
 
 const Members = ({ classes, className, members }) => (
   <div className={cx(classes.root, className)}>
-    {members.map(({ id, avatar, firstName, lastName, email }) => (
+    {members.map(({ id, color, avatar, firstName, lastName, email }) => (
       <TeamMember
         key={id}
-        avatarUrl={avatar && avatar.preview}
+        color={color}
+        avatar={avatar}
         firstName={firstName}
         lastName={lastName}
         email={email}

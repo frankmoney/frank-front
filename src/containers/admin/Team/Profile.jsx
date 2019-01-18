@@ -1,8 +1,6 @@
 // @flow strict-local
 import React from 'react'
-import { Avatar } from '@frankmoney/components'
 import cx from 'classnames'
-import * as R from 'ramda'
 import { compose } from 'recompose'
 import { Delete as RemoveIcon } from 'material-ui-icons'
 import { injectStyles } from 'utils/styles'
@@ -10,6 +8,7 @@ import reconnect from 'utils/reconnect'
 import { IconButton } from 'components/kit/Button'
 import TextTooltip from 'components/kit/TextTooltip'
 import Dialog from 'components/kit/Dialog'
+import UserPic from 'components/UserPic'
 import DeleteMemberDialog from './DeleteMemberDialog'
 import ACTIONS from './actions'
 import styles from './Profile.jss'
@@ -17,16 +16,19 @@ import styles from './Profile.jss'
 const Profile = ({
   classes,
   className,
-  profile: { email, lastName, firstName, avatar },
+  profile: { email, lastName, firstName, color, avatar },
   acl,
   onRemove,
   ...otherProps
 }) => (
   <div className={cx(classes.root, className)} {...otherProps}>
-    <div className={classes.avatar}>
-      <Avatar
-        className={classes.avatarComponent}
-        src={R.prop('preview', avatar)}
+    <div className={classes.userPicWrapper}>
+      <UserPic
+        className={classes.userPic}
+        avatar={avatar}
+        color={color}
+        lastName={lastName}
+        firstName={firstName}
       />
     </div>
     <div className={classes.info}>
