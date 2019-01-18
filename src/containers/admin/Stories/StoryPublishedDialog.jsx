@@ -1,11 +1,13 @@
 // @flow strict-local
 import React from 'react'
-import { compose } from 'recompose'
+import copyToClipboard from 'clipboard-copy'
+import { compose, withState } from 'recompose'
 import Dialog from 'components/kit/Dialog'
 import PublicLinkButton from 'components/PublicLinkButton'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import ShareButtons from 'components/common/ShareButtons'
+import SidebarSnack from 'components/SidebarSnack'
 import { isShareDialogOpenSelector, shareDialogUrlSelector } from './selectors'
 import * as ACTIONS from './actions'
 
@@ -26,17 +28,43 @@ const styles = {
   },
 }
 
-const StoryPublishedDialog = ({ classes, open, url, onClose }) => (
-  <Dialog closeButton open={open} onClose={onClose} className={classes.root}>
-    <Dialog.Title className={classes.title}>
-      The story was published
-    </Dialog.Title>
-    <div className={classes.subtitle}>Public page</div>
-    <PublicLinkButton className={classes.link} href={url} label={url} />
-    <div className={classes.subtitle}>Share story</div>
-    <ShareButtons url={url} large />
-  </Dialog>
-)
+const StoryPublishedDialog = ({
+  classes,
+  open,
+  url,
+  urlCopiedSnackShown,
+  setUrlCopiedSnackShown,
+  onClose,
+}) => {
+  const { protocol, host } = window.location
+
+  return (
+    <Dialog closeButton open={open} onClose={onClose} className={classes.root}>
+      <Dialog.Title className={classes.title}>
+        The story was published
+      </Dialog.Title>
+      <div className={classes.subtitle}>Public page</div>
+      <PublicLinkButton
+        className={classes.link}
+        url={`${protocol}//${host}${url}`}
+        label={`${host}${url}`}
+        onClick={async event => {
+          event.preventDefault()
+          await copyToClipboard(`${protocol}//${host}${url}`)
+          setUrlCopiedSnackShown(true)
+        }}
+      />
+      <div className={classes.subtitle}>Share story</div>
+      <ShareButtons url={url} large />
+      <SidebarSnack
+        color="dark"
+        shown={urlCopiedSnackShown}
+        message="Story URL was copied into clipboard"
+        onDismiss={() => setUrlCopiedSnackShown(false)}
+      />
+    </Dialog>
+  )
+}
 
 export default compose(
   reconnect(
@@ -48,5 +76,6 @@ export default compose(
       onClose: ACTIONS.toggleShareDialog,
     }
   ),
+  withState('urlCopiedSnackShown', 'setUrlCopiedSnackShown'),
   injectStyles(styles)
 )(StoryPublishedDialog)
