@@ -33,7 +33,7 @@ const ProfileList = ({ classes, profiles, invites }) => {
 
   return (
     <Paper className={classes.root}>
-      {hasInvites && <div className={classes.title}>Invites</div>}
+      {hasInvites && <div className={classes.title}>Invited</div>}
       {hasInvites && (
         <InvitesChips className={classes.invites} invites={invites} />
       )}
