@@ -165,12 +165,13 @@ const acceptInvite = [
 const changeAvatar = [
   `
   mutation($avatar: JSON) {
-    meChangeAvatar(avatar: $avatar) {
+    result: meChangeAvatar(avatar: $avatar) {
       pid
+      avatar
     }
   }
   `,
-  R.prop('meChangeAvatar'),
+  R.prop('result'),
 ]
 
 const changePassword = [

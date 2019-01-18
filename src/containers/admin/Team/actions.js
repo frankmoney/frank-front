@@ -13,6 +13,7 @@ const actions = createActions(ACTION_PREFIX, {
   hideChangePasswordSnack: false,
   invite: true,
   remove: true,
+  changeAvatar: true,
   changePassword: true,
 })
 

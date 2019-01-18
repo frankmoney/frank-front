@@ -2,6 +2,7 @@ import { createRouteUrl } from '@frankmoney/utils'
 import { identity } from 'ramda'
 import { replace as replaceLocation } from 'react-router-redux'
 import { ROUTES } from 'const'
+import createFilesApi from 'data/api/files'
 import ACTIONS from './actions'
 import QUERIES from './queries'
 import { inviteTokenSelector, teamIdSelector } from './selectors'
@@ -66,6 +67,24 @@ export const rejectInviteEpic = action$ =>
   action$
     .ofType(ACTIONS.rejectInvite)
     .map(() => replaceLocation(createRouteUrl(ROUTES.team.root)))
+
+export const changeAvatarEpic = (action$, store, { graphql, http }) =>
+  action$
+    .ofType(ACTIONS.changeAvatar)
+    .switchMap(async ({ payload: { file } }) => {
+      const filesApi = createFilesApi(http)
+
+      const { original, sized } = await filesApi.uploadImage(file, () => {}, {
+        width: 150,
+      })
+
+      const { pid, avatar } = await graphql(QUERIES.changeAvatar, {
+        avatar: { original, preview: sized },
+      })
+
+      return ACTIONS.changeAvatar.success({ pid, avatar })
+    })
+    .catchAndRethrow(ACTIONS.changeAvatar.error)
 
 export const changePasswordEpic = (action$, store, { graphql }) =>
   action$

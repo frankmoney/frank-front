@@ -26,6 +26,7 @@ const OwnProfile = ({
   handleNewPasswordRepeatedChange,
   handleChangePasswordPopupClose,
   handleChangePasswordPopupSave,
+  changeAvatar,
   changePassword,
   handleChangePasswordSubmit,
   ...otherProps
@@ -38,6 +39,9 @@ const OwnProfile = ({
         color={color}
         lastName={lastName}
         firstName={firstName}
+        editable
+        uploaderName="own-profile-avatar"
+        onChange={file => changeAvatar({ file })}
       />
     </div>
     <div className={classes.info}>
@@ -67,6 +71,7 @@ export default compose(
       changePasswordSnackShown: changePasswordSnackShownSelector,
     },
     {
+      changeAvatar: ACTIONS.changeAvatar,
       changePassword: ACTIONS.changePassword,
       hideChangePasswordSnack: ACTIONS.hideChangePasswordSnack,
     }

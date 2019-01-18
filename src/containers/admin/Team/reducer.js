@@ -62,6 +62,9 @@ const teamReducer = handleActions(
         invite: null,
       }),
 
+    [ACTIONS.changeAvatar.success]: (state, { payload: { pid, avatar } }) =>
+      state.setIn(['profiles', pid, 'avatar'], fromJS(avatar)),
+
     [ACTIONS.openInviteDrawer]: state => state.set('inviteDrawerOpen', true),
 
     [ACTIONS.closeInviteDrawer]: state => state.set('inviteDrawerOpen', false),
