@@ -57,6 +57,8 @@ const AccountCard = ({
   classes,
   className,
   confirmationDialogOpen,
+  dirty,
+  valid,
   submitting,
   submit,
   toggleConfirmationDialog,
@@ -94,6 +96,7 @@ const AccountCard = ({
           className={classes.button}
           label="Save"
           color="green"
+          disabled={!submitting && (!dirty || !valid)}
           loading={submitting}
           onClick={submit}
         />
@@ -145,7 +148,11 @@ export default compose(
     ) => {
       const { name, description, isPrivate } = data.toJS()
 
-      if (isPrivate && !initialValues.isPrivate && !confirmationDialogOpen) {
+      if (
+        isPrivate &&
+        !initialValues.get('isPrivate') &&
+        !confirmationDialogOpen
+      ) {
         toggleConfirmationDialog(true)
         dispatch(ACTIONS.submitAccountCard.error())
       } else {
