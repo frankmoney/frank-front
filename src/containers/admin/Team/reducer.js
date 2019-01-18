@@ -8,6 +8,8 @@ const initialState = fromJS({
   loaded: false,
   loading: false,
   inviteToken: null,
+  team: null,
+  oldTeamName: null,
   profiles: null,
   ownProfileId: null,
   otherProfileIds: null,
@@ -17,6 +19,7 @@ const initialState = fromJS({
   inviteDrawerLoading: false,
   changePasswordPopupOpen: false,
   changePasswordSnackShown: false,
+  changeTeamNameSnackShown: false,
   acceptingInvite: false,
 })
 
@@ -38,6 +41,7 @@ const teamReducer = handleActions(
         welcomePopupOpen: code === 'outdated',
         leaveTeamConfirmationPopupOpen: code === 'lastTeamMember',
         team: fromJS(team),
+        oldTeamName: null,
         invite: fromJS(invite),
         invites,
         profiles: R.fromPairs([self, ...others].map(x => [x.pid, x])),
@@ -77,6 +81,22 @@ const teamReducer = handleActions(
 
     [ACTIONS.hideChangePasswordSnack]: state =>
       state.set('changePasswordSnackShown', false),
+
+    [ACTIONS.changeTeamName]: (state, { payload: { name } }) =>
+      state
+        .set('oldTeamName', state.getIn(['team', 'name']))
+        .setIn(['team', 'name'], name),
+
+    [ACTIONS.changeTeamName.success]: state =>
+      state.set('changeTeamNameSnackShown', true),
+
+    [ACTIONS.changeTeamName.error]: state =>
+      state.get('oldTeamName')
+        ? state.setIn(['team', 'name'], state.get('oldTeamName'))
+        : state,
+
+    [ACTIONS.hideChangeTeamNameSnack]: state =>
+      state.set('changeTeamNameSnackShown', false),
 
     [ACTIONS.invite]: state => state.set('inviteDrawerLoading', true),
     [ACTIONS.invite.success]: (state, { payload: invite }) =>

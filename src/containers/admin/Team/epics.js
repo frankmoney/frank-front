@@ -5,7 +5,7 @@ import { ROUTES } from 'const'
 import createFilesApi from 'data/api/files'
 import ACTIONS from './actions'
 import QUERIES from './queries'
-import { inviteTokenSelector, teamIdSelector } from './selectors'
+import { inviteTokenSelector, teamSelector, teamIdSelector } from './selectors'
 
 export const loadEpic = (action$, store, { graphql }) =>
   action$
@@ -94,6 +94,15 @@ export const changePasswordEpic = (action$, store, { graphql }) =>
     )
     .map(ACTIONS.changePassword.success)
     .catchAndRethrow(ACTIONS.changePassword.error)
+
+export const changeTeamNameEpic = (action$, store, { graphql }) =>
+  action$
+    .ofType(ACTIONS.changeTeamName)
+    .switchMap(async ({ payload: { name } }) => {
+      await graphql(QUERIES.changeTeamName, { name })
+      return ACTIONS.changeTeamName.success()
+    })
+    .catchAndRethrow(ACTIONS.changeTeamName.error)
 
 export const inviteMember = (action$, store, { graphql }) =>
   action$

@@ -185,6 +185,17 @@ const changePassword = [
   R.prop('meChangePassword'),
 ]
 
+const changeTeamName = [
+  `
+  mutation($name: String!) {
+    result: meChangeTeamName(name: $name) {
+      name
+    }
+  }
+  `,
+  R.prop('result'),
+]
+
 const sendInvite = [
   `
   mutation($teamId: ID!, $email: String!, $note: String) {
@@ -202,5 +213,6 @@ export default {
   acceptInvite,
   changeAvatar,
   changePassword,
+  changeTeamName,
   sendInvite,
 }

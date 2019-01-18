@@ -3,15 +3,19 @@ import qs from 'querystring'
 import React from 'react'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
+import { IconPlainButton } from 'components/kit/Button'
 import Dialog, { ConfirmDialog } from 'components/kit/Dialog'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import ListLayoutContent from 'components/ListLayoutContent'
+import SidebarSnack from 'components/SidebarSnack'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
+import ChangeTeamNamePopoverDialog from './ChangeTeamNamePopoverDialog'
 import InviteButton from './InviteButton'
 import InviteDrawer from './InviteDrawer'
 import OwnProfile from './OwnProfile'
+import Pencil from './Pencil.svg'
 import ProfileList from './ProfileList'
 import Welcome from './Welcome.svg'
 import ACTIONS from './actions'
@@ -29,9 +33,20 @@ import {
   inviteTeamSelector,
   otherProfilesSelector,
   ownProfileSelector,
+  changeTeamNameSnackShownSelector,
 } from './selectors'
 
-const styles = {
+const styles = theme => ({
+  teamName: {
+    ...theme.fontRegular(20),
+  },
+  changeTeamNameButton: {
+    marginLeft: 10,
+  },
+  changeTeamNameButtonIcon: {
+    width: 20,
+    height: 20,
+  },
   welcomePopup: {
     display: 'flex',
     width: 750,
@@ -57,7 +72,7 @@ const styles = {
   strong: {
     fontWeight: 600,
   },
-}
+})
 
 const Team = ({
   classes,
@@ -75,11 +90,29 @@ const Team = ({
   acknowledgeInvite,
   acceptInvite,
   rejectInvite,
+  changeTeamNameSnackShown,
+  hideChangeTeamNameSnack,
 }) => (
   <>
     <FixedHeader>
       <Breadcrumbs>
-        <BreadcrumbsItem>Team</BreadcrumbsItem>
+        <BreadcrumbsItem>
+          Team:&nbsp;
+          <span className={classes.teamName}>{team.name}</span>&nbsp;
+          <ChangeTeamNamePopoverDialog>
+            <IconPlainButton
+              className={classes.changeTeamNameButton}
+              icon={<Pencil className={classes.changeTeamNameButtonIcon} />}
+            />
+          </ChangeTeamNamePopoverDialog>
+          <SidebarSnack
+            color="dark"
+            shown={changeTeamNameSnackShown}
+            message="Your team's name was changed!"
+            dismissByTimeout={3000}
+            onDismiss={hideChangeTeamNameSnack}
+          />
+        </BreadcrumbsItem>
       </Breadcrumbs>
     </FixedHeader>
 
@@ -154,6 +187,7 @@ export default compose(
       invites: invitesSelector,
       otherProfiles: otherProfilesSelector,
       inviteDrawerOpen: inviteDrawerOpenSelector,
+      changeTeamNameSnackShown: changeTeamNameSnackShownSelector,
     },
     {
       load: ACTIONS.load,
@@ -161,6 +195,7 @@ export default compose(
       acknowledgeInvite: ACTIONS.acknowledgeInvite,
       acceptInvite: ACTIONS.acceptInvite,
       rejectInvite: ACTIONS.rejectInvite,
+      hideChangeTeamNameSnack: ACTIONS.hideChangeTeamNameSnack,
     }
   ),
   lifecycle({

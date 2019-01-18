@@ -11,10 +11,12 @@ const actions = createActions(ACTION_PREFIX, {
   closeInviteDrawer: false,
   openChangePasswordPopup: false,
   hideChangePasswordSnack: false,
+  hideChangeTeamNameSnack: false,
   invite: true,
   remove: true,
   changeAvatar: true,
   changePassword: true,
+  changeTeamName: true,
 })
 
 export default actions

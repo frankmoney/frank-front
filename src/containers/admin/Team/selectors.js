@@ -15,6 +15,7 @@ const getters = {
   inviteDrawerLoading: getter('inviteDrawerLoading'),
   changePasswordPopupOpen: getter('changePasswordPopupOpen'),
   changePasswordSnackShown: getter('changePasswordSnackShown'),
+  changeTeamNameSnackShown: getter('changeTeamNameSnackShown'),
   inviteToken: getter('inviteToken'),
   team: getter('team'),
   invite: getter('invite'),
@@ -39,6 +40,8 @@ export const inviteDrawerSubmittingSelector = getters.inviteDrawerLoading
 
 export const changePasswordPopupOpen = getters.changePasswordPopupOpen
 export const changePasswordSnackShownSelector = getters.changePasswordSnackShown
+
+export const changeTeamNameSnackShownSelector = getters.changeTeamNameSnackShown
 
 export const inviteTokenSelector = getters.inviteToken
 
