@@ -27,6 +27,7 @@ const ConnectedPaymentsTableDetailRow = compose(
   ),
   mapProps(({ categories, data, ...otherProps }) => ({
     categories,
+    showSimilarPayments: true,
     ...data,
     ...otherProps,
   }))
