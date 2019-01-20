@@ -6,16 +6,17 @@ import ACTIONS from './actions'
 export const REDUCER_KEY = 'publicPayment'
 
 const initialState = fromJS({
+  account: null,
+  drawerOpen: false,
   isLoaded: false,
   isLoading: false,
-  account: null,
-  payment: null,
-  drawerOpen: false,
+  isPrivate: false,
   listLoading: false,
   listMoreLoading: false,
+  loadedPagesCount: 0,
+  payment: null,
   similarPayments: [],
   totalPagesCount: 0,
-  loadedPagesCount: 0,
 })
 
 export default handleActions(
@@ -32,10 +33,11 @@ export default handleActions(
         account: fromJS(account),
         payment: fromJS(payment),
       }),
-    [ACTIONS.load.error]: state =>
+    [ACTIONS.load.error]: (state, { payload: isPrivate }) =>
       state.merge({
-        isLoading: false,
         isLoaded: false,
+        isLoading: false,
+        isPrivate,
       }),
 
     [ACTIONS.openDrawer]: state => state.merge({ drawerOpen: true }),

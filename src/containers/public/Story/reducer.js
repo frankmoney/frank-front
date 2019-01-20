@@ -5,9 +5,10 @@ import ACTIONS from './actions'
 export const REDUCER_KEY = 'publicStory'
 
 const initialState = fromJS({
+  account: null,
   isLoaded: false,
   isLoading: false,
-  account: null,
+  isPrivate: false,
   story: null,
 })
 
@@ -25,10 +26,11 @@ export default handleActions(
         account: fromJS(account),
         story: fromJS(story),
       }),
-    [ACTIONS.load.error]: state =>
+    [ACTIONS.load.error]: (state, { payload: isPrivate }) =>
       state.merge({
-        isLoading: false,
         isLoaded: false,
+        isLoading: false,
+        isPrivate,
       }),
     [ACTIONS.leave]: () => initialState,
   },

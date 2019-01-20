@@ -20,6 +20,7 @@ const getters = {
 }
 
 export const isLoadedSelector = getters.isLoaded
+export const isPrivateSelector = getter('isPrivate')
 
 export const paymentSelector = createPlainObjectSelector(getters.payment)
 export const similarCountSelector = getters.similarCount

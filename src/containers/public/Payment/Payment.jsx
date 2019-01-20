@@ -4,6 +4,7 @@ import cx from 'classnames'
 import { compose, lifecycle, branch, renderComponent } from 'recompose'
 import Helmet from 'react-helmet'
 import SimilarIcon from 'material-ui-icons/FormatListBulleted'
+import { Page404 as NotFound } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
 import Button from 'components/kit/Button'
 import CurrencyProvider from 'components/CurrencyProvider'
@@ -14,7 +15,12 @@ import reconnect from 'utils/reconnect'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { BASE_TITLE } from 'const'
 import PaymentHeader from './PaymentHeader'
-import { accountSelector, isLoadedSelector, paymentSelector } from './selectors'
+import {
+  accountSelector,
+  isLoadedSelector,
+  isPrivateSelector,
+  paymentSelector,
+} from './selectors'
 import ACTIONS from './actions'
 import SimilarDrawer from './SimilarDrawer'
 import styles from './Payment.jss'
@@ -67,9 +73,10 @@ const Payment = ({
 export default compose(
   reconnect(
     {
-      isLoaded: isLoadedSelector,
-      payment: paymentSelector,
       account: accountSelector,
+      isLoaded: isLoadedSelector,
+      isPrivate: isPrivateSelector,
+      payment: paymentSelector,
     },
     {
       load: ACTIONS.load,
@@ -91,6 +98,7 @@ export default compose(
       this.props.leave()
     },
   }),
+  branch(props => props.isPrivate, renderComponent(NotFound)),
   branch(props => !props.isLoaded, renderComponent(AreaSpinner)),
   injectStyles(styles, { fixedGrid: true })
 )(Payment)

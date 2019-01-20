@@ -3,6 +3,7 @@ import React from 'react'
 import cx from 'classnames'
 import { compose, lifecycle, branch, renderComponent } from 'recompose'
 import Helmet from 'react-helmet'
+import { Page404 as NotFound } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
 import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
@@ -17,8 +18,9 @@ import StoryHeader from './StoryHeader'
 import {
   accountSelector,
   isLoadedSelector,
-  storySelector,
+  isPrivateSelector,
   storyEditorStateSelector,
+  storySelector,
 } from './selectors'
 import ACTIONS from './actions'
 import styles from './Story.jss'
@@ -87,10 +89,11 @@ const Story = ({
 export default compose(
   reconnect(
     {
-      isLoaded: isLoadedSelector,
-      story: storySelector,
       account: accountSelector,
       editorState: storyEditorStateSelector,
+      isLoaded: isLoadedSelector,
+      isPrivate: isPrivateSelector,
+      story: storySelector,
     },
     {
       load: ACTIONS.load,
@@ -110,6 +113,7 @@ export default compose(
       this.props.leave()
     },
   }),
+  branch(props => props.isPrivate, renderComponent(NotFound)),
   branch(props => !props.isLoaded, renderComponent(AreaSpinner)),
   injectStyles(styles, { fixedGrid: true })
 )(Story)
