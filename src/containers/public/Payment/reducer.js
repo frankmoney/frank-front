@@ -25,6 +25,7 @@ export default handleActions(
       state.merge({
         isLoading: true,
         isLoaded: false,
+        drawerOpen: false,
       }),
     [ACTIONS.load.success]: (state, { payload: { account, payment } }) =>
       state.merge({

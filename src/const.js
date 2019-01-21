@@ -32,7 +32,7 @@ export const ROUTES = {
       recipient: '/accounts/:accountId/directory/:id?',
     },
     payment: {
-      idRoot: '/accounts/:accountId?/payments/:paymentId',
+      idRoot: '/accounts/:accountId/payments/:paymentId',
     },
     settings: {
       root: '/accounts/:accountId/settings',

@@ -10,7 +10,10 @@ import Button from 'components/kit/Button'
 import CurrencyProvider from 'components/CurrencyProvider'
 import PaymentCard from 'components/public/PaymentCard'
 import { type Account } from 'data/models/account'
-import { type Payment as PaymentProps } from 'data/models/payment'
+import {
+  type Payment as PaymentProps,
+  type PaymentId,
+} from 'data/models/payment'
 import reconnect from 'utils/reconnect'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { BASE_TITLE } from 'const'
@@ -18,6 +21,7 @@ import PaymentHeader from './PaymentHeader'
 import {
   accountSelector,
   isLoadedSelector,
+  isLoadingSelector,
   isPrivateSelector,
   paymentSelector,
 } from './selectors'
@@ -30,6 +34,7 @@ type Props = {|
   //
   account: Account,
   payment: PaymentProps,
+  paymentId: PaymentId,
   onOpenDrawer: () => void,
 |}
 
@@ -38,6 +43,7 @@ const Payment = ({
   className,
   account,
   payment,
+  paymentId,
   onOpenDrawer,
 }: Props) => {
   const { similarCount, ...paymentProps } = payment
@@ -61,7 +67,7 @@ const Payment = ({
                   label={`${similarCount} similar payments`}
                   onClick={() => onOpenDrawer()}
                 />
-                <SimilarDrawer />
+                <SimilarDrawer paymentId={paymentId} />
               </>
             )}
         </CurrencyProvider>
@@ -75,6 +81,7 @@ export default compose(
     {
       account: accountSelector,
       isLoaded: isLoadedSelector,
+      isLoading: isLoadingSelector,
       isPrivate: isPrivateSelector,
       payment: paymentSelector,
     },
@@ -86,6 +93,18 @@ export default compose(
     }
   ),
   lifecycle({
+    componentWillReceiveProps(nextProps) {
+      // React on url change (similar payments click)
+      if (
+        !this.props.isLoading &&
+        this.props.paymentId !== nextProps.paymentId
+      ) {
+        this.props.load({
+          accountId: nextProps.accountId,
+          paymentId: nextProps.paymentId,
+        })
+      }
+    },
     componentWillMount() {
       if (!this.props.isLoaded) {
         this.props.load({
