@@ -12,6 +12,12 @@ export default theme => ({
     marginBottom: 1,
     paddingBottom: ({ compact }) => (compact ? 0 : 29),
   },
+  private: {
+    padding: [0, 25, 37],
+    marginTop: -30,
+    ...theme.fontRegular(14, 17),
+    color: '#A6A9B7',
+  },
   labelCompact: {
     padding: [21, 20, 21, 25],
     ...theme.fontMedium(16, 19),

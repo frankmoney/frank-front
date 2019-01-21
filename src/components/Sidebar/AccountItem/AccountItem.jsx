@@ -11,9 +11,10 @@ type Props = {|
   ...InjectStylesProps,
   //
   compact: boolean,
-  icon: React.Element<any>,
-  label: React.Node,
   compactHref: string,
+  icon: React.Element<any>,
+  isPrivate: boolean,
+  label: React.Node,
   onClick?: () => void,
   renderAccountMenuItems: () => Array<React.Node>,
 |}
@@ -24,6 +25,7 @@ const AccountItem = ({
   compact,
   compactHref,
   icon,
+  isPrivate,
   label,
   onClick,
   renderAccountMenuItems,
@@ -43,6 +45,7 @@ const AccountItem = ({
   ) : (
     <div className={cx(classes.accountItem, className)} onClick={onClick}>
       <div className={classes.labelBig}>{label}</div>
+      {isPrivate && <div className={classes.private}>Private</div>}
       {accountMenuItems &&
         (React.isValidElement(accountMenuItems) ||
           Boolean(accountMenuItems.length)) && (
