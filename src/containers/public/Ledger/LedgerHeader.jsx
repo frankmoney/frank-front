@@ -12,6 +12,8 @@ import FilterButton from './FilterButton'
 const styles = theme => ({
   root: {
     padding: [0, 30],
+    background: 'rgba(255, 255, 255, 0.97)',
+    boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)',
   },
   container: {
     display: 'flex',
