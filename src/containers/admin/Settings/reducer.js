@@ -5,12 +5,13 @@ import ACTIONS from './actions'
 export const REDUCER_KEY = 'adminSettings'
 
 const defaultState = Immutable.fromJS({
-  loading: true,
-  loaded: false,
-  updating: false,
-  openCategoryDialog: false,
-  categories: [],
   canNotDeleteNonEmptyCategorySnackShown: false,
+  categories: [],
+  isDemo: false,
+  loaded: false,
+  loading: true,
+  openCategoryDialog: false,
+  updating: false,
 })
 
 export default handleActions(
@@ -18,17 +19,28 @@ export default handleActions(
     [ACTIONS.load]: state => state.merge({ loading: true }),
     [ACTIONS.load.success]: (
       state,
-      { payload: { pid, name, description, isPublic, sources, categories } }
+      {
+        payload: {
+          categories,
+          description,
+          isDemo,
+          isPublic,
+          name,
+          pid,
+          sources,
+        },
+      }
     ) =>
       state.merge({
-        loading: false,
-        loaded: true,
-        pid,
-        name,
-        description,
-        isPublic,
-        sources,
         categories: fromJS(categories),
+        description,
+        isDemo,
+        isPublic,
+        loaded: true,
+        loading: false,
+        name,
+        pid,
+        sources,
       }),
     [ACTIONS.load.error]: state =>
       state.merge({

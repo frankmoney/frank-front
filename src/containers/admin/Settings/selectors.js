@@ -15,6 +15,7 @@ export const pidSelector = get('pid')
 export const nameSelector = get('name')
 export const descriptionSelector = get('description')
 export const isPublicSelector = get('isPublic')
+export const isDemoSelector = get('isDemo')
 
 export const accountsSelector = createSelector(
   createPlainObjectSelector(get('sources')),
