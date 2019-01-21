@@ -1,5 +1,3 @@
-import { maxLines } from '@frankmoney/ui'
-
 export default theme => ({
   root: {
     display: 'flex',
@@ -16,7 +14,10 @@ export default theme => ({
     marginBottom: 40,
   },
   stat: {
+    display: 'flex',
+    flexDirection: 'column',
     justifyItems: 'center',
+    textAlign: 'center',
     paddingLeft: 30,
     paddingRight: 40,
     '&:not(:last-child)': {
@@ -29,6 +30,8 @@ export default theme => ({
   },
   statSum: {
     ...theme.fontRegular(20, 24),
+    whiteSpace: 'nowrap',
+    marginTop: 2,
   },
   description: {
     ...theme.fontRegular(20, 35),
