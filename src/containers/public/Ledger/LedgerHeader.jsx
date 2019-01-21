@@ -38,8 +38,7 @@ const styles = theme => ({
     color: theme.colors.black,
     flex: 1,
     textAlign: 'center',
-    position: 'relative',
-    top: -1,
+    margin: [-1, 95, 0],
   },
   filter: {
     position: 'absolute',
