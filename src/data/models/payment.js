@@ -17,18 +17,28 @@ export type PaymentSource = {|
 
 export type Payment = {|
   amount: number,
-  source: ?PaymentSource,
+  bankDescription?: string,
   category: ?Category,
   description: ?string,
   id: PaymentId,
   peer: ?Peer,
   postedOn: string,
   similarCount?: number,
+  source: ?PaymentSource,
   verified: ?boolean,
 |}
 
-export const mapPaymentSource = x =>
-  R.evolve({ source: R.assoc('bankDescription', x.bankDescription) }, x)
+export const mapPaymentSource = ({
+  bankDescription,
+  source,
+  ...payment
+}: Payment) => ({
+  ...payment,
+  source: {
+    ...source,
+    bankDescription,
+  },
+})
 
 export const ignoreUnverifiedData = R.when(
   R.propEq('verified', false),

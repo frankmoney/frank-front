@@ -57,7 +57,10 @@ export default {
         currency: { code: currencyCode },
         payment,
       },
-    }) => ({ account: { id, name, currencyCode }, payment }),
+    }) => ({
+      account: { id, name, currencyCode },
+      payment: mapPaymentSource(payment),
+    }),
   ],
   getSimilarPayments: [
     `
