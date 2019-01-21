@@ -13,7 +13,7 @@ type Props = {|
   compact: boolean,
   compactHref: string,
   icon: React.Element<any>,
-  isPrivate: boolean,
+  isPrivate?: boolean,
   label: React.Node,
   onClick?: () => void,
   renderAccountMenuItems: () => Array<React.Node>,
