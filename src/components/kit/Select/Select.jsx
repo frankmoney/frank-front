@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { isNil } from 'ramda'
 import memoize from 'lodash/memoize'
 import Menu from 'components/kit/Menu'
 import Modal from 'components/kit/Modal'
@@ -119,6 +120,10 @@ class Select extends React.Component<Props, State> {
   }
 
   getTextByValue = (value: Value) => {
+    if (isNil(value)) {
+      return ''
+    }
+
     const menuItems = React.Children.toArray(this.props.children)
     const found = menuItems.find(x => x.props.value === value)
 
@@ -131,7 +136,7 @@ class Select extends React.Component<Props, State> {
       valueFormatted:
         typeof this.props.formatValue === 'function'
           ? this.props.formatValue(this.getValue(state))
-          : this.getValue(state) && this.getTextByValue(this.getValue(state)),
+          : this.getTextByValue(this.getValue(state)),
       active: state.open || state.focused,
       toggle: this.handleTogglePopup,
       select: this.handleChange,
