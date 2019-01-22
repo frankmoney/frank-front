@@ -1,4 +1,5 @@
 // @flow strict-local
+// flowlint unsafe-getters-setters:off
 import * as React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
@@ -14,7 +15,7 @@ const styles = {
     marginRight: 12,
   },
   year: {
-    width: 75,
+    width: 76,
   },
 }
 
@@ -24,13 +25,18 @@ type Props = {|
   ...InjectStylesProps,
   //
   label?: string,
-  maxDate: Date,
-  minDate: Date,
+  maxDate?: Date,
+  minDate?: Date,
+  monthFormat: string,
   monthPlaceholder?: string,
   onChange?: Value => void,
+  reverseYears?: boolean,
   useEndOfTheMonth?: boolean,
   value?: Value,
   yearPlaceholder?: string,
+  //
+  monthClassName?: string,
+  yearClassName?: string,
 |}
 
 type State = {|
@@ -41,17 +47,16 @@ type State = {|
 const now: Date = new Date()
 
 const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-const formatMonth = m => D.format(new Date(0, m), 'MMMM')
 
 const yearsBetween = (start: Date, end: Date) =>
   R.range(D.getYear(start), D.getYear(end) + 1)
 
 class MonthSelect extends React.Component<Props, State> {
   static defaultProps = {
-    maxDate: D.addYears(now, 2),
-    minDate: D.subYears(now, 10),
-    monthPlaceholer: 'Month',
-    yearPlaceholer: 'Year',
+    monthFormat: 'MMMM',
+    monthPlaceholder: 'Month',
+    yearPlaceholder: 'Year',
+    reverseYears: true,
   }
 
   state = {
@@ -59,7 +64,28 @@ class MonthSelect extends React.Component<Props, State> {
     year: this.props.value ? D.getYear(this.props.value) : null,
   }
 
-  // flowlint-next-line unsafe-getters-setters:off
+  get maxDate(): Date {
+    return (
+      this.props.maxDate ||
+      D.endOfYear(this.props.value ? D.max([now, this.props.value]) : now)
+    )
+  }
+
+  get minDate(): Date {
+    const defaultMin = D.subYears(now, 10)
+    return (
+      this.props.maxDate ||
+      D.endOfYear(
+        this.props.value ? D.min([defaultMin, this.props.value]) : defaultMin
+      )
+    )
+  }
+
+  get years(): Array<number> {
+    const years = yearsBetween(this.minDate, this.maxDate)
+    return this.props.reverseYears ? R.reverse(years) : years
+  }
+
   get compositeValue(): ?Date {
     if (
       typeof this.state.year === 'number' &&
@@ -70,6 +96,11 @@ class MonthSelect extends React.Component<Props, State> {
     }
     return null
   }
+
+  formatMonth = R.curry(
+    (format: string, month: number): string =>
+      D.format(new Date(1970, month), format)
+  )
 
   handleChange() {
     if (this.props.onChange) {
@@ -93,29 +124,29 @@ class MonthSelect extends React.Component<Props, State> {
       classes,
       className,
       label,
-      maxDate,
-      minDate,
+      monthClassName,
+      monthFormat,
       monthPlaceholder,
+      yearClassName,
       yearPlaceholder,
     } = this.props
-    const years = yearsBetween(minDate, maxDate)
 
     return (
       <div className={cx(classes.root, className)}>
         <SelectField
-          className={classes.month}
+          className={cx(classes.month, monthClassName)}
           dropdownWidth={140}
           label={label}
           onChange={this.handleMonthChange}
           placeholder={monthPlaceholder}
-          stretchDropdown
+          formatValue={this.formatMonth(monthFormat)}
           value={this.state.month}
         >
           {R.map(
             month => (
               <MenuItem
                 value={month}
-                label={formatMonth(month)}
+                label={this.formatMonth('MMMM', month)}
                 key={`month-${month}`}
               />
             ),
@@ -123,18 +154,17 @@ class MonthSelect extends React.Component<Props, State> {
           )}
         </SelectField>
         <SelectField
-          className={classes.year}
+          className={cx(classes.year, yearClassName)}
           dropdownWidth={110}
           onChange={this.handleYearChange}
           placeholder={yearPlaceholder}
-          stretchDropdown
           value={this.state.year}
         >
           {R.map(
             year => (
               <MenuItem value={year} label={`${year}`} key={`year-${year}`} />
             ),
-            years
+            this.years
           )}
         </SelectField>
       </div>

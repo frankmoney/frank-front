@@ -2,7 +2,7 @@
 import React from 'react'
 import * as D from 'date-fns'
 import { MenuItem } from 'components/kit/Menu'
-import DateSelect, { type DateString } from 'components/kit/DateSelect'
+import { MonthSelect, type DateString } from 'components/kit/DateSelect'
 import Drawer from 'components/kit/Drawer'
 import SelectField from 'components/kit/SelectField'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -10,14 +10,24 @@ import { DATE_FILTER, type DateRangeFilterValue } from './constants'
 
 const styles = {
   customDatesWrap: {
-    marginTop: 10,
+    marginTop: 28,
     display: 'flex',
   },
   customDateSelect: {
+    display: 'flex',
     flex: 1,
+    justifyContent: 'space-between',
     '&:first-child': {
-      marginRight: 10,
+      marginRight: 20,
     },
+  },
+  customDateMonth: {
+    marginRight: 15,
+    width: 'auto',
+    flex: [1, 1],
+  },
+  customDateYear: {
+    flex: [0, 0],
   },
 }
 
@@ -142,19 +152,23 @@ const DateRangeField = ({
       </SelectField>
       {filterValue === DATE_FILTER.custom && (
         <div className={classes.customDatesWrap}>
-          <DateSelect
+          <MonthSelect
             className={classes.customDateSelect}
-            format="ddd, M/DD/YYYY"
-            placeholder="Start date"
+            monthFormat="MMM"
+            monthClassName={classes.customDateMonth}
+            yearClassName={classes.customDateYear}
+            label="From"
             value={from}
             onChange={value => onChange({ from: value, to })}
           />
-          <DateSelect
+          <MonthSelect
             className={classes.customDateSelect}
-            format="ddd, M/DD/YYYY"
-            align="end"
-            placeholder="End date"
+            monthFormat="MMM"
+            monthClassName={classes.customDateMonth}
+            yearClassName={classes.customDateYear}
+            label="To"
             value={to}
+            useEndOfTheMonth
             onChange={value => onChange({ from, to: value })}
           />
         </div>
