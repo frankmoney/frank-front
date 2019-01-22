@@ -10,7 +10,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 const styles = {
   root: {},
   month: {
-    width: 140,
+    width: 125,
     marginRight: 12,
   },
   year: {
@@ -48,8 +48,10 @@ const yearsBetween = (start: Date, end: Date) =>
 
 class MonthSelect extends React.Component<Props, State> {
   static defaultProps = {
-    minDate: D.subYears(now, 10),
     maxDate: D.addYears(now, 2),
+    minDate: D.subYears(now, 10),
+    monthPlaceholer: 'Month',
+    yearPlaceholer: 'Year',
   }
 
   state = {
@@ -102,9 +104,10 @@ class MonthSelect extends React.Component<Props, State> {
       <div className={cx(classes.root, className)}>
         <SelectField
           className={classes.month}
+          dropdownWidth={140}
           label={label}
           onChange={this.handleMonthChange}
-          placeholder={monthPlaceholder || 'Month'}
+          placeholder={monthPlaceholder}
           stretchDropdown
           value={this.state.month}
         >
@@ -123,7 +126,7 @@ class MonthSelect extends React.Component<Props, State> {
           className={classes.year}
           dropdownWidth={110}
           onChange={this.handleYearChange}
-          placeholder={yearPlaceholder || 'Year'}
+          placeholder={yearPlaceholder}
           stretchDropdown
           value={this.state.year}
         >
