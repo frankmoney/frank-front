@@ -1,7 +1,13 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { compose, lifecycle, branch, renderComponent } from 'recompose'
+import {
+  compose,
+  lifecycle,
+  branch,
+  renderComponent,
+  renderNothing,
+} from 'recompose'
 import Helmet from 'react-helmet'
 import { Page404 as NotFound } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
@@ -18,7 +24,8 @@ import StoryHeader from './StoryHeader'
 import {
   accountSelector,
   isLoadedSelector,
-  isPrivateSelector,
+  isNotFoundSelector,
+  isLoadFailedSelector,
   storyEditorStateSelector,
   storySelector,
 } from './selectors'
@@ -92,7 +99,8 @@ export default compose(
       account: accountSelector,
       editorState: storyEditorStateSelector,
       isLoaded: isLoadedSelector,
-      isPrivate: isPrivateSelector,
+      isPrivateOrNotFound: isNotFoundSelector,
+      isLoadFailed: isLoadFailedSelector,
       story: storySelector,
     },
     {
@@ -113,7 +121,8 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => props.isPrivate, renderComponent(NotFound)),
+  branch(props => props.isLoadFailed, renderNothing),
+  branch(props => props.isPrivateOrNotFound, renderComponent(NotFound)),
   branch(props => !props.isLoaded, renderComponent(AreaSpinner)),
   injectStyles(styles, { fixedGrid: true })
 )(Story)

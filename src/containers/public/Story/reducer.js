@@ -8,8 +8,9 @@ const initialState = fromJS({
   account: null,
   isLoaded: false,
   isLoading: false,
-  isPrivate: false,
+  isNotFound: false,
   story: null,
+  isLoadFailed: false,
 })
 
 export default handleActions(
@@ -26,11 +27,12 @@ export default handleActions(
         account: fromJS(account),
         story: fromJS(story),
       }),
-    [ACTIONS.load.error]: (state, { payload: isPrivate }) =>
+    [ACTIONS.load.error]: (state, { payload: { notFound } }) =>
       state.merge({
         isLoaded: false,
         isLoading: false,
-        isPrivate,
+        isNotFound: notFound,
+        isLoadFailed: !notFound,
       }),
     [ACTIONS.leave]: () => initialState,
   },

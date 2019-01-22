@@ -1,7 +1,13 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { compose, branch, renderComponent, lifecycle } from 'recompose'
+import {
+  compose,
+  branch,
+  renderComponent,
+  renderNothing,
+  lifecycle,
+} from 'recompose'
 import { Page404 as NotFound } from '@frankmoney/components'
 import FiltersDrawer from 'containers/admin/Filters/FiltersDrawer'
 import AreaSpinner from 'components/AreaSpinner'
@@ -21,9 +27,11 @@ import {
   currentTabSelector,
   hasNoResultsSelector,
   isLoadingSelector,
-  isPrivateSelector,
+  isNotFoundSelector,
   listDisabledSelector,
   loadedSelector,
+  accountCurrencyCodeSelector,
+  isLoadFailedSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 
@@ -63,11 +71,11 @@ class Ledger extends React.Component<Props, State> {
   }
 
   render() {
-    const { classes, className, currentTab } = this.props
+    const { classes, currencyCode, className, currentTab } = this.props
 
     return (
       <div className={cx(classes.root, className)}>
-        <CurrencyProvider code="USD">
+        <CurrencyProvider code={currencyCode}>
           <LedgerHeader offset={this.state.offset} />
           <div className={classes.container}>
             <LedgerStats />
@@ -99,10 +107,12 @@ export default compose(
     {
       currentCategory: currentCategoryNameSelector,
       currentTab: currentTabSelector,
-      isPrivate: isPrivateSelector,
+      isPrivateOrNotFound: isNotFoundSelector,
+      currencyCode: accountCurrencyCodeSelector,
       listDisabled: listDisabledSelector,
       loaded: loadedSelector,
       loading: isLoadingSelector,
+      isLoadFailed: isLoadFailedSelector,
       noResults: hasNoResultsSelector,
     },
     {
@@ -129,7 +139,8 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => props.isPrivate, renderComponent(NotFound)),
+  branch(props => props.isLoadFailed, renderNothing),
+  branch(props => props.isPrivateOrNotFound, renderComponent(NotFound)),
   branch(props => props.loading, renderComponent(AreaSpinner)),
-  injectStyles(styles, { grid: true })
+  injectStyles(styles)
 )(Ledger)

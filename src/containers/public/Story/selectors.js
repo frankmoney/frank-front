@@ -17,7 +17,8 @@ const getters = {
 }
 
 export const isLoadedSelector = getters.isLoaded
-export const isPrivateSelector = getter('isPrivate')
+export const isLoadFailedSelector = getter('isLoadFailed')
+export const isNotFoundSelector = getter('isNotFound')
 
 export const accountSelector = createPlainObjectSelector(getters.account)
 

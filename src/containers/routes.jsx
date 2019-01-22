@@ -36,7 +36,8 @@ import Recipient from 'containers/admin/Recipient'
 import Settings from 'containers/admin/Settings'
 import Team from 'containers/admin/Team'
 import Onboarding from 'containers/admin/Onboarding'
-import Layout from 'components/Layout'
+import AdminLayout from 'components/AdminLayout'
+import AppWrapper from 'components/AppWrapper'
 import PublicPayment from 'containers/public/Payment'
 import PublicStory from 'containers/public/Story'
 import PublicLedger from 'containers/public/Ledger'
@@ -44,17 +45,20 @@ import { parseQueryStringBool } from 'utils/querystring'
 
 // todo refactor
 
-const delimiterSidebarProps = {
-  sidebarProps: { panelProps: { delimiter: true } },
-}
+const withAdminLayout = Component => props => (
+  <AppWrapper>
+    <AdminLayout>
+      <Component {...props} />
+      <Helmet title={BASE_TITLE} />
+    </AdminLayout>
+  </AppWrapper>
+)
 
-const withLayout = (
-  layoutProps = delimiterSidebarProps
-) => Component => props => (
-  <Layout {...layoutProps}>
+const withPublicLayout = Component => props => (
+  <AppWrapper>
     <Component {...props} />
     <Helmet title={BASE_TITLE} />
-  </Layout>
+  </AppWrapper>
 )
 
 const RedirectToLogin = compose(
@@ -139,11 +143,11 @@ const routeMappers = {
 
 const ComposedProtectedLedger = compose(
   routeMappers.account,
-  withLayout()
+  withAdminLayout
 )(Ledger)
 const ComposedProtectedStories = compose(
   routeMappers.account,
-  withLayout()
+  withAdminLayout
 )(Stories)
 
 const LedgerRouter = () => (
@@ -164,7 +168,7 @@ export default [
     exact: true,
   },
   {
-    component: protectedRoute(withLayout()(Team)),
+    component: protectedRoute(withAdminLayout(Team)),
     path: ROUTES.team.root,
     exact: true,
   },
@@ -172,7 +176,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout(),
+      withAdminLayout,
       routeMappers.account
     )(Widgets),
     path: ROUTES.account.widget,
@@ -181,7 +185,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout(),
+      withAdminLayout,
       routeMappers.account
     )(Inbox),
     path: ROUTES.account.inbox.root,
@@ -191,7 +195,7 @@ export default [
     component: compose(
       routeMappers.account,
       branchMobile(MobileLedger),
-      branchPublic(PublicLedger)
+      branchPublic(withPublicLayout(PublicLedger))
     )(LedgerRouter),
     path: ROUTES.account.idRootTab,
     exact: true,
@@ -199,7 +203,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout(),
+      withAdminLayout,
       routeMappers.account
     )(Directory),
     path: ROUTES.account.directory.root,
@@ -208,7 +212,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout(),
+      withAdminLayout,
       routeMappers.recipient
     )(Recipient),
     path: ROUTES.account.directory.recipient,
@@ -217,7 +221,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout(delimiterSidebarProps),
+      withAdminLayout,
       routeMappers.account
     )(StoryEdit),
     path: ROUTES.account.stories.idRootNew,
@@ -226,7 +230,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout(delimiterSidebarProps),
+      withAdminLayout,
       routeMappers.story
     )(StoryEdit),
     path: ROUTES.account.stories.idRootEdit,
@@ -236,8 +240,8 @@ export default [
     component: compose(
       routeMappers.story,
       branchMobile(MobileStory),
-      branchPublic(PublicStory),
-      withLayout(delimiterSidebarProps)
+      branchPublic(withPublicLayout(PublicStory)),
+      withAdminLayout
     )(StoryPreview),
     path: ROUTES.account.stories.idRoot,
     exact: true,
@@ -245,7 +249,7 @@ export default [
   {
     component: compose(
       protectedRoute,
-      withLayout(),
+      withAdminLayout,
       routeMappers.account
     )(Settings),
     path: ROUTES.account.settings.root,

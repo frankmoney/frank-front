@@ -14,9 +14,10 @@ const defaultState = fromJS({
     loaded: false,
     open: false,
   },
-  isPrivate: false,
+  isNotFound: false,
   loaded: false,
   loading: true,
+  isLoadFailed: false,
   name: '',
   payments: [],
   paymentsCount: 0,
@@ -80,9 +81,10 @@ export default handleActions(
         typing: false,
         updatingList: false,
       }),
-    [ACTIONS.load.error]: (state, { payload: isPrivate }) =>
+    [ACTIONS.load.error]: (state, { payload: { notFound } }) =>
       state.merge({
-        isPrivate,
+        isNotFound: notFound,
+        isLoadFailed: !notFound,
         loading: false,
         typing: false,
         updatingList: false,
