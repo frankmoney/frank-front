@@ -12,7 +12,7 @@ type GraphqlResult = {
 export const isNotFoundError = (graphqlError: GraphqlResult) => {
   const { response } = graphqlError
   if (!response) {
-    console.warn('maybe not Graphql error')
+    console.warn('maybe not Graphql error') // eslint-disable-line no-console
     return false
   }
 
