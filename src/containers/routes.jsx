@@ -262,7 +262,7 @@ export default [
         routeMappers.payment
       )(MobilePayment),
       routeMappers.payment
-    )(PublicPayment),
+    )(withPublicLayout(PublicPayment)),
     path: ROUTES.account.payment.idRoot,
     exact: true,
   },
