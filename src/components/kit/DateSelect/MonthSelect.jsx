@@ -24,6 +24,7 @@ type Value = Date
 type Props = {|
   ...InjectStylesProps,
   //
+  defaultValue?: Value,
   label?: string,
   maxDate?: Date,
   minDate?: Date,
@@ -40,6 +41,8 @@ type Props = {|
 |}
 
 type State = {|
+  // isControlled?: boolean,
+  value: ?Value,
   month: ?number,
   year: ?number,
 |}
@@ -51,7 +54,14 @@ const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 const yearsBetween = (start: Date, end: Date) =>
   R.range(D.getYear(start), D.getYear(end) + 1)
 
+const deriveMonthFromValue = (value: ?Value): ?number =>
+  value ? D.getMonth(value) : null
+
+const deriveYearFromValue = (value: ?Value): ?number =>
+  value ? D.getYear(value) : null
+
 class MonthSelect extends React.Component<Props, State> {
+  // eslint-disable-next-line react/sort-comp
   static defaultProps = {
     monthFormat: 'MMMM',
     monthPlaceholder: 'Month',
@@ -60,8 +70,13 @@ class MonthSelect extends React.Component<Props, State> {
   }
 
   state = {
-    month: this.props.value ? D.getMonth(this.props.value) : null,
-    year: this.props.value ? D.getYear(this.props.value) : null,
+    value: this.props.defaultValue,
+    month: deriveMonthFromValue(this.props.defaultValue),
+    year: deriveYearFromValue(this.props.defaultValue),
+  }
+
+  get isControlled(): boolean {
+    return typeof this.props.value !== 'undefined'
   }
 
   get maxDate(): Date {
@@ -85,13 +100,21 @@ class MonthSelect extends React.Component<Props, State> {
     const years = yearsBetween(this.minDate, this.maxDate)
     return this.props.reverseYears ? R.reverse(years) : years
   }
+  get month(): ?number {
+    return this.isControlled
+      ? deriveMonthFromValue(this.props.value)
+      : this.state.month
+  }
 
-  get compositeValue(): ?Date {
-    if (
-      typeof this.state.year === 'number' &&
-      typeof this.state.month === 'number'
-    ) {
-      const date = new Date(this.state.year, this.state.month, 1)
+  get year(): ?number {
+    return this.isControlled
+      ? deriveYearFromValue(this.props.value)
+      : this.state.year
+  }
+
+  compositeValue(year, month): ?Date {
+    if (typeof year === 'number' && typeof month === 'number') {
+      const date = new Date(year, month, 1)
       return this.props.useEndOfTheMonth ? D.lastDayOfMonth(date) : date
     }
     return null
@@ -102,21 +125,33 @@ class MonthSelect extends React.Component<Props, State> {
       D.format(new Date(1970, month), format)
   )
 
-  handleChange() {
-    if (this.props.onChange) {
-      const value = this.compositeValue
-      if (value) {
-        this.props.onChange(value)
-      }
+  handleChange(value: ?Value) {
+    if (this.props.onChange && value) {
+      this.props.onChange(value)
     }
   }
 
-  handleMonthChange = (value: number) => {
-    this.setState({ month: value }, this.handleChange)
+  handleChangeComputed() {
+    const value = this.compositeValue(this.year, this.month)
+    this.handleChange(value)
   }
 
-  handleYearChange = (value: number) => {
-    this.setState({ year: value }, this.handleChange)
+  handleMonthChange = (month: number) => {
+    if (this.isControlled) {
+      const value = this.compositeValue(this.year, month)
+      this.handleChange(value)
+    } else {
+      this.setState({ month }, this.handleChangeComputed)
+    }
+  }
+
+  handleYearChange = (year: number) => {
+    if (this.isControlled) {
+      const value = this.compositeValue(year, this.month)
+      this.handleChange(value)
+    } else {
+      this.setState({ year }, this.handleChangeComputed)
+    }
   }
 
   render() {
@@ -140,7 +175,7 @@ class MonthSelect extends React.Component<Props, State> {
           onChange={this.handleMonthChange}
           placeholder={monthPlaceholder}
           formatValue={this.formatMonth(monthFormat)}
-          value={this.state.month}
+          value={this.month}
         >
           {R.map(
             month => (
@@ -158,7 +193,7 @@ class MonthSelect extends React.Component<Props, State> {
           dropdownWidth={110}
           onChange={this.handleYearChange}
           placeholder={yearPlaceholder}
-          value={this.state.year}
+          value={this.year}
         >
           {R.map(
             year => (

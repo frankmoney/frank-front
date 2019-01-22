@@ -8,8 +8,42 @@ import DateSelect, { MonthSelect } from 'components/kit/DateSelect'
 
 const CalendarState = toRenderProps(withState('date', 'onChange', null))
 
-// eslint-disable-next-line no-console
-const printValue = value => console.log('new value:', value)
+type PlaygroundState = {
+  value: ?Date,
+}
+
+class MonthSelectPlayground extends React.Component<{}, PlaygroundState> {
+  state = {
+    value: null,
+  }
+
+  handleChange = value => {
+    console.log('new value:', value) // eslint-disable-line no-console
+    this.setState({ value })
+  }
+
+  render() {
+    return (
+      <>
+        <Row centered>
+          <MonthSelect
+            label="Uncontrolled"
+            defaultValue={new Date()}
+            onChange={this.handleChange}
+          />
+        </Row>
+        <Row centered>
+          <MonthSelect
+            label="Controlled"
+            value={this.state.value}
+            useEndOfTheMonth
+            onChange={this.handleChange}
+          />
+        </Row>
+      </>
+    )
+  }
+}
 
 const DateSelectsDemo = () => (
   <Demo>
@@ -18,12 +52,7 @@ const DateSelectsDemo = () => (
       <DateSelect placeholder="Any date" format="ddd, M/DD/YYYY" />
     </Row>
     <h1>Month Select</h1>
-    <Row centered>
-      <MonthSelect value={new Date()} onChange={printValue} />
-    </Row>
-    <Row centered>
-      <MonthSelect label="To" useEndOfTheMonth onChange={printValue} />
-    </Row>
+    <MonthSelectPlayground />
     <h1>Calendar</h1>
     <Row centered>
       <Paper>
