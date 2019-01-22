@@ -37,6 +37,7 @@ const get = (...prop) => (state: ReduxState) =>
 
 export const accountSelector = createPlainObjectSelector(get('account'))
 
+export const isPrivateSelector = get('isPrivate')
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const accountIdSelector = createSelector(accountSelector, R.prop('id'))

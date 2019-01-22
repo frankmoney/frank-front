@@ -14,5 +14,13 @@ export const currentAccountIdSelector = createSelector(
 
 export const userAccountsSelector = createSelector(
   currentUserSelector,
-  R.prop('accounts')
+  R.pipe(
+    R.prop('accounts'),
+    R.sortBy(
+      R.compose(
+        R.toLower,
+        R.prop('name')
+      )
+    )
+  )
 )

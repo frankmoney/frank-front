@@ -1,5 +1,4 @@
 // @flow strict-local
-// spellchecker:ignore mmaa
 import React from 'react'
 import cx from 'classnames'
 import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
@@ -15,7 +14,7 @@ import Button from 'components/kit/Button'
 import Switch from 'components/kit/Switch'
 import CardTitle from './CardTitle'
 import ACTIONS from './actions'
-import { accountCardFormValuesSelector } from './selectors'
+import { accountCardFormValuesSelector, isDemoSelector } from './selectors'
 
 const validation = {
   name: [required, maxLength(40)],
@@ -58,6 +57,7 @@ const AccountCard = ({
   className,
   confirmationDialogOpen,
   dirty,
+  disabled,
   valid,
   submitting,
   submit,
@@ -75,6 +75,7 @@ const AccountCard = ({
         floatingLabel="Account name"
         larger
         autoFocus
+        disabled={disabled}
       />
       <ReduxFormControl.Field
         name="description"
@@ -84,6 +85,7 @@ const AccountCard = ({
         className={classes.field}
         floatingLabel="Description"
         multiLine
+        disabled={disabled}
       />
       <div className={classes.bottomLine}>
         <ReduxFormControl.Switch
@@ -91,12 +93,13 @@ const AccountCard = ({
           component={Switch}
           className={classes.switch}
           label="Private account"
+          disabled={disabled}
         />
         <Button
           className={classes.button}
           label="Save"
           color="green"
-          disabled={!submitting && (!dirty || !valid)}
+          disabled={disabled || (!submitting && (!dirty || !valid))}
           loading={submitting}
           onClick={submit}
         />
@@ -124,10 +127,15 @@ const AccountCard = ({
   </>
 )
 
+AccountCard.defaultProps = {
+  disabled: false,
+}
+
 const FORM_NAME = 'admin/settings/account'
 
 export default compose(
   reconnect({
+    disabled: isDemoSelector,
     initialValues: accountCardFormValuesSelector,
   }),
   fromRenderProps(Dialog.State, ({ open, toggle }) => ({

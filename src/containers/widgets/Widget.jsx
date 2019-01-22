@@ -19,6 +19,7 @@ import {
 } from 'data/models/pieData'
 import { mapToPlainTextBody, type Story } from 'data/models/stories'
 import { ALL_CATEGORIES } from 'const'
+import { isNotFoundGraphqlError } from 'utils/graphql'
 import TabbedLayout, {
   OVERVIEW_TAB,
   PAYMENTS_TAB,
@@ -232,26 +233,11 @@ class Widget extends React.Component<Props, State> {
               },
             }),
           ({ response }) => {
-            if (!response) {
-              console.error('GraphQL error: no response') // eslint-disable-line no-console
-              return
-            }
-            const { status, errors } = response
-            const error = R.pipe(
-              R.head,
-              R.prop('message')
-            )(errors)
-            if (status === 200) {
-              if (error === 'Not Found') {
-                this.setState({
-                  loading: false,
-                  isPrivate: true,
-                })
-              } else {
-                console.log('GraphQL result', error) // eslint-disable-line no-console
-              }
-            } else {
-              console.error('GraphQL error', error) // eslint-disable-line no-console
+            if (isNotFoundGraphqlError(response)) {
+              this.setState({
+                loading: false,
+                isPrivate: true,
+              })
             }
           }
         )

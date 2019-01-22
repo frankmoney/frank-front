@@ -29,7 +29,7 @@ export default theme => ({
   },
   iconLeft: {
     composes: '$icon',
-    marginRight: 18,
+    marginRight: 15,
   },
   iconRight: {
     composes: '$icon',

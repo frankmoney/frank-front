@@ -23,6 +23,7 @@ const findUser = ({ graphqlClient }) => {
         `{
             accounts {
               id: pid
+              isPublic: public
               name
             }
           }`

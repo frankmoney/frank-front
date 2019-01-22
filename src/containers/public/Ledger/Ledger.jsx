@@ -2,6 +2,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
+import { Page404 as NotFound } from '@frankmoney/components'
 import FiltersDrawer from 'containers/admin/Filters/FiltersDrawer'
 import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
@@ -20,6 +21,7 @@ import {
   currentTabSelector,
   hasNoResultsSelector,
   isLoadingSelector,
+  isPrivateSelector,
   listDisabledSelector,
   loadedSelector,
 } from './selectors'
@@ -95,12 +97,13 @@ class Ledger extends React.Component<Props, State> {
 export default compose(
   reconnect(
     {
-      loaded: loadedSelector,
-      loading: isLoadingSelector,
-      listDisabled: listDisabledSelector,
-      noResults: hasNoResultsSelector,
       currentCategory: currentCategoryNameSelector,
       currentTab: currentTabSelector,
+      isPrivate: isPrivateSelector,
+      listDisabled: listDisabledSelector,
+      loaded: loadedSelector,
+      loading: isLoadingSelector,
+      noResults: hasNoResultsSelector,
     },
     {
       load: ACTIONS.load,
@@ -126,6 +129,7 @@ export default compose(
       this.props.leave()
     },
   }),
+  branch(props => props.isPrivate, renderComponent(NotFound)),
   branch(props => props.loading, renderComponent(AreaSpinner)),
   injectStyles(styles, { grid: true })
 )(Ledger)

@@ -1,4 +1,4 @@
-// @flow
+// @flow strict-local
 import React from 'react'
 import { compose, withPropsOnChange } from 'recompose'
 import {
@@ -12,7 +12,7 @@ import {
 } from 'material-ui-icons'
 import { createRouteUrl } from '@frankmoney/utils'
 import { ReduxNavLink } from '@frankmoney/webapp'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import reconnect from 'utils/reconnect'
 import {
   userAccountsSelector,
@@ -72,11 +72,12 @@ const ComposedAccountItem = withPropsOnChange(
 
 const AccountsSwitchMenu = ({ accounts = [], selectedAccountId }) => (
   <>
-    {accounts.map(({ id, name }) => (
+    {accounts.map(({ id, isPublic, name }) => (
       <ComposedAccountItem
         key={id}
         label={name}
         accountId={id}
+        isPrivate={!isPublic}
         compactHref={createRouteUrl(ROUTES.account.inbox.root, {
           accountId: id,
         })}

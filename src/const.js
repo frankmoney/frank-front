@@ -32,7 +32,7 @@ export const ROUTES = {
       recipient: '/accounts/:accountId/directory/:id?',
     },
     payment: {
-      idRoot: '/accounts/:accountId?/payments/:paymentId?',
+      idRoot: '/accounts/:accountId/payments/:paymentId',
     },
     settings: {
       root: '/accounts/:accountId/settings',
@@ -150,7 +150,7 @@ export const DEFAULT_INCOME_CATEGORIES = [
   {
     name: 'Investments',
     color: '#135F4A',
-  }
+  },
 ]
 
 export const UNCATEGORIZED_CATEGORY = {

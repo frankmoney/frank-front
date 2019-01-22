@@ -51,33 +51,34 @@ const counters = {
 const validate = createValidateFromRules(validation)
 
 const PaymentCard = ({
-  classes,
-  className,
-  id: paymentId,
   accountId,
-  postedOn,
   amount,
   categories,
   categoryId,
-  similarCount,
-  saving,
-  saved,
-  publishing,
-  verified,
+  categoryLoading,
+  classes,
+  className,
+  descriptionLoading,
+  form: formName,
+  handleFieldBlur,
+  handleFieldChange,
+  id: paymentId,
   onPublishClick,
   onSaveClick,
   onSimilarDrawerOpen,
   onUnpublishClick,
   onUpdateClick,
-  pristine,
-  form: formName,
-  descriptionLoading,
   peerLoading,
-  categoryLoading,
-  handleFieldBlur,
-  handleFieldChange,
   pending,
+  postedOn,
+  pristine,
+  publishing,
+  saved,
+  saving,
+  showSimilarPayments,
+  similarCount,
   source,
+  verified,
   // copy-paste props
   canPaste,
   category,
@@ -160,24 +161,26 @@ const PaymentCard = ({
     </div>
     <div className={classes.footer}>
       <div className={classes.leftButtons}>
-        {similarCount > 0 ? (
-          <>
-            <Button
-              className={classes.similarButton}
-              icon={<SimilarIcon />}
-              label={`${similarCount} similar payment${
-                similarCount > 1 ? 's' : ''
-              }`}
-              onClick={() => onSimilarDrawerOpen()}
-            />
-            <SimilarPaymentsDrawer
-              paymentId={paymentId}
-              similarCount={similarCount}
-            />
-          </>
-        ) : (
-          'No similar payments found'
-        )}
+        {showSimilarPayments ? (
+          similarCount > 0 ? (
+            <>
+              <Button
+                className={classes.similarButton}
+                icon={<SimilarIcon />}
+                label={`${similarCount} similar payment${
+                  similarCount > 1 ? 's' : ''
+                }`}
+                onClick={() => onSimilarDrawerOpen()}
+              />
+              <SimilarPaymentsDrawer
+                paymentId={paymentId}
+                similarCount={similarCount}
+              />
+            </>
+          ) : (
+            'No similar payments found'
+          )
+        ) : null}
       </div>
       <div className={classes.rightButtons}>
         <Copied message="Public link has been copied to clipboard">

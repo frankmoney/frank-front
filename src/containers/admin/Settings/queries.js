@@ -19,6 +19,7 @@ export default {
         name
         description
         isPublic: public
+        isDemo: demo
         sources {
           pid
           data
@@ -40,14 +41,8 @@ export default {
       }
     }
     `,
-    ({
-      account: { pid, name, description, isPublic, sources, categories },
-    }) => ({
-      pid,
-      name,
-      description,
-      isPublic,
-      sources,
+    ({ account: { categories, ...accountProps } }) => ({
+      ...accountProps,
       categories: categories.map(convertCategory),
     }),
   ],

@@ -14,6 +14,7 @@ const defaultState = fromJS({
     loaded: false,
     open: false,
   },
+  isPrivate: false,
   loaded: false,
   loading: true,
   name: '',
@@ -79,8 +80,9 @@ export default handleActions(
         typing: false,
         updatingList: false,
       }),
-    [ACTIONS.load.error]: state =>
+    [ACTIONS.load.error]: (state, { payload: isPrivate }) =>
       state.merge({
+        isPrivate,
         loading: false,
         typing: false,
         updatingList: false,
