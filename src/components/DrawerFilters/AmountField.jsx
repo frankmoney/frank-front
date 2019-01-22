@@ -19,14 +19,14 @@ const styles = {
   },
 }
 
-const formattedValue = value => (isNil(value) ? '' : value)
+const formatValue = value => (isNil(value) ? '' : value)
 
 const AmountField = ({ classes, min, max, from, to, onChange }) => (
   <Drawer.Field label="Amount">
     <div className={classes.wrap}>
       <TextField
         stretch
-        value={formattedValue(from)}
+        value={formatValue(from)}
         label="min"
         placeholder={min}
         onChange={({ target: { value } }) => onChange({ min: value, max: to })}
@@ -36,7 +36,7 @@ const AmountField = ({ classes, min, max, from, to, onChange }) => (
         numeric
       />
       <TextField
-        value={formattedValue(to)}
+        value={formatValue(to)}
         label="max"
         placeholder={max}
         onChange={({ target: { value } }) =>

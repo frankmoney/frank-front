@@ -52,7 +52,7 @@ type OnChangeCb = any => void
 
 type InputType = 'text' | 'password' | 'number' // TODO
 
-const formattedValue = value => (isNil(value) ? '' : value)
+const formatValue = value => (isNil(value) ? '' : value)
 
 export type InputProps = {|
   // устанавливает состояние фокуса(стили)
@@ -152,7 +152,6 @@ class Input extends React.Component<Props> {
         <textarea
           ref={controlRef}
           value={value || ''}
-          onChange={this.handleChange} // FIXME: there is now handleChange in Input
           className={cls}
           autoComplete={autoComplete}
           onKeyPress={this.handleKeyPress}
@@ -167,8 +166,7 @@ class Input extends React.Component<Props> {
       <InputComponent
         ref={controlRef}
         type={type}
-        value={formattedValue(value)}
-        onChange={this.handleChange}
+        value={formatValue(value)}
         className={cls}
         autoComplete={autoComplete}
         {...otherProps}

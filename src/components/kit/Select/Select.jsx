@@ -120,10 +120,6 @@ class Select extends React.Component<Props, State> {
   }
 
   getTextByValue = (value: Value) => {
-    if (isNil(value)) {
-      return ''
-    }
-
     const menuItems = React.Children.toArray(this.props.children)
     const found = menuItems.find(x => x.props.value === value)
 
@@ -133,10 +129,7 @@ class Select extends React.Component<Props, State> {
   getRenderProps = (state: State = this.state) =>
     ({
       value: this.getValue(state),
-      valueFormatted:
-        typeof this.props.formatValue === 'function'
-          ? this.props.formatValue(this.getValue(state))
-          : this.getTextByValue(this.getValue(state)),
+      valueFormatted: this.formatValue(this.getValue(state)),
       active: state.open || state.focused,
       toggle: this.handleTogglePopup,
       select: this.handleChange,
@@ -154,6 +147,15 @@ class Select extends React.Component<Props, State> {
 
   input: any
   list: any
+
+  formatValue = (value: ?Value): ?string => {
+    if (isNil(value)) {
+      return null
+    }
+    return typeof this.props.formatValue === 'function'
+      ? this.props.formatValue(value)
+      : this.getTextByValue(value)
+  }
 
   handleListRef = ref => {
     this.list = ref
