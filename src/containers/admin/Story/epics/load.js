@@ -9,11 +9,9 @@ export default (action$, store, { graphql }) =>
       const state = store.getState()
       const accountId = currentAccountIdSelector(state)
 
-      const story = await graphql(QUERIES.getStory, {
+      return graphql(QUERIES.getStory, {
         accountId,
         storyId,
       })
-
-      return { story }
     })
     .map(ACTIONS.load.success)

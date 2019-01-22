@@ -124,5 +124,5 @@ export default compose(
   branch(props => props.isLoadFailed, renderNothing),
   branch(props => props.isPrivateOrNotFound, renderComponent(NotFound)),
   branch(props => !props.isLoaded, renderComponent(AreaSpinner)),
-  injectStyles(styles, { fixedGrid: true })
+  injectStyles(styles)
 )(Story)
