@@ -28,9 +28,7 @@ type ControlElementProps = {
 
 type ControlElement = React.ComponentType<ControlElementProps>
 
-type Props = {|
-  ...InjectStylesProps,
-  //
+export type FieldProps = {|
   additionalLabel?: string,
   children?: React.Element<ControlElement>,
   defaultValue?: Value,
@@ -57,7 +55,7 @@ type Props = {|
   onKeyPress?: KeyboardEvent => void,
   onKeyUp?: KeyboardEvent => void,
   controlRef?: Function,
-  adornment?: React.Element,
+  adornment?: React.Node,
   adornmentWidth?: number,
 |}
 
@@ -66,7 +64,10 @@ type State = {|
   value?: Value,
 |}
 
-export type FieldProps = Props
+type Props = {|
+  ...InjectStylesProps,
+  ...FieldProps,
+|}
 
 class Field extends React.Component<Props, State> {
   static defaultProps = {

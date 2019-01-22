@@ -25,7 +25,7 @@ type Filters = {|
 
 type Props = {|
   value: Filters,
-  aggregateStartDate: Date,
+  aggregateStartDate?: Date,
   aggregateSumMin?: Number,
   aggregateSumMax?: Number,
   //
