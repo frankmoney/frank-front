@@ -6,6 +6,11 @@ export default {
       $storyId: ID!
     ) {
       account(pid: $accountId) {
+        id: pid
+        name
+        currency {
+          code
+        }
         story(pid: $storyId) {
           pid
           title
@@ -40,14 +45,20 @@ export default {
     `,
     ({
       account: {
+        id,
+        name,
+        currency: { code: currencyCode },
         story: { aggregatePayments, ...other },
       },
     }) => ({
-      ...other,
-      paymentsCount: aggregatePayments.count,
-      paymentsDateRange: aggregatePayments.count
-        ? [aggregatePayments.postedOnMin, aggregatePayments.postedOnMax]
-        : null,
+      account: { id, name, currencyCode },
+      story: {
+        ...other,
+        paymentsCount: aggregatePayments.count,
+        paymentsDateRange: aggregatePayments.count
+          ? [aggregatePayments.postedOnMin, aggregatePayments.postedOnMax]
+          : null,
+      },
     }),
   ],
 }

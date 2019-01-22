@@ -17,10 +17,11 @@ export default handleActions(
         isLoading: true,
         isLoaded: false,
       }),
-    [ACTIONS.load.success]: (state, { payload: { story } }) =>
+    [ACTIONS.load.success]: (state, { payload: { account, story } }) =>
       state.merge({
         isLoading: false,
         isLoaded: true,
+        account: fromJS(account),
         story: fromJS(story),
       }),
     [ACTIONS.load.error]: state =>
