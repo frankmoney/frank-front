@@ -6,7 +6,6 @@ import AboutTab from 'containers/widgets/Tabs/AboutTab'
 import OverviewTab, {
   type WidgetWidth,
 } from 'containers/widgets/Tabs/OverviewTab'
-import StoriesTab from 'containers/widgets/Tabs/StoriesTab'
 import PaymentsSummary from 'components/common/PaymentsSummary/index'
 import ErrorScreen from 'containers/widgets/ErrorScreen'
 import Widget, { type WidgetAPI } from 'containers/widgets/Widget'
@@ -59,48 +58,57 @@ type Props = {|
   width: WidgetWidth,
 |}
 
-const ButtonWidgetEmbed = ({ accountId, classes, width }: Props) => (
-  <Widget
-    AboutTab={
-      <AboutTab
-        titleClassName={classes.aboutTitle}
-        totalsClassName={classes.aboutTotals}
+class ButtonWidgetEmbed extends React.Component<Props> {
+  renderAboutTab = props => (
+    <AboutTab
+      titleClassName={this.props.classes.aboutTitle}
+      totalsClassName={this.props.classes.aboutTotals}
+      {...props}
+    />
+  )
+
+  renderError = cause => (
+    <ErrorScreen cause={cause} className={this.props.classes.root} />
+  )
+
+  render() {
+    const { accountId, classes, width } = this.props
+    return (
+      <Widget
+        accountId={accountId}
+        barChartClassName={classes.barchart}
+        barsFooterPadding={12}
+        barsHeight={196}
+        barsWidth={337}
+        className={classes.root}
+        OverviewTab={
+          <OverviewTab
+            CategoryList={ButtonWidgetCategoryList}
+            className={classes.content}
+            noHover
+            pieChartClassName={classes.pieChart}
+            pieChartRootComponent={React.Fragment}
+            showPieChart
+            showTotals
+            widgetWidth={width}
+          />
+        }
+        paymentListClassName={classes.payments}
+        paymentsPeriodClassName={classes.period}
+        paymentsRootClassName={classes.content}
+        PaymentsSummary={
+          <PaymentsSummary className={classes.paymentsSummary} large />
+        }
+        renderAboutTab={this.renderAboutTab}
+        renderErrorScreen={this.renderError}
+        showBarChart
+        showCategoryCount
+        Totals={
+          <Totals className={classes.stats} itemClassName={classes.statsItem} />
+        }
       />
-    }
-    accountId={accountId}
-    barChartClassName={classes.barchart}
-    barsFooterPadding={12}
-    barsHeight={196}
-    barsWidth={337}
-    className={classes.root}
-    OverviewTab={
-      <OverviewTab
-        CategoryList={ButtonWidgetCategoryList}
-        className={classes.content}
-        noHover
-        pieChartClassName={classes.pieChart}
-        pieChartRootComponent={React.Fragment}
-        showPieChart
-        showTotals
-        widgetWidth={width}
-      />
-    }
-    paymentListClassName={classes.payments}
-    paymentsPeriodClassName={classes.period}
-    paymentsRootClassName={classes.content}
-    PaymentsSummary={
-      <PaymentsSummary className={classes.paymentsSummary} large />
-    }
-    renderErrorScreen={cause => (
-      <ErrorScreen className={classes.root} cause={cause} />
-    )}
-    showBarChart
-    showCategoryCount
-    StoriesTab={<StoriesTab />}
-    Totals={
-      <Totals className={classes.stats} itemClassName={classes.statsItem} />
-    }
-  />
-)
+    )
+  }
+}
 
 export default injectStyles(styles)(ButtonWidgetEmbed)

@@ -17,10 +17,10 @@ type Props = {|
   small?: boolean,
   tab: WidgetTab,
   //
-  AboutTab: ?TabRenderer,
+  AboutTab: React.Node,
   OverviewTab: ?TabRenderer,
   PaymentListTab: ?TabRenderer,
-  StoriesTab: TabRenderer,
+  StoriesTab: React.Node,
 |}
 
 const TabbedLayout = ({

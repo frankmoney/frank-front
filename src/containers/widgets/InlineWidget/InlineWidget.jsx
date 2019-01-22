@@ -1,4 +1,5 @@
 // @flow strict-local
+// flowlint unsafe-getters-setters:off
 import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
@@ -185,95 +186,126 @@ type Props = {|
   width: WidgetWidth,
 |}
 
-const InlineWidget = ({ accountId, classes, width }: Props) => {
-  const clampedWidth = clampedWidgetWidth(width)
-  const small = clampedWidth < 400
-  const light = clampedWidth < 500
-  const large = clampedWidth >= 625
-  return (
-    <div className={classes.root}>
-      <Widget
-        AboutTab={
-          <AboutTab
-            className={cx({
-              [classes.capped]: large,
-            })}
-            descriptionClassName={cx(classes.aboutDescription, {
-              [classes.smallAboutDescription]: small,
-            })}
-            multilineTotals={small}
-            titleClassName={cx(classes.aboutTitle, {
-              [classes.smallAboutTitle]: small,
-            })}
-            totalsClassName={cx(classes.aboutTotals, {
-              [classes.smallAboutTotals]: small,
-            })}
-          />
-        }
-        accountId={accountId}
-        barChartClassName={classes.barChart}
-        barsFooterPadding={10}
-        barsHeight={barsHeight(clampedWidth)}
-        barsWidth={barsWidth(clampedWidth)}
-        className={classes.widget}
-        OverviewTab={
-          <OverviewTab
-            className={cx(classes.content, { [classes.scrollable]: light })}
-            chartClassName={classes.overview}
-            noHover
-            pieClassName={classes.pieChart}
-            showPieChart={!light}
-            small={small}
-            widgetWidth={clampedWidth}
-          />
-        }
-        paymentListClassName={cx(classes.payments, {
-          [classes.noBarChart]: light,
-          [classes.smallPayments]: small,
-          [classes.paymentsCapped]: large,
-        })}
-        paymentsRootClassName={cx(classes.content, {
-          [classes.scrollable]: light,
-        })}
-        PaymentsSummary={
-          <PaymentsSummary
-            className={cx({
-              [classes.paymentsSummary]: !light,
-              [classes.smallSummary]: small,
-            })}
-            showIcon
-            showVerified
-          />
-        }
-        renderErrorScreen={cause => (
-          <ErrorScreen
-            cause={cause}
-            className={classes.widget}
-            size={small ? 'small' : large ? 'large' : 'medium'}
-          />
-        )}
-        showBarChart={!light}
-        showCategoryCount={!light}
-        StoriesTab={
-          <StoriesTab
-            className={cx({ [classes.capped]: large })}
-            storyClassName={cx(classes.story, { [classes.smallStory]: small })}
-            storyImageBorderRadius={[[5, 5, 0, 0]]}
-            storyImageClassName={classes.storyImage}
-            storyTitleClassName={cx({ [classes.smallStoryTitle]: small })}
-            storyStatsClassName={cx({ [classes.smallStoryStats]: small })}
-            storySymbolClassName={cx({
-              [classes.smallStoryStatsSymbol]: small,
-            })}
-          />
-        }
-        small={small}
-        Totals={
-          <Totals className={classes.stats} itemClassName={classes.statsItem} />
-        }
-      />
-    </div>
+class InlineWidget extends React.Component<Props> {
+  get clampedWidth() {
+    return clampedWidgetWidth(this.props.width)
+  }
+
+  get isLarge() {
+    return this.clampedWidth >= 625
+  }
+
+  get isSmall() {
+    return this.clampedWidth < 400
+  }
+
+  renderError = cause => (
+    <ErrorScreen
+      cause={cause}
+      className={this.props.classes.widget}
+      size={this.isSmall ? 'small' : this.isLarge ? 'large' : 'medium'}
+    />
   )
+
+  renderAboutTab = props => {
+    const { classes } = this.props
+    return (
+      <AboutTab
+        className={cx({
+          [classes.capped]: this.isLarge,
+        })}
+        descriptionClassName={cx(classes.aboutDescription, {
+          [classes.smallAboutDescription]: this.isSmall,
+        })}
+        multilineTotals={this.isSmall}
+        titleClassName={cx(classes.aboutTitle, {
+          [classes.smallAboutTitle]: this.isSmall,
+        })}
+        totalsClassName={cx(classes.aboutTotals, {
+          [classes.smallAboutTotals]: this.isSmall,
+        })}
+        {...props}
+      />
+    )
+  }
+
+  renderStoriesTab = stories => {
+    const { classes } = this.props
+    return (
+      <StoriesTab
+        stories={stories}
+        className={cx({ [classes.capped]: this.isLarge })}
+        storyClassName={cx(classes.story, {
+          [classes.smallStory]: this.isSmall,
+        })}
+        storyImageBorderRadius={[[5, 5, 0, 0]]}
+        storyImageClassName={classes.storyImage}
+        storyTitleClassName={cx({ [classes.smallStoryTitle]: this.isSmall })}
+        storyStatsClassName={cx({ [classes.smallStoryStats]: this.isSmall })}
+        storySymbolClassName={cx({
+          [classes.smallStoryStatsSymbol]: this.isSmall,
+        })}
+      />
+    )
+  }
+
+  render() {
+    const { accountId, classes } = this.props
+    const light = this.clampedWidth < 500
+    return (
+      <div className={classes.root}>
+        <Widget
+          accountId={accountId}
+          barChartClassName={classes.barChart}
+          barsFooterPadding={10}
+          barsHeight={barsHeight(this.clampedWidth)}
+          barsWidth={barsWidth(this.clampedWidth)}
+          className={classes.widget}
+          OverviewTab={
+            <OverviewTab
+              className={cx(classes.content, { [classes.scrollable]: light })}
+              chartClassName={classes.overview}
+              noHover
+              pieClassName={classes.pieChart}
+              showPieChart={!light}
+              small={this.isSmall}
+              widgetWidth={this.clampedWidth}
+            />
+          }
+          paymentListClassName={cx(classes.payments, {
+            [classes.noBarChart]: light,
+            [classes.smallPayments]: this.isSmall,
+            [classes.paymentsCapped]: this.isLarge,
+          })}
+          paymentsRootClassName={cx(classes.content, {
+            [classes.scrollable]: light,
+          })}
+          PaymentsSummary={
+            <PaymentsSummary
+              className={cx({
+                [classes.paymentsSummary]: !light,
+                [classes.smallSummary]: this.isSmall,
+              })}
+              showIcon
+              showVerified
+            />
+          }
+          renderAboutTab={this.renderAboutTab}
+          renderErrorScreen={this.renderError}
+          renderStoriesTab={this.renderStoriesTab}
+          showBarChart={!light}
+          showCategoryCount={!light}
+          small={this.isSmall}
+          Totals={
+            <Totals
+              className={classes.stats}
+              itemClassName={classes.statsItem}
+            />
+          }
+        />
+      </div>
+    )
+  }
 }
 
 export default injectStyles(styles)(InlineWidget)

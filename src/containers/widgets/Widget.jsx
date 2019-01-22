@@ -26,10 +26,9 @@ import TabbedLayout, {
   type WidgetTab,
 } from './TabbedLayout'
 import {
-  AboutTab as AboutTabComponent,
   OverviewTab as OverviewTabComponent,
   PaymentListTab,
-  StoriesTab as StoriesTabComponent,
+  StoriesTab,
   type OverviewTabProps,
 } from './Tabs'
 import { type Period } from './PeriodSelect'
@@ -46,21 +45,27 @@ interface Category {
   name: string;
 }
 
+type AboutTabProps = {|
+  name: ?string,
+  description: ?string,
+  Totals: React.Node,
+|}
+
 export type WidgetProps = {|
   ...OverviewTabProps,
   //
-  AboutTab?: React.Element<typeof AboutTabComponent>,
   barsFooterPadding: number,
   barsHeight: number,
   barsWidth: number,
   CategoryList?: CategoryListComponent,
   OverviewTab: React.Element<typeof OverviewTabComponent>,
   pieChartRootComponent?: CategoryListPieChartRootComponent,
+  renderAboutTab: (props: AboutTabProps) => React.Node,
   renderErrorScreen: (cause: ErrorCause) => React.Node,
+  renderStoriesTab: (stories: Array<Story>) => React.Node,
   showBarChart: boolean,
   showCategoryCount: boolean,
   small?: boolean,
-  StoriesTab: React.Element<typeof StoriesTabComponent>,
   // Styles
   barChartClassName?: string,
   className?: string,
@@ -110,6 +115,7 @@ type State = {|
 class Widget extends React.Component<Props, State> {
   static defaultProps = {
     renderErrorScreen: cause => <ErrorScreen cause={cause} />,
+    renderStoriesTab: stories => <StoriesTab stories={stories} />,
   }
 
   state = {
@@ -267,7 +273,6 @@ class Widget extends React.Component<Props, State> {
   render() {
     const { currentCategory, isPrivate, loading, tab } = this.state
     const {
-      AboutTab,
       barChartClassName,
       barsFooterPadding,
       barsHeight,
@@ -281,10 +286,11 @@ class Widget extends React.Component<Props, State> {
       paymentsPeriodClassName,
       paymentsRootClassName,
       PaymentsSummary,
+      renderAboutTab,
       renderErrorScreen,
+      renderStoriesTab,
       showBarChart,
       small,
-      StoriesTab,
       Totals,
     } = this.props
 
@@ -335,22 +341,13 @@ class Widget extends React.Component<Props, State> {
           Totals: totals,
         })
 
-    const storiesTab = React.cloneElement(StoriesTab, {
-      accountId: this.props.accountId,
-      stories: this.stories,
-    })
-
-    const aboutTab = AboutTab
-      ? React.cloneElement(AboutTab, {
+    return (
+      <TabbedLayout
+        AboutTab={renderAboutTab({
           description: this.state.accountDescription,
           name: this.state.accountName,
           Totals: totals,
-        })
-      : null
-
-    return (
-      <TabbedLayout
-        AboutTab={aboutTab}
+        })}
         className={className}
         hideStoriesTab={hideStoriesTab}
         onTabSwitch={this.handleTabSwitch}
@@ -380,7 +377,7 @@ class Widget extends React.Component<Props, State> {
             />
           )
         }
-        StoriesTab={storiesTab}
+        StoriesTab={renderStoriesTab(this.stories)}
         tab={tab}
         small={small}
       />
