@@ -37,10 +37,15 @@ const get = (...prop) => (state: ReduxState) =>
 
 export const accountSelector = createPlainObjectSelector(get('account'))
 
-export const isPrivateSelector = get('isPrivate')
+export const isNotFoundSelector = get('isNotFound')
+export const isLoadFailedSelector = get('isLoadFailed')
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const accountIdSelector = createSelector(accountSelector, R.prop('id'))
+export const accountCurrencyCodeSelector = createSelector(
+  accountSelector,
+  R.prop('currencyCode')
+)
 
 // Stats
 

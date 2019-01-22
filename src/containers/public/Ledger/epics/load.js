@@ -1,7 +1,6 @@
-import * as R from 'ramda'
 import { ALL_CATEGORIES, UNCATEGORIZED_CATEGORY } from 'const'
 import { formatDate } from 'utils/dates'
-import { isNotFoundError } from 'utils/graphql'
+import { handleError } from 'utils/epics'
 import * as ACTIONS from '../actions'
 import { PAGE_SIZE } from '../constants'
 import QUERIES from '../queries'
@@ -65,9 +64,4 @@ export default (action$, store, { graphql }) =>
       )
     })
     .map(ACTIONS.load.success)
-    .catchAndRethrow(
-      R.pipe(
-        isNotFoundError,
-        ACTIONS.load.error
-      )
-    )
+    .catch(handleError(ACTIONS.load.error))

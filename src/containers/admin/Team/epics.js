@@ -5,7 +5,7 @@ import { ROUTES } from 'const'
 import createFilesApi from 'data/api/files'
 import ACTIONS from './actions'
 import QUERIES from './queries'
-import { inviteTokenSelector, teamSelector, teamIdSelector } from './selectors'
+import { inviteTokenSelector, teamIdSelector } from './selectors'
 
 export const loadEpic = (action$, store, { graphql }) =>
   action$

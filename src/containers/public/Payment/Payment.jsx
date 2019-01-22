@@ -1,7 +1,13 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { compose, lifecycle, branch, renderComponent } from 'recompose'
+import {
+  compose,
+  lifecycle,
+  branch,
+  renderComponent,
+  renderNothing,
+} from 'recompose'
 import Helmet from 'react-helmet'
 import SimilarIcon from 'material-ui-icons/FormatListBulleted'
 import { Page404 as NotFound } from '@frankmoney/components'
@@ -22,7 +28,8 @@ import {
   accountSelector,
   isLoadedSelector,
   isLoadingSelector,
-  isPrivateSelector,
+  isLoadFailedSelector,
+  isNotFoundSelector,
   paymentSelector,
 } from './selectors'
 import ACTIONS from './actions'
@@ -82,7 +89,8 @@ export default compose(
       account: accountSelector,
       isLoaded: isLoadedSelector,
       isLoading: isLoadingSelector,
-      isPrivate: isPrivateSelector,
+      isPrivateOrNotFound: isNotFoundSelector,
+      isLoadFailed: isLoadFailedSelector,
       payment: paymentSelector,
     },
     {
@@ -117,7 +125,8 @@ export default compose(
       this.props.leave()
     },
   }),
-  branch(props => props.isPrivate, renderComponent(NotFound)),
+  branch(props => props.isLoadFailed, renderNothing),
+  branch(props => props.isPrivateOrNotFound, renderComponent(NotFound)),
   branch(props => !props.isLoaded, renderComponent(AreaSpinner)),
   injectStyles(styles, { fixedGrid: true })
 )(Payment)
