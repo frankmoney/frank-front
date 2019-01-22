@@ -10,7 +10,8 @@ const initialState = fromJS({
   drawerOpen: false,
   isLoaded: false,
   isLoading: false,
-  isPrivate: false,
+  isNotFound: false,
+  isLoadFailed: false,
   listLoading: false,
   listMoreLoading: false,
   loadedPagesCount: 0,
@@ -34,11 +35,12 @@ export default handleActions(
         account: fromJS(account),
         payment: fromJS(payment),
       }),
-    [ACTIONS.load.error]: (state, { payload: isPrivate }) =>
+    [ACTIONS.load.error]: (state, { payload: { notFound } }) =>
       state.merge({
         isLoaded: false,
         isLoading: false,
-        isPrivate,
+        isNotFound: notFound,
+        isLoadFailed: !notFound,
       }),
 
     [ACTIONS.openDrawer]: state => state.merge({ drawerOpen: true }),
