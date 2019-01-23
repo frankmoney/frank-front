@@ -169,7 +169,7 @@ const DateRangeField = ({
             label="To"
             value={to}
             useEndOfTheMonth
-            onChange={value => onChange({ from, to: value })}
+            onChange={value => onChange({ from, to: D.lastDayOfMonth(value) })}
           />
         </div>
       )}
