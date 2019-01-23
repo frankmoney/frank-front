@@ -11,7 +11,8 @@ type Props = {|
 |}
 
 const TextTooltip = ({ children, text, ...otherProps }: Props) => (
-  <TooltipBase distance={5} {...otherProps}>
+  // TODO тултип размещается как sibling анкора, нам не нужно автопозиционировать по вьюпорту(тем более что в данном случае оно работает некорректно)
+  <TooltipBase distance={5} disableAutoReposition {...otherProps}>
     {({ open, getTargetProps, getTooltipProps }) => (
       <>
         {React.cloneElement(React.Children.only(children), getTargetProps())}

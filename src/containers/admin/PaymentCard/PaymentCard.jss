@@ -5,9 +5,9 @@ export default theme => ({
     overflow: 'unset',
   },
   header: {
+    alignItems: 'baseline',
     display: 'flex',
     marginBottom: 35,
-    alignItems: 'baseline',
     ...theme.fontRegular(22),
   },
   checkbox: {
@@ -15,8 +15,9 @@ export default theme => ({
   },
   createdAt: {
     flex: 1,
-    color: '#20284A',
-    opacity: 0.3,
+    display: 'flex',
+    alignItems: 'baseline',
+    color: 'rgba(37, 43, 67, 0.3)',
   },
   pendingText: {
     color: '#20284A',

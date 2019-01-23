@@ -57,15 +57,16 @@ const PaymentCard = ({
   categories,
   categoryId,
   categoryLoading,
-  checkboxOn,
   classes,
   className,
   descriptionLoading,
   form: formName,
   handleFieldBlur,
   handleFieldChange,
+  hasCheckbox,
   id: paymentId,
-  onCheckboxToggle, // future proofing for multiedit
+  isChecked,
+  onCheck,
   onPublishClick,
   onSaveClick,
   onSimilarDrawerOpen,
@@ -92,12 +93,16 @@ const PaymentCard = ({
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
-      <Checkbox
-        className={classes.checkbox}
-        defaultChecked={checkboxOn}
-        onChange={onCheckboxToggle}
-      />
-      <div className={classes.createdAt}>{formatFullDate(postedOn, true)}</div>
+      <div className={classes.createdAt}>
+        {hasCheckbox && (
+          <Checkbox
+            className={classes.checkbox}
+            checked={isChecked}
+            onChange={onCheck}
+          />
+        )}
+        {formatFullDate(postedOn, true)}
+      </div>
       <div className={classes.amount}>
         <CurrencyDelta value={amount} />
         <PaymentStatus
