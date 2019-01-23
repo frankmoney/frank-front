@@ -6,9 +6,9 @@ import Field, { type FieldProps } from 'components/kit/fields/Field'
 type Props = {
   ...TextBoxProps,
   ...FieldProps,
+  //
+  textBoxProps?: TextBoxProps,
 }
-
-export type TextFieldProps = Props
 
 const TextField = ({
   multiLine,

@@ -11,8 +11,8 @@ const styles = theme => ({
     flexShrink: 0,
   },
   label: {
-    width: 140,
-    minWidth: 140,
+    width: 130,
+    minWidth: 130,
     marginBottom: 0,
     color: '#252b43',
     flexShrink: 0,

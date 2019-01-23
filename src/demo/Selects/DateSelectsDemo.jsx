@@ -2,11 +2,56 @@
 import React from 'react'
 import { Calendar, DateFnsUtils } from '@frankmoney/datepicker'
 import { withState, toRenderProps } from 'recompose'
+import Button from 'components/kit/Button'
 import Demo, { Row } from 'demo/Demo'
 import Paper from 'components/kit/Paper'
-import DateSelect from 'components/kit/DateSelect'
+import DateSelect, { MonthSelect } from 'components/kit/DateSelect'
 
 const CalendarState = toRenderProps(withState('date', 'onChange', null))
+
+type PlaygroundState = {
+  value: ?Date,
+}
+
+class MonthSelectPlayground extends React.Component<{}, PlaygroundState> {
+  state = {
+    value: null,
+  }
+
+  handleChange = value => {
+    console.log('new value:', value) // eslint-disable-line no-console
+    this.setState({ value })
+  }
+
+  handleReset = () => {
+    this.setState({ value: null })
+  }
+
+  render() {
+    return (
+      <>
+        <Row centered>
+          <MonthSelect
+            label="Uncontrolled"
+            defaultValue={new Date()}
+            onChange={this.handleChange}
+          />
+        </Row>
+        <Row centered>
+          <MonthSelect
+            label="Controlled"
+            value={this.state.value}
+            useEndOfTheMonth
+            onChange={this.handleChange}
+          />
+        </Row>
+        <Row centered>
+          <Button label="Reset" onClick={this.handleReset} />
+        </Row>
+      </>
+    )
+  }
+}
 
 const DateSelectsDemo = () => (
   <Demo>
@@ -14,6 +59,8 @@ const DateSelectsDemo = () => (
     <Row centered>
       <DateSelect placeholder="Any date" format="ddd, M/DD/YYYY" />
     </Row>
+    <h1>Month Select</h1>
+    <MonthSelectPlayground />
     <h1>Calendar</h1>
     <Row centered>
       <Paper>
