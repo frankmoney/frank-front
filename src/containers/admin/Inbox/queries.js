@@ -45,6 +45,7 @@ export default {
       $dateMax: Date
       $amountMin: Float
       $amountMax: Float
+      $pending: Boolean
     ) {
       account(pid: $accountId) {
         categories {
@@ -61,6 +62,7 @@ export default {
           amountMin: $amountMin
           amountMax: $amountMax
           verified: false
+          pending: $pending
         ) {
           ${PAYMENTS}
         }

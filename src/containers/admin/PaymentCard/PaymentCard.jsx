@@ -16,10 +16,10 @@ import {
 } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
 import { createRouteUrl } from '@frankmoney/utils'
-import Checkbox from 'components/kit/Checkbox'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
 import { MenuItem } from 'components/kit/Menu'
+import Checkbox from 'components/kit/Checkbox'
 import Button from 'components/kit/Button'
 import Paper from 'components/kit/Paper'
 import CategorySelect from 'components/CategorySelect'
@@ -54,6 +54,7 @@ const validate = createValidateFromRules(validation)
 const PaymentCard = ({
   accountId,
   amount,
+  amountClassName,
   categories,
   categoryId,
   categoryLoading,
@@ -63,7 +64,10 @@ const PaymentCard = ({
   form: formName,
   handleFieldBlur,
   handleFieldChange,
+  hasCheckbox,
   id: paymentId,
+  isChecked,
+  onCheck,
   onPublishClick,
   onSaveClick,
   onSimilarDrawerOpen,
@@ -87,9 +91,6 @@ const PaymentCard = ({
   onPaymentCopy,
   onPaymentPaste,
   peer,
-  hasCheckbox,
-  onCheck,
-  isChecked,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
@@ -103,7 +104,7 @@ const PaymentCard = ({
         )}
         {formatFullDate(postedOn, true)}
       </div>
-      <div className={classes.amount}>
+      <div className={cx(classes.amount, amountClassName)}>
         <CurrencyDelta value={amount} />
         <PaymentStatus
           className={classes.status}
@@ -112,7 +113,12 @@ const PaymentCard = ({
         />
       </div>
     </div>
-    <BankDescription className={classes.bank} {...source} />
+    <BankDescription
+      className={classes.bank}
+      logoClassName={classes.bankLogo}
+      textClassName={classes.bankDescription}
+      {...source}
+    />
     <div className={classes.body}>
       <div className={classes.bodyRow}>
         <div className={classes.recipient}>
@@ -143,7 +149,6 @@ const PaymentCard = ({
             label="Category"
             placeholder="Choose a category"
             larger
-            stretch
             loading={categoryLoading}
             onBlur={handleFieldBlur}
             onChange={handleFieldChange}

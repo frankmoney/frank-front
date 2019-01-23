@@ -1,23 +1,23 @@
 export default theme => ({
   root: {
-    padding: [40, 40],
+    padding: [50, 50],
     //  чтобы саджесты вываливались из карточки
     overflow: 'unset',
   },
   header: {
-    display: 'flex',
     alignItems: 'baseline',
-    marginBottom: 37,
+    display: 'flex',
+    marginBottom: 35,
     ...theme.fontRegular(22),
+  },
+  checkbox: {
+    marginRight: 20,
   },
   createdAt: {
     flex: 1,
     display: 'flex',
     alignItems: 'baseline',
     color: 'rgba(37, 43, 67, 0.3)',
-  },
-  checkbox: {
-    marginRight: 20,
   },
   pendingText: {
     color: '#20284A',
@@ -29,18 +29,24 @@ export default theme => ({
     whiteSpace: 'nowrap',
   },
   bank: {
-    marginBottom: 44,
+    marginBottom: 43,
     maxWidth: 620,
   },
+  bankLogo: {
+    borderRadius: 5,
+  },
+  bankDescription: {
+    marginTop: 1,
+  },
   status: {
-    marginLeft: 10,
+    margin: [-1, 0, 0, 10],
   },
 
   body: {},
   bodyRow: {
     display: 'flex',
     '&:first-child': {
-      marginBottom: 25,
+      marginBottom: 28,
     },
   },
   field: {
@@ -49,21 +55,19 @@ export default theme => ({
   },
   recipient: {
     position: 'relative',
-    width: '60%',
+    width: 365,
     marginRight: 40,
   },
   category: {
     fontWeight: 500,
-    maxWidth: '40%',
-    flexGrow: 0,
-    flexShrink: 1,
+    flex: 1,
   },
   description: {
     position: 'relative',
     flex: 'auto',
   },
   footer: {
-    paddingTop: 54,
+    paddingTop: 60,
     display: 'flex',
     alignItems: 'center',
     '&:after': {
@@ -88,6 +92,9 @@ export default theme => ({
   },
 
   pending: {
+    '& $amount': {
+      marginRight: 18,
+    },
     '& $bank': {
       marginBottom: 0,
     },
