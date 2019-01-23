@@ -1,8 +1,25 @@
 import React from 'react'
+import cx from 'classnames'
+import { injectStyles } from 'utils/styles'
 import Sidebar from './Sidebar'
 
-const AdminLayout = ({ sidebarProps, ...props }) => (
-  <Sidebar {...sidebarProps} {...props} />
+const styles = theme => ({
+  '@global body': {
+    background: theme.background,
+  },
+  root: {
+    width: '100%',
+    minWidth: 1024,
+    background: theme.background,
+  },
+})
+
+const AdminLayout = ({ classes, className, sidebarProps, ...props }) => (
+  <Sidebar
+    className={cx(classes.root, className)}
+    {...sidebarProps}
+    {...props}
+  />
 )
 
-export default AdminLayout
+export default injectStyles(styles)(AdminLayout)
