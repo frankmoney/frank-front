@@ -32,7 +32,12 @@ const PendingPaymentCard = ({
         />
       </div>
     </div>
-    <BankDescription className={classes.bank} {...source} />
+    <BankDescription
+      className={classes.bank}
+      logoClassName={classes.bankLogo}
+      textClassName={classes.bankDescription}
+      {...source}
+    />
   </Paper>
 )
 

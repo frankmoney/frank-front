@@ -91,6 +91,9 @@ export default theme => ({
   },
 
   pending: {
+    '& $amount': {
+      marginRight: 18,
+    },
     '& $bank': {
       marginBottom: 0,
     },
