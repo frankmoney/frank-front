@@ -19,6 +19,7 @@ import { createRouteUrl } from '@frankmoney/utils'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
 import { MenuItem } from 'components/kit/Menu'
+import Checkbox from 'components/kit/Checkbox'
 import Button from 'components/kit/Button'
 import Paper from 'components/kit/Paper'
 import CategorySelect from 'components/CategorySelect'
@@ -56,6 +57,7 @@ const PaymentCard = ({
   categories,
   categoryId,
   categoryLoading,
+  checkboxOn,
   classes,
   className,
   descriptionLoading,
@@ -63,6 +65,7 @@ const PaymentCard = ({
   handleFieldBlur,
   handleFieldChange,
   id: paymentId,
+  onCheckboxToggle, // future proofing for multiedit
   onPublishClick,
   onSaveClick,
   onSimilarDrawerOpen,
@@ -89,6 +92,11 @@ const PaymentCard = ({
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
+      <Checkbox
+        className={classes.checkbox}
+        defaultChecked={checkboxOn}
+        onChange={onCheckboxToggle}
+      />
       <div className={classes.createdAt}>{formatFullDate(postedOn, true)}</div>
       <div className={classes.amount}>
         <CurrencyDelta value={amount} />
@@ -99,7 +107,12 @@ const PaymentCard = ({
         />
       </div>
     </div>
-    <BankDescription className={classes.bank} {...source} />
+    <BankDescription
+      className={classes.bank}
+      logoClassName={classes.bankLogo}
+      textClassName={classes.bankDescription}
+      {...source}
+    />
     <div className={classes.body}>
       <div className={classes.bodyRow}>
         <div className={classes.recipient}>
@@ -130,7 +143,6 @@ const PaymentCard = ({
             label="Category"
             placeholder="Choose a category"
             larger
-            stretch
             loading={categoryLoading}
             onBlur={handleFieldBlur}
             onChange={handleFieldChange}
