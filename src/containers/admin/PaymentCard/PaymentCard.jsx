@@ -16,6 +16,7 @@ import {
 } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
 import { createRouteUrl } from '@frankmoney/utils'
+import Checkbox from 'components/kit/Checkbox'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
 import { MenuItem } from 'components/kit/Menu'
@@ -86,10 +87,22 @@ const PaymentCard = ({
   onPaymentCopy,
   onPaymentPaste,
   peer,
+  hasCheckbox,
+  onCheck,
+  isChecked,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
-      <div className={classes.createdAt}>{formatFullDate(postedOn, true)}</div>
+      <div className={classes.createdAt}>
+        {hasCheckbox && (
+          <Checkbox
+            className={classes.checkbox}
+            checked={isChecked}
+            onChange={onCheck}
+          />
+        )}
+        {formatFullDate(postedOn, true)}
+      </div>
       <div className={classes.amount}>
         <CurrencyDelta value={amount} />
         <PaymentStatus

@@ -6,13 +6,18 @@ export default theme => ({
   },
   header: {
     display: 'flex',
+    alignItems: 'baseline',
     marginBottom: 37,
     ...theme.fontRegular(22),
   },
   createdAt: {
     flex: 1,
-    color: '#20284A',
-    opacity: 0.3,
+    display: 'flex',
+    alignItems: 'baseline',
+    color: 'rgba(37, 43, 67, 0.3)',
+  },
+  checkbox: {
+    marginRight: 20,
   },
   pendingText: {
     color: '#20284A',
