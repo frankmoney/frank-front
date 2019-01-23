@@ -2,6 +2,7 @@
 import React from 'react'
 import { Calendar, DateFnsUtils } from '@frankmoney/datepicker'
 import { withState, toRenderProps } from 'recompose'
+import Button from 'components/kit/Button'
 import Demo, { Row } from 'demo/Demo'
 import Paper from 'components/kit/Paper'
 import DateSelect, { MonthSelect } from 'components/kit/DateSelect'
@@ -22,6 +23,10 @@ class MonthSelectPlayground extends React.Component<{}, PlaygroundState> {
     this.setState({ value })
   }
 
+  handleReset = () => {
+    this.setState({ value: null })
+  }
+
   render() {
     return (
       <>
@@ -39,6 +44,9 @@ class MonthSelectPlayground extends React.Component<{}, PlaygroundState> {
             useEndOfTheMonth
             onChange={this.handleChange}
           />
+        </Row>
+        <Row centered>
+          <Button label="Reset" onClick={this.handleReset} />
         </Row>
       </>
     )

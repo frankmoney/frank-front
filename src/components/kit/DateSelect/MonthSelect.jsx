@@ -41,30 +41,26 @@ type Props = {|
 |}
 
 type State = {|
-  isUncontrolled?: boolean,
-  value: ?Value,
   month: ?number,
   year: ?number,
 |}
 
 const now: Date = new Date()
 
-const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
 const yearsBetween = (start: Date, end: Date) =>
   R.range(D.getYear(start), D.getYear(end) + 1)
 
-const deriveMonthFromValue = (value: ?Value): ?number =>
-  value ? D.getMonth(value) : null
-
-const deriveYearFromValue = (value: ?Value): ?number =>
-  value ? D.getYear(value) : null
-
-const deriveStateFromValue = (value: ?Value): State => ({
-  value,
-  month: deriveMonthFromValue(value),
-  year: deriveYearFromValue(value),
+const getStateFromDate = (value: ?Value): State => ({
+  month: value ? D.getMonth(value) : null,
+  year: value ? D.getYear(value) : null,
 })
+
+const formatMonth = R.curry(
+  (format: string, month: number): string =>
+    D.format(new Date(1970, month), format)
+)
 
 class MonthSelect extends React.Component<Props, State> {
   // eslint-disable-next-line react/sort-comp
@@ -73,38 +69,30 @@ class MonthSelect extends React.Component<Props, State> {
     monthPlaceholder: 'Month',
     yearPlaceholder: 'Year',
     reverseYears: true,
+    defaultValue: null,
+    menuProps: { maxVisibleItems: 5 },
   }
 
-  // state needs to be initialized or it would be null in getDerivedStateFromProps
-  state = {
-    isUncontrolled: false,
-    value: null,
-    month: null,
-    year: null,
+  state = getStateFromDate(this.props.value || this.props.defaultValue)
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value) {
+      this.setState(getStateFromDate(nextProps.value))
+    }
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (state.isUncontrolled) {
-      return null
-    }
-    // set up once from defaultValue
-    if (!R.isNil(props.defaultValue)) {
-      return {
-        isUncontrolled: true,
-        ...deriveStateFromValue(props.defaultValue),
-      }
-    }
-    // check on every props/state change
-    if (props.value !== state.value) {
-      return deriveStateFromValue(props.value)
-    }
-    return null
+  get isControlled() {
+    return typeof this.props.value !== 'undefined'
+  }
+
+  get value() {
+    return this.isControlled ? this.props.value : this.getValueFromState()
   }
 
   get maxDate(): Date {
     return (
       this.props.maxDate ||
-      D.endOfYear(this.props.value ? D.max([now, this.props.value]) : now)
+      D.endOfYear(this.value ? D.max([now, this.value]) : now)
     )
   }
 
@@ -112,9 +100,7 @@ class MonthSelect extends React.Component<Props, State> {
     const defaultMin = D.subYears(now, 10)
     return (
       this.props.maxDate ||
-      D.endOfYear(
-        this.props.value ? D.min([defaultMin, this.props.value]) : defaultMin
-      )
+      D.endOfYear(this.value ? D.min([defaultMin, this.value]) : defaultMin)
     )
   }
 
@@ -123,31 +109,18 @@ class MonthSelect extends React.Component<Props, State> {
     return this.props.reverseYears ? R.reverse(years) : years
   }
 
-  get month(): ?number {
-    return this.state.month
-  }
+  getValueFromState(state = this.state): ?Date {
+    if (typeof state.year === 'number' && typeof state.month === 'number') {
+      const date = new Date(state.year, state.month, 1)
 
-  get year(): ?number {
-    return this.state.year
-  }
-
-  compositeValue(year, month): ?Date {
-    if (typeof year === 'number' && typeof month === 'number') {
-      const date = new Date(year, month, 1)
-      return this.props.useEndOfTheMonth ? D.lastDayOfMonth(date) : date
+      return date
     }
     return null
   }
 
-  formatMonth = R.curry(
-    (format: string, month: number): string =>
-      D.format(new Date(1970, month), format)
-  )
-
   handleChange() {
-    const value = this.compositeValue(this.year, this.month)
-    if (this.props.onChange && value) {
-      this.props.onChange(value)
+    if (this.props.onChange) {
+      this.props.onChange(this.getValueFromState())
     }
   }
 
@@ -169,7 +142,10 @@ class MonthSelect extends React.Component<Props, State> {
       monthPlaceholder,
       yearClassName,
       yearPlaceholder,
+      menuProps,
     } = this.props
+
+    const { month, year } = this.state
 
     return (
       <div className={cx(classes.root, className)}>
@@ -179,18 +155,19 @@ class MonthSelect extends React.Component<Props, State> {
           label={label}
           onChange={this.handleMonthChange}
           placeholder={monthPlaceholder}
-          formatValue={this.formatMonth(monthFormat)}
-          value={this.month}
+          formatValue={formatMonth(monthFormat)}
+          value={month}
+          menuProps={menuProps}
         >
           {R.map(
-            month => (
+            m => (
               <MenuItem
-                value={month}
-                label={this.formatMonth('MMMM', month)}
-                key={`month-${month}`}
+                value={m}
+                label={formatMonth(monthFormat, m)}
+                key={`month-${m}`}
               />
             ),
-            months
+            MONTHS
           )}
         </SelectField>
         <SelectField
@@ -198,12 +175,11 @@ class MonthSelect extends React.Component<Props, State> {
           dropdownWidth={110}
           onChange={this.handleYearChange}
           placeholder={yearPlaceholder}
-          value={this.year}
+          value={year}
+          menuProps={menuProps}
         >
           {R.map(
-            year => (
-              <MenuItem value={year} label={`${year}`} key={`year-${year}`} />
-            ),
+            y => <MenuItem value={y} label={y} key={`year-${y}`} />,
             this.years
           )}
         </SelectField>
