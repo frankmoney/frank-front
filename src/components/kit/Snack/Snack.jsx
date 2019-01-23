@@ -3,34 +3,27 @@ import React from 'react'
 import { createPortal } from 'react-dom'
 import cx from 'classnames'
 import Transition from 'react-transition-group/Transition'
-import { Close as CloseIcon } from 'material-ui-icons'
 import { injectStyles } from 'utils/styles'
 import SnackManager from './SnackManager'
-import SnackButton from './SnackButton'
-import styles, { SNACK_HEIGHT } from './Snack.jss'
-
-type SnackColor = 'blue' | 'dark' | 'red'
+import styles from './Snack.jss'
+import { SNACK_HEIGHT } from './SnackDumb.jss'
+import SnackDumb, { type SnackDumbProps } from './SnackDumb'
 
 type Props = {
-  message: string,
   shown?: boolean,
-  disableDismissButton?: boolean,
   viewportOffsetHorizontal?: number,
   viewportOffsetVertical?: number,
   onDismiss?: Function,
   dismissByTimeout?: ?number,
-  // eslint-disable-next-line react/no-unused-prop-types
-  color?: SnackColor,
+  ...SnackDumbProps,
 }
 
 class Snack extends React.Component<Props> {
   static defaultProps = {
-    disableDismissButton: false,
     manager: new SnackManager(),
     viewportOffsetHorizontal: 10,
     viewportOffsetVertical: 10,
     dismissByTimeout: null,
-    color: 'dark',
   }
 
   state = {
@@ -105,13 +98,11 @@ class Snack extends React.Component<Props> {
       className,
       viewportOffsetVertical,
       viewportOffsetHorizontal,
-      disableDismissButton,
-      message,
       onDismiss,
       shown: shownProp,
       dismissByTimeout,
-      color,
       style,
+      manager,
       ...otherProps
     } = this.props
 
@@ -133,7 +124,7 @@ class Snack extends React.Component<Props> {
         onEnter={node => node.scrollTop}
       >
         {state => (
-          <div
+          <SnackDumb
             className={cx(classes.root, className)}
             style={{
               ...style,
@@ -141,18 +132,9 @@ class Snack extends React.Component<Props> {
               left: viewportOffsetHorizontal,
               ...transitionStyle(state),
             }}
+            onCloseClick={this.handleDismiss}
             {...otherProps}
-          >
-            <div className={classes.message}>{message}</div>
-            <div className={classes.buttons}>
-              {!disableDismissButton && (
-                <SnackButton
-                  icon={<CloseIcon />}
-                  onClick={this.handleDismiss}
-                />
-              )}
-            </div>
-          </div>
+          />
         )}
       </Transition>,
       document.body
