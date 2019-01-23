@@ -54,6 +54,7 @@ const validate = createValidateFromRules(validation)
 const PaymentCard = ({
   accountId,
   amount,
+  amountClassName,
   categories,
   categoryId,
   categoryLoading,
@@ -103,7 +104,7 @@ const PaymentCard = ({
         )}
         {formatFullDate(postedOn, true)}
       </div>
-      <div className={classes.amount}>
+      <div className={cx(classes.amount, amountClassName)}>
         <CurrencyDelta value={amount} />
         <PaymentStatus
           className={classes.status}
