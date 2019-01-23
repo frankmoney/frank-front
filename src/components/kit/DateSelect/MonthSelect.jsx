@@ -41,7 +41,7 @@ type Props = {|
 |}
 
 type State = {|
-  // isControlled?: boolean,
+  isUncontrolled?: boolean,
   value: ?Value,
   month: ?number,
   year: ?number,
@@ -60,6 +60,12 @@ const deriveMonthFromValue = (value: ?Value): ?number =>
 const deriveYearFromValue = (value: ?Value): ?number =>
   value ? D.getYear(value) : null
 
+const deriveStateFromValue = (value: ?Value): State => ({
+  value,
+  month: deriveMonthFromValue(value),
+  year: deriveYearFromValue(value),
+})
+
 class MonthSelect extends React.Component<Props, State> {
   // eslint-disable-next-line react/sort-comp
   static defaultProps = {
@@ -69,14 +75,30 @@ class MonthSelect extends React.Component<Props, State> {
     reverseYears: true,
   }
 
+  // state needs to be initialized or it would be null in getDerivedStateFromProps
   state = {
-    value: this.props.defaultValue,
-    month: deriveMonthFromValue(this.props.defaultValue),
-    year: deriveYearFromValue(this.props.defaultValue),
+    isUncontrolled: false,
+    value: null,
+    month: null,
+    year: null,
   }
 
-  get isControlled(): boolean {
-    return typeof this.props.value !== 'undefined'
+  static getDerivedStateFromProps(props, state) {
+    if (state.isUncontrolled) {
+      return null
+    }
+    // set up once from defaultValue
+    if (!R.isNil(props.defaultValue)) {
+      return {
+        isUncontrolled: true,
+        ...deriveStateFromValue(props.defaultValue),
+      }
+    }
+    // check on every props/state change
+    if (props.value !== state.value) {
+      return deriveStateFromValue(props.value)
+    }
+    return null
   }
 
   get maxDate(): Date {
@@ -100,16 +122,13 @@ class MonthSelect extends React.Component<Props, State> {
     const years = yearsBetween(this.minDate, this.maxDate)
     return this.props.reverseYears ? R.reverse(years) : years
   }
+
   get month(): ?number {
-    return this.isControlled
-      ? deriveMonthFromValue(this.props.value)
-      : this.state.month
+    return this.state.month
   }
 
   get year(): ?number {
-    return this.isControlled
-      ? deriveYearFromValue(this.props.value)
-      : this.state.year
+    return this.state.year
   }
 
   compositeValue(year, month): ?Date {
@@ -125,33 +144,19 @@ class MonthSelect extends React.Component<Props, State> {
       D.format(new Date(1970, month), format)
   )
 
-  handleChange(value: ?Value) {
+  handleChange() {
+    const value = this.compositeValue(this.year, this.month)
     if (this.props.onChange && value) {
       this.props.onChange(value)
     }
   }
 
-  handleChangeComputed() {
-    const value = this.compositeValue(this.year, this.month)
-    this.handleChange(value)
-  }
-
   handleMonthChange = (month: number) => {
-    if (this.isControlled) {
-      const value = this.compositeValue(this.year, month)
-      this.handleChange(value)
-    } else {
-      this.setState({ month }, this.handleChangeComputed)
-    }
+    this.setState({ month }, this.handleChange)
   }
 
   handleYearChange = (year: number) => {
-    if (this.isControlled) {
-      const value = this.compositeValue(year, this.month)
-      this.handleChange(value)
-    } else {
-      this.setState({ year }, this.handleChangeComputed)
-    }
+    this.setState({ year }, this.handleChange)
   }
 
   render() {
