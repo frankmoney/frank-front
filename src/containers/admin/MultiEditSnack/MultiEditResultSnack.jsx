@@ -1,5 +1,6 @@
 import React from 'react'
 import Snack from 'components/kit/Snack'
+import SidebarSnack from 'components/SidebarSnack'
 import pluralize from 'utils/pluralize'
 import reconnect from 'utils/reconnect'
 import ACTIONS from './actions'
@@ -16,7 +17,7 @@ const MultiEditResultSnack = ({ failed, succeed, paymentsCount, ...props }) => {
     : `${pluralize('payment', paymentsCount)} have been updated`
 
   return (
-    <Snack
+    <SidebarSnack
       color={failed ? 'red' : 'dark'}
       message={message}
       dismissByTimeout={5000}
