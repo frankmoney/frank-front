@@ -39,13 +39,16 @@ const styles = theme => ({
   },
   recipient: {
     flex: [3, 1],
+    wordBreak: 'break-word',
     ...theme.fontMedium(18, 36),
   },
-  date: {
+  rightItem: {
     flex: [1, 1],
+    textAlign: 'right',
+  },
+  date: {
     ...theme.fontRegular(16, 26),
     color: 'rgba(37, 43, 67, 0.4)',
-    textAlign: 'right',
   },
   description: {
     ...theme.fontRegular(16, 22),
@@ -92,9 +95,14 @@ const Item = ({
       <div className={classes.info}>
         <div className={classes.row}>
           <div className={classes.recipient}>{peer && peer.name}</div>
-          <div className={classes.date}>{formatFullDate(postedOn)}</div>
+          <div className={cx(classes.rightItem, classes.date)}>
+            {formatFullDate(postedOn)}
+          </div>
           {onRemove && (
-            <div className={classes.remove} onClick={() => onRemove()}>
+            <div
+              className={cx(classes.rightItem, classes.remove)}
+              onClick={() => onRemove()}
+            >
               Remove
             </div>
           )}
