@@ -18,7 +18,7 @@ const parseNumber = value => {
 
 const requestTotalCount = (
   graphql,
-  { sum, date, verified, search, accountId }
+  { sum, date, verified, search, accountId, pending }
 ) =>
   graphql(QUERIES.getOnlyTotalCount, {
     accountId,
@@ -28,6 +28,7 @@ const requestTotalCount = (
     dateMin: date && date.from && formatDate(date.from),
     dateMax: date && date.to && formatDate(date.to),
     verified,
+    pending: pending ? null : false,
   })
 
 // EPICS
@@ -55,7 +56,7 @@ export const loadRequest = (action$, store, { graphql }) =>
     .ofType(ACTIONS.load)
     .switchMap(
       async ({
-        payload: { amountMin, amountMax, dateMin, dateMax, verified },
+        payload: { amountMin, amountMax, dateMin, dateMax, verified, pending },
       }) => {
         const filters = {
           sum: {
@@ -64,6 +65,7 @@ export const loadRequest = (action$, store, { graphql }) =>
           },
           date: { from: dateMin, to: dateMax },
           verified,
+          pending: pending ? null : false,
         }
 
         const accountId = currentAccountIdSelector(store.getState())

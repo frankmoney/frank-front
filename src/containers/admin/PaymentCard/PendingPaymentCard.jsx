@@ -11,19 +11,20 @@ import PaymentStatus from 'components/admin/PaymentStatus'
 import styles from './PaymentCard.jss'
 
 const PendingPaymentCard = ({
+  amount,
+  amountClassName,
   classes,
   className,
-  postedOn,
-  amount,
-  verified,
   pending,
+  postedOn,
   source,
+  verified,
 }) => (
   <Paper type="card" className={cx(classes.root, classes.pending, className)}>
     <div className={classes.header}>
       {pending && <div className={classes.pendingText}>Pending</div>}
       <div className={classes.createdAt}>{formatFullDate(postedOn, true)}</div>
-      <div className={classes.amount}>
+      <div className={cx(classes.amount, amountClassName)}>
         <CurrencyDelta value={amount} faint={pending} />
         <PaymentStatus
           className={classes.status}
@@ -32,7 +33,12 @@ const PendingPaymentCard = ({
         />
       </div>
     </div>
-    <BankDescription className={classes.bank} {...source} />
+    <BankDescription
+      className={classes.bank}
+      logoClassName={classes.bankLogo}
+      textClassName={classes.bankDescription}
+      {...source}
+    />
   </Paper>
 )
 

@@ -37,6 +37,7 @@ type Props = {|
   ...InjectStylesProps,
   ...PaymentSource,
   //
+  logoClassName?: string,
   textClassName?: string,
 |}
 
@@ -46,10 +47,13 @@ const BankDescription = ({
   bankDescription,
   bankLogo,
   bankName,
+  logoClassName,
   textClassName,
 }: Props) => (
   <div className={cx(classes.root, className)}>
-    {bankLogo && <BankLogo className={classes.icon} src={bankLogo} />}
+    {bankLogo && (
+      <BankLogo className={cx(classes.icon, logoClassName)} src={bankLogo} />
+    )}
     <div className={cx(classes.description, textClassName)}>
       <span className={classes.descriptionAccent}>
         {bankName || 'Banking description'}:{' '}
