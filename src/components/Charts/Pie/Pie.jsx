@@ -11,9 +11,7 @@ const INNER_RING_THICCNESS = 15
 const RING_THICCNESS = 5
 
 const styles = {
-  ring: {
-    cursor: 'pointer',
-  },
+  ring: {},
   innerRing: {
     opacity: 0.1,
   },
@@ -63,7 +61,8 @@ const Pie = ({
   size,
 }: Props) => {
   const outerRadius = size / 2
-  const innerRadius = outerRadius - RING_THICCNESS
+  const middleRadius = outerRadius - RING_THICCNESS
+  const innerRadius = middleRadius - INNER_RING_THICCNESS
 
   const handlePieEnter =
     onSegmentMouseEnter && (({ index }) => onSegmentMouseEnter(index))
@@ -81,12 +80,11 @@ const Pie = ({
         margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
         width={size}
       >
-        <RePie className={classes.ring} innerRadius={innerRadius} {...pieProps}>
-          {R.map(PieSlice, data)}
-        </RePie>
         <RePie
           className={cx(classes.ring, classes.innerRing)}
-          innerRadius={innerRadius - INNER_RING_THICCNESS}
+          innerRadius={innerRadius}
+          onMouseEnter={mobile ? undefined : handlePieEnter}
+          onMouseLeave={mobile ? undefined : onSegmentMouseLeave}
           {...pieProps}
         >
           {R.map(
@@ -98,12 +96,12 @@ const Pie = ({
           )}
         </RePie>
         <RePie
-          innerRadius={0}
-          onMouseEnter={mobile ? undefined : handlePieEnter}
-          onMouseLeave={mobile ? undefined : onSegmentMouseLeave}
-          opacity={0}
+          className={classes.ring}
+          innerRadius={middleRadius}
           {...pieProps}
-        />
+        >
+          {R.map(PieSlice, data)}
+        </RePie>
       </ReChart>
     </div>
   )
