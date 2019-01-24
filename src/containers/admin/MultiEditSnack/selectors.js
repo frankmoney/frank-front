@@ -1,11 +1,31 @@
+import { testObject } from '@frankmoney/forms'
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { isDirty } from 'redux-form/immutable'
 import pluralize from 'utils/pluralize'
-import { getFormName } from '../PaymentCard/const'
+import { validation } from '../PaymentCard/const'
 import { FORM_NAME } from './const'
 import { REDUCER_KEY } from './reducer'
+
+const validateForm = form => testObject(form, validation)
+
+const FORM_VALUES = {
+  categoryId: R.path(['category', 'id']),
+  peerName: R.path(['peer', 'name']),
+  description: R.prop('description'),
+}
+
+const pickFormValues = payment =>
+  R.toPairs(FORM_VALUES).reduce(
+    (obj, [prop, getter]) => ({ ...obj, [prop]: getter(payment) }),
+    {}
+  )
+
+const validatePayment = R.pipe(
+  pickFormValues,
+  validateForm
+)
 
 const get = (...prop) => state => state.getIn([REDUCER_KEY, ...prop])
 
@@ -33,25 +53,27 @@ export const resultSnackShown = createSelector(
   (updated, hasPayments) => updated && hasPayments
 )
 
+const allVerifiedEquals = value => R.all(R.propEq('verified', value))
+const allPaymentsAreValid = R.pipe(
+  R.map(validatePayment),
+  R.all(R.equals(true))
+)
+
 export const publishValue = createSelector(
   payments,
   R.pipe(
-    R.map(R.prop('verified')),
     R.cond([
-      [R.all(R.equals(true)), R.always(false)],
-      [R.all(R.equals(false)), R.always(true)],
+      [allVerifiedEquals(true), R.always(false)],
+      [
+        R.allPass([allVerifiedEquals(false), allPaymentsAreValid]),
+        R.always(true),
+      ],
     ]),
     R.defaultTo(null)
   )
 )
 export const canPublish = createSelector(publishValue, R.equals(true))
 export const canUnpublish = createSelector(publishValue, R.equals(false))
-
-const FORM_VALUES = {
-  categoryId: R.path(['category', 'id']),
-  peerName: R.path(['peer', 'name']),
-  description: R.prop('description'),
-}
 
 const returnIfAllEquals = list =>
   R.all(R.equals(list[0]), list) ? list[0] : null
