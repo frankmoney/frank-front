@@ -33,6 +33,7 @@ type Props = {|
   activeSegmentIndex?: number,
   data: PieData,
   mobile?: boolean,
+  onSegmentClick?: SegmentIndex => void,
   onSegmentMouseEnter?: SegmentIndex => void,
   onSegmentMouseLeave?: () => void,
   size: number,
@@ -56,6 +57,7 @@ const Pie = ({
   className,
   data,
   mobile,
+  onSegmentClick,
   onSegmentMouseEnter,
   onSegmentMouseLeave,
   size,
@@ -66,6 +68,14 @@ const Pie = ({
 
   const handlePieEnter =
     onSegmentMouseEnter && (({ index }) => onSegmentMouseEnter(index))
+
+  const handlePieClick =
+    onSegmentClick &&
+    (({ index, clickable }) => {
+      if (clickable) {
+        onSegmentClick(index)
+      }
+    })
 
   const pieProps = {
     ...COMMON_PIE_PROPS,
@@ -83,6 +93,7 @@ const Pie = ({
         <RePie
           className={cx(classes.ring, classes.innerRing)}
           innerRadius={innerRadius}
+          onClick={handlePieClick}
           onMouseEnter={mobile ? undefined : handlePieEnter}
           onMouseLeave={mobile ? undefined : onSegmentMouseLeave}
           {...pieProps}

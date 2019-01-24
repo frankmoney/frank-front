@@ -92,9 +92,17 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
     const categories: CategoryListData = limitCategories(MAX_CATEGORIES)(data)
     const { filler, items, other } = categories
     const pieData: Array<IndexedPieChartCategory> = R.pipe(
+      R.map(R.assoc('clickable', true)),
       appendIfNotNil(other),
       appendIfNotNil(filler)
     )(items)
+
+    const handleCategoryClick = onCategoryClick
+      ? (index: number) => {
+          const item = items[index]
+          onCategoryClick(item)
+        }
+      : undefined
 
     const rootProps =
       Root === React.Fragment
@@ -109,6 +117,7 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
             mobile={mobile}
             onSegmentMouseEnter={this.handleMouseOver}
             onSegmentMouseLeave={this.handleMouseOut}
+            onSegmentClick={handleCategoryClick}
             size={chartSize}
           />
           <PieTotalSelect
@@ -123,7 +132,7 @@ class OverviewPieChart extends React.PureComponent<Props, State> {
           activeCategoryIndex,
           data: categories,
           mobile,
-          onCategoryClick,
+          onCategoryClick: handleCategoryClick,
           onLabelMouseEnter: this.handleMouseOver,
           onLabelMouseLeave: this.handleMouseOut,
           valueUnit: '%',

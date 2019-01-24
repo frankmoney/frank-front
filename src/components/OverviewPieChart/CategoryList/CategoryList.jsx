@@ -4,9 +4,11 @@ import * as R from 'ramda'
 import cx from 'classnames'
 import CategoryLabel from 'components/CategoryLabel'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import { OTHER, type CategoryCb, type IndexedPieChartCategory } from '../utils'
+import { type IndexedPieChartCategory } from '../utils'
 import OtherCategories from './OtherCategories'
 import styles from './CategoryList.jss'
+
+const CLICKABLE = true
 
 // Duplicate definition for the prop-type generator
 type CategoryListData = {|
@@ -21,7 +23,7 @@ export type CategoryListProps = {|
   className?: string,
   data: CategoryListData,
   mobile?: boolean,
-  onCategoryClick?: CategoryCb,
+  onCategoryClick?: number => void,
   onLabelMouseEnter?: number => void,
   onLabelMouseLeave?: () => void,
   valueUnit?: string,
@@ -54,14 +56,13 @@ const CategoryList = ({
 }: Props) => {
   const highlighted = R.not(R.isNil(activeCategoryIndex))
 
-  const renderItem = ({
+  const renderItem = clickable => ({
     id,
     index,
     ...otherProps
   }: IndexedPieChartCategory) => {
-    const clickable = id !== OTHER.id
     const handleClick =
-      clickable && onCategoryClick ? () => onCategoryClick(items[index]) : null
+      clickable && onCategoryClick ? () => onCategoryClick(index) : null
     const handleMouseEnter =
       !mobile && onLabelMouseEnter ? () => onLabelMouseEnter(index) : undefined
     const handleMouseLeave = mobile ? undefined : onLabelMouseLeave
@@ -95,13 +96,13 @@ const CategoryList = ({
         className
       )}
     >
-      {R.map(renderItem, items)}
+      {R.map(renderItem(CLICKABLE), items)}
       {other &&
         (mobile ? (
-          renderItem(other)
+          renderItem(!CLICKABLE)(other)
         ) : (
           <OtherCategories
-            anchor={renderItem(other)}
+            anchor={renderItem(!CLICKABLE)(other)}
             items={tooltipItems}
             valueUnit={valueUnit}
           />
