@@ -15,7 +15,10 @@ export default function reconnect(
     : null
 
   const mapDispatchToProps = connectDispatch
-    ? R.partial(bindActionCreators, [connectDispatch])
+    ? typeof connectDispatch === 'function'
+      ? (dispatch, ownProps) =>
+          bindActionCreators(connectDispatch(ownProps), dispatch)
+      : R.partial(bindActionCreators, [connectDispatch])
     : null
 
   return connect(

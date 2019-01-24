@@ -6,6 +6,7 @@ import Breadcrumbs from 'components/Breadcrumbs'
 import AreaSpinner from 'components/AreaSpinner/AreaSpinner'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
+import MultiEditSnack from 'containers/admin/MultiEditSnack'
 import InboxFilter from './InboxFilter'
 import InboxList from './InboxList'
 import * as SELECTORS from './selectors'
@@ -29,6 +30,10 @@ const styles = {
   },
 }
 
+const ConnectedMultiEditSnack = reconnect({
+  categories: SELECTORS.categories,
+})(MultiEditSnack)
+
 const Inbox = ({ classes }) => (
   <div className={classes.root}>
     <FixedHeader className={classes.header}>
@@ -40,6 +45,7 @@ const Inbox = ({ classes }) => (
     <div className={classes.container}>
       <InboxList />
     </div>
+    <ConnectedMultiEditSnack />
   </div>
 )
 
