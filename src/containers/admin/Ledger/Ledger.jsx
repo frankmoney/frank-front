@@ -9,6 +9,7 @@ import CurrencyProvider from 'components/CurrencyProvider'
 import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
+import MultiEditSnack from 'containers/admin/MultiEditSnack'
 import ConnectedChartCard from './ConnectedChartCard'
 import EmptyAccountPlaceholder from './EmptyAccountPlaceholder'
 import LedgerHighlightTextProvider from './LedgerHighlightTextProvider'
@@ -25,6 +26,7 @@ import {
   cascadeSnackbarShown,
   lastCascadeCountSelector,
   chartsVisibleSelector,
+  categoriesSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
@@ -39,6 +41,10 @@ const ConnectedPaymentCascadeSnackbar = reconnect(
     onDismiss: ACTIONS.dismissCascadeSnackbar,
   }
 )(PaymentCascadeSnackbar)
+
+const ConnectedMultiEditSnack = reconnect({
+  categories: categoriesSelector,
+})(MultiEditSnack)
 
 const Ledger = ({
   cancelCategory,
@@ -94,6 +100,7 @@ const Ledger = ({
         </div>
       )}
       <ConnectedPaymentCascadeSnackbar />
+      <ConnectedMultiEditSnack />
     </div>
   </CurrencyProvider>
 )

@@ -1,4 +1,3 @@
-import * as R from 'ramda'
 import { formatDate } from 'utils/dates'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import ACTIONS from '../actions'

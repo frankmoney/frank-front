@@ -1,7 +1,7 @@
-import storage from 'local-storage-fallback'
 import { push as pushRoute } from 'react-router-redux'
+import { createRouteUrl } from '@frankmoney/utils'
 import * as USER_ACTIONS from 'redux/actions/user'
-import { LS_FLAGS, ROUTES } from 'const'
+import { ROUTES } from 'const'
 import * as ACTIONS from './actions'
 import { CREDENTIALS_STATUS } from './constants'
 import QUERIES from './queries'
@@ -127,7 +127,9 @@ export const nextStepEpic = (action$, store, { graphql }) =>
 
       return [
         USER_ACTIONS.addAccount(account),
-        pushRoute(ROUTES.account.idRoot, { accountId: account.id }),
+        pushRoute(
+          createRouteUrl(ROUTES.account.idRoot, { accountId: account.id })
+        ),
       ]
     }
   })

@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from 'utils/styles'
+import TextTooltip from 'components/kit/TextTooltip'
 
 const styles = theme => ({
   root: {
@@ -23,11 +24,28 @@ const styles = theme => ({
   },
 })
 
-const SnackButton = ({ classes, className, icon, label, ...otherProps }) => (
-  <div className={cx(classes.root, className)} {...otherProps}>
-    {label && <div className={classes.label}>{label}</div>}
-    {icon && React.cloneElement(icon, { className: classes.icon })}
-  </div>
-)
+const SnackButton = ({
+  classes,
+  className,
+  icon,
+  label,
+  tooltip,
+  ...otherProps
+}) => {
+  const button = (
+    <div className={cx(classes.root, className)} {...otherProps}>
+      {label && <div className={classes.label}>{label}</div>}
+      {icon && React.cloneElement(icon, { className: classes.icon })}
+    </div>
+  )
+
+  return tooltip ? (
+    <TextTooltip distance={15} text={tooltip}>
+      {button}
+    </TextTooltip>
+  ) : (
+    button
+  )
+}
 
 export default injectStyles(styles)(SnackButton)

@@ -12,3 +12,5 @@ export updateUrlWhenSelectPiePercentage from './updateUrlWhenSelectPiePercentage
 export updateUrlWhenTypingSearch from './updateUrlWhenTypingSearch'
 export loadSimilarPayments from './loadSimilarPayments'
 export loadMoreSimilarPayments from './loadMoreSimilarPayments'
+export mapTableCheckToMultiEdit from './mapTableCheckToMultiEdit'
+export mapMultiEditClearToTableUnckeckAll from './mapMultiEditClearToTableUnckeckAll'

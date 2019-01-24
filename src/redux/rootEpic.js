@@ -21,6 +21,7 @@ import * as authSignUpEpics from 'containers/auth/SignUp/epics'
 import * as authAcceptInvitationEpics from 'containers/auth/AcceptInvitation/epics'
 import * as authRecoverPasswordEpics from 'containers/auth/RecoverPassword/epics'
 import * as authResetPasswordEpics from 'containers/auth/ResetPassword/epics'
+import * as multiEditEpics from 'containers/admin/MultiEditSnack/epics'
 
 export default createRootEpic([
   userEpics,
@@ -45,4 +46,5 @@ export default createRootEpic([
   authAcceptInvitationEpics,
   authRecoverPasswordEpics,
   authResetPasswordEpics,
+  multiEditEpics,
 ])
