@@ -14,12 +14,12 @@ import PeerField from 'containers/admin/PaymentCard/PeerField'
 import CategorySelect from 'components/CategorySelect'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import { currentAccountIdSelector } from 'redux/selectors/user'
-import { counters, validation } from '../PaymentCard/const'
+import { counters, validationWithoutRequired } from '../PaymentCard/const'
 import * as SELECTORS from './selectors'
 import ACTIONS from './actions'
 import { FORM_NAME } from './const'
 
-const validate = createValidateFromRules(validation)
+const validate = createValidateFromRules(validationWithoutRequired)
 
 const styles = theme => ({
   root: {
