@@ -109,6 +109,7 @@ const PaymentsTableRow = ({
       className
     )}
     hoverBackgroundColor="#f6f7f7"
+    disableCheckbox={pending}
     {...rowProps}
   >
     <TableCell name="description" className={classes.cellLeft}>

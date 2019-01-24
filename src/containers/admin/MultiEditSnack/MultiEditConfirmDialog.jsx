@@ -37,6 +37,7 @@ export default reconnect(
   },
   {
     onCancel: () => ACTIONS.cancelChangePublish(),
+    onClose: () => ACTIONS.cancelChangePublish(),
     onConfirm: () => ACTIONS.confirmChangePublish(),
   }
 )(MultiEditConfirmDialog)
