@@ -17,7 +17,7 @@ export default handleActions(
       state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
     [ACTIONS.load.success]: (
       state,
-      { payload: { payments, categories, totalCount } }
+      { payload: { payments, categories, totalCount, unfilteredCount } }
     ) =>
       state.merge({
         loading: false,
@@ -27,6 +27,7 @@ export default handleActions(
         categories: categories ? fromJS(categories) : state.get('categories'),
         payments: fromJS(payments),
         paymentsCount: totalCount,
+        unfilteredCount,
       }),
     [ACTIONS.load.error]: state =>
       state.merge({

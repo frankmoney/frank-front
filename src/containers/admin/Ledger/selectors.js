@@ -186,11 +186,8 @@ export const noTextSearchSelector = createSelector(
 )
 
 export const isEmptyAccountSelector = createSelector(
-  hasNoResultsSelector,
-  noTextSearchSelector,
-  currentFiltersCountSelector,
-  (noResults, noTextSearch, filterCount) =>
-    noResults && noTextSearch && filterCount === 0
+  get('unfilteredCount'),
+  R.equals(0)
 )
 
 export const barChartOnlySelector = createSelector(

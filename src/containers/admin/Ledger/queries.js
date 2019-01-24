@@ -101,7 +101,9 @@ export default {
             amountMin: $amountMin
             amountMax: $amountMax
             verified: $verified
-          )`) ||
+          )
+          
+          unfilteredCount: countPayments`) ||
           ''}
           
         ${(includeBars &&
@@ -156,6 +158,7 @@ export default {
         countPayments,
         ledgerBarChart,
         ledgerPieChart,
+        unfilteredCount,
       },
     }) => ({
       categories: includeCategories ? categories : null,
@@ -171,6 +174,7 @@ export default {
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).barSize
         : null,
       pieChart: includePie ? ledgerPieChart : null,
+      unfilteredCount,
     }),
   ],
 }

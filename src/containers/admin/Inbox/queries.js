@@ -71,13 +71,22 @@ export default {
           amountMax: $amountMax
           verified: false
         )
+        unfilteredCount: countPayments
       }
     }
   `,
-    ({ account: { categories, payments, countPayments: totalCount } }) => ({
+    ({
+      account: {
+        categories,
+        countPayments: totalCount,
+        payments,
+        unfilteredCount,
+      },
+    }) => ({
       categories,
       payments: R.map(mapPaymentSource, payments),
       totalCount,
+      unfilteredCount,
     }),
   ],
 }

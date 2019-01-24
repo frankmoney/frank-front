@@ -16,15 +16,16 @@ const similarPaymentsDefaultState = {
 }
 
 const defaultState = fromJS({
-  typing: false,
-  loading: true,
-  loaded: false,
-  categories: [],
   barsData: [],
   barsUnit: null,
-  pieData: null,
-  paymentsCount: 0,
+  categories: [],
+  loaded: false,
+  loading: true,
   payments: [],
+  paymentsCount: 0,
+  pieData: null,
+  typing: false,
+  unfilteredCount: 0,
   //
   ...similarPaymentsDefaultState,
 })
@@ -44,6 +45,7 @@ export default handleActions(
           payments,
           pieChart,
           totalCount,
+          unfilteredCount,
         },
       }
     ) =>
@@ -58,6 +60,7 @@ export default handleActions(
         barsUnit,
         pieData: fromJS(pieChart),
         paymentsCount: totalCount,
+        unfilteredCount,
       }),
     [ACTIONS.load.error]: state =>
       state.merge({

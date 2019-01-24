@@ -57,4 +57,11 @@ export const currentPage = createSelector(
 export const totalPages = createSelector(paymentsCount, count =>
   Math.ceil(count / PAGE_SIZE)
 )
-export const noResults = createSelector(paymentsCount, x => x === 0)
+
+export const noResults = createSelector(
+  paymentsCount,
+  currentFiltersCount,
+  (count, filterCount) => count === 0 && filterCount === 0
+)
+
+export const emptyAccount = createSelector(get('unfilteredCount'), R.equals(0))
