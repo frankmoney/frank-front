@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { isNil } from 'ramda'
 import memoize from 'lodash/memoize'
 import Menu from 'components/kit/Menu'
 import Modal from 'components/kit/Modal'
@@ -128,10 +129,7 @@ class Select extends React.Component<Props, State> {
   getRenderProps = (state: State = this.state) =>
     ({
       value: this.getValue(state),
-      valueFormatted:
-        typeof this.props.formatValue === 'function'
-          ? this.props.formatValue(this.getValue(state))
-          : this.getValue(state) && this.getTextByValue(this.getValue(state)),
+      valueFormatted: this.formatValue(this.getValue(state)),
       active: state.open || state.focused,
       toggle: this.handleTogglePopup,
       select: this.handleChange,
@@ -149,6 +147,15 @@ class Select extends React.Component<Props, State> {
 
   input: any
   list: any
+
+  formatValue = (value: ?Value): ?string => {
+    if (isNil(value)) {
+      return null
+    }
+    return typeof this.props.formatValue === 'function'
+      ? this.props.formatValue(value)
+      : this.getTextByValue(value)
+  }
 
   handleListRef = ref => {
     this.list = ref

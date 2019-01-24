@@ -15,8 +15,7 @@ type Value = string | number
 
 type OnChangeCb = Event => void
 
-type Props = {|
-  ...InjectStylesProps,
+export type TextBoxProps = {|
   ...InputProps,
   //
   autoFocus?: boolean,
@@ -35,7 +34,10 @@ type State = {|
   value?: Value,
 |}
 
-export type TextBoxProps = Props
+type Props = {|
+  ...InjectStylesProps,
+  ...TextBoxProps,
+|}
 
 class TextBox extends React.Component<Props, State> {
   static defaultProps = {

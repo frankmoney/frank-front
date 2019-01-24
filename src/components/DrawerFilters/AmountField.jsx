@@ -1,5 +1,6 @@
 // @flow strict-local
 import React from 'react'
+import { isNil } from 'ramda'
 import { injectStyles } from '@frankmoney/ui'
 import TextField from 'components/kit/TextField'
 import Drawer from 'components/kit/Drawer'
@@ -18,12 +19,14 @@ const styles = {
   },
 }
 
+const formatValue = value => (isNil(value) ? '' : value)
+
 const AmountField = ({ classes, min, max, from, to, onChange }) => (
   <Drawer.Field label="Amount">
     <div className={classes.wrap}>
       <TextField
         stretch
-        value={from || ''}
+        value={formatValue(from)}
         label="min"
         placeholder={min}
         onChange={({ target: { value } }) => onChange({ min: value, max: to })}
@@ -33,7 +36,7 @@ const AmountField = ({ classes, min, max, from, to, onChange }) => (
         numeric
       />
       <TextField
-        value={to || ''}
+        value={formatValue(to)}
         label="max"
         placeholder={max}
         onChange={({ target: { value } }) =>

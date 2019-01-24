@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { isNil } from 'ramda'
 import cx from 'classnames'
 import mixins from 'styles/mixins'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
@@ -51,15 +52,16 @@ type OnChangeCb = any => void
 
 type InputType = 'text' | 'password' | 'number' // TODO
 
-type Props = {|
-  ...InjectStylesProps,
+const formatValue = value => (isNil(value) ? '' : value)
+
+export type InputProps = {|
   // устанавливает состояние фокуса(стили)
   focus?: boolean,
   controlRef?: ?Function,
   multiLine?: boolean,
   readOnly?: boolean,
   disabled?: boolean,
-  type: InputType,
+  type?: InputType,
   minLines?: number,
   // TODO disableEnter используется сейчас в комбинации с multiline чтобы получить инпут который переносится по строкам
   // в будущем нужно дорабоатать сингллайн инпут чтобы тот переносился по строкам а в остальном был обычным сингллайн инпутом
@@ -69,11 +71,15 @@ type Props = {|
   disableAutoComplete?: boolean,
   // Controlled value
   onChange: OnChangeCb,
+  onKeyPress?: KeyboardEvent => void,
   value: string | number,
   numeric?: boolean,
 |}
 
-export type InputProps = Props
+type Props = {|
+  ...InjectStylesProps,
+  ...InputProps,
+|}
 
 class Input extends React.Component<Props> {
   static defaultProps = {
@@ -146,7 +152,6 @@ class Input extends React.Component<Props> {
         <textarea
           ref={controlRef}
           value={value || ''}
-          onChange={this.handleChange}
           className={cls}
           autoComplete={autoComplete}
           onKeyPress={this.handleKeyPress}
@@ -161,8 +166,7 @@ class Input extends React.Component<Props> {
       <InputComponent
         ref={controlRef}
         type={type}
-        value={value || ''}
-        onChange={this.handleChange}
+        value={formatValue(value)}
         className={cls}
         autoComplete={autoComplete}
         {...otherProps}
