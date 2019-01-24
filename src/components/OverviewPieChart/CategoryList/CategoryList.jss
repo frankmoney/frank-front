@@ -17,10 +17,10 @@ export default theme => ({
   },
   value: {},
   highlighted: {
-    '& > $item': {
+    '& > $item $icon': {
       opacity: 0.4,
     },
-    '& > $active': {
+    '& > $active $icon': {
       opacity: 1,
     },
   },
