@@ -35,6 +35,7 @@ const InboxList = ({ classes, onResetSearch, payments }) => (
         <InboxListCard
           key={payment.id}
           className={classes.card}
+          hasCheckbox
           amountClassName={cx({
             [classes.pendingAmount]: true || payment.pending,
           })}
