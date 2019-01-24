@@ -82,7 +82,7 @@ const suggestPeers = [
     })),
 ]
 
-const updatePayment = [
+const updatePayments = [
   `
     mutation(
       $accountId: ID!
@@ -103,25 +103,16 @@ const updatePayment = [
         payments {
           ${PAYMENTS}
         }
-        suggestedPayments {
-          ${PAYMENTS}
-        }
       }
     }
     `,
-  ({
-    result: {
-      payments: [payment],
-      suggestedPayments: cascade,
-    },
-  }) => ({
-    payment,
-    cascade,
+  ({ result: { payments } }) => ({
+    payments,
   }),
 ]
 
 export default {
   suggestDescriptions,
   suggestPeers,
-  updatePayment,
+  updatePayments,
 }

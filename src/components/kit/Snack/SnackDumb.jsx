@@ -9,7 +9,7 @@ import styles from './SnackDumb.jss'
 type SnackColor = 'blue' | 'dark' | 'red'
 
 type Props = {
-  message: string,
+  message: string | React.Element,
   disableDismissButton?: boolean,
   color?: SnackColor,
   buttons?: Array<React.Element> | React.Element,

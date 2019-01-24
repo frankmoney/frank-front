@@ -14,6 +14,7 @@ type Props = {
   viewportOffsetHorizontal?: number,
   viewportOffsetVertical?: number,
   onDismiss?: Function,
+  onDismissAnimationEnd?: Function,
   dismissByTimeout?: ?number,
   ...SnackDumbProps,
 }
@@ -47,6 +48,12 @@ class Snack extends React.Component<Props> {
     }
   }
 
+  componentWillUnmount() {
+    if (this.props.shown) {
+      this.props.manager.remove(this)
+    }
+  }
+
   #showTimeout = null
   #hideTimeout = null
 
@@ -58,14 +65,14 @@ class Snack extends React.Component<Props> {
     }
   }
 
-  handleDismiss = () => {
+  handleDismiss = reason => {
     clearTimeout(this.#showTimeout)
-    this.setState({ shown: false }, () => {
+    this.setState({ shown: false, dismissReason: reason }, () => {
       this.#hideTimeout = setTimeout(
         () =>
           this.props.manager.remove(this, () => {
             if (this.props.onDismiss) {
-              this.props.onDismiss()
+              this.props.onDismiss(reason)
             }
           }),
         100
@@ -79,10 +86,10 @@ class Snack extends React.Component<Props> {
     this.props.manager.add(this, () => {
       this.#showTimeout = setTimeout(
         () =>
-          this.setState({ shown: true }, () => {
+          this.setState({ shown: true, dismissReason: null }, () => {
             if (this.props.dismissByTimeout) {
               this.#showTimeout = setTimeout(
-                this.handleDismiss,
+                () => this.handleDismiss('timeout'),
                 this.props.dismissByTimeout
               )
             }
@@ -90,6 +97,12 @@ class Snack extends React.Component<Props> {
         100
       )
     })
+  }
+
+  handleDismissAnimationEnd = () => {
+    if (typeof this.props.onDismissAnimationEnd === 'function') {
+      this.props.onDismissAnimationEnd(this.state.dismissReason)
+    }
   }
 
   render() {
@@ -122,6 +135,7 @@ class Snack extends React.Component<Props> {
         unmountOnExit
         // force reflow before enter state
         onEnter={node => node.scrollTop}
+        onExited={this.handleDismissAnimationEnd}
       >
         {state => (
           <SnackDumb
@@ -132,7 +146,7 @@ class Snack extends React.Component<Props> {
               left: viewportOffsetHorizontal,
               ...transitionStyle(state),
             }}
-            onCloseClick={this.handleDismiss}
+            onCloseClick={() => this.handleDismiss('close-click')}
             {...otherProps}
           />
         )}

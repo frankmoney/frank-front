@@ -28,7 +28,7 @@ export const save = (action$, store, { graphql }) =>
 
       return graphql(QUERIES.updatePayment, {
         accountId: currentAccountId,
-        paymentId: id,
+        paymentIds: id,
         peerName,
         categoryId,
         description: description || '',

@@ -6,7 +6,7 @@ import PasteIcon from 'material-ui-icons/AddToPhotos'
 import PublicIcon from 'material-ui-icons/Public'
 import PublishIcon from 'material-ui-icons/Check'
 import SimilarIcon from 'material-ui-icons/FormatListBulleted'
-import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
+import { createValidateFromRules } from '@frankmoney/forms'
 import {
   compose,
   withPropsOnChange,
@@ -35,19 +35,8 @@ import DescriptionField from './DescriptionField'
 import PeerField from './PeerField'
 import styles from './PaymentCard.jss'
 import connectCard from './connectCard'
-import { getFormName } from './const'
+import { getFormName, counters, validation } from './const'
 import PendingPaymentCard from './PendingPaymentCard'
-
-const validation = {
-  categoryId: [required],
-  description: [required, maxLength(120)],
-  peerName: [required, maxLength(60)],
-}
-
-const counters = {
-  peerName: { unit: 'character', max: 60 },
-  description: { unit: 'character', max: 120 },
-}
 
 const validate = createValidateFromRules(validation)
 

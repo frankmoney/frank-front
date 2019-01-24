@@ -54,6 +54,9 @@ import authResetPasswordReducer, {
 import adminWidgetReducer, {
   REDUCER_KEY as adminWidgetKey,
 } from 'containers/admin/WidgetSettings/reducer'
+import multiEditReducer, {
+  REDUCER_KEY as multiEditKey,
+} from 'containers/admin/MultiEditSnack/reducer'
 
 export default createReducer({
   [adminLedgerKey]: adminLedgerReducer,
@@ -75,4 +78,5 @@ export default createReducer({
   [authAcceptInvitationKey]: authAcceptInvitationReducer,
   [authResetPasswordKey]: authResetPasswordReducer,
   [adminWidgetKey]: adminWidgetReducer,
+  [multiEditKey]: multiEditReducer,
 })

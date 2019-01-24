@@ -2,6 +2,7 @@ import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import { DEFAULT_DRAWER_PAYMENTS_PAGE_SIZE as PAGE_SIZE } from 'components/drawers/constants'
 import CARD_ACTIONS from 'containers/admin/PaymentCard/actions'
+import MULTI_ACTIONS from 'containers/admin/MultiEditSnack/actions'
 import * as ACTIONS from './actions'
 
 export const REDUCER_KEY = 'adminLedger'
@@ -76,6 +77,17 @@ export default handleActions(
           }, list)
         )
         .set('lastCascadeCount', cascade.length),
+
+    [MULTI_ACTIONS.updateSuccess]: (state, { payload: { payments } }) =>
+      state.update('payments', list =>
+        payments.reduce((l, p) => {
+          const idx = l.findIndex(x => x.get('id') === p.id)
+          if (idx === -1) {
+            return l
+          }
+          return l.update(idx, x => x.merge(p))
+        }, list)
+      ),
     [ACTIONS.dismissCascadeSnackbar]: state =>
       state.merge({
         lastCascadeCount: 0,

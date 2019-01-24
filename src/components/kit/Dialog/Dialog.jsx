@@ -17,6 +17,7 @@ type Props = {|
   //
   children?: React.Node,
   closeButton: boolean,
+  disableFallInsideFocus?: boolean,
   modalProps: $Exact<$Diff<ModalProps, InheritedModalProps>>,
 |}
 
@@ -41,10 +42,11 @@ const Dialog = ({
   open,
   onClose,
   modalProps,
+  disableFallInsideFocus,
   ...paperProps
 }: Props) => (
   <Modal
-    fallInsideFocus
+    fallInsideFocus={!disableFallInsideFocus}
     className={classes.modal}
     open={open}
     onClose={onClose}
@@ -65,6 +67,7 @@ const Dialog = ({
 
 Dialog.defaultProps = {
   closeButton: false,
+  disableFallInsideFocus: false,
 }
 
 export default injectStyles(styles)(Dialog)
