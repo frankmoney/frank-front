@@ -1,10 +1,9 @@
-import { createValidateFromRules } from '@frankmoney/forms'
-
 // @flow strict-local
 import * as React from 'react'
 import cx from 'classnames'
 import { compose } from 'recompose'
 import { reduxForm } from 'redux-form/immutable'
+import { createValidateFromRules } from '@frankmoney/forms'
 import { injectStyles } from 'utils/styles'
 import Button from 'components/kit/Button'
 import reconnect from 'utils/reconnect'
@@ -14,6 +13,7 @@ import TextField from 'components/kit/TextField'
 import PeerField from 'containers/admin/PaymentCard/PeerField'
 import CategorySelect from 'components/CategorySelect'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
+import { currentAccountIdSelector } from 'redux/selectors/user'
 import { counters, validation } from '../PaymentCard/const'
 import * as SELECTORS from './selectors'
 import ACTIONS from './actions'
@@ -86,8 +86,7 @@ const MultiEditPaymentDialog = ({
   categories = [],
   onCancel,
   onConfirm,
-  accountId = '4',
-  paymentId = '412',
+  accountId,
   submit,
   updating,
   ...dialogProps
@@ -144,7 +143,6 @@ const MultiEditPaymentDialog = ({
             disableEnter
             larger
             className={classes.field}
-            paymentId={paymentId}
             accountId={accountId}
             disabled={updating}
           />
@@ -183,6 +181,7 @@ export default compose(
       paymentsCount: SELECTORS.paymentsCount,
       updating: SELECTORS.isUpdating,
       updateForecastMessage: SELECTORS.updateForecastMessage,
+      accountId: currentAccountIdSelector,
     },
     {
       onCancel: () => ACTIONS.cancelEdit(),
