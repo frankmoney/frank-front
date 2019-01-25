@@ -45,6 +45,7 @@ const TextButton = ({
         [classes.black]: color === 'black',
         [classes.blue]: color === 'blue',
         [classes.faintGray]: color === 'faintGray',
+        [classes.solidGray]: color === 'solidGray',
         [classes.gray]: color === 'gray',
         [classes.active]: active,
         [classes.hover]: hover,
