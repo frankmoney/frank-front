@@ -37,14 +37,29 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  horizontallyStretchedContainer: {
+    width: '100%',
+  },
 })
 
-const PageForm = ({ classes, className, centered, title, children }) => (
+const PageForm = ({
+  classes,
+  className,
+  centered,
+  stretchHorizontally,
+  title,
+  children,
+}) => (
   <div className={cx(classes.root, centered && classes.centered, className)}>
     <Link to={ROUTES.root}>
       <FrankLogo className={classes.logo} />
     </Link>
-    <div className={classes.container}>
+    <div
+      className={cx(
+        classes.container,
+        stretchHorizontally && classes.horizontallyStretchedContainer
+      )}
+    >
       {title && <div className={classes.title}>{title}</div>}
       {children}
     </div>

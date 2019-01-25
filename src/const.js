@@ -7,7 +7,6 @@ export const ROUTES = {
     register: '/sign-up',
     acceptInvitation: '/accept-invitation/:token',
     recoverPassword: '/recover-password',
-    recoverPasswordSuccess: '/recover-password/success',
     resetPassword: '/reset-password/:token',
     resetPasswordSuccess: '/reset-password/success',
     logout: '/logout',
