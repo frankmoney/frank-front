@@ -55,6 +55,7 @@ export default compose(
   mapProps(({ classes, ...props }) => ({
     name: 'ledger',
     canSelectRows: true,
+    noClickAway: true,
     tableHeaderClassName: classes.header,
     tableDetailRowClassName: classes.detailRow,
     rowComponent: ComposedPaymentsTableRow,
