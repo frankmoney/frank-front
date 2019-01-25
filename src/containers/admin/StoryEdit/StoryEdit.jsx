@@ -1,5 +1,6 @@
 // @flow strict-local
 import React from 'react'
+import { createRouteUrl } from '@frankmoney/utils'
 import * as R from 'ramda'
 import cx from 'classnames'
 import { compose, lifecycle, branch, renderComponent } from 'recompose'
@@ -10,9 +11,13 @@ import {
   FixedHeader,
   Breadcrumbs,
   BreadcrumbsItem,
+  BreadcrumbsItemLink,
 } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
 import SidebarSnack from 'components/SidebarSnack/SidebarSnack'
+import { ROUTES } from 'const'
+import { currentAccountIdSelector } from 'redux/selectors/user'
+import { formatFullDate } from 'utils/datesLight'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import HeaderBarButtons from './HeaderBarButtons'
 import {
@@ -31,7 +36,8 @@ type Props = {|
 const StoryEdit = ({
   classes,
   className,
-  story,
+  accountId,
+  story: { publishedAt },
   canNotPublishSnackShown,
   showCanNotPublishSnack,
 }: Props) => (
@@ -39,8 +45,22 @@ const StoryEdit = ({
   <div className={cx(classes.root, className)}>
     <FixedHeader className="ui-fixed">
       <Breadcrumbs>
+        <BreadcrumbsItemLink
+          to={createRouteUrl(ROUTES.account.stories.root, { accountId })}
+        >
+          Stories
+        </BreadcrumbsItemLink>
         <BreadcrumbsItem>
-          {story && story.pid ? 'Edit ' : 'New '}story
+          {publishedAt ? (
+            <>
+              Published story&nbsp;
+              <span className={classes.publicationDate}>
+                {formatFullDate(publishedAt)}
+              </span>
+            </>
+          ) : (
+            'Draft'
+          )}
         </BreadcrumbsItem>
       </Breadcrumbs>
       <HeaderBarButtons />
@@ -58,6 +78,7 @@ const StoryEdit = ({
 
 const mapStateToProps = createStructuredSelector({
   loaded: loadedSelector,
+  accountId: currentAccountIdSelector,
   story: storySelector,
   canNotPublishSnackShown: canNotPublishSnackShownSelector,
 })

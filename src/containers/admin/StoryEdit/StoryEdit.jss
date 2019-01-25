@@ -8,6 +8,9 @@ export default {
     paddingTop: 150,
     paddingBottom: 80,
   },
+  publicationDate: {
+    color: 'rgba(37, 43, 67, 0.3)',
+  },
   form: {
     width: 770,
   },
