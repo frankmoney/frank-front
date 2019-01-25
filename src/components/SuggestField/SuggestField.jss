@@ -26,4 +26,7 @@ export default {
   field: {
     width: '100%',
   },
+  wrapper: {
+    position: 'relative',
+  },
 }
