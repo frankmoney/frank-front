@@ -1,15 +1,20 @@
 import PropTypes from 'prop-types'
 import { compose, withPropsOnChange, getContext } from 'recompose'
-import PaymentSuggestField from './PaymentSuggestField'
-import QUERY from './queries'
+import PaymentSuggestField from 'components/PaymentSuggestField'
+import * as QUERY from './queries'
 
 export default compose(
   getContext({ graphql: PropTypes.func.isRequired }),
   withPropsOnChange(
     ['accountId', 'paymentId'],
-    ({ graphql, accountId, paymentId }) => ({
+    ({ graphql, paymentId, accountId }) => ({
       querySuggestions: search =>
-        graphql(QUERY.suggestDescriptions, { search, accountId, paymentId }),
+        graphql(
+          paymentId
+            ? QUERY.paymentSuggestDescriptions
+            : QUERY.accountSuggestDescriptions,
+          { search, accountId, paymentId }
+        ),
     })
   ),
   withPropsOnChange(['onChange'], ({ onChange }) => ({
