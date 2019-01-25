@@ -15,7 +15,7 @@ import {
 export default (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.load)
-    .switchMap(() => {
+    .switchMap(({ payload: { sourcePids } }) => {
       const state = store.getState()
       const currentAccountId = currentAccountIdSelector(state)
       const search = searchTextSelector(state)
@@ -46,6 +46,7 @@ export default (action$, store, { graphql }) =>
         }),
         {
           accountId: currentAccountId,
+          sourcePids,
           amountMax,
           amountMin,
           categoryId: categoryId || null,
