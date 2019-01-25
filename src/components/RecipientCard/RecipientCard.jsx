@@ -22,7 +22,7 @@ const RecipientCard = ({
   revenue,
   spending,
 }) => (
-  <Paper className={cx(classes.paper, className)}>
+  <Paper className={cx(classes.paper, className)} disableOverflow>
     <div className={classes.leftColumn}>
       <TextWithEditableToggle
         className={classes.name}
