@@ -31,8 +31,8 @@ import { ROUTES } from 'const'
 import Copied from 'components/Copied'
 import PaymentStatus from 'components/admin/PaymentStatus'
 import SimilarPaymentsDrawer from 'containers/admin/Ledger/SimilarPaymentsDrawer'
-import DescriptionField from './DescriptionField'
-import PeerField from './PeerField'
+import PeerSuggestField from 'components/PeerSuggestField'
+import DescriptionSuggestField from 'components/DescriptionSuggestField'
 import styles from './PaymentCard.jss'
 import connectCard from './connectCard'
 import { getFormName, counters, validation } from './const'
@@ -114,7 +114,7 @@ const PaymentCard = ({
           <ReduxFormControl.Field
             name="peerName"
             counter={counters.peerName}
-            component={PeerField}
+            component={PeerSuggestField}
             stretch
             className={classes.field}
             label={amount >= 0 ? 'Received from' : 'Transferred to'}
@@ -149,7 +149,7 @@ const PaymentCard = ({
           <ReduxFormControl.Field
             name="description"
             counter={counters.description}
-            component={DescriptionField}
+            component={DescriptionSuggestField}
             stretch
             label="Description"
             placeholder="Start typing for suggestions..."
