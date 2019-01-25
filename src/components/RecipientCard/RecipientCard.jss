@@ -3,6 +3,7 @@ export default theme => ({
     display: 'flex',
     padding: [30, 30],
     minHeight: 252,
+    overflow: 'visible',
   },
   leftColumn: {
     position: 'relative',

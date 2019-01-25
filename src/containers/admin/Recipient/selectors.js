@@ -16,6 +16,7 @@ const get = (...prop) => (state: ReduxState) =>
 export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const listIsUpdatingSelector = get('updatingList')
+export const categoriesSelector = createPlainObjectSelector(get('categories'))
 export const paymentCountSelector = get('paymentCount')
 export const recipientSelector = createPlainObjectSelector(get('recipient'))
 export const paymentsSelector = createPlainObjectSelector(get('payments'))
