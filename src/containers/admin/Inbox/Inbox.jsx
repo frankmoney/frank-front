@@ -1,4 +1,5 @@
 // @flow strict-local
+import qs from 'querystring'
 import React from 'react'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
@@ -64,7 +65,14 @@ export default compose(
   lifecycle({
     componentWillMount() {
       if (!this.props.loaded) {
-        this.props.load({})
+        const query =
+          this.props.location &&
+          typeof this.props.location.search === 'string' &&
+          qs.parse(this.props.location.search.substr(1))
+
+        this.props.load({
+          sourcePids: query && query.src && query.src.split(','),
+        })
       }
     },
     componentWillUnmount() {

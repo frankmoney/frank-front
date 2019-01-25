@@ -39,6 +39,7 @@ export default {
     `
       query(
       $accountId: ID!
+      $sourcePids: [ID!]
       $take: Int!
       $skip: Int
       $dateMin: Date
@@ -63,6 +64,7 @@ export default {
           amountMax: $amountMax
           verified: false
           pending: $pending
+          sourcePids: $sourcePids
         ) {
           ${PAYMENTS}
         }
@@ -72,6 +74,7 @@ export default {
           amountMin: $amountMin
           amountMax: $amountMax
           verified: false
+          sourcePids: $sourcePids
         )
       }
     }
