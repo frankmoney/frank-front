@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { injectStyles } from '@frankmoney/ui'
 import { Table } from '@frankmoney/components'
 import RecipientRow from 'components/RecipientRow'
+import { currentAccountIdSelector } from 'redux/selectors/user'
 import {
   dataSourceSelector,
   rowDataSelector,
@@ -27,6 +28,7 @@ const styles = {
 
 const ConnectedRow = compose(
   connect(state => ({
+    accountId: currentAccountIdSelector(state),
     searchText: searchTextSelector(state),
   })),
   withHandlers({
@@ -35,10 +37,6 @@ const ConnectedRow = compose(
     },
   })
 )(RecipientRow)
-
-// const recipientsDataSourceSelector = () => []
-
-// const recipientsRowDataSelector = () => []
 
 const tableProps = props => ({
   name: TABLE_NAME,

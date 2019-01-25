@@ -36,6 +36,12 @@ export default {
       ${includePayments ? '$skip: Int' : ''}
     ) {
       account(pid: $accountId) {
+        categories {
+          id: pid
+          name
+          color
+        }
+        
         peer(pid: $peerId) {
           ${includeRecipientInfo ? recipientDetails : ''}
           
@@ -50,11 +56,32 @@ export default {
               id: pid
               postedOn
               amount
+              verified
+              pending
+              peer {
+                id: pid
+                name
+              }
               description
               category {
                 id: pid
                 name
                 color
+              }
+              descriptionUpdater {
+                isSystem
+              }
+              peerUpdater {
+                isSystem
+              }
+              categoryUpdater {
+                isSystem
+              }
+              similarCount: countSimilar(includeSelf: true)
+              bankDescription
+              source {
+                bankName
+                bankLogo
               }
             }`) ||
             ''}
@@ -64,10 +91,11 @@ export default {
     `,
     ({
       account: {
+        categories,
         peer: {
           id,
           name,
-          categories,
+          categories: peerCategories,
           payments,
           countPayments,
           countTotal,
@@ -77,11 +105,12 @@ export default {
         },
       },
     }) => ({
+      categories,
       recipient: includeRecipientInfo
         ? {
             id,
             name,
-            categories: R.map(mapCategory, categories),
+            categories: R.map(mapCategory, peerCategories),
             total: countTotal,
             revenue: countRevenue,
             spending: -countSpending,

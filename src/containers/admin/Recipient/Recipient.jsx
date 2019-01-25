@@ -15,6 +15,8 @@ import { createRouteUrl } from '@frankmoney/utils'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import Spinner from 'components/kit/Spinner'
+import MultiEditSnack from 'containers/admin/MultiEditSnack'
+import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -23,6 +25,7 @@ import {
   isLoadingSelector,
   listIsUpdatingSelector,
   paymentCountSelector,
+  categoriesSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 import RecipientTable from './RecipientTable'
@@ -30,6 +33,10 @@ import RecipientPager from './RecipientPager'
 import RecipientCard from './RecipientCard'
 import RecipientFilter from './RecipientFilter'
 import styles from './Recipient.jss'
+
+const ConnectedMultiEditSnack = reconnect({
+  categories: categoriesSelector,
+})(MultiEditSnack)
 
 class Recipient extends React.PureComponent {
   render() {
@@ -74,6 +81,7 @@ class Recipient extends React.PureComponent {
             </div>
           )}
         </div>
+        <ConnectedMultiEditSnack />
       </div>
     )
   }
