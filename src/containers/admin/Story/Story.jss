@@ -8,6 +8,9 @@ export default theme => ({
     paddingTop: 110,
     paddingBottom: 100,
   },
+  publicationDate: {
+    color: 'rgba(37, 43, 67, 0.3)',
+  },
   container: {
     width: 850,
   },

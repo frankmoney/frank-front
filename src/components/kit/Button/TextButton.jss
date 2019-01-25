@@ -85,6 +85,16 @@ export default theme => ({
     },
   },
 
+  solidGray: {
+    color: 'rgba(37, 43, 67, 0.5)',
+    '&:hover, &$hover': {
+      color: 'rgba(37, 43, 67, 0.8)',
+    },
+    '&:active, &$active': {
+      color: '#252B43',
+    },
+  },
+
   disabled: {
     cursor: 'auto',
     pointerEvents: 'none',

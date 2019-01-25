@@ -36,11 +36,6 @@ export default [
     exact: true,
   },
   {
-    component: RecoverPasswordSuccess,
-    path: ROUTES.auth.recoverPasswordSuccess,
-    exact: true,
-  },
-  {
     component: RecoverPassword,
     path: ROUTES.auth.recoverPassword,
     exact: true,
