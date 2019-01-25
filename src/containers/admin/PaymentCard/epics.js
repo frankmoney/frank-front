@@ -1,4 +1,4 @@
-import { change, blur, isDirty } from 'redux-form/immutable'
+import { blur, focus, isDirty } from 'redux-form/immutable'
 import * as Rx from 'rxjs'
 import * as LEDGER_ACTIONS from 'containers/admin/Ledger/actions'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -47,14 +47,15 @@ export const save = (action$, store, { graphql }) =>
     ])
 
 export const autosave = (action$, store) => {
-  const changeType = change().type
   const blurType = blur().type
+  const focusType = focus().type
 
   return Rx.Observable.merge(
-    action$.ofType(changeType).debounceTime(5000),
+    action$.ofType(focusType),
     action$.ofType(blurType)
   )
     .debounceTime(2000)
+    .filter(({ type }) => type === blurType)
     .filter(
       ({ meta: { form } }) =>
         form.startsWith('payment-') &&
