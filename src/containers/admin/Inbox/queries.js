@@ -52,6 +52,7 @@ export default {
         categories {
           id: pid
           name
+          type
           color
         }
         payments(
