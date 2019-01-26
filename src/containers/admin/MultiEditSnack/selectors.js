@@ -2,7 +2,7 @@ import { testObject } from '@frankmoney/forms'
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
-import { isDirty } from 'redux-form/immutable'
+import { isDirty, getFormValues } from 'redux-form/immutable'
 import pluralize from 'utils/pluralize'
 import { validation } from '../PaymentCard/const'
 import { FORM_NAME } from './const'
@@ -101,13 +101,24 @@ export const categoryType = createSelector(
   ])
 )
 
+const formSelector = getFormValues(FORM_NAME)
 const isDirtyField = field => state => isDirty(FORM_NAME)(state, [field])
+
+const hasValueField = field => state => {
+  const form = formSelector(state)
+  if (form) {
+    return form.get(field)
+  }
+}
+
+const willChangeField = field =>
+  createSelector(isDirtyField(field), hasValueField(field), R.and)
 
 export const updateForecastMessage = createSelector(
   paymentsCount,
-  isDirtyField('categoryId'),
-  isDirtyField('peerName'),
-  isDirtyField('description'),
+  willChangeField('categoryId'),
+  willChangeField('peerName'),
+  willChangeField('description'),
   (count, ...dirtyFlags) => {
     const dirtyCount = dirtyFlags.filter(x => !!x).length
 
@@ -119,3 +130,5 @@ export const updateForecastMessage = createSelector(
       : ''
   }
 )
+
+export const noPaymentChanges = createSelector(updateForecastMessage, R.isEmpty)

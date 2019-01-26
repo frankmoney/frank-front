@@ -81,6 +81,7 @@ const MultiEditPaymentDialog = ({
   accountId,
   submit,
   updating,
+  disableConfirm,
 }: Props) => (
   <div className={cx(classes.root, className)}>
     <div className={classes.body}>
@@ -150,6 +151,7 @@ const MultiEditPaymentDialog = ({
           label="Update"
           onClick={submit}
           loading={updating}
+          disabled={disableConfirm}
         />
       </div>
     </div>
@@ -164,6 +166,7 @@ export default compose(
     updating: SELECTORS.isUpdating,
     updateForecastMessage: SELECTORS.updateForecastMessage,
     accountId: currentAccountIdSelector,
+    disableConfirm: SELECTORS.noPaymentChanges,
   }),
   reduxForm({
     form: FORM_NAME,

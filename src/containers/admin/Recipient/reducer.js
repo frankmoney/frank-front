@@ -13,7 +13,7 @@ const defaultState = Immutable.fromJS({
   categories: null,
   recipient: null,
   paymentCount: 0,
-  payments: null,
+  payments: [],
 })
 
 export default handleActions(
