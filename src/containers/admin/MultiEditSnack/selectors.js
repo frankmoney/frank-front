@@ -103,13 +103,13 @@ export const categoryType = createSelector(
   ])
 )
 
-export const formValues = getFormValues(FORM_NAME)
+export const formValues = createPlainObjectSelector(getFormValues(FORM_NAME))
 const isDirtyField = field => state => isDirty(FORM_NAME)(state, [field])
 
 const hasValueField = field => state => {
   const form = formValues(state)
   if (form) {
-    return form.get(field)
+    return typeof form[field] !== 'undefined' && form[field] !== null
   }
 }
 
