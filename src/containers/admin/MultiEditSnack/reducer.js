@@ -5,7 +5,7 @@ import ACTIONS from './actions'
 
 export const REDUCER_KEY = 'multiEdit'
 
-type Status = null | 'updating' | 'error' | 'done'
+type Status = null | 'updating' | 'publishing' | 'error' | 'done'
 
 const defaultState = fromJS({
   status: null,
@@ -25,7 +25,8 @@ export default handleActions(
       state.update('payments', list => list.filter(x => x.id !== payment.id)),
     [ACTIONS.beginEdit]: state => state.merge({ editDialogOpen: true }),
     [ACTIONS.cancelEdit]: state => state.merge({ editDialogOpen: false }),
-    [ACTIONS.confirmEdit]: state => state.merge({ status: 'updating' }),
+    [ACTIONS.save]: state => state.merge({ status: 'updating' }),
+    [ACTIONS.saveAndPublish]: state => state.merge({ status: 'publishing' }),
     [ACTIONS.changePublish]: state =>
       state.merge({
         publishDialogOpen: true,

@@ -22,7 +22,8 @@ const MultiEditPaymentDialog = ({
   paymentsCount,
   categories = [],
   onCancel,
-  onConfirm,
+  onSave,
+  onSaveAndPublish,
   accountId,
   submit,
   updating,
@@ -38,7 +39,8 @@ const MultiEditPaymentDialog = ({
     <Dialog.Title>{`Edit ${pluralize('payment', paymentsCount)}`}</Dialog.Title>
     <MultiEditForm
       categories={categories}
-      onConfirm={onConfirm}
+      onSave={onSave}
+      onSaveAndPublish={onSaveAndPublish}
       onCancel={onCancel}
     />
   </Dialog>
@@ -53,7 +55,8 @@ export default compose(
     },
     {
       onCancel: () => ACTIONS.cancelEdit(),
-      onConfirm: data => ACTIONS.confirmEdit(data),
+      onSave: () => ACTIONS.save(),
+      onSaveAndPublish: () => ACTIONS.saveAndPublish(),
     }
   )
 )(MultiEditPaymentDialog)

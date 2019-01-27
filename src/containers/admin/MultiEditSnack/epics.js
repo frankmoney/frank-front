@@ -26,9 +26,16 @@ export const publish = (action$, store, { graphql }) =>
 
 export const edit = (action$, store, { graphql }) =>
   action$
-    .ofType(ACTIONS.confirmEdit)
-    .switchMap(({ payload: { peerName, categoryId, description } }) => {
+    .filter(({ type }) =>
+      [ACTIONS.save.toString(), ACTIONS.saveAndPublish.toString()].includes(
+        type
+      )
+    )
+    .switchMap(({ type }) => {
       const state = store.getState()
+      const verified = type === ACTIONS.saveAndPublish.toString() ? true : null
+      const { peerName, categoryId, description } = SELECTORS.formValues(state)
+
       return graphql(
         QUERIES.updatePayments,
         omitNulls({
@@ -37,6 +44,7 @@ export const edit = (action$, store, { graphql }) =>
           peerName,
           categoryId,
           description,
+          verified,
         })
       )
     })

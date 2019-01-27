@@ -33,9 +33,11 @@ export const publishDialogOpen = get('publishDialogOpen')
 export const editDialogOpen = get('editDialogOpen')
 export const status = get('status')
 export const isUpdating = createSelector(status, R.equals('updating'))
+export const isPublishing = createSelector(status, R.equals('publishing'))
 export const isError = createSelector(status, R.equals('error'))
 export const isSuccess = createSelector(status, R.equals('done'))
 export const updateCompleted = createSelector(isError, isSuccess, R.or)
+export const isProcessing = createSelector(isUpdating, isPublishing, R.or)
 export const payments = createPlainObjectSelector(get('payments'))
 export const paymentIds = createSelector(payments, R.map(R.prop('id')))
 
@@ -101,11 +103,11 @@ export const categoryType = createSelector(
   ])
 )
 
-const formSelector = getFormValues(FORM_NAME)
+export const formValues = getFormValues(FORM_NAME)
 const isDirtyField = field => state => isDirty(FORM_NAME)(state, [field])
 
 const hasValueField = field => state => {
-  const form = formSelector(state)
+  const form = formValues(state)
   if (form) {
     return form.get(field)
   }

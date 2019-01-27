@@ -12,11 +12,11 @@ import CategorySelect from 'components/CategorySelect'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import DescriptionSuggestField from 'components/DescriptionSuggestField'
-import { counters, validationWithoutRequired } from '../PaymentCard/const'
+import { counters, validation } from '../PaymentCard/const'
 import * as SELECTORS from './selectors'
 import { FORM_NAME } from './const'
 
-const validate = createValidateFromRules(validationWithoutRequired)
+const validate = createValidateFromRules(validation)
 
 const styles = theme => ({
   root: {},
@@ -78,9 +78,12 @@ const MultiEditPaymentDialog = ({
   updateForecastMessage,
   categories,
   onCancel,
+  onSave,
   accountId,
   submit,
+  processing,
   updating,
+  publishing,
   disableConfirm,
 }: Props) => (
   <div className={cx(classes.root, className)}>
@@ -98,7 +101,7 @@ const MultiEditPaymentDialog = ({
             larger
             fontBolder
             accountId={accountId}
-            disabled={updating}
+            disabled={processing}
           />
         </div>
         <div className={classes.category}>
@@ -110,7 +113,7 @@ const MultiEditPaymentDialog = ({
             categories={categories}
             label="Category"
             placeholder="Choose a category"
-            disabled={updating}
+            disabled={processing}
             larger
             stretch
           />
@@ -130,7 +133,7 @@ const MultiEditPaymentDialog = ({
             larger
             className={classes.field}
             accountId={accountId}
-            disabled={updating}
+            disabled={processing}
           />
         </div>
       </div>
@@ -140,18 +143,26 @@ const MultiEditPaymentDialog = ({
       <div className={classes.buttons}>
         <Button
           color="gray"
-          width={130}
+          width={115}
           label="Cancel"
           onClick={onCancel}
-          disabled={updating}
+          disabled={processing}
         />
         <Button
           color="blue"
-          width={235}
+          width={115}
           label="Update"
-          onClick={submit}
+          onClick={() => onSave()}
           loading={updating}
-          disabled={disableConfirm}
+          disabled={disableConfirm || publishing}
+        />
+        <Button
+          color="blue"
+          width={200}
+          label="Update & publish"
+          onClick={() => submit()}
+          loading={publishing}
+          disabled={disableConfirm || updating}
         />
       </div>
     </div>
@@ -163,6 +174,8 @@ export default compose(
   reconnect({
     initialValues: SELECTORS.initialFormValues,
     cumulativeCategoryType: SELECTORS.categoryType,
+    processing: SELECTORS.isProcessing,
+    publishing: SELECTORS.isPublishing,
     updating: SELECTORS.isUpdating,
     updateForecastMessage: SELECTORS.updateForecastMessage,
     accountId: currentAccountIdSelector,
@@ -173,7 +186,7 @@ export default compose(
     enableReinitialize: true,
     validate,
     onSubmit: (data, _, props) => {
-      props.onConfirm(data.toJS())
+      props.onSaveAndPublish(data.toJS())
     },
   })
 )(MultiEditPaymentDialog)
