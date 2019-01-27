@@ -118,7 +118,7 @@ export default compose(
     },
     {
       loadPayment: ACTIONS.load,
-      onClose: ACTIONS.closeDrawer,
+      onClose: () => ACTIONS.closeDrawer(),
       onLoad: ACTIONS.loadSimilarPayments,
       onLoadMore: ACTIONS.loadMoreSimilarPayments,
     }
