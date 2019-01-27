@@ -1,5 +1,5 @@
 import React from 'react'
-import Snack from 'components/kit/Snack'
+import SidebarSnack from 'components/SidebarSnack'
 
 const MailTo = ({ children, email, ...otherProps }) => (
   <a style={{ color: 'white' }} href={`mailto:${email}`} {...otherProps}>
@@ -8,7 +8,7 @@ const MailTo = ({ children, email, ...otherProps }) => (
 )
 
 const GeneralErrorSnack = ({ supportEmail, ...otherProps }) => (
-  <Snack
+  <SidebarSnack
     color="red"
     message={
       supportEmail ? (
