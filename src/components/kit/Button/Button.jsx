@@ -82,6 +82,7 @@ const Button = ({
       },
       className
     )}
+    disabled={disabled}
     {...baseButtonProps}
   >
     {icon &&
