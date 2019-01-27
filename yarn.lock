@@ -717,21 +717,21 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
-"@frankmoney/components-csr@0.2.0-alpha.128":
-  version "0.2.0-alpha.128"
-  resolved "https://registry.npmjs.org/@frankmoney/components-csr/-/components-csr-0.2.0-alpha.128.tgz#2fff9a7fb283ca9f644e1ab2d25db3ed6c1044b6"
+"@frankmoney/components-csr@0.2.0-alpha.129":
+  version "0.2.0-alpha.129"
+  resolved "https://registry.npmjs.org/@frankmoney/components-csr/-/components-csr-0.2.0-alpha.129.tgz#285fb181eba6ac6d54c3fab8d86c80a80cf2782e"
   dependencies:
-    "@frankmoney/fonts" "^0.2.0-alpha.128"
-    "@frankmoney/ui" "^0.2.0-alpha.128"
+    "@frankmoney/fonts" "^0.2.0-alpha.129"
+    "@frankmoney/ui" "^0.2.0-alpha.129"
 
-"@frankmoney/components@0.2.0-alpha.128", "@frankmoney/components@^0.2.0-alpha.128":
-  version "0.2.0-alpha.128"
-  resolved "https://registry.npmjs.org/@frankmoney/components/-/components-0.2.0-alpha.128.tgz#65cfd3ddb4c9bfdba8b7a538a772889457badf53"
+"@frankmoney/components@0.2.0-alpha.129", "@frankmoney/components@^0.2.0-alpha.129":
+  version "0.2.0-alpha.129"
+  resolved "https://registry.npmjs.org/@frankmoney/components/-/components-0.2.0-alpha.129.tgz#3c45c65956d078c87b5955b04cd729fd810d0643"
   dependencies:
-    "@frankmoney/datepicker" "^0.2.0-alpha.128"
-    "@frankmoney/grid" "^0.2.0-alpha.128"
-    "@frankmoney/ui" "^0.2.0-alpha.128"
-    "@frankmoney/utils" "^0.2.0-alpha.128"
+    "@frankmoney/datepicker" "^0.2.0-alpha.129"
+    "@frankmoney/grid" "^0.2.0-alpha.129"
+    "@frankmoney/ui" "^0.2.0-alpha.129"
+    "@frankmoney/utils" "^0.2.0-alpha.129"
     color-js "^1.0.4"
     material-ui "1.0.0-beta.43"
     material-ui-icons "1.0.0-beta.36"
@@ -748,11 +748,11 @@
     react-transition-group "2.2.0"
     redux-actions "^2.2.1"
 
-"@frankmoney/datepicker@0.2.0-alpha.128", "@frankmoney/datepicker@^0.2.0-alpha.128":
-  version "0.2.0-alpha.128"
-  resolved "https://registry.npmjs.org/@frankmoney/datepicker/-/datepicker-0.2.0-alpha.128.tgz#3a18d76537cddd0a20d7fe814a723584ee79ce3b"
+"@frankmoney/datepicker@0.2.0-alpha.129", "@frankmoney/datepicker@^0.2.0-alpha.129":
+  version "0.2.0-alpha.129"
+  resolved "https://registry.npmjs.org/@frankmoney/datepicker/-/datepicker-0.2.0-alpha.129.tgz#ae0c7eac2a97193acafa354c2d7e0956cd13a107"
   dependencies:
-    "@frankmoney/ui" "^0.2.0-alpha.128"
+    "@frankmoney/ui" "^0.2.0-alpha.129"
     classnames "^2.2.5"
     date-fns "2.0.0-alpha.7"
     keycode "^2.1.9"
@@ -765,28 +765,28 @@
     react-text-mask "^5.1.0"
     recompose "^0.26.0"
 
-"@frankmoney/fonts@0.2.0-alpha.128", "@frankmoney/fonts@^0.2.0-alpha.128":
-  version "0.2.0-alpha.128"
-  resolved "https://registry.npmjs.org/@frankmoney/fonts/-/fonts-0.2.0-alpha.128.tgz#cb9d06d0f8ed40ba6fdd05ec94b085874e15aea7"
+"@frankmoney/fonts@0.2.0-alpha.129", "@frankmoney/fonts@^0.2.0-alpha.129":
+  version "0.2.0-alpha.129"
+  resolved "https://registry.npmjs.org/@frankmoney/fonts/-/fonts-0.2.0-alpha.129.tgz#feb50ce45eadbd2b28f891fde777e5377f358e78"
   dependencies:
-    "@frankmoney/ui" "^0.2.0-alpha.128"
+    "@frankmoney/ui" "^0.2.0-alpha.129"
 
-"@frankmoney/forms@0.2.0-alpha.128", "@frankmoney/forms@^0.2.0-alpha.128":
-  version "0.2.0-alpha.128"
-  resolved "https://registry.npmjs.org/@frankmoney/forms/-/forms-0.2.0-alpha.128.tgz#1a1677f385a1d5671e0370d36f8780b77674bd43"
+"@frankmoney/forms@0.2.0-alpha.129", "@frankmoney/forms@^0.2.0-alpha.129":
+  version "0.2.0-alpha.129"
+  resolved "https://registry.npmjs.org/@frankmoney/forms/-/forms-0.2.0-alpha.129.tgz#106c727ebb22930bb49d3f9fb4b330852bcb3e5c"
   dependencies:
-    "@frankmoney/components" "^0.2.0-alpha.128"
-    "@frankmoney/ui" "^0.2.0-alpha.128"
-    "@frankmoney/utils" "^0.2.0-alpha.128"
+    "@frankmoney/components" "^0.2.0-alpha.129"
+    "@frankmoney/ui" "^0.2.0-alpha.129"
+    "@frankmoney/utils" "^0.2.0-alpha.129"
     ramda "^0.25.0"
     react "16.4.0"
     react-dom "16.4.0"
     tinymask "^1.0.2"
     validator "^8.1.0"
 
-"@frankmoney/grid@0.2.0-alpha.128", "@frankmoney/grid@^0.2.0-alpha.128":
-  version "0.2.0-alpha.128"
-  resolved "https://registry.npmjs.org/@frankmoney/grid/-/grid-0.2.0-alpha.128.tgz#06f93cb0f1b437a0158c2b02f9abae00f3c67e99"
+"@frankmoney/grid@0.2.0-alpha.129", "@frankmoney/grid@^0.2.0-alpha.129":
+  version "0.2.0-alpha.129"
+  resolved "https://registry.npmjs.org/@frankmoney/grid/-/grid-0.2.0-alpha.129.tgz#56e96831386e6cfa40ae92244157af8359926417"
   dependencies:
     lodash "^4.6.0"
     react "16.4.0"
@@ -794,11 +794,11 @@
     react-jss "^8.3.2"
     recompose "^0.26.0"
 
-"@frankmoney/ui@0.2.0-alpha.128", "@frankmoney/ui@^0.2.0-alpha.128":
-  version "0.2.0-alpha.128"
-  resolved "https://registry.npmjs.org/@frankmoney/ui/-/ui-0.2.0-alpha.128.tgz#80ae3ed8abe0c893e134b72c5a46800cc4b4a6cc"
+"@frankmoney/ui@0.2.0-alpha.129", "@frankmoney/ui@^0.2.0-alpha.129":
+  version "0.2.0-alpha.129"
+  resolved "https://registry.npmjs.org/@frankmoney/ui/-/ui-0.2.0-alpha.129.tgz#97e5aa059b9d8291b8e0bea3f178c0f7c2530fd7"
   dependencies:
-    "@frankmoney/grid" "^0.2.0-alpha.128"
+    "@frankmoney/grid" "^0.2.0-alpha.129"
     lodash "^4.6.0"
     normalize-jss "^4.0.0"
     ramda "^0.25.0"
@@ -806,9 +806,9 @@
     react-jss "^8.3.3"
     recompose "^0.26.0"
 
-"@frankmoney/utils@0.2.0-alpha.128", "@frankmoney/utils@^0.2.0-alpha.128":
-  version "0.2.0-alpha.128"
-  resolved "https://registry.npmjs.org/@frankmoney/utils/-/utils-0.2.0-alpha.128.tgz#474a2e1e746c4a20ffe22eec43a1ced2fd05aad8"
+"@frankmoney/utils@0.2.0-alpha.129", "@frankmoney/utils@^0.2.0-alpha.129":
+  version "0.2.0-alpha.129"
+  resolved "https://registry.npmjs.org/@frankmoney/utils/-/utils-0.2.0-alpha.129.tgz#5ab4109215bc81e63d585a6641324a6d91b47667"
   dependencies:
     axios "^0.18.0"
     es6-error "^4.1.1"
@@ -822,17 +822,17 @@
     redux-actions "^2.2.1"
     rimraf "^2.6.2"
 
-"@frankmoney/webapp@0.2.0-alpha.128":
-  version "0.2.0-alpha.128"
-  resolved "https://registry.npmjs.org/@frankmoney/webapp/-/webapp-0.2.0-alpha.128.tgz#e557aec18598cb512ae470964626eb053fee8be2"
+"@frankmoney/webapp@0.2.0-alpha.129":
+  version "0.2.0-alpha.129"
+  resolved "https://registry.npmjs.org/@frankmoney/webapp/-/webapp-0.2.0-alpha.129.tgz#ece6aecc5d0b3eac3915e9058a4082b0a670d9ce"
   dependencies:
-    "@frankmoney/components" "^0.2.0-alpha.128"
-    "@frankmoney/datepicker" "^0.2.0-alpha.128"
-    "@frankmoney/fonts" "^0.2.0-alpha.128"
-    "@frankmoney/forms" "^0.2.0-alpha.128"
-    "@frankmoney/grid" "^0.2.0-alpha.128"
-    "@frankmoney/ui" "^0.2.0-alpha.128"
-    "@frankmoney/utils" "^0.2.0-alpha.128"
+    "@frankmoney/components" "^0.2.0-alpha.129"
+    "@frankmoney/datepicker" "^0.2.0-alpha.129"
+    "@frankmoney/fonts" "^0.2.0-alpha.129"
+    "@frankmoney/forms" "^0.2.0-alpha.129"
+    "@frankmoney/grid" "^0.2.0-alpha.129"
+    "@frankmoney/ui" "^0.2.0-alpha.129"
+    "@frankmoney/utils" "^0.2.0-alpha.129"
     body-parser "^1.18.2"
     classnames "^2.2.5"
     compression "^1.7.0"
