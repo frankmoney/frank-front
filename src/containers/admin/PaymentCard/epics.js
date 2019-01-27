@@ -46,6 +46,8 @@ export const save = (action$, store, { graphql }) =>
       ...(unpublished ? [ACTIONS.unpublish.success(payment)] : []),
     ])
 
+const getPaymentIdFromForm = form => form.replace('payment-', '')
+
 export const autosave = (action$, store) => {
   const blurType = blur().type
   const focusType = focus().type
@@ -56,15 +58,28 @@ export const autosave = (action$, store) => {
   )
     .debounceTime(2000)
     .filter(({ type }) => type === blurType)
-    .filter(
-      ({ meta: { form } }) =>
-        form.startsWith('payment-') &&
-        isDirty(form)(store.getState()) &&
-        !SELECTORS.saving(form.replace('payment-', ''))(store.getState()) &&
-        !SELECTORS.publishing(form.replace('payment-', ''))(store.getState())
-    )
+    .filter(({ meta: { form } }) => {
+      const state = store.getState()
+      const isPaymentForm = form.startsWith('payment-')
+      const dirty = isDirty(form)(state)
+      const canSave = SELECTORS.canSave(getPaymentIdFromForm(form))(state)
+      const isNotSavingState = !SELECTORS.saving(form.replace('payment-', ''))(
+        state
+      )
+      const isNotPublishingState = !SELECTORS.publishing(
+        form.replace('payment-', '')
+      )(state)
+
+      return (
+        isPaymentForm &&
+        dirty &&
+        canSave &&
+        isNotSavingState &&
+        isNotPublishingState
+      )
+    })
     .map(({ meta: { form } }) =>
-      ACTIONS.save({ id: form.replace('payment-', '') })
+      ACTIONS.save({ id: getPaymentIdFromForm(form) })
     )
 }
 

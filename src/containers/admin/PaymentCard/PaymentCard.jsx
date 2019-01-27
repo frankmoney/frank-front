@@ -280,10 +280,11 @@ const PaymentCard = ({
   </Paper>
 )
 
-const pickFormValues = ({ category, peer, description = '' }) => ({
+const pickFormValues = ({ category, peer, description = '', verified }) => ({
   categoryId: category && category.id,
   peerName: (peer && peer.name) || '',
   description,
+  verified,
 })
 
 export default compose(
@@ -300,7 +301,6 @@ export default compose(
     onSubmit: (data, _, props) => {
       const { publishing } = data.toJS()
       const payment = { id: props.id }
-
       if (!publishing) {
         props.onPaymentSave(payment)
       } else if (!props.verified) {
