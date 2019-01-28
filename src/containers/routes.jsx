@@ -49,7 +49,7 @@ const withAdminLayout = Component => props => (
   <AdminLayout>
     <Component {...props} />
     <Helmet title={BASE_TITLE} />
-    <!-- error reporting snack should be inside Sidebar context -->
+    {/* error reporting snack should be inside Sidebar context */}
     <UnexpectedErrorManager />
   </AdminLayout>
 )
