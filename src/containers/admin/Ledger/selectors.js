@@ -185,8 +185,10 @@ export const noTextSearchSelector = createSelector(
   R.either(R.isNil, R.isEmpty)
 )
 
+export const unfilteredCountSelector = get('unfilteredCount')
+
 export const isEmptyAccountSelector = createSelector(
-  get('unfilteredCount'),
+  unfilteredCountSelector,
   R.equals(0)
 )
 

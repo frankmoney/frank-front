@@ -4,6 +4,7 @@ import { createSelector } from 'reselect'
 import { queryParamSelector } from '@frankmoney/webapp'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import * as MULTI_SELECTORS from 'containers/admin/MultiEditSnack/selectors'
+import { type PaymentId } from 'data/models/payment'
 import type { ReduxState } from 'flow/redux'
 import { parseDate } from 'utils/dates'
 import { parseQueryStringBool, parseQueryStringNumber } from 'utils/querystring'
@@ -48,9 +49,9 @@ export const currentFiltersCount = createSelector(
 
 export const categories = createPlainObjectSelector(get('categories'))
 export const payments = createPlainObjectSelector(get('payments'))
-export const paymentByIdSelector = id =>
+export const paymentByIdSelector = (id: PaymentId) =>
   createSelector(payments, R.find(R.propEq('id', id)))
-export const isCheckedId = id =>
+export const isCheckedId = (id: PaymentId) =>
   createSelector(MULTI_SELECTORS.paymentIds, R.contains(id))
 
 // PAGINATION
@@ -69,4 +70,6 @@ export const noResults = createSelector(
   (count, filterCount) => count === 0 && filterCount === 0
 )
 
-export const emptyAccount = createSelector(get('unfilteredCount'), R.equals(0))
+export const unfilteredCount = get('unfilteredCount')
+
+export const emptyAccount = createSelector(unfilteredCount, R.equals(0))

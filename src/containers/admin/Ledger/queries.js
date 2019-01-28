@@ -49,6 +49,7 @@ export default {
     pieChart: includePie,
     barChart: includeBars,
     categories: includeCategories,
+    includeUnfiltered,
     categoryScoped,
   }) => [
     `
@@ -104,10 +105,10 @@ export default {
             amountMax: $amountMax
             verified: $verified
             sourcePids: $sourcePids
-          )
-          
-          unfilteredCount: countPayments`) ||
+          )`) ||
           ''}
+        
+        ${includeUnfiltered ? 'unfilteredCount: countPayments' : ''}
           
         ${(includeBars &&
           `ledgerBarChart(

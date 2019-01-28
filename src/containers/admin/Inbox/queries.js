@@ -35,7 +35,7 @@ source {
 
 export default {
   // TODO add pending and search params
-  listNewPayments: [
+  listNewPayments: ({ includeUnfiltered }) => [
     `
       query(
       $accountId: ID!
@@ -77,7 +77,7 @@ export default {
           verified: false
           sourcePids: $sourcePids
         )
-        unfilteredCount: countPayments
+        ${includeUnfiltered ? 'unfilteredCount: countPayments' : ''}
       }
     }
   `,
