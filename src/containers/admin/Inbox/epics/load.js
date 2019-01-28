@@ -1,4 +1,3 @@
-import * as R from 'ramda'
 import { formatDate } from 'utils/dates'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import ACTIONS from '../actions'
@@ -9,7 +8,7 @@ import * as SELECTORS from '../selectors'
 export default (action$, store, { graphql }) =>
   action$
     .ofType(ACTIONS.load)
-    .switchMap(() => {
+    .switchMap(({ payload: { sourcePids } }) => {
       const state = store.getState()
       const currentAccountId = currentAccountIdSelector(state)
       // const search = searchTextSelector(state)
@@ -24,6 +23,7 @@ export default (action$, store, { graphql }) =>
 
       return graphql(QUERIES.listNewPayments, {
         accountId: currentAccountId,
+        sourcePids,
         take: PAGE_SIZE,
         skip: (page - 1) * PAGE_SIZE,
         // search,

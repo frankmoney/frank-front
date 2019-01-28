@@ -27,6 +27,6 @@ export type ContextPayload = {|
 
 const context: React.Context<ContextPayload> =
   // flowlint-next-line unclear-type:off
-  (React.createContext(): any)
+  (React.createContext({ code: 'USD' }): any)
 
 export default context

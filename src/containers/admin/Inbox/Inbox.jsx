@@ -1,4 +1,5 @@
 // @flow strict-local
+import qs from 'querystring'
 import React from 'react'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
@@ -7,6 +8,7 @@ import Breadcrumbs from 'components/Breadcrumbs'
 import AreaSpinner from 'components/AreaSpinner/AreaSpinner'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
+import MultiEditSnack from 'containers/admin/MultiEditSnack'
 import InboxFilter from './InboxFilter'
 import InboxList from './InboxList'
 import NoResultsPlaceholder from './NoResultsPlaceholder'
@@ -31,6 +33,10 @@ const styles = {
   },
 }
 
+const ConnectedMultiEditSnack = reconnect({
+  categories: SELECTORS.categories,
+})(MultiEditSnack)
+
 const Inbox = ({ classes, emptyAccount, noResults }) => {
   const showContent = !(emptyAccount || noResults)
   return (
@@ -48,6 +54,7 @@ const Inbox = ({ classes, emptyAccount, noResults }) => {
           <InboxList />
         </div>
       )}
+      <ConnectedMultiEditSnack />
     </div>
   )
 }
@@ -68,7 +75,14 @@ export default compose(
   lifecycle({
     componentWillMount() {
       if (!this.props.loaded) {
-        this.props.load({})
+        const query =
+          this.props.location &&
+          typeof this.props.location.search === 'string' &&
+          qs.parse(this.props.location.search.substr(1))
+
+        this.props.load({
+          sourcePids: query && query.src && query.src.split(','),
+        })
       }
     },
     componentWillUnmount() {

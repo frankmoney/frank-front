@@ -19,7 +19,7 @@ export default compose(
     {
       onLoad: ACTIONS.loadSimilarPayments,
       onLoadMore: ACTIONS.loadMoreSimilarPayments,
-      onClose: ACTIONS.closeSimilarPaymentsDrawer,
+      onClose: () => ACTIONS.closeSimilarPaymentsDrawer(),
     }
   ),
   lifecycle({

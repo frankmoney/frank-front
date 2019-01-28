@@ -30,16 +30,14 @@ const getDropdownPlacementCandidates = placement => {
   return []
 }
 
-const getAutoPlacement = config => {
-  const {
-    element,
-    anchorElement,
-    arrowElement,
-    preferredPlacement,
-    distance,
-    alignmentOffset,
-  } = config
-
+const getAutoPlacement = ({
+  element,
+  anchorElement,
+  arrowElement,
+  preferredPlacement,
+  distance,
+  alignmentOffset,
+}) => {
   const placements = getDropdownPlacementCandidates(preferredPlacement)
   const elemRectBase = element.getBoundingClientRect()
 

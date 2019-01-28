@@ -17,12 +17,12 @@ class PaymentSuggestField extends React.Component {
   handleUpdateSuggest = ({ value, reason }) => {
     if (reason === 'input-changed' || reason === 'input-focused') {
       const search = value.trim()
-
-      if (!this.state.searching) {
-        this.setState({
-          searching: true,
-        })
-      }
+      //
+      // if (!this.state.searching) {
+      //   this.setState({
+      //     searching: true,
+      //   })
+      // }
 
       this.requestFetchSubject.next(search)
     }

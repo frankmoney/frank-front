@@ -13,9 +13,12 @@ export default frankTheme =>
           '&$checked': {
             color: frankTheme.colors.primary,
           },
+          '&$disabled': {
+            color: 'rgba(0,0,0,0.1)',
+          },
         },
         disabled: {
-          color: 'rgba(0,0,0,0.2)',
+          color: 'rgba(0,0,0,0.1)',
         },
       },
       MuiRadio: {

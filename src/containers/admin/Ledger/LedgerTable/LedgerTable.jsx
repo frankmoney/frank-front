@@ -25,11 +25,13 @@ const ConnectedPaymentsTableDetailRow = compose(
       onSimilarDrawerOpen: ACTIONS.openSimilarPaymentsDrawer,
     }
   ),
-  mapProps(({ categories, data, ...otherProps }) => ({
+  mapProps(({ categories, data, onCheck, ...otherProps }) => ({
     categories,
     showSimilarPayments: true,
     ...data,
     ...otherProps,
+    // format according table api
+    onCheck: isChecked => onCheck && onCheck(otherProps.rowId, isChecked),
   }))
 )(PaymentCard)
 
@@ -53,6 +55,7 @@ export default compose(
   mapProps(({ classes, ...props }) => ({
     name: 'ledger',
     canSelectRows: true,
+    noClickAway: true,
     tableHeaderClassName: classes.header,
     tableDetailRowClassName: classes.detailRow,
     rowComponent: ComposedPaymentsTableRow,

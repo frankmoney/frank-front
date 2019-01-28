@@ -1,4 +1,4 @@
-import { change, blur, isDirty } from 'redux-form/immutable'
+import { blur, focus, isDirty } from 'redux-form/immutable'
 import * as Rx from 'rxjs'
 import * as LEDGER_ACTIONS from 'containers/admin/Ledger/actions'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -28,7 +28,7 @@ export const save = (action$, store, { graphql }) =>
 
       return graphql(QUERIES.updatePayment, {
         accountId: currentAccountId,
-        paymentId: id,
+        paymentIds: id,
         peerName,
         categoryId,
         description: description || '',
@@ -46,24 +46,40 @@ export const save = (action$, store, { graphql }) =>
       ...(unpublished ? [ACTIONS.unpublish.success(payment)] : []),
     ])
 
+const getPaymentIdFromForm = form => form.replace('payment-', '')
+
 export const autosave = (action$, store) => {
-  const changeType = change().type
   const blurType = blur().type
+  const focusType = focus().type
 
   return Rx.Observable.merge(
-    action$.ofType(changeType).debounceTime(5000),
+    action$.ofType(focusType),
     action$.ofType(blurType)
   )
     .debounceTime(2000)
-    .filter(
-      ({ meta: { form } }) =>
-        form.startsWith('payment-') &&
-        isDirty(form)(store.getState()) &&
-        !SELECTORS.saving(form.replace('payment-', ''))(store.getState()) &&
-        !SELECTORS.publishing(form.replace('payment-', ''))(store.getState())
-    )
+    .filter(({ type }) => type === blurType)
+    .filter(({ meta: { form } }) => {
+      const state = store.getState()
+      const isPaymentForm = form.startsWith('payment-')
+      const dirty = isDirty(form)(state)
+      const canSave = SELECTORS.canSave(getPaymentIdFromForm(form))(state)
+      const isNotSavingState = !SELECTORS.saving(form.replace('payment-', ''))(
+        state
+      )
+      const isNotPublishingState = !SELECTORS.publishing(
+        form.replace('payment-', '')
+      )(state)
+
+      return (
+        isPaymentForm &&
+        dirty &&
+        canSave &&
+        isNotSavingState &&
+        isNotPublishingState
+      )
+    })
     .map(({ meta: { form } }) =>
-      ACTIONS.save({ id: form.replace('payment-', '') })
+      ACTIONS.save({ id: getPaymentIdFromForm(form) })
     )
 }
 

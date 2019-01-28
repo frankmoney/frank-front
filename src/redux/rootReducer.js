@@ -48,12 +48,18 @@ import paymentReducer, {
 import authAcceptInvitationReducer, {
   REDUCER_KEY as authAcceptInvitationKey,
 } from 'containers/auth/AcceptInvitation/reducer'
+import authRecoverPasswordReducer, {
+  REDUCER_KEY as authRecoverPasswordKey,
+} from 'containers/auth/RecoverPassword/reducer'
 import authResetPasswordReducer, {
   REDUCER_KEY as authResetPasswordKey,
 } from 'containers/auth/ResetPassword/reducer'
 import adminWidgetReducer, {
   REDUCER_KEY as adminWidgetKey,
 } from 'containers/admin/WidgetSettings/reducer'
+import multiEditReducer, {
+  REDUCER_KEY as multiEditKey,
+} from 'containers/admin/MultiEditSnack/reducer'
 
 export default createReducer({
   [adminLedgerKey]: adminLedgerReducer,
@@ -73,6 +79,8 @@ export default createReducer({
   [settingsKey]: settingsReducer,
   [paymentKey]: paymentReducer,
   [authAcceptInvitationKey]: authAcceptInvitationReducer,
+  [authRecoverPasswordKey]: authRecoverPasswordReducer,
   [authResetPasswordKey]: authResetPasswordReducer,
   [adminWidgetKey]: adminWidgetReducer,
+  [multiEditKey]: multiEditReducer,
 })

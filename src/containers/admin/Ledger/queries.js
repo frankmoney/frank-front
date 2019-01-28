@@ -54,6 +54,7 @@ export default {
     `
     query(
       $accountId: ID!
+      $sourcePids: [ID!]
       $amountMax: Float
       $amountMin: Float
       $dateMax: Date
@@ -88,6 +89,7 @@ export default {
             amountMin: $amountMin
             amountMax: $amountMax
             verified: $verified
+            sourcePids: $sourcePids
           ) {
             ${PAYMENTS}
           }`) ||
@@ -101,6 +103,7 @@ export default {
             amountMin: $amountMin
             amountMax: $amountMax
             verified: $verified
+            sourcePids: $sourcePids
           )
           
           unfilteredCount: countPayments`) ||

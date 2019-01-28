@@ -43,7 +43,7 @@ export const defaultFormatter: CurrencyFormatter = (
 
 const CurrencyProvider = ({ code, formatter, children }: Props) => (
   <CurrencyContext.Consumer>
-    {(context = {}) => (
+    {context => (
       <CurrencyContext.Provider
         value={{
           ...context,

@@ -71,6 +71,7 @@ const categoriesListComponent = injectStyles({
 
 const RecipientRow = ({
   classes,
+  accountId,
   data: {
     id,
     name,
@@ -87,7 +88,7 @@ const RecipientRow = ({
     className={classes.root}
     hoverBackgroundColor="#F8F9F9"
     component={Link}
-    to={createRouteUrl(ROUTES.directory.recipient, { id })}
+    to={createRouteUrl(ROUTES.account.directory.recipient, { accountId, id })}
   >
     <TableCell name="left" className={classes.leftColumn}>
       <div className={classes.name}>

@@ -1,4 +1,5 @@
 // @flow strict-local
+import qs from 'querystring'
 import React from 'react'
 import cx from 'classnames'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
@@ -10,6 +11,7 @@ import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import EmptyAccountPlaceholder from 'components/admin/EmptyAccountPlaceholder'
+import MultiEditSnack from 'containers/admin/MultiEditSnack'
 import ConnectedChartCard from './ConnectedChartCard'
 import LedgerHighlightTextProvider from './LedgerHighlightTextProvider'
 import LedgerPager from './LedgerPager'
@@ -25,6 +27,7 @@ import {
   cascadeSnackbarShown,
   lastCascadeCountSelector,
   chartsVisibleSelector,
+  categoriesSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
@@ -40,8 +43,13 @@ const ConnectedPaymentCascadeSnackbar = reconnect(
   }
 )(PaymentCascadeSnackbar)
 
+const ConnectedMultiEditSnack = reconnect({
+  categories: categoriesSelector,
+})(MultiEditSnack)
+
 const Ledger = ({
   cancelCategory,
+  chartShown,
   classes,
   className,
   currentCategory,
@@ -49,7 +57,6 @@ const Ledger = ({
   listDisabled,
   noResults,
   resetSearch,
-  chartShown,
 }) => (
   <CurrencyProvider code="USD">
     <div className={cx(classes.root, className)}>
@@ -94,6 +101,7 @@ const Ledger = ({
         </div>
       )}
       <ConnectedPaymentCascadeSnackbar />
+      <ConnectedMultiEditSnack />
     </div>
   </CurrencyProvider>
 )
@@ -118,7 +126,14 @@ export default compose(
   lifecycle({
     componentWillMount() {
       if (!this.props.loaded) {
-        this.props.load()
+        const query =
+          this.props.location &&
+          typeof this.props.location.search === 'string' &&
+          qs.parse(this.props.location.search.substr(1))
+
+        this.props.load({
+          sourcePids: query && query.src && query.src.split(','),
+        })
       }
     },
     componentWillReceiveProps(newProps) {

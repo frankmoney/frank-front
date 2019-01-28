@@ -1,5 +1,6 @@
 import Immutable, { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
+import MULTI_ACTIONS from 'containers/admin/MultiEditSnack/actions'
 import * as ACTIONS from './actions'
 
 export const REDUCER_KEY = 'recipient'
@@ -9,9 +10,10 @@ const defaultState = Immutable.fromJS({
   loaded: false,
   updatingList: false,
   updatingRecipient: false,
+  categories: null,
   recipient: null,
   paymentCount: 0,
-  payments: null,
+  payments: [],
 })
 
 export default handleActions(
@@ -20,12 +22,13 @@ export default handleActions(
       state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
     [ACTIONS.load.success]: (
       state,
-      { payload: { recipient, payments, paymentCount } }
+      { payload: { categories, recipient, payments, paymentCount } }
     ) =>
       state.merge({
         loading: false,
         loaded: true,
         updatingList: false,
+        categories,
         recipient: fromJS(recipient),
         payments: fromJS(payments),
         paymentCount,
@@ -43,6 +46,17 @@ export default handleActions(
     [ACTIONS.editName.error]: state =>
       state.merge({ updatingRecipient: false }),
     [ACTIONS.leave]: () => defaultState,
+
+    [MULTI_ACTIONS.updateSuccess]: (state, { payload: { payments } }) =>
+      state.update('payments', list =>
+        payments.reduce((l, p) => {
+          const idx = l.findIndex(x => x.get('id') === p.id)
+          if (idx === -1) {
+            return l
+          }
+          return l.update(idx, x => x.merge(p))
+        }, list)
+      ),
   },
   defaultState
 )

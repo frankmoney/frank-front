@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { isDirty, getFormValues } from 'redux-form/immutable'
+import { isDirty, isInvalid, getFormValues } from 'redux-form/immutable'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import { getFormName } from './const'
@@ -29,6 +29,13 @@ export const saving = id => get('meta', id, 'saving')
 export const publishing = id => get('meta', id, 'publishing')
 export const paymentData = id =>
   createPlainObjectSelector(getFormValues(getFormName(id)))
+
+export const canSave = id =>
+  createSelector(
+    paymentData(id),
+    isInvalid(getFormName(id)),
+    (payment, invalid) => payment && (!payment.verified || !invalid)
+  )
 
 export const clipboard = createPlainObjectSelector(get('clipboard'))
 

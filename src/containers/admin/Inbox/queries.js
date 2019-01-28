@@ -39,17 +39,20 @@ export default {
     `
       query(
       $accountId: ID!
+      $sourcePids: [ID!]
       $take: Int!
       $skip: Int
       $dateMin: Date
       $dateMax: Date
       $amountMin: Float
       $amountMax: Float
+      $pending: Boolean
     ) {
       account(pid: $accountId) {
         categories {
           id: pid
           name
+          type
           color
         }
         payments(
@@ -61,6 +64,8 @@ export default {
           amountMin: $amountMin
           amountMax: $amountMax
           verified: false
+          pending: $pending
+          sourcePids: $sourcePids
         ) {
           ${PAYMENTS}
         }
@@ -70,6 +75,7 @@ export default {
           amountMin: $amountMin
           amountMax: $amountMax
           verified: false
+          sourcePids: $sourcePids
         )
         unfilteredCount: countPayments
       }

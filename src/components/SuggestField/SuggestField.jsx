@@ -1,10 +1,10 @@
 // @flow strict-local
 import React from 'react'
-import Autosuggest from 'react-autosuggest'
 import AreaSpinner from 'components/AreaSpinner'
 import Paper from 'components/kit/Paper'
 import TextField from 'components/kit/TextField'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import Autosuggest from './AutoSuggest'
 import SuggestMenuItem from './SuggestMenuItem'
 import styles from './SuggestField.jss'
 // FIXME react-autosuggest прокидывает внутри себя реф на инпут через ref
@@ -98,10 +98,11 @@ class SuggestField extends React.PureComponent<Props> {
     return (
       <Autosuggest
         theme={{
-          suggestionsContainer: classes.suggestionsContainer,
-          suggestionsContainerOpen: classes.suggestionsContainerOpen,
-          suggestionsList: classes.suggestionsList,
-          suggestion: classes.suggestion,
+          itemsContainer: classes.suggestionsContainer,
+          itemsContainerOpen: classes.suggestionsContainerOpen,
+          itemsList: classes.suggestionsList,
+          item: classes.suggestion,
+          container: classes.wrapper,
         }}
         suggestions={suggestions}
         getSuggestionValue={this.getSuggestionValue}

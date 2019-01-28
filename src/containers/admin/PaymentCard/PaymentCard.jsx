@@ -6,7 +6,7 @@ import PasteIcon from 'material-ui-icons/AddToPhotos'
 import PublicIcon from 'material-ui-icons/Public'
 import PublishIcon from 'material-ui-icons/Check'
 import SimilarIcon from 'material-ui-icons/FormatListBulleted'
-import { required, maxLength, createValidateFromRules } from '@frankmoney/forms'
+import { createValidateFromRules } from '@frankmoney/forms'
 import {
   compose,
   withPropsOnChange,
@@ -19,6 +19,7 @@ import { createRouteUrl } from '@frankmoney/utils'
 import { injectStyles } from 'utils/styles'
 import { formatFullDate } from 'utils/dates'
 import { MenuItem } from 'components/kit/Menu'
+import Checkbox from 'components/kit/Checkbox'
 import Button from 'components/kit/Button'
 import Paper from 'components/kit/Paper'
 import CategorySelect from 'components/CategorySelect'
@@ -30,29 +31,19 @@ import { ROUTES } from 'const'
 import Copied from 'components/Copied'
 import PaymentStatus from 'components/admin/PaymentStatus'
 import SimilarPaymentsDrawer from 'containers/admin/Ledger/SimilarPaymentsDrawer'
-import DescriptionField from './DescriptionField'
-import PeerField from './PeerField'
+import PeerSuggestField from 'components/PeerSuggestField'
+import DescriptionSuggestField from 'components/DescriptionSuggestField'
 import styles from './PaymentCard.jss'
 import connectCard from './connectCard'
-import { getFormName } from './const'
+import { getFormName, counters, validation } from './const'
 import PendingPaymentCard from './PendingPaymentCard'
-
-const validation = {
-  categoryId: [required],
-  description: [required, maxLength(120)],
-  peerName: [required, maxLength(60)],
-}
-
-const counters = {
-  peerName: { unit: 'character', max: 60 },
-  description: { unit: 'character', max: 120 },
-}
 
 const validate = createValidateFromRules(validation)
 
 const PaymentCard = ({
   accountId,
   amount,
+  amountClassName,
   categories,
   categoryId,
   categoryLoading,
@@ -62,7 +53,10 @@ const PaymentCard = ({
   form: formName,
   handleFieldBlur,
   handleFieldChange,
+  hasCheckbox,
   id: paymentId,
+  isChecked,
+  onCheck,
   onPublishClick,
   onSaveClick,
   onSimilarDrawerOpen,
@@ -89,8 +83,17 @@ const PaymentCard = ({
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
-      <div className={classes.createdAt}>{formatFullDate(postedOn, true)}</div>
-      <div className={classes.amount}>
+      <div className={classes.createdAt}>
+        {hasCheckbox && (
+          <Checkbox
+            className={classes.checkbox}
+            checked={isChecked}
+            onChange={onCheck}
+          />
+        )}
+        {formatFullDate(postedOn, true)}
+      </div>
+      <div className={cx(classes.amount, amountClassName)}>
         <CurrencyDelta value={amount} />
         <PaymentStatus
           className={classes.status}
@@ -99,14 +102,19 @@ const PaymentCard = ({
         />
       </div>
     </div>
-    <BankDescription className={classes.bank} {...source} />
+    <BankDescription
+      className={classes.bank}
+      logoClassName={classes.bankLogo}
+      textClassName={classes.bankDescription}
+      {...source}
+    />
     <div className={classes.body}>
       <div className={classes.bodyRow}>
         <div className={classes.recipient}>
           <ReduxFormControl.Field
             name="peerName"
             counter={counters.peerName}
-            component={PeerField}
+            component={PeerSuggestField}
             stretch
             className={classes.field}
             label={amount >= 0 ? 'Received from' : 'Transferred to'}
@@ -130,7 +138,6 @@ const PaymentCard = ({
             label="Category"
             placeholder="Choose a category"
             larger
-            stretch
             loading={categoryLoading}
             onBlur={handleFieldBlur}
             onChange={handleFieldChange}
@@ -142,7 +149,7 @@ const PaymentCard = ({
           <ReduxFormControl.Field
             name="description"
             counter={counters.description}
-            component={DescriptionField}
+            component={DescriptionSuggestField}
             stretch
             label="Description"
             placeholder="Start typing for suggestions..."
@@ -273,10 +280,11 @@ const PaymentCard = ({
   </Paper>
 )
 
-const pickFormValues = ({ category, peer, description = '' }) => ({
+const pickFormValues = ({ category, peer, description = '', verified }) => ({
   categoryId: category && category.id,
   peerName: (peer && peer.name) || '',
   description,
+  verified,
 })
 
 export default compose(
@@ -293,7 +301,6 @@ export default compose(
     onSubmit: (data, _, props) => {
       const { publishing } = data.toJS()
       const payment = { id: props.id }
-
       if (!publishing) {
         props.onPaymentSave(payment)
       } else if (!props.verified) {

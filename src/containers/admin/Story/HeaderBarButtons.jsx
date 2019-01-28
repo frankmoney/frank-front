@@ -7,7 +7,6 @@ import EditIcon from 'material-ui-icons/Edit'
 import { createRouteUrl } from '@frankmoney/utils'
 import PublicLinkButton from 'components/PublicLinkButton'
 import Button from 'components/kit/Button'
-import { formatFullDate } from 'utils/datesLight'
 import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -24,10 +23,6 @@ const styles = theme => ({
     '&>:not(:first-child)': {
       marginLeft: 30,
     },
-  },
-  published: {
-    ...theme.fontRegular(16),
-    color: 'rgba(37, 43, 67, 0.5)',
   },
   draft: {
     ...theme.fontRegular(16),
@@ -48,9 +43,6 @@ const HeaderBarButtons = ({
     {!publishedAt && <div className={classes.draft}>Draft</div>}
     {publishedAt && (
       <>
-        <div className={classes.published}>
-          Published {formatFullDate(publishedAt)}
-        </div>
         <PublicLinkButton
           url={createRouteUrl(
             ROUTES.account.stories.idRoot,

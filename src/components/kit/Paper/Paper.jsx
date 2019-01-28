@@ -31,8 +31,8 @@ const styles = {
   root: {
     background: '#fff',
     borderRadius: 8,
-    overflow: 'auto',
-    outline: props => (props.disableOutline ? 'none' : 'inherit'),
+    overflow: props => (props.disableOverflow ? 'initial' : 'auto'),
+    outline: props => (props.disableOutline ? 'none' : 'initial'),
   },
   card: {
     boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.07)',
@@ -66,6 +66,7 @@ const Paper = ({
   type,
   // omit
   disableOutline,
+  disableOverflow,
   ...otherProps
 }: Props) => (
   <div className={cx(classes.root, classes[type], className)} {...otherProps}>

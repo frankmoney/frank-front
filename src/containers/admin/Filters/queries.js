@@ -15,6 +15,7 @@ export default {
       $amountMin: Float,
       $amountMax: Float,
       $verified: Boolean,
+      $pending: Boolean,
     ) {
       account(pid: $accountId) {
         countPayments(
@@ -24,6 +25,7 @@ export default {
           amountMax: $amountMax
           verified: $verified
           search: $search
+          pending: $pending
         )
       }
     }

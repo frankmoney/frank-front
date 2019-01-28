@@ -50,14 +50,12 @@ const ComposedAccountItem = withPropsOnChange(
           navLinkComponent={ReduxNavLink}
           primaryText="Directory"
           leftIcon={DirectoryIcon}
-          disabled
         />
         <SidebarMenuItem
           href={createRouteUrl(ROUTES.account.widget, { accountId })}
           navLinkComponent={ReduxNavLink}
           primaryText="Widgets"
           leftIcon={WidgetsIcon}
-          disabled
         />
         <SidebarMenuItem
           href={createRouteUrl(ROUTES.account.settings.root, { accountId })}

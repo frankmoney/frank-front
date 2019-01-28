@@ -1,4 +1,5 @@
 import React from 'react'
+import cx from 'classnames'
 import { compose, branch, renderComponent, renderNothing } from 'recompose'
 import { injectStyles } from 'utils/styles'
 import reconnect from 'utils/reconnect'
@@ -14,6 +15,12 @@ const styles = {
   list: {},
   card: {
     marginBottom: 35,
+    padding: 40,
+  },
+  pendingAmount: {
+    '$card &': {
+      marginRight: 0,
+    },
   },
   pagerWrap: {
     display: 'flex',
@@ -25,7 +32,15 @@ const InboxList = ({ classes, onResetSearch, payments }) => (
   <div className={classes.root}>
     <div className={classes.list}>
       {payments.map(payment => (
-        <InboxListCard key={payment.id} className={classes.card} {...payment} />
+        <InboxListCard
+          key={payment.id}
+          className={classes.card}
+          hasCheckbox
+          amountClassName={cx({
+            [classes.pendingAmount]: true || payment.pending,
+          })}
+          {...payment}
+        />
       ))}
       {payments.length === 0 && (
         <TableEmptyPlaceholder text="payments" onReset={onResetSearch} />

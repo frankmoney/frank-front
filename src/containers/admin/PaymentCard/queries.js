@@ -1,5 +1,3 @@
-import pluralize from 'utils/pluralize'
-
 const PAYMENTS = `
 id: pid
 postedOn
@@ -26,81 +24,25 @@ categoryUpdater {
   isSystem
 }
 `
-
-const suggestDescriptions = [
-  `
-    query(
-      $accountId: ID!
-      $paymentId: ID!
-      $search: String
-    ) {
-      account(pid: $accountId) {
-        payment(pid: $paymentId) {
-          suggestedDescriptions(search: $search) {
-            text: description
-            count
-          }
-        }
-      }
-    }
-    `,
-  ({
-    account: {
-      payment: { suggestedDescriptions },
-    },
-  }) =>
-    suggestedDescriptions.map(({ text, count }) => ({
-      text,
-      data: text,
-      secondaryText: pluralize('payment', count),
-    })),
-]
-
-const suggestPeers = [
-  `
-  query(
-    $accountId: ID!
-    $search: String
-  ) {
-    account(pid: $accountId) {
-      peers(
-        sortBy: name_ASC
-        search: $search
-      ) {
-        id: pid
-        name
-        count: countPayments
-      }
-    }
-  }
-    `,
-  ({ account: { peers } }) =>
-    peers.map(({ id, name, count }) => ({
-      text: name,
-      data: { id, name },
-      secondaryText: pluralize('payment', count),
-    })),
-]
-
 const updatePayment = [
   `
     mutation(
       $accountId: ID!
-      $paymentId: ID!
+      $paymentIds: [ID!]!
       $peerName: String
       $categoryId: ID
       $description: String
       $verified: Boolean
     ) {
-      result: paymentUpdate(
+      result: paymentsUpdate(
         accountPid: $accountId
-        paymentPid: $paymentId
+        paymentsPids: $paymentIds
         peerName: $peerName
         categoryPid: $categoryId
         description: $description
         verified: $verified
       ) {
-        payment {
+        payments {
           ${PAYMENTS}
         }
         suggestedPayments {
@@ -109,14 +51,17 @@ const updatePayment = [
       }
     }
     `,
-  ({ result: { payment, suggestedPayments: cascade } }) => ({
+  ({
+    result: {
+      payments: [payment],
+      suggestedPayments: cascade,
+    },
+  }) => ({
     payment,
     cascade,
   }),
 ]
 
 export default {
-  suggestDescriptions,
-  suggestPeers,
   updatePayment,
 }

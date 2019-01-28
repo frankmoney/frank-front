@@ -3,6 +3,7 @@ import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { queryParamSelector } from '@frankmoney/webapp'
 import { createPlainObjectSelector } from '@frankmoney/utils'
+import * as MULTI_SELECTORS from 'containers/admin/MultiEditSnack/selectors'
 import type { ReduxState } from 'flow/redux'
 import { parseDate } from 'utils/dates'
 import { parseQueryStringBool, parseQueryStringNumber } from 'utils/querystring'
@@ -47,6 +48,10 @@ export const currentFiltersCount = createSelector(
 
 export const categories = createPlainObjectSelector(get('categories'))
 export const payments = createPlainObjectSelector(get('payments'))
+export const paymentByIdSelector = id =>
+  createSelector(payments, R.find(R.propEq('id', id)))
+export const isCheckedId = id =>
+  createSelector(MULTI_SELECTORS.paymentIds, R.contains(id))
 
 // PAGINATION
 export const paymentsCount = get('paymentsCount')

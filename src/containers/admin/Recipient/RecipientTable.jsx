@@ -1,10 +1,7 @@
 import { injectStyles } from '@frankmoney/ui'
 import { compose, mapProps } from 'recompose'
 import { Table } from '@frankmoney/components'
-import {
-  PaymentsTableRow as rowComponent,
-  PaymentsTableDetailRow as rowDetailViewComponent,
-} from 'components/PaymentsTable'
+import { PaymentsTableRow } from 'components/PaymentsTable'
 import { dataSourceSelector, rowDataSelector } from './selectors'
 
 const TABLE_NAME = 'recipient'
@@ -23,11 +20,10 @@ export default compose(
   injectStyles(styles, { grid: true }),
   mapProps(({ classes, ...props }) => ({
     name: TABLE_NAME,
-    canSelectRows: false,
+    canSelectRows: true,
     tableHeaderClassName: classes.header,
     tableDetailRowClassName: classes.detailRow,
-    rowComponent,
-    rowDetailViewComponent,
+    rowComponent: PaymentsTableRow,
     dataSourceSelector,
     rowDataSelector,
     ...props,

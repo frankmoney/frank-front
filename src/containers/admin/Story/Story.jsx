@@ -1,17 +1,26 @@
 // @flow strict-local
 import React from 'react'
 import * as R from 'ramda'
+import { createRouteUrl } from '@frankmoney/utils'
 import cx from 'classnames'
 import { compose, lifecycle, branch, renderComponent } from 'recompose'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
-import { FixedHeader } from '@frankmoney/components'
+import {
+  Breadcrumbs,
+  BreadcrumbsItem,
+  BreadcrumbsItemLink,
+  FixedHeader,
+} from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
 import StoryPaymentsStats, {
   type StoryPaymentsStatsProps,
 } from 'components/StoryPaymentsStats'
 import StoryPayments, { type PaymentList } from 'components/StoryPayments'
+import { ROUTES } from 'const'
+import { currentAccountIdSelector } from 'redux/selectors/user'
+import { formatFullDate } from 'utils/datesLight'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Editor from 'components/kit/Editor'
 import {
@@ -40,11 +49,38 @@ type Props = {|
 const Story = ({
   classes,
   className,
-  story: { title, cover, payments, paymentsCount, paymentsDateRange },
+  accountId,
+  story: {
+    publishedAt,
+    title,
+    cover,
+    payments,
+    paymentsCount,
+    paymentsDateRange,
+  },
   editorState,
 }: Props) => (
   <div className={cx(classes.storyPreviewPage, className)}>
     <FixedHeader>
+      <Breadcrumbs>
+        <BreadcrumbsItemLink
+          to={createRouteUrl(ROUTES.account.stories.root, { accountId })}
+        >
+          Stories
+        </BreadcrumbsItemLink>
+        <BreadcrumbsItem>
+          {publishedAt ? (
+            <>
+              Published story&nbsp;
+              <span className={classes.publicationDate}>
+                {formatFullDate(publishedAt)}
+              </span>
+            </>
+          ) : (
+            'Draft'
+          )}
+        </BreadcrumbsItem>
+      </Breadcrumbs>
       <HeaderBarButtons />
     </FixedHeader>
     <div className={classes.container}>
@@ -77,6 +113,7 @@ const Story = ({
 
 const mapStateToProps = createStructuredSelector({
   isLoaded: isLoadedSelector,
+  accountId: currentAccountIdSelector,
   story: storySelector,
   editorState: storyEditorStateSelector,
 })
