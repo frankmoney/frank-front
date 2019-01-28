@@ -9,13 +9,10 @@ import {
   lifecycle,
 } from 'recompose'
 import { Link } from 'react-router-dom'
-import {
-  FixedHeader,
-  Breadcrumbs,
-  BreadcrumbsItem,
-} from '@frankmoney/components'
+import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
 import AreaSpinner from 'components/AreaSpinner'
+import Breadcrumbs from 'components/Breadcrumbs'
 import CurrencyProvider from 'components/CurrencyProvider'
 import SidebarSnack from 'components/SidebarSnack/SidebarSnack'
 import StoryCard from 'components/StoryCard'
@@ -36,7 +33,7 @@ import styles from './Stories.jss'
 
 const LinkedStoryCard = withProps(({ accountId, storyId }) => ({
   component: Link,
-  to: createRouteUrl(ROUTES.account.stories.idRootEdit, { accountId, storyId }),
+  to: createRouteUrl(ROUTES.account.stories.idRoot, { accountId, storyId }),
 }))(StoryCard)
 
 const Stories = ({

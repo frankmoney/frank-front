@@ -8,12 +8,12 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {
-  Breadcrumbs,
   BreadcrumbsItem,
   BreadcrumbsItemLink,
   FixedHeader,
 } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
+import Breadcrumbs from 'components/Breadcrumbs'
 import StoryPaymentsStats from 'components/StoryPaymentsStats'
 import StoryPayments from 'components/StoryPayments'
 import { type AccountId } from 'data/models/account'
