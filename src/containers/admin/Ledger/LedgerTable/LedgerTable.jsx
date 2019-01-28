@@ -23,7 +23,6 @@ const ConnectedPaymentsTableDetailRow = compose(
     },
     {
       onSimilarDrawerOpen: ACTIONS.openSimilarPaymentsDrawer,
-      onPaymentPaste: ACTIONS.pastePayment,
     }
   ),
   mapProps(({ categories, data, onCheck, ...otherProps }) => ({

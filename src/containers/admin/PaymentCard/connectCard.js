@@ -15,6 +15,7 @@ export default reconnect(
   }),
   {
     onPaymentCopy: ACTIONS.copy,
+    onPaymentPaste: ACTIONS.paste,
     onPaymentPublish: ACTIONS.publish,
     onPaymentSave: ACTIONS.save,
     onPaymentUnpublish: ACTIONS.unpublish,

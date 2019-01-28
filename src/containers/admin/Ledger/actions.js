@@ -35,5 +35,3 @@ export const loadSimilarPayments = createDeferredAction(
 export const loadMoreSimilarPayments = createDeferredAction(
   'admin/ledger/load-more-similar-payments'
 )
-
-export const pastePayment = createDeferredAction('admin/ledger/paste')

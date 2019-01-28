@@ -35,7 +35,7 @@ import PeerSuggestField from 'components/PeerSuggestField'
 import DescriptionSuggestField from 'components/DescriptionSuggestField'
 import styles from './PaymentCard.jss'
 import connectCard from './connectCard'
-import { getFormName, counters, validation } from './const'
+import { getFormName, counters, validation, pickFormValues } from './const'
 import PendingPaymentCard from './PendingPaymentCard'
 
 const validate = createValidateFromRules(validation)
@@ -279,13 +279,6 @@ const PaymentCard = ({
     </div>
   </Paper>
 )
-
-const pickFormValues = ({ category, peer, description = '', verified }) => ({
-  categoryId: category && category.id,
-  peerName: (peer && peer.name) || '',
-  description,
-  verified,
-})
 
 export default compose(
   injectStyles(styles),
