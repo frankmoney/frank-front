@@ -8,16 +8,16 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {
-  Breadcrumbs,
   BreadcrumbsItem,
   BreadcrumbsItemLink,
   FixedHeader,
 } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
-import StoryPaymentsStats, {
-  type StoryPaymentsStatsProps,
-} from 'components/StoryPaymentsStats'
-import StoryPayments, { type PaymentList } from 'components/StoryPayments'
+import Breadcrumbs from 'components/Breadcrumbs'
+import StoryPaymentsStats from 'components/StoryPaymentsStats'
+import StoryPayments from 'components/StoryPayments'
+import { type AccountId } from 'data/models/account'
+import { type Story as StoryProps } from 'data/models/stories'
 import { ROUTES } from 'const'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import { formatFullDate } from 'utils/datesLight'
@@ -32,18 +32,12 @@ import ACTIONS from './actions'
 import HeaderBarButtons from './HeaderBarButtons'
 import styles from './Story.jss'
 
-type StoryProps = {|
-  title?: string,
-  cover?: {| thumbs: { sized: string } |},
-  body: {| text?: string |},
-  payments: PaymentList,
-  ...StoryPaymentsStatsProps,
-|}
-
 type Props = {|
   ...InjectStylesProps,
   //
+  accountId: AccountId,
   story: StoryProps,
+  editorState?: Object, // flowlint-line unclear-type:off
 |}
 
 const Story = ({
@@ -95,7 +89,8 @@ const Story = ({
       )}
       <div className={classes.textContainer}>
         {title && <div className={classes.title}>{title}</div>}
-        {paymentsCount > 0 && (
+        {// flowlint-next-line sketchy-number-and:off
+        paymentsCount && (
           <StoryPaymentsStats
             className={classes.stats}
             paymentsCount={paymentsCount}
@@ -105,7 +100,8 @@ const Story = ({
         {editorState && (
           <Editor className={classes.text} editorState={editorState} readOnly />
         )}
-        {paymentsCount > 0 && <StoryPayments payments={payments} readOnly />}
+        {// flowlint-next-line sketchy-number-and:off
+        paymentsCount && <StoryPayments payments={payments} readOnly />}
       </div>
     </div>
   </div>

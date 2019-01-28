@@ -31,9 +31,11 @@ const StoryPaymentsStats = ({
 }: Props) => (
   <div className={cx(classes.container, className)}>
     <CurrencyContext.Consumer>
-      {(context = {}) => (
-        <context.icon className={cx(classes.symbol, symbolClassName)} />
-      )}
+      {(context = {}) =>
+        context.icon && (
+          <context.icon className={cx(classes.symbol, symbolClassName)} />
+        )
+      }
     </CurrencyContext.Consumer>
     <span className={cx(classes.counter, counterClassName)}>
       {`${paymentsCount} payment${paymentsCount > 1 ? 's' : ''} `}

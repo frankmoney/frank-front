@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import CARD_ACTIONS from 'containers/admin/PaymentCard/actions'
@@ -10,6 +11,7 @@ const defaultState = fromJS({
   loading: false,
   loaded: false,
   payments: [],
+  unfilteredCount: null,
 })
 
 export default handleActions(
@@ -18,7 +20,7 @@ export default handleActions(
       state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
     [ACTIONS.load.success]: (
       state,
-      { payload: { payments, categories, totalCount } }
+      { payload: { payments, categories, totalCount, unfilteredCount } }
     ) =>
       state.merge({
         loading: false,
@@ -28,6 +30,9 @@ export default handleActions(
         categories: categories ? fromJS(categories) : state.get('categories'),
         payments: fromJS(payments),
         paymentsCount: totalCount,
+        unfilteredCount: R.isNil(unfilteredCount)
+          ? state.get('unfilteredCount')
+          : unfilteredCount,
       }),
     [ACTIONS.load.error]: state =>
       state.merge({

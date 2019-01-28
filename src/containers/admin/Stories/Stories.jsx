@@ -1,6 +1,5 @@
-// @flow
+// @flow strict-local
 import React from 'react'
-import * as R from 'ramda'
 import cx from 'classnames'
 import {
   compose,
@@ -9,20 +8,15 @@ import {
   renderComponent,
   lifecycle,
 } from 'recompose'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
-import {
-  FixedHeader,
-  Breadcrumbs,
-  BreadcrumbsItem,
-} from '@frankmoney/components'
+import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
 import AreaSpinner from 'components/AreaSpinner'
+import Breadcrumbs from 'components/Breadcrumbs'
 import CurrencyProvider from 'components/CurrencyProvider'
 import SidebarSnack from 'components/SidebarSnack/SidebarSnack'
 import StoryCard from 'components/StoryCard'
+import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import { BigButton } from 'components/kit/Button'
@@ -70,7 +64,7 @@ const Stories = ({
         {!noStories &&
           stories.map(story => (
             <LinkedStoryCard
-              key={story.id}
+              key={story.pid}
               accountId={accountId}
               storyId={story.pid}
               title={story.title}
@@ -94,25 +88,19 @@ const Stories = ({
   </CurrencyProvider>
 )
 
-const mapStateToProps = createStructuredSelector({
-  loading: isLoadingSelector,
-  noStories: hasNoStoriesSelector,
-  stories: storiesSelector,
-  deletedSnackShown: deletedSnackShownSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    load: ACTIONS.load,
-    leave: ACTIONS.leave,
-    hideDeletedSnack: ACTIONS.hideDeletedSnack,
-  },
-])
-
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
+  reconnect(
+    {
+      loading: isLoadingSelector,
+      noStories: hasNoStoriesSelector,
+      stories: storiesSelector,
+      deletedSnackShown: deletedSnackShownSelector,
+    },
+    {
+      load: ACTIONS.load,
+      leave: ACTIONS.leave,
+      hideDeletedSnack: ACTIONS.hideDeletedSnack,
+    }
   ),
   lifecycle({
     componentWillMount() {

@@ -35,7 +35,7 @@ source {
 
 export default {
   // TODO add pending and search params
-  listNewPayments: [
+  listNewPayments: ({ includeUnfiltered }) => [
     `
       query(
       $accountId: ID!
@@ -77,13 +77,22 @@ export default {
           verified: false
           sourcePids: $sourcePids
         )
+        ${includeUnfiltered ? 'unfilteredCount: countPayments' : ''}
       }
     }
   `,
-    ({ account: { categories, payments, countPayments: totalCount } }) => ({
+    ({
+      account: {
+        categories,
+        countPayments: totalCount,
+        payments,
+        unfilteredCount,
+      },
+    }) => ({
       categories,
       payments: R.map(mapPaymentSource, payments),
       totalCount,
+      unfilteredCount,
     }),
   ],
 }

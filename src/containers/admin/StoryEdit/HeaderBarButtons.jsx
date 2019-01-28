@@ -6,6 +6,7 @@ import { Delete as RemoveIcon, Check as PublishIcon } from 'material-ui-icons'
 import reconnect from 'utils/reconnect'
 import { ConfirmDialog } from 'components/kit/Dialog'
 import Button, { IconButton } from 'components/kit/Button'
+import { type Story } from 'data/models/stories'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import ACTIONS from './actions'
 import { SAVE_MODE } from './constants'
@@ -46,7 +47,7 @@ const styles = {
 type Props = {|
   ...InjectStylesProps,
   //
-  story: { publishedAt: string },
+  story: Story,
   dirty: boolean,
   valid: boolean,
   saving: number,

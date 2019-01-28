@@ -1,22 +1,21 @@
 // @flow strict-local
 import React from 'react'
 import { createRouteUrl } from '@frankmoney/utils'
-import * as R from 'ramda'
 import cx from 'classnames'
 import { compose, lifecycle, branch, renderComponent } from 'recompose'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
 import {
   FixedHeader,
-  Breadcrumbs,
   BreadcrumbsItem,
   BreadcrumbsItemLink,
 } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
+import Breadcrumbs from 'components/Breadcrumbs'
 import SidebarSnack from 'components/SidebarSnack/SidebarSnack'
+import { type AccountId } from 'data/models/account'
+import { type Story } from 'data/models/stories'
 import { ROUTES } from 'const'
 import { currentAccountIdSelector } from 'redux/selectors/user'
+import reconnect from 'utils/reconnect'
 import { formatFullDate } from 'utils/datesLight'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import HeaderBarButtons from './HeaderBarButtons'
@@ -29,8 +28,15 @@ import ACTIONS from './actions'
 import StoryEditForm from './StoryEditForm'
 import styles from './StoryEdit.jss'
 
+type SnackCb = Object => void // flowlint-line unclear-type: warn
+
 type Props = {|
   ...InjectStylesProps,
+  //
+  accountId: AccountId,
+  canNotPublishSnackShown: boolean,
+  showCanNotPublishSnack: SnackCb,
+  story: Story,
 |}
 
 const StoryEdit = ({
@@ -69,32 +75,26 @@ const StoryEdit = ({
     <SidebarSnack
       color="red"
       shown={canNotPublishSnackShown}
-      message="Attach payments, add titile and story text to publish"
+      message="Attach payments, add title and story text to publish"
       dismissByTimeout={3000}
       onDismiss={() => showCanNotPublishSnack({ show: false })}
     />
   </div>
 )
 
-const mapStateToProps = createStructuredSelector({
-  loaded: loadedSelector,
-  accountId: currentAccountIdSelector,
-  story: storySelector,
-  canNotPublishSnackShown: canNotPublishSnackShownSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
-  {
-    load: ACTIONS.load,
-    leave: ACTIONS.leave,
-    showCanNotPublishSnack: ACTIONS.showCanNotPublishSnack,
-  },
-])
-
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
+  reconnect(
+    {
+      accountId: currentAccountIdSelector,
+      canNotPublishSnackShown: canNotPublishSnackShownSelector,
+      loaded: loadedSelector,
+      story: storySelector,
+    },
+    {
+      leave: ACTIONS.leave,
+      load: ACTIONS.load,
+      showCanNotPublishSnack: ACTIONS.showCanNotPublishSnack,
+    }
   ),
   lifecycle({
     componentWillMount() {
