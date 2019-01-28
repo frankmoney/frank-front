@@ -1,1 +1,2 @@
-export default from './Editor'
+// @flow
+export { default } from './Editor'

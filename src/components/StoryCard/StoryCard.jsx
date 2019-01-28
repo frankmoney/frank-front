@@ -1,7 +1,8 @@
+// @flow
 import React from 'react'
 import PropTypes from 'prop-types'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles } from 'utils/styles'
 import StoryPaymentsStats from 'components/StoryPaymentsStats'
 import styles from './StoryCard.jss'
 
@@ -16,6 +17,9 @@ const StoryCard = ({
   paymentsCount,
   paymentsDateRange,
   paymentsCurrency,
+  // omit
+  accountId,
+  storyId,
   ...otherProps
 }) => (
   <RootElement

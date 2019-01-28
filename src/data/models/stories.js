@@ -1,12 +1,24 @@
 // @flow strict-local
 // spellchecker:ignore draftjs
 import { convertFromRaw } from 'draft-js'
+import { type Payment } from './payment'
 
-interface Cover {
+type Crop = {
+  sized: {|
+    height: number,
+    left: number,
+    top: number,
+    width: number,
+  |},
+}
+
+type Cover = {
+  id?: string,
+  crop: ?Crop,
   thumbs: {|
     original: string,
     sized: string,
-  |};
+  |},
 }
 
 type DateRange = [string, string]
@@ -21,9 +33,12 @@ export type StoryId = string | number
 export type Story = {|
   body: StoryBody,
   cover: ?Cover,
-  id: StoryId,
-  paymentsCount: number,
-  paymentsDateRange: DateRange,
+  id?: StoryId,
+  paymentsCount?: number,
+  payments?: Array<Payment>,
+  paymentsDateRange?: DateRange,
+  pid?: StoryId,
+  publishedAt?: ?Date,
   text: ?string,
   title: string,
 |}
