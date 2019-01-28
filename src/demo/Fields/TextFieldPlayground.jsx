@@ -177,7 +177,7 @@ export default compose(
       toggleFloating: props => () => ({ floatingLabel: !props.floatingLabel }),
       toggleLarger: props => () => ({ larger: !props.larger }),
       toggleMultiline: props => () => ({ multiline: !props.multiline }),
-      onChange: () => ({ target: { value } }) => ({ value }),
+      onChange: () => value => ({ value }),
       changeInputType: () => value => ({ inputType: value }),
     }
   )
