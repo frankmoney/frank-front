@@ -1,18 +1,20 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
+import { type Payment } from 'data/models/payment'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import Button from 'components/kit/Button'
 import VerifiedByFrank from './Verified'
 import List from './PaymentsList'
 import styles from './StoryPayments.jss'
 
-export type PaymentList = Array<Object> // flowlint-line unclear-type:warn
+export type PaymentList = Array<Payment>
 
 type Props = {|
   ...InjectStylesProps,
   //
   onEdit?: () => void,
+  onRemovePayment?: () => void,
   payments: PaymentList,
   readOnly?: boolean,
 |}
@@ -43,7 +45,7 @@ const StoryPayments = ({
           compactHeight
           color="blue"
           label="Add payments"
-          onClick={() => onEdit()}
+          onClick={onEdit}
         />
       )}
     </div>

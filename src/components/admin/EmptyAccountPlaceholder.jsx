@@ -18,8 +18,12 @@ const styles = theme => ({
   },
 })
 
-const EmptyAccoutPlaceholder = ({ classes, className }) => (
-  <div className={cx(classes.root, className)}>No payments yet</div>
+const EmptyAccountPlaceholder = ({ classes, className, text }) => (
+  <div className={cx(classes.root, className)}>{text}</div>
 )
 
-export default injectStyles(styles)(EmptyAccoutPlaceholder)
+EmptyAccountPlaceholder.defaultProps = {
+  text: 'No payments yet',
+}
+
+export default injectStyles(styles)(EmptyAccountPlaceholder)

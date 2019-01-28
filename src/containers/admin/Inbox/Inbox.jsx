@@ -3,6 +3,7 @@ import qs from 'querystring'
 import React from 'react'
 import { branch, compose, lifecycle, renderComponent } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
+import EmptyAccountPlaceholder from 'components/admin/EmptyAccountPlaceholder'
 import Breadcrumbs from 'components/Breadcrumbs'
 import AreaSpinner from 'components/AreaSpinner/AreaSpinner'
 import reconnect from 'utils/reconnect'
@@ -10,6 +11,7 @@ import { injectStyles } from 'utils/styles'
 import MultiEditSnack from 'containers/admin/MultiEditSnack'
 import InboxFilter from './InboxFilter'
 import InboxList from './InboxList'
+import NoResultsPlaceholder from './NoResultsPlaceholder'
 import * as SELECTORS from './selectors'
 import ACTIONS from './actions'
 
@@ -35,26 +37,34 @@ const ConnectedMultiEditSnack = reconnect({
   categories: SELECTORS.categories,
 })(MultiEditSnack)
 
-const Inbox = ({ classes }) => (
-  <div className={classes.root}>
-    <FixedHeader className={classes.header}>
-      <Breadcrumbs>
-        <BreadcrumbsItem>Inbox</BreadcrumbsItem>
-      </Breadcrumbs>
-      <InboxFilter />
-    </FixedHeader>
-    <div className={classes.container}>
-      <InboxList />
+const Inbox = ({ classes, emptyAccount, noResults }) => {
+  const showContent = !(emptyAccount || noResults)
+  return (
+    <div className={classes.root}>
+      <FixedHeader className={classes.header}>
+        <Breadcrumbs>
+          <BreadcrumbsItem>New</BreadcrumbsItem>
+        </Breadcrumbs>
+        {showContent && <InboxFilter />}
+      </FixedHeader>
+      {noResults && <NoResultsPlaceholder />}
+      {emptyAccount && <EmptyAccountPlaceholder text="Empty!" />}
+      {showContent && (
+        <div className={classes.container}>
+          <InboxList />
+        </div>
+      )}
+      <ConnectedMultiEditSnack />
     </div>
-    <ConnectedMultiEditSnack />
-  </div>
-)
+  )
+}
 
 export default compose(
   reconnect(
     {
-      loading: SELECTORS.loading,
+      emptyAccount: SELECTORS.emptyAccount,
       listReloading: SELECTORS.listReloading,
+      loading: SELECTORS.loading,
       noResults: SELECTORS.noResults,
     },
     {

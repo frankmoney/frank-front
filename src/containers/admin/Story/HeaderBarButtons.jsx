@@ -7,7 +7,9 @@ import EditIcon from 'material-ui-icons/Edit'
 import { createRouteUrl } from '@frankmoney/utils'
 import PublicLinkButton from 'components/PublicLinkButton'
 import Button from 'components/kit/Button'
-import { injectStyles } from 'utils/styles'
+import { type AccountId } from 'data/models/account'
+import { type Story } from 'data/models/stories'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { ROUTES } from 'const'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import { storySelector } from './selectors'
@@ -33,12 +35,19 @@ const styles = theme => ({
   },
 })
 
+type Props = {|
+  ...InjectStylesProps,
+  //
+  accountId: AccountId,
+  story: Story,
+|}
+
 const HeaderBarButtons = ({
   classes,
   className,
   accountId,
   story: { pid: storyId, publishedAt },
-}) => (
+}: Props) => (
   <div className={cx(classes.container, className)}>
     {!publishedAt && <div className={classes.draft}>Draft</div>}
     {publishedAt && (

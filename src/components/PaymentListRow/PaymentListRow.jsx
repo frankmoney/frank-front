@@ -24,8 +24,11 @@ const styles = theme => ({
   },
   name: {
     flex: 2,
-    paddingLeft: 16,
     fontWeight: 500,
+    overflow: 'hidden',
+    padding: [0, 16],
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
   },
   date: {
     textAlign: 'right',
@@ -44,6 +47,7 @@ const styles = theme => ({
 type Props = {|
   ...InjectStylesProps,
   // Controlled state
+  onClick: MouseEvent => void,
   onToggle: boolean => void,
   selected?: boolean,
   // Payment details
@@ -52,6 +56,7 @@ type Props = {|
   postedOn?: DateDefaultString,
   selectable?: boolean,
   // Other props
+  noSeparator?: boolean,
   style?: any,
 |}
 
@@ -104,7 +109,7 @@ class PaymentListRow extends React.Component<Props> {
         )}
         <CurrencyDelta className={classes.sum} value={amount} />
         <div className={classes.name}>{peer && peer.name}</div>
-        <div className={classes.date}>{formatDate(postedOn)}</div>
+        {postedOn && <div className={classes.date}>{formatDate(postedOn)}</div>}
       </div>
     )
   }

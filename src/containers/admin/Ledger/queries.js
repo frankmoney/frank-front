@@ -49,6 +49,7 @@ export default {
     pieChart: includePie,
     barChart: includeBars,
     categories: includeCategories,
+    includeUnfiltered,
     categoryScoped,
   }) => [
     `
@@ -106,6 +107,8 @@ export default {
             sourcePids: $sourcePids
           )`) ||
           ''}
+        
+        ${includeUnfiltered ? 'unfilteredCount: countPayments' : ''}
           
         ${(includeBars &&
           `ledgerBarChart(
@@ -159,6 +162,7 @@ export default {
         countPayments,
         ledgerBarChart,
         ledgerPieChart,
+        unfilteredCount,
       },
     }) => ({
       categories: includeCategories ? categories : null,
@@ -174,6 +178,7 @@ export default {
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).barSize
         : null,
       pieChart: includePie ? ledgerPieChart : null,
+      unfilteredCount,
     }),
   ],
 }
