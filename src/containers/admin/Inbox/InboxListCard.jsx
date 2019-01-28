@@ -11,5 +11,6 @@ export default reconnect(
   }),
   props => ({
     onCheck: checked => ACTIONS.check({ id: props.id, checked }),
+    onPaymentPaste: ACTIONS.pastePayment,
   })
 )(PaymentCard)

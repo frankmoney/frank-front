@@ -134,7 +134,10 @@ export default handleActions(
       state.merge({
         similarListMoreLoading: false,
       }),
-    [ACTIONS.pastePayment]: (state, { payload: { paymentId, clipboard } }) => {
+    [ACTIONS.pastePayment.success]: (
+      state,
+      { payload: { paymentId, clipboard } }
+    ) => {
       const payments = state.get('payments')
       return state.merge({
         payments: payments.update(
