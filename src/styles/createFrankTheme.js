@@ -32,11 +32,8 @@ export default () => {
     },
     Breadcrumbs: {
       separator: {
-        width: 22,
-        height: 22,
-        margin: [5, 11, 0, 13],
-        opacity: 0.4,
-        color: '#252B43',
+        color: 'rgba(37, 43, 67, 0.4)',
+        opacity: 1,
         transform: 'unset',
       },
     },

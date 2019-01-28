@@ -13,12 +13,9 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import {
-  FixedHeader,
-  Breadcrumbs,
-  BreadcrumbsItem,
-} from '@frankmoney/components'
+import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
+import Breadcrumbs from 'components/Breadcrumbs'
 import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
 import SidebarSnack from 'components/SidebarSnack/SidebarSnack'

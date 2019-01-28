@@ -6,8 +6,7 @@ import * as R from 'ramda'
 const styles = {
   listRoot: {
     display: 'flex',
-    flexFlow: 'row wrap',
-    wordBreak: 'break-word',
+    flexDirection: 'column',
     overflow: 'hidden',
   },
   listItem: {
@@ -15,7 +14,7 @@ const styles = {
   },
   listOverflowItem: {
     color: 'rgba(0,0,0,0.4)',
-    minWidth: ({ overflowComponentWidth }) => overflowComponentWidth,
+    maxWidth: ({ overflowComponentWidth }) => overflowComponentWidth,
   },
 }
 

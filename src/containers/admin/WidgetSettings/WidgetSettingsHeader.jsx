@@ -1,10 +1,7 @@
-import {
-  Breadcrumbs,
-  BreadcrumbsItem,
-  FixedHeader,
-} from '@frankmoney/components'
 import React from 'react'
 import cx from 'classnames'
+import { BreadcrumbsItem, FixedHeader } from '@frankmoney/components'
+import Breadcrumbs from 'components/Breadcrumbs'
 import { injectStyles } from 'utils/styles'
 import GetCodeButton from './GetCodeButton'
 import WidgetPosition from './WidgetPosition'

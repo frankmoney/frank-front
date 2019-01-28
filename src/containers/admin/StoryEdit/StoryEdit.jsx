@@ -9,10 +9,10 @@ import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {
   FixedHeader,
-  Breadcrumbs,
   BreadcrumbsItem,
   BreadcrumbsItemLink,
 } from '@frankmoney/components'
+import Breadcrumbs from 'components/Breadcrumbs'
 import AreaSpinner from 'components/AreaSpinner'
 import SidebarSnack from 'components/SidebarSnack/SidebarSnack'
 import { ROUTES } from 'const'

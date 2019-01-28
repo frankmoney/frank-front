@@ -8,11 +8,11 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import {
-  Breadcrumbs,
   BreadcrumbsItem,
   BreadcrumbsItemLink,
   FixedHeader,
 } from '@frankmoney/components'
+import Breadcrumbs from 'components/Breadcrumbs'
 import AreaSpinner from 'components/AreaSpinner'
 import StoryPaymentsStats, {
   type StoryPaymentsStatsProps,
