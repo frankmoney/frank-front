@@ -37,28 +37,29 @@ import Settings from 'containers/admin/Settings'
 import Team from 'containers/admin/Team'
 import Onboarding from 'containers/admin/Onboarding'
 import AdminLayout from 'components/AdminLayout'
-import AppWrapper from 'components/AppWrapper'
 import PublicPayment from 'containers/public/Payment'
 import PublicStory from 'containers/public/Story'
 import PublicLedger from 'containers/public/Ledger'
 import { parseQueryStringBool } from 'utils/querystring'
+import UnexpectedErrorManager from 'components/UnexpectedErrorManager'
 
 // todo refactor
 
 const withAdminLayout = Component => props => (
-  <AppWrapper>
-    <AdminLayout>
-      <Component {...props} />
-      <Helmet title={BASE_TITLE} />
-    </AdminLayout>
-  </AppWrapper>
+  <AdminLayout>
+    <Component {...props} />
+    <Helmet title={BASE_TITLE} />
+    <!-- error reporting snack should be inside Sidebar context -->
+    <UnexpectedErrorManager />
+  </AdminLayout>
 )
 
 const withPublicLayout = Component => props => (
-  <AppWrapper>
+  <>
     <Component {...props} />
     <Helmet title={BASE_TITLE} />
-  </AppWrapper>
+    <UnexpectedErrorManager />
+  </>
 )
 
 const RedirectToLogin = compose(
