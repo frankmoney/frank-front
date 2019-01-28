@@ -1,4 +1,4 @@
-// @flow strict
+// @flow strict-local
 import * as R from 'ramda'
 import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'

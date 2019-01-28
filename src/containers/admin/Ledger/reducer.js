@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import { fromJS } from 'immutable'
 import { handleActions } from 'redux-actions'
 import { DEFAULT_DRAWER_PAYMENTS_PAGE_SIZE as PAGE_SIZE } from 'components/drawers/constants'
@@ -17,15 +18,16 @@ const similarPaymentsDefaultState = {
 }
 
 const defaultState = fromJS({
-  typing: false,
-  loading: true,
-  loaded: false,
-  categories: [],
   barsData: [],
   barsUnit: null,
-  pieData: null,
-  paymentsCount: 0,
+  categories: [],
+  loaded: false,
+  loading: true,
   payments: [],
+  paymentsCount: 0,
+  pieData: null,
+  typing: false,
+  unfilteredCount: null,
   //
   ...similarPaymentsDefaultState,
 })
@@ -45,6 +47,7 @@ export default handleActions(
           payments,
           pieChart,
           totalCount,
+          unfilteredCount,
         },
       }
     ) =>
@@ -59,6 +62,9 @@ export default handleActions(
         barsUnit,
         pieData: fromJS(pieChart),
         paymentsCount: totalCount,
+        unfilteredCount: R.isNil(unfilteredCount)
+          ? state.get('unfilteredCount')
+          : unfilteredCount,
       }),
     [ACTIONS.load.error]: state =>
       state.merge({

@@ -1,1 +1,2 @@
-export default from './StoryCard'
+// @flow
+export { default } from './StoryCard'

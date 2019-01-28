@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import { formatDate } from 'utils/dates'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import ACTIONS from '../actions'
@@ -21,17 +22,24 @@ export default (action$, store, { graphql }) =>
         pending,
       } = SELECTORS.currentFilters(state)
 
-      return graphql(QUERIES.listNewPayments, {
-        accountId: currentAccountId,
-        sourcePids,
-        take: PAGE_SIZE,
-        skip: (page - 1) * PAGE_SIZE,
-        // search,
-        amountMin,
-        amountMax,
-        dateMin: dateMin && formatDate(dateMin),
-        dateMax: dateMax && formatDate(dateMax),
-        pending: pending ? null : false, // show all payments if pending on, exclude pending when filter is off
-      })
+      const includeUnfiltered = R.isNil(SELECTORS.unfilteredCount(state))
+
+      return graphql(
+        QUERIES.listNewPayments({
+          includeUnfiltered,
+        }),
+        {
+          accountId: currentAccountId,
+          sourcePids,
+          take: PAGE_SIZE,
+          skip: (page - 1) * PAGE_SIZE,
+          // search,
+          amountMin,
+          amountMax,
+          dateMin: dateMin && formatDate(dateMin),
+          dateMax: dateMax && formatDate(dateMax),
+          pending: pending ? null : false, // show all payments if pending on, exclude pending when filter is off
+        }
+      )
     })
     .map(ACTIONS.load.success)

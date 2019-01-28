@@ -10,9 +10,9 @@ import CurrencyProvider from 'components/CurrencyProvider'
 import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
+import EmptyAccountPlaceholder from 'components/admin/EmptyAccountPlaceholder'
 import MultiEditSnack from 'containers/admin/MultiEditSnack'
 import ConnectedChartCard from './ConnectedChartCard'
-import EmptyAccountPlaceholder from './EmptyAccountPlaceholder'
 import LedgerHighlightTextProvider from './LedgerHighlightTextProvider'
 import LedgerPager from './LedgerPager'
 import LedgerSearch from './LedgerSearch'
@@ -49,6 +49,7 @@ const ConnectedMultiEditSnack = reconnect({
 
 const Ledger = ({
   cancelCategory,
+  chartShown,
   classes,
   className,
   currentCategory,
@@ -56,7 +57,6 @@ const Ledger = ({
   listDisabled,
   noResults,
   resetSearch,
-  chartShown,
 }) => (
   <CurrencyProvider code="USD">
     <div className={cx(classes.root, className)}>
@@ -69,9 +69,9 @@ const Ledger = ({
             </BreadcrumbsItem>
           )}
         </Breadcrumbs>
-        <LedgerFilter />
+        {!isEmptyAccount && <LedgerFilter />}
       </FixedHeader>
-      {isEmptyAccount && <EmptyAccountPlaceholder />}
+      {isEmptyAccount && <EmptyAccountPlaceholder text="No payments yet" />}
       {!isEmptyAccount && (
         <div className={classes.container}>
           <LedgerSearch

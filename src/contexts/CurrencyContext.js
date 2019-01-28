@@ -21,7 +21,7 @@ export type CurrencyProps = {|
 
 export type ContextPayload = {|
   ...CurrencyProps,
-  icon?: React.Node,
+  icon?: React.ComponentType<any>, // flowlint-line unclear-type:off
   formatter?: CurrencyFormatter,
 |}
 

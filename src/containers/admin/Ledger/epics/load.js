@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import { formatDate } from 'utils/dates'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import * as ACTIONS from '../actions'
@@ -10,6 +11,7 @@ import {
   currentPageSelector,
   noTextSearchSelector,
   searchTextSelector,
+  unfilteredCountSelector,
 } from '../selectors'
 
 export default (action$, store, { graphql }) =>
@@ -33,6 +35,7 @@ export default (action$, store, { graphql }) =>
       const needLoadCharts = noTextSearchSelector(state)
       const reqVerified =
         verified === false ? false : categoryId !== null ? true : null
+      const includeUnfiltered = R.isNil(unfilteredCountSelector(state))
 
       return graphql(
         QUERIES.buildQuery({
@@ -42,6 +45,7 @@ export default (action$, store, { graphql }) =>
           categoryScoped: !!categoryId,
           payments: true,
           pieChart: needLoadCharts,
+          includeUnfiltered,
           totalCount: true,
         }),
         {

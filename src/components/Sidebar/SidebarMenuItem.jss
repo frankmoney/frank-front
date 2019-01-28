@@ -21,7 +21,6 @@ export default theme => ({
   active: {
     color: props =>
       props.disabled ? 'rgba(32,40,74,0.5)' : theme.colors.primary,
-    pointerEvents: 'none!important',
   },
   icon: {
     color: props => (props.disabled ? 'rgba(32,40,74,0.5)' : '#20284A'),
