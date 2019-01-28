@@ -14,7 +14,6 @@ import {
 } from '@frankmoney/components'
 import Breadcrumbs from 'components/Breadcrumbs'
 import AreaSpinner from 'components/AreaSpinner'
-import Breadcrumbs from 'components/Breadcrumbs'
 import StoryPaymentsStats from 'components/StoryPaymentsStats'
 import StoryPayments from 'components/StoryPayments'
 import { type AccountId } from 'data/models/account'

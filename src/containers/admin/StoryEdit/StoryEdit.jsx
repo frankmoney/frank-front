@@ -10,7 +10,6 @@ import {
 } from '@frankmoney/components'
 import Breadcrumbs from 'components/Breadcrumbs'
 import AreaSpinner from 'components/AreaSpinner'
-import Breadcrumbs from 'components/Breadcrumbs'
 import SidebarSnack from 'components/SidebarSnack/SidebarSnack'
 import { type AccountId } from 'data/models/account'
 import { type Story } from 'data/models/stories'
