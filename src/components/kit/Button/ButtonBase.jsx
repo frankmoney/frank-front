@@ -4,9 +4,10 @@ import CleanLink from 'components/kit/CleanLink'
 import HtmlButton from './HtmlButton'
 
 export type ButtonBaseProps = {|
-  width?: number,
-  href?: string,
+  disabled?: boolean,
   externalLink?: boolean,
+  href?: string,
+  width?: number,
 |}
 
 type Style = {|
@@ -29,7 +30,7 @@ const ButtonBase = ({ children, style, width, ...otherProps }: Props) => {
   }
 
   if (otherProps.href) {
-    const { type, externalLink, ...linkProps } = otherProps
+    const { externalLink, ...linkProps } = otherProps
 
     return (
       <CleanLink style={computedStyle} external={externalLink} {...linkProps}>

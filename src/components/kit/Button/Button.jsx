@@ -25,16 +25,17 @@ export type ButtonProps = {|
   //
   active: boolean,
   color: ButtonColor,
+  compactHeight: boolean,
   counter?: string | number,
   disabled: boolean,
   focus: boolean,
   hover: boolean,
   icon?: React.Element<any>, // flowlint-line unclear-type:off
   label: string,
+  larger?: boolean,
   loading: boolean,
   Mixins?: ButtonMixins,
   stretch: boolean,
-  compactHeight: boolean,
 |}
 
 type Props = {|
@@ -48,12 +49,13 @@ const Button = ({
   Mixins,
   // states
   active,
+  compactHeight,
   disabled,
   focus,
   hover,
+  larger,
   loading,
   stretch,
-  compactHeight,
   // content
   label,
   counter,
@@ -78,6 +80,7 @@ const Button = ({
         [classes.focus]: focus,
         [classes.hover]: hover,
         [classes.stretch]: stretch,
+        [classes.larger]: larger,
         [classes.compactHeight]: compactHeight,
       },
       className
@@ -87,7 +90,11 @@ const Button = ({
   >
     {icon &&
       React.cloneElement(icon, {
-        className: cx(classes.icon, icon.props.className, Mixins.icon),
+        className: cx(
+          classes.icon,
+          icon.props.className,
+          Mixins && Mixins.icon
+        ),
       })}
     <div className={classes.label}>{label}</div>
     {typeof counter !== 'undefined' && (
