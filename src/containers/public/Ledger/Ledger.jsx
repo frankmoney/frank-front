@@ -8,10 +8,11 @@ import {
   renderNothing,
   lifecycle,
 } from 'recompose'
-import { Page404 as NotFound } from '@frankmoney/components'
 import FiltersDrawer from 'containers/admin/Filters/FiltersDrawer'
 import AreaSpinner from 'components/AreaSpinner'
+import { type CurrencyCode } from 'contexts/CurrencyContext'
 import CurrencyProvider from 'components/CurrencyProvider'
+import NotFound from 'components/ErrorPage'
 import reconnect from 'utils/reconnect'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import ConnectedChartCard from './ConnectedChartCard'
@@ -40,6 +41,7 @@ type CurrentTab = 'ledger' | 'stories'
 type Props = {|
   ...InjectStylesProps,
   //
+  currencyCode: CurrencyCode,
   currentTab: CurrentTab,
 |}
 

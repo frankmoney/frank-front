@@ -10,10 +10,10 @@ import {
 } from 'recompose'
 import Helmet from 'react-helmet'
 import SimilarIcon from 'material-ui-icons/FormatListBulleted'
-import { Page404 as NotFound } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
 import Button from 'components/kit/Button'
 import CurrencyProvider from 'components/CurrencyProvider'
+import NotFound from 'components/ErrorPage'
 import PaymentCard from 'components/public/PaymentCard'
 import { type Account } from 'data/models/account'
 import {
