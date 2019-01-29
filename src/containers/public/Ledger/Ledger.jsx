@@ -138,7 +138,7 @@ export default compose(
     }
   ),
   lifecycle({
-    componentDidMount() {
+    componentWillMount() {
       if (!this.props.loaded) {
         this.props.load({ accountId: this.props.accountId })
       }

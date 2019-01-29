@@ -8,6 +8,7 @@ const widgetScriptUrl =
   process.env.WIDGET_SCRIPT_URL || 'http://localhost:8082/assets/main.js'
 const publicPath = process.env.WEBAPP_ASSETS_PATH || '/assets/'
 const nodeExternals = require('webpack-node-externals')
+const nodeEnv = process.env.NODE_ENV
 
 module.exports = {
   name: 'server',
@@ -77,12 +78,32 @@ module.exports = {
       '.jsx',
     ],
     alias: {
+      // somehow webpack bundles multiple react instances. specifiyng fixed path
+      react: path.join(
+        __dirname,
+        'node_modules',
+        'react',
+        'cjs',
+        nodeEnv === 'production'
+          ? 'react.production.min.js'
+          : 'react.development.js'
+      ),
+      'react-dom$': path.join(
+        __dirname,
+        'node_modules',
+        'react-dom',
+        'cjs',
+        nodeEnv === 'production'
+          ? 'react-dom.production.min.js'
+          : 'react-dom.development.js'
+      ),
       'redux-form': path.resolve(
         __dirname,
         'node_modules',
         'redux-form',
         'lib'
       ),
+      rxjs: path.resolve(__dirname, 'node_modules', 'rxjs'),
       constants: path.join(sourcePath, 'constants.js'),
     },
     modules: [path.resolve(__dirname, 'node_modules'), sourcePath],

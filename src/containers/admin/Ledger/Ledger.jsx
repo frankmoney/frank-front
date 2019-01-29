@@ -28,6 +28,7 @@ import {
   lastCascadeCountSelector,
   chartsVisibleSelector,
   categoriesSelector,
+  loadedSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
@@ -113,6 +114,7 @@ export default compose(
       isEmptyAccount: isEmptyAccountSelector,
       listDisabled: listDisabledSelector,
       loading: isLoadingSelector,
+      loaded: loadedSelector,
       noResults: hasNoResultsSelector,
       chartShown: chartsVisibleSelector,
     },
