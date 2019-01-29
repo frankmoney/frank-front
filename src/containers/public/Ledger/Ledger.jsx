@@ -10,11 +10,13 @@ import {
   lifecycle,
 } from 'recompose'
 import { Page404 as NotFound } from '@frankmoney/components'
+import { createRouteUrl } from '@frankmoney/utils'
 import FiltersDrawer from 'containers/admin/Filters/FiltersDrawer'
 import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
 import reconnect from 'utils/reconnect'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import { ROUTES } from 'const'
 import ConnectedChartCard from './ConnectedChartCard'
 import LedgerPager from './LedgerPager'
 import LedgerTable from './LedgerTable'
@@ -33,6 +35,7 @@ import {
   loadedSelector,
   accountCurrencyCodeSelector,
   isLoadFailedSelector,
+  accountNameSelector,
 } from './selectors'
 import * as ACTIONS from './actions'
 
@@ -72,21 +75,28 @@ class Ledger extends React.Component<Props, State> {
   }
 
   render() {
-    const { classes, currencyCode, className, currentTab } = this.props
+    const {
+      classes,
+      currencyCode,
+      accountId,
+      accountName,
+      className,
+      currentTab,
+    } = this.props
 
     return (
       <div className={cx(classes.root, className)}>
         <Helmet>
-          <meta property="og:url" content="https://frank.ly" />
+          <meta
+            property="og:url"
+            content={
+              __WEBAPP_BASE_URL +
+              createRouteUrl(ROUTES.account.idRoot, { accountId })
+            }
+          />
           <meta property="og:type" content="website" />
-          <meta
-            property="og:title"
-            content="!!Public competition for disruptive education technologies"
-          />
-          <meta
-            property="og:description"
-            content="!!Frank challenges nonprofits to develop efficient educational support programs. The prize is decent money and execution help. Apply, win and become nation’s hope for a better future for students."
-          />
+          <meta property="og:title" content={accountName} />
+          <meta property="og:description" content="Public account on Frank" />
           <meta property="og:site_name" content="Frank" />
           <meta property="og:locale" content="en_US" />
         </Helmet>
@@ -125,6 +135,7 @@ export default compose(
       isPrivateOrNotFound: isNotFoundSelector,
       currencyCode: accountCurrencyCodeSelector,
       listDisabled: listDisabledSelector,
+      accountName: accountNameSelector,
       loaded: loadedSelector,
       loading: isLoadingSelector,
       isLoadFailed: isLoadFailedSelector,

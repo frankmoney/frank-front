@@ -46,6 +46,10 @@ export const accountCurrencyCodeSelector = createSelector(
   accountSelector,
   R.prop('currencyCode')
 )
+export const accountNameSelector = createSelector(
+  accountSelector,
+  R.prop('name')
+)
 
 // Stats
 

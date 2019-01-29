@@ -98,6 +98,13 @@ const render = ({
   </div>
 )
 
+const renderToString = ({ formatter, symbol, value }: RenderProps) => {
+  const sign = isNegative(value) ? '-' : '+'
+  const number = formatter(value, undefined, true)
+
+  return `${sign}${symbol} ${number}`
+}
+
 const CurrencyDelta = ({
   classes,
   className,
@@ -108,7 +115,7 @@ const CurrencyDelta = ({
   ...otherProps
 }: Props) => (
   <CurrencyContext.Consumer>
-    {(context = {}) =>
+    {context =>
       render({
         classes,
         className,
@@ -119,6 +126,14 @@ const CurrencyDelta = ({
         valueClassName,
         ...otherProps,
       })
+    }
+  </CurrencyContext.Consumer>
+)
+
+CurrencyDelta.TextRender = ({ children }) => (
+  <CurrencyContext.Consumer>
+    {({ formatter, symbol }) =>
+      children(value => renderToString({ formatter, symbol, value }))
     }
   </CurrencyContext.Consumer>
 )

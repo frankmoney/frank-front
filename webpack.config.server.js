@@ -7,6 +7,7 @@ const buildPath = path.join(__dirname, './build')
 const widgetScriptUrl =
   process.env.WIDGET_SCRIPT_URL || 'http://localhost:8082/assets/main.js'
 const publicPath = process.env.WEBAPP_ASSETS_PATH || '/assets/'
+const webappUrl = process.env.WEBAPP_URL || ''
 const nodeExternals = require('webpack-node-externals')
 const nodeEnv = process.env.NODE_ENV
 
@@ -122,6 +123,7 @@ module.exports = {
     new webpack.DefinePlugin({
       __PUBLIC_PATH: JSON.stringify(publicPath),
       __WIDGET_SCRIPT_URL: JSON.stringify(widgetScriptUrl),
+      __WEBAPP_BASE_URL: JSON.stringify(webappUrl),
     }),
   ],
 }
