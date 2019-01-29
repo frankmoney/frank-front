@@ -1,6 +1,7 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
+import Helmet from 'react-helmet'
 import {
   compose,
   branch,
@@ -75,6 +76,20 @@ class Ledger extends React.Component<Props, State> {
 
     return (
       <div className={cx(classes.root, className)}>
+        <Helmet>
+          <meta property="og:url" content="https://frank.ly" />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:title"
+            content="!!Public competition for disruptive education technologies"
+          />
+          <meta
+            property="og:description"
+            content="!!Frank challenges nonprofits to develop efficient educational support programs. The prize is decent money and execution help. Apply, win and become nation’s hope for a better future for students."
+          />
+          <meta property="og:site_name" content="Frank" />
+          <meta property="og:locale" content="en_US" />
+        </Helmet>
         <CurrencyProvider code={currencyCode}>
           <LedgerHeader offset={this.state.offset} />
           <div className={classes.container}>
