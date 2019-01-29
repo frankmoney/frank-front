@@ -1,6 +1,7 @@
 // @flow strict-local
 import * as React from 'react'
 import * as R from 'ramda'
+import { withProps } from 'recompose'
 import cx from 'classnames'
 import Bar, {
   POSITIVE_BAR_COLOR,
@@ -68,7 +69,7 @@ const makePositive = R.map(({ date, negativeValue }) => ({
 
 class TimelineChart extends React.PureComponent<Props, State> {
   static defaultProps = {
-    CheckboxComponent: Checkbox,
+    CheckboxComponent: withProps({ hitzoneLeftCompensation: true })(Checkbox),
   }
 
   state = {

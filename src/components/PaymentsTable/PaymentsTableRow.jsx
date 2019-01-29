@@ -7,90 +7,19 @@ import CurrencyDelta from 'components/CurrencyDelta'
 import CategoryLabel from 'components/CategoryLabel'
 import HighlightText from 'components/HighlightText'
 import { formatShortDate } from 'utils/dates'
+import Checkbox from 'components/kit/Checkbox'
 import PaymentStatus from 'components/admin/PaymentStatus'
+import styles from './PaymentsTableRow.jss'
 
-const FULL_CELL_HEIGHT = 110
-
-const styles = theme => ({
-  root: {
-    color: theme.colors.black,
-    textDecoration: 'none',
-    height: FULL_CELL_HEIGHT,
-    maxHeight: FULL_CELL_HEIGHT,
-    minHeight: FULL_CELL_HEIGHT,
-    padding: [21, 0],
-  },
-  cellLeft: {
-    width: '70%',
-    marginRight: 20,
-  },
-  cellRight: {
-    width: '30%',
-  },
-  description: {
-    ...theme.fontRegular(20, 30),
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-  },
-  emptyDescription: {
-    color: 'rgba(32, 40, 74, 0.5)',
-    '$editable &': {
-      color: 'rgba(32, 40, 74, 0.3)',
-    },
-    '$editable:hover &': {
-      color: 'rgba(32, 40, 74, 0.4)',
-    },
-  },
-  pendingDescription: {
-    color: 'rgba(32, 40, 74, 0.5)',
-  },
-  info: {
-    marginTop: 12,
-    display: 'flex',
-    alignItems: 'center',
-  },
-  client: {
-    marginRight: 20,
-    ...theme.fontMedium(16),
-    whiteSpace: 'nowrap',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-  },
-  category: {
-    ...theme.fontMedium(16),
-    whiteSpace: 'nowrap',
-  },
-  categoryIcon: {
-    height: 12,
-    marginBottom: -1,
-    width: 12,
-  },
-  sum: {
-    ...theme.fontRegular(20, 30),
-    textAlign: 'right',
-    display: 'block',
-  },
-  icons: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    marginTop: 8,
-  },
-  date: {
-    ...theme.fontRegular(16, 26),
-    color: 'rgba(37, 43, 67, 0.3)',
-  },
-  status: {
-    marginLeft: 10,
-  },
-  unverified: {
-    '& $description:not($emptyDescription):not($pendingDescription), & $category, & $client': {
-      opacity: 0.5,
-    },
-  },
-  editable: {},
-})
+const renderCheckbox = ({ getProps, checked, disabled, checkRow }) => (
+  <Checkbox
+    hitzoneLeftCompensation
+    checked={checked}
+    disabled={disabled}
+    onChange={value => checkRow(value)}
+    {...getProps()}
+  />
+)
 
 const PaymentsTableRow = ({
   classes,
@@ -108,6 +37,8 @@ const PaymentsTableRow = ({
       },
       className
     )}
+    checkboxClassName={classes.checkbox}
+    renderCheckbox={renderCheckbox}
     hoverBackgroundColor="#f6f7f7"
     disableCheckbox={pending}
     {...rowProps}
@@ -162,4 +93,4 @@ const PaymentsTableRow = ({
   </TableRow>
 )
 
-export default injectStyles(styles, { grid: true })(PaymentsTableRow)
+export default injectStyles(styles)(PaymentsTableRow)

@@ -17,7 +17,7 @@ const styles = theme => ({
     borderBottom: '1px solid #F0F0F2',
   },
   checkbox: {
-    marginRight: 15,
+    marginRight: 8,
   },
   sum: {
     flex: 1,
@@ -102,6 +102,7 @@ class PaymentListRow extends React.Component<Props> {
       >
         {selectable && (
           <Checkbox
+            hitzoneLeftCompensation
             checked={selected}
             className={classes.checkbox}
             onChange={onToggle}
