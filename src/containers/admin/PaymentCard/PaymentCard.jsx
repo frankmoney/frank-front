@@ -84,14 +84,18 @@ const PaymentCard = ({
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
       <div className={classes.createdAt}>
-        {hasCheckbox && (
+        {hasCheckbox ? (
           <Checkbox
-            className={classes.checkbox}
+            hitzoneLeftCompensation
+            labelClassName={classes.createdAtLabel}
+            inputProps={{ id: `payment-card-check-${paymentId}` }}
             checked={isChecked}
             onChange={onCheck}
+            label={formatFullDate(postedOn, true)}
           />
+        ) : (
+          formatFullDate(postedOn, true)
         )}
-        {formatFullDate(postedOn, true)}
       </div>
       <div className={cx(classes.amount, amountClassName)}>
         <CurrencyDelta value={amount} />

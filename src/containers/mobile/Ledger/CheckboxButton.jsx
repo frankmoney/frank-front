@@ -6,7 +6,8 @@ import { type CheckboxProps } from 'components/common/TimelineChart'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
-  icon: {
+  checkbox: {
+    pointerEvents: 'none',
     position: 'absolute',
   },
 }
@@ -24,12 +25,18 @@ const CheckboxButton = ({
   label,
   onChange,
 }: Props) => {
-  const icon = <Checkbox checked={checked} color={color} />
+  const icon = (
+    <Checkbox
+      disableExtendedHitZone
+      className={classes.checkbox}
+      checked={checked}
+      color={color}
+    />
+  )
   const buttonColor = color === 'green' ? 'lightGreen' : 'lightBlue'
   return (
     <ToggleButton
       className={className}
-      Mixins={{ icon: classes.icon }}
       icon={icon}
       on={checked}
       onToggle={onChange}
