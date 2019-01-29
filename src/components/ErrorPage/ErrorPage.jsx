@@ -43,15 +43,31 @@ const styles = theme => ({
   button: {
     marginTop: 26,
   },
+  mobile: {
+    '& $logo': {
+      color: '#D3D5D9',
+      height: 18,
+      left: 'unset',
+      right: 20,
+      top: 23,
+      width: 60,
+    },
+    '& $text': {
+      ...theme.fontSemibold(22, 28),
+      marginTop: 49,
+    },
+  },
 })
 
 type Props = {|
   ...InjectStylesProps,
+  //
+  mobile?: boolean,
   text: React.Node,
 |}
 
-let ErrorPage = ({ classes, className, text }: Props) => (
-  <div className={cx(classes.root, className)}>
+let ErrorPage = ({ classes, className, text, mobile }: Props) => (
+  <div className={cx(classes.root, { [classes.mobile]: mobile }, className)}>
     <FrankLogo className={classes.logo} />
     <div className={classes.wrapper}>
       <img src={ErrorImage} className={classes.image} alt="" />

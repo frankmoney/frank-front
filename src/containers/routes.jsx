@@ -91,7 +91,7 @@ const protectedRoute = compose(
   branch(props => !props.user, renderComponent(RedirectToLogin))
 )
 
-const withMobile = connect(state => {
+export const withMobile = connect(state => {
   const media = mediaTypeSelector(state)
   return {
     mobile: media === 'phoneLandscape' || media === 'phonePortrait',

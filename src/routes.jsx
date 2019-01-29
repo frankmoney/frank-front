@@ -9,7 +9,7 @@ import RecoverPassword from 'containers/auth/RecoverPassword'
 import ResetPassword, {
   ResetPasswordSuccess,
 } from 'containers/auth/ResetPassword'
-import appRoutes from 'containers/routes'
+import appRoutes, { withMobile } from 'containers/routes'
 import demoRoutes from 'demo/routes'
 import { ROUTES } from './const'
 
@@ -52,6 +52,6 @@ export default [
   ...appRoutes,
   ...demoRoutes,
   {
-    component: NotFound,
+    component: withMobile(NotFound),
   },
 ]
