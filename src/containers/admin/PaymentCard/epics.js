@@ -1,9 +1,15 @@
-import { blur, focus, initialize, isDirty } from 'redux-form/immutable'
+import {
+  blur,
+  focus,
+  initialize,
+  isDirty,
+  getFormValues,
+} from 'redux-form/immutable'
 import * as Rx from 'rxjs'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import QUERIES from './queries'
 import ACTIONS from './actions'
-import { getFormName, pickFormValues } from './const'
+import { getFormName } from './const'
 import * as SELECTORS from './selectors'
 
 export const triggerSaveOnPublish = action$ =>
@@ -83,11 +89,18 @@ export const autosave = (action$, store) => {
     )
 }
 
+export const copy = (action$, store) =>
+  action$.ofType(ACTIONS.copy).map(({ payload: form }) => {
+    const state = store.getState()
+    const { verified, ...formData } = getFormValues(form)(state).toJS()
+    return ACTIONS.copy.success(formData)
+  })
+
 export const paste = (action$, store) =>
   action$.ofType(ACTIONS.paste).map(({ payload: paymentId }) => {
     const state = store.getState()
     const { verified, ...formData } = SELECTORS.paymentData(paymentId)(state)
-    const clipboard = pickFormValues(SELECTORS.clipboard(state))
+    const clipboard = SELECTORS.clipboard(state)
     const data = {
       ...formData,
       ...clipboard,

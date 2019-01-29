@@ -75,11 +75,8 @@ const PaymentCard = ({
   verified,
   // copy-paste props
   canPaste,
-  category,
-  description,
-  onPaymentCopy,
   onPaymentPaste,
-  peer,
+  onPaymentCopyClick,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
@@ -214,13 +211,7 @@ const PaymentCard = ({
               <MenuItem
                 icon={<CopyIcon />}
                 label="Copy payment info"
-                onSelect={() =>
-                  onPaymentCopy({
-                    category,
-                    description,
-                    peer,
-                  })
-                }
+                onSelect={onPaymentCopyClick}
               />
               {canPaste && (
                 <MenuItem
@@ -347,6 +338,9 @@ export default compose(
     },
     onUnpublishClick: props => () => {
       props.onPaymentUnpublish({ id: props.id })
+    },
+    onPaymentCopyClick: props => () => {
+      props.onPaymentCopy(props.form)
     },
   })
 )(PaymentCard)
