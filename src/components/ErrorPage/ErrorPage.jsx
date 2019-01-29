@@ -9,6 +9,7 @@ import ErrorImage from './error_image.jpg'
 
 const styles = theme => ({
   root: {
+    background: '#fff',
     color: '#252B43',
     display: 'flex',
     height: '100%',
@@ -62,13 +63,14 @@ const styles = theme => ({
 type Props = {|
   ...InjectStylesProps,
   //
+  hideLogo?: boolean,
   mobile?: boolean,
   text: React.Node,
 |}
 
-let ErrorPage = ({ classes, className, text, mobile }: Props) => (
+let ErrorPage = ({ classes, className, hideLogo, mobile, text }: Props) => (
   <div className={cx(classes.root, { [classes.mobile]: mobile }, className)}>
-    <FrankLogo className={classes.logo} />
+    {!hideLogo && <FrankLogo className={classes.logo} />}
     <div className={classes.wrapper}>
       <img src={ErrorImage} className={classes.image} alt="" />
       <div className={classes.text}>{text}</div>

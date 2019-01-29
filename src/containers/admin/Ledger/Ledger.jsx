@@ -8,6 +8,7 @@ import {
   lifecycle,
   renderComponent,
   renderNothing,
+  withProps,
 } from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
@@ -157,7 +158,10 @@ export default compose(
     },
   }),
   branch(props => props.isLoadFailed, renderNothing),
-  branch(props => props.isPrivateOrNotFound, renderComponent(NotFound)),
+  branch(
+    props => props.isPrivateOrNotFound,
+    renderComponent(withProps({ hideLogo: true })(NotFound))
+  ),
   branch(props => props.loading, renderComponent(AreaSpinner)),
   injectStyles(styles)
 )(Ledger)
