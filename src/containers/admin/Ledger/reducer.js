@@ -21,6 +21,8 @@ const defaultState = fromJS({
   barsData: [],
   barsUnit: null,
   categories: [],
+  isLoadFailed: false,
+  isNotFound: false,
   loaded: false,
   loading: true,
   payments: [],
@@ -66,8 +68,10 @@ export default handleActions(
           ? state.get('unfilteredCount')
           : unfilteredCount,
       }),
-    [ACTIONS.load.error]: state =>
+    [ACTIONS.load.error]: (state, { payload: { notFound } }) =>
       state.merge({
+        isNotFound: notFound,
+        isLoadFailed: !notFound,
         loading: false,
         typing: false,
       }),
