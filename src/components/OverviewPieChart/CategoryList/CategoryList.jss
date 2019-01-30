@@ -4,10 +4,10 @@ export default theme => ({
     ...theme.fontRegular(22, 26),
   },
   item: {
-    cursor: 'pointer',
+    cursor: ({ inheritCursor }) => (inheritCursor ? undefined : 'pointer'),
   },
   nonclickableItem: {
-    cursor: 'default',
+    cursor: ({ inheritCursor }) => (inheritCursor ? undefined : 'default'),
   },
   icon: {
     marginRight: 13,

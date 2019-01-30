@@ -9,9 +9,11 @@ import { createStructuredSelector } from 'reselect'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
+import CurrencyProvider from 'components/CurrencyProvider'
 import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import { injectStyles } from 'utils/styles'
 import {
+  currencyCodeSelector,
   hasNoResultsSelector,
   noResultsTextSelector,
   isLoadingSelector,
@@ -28,46 +30,50 @@ import DirectoryFilter from './DirectoryFilter'
 const Directory = ({
   classes,
   className,
+  currencyCode,
   listDisabled,
   noResults,
   noResultsText,
   resetSearch,
 }) => (
-  <div className={cx(classes.root, className)}>
-    <FixedHeader className={classes.header}>
-      <Breadcrumbs>
-        <BreadcrumbsItem>Directory</BreadcrumbsItem>
-      </Breadcrumbs>
-      <DirectoryFilter />
-    </FixedHeader>
-    <div className={classes.container}>
-      <DirectorySearch
-        placeholder="Start typing recipient or donor name…"
-        className={classes.searchCard}
-        loading={listDisabled}
-      />
-      <DirectoryHighlightTextProvider>
-        <RecipientsTable className={classes.table} />
-      </DirectoryHighlightTextProvider>
-      {!noResults &&
-        !listDisabled && (
-          <div className={classes.tablePagerWrap}>
-            <DirectoryPager className={classes.tablePager} />
-          </div>
-        )}
-      {!listDisabled &&
-        noResults && (
-          <TableEmptyPlaceholder
-            text={noResultsText}
-            onReset={() => resetSearch()}
-          />
-        )}
+  <CurrencyProvider code={currencyCode}>
+    <div className={cx(classes.root, className)}>
+      <FixedHeader className={classes.header}>
+        <Breadcrumbs>
+          <BreadcrumbsItem>Directory</BreadcrumbsItem>
+        </Breadcrumbs>
+        <DirectoryFilter />
+      </FixedHeader>
+      <div className={classes.container}>
+        <DirectorySearch
+          placeholder="Start typing recipient or donor name…"
+          className={classes.searchCard}
+          loading={listDisabled}
+        />
+        <DirectoryHighlightTextProvider>
+          <RecipientsTable className={classes.table} />
+        </DirectoryHighlightTextProvider>
+        {!noResults &&
+          !listDisabled && (
+            <div className={classes.tablePagerWrap}>
+              <DirectoryPager className={classes.tablePager} />
+            </div>
+          )}
+        {!listDisabled &&
+          noResults && (
+            <TableEmptyPlaceholder
+              text={noResultsText}
+              onReset={() => resetSearch()}
+            />
+          )}
+      </div>
     </div>
-  </div>
+  </CurrencyProvider>
 )
 
 const mapStateToProps = createStructuredSelector({
   loading: isLoadingSelector,
+  currencyCode: currencyCodeSelector,
   listDisabled: listDisabledSelector,
   noResults: hasNoResultsSelector,
   noResultsText: noResultsTextSelector,

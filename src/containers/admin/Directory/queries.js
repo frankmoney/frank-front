@@ -11,6 +11,9 @@ export default {
       $sortBy: PeersOrder!
     ) {
       account(pid: $accountId) {
+        currency {
+          code
+        }
         peers(
           take: $first
           skip: $skip
@@ -21,16 +24,40 @@ export default {
         ) {
           id: pid
           name
-          countRevenue
-          countSpending
-          countTotal
+          
+          peerAggregate: aggregatePayments(
+            verified: true
+          ) {
+            count
+            totalSum
+          }
+          
+          peerRevenueAggregate: aggregatePayments(
+            verified: true
+            categoryType: revenue
+          ) {
+            totalSum
+          }
+          
+          peerSpendingAggregate: aggregatePayments(
+            verified: true
+            categoryType: spending
+          ) {
+            totalSum
+          }
+          
           categories {
             id: pid
             name
             color
+            
+            categoryAggregate: aggregatePayments(
+              verified: true
+            ) {
+              count
+              totalSum
+            }
           }
-          countPayments
-          lastPaymentOn
         }
         countPeers(
           search: $search
@@ -40,26 +67,29 @@ export default {
       }
     }
     `,
-    ({ account: { peers, countPeers } }) => ({
+    ({ account: { currency, peers, countPeers } }) => ({
+      currencyCode: currency && currency.code,
       recipients: peers.map(
         ({
           id,
           name,
-          countRevenue,
-          countSpending,
-          countTotal,
+          peerAggregate: { count: peerCount, totalSum: peerTotalSum },
+          peerRevenueAggregate: { totalSum: peerRevenueTotalSum },
+          peerSpendingAggregate: { totalSum: peerSpendingTotalSum },
           categories,
-          countPayments,
-          lastPaymentOn,
         }) => ({
           id,
           name,
-          revenue: countRevenue,
-          spending: -countSpending,
-          total: countTotal,
-          categories,
-          paymentCount: countPayments,
-          lastPaymentDate: lastPaymentOn,
+          paymentCount: peerCount,
+          total: peerTotalSum || 0,
+          revenue: peerRevenueTotalSum || 0,
+          spending: peerSpendingTotalSum || 0,
+          categories: categories
+            .filter(x => x.categoryAggregate.count > 0)
+            .map(({ categoryAggregate, ...category }) => ({
+              ...category,
+              sum: categoryAggregate.totalSum,
+            })),
         })
       ),
       totalCount: countPeers,
