@@ -31,7 +31,11 @@ const styles = theme => ({
   },
   name: {
     ...theme.fontMedium(20, 26),
+    marginRight: 20,
     paddingBottom: 68,
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
   infos: {
     position: 'absolute',
