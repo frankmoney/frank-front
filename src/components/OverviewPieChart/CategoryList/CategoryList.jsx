@@ -37,6 +37,7 @@ type Props = {
   itemClassName?: string,
   nameClassName?: string,
   valueClassName?: string,
+  inheritCursor?: boolean,
 }
 
 const CategoryList = ({
@@ -100,12 +101,14 @@ const CategoryList = ({
       {other &&
         (mobile ? (
           renderItem(!CLICKABLE)(other)
-        ) : (
+        ) : tooltipItems && tooltipItems.length > 0 ? (
           <OtherCategories
             anchor={renderItem(!CLICKABLE)(other)}
             items={tooltipItems}
             valueUnit={valueUnit}
           />
+        ) : (
+          renderItem(CLICKABLE)(other)
         ))}
     </div>
   )
