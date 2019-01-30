@@ -17,7 +17,7 @@ import StoryPayments from 'components/StoryPayments'
 import StoryPaymentsStats from 'components/StoryPaymentsStats'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
-import { BASE_TITLE, ROUTES } from 'const'
+import { ROUTES } from 'const'
 import ShareButtons from 'components/common/ShareButtons'
 import Editor from 'components/kit/Editor'
 import StoryHeader from './StoryHeader'
@@ -35,7 +35,7 @@ import styles from './Story.jss'
 const Story = ({
   classes,
   className,
-  account: { id: accountId, currencyCode },
+  account: { id: accountId, name: accountName, currencyCode },
   story: {
     id: storyId,
     title,
@@ -48,7 +48,23 @@ const Story = ({
 }) => (
   <div className={cx(classes.storyPage, className)}>
     <CurrencyProvider code={currencyCode}>
-      <Helmet title={BASE_TITLE} />
+      <Helmet>
+        <meta
+          property="og:url"
+          content={
+            __WEBAPP_BASE_URL +
+            createRouteUrl(ROUTES.account.stories.idRoot, {
+              accountId,
+              storyId,
+            })
+          }
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={`Story from ${accountName}`} />
+        <meta property="og:site_name" content="Frank" />
+        <meta property="og:locale" content="en_US" />
+      </Helmet>
       <StoryHeader />
       <div className={classes.container}>
         <div className={classes.prelude}>

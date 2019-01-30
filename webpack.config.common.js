@@ -7,6 +7,7 @@ const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
 const nodeEnv = process.env.NODE_ENV || 'development'
 const publicPath = process.env.ASSETS_PATH
 const widgetScriptUrl = process.env.WIDGET_SCRIPT_URL
+const webappUrl = process.env.WEBAPP_URL || ''
 assert(publicPath, 'env ASSETS_PATH required')
 assert(widgetScriptUrl, 'env WIDGET_SCRIPT_URL required')
 
@@ -76,6 +77,7 @@ module.exports = {
       __SERVER: false,
       __CLIENT: true,
       __WIDGET_SCRIPT_URL: JSON.stringify(widgetScriptUrl),
+      __WEBAPP_BASE_URL: JSON.stringify(webappUrl),
       __API_URL: JSON.stringify(apiEndpointPath),
       __GRAPHQL_URL: JSON.stringify(
         path.join(apiEndpointPath, graphqlEndpointPath)

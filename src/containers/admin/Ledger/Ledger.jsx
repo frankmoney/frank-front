@@ -38,6 +38,7 @@ import {
   isNotFoundSelector,
   lastCascadeCountSelector,
   listDisabledSelector,
+  loadedSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
 import * as ACTIONS from './actions'
@@ -126,6 +127,7 @@ export default compose(
       isPrivateOrNotFound: isNotFoundSelector,
       listDisabled: listDisabledSelector,
       loading: isLoadingSelector,
+      loaded: loadedSelector,
       noResults: hasNoResultsSelector,
     },
     {
