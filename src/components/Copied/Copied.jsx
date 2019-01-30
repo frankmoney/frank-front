@@ -1,15 +1,34 @@
-import React from 'react'
+// @flow strict-local
+import * as React from 'react'
 import copyToClipboard from 'clipboard-copy'
 import SidebarSnack from 'components/SidebarSnack'
 
-class Copied extends React.Component {
+type CopyFn = string => void
+
+type ChildrenRenderer = {
+  onCopy: CopyFn,
+}
+
+type Props = {|
+  children?: React.StatelessFunctionalComponent<ChildrenRenderer>,
+  message?: string,
+|}
+
+type State = {|
+  snackShown: boolean,
+  onCopy: CopyFn,
+|}
+
+class Copied extends React.Component<Props, State> {
+  static defaultProps = {}
+
   state = {
     snackShown: false,
     onCopy: this.handleCopy,
   }
 
-  handleCopy = str => {
-    copyToClipboard(str).then(() => {
+  handleCopy = (data: string) => {
+    copyToClipboard(data).then(() => {
       this.setState({ snackShown: true })
     })
   }
@@ -22,7 +41,7 @@ class Copied extends React.Component {
     const { children, message } = this.props
     return (
       <>
-        {children({ onCopy: this.handleCopy })}
+        {children && children({ onCopy: this.handleCopy })}
         <SidebarSnack
           shown={this.state.snackShown}
           message={message}

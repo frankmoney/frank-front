@@ -1,72 +1,98 @@
+// @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { Link } from 'react-router-dom'
 import { compose } from 'recompose'
+import { Link } from 'react-router-dom'
 import { createRouteUrl } from '@frankmoney/utils'
-import { injectStyles } from '@frankmoney/ui'
-import { ArrowBack as BackIcon } from 'material-ui-icons'
+import BackIcon from 'material-ui-icons/ArrowBack'
 import Header from 'components/public/Header'
+import { type Account } from 'data/models/account'
+import { type PaymentId } from 'data/models/payment'
 import reconnect from 'utils/reconnect'
-import { ROUTES } from '../../../const'
-import { accountSelector } from './selectors'
+import { injectStyles, type InjectStylesProps } from 'utils/styles'
+import { ROUTES } from 'const'
+import { accountSelector, paymentIdSelector } from './selectors'
+import ShareMenu from './ShareMenu'
+
+const PADDING = 29
 
 const styles = theme => ({
   container: {
     display: 'inline-flex',
     width: '100%',
-    justifyContent: 'space-between',
-    padding: [0, 30],
-    ...theme.fontMedium(20, 24),
+    justifyContent: 'center',
+    position: 'relative',
+    padding: [0, PADDING],
   },
-  left: {
+  back: {
+    ...theme.fontMedium(18, 28),
+    position: 'absolute',
+    top: 5,
+    left: PADDING,
     display: 'flex',
-    opacity: 0.7,
-    color: theme.colors.black,
+    alignItems: 'center',
+    color: '#8F939F',
     textDecoration: 'none',
   },
-  icon: {
+  backIcon: {
     width: 24,
     height: 24,
-    marginRight: 15,
+    marginRight: 10,
   },
-  middle: {
+  title: {
+    ...theme.fontMedium(24, 40),
     color: '#20284A',
   },
-  powered: {
-    fontWeight: 400,
-    opacity: 0.2,
-  },
-  frank: {
-    color: theme.colors.black,
-    opacity: 0.7,
+  share: {
+    position: 'absolute',
+    top: 3,
+    right: PADDING,
   },
 })
 
-const StoryHeader = ({ classes, className, account: { id, name } }) => (
-  <Header>
-    <div className={cx(classes.container, className)}>
-      <Link
-        className={classes.left}
-        to={createRouteUrl(ROUTES.account.idRoot, { accountId: id })}
-      >
-        <BackIcon className={classes.icon} />
-        <div>All payments</div>
-      </Link>
-      <div className={classes.middle}>{name}</div>
-      <div className={classes.right}>
-        <span className={classes.powered}>Powered by</span>{' '}
-        <span className={classes.frank}>Frank</span>
+type Props = {|
+  ...InjectStylesProps,
+  //
+  account: Account,
+  paymentId: PaymentId,
+|}
+
+const PaymentHeader = ({
+  account: { id: accountId, name },
+  classes,
+  className,
+  paymentId,
+}: Props) => {
+  const publicUrl =
+    window.location.origin +
+    createRouteUrl(ROUTES.account.payment.idRoot, {
+      accountId,
+      paymentId,
+    })
+  return (
+    <Header>
+      <div className={cx(classes.container, className)}>
+        <Link
+          className={classes.back}
+          to={createRouteUrl(ROUTES.account.idRoot, { accountId })}
+        >
+          <BackIcon className={classes.backIcon} />
+          <div>All payments</div>
+        </Link>
+        <div className={classes.title}>{name}</div>
+        <ShareMenu className={classes.share} url={publicUrl} />
       </div>
-    </div>
-  </Header>
-)
+    </Header>
+  )
+}
 
 export default compose(
   reconnect(
     {
       account: accountSelector,
+      paymentId: paymentIdSelector,
     },
     {}
   ),
   injectStyles(styles)
-)(StoryHeader)
+)(PaymentHeader)

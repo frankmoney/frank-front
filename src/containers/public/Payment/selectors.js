@@ -1,4 +1,6 @@
 // @flow strict
+import * as R from 'ramda'
+import { createSelector } from 'reselect'
 import { createPlainObjectSelector } from '@frankmoney/utils'
 import type { ReduxState } from 'flow/redux'
 import { REDUCER_KEY } from './reducer'
@@ -25,6 +27,8 @@ export const isLoadFailedSelector = getter('isLoadFailed')
 export const isNotFoundSelector = getter('isNotFound')
 
 export const paymentSelector = createPlainObjectSelector(getters.payment)
+export const paymentIdSelector = createSelector(paymentSelector, R.prop('id'))
+
 export const similarCountSelector = getters.similarCount
 
 export const accountSelector = createPlainObjectSelector(getters.account)
