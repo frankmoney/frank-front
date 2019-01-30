@@ -29,21 +29,27 @@ const PaymentCard = ({
       postedOn={postedOn}
       verified={verified}
     />
-    <div className={classes.info}>
+    <div>
       {verified && (
         <>
           <div className={classes.peer}>{peer.name}</div>
-          {description && (
-            <div className={classes.description}>{description}</div>
-          )}
-          <CategoryLabel
-            className={classes.categoryItem}
-            iconClassName={classes.categoryIcon}
-            {...category}
-          />
+          <div className={classes.info}>
+            {description && (
+              <div className={classes.description}>{description}</div>
+            )}
+            <CategoryLabel
+              className={classes.categoryItem}
+              iconClassName={classes.categoryIcon}
+              {...category}
+            />
+          </div>
         </>
       )}
-      <BankDescription className={classes.bank} {...source} />
+      <BankDescription
+        className={classes.bank}
+        logoClassName={classes.bankLogo}
+        {...source}
+      />
     </div>
   </Paper>
 )
