@@ -12,7 +12,6 @@ type ChildrenRenderer = {
 type Props = {|
   children?: React.StatelessFunctionalComponent<ChildrenRenderer>,
   message?: string,
-  Snack: React.ComponentType<any>, // flowlint-line unclear-type:off
 |}
 
 type State = {|

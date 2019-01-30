@@ -99,7 +99,7 @@ const Payment = ({
               <>
                 <TextButton
                   className={classes.similarButton}
-                  color="faintGray"
+                  color="solidGray"
                   icon={<SimilarIcon className={classes.similarIcon} />}
                   label={`${similarCount} similar payments`}
                   larger
