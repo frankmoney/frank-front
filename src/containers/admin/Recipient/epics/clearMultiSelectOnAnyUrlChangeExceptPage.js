@@ -6,7 +6,7 @@ import {
 } from '@frankmoney/webapp'
 import * as R from 'ramda'
 import MULTI_ACTIONS from 'containers/admin/MultiEditSnack/actions'
-import { loadedSelector } from '../../Recipient/selectors'
+import { loadedSelector } from '../selectors'
 
 export default (action$, store) =>
   action$
@@ -16,11 +16,11 @@ export default (action$, store) =>
     .filter(({ payload: { pathname } }) => {
       const state = store.getState()
       const prevPathname = prevPathnameSelector(state)
-
-      // switching between /account/4 and /account/5
+      // switching between /account/4/recipient and /account/5/recipient
       if (!prevPathname && prevPathname !== pathname) {
         return true
       }
+
       const omitPage = R.omit(['page'])
       const query = querySelector(state)
       const prevQuery = prevQuerySelector(state)
