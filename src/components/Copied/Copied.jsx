@@ -21,9 +21,7 @@ type State = {|
 |}
 
 class Copied extends React.Component<Props, State> {
-  static defaultProps = {
-    Snack: SidebarSnack,
-  }
+  static defaultProps = {}
 
   state = {
     snackShown: false,
@@ -41,11 +39,11 @@ class Copied extends React.Component<Props, State> {
   }
 
   render() {
-    const { children, message, Snack } = this.props
+    const { children, message } = this.props
     return (
       <>
         {children && children({ onCopy: this.handleCopy })}
-        <Snack
+        <SidebarSnack
           shown={this.state.snackShown}
           message={message}
           dismissByTimeout={5000}

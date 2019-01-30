@@ -47,7 +47,6 @@ const styles = theme => ({
     position: 'absolute',
     top: 3,
     right: PADDING,
-    color: '#8F939F',
   },
 })
 

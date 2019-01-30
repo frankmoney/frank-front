@@ -6,7 +6,6 @@ import { FacebookShareButton, TwitterShareButton } from 'react-share'
 import { TextButton } from 'components/kit/Button'
 import ButtonMenu from 'components/kit/ButtonMenu'
 import Copied from 'components/Copied'
-import Snack from 'components/kit/Snack'
 import FacebookIcon from 'components/kit/Button/SocialButton/facebook.svg'
 import TwitterIcon from 'components/kit/Button/SocialButton/twitter.svg'
 import { MenuItem } from 'components/kit/Menu'
@@ -14,11 +13,6 @@ import { type Ref } from 'flow/react'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
-  icon: {
-    width: 24,
-    height: 24,
-    marginRight: 7,
-  },
   hidden: {
     display: 'none',
   },
@@ -43,8 +37,33 @@ class ShareMenu extends React.Component<Props> {
   facebookShare: Ref
   twitterShare: Ref
 
+  handleFacebookSelect = () => {
+    if (this.facebookShare.current) {
+      this.facebookShare.current.click()
+    }
+  }
+
+  handleTwitterSelect = () => {
+    if (this.twitterShare.current) {
+      this.twitterShare.current.click()
+    }
+  }
+
+  renderShareButton = popupState => (
+    <TextButton
+      className={this.props.className}
+      color="black"
+      icon={<ShareIcon />}
+      label="Share"
+      larger
+      onClick={popupState.toggle}
+      {...popupState.getAnchorProps()}
+    />
+  )
+
   render() {
-    const { classes, className, url } = this.props
+    const { classes, url } = this.props
+
     return (
       <>
         <FacebookShareButton
@@ -57,45 +76,24 @@ class ShareMenu extends React.Component<Props> {
           className={classes.hidden}
           url={url}
         />
-        <Copied
-          message="Public link has been copied to clipboard"
-          Snack={Snack}
-        >
+        <Copied message="Public link has been copied to clipboard">
           {({ onCopy }) => (
             <ButtonMenu
               align="end"
               arrowEnd
               direction="down"
               menuProps={{ className: classes.arrowPaper }}
-              renderButton={popupState => (
-                <TextButton
-                  className={className}
-                  color="faintGray"
-                  icon={<ShareIcon className={classes.icon} />}
-                  label="Share"
-                  larger
-                  onClick={popupState.toggle}
-                  {...popupState.getAnchorProps()}
-                />
-              )}
+              renderButton={this.renderShareButton}
             >
               <MenuItem
                 icon={<FacebookIcon />}
                 label="Facebook"
-                onSelect={() => {
-                  if (this.facebookShare.current) {
-                    this.facebookShare.current.click()
-                  }
-                }}
+                onSelect={this.handleFacebookSelect}
               />
               <MenuItem
                 icon={<TwitterIcon />}
                 label="Twitter"
-                onSelect={() => {
-                  if (this.twitterShare.current) {
-                    this.twitterShare.current.click()
-                  }
-                }}
+                onSelect={this.handleTwitterSelect}
               />
               <MenuItem
                 label="Copy link"
