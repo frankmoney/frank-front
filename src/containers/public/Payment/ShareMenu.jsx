@@ -3,7 +3,7 @@ import React from 'react'
 import ShareIcon from 'material-ui-icons/Launch'
 import LinkIcon from 'material-ui-icons/Link'
 import { FacebookShareButton, TwitterShareButton } from 'react-share'
-import { TextButton } from 'components/kit/Button'
+import ToggleButton from 'components/kit/ToggleButton'
 import ButtonMenu from 'components/kit/ButtonMenu'
 import Copied from 'components/Copied'
 import FacebookIcon from 'components/kit/Button/SocialButton/facebook.svg'
@@ -50,10 +50,12 @@ class ShareMenu extends React.Component<Props> {
   }
 
   renderShareButton = popupState => (
-    <TextButton
+    <ToggleButton.Text
       className={this.props.className}
-      color="solidGray"
+      colorOn="black"
+      colorOff="solidGray"
       icon={<ShareIcon />}
+      on={popupState.open}
       label="Share"
       larger
       onClick={popupState.toggle}
