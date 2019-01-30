@@ -10,6 +10,7 @@ const defaultState = Immutable.fromJS({
   loaded: false,
   updatingList: false,
   updatingRecipient: false,
+  currencyCode: null,
   categories: null,
   recipient: null,
   paymentCount: 0,
@@ -22,12 +23,13 @@ export default handleActions(
       state.merge(updateListOnly ? { updatingList: true } : { loading: true }),
     [ACTIONS.load.success]: (
       state,
-      { payload: { categories, recipient, payments, paymentCount } }
+      { payload: { currencyCode, categories, recipient, payments, paymentCount } }
     ) =>
       state.merge({
         loading: false,
         loaded: true,
         updatingList: false,
+        currencyCode,
         categories,
         recipient: fromJS(recipient),
         payments: fromJS(payments),

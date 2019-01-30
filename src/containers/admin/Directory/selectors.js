@@ -21,6 +21,7 @@ export const isLoadingSelector = get('loading')
 export const loadedSelector = get('loaded')
 export const isUpdatingSelector = get('updating')
 export const isTypingSelector = get('typing')
+export const currencyCodeSelector = get('currencyCode')
 export const recipientsTotalCountSelector = get('recipientsCount')
 export const recipientsSelector = createPlainObjectSelector(get('recipients'))
 

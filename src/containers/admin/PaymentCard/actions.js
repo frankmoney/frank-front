@@ -1,7 +1,7 @@
 import createActions from 'utils/createActions'
 
 export default createActions('payment', {
-  copy: false,
+  copy: true,
   paste: false,
   publish: true,
   save: true,

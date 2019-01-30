@@ -14,6 +14,7 @@ import {
 import { createRouteUrl } from '@frankmoney/utils'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
+import CurrencyProvider from 'components/CurrencyProvider'
 import Spinner from 'components/kit/Spinner'
 import MultiEditSnack from 'containers/admin/MultiEditSnack'
 import reconnect from 'utils/reconnect'
@@ -21,6 +22,7 @@ import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import {
+  currencyCodeSelector,
   recipientSelector,
   isLoadingSelector,
   listIsUpdatingSelector,
@@ -43,6 +45,7 @@ class Recipient extends React.PureComponent {
     const {
       classes,
       className,
+      currencyCode,
       recipient,
       paymentCount,
       listIsUpdating,
@@ -50,39 +53,41 @@ class Recipient extends React.PureComponent {
     } = this.props
 
     return (
-      <div className={cx(classes.root, className)}>
-        <FixedHeader className={classes.header}>
-          <Breadcrumbs>
-            <BreadcrumbsItemLink
-              to={createRouteUrl(ROUTES.account.directory.root, { accountId })}
-            >
-              Directory
-            </BreadcrumbsItemLink>
-            <BreadcrumbsItem>{recipient.name}</BreadcrumbsItem>
-          </Breadcrumbs>
-          <RecipientFilter />
-        </FixedHeader>
-        <div className={classes.container}>
-          <RecipientCard
-            className={classes.recipientCard}
-            {...recipient}
-            paymentCount={paymentCount}
-          />
+      <CurrencyProvider code={currencyCode}>
+        <div className={cx(classes.root, className)}>
+          <FixedHeader className={classes.header}>
+            <Breadcrumbs>
+              <BreadcrumbsItemLink
+                to={createRouteUrl(ROUTES.account.directory.root, { accountId })}
+              >
+                Directory
+              </BreadcrumbsItemLink>
+              <BreadcrumbsItem>{recipient.name}</BreadcrumbsItem>
+            </Breadcrumbs>
+            <RecipientFilter />
+          </FixedHeader>
+          <div className={classes.container}>
+            <RecipientCard
+              className={classes.recipientCard}
+              {...recipient}
+              paymentCount={paymentCount}
+            />
 
-          {listIsUpdating && (
-            <div className={classes.listLoaderWrap}>
-              <Spinner className={classes.loader} size={45} />
-            </div>
-          )}
-          {!listIsUpdating && <RecipientTable />}
-          {!listIsUpdating && (
-            <div className={classes.tablePagerWrap}>
-              <RecipientPager className={classes.tablePager} />
-            </div>
-          )}
+            {listIsUpdating && (
+              <div className={classes.listLoaderWrap}>
+                <Spinner className={classes.loader} size={45} />
+              </div>
+            )}
+            {!listIsUpdating && <RecipientTable />}
+            {!listIsUpdating && (
+              <div className={classes.tablePagerWrap}>
+                <RecipientPager className={classes.tablePager} />
+              </div>
+            )}
+          </div>
+          <ConnectedMultiEditSnack />
         </div>
-        <ConnectedMultiEditSnack />
-      </div>
+      </CurrencyProvider>
     )
   }
 }
@@ -90,6 +95,7 @@ class Recipient extends React.PureComponent {
 const mapStateToProps = createStructuredSelector({
   loading: isLoadingSelector,
   listIsUpdating: listIsUpdatingSelector,
+  currencyCode: currencyCodeSelector,
   recipient: recipientSelector,
   paymentCount: paymentCountSelector,
   accountId: currentAccountIdSelector,
