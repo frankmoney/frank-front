@@ -35,7 +35,7 @@ import PeerSuggestField from 'components/PeerSuggestField'
 import DescriptionSuggestField from 'components/DescriptionSuggestField'
 import styles from './PaymentCard.jss'
 import connectCard from './connectCard'
-import { getFormName, counters, validation } from './const'
+import { getFormName, counters, validation, pickFormValues } from './const'
 import PendingPaymentCard from './PendingPaymentCard'
 
 const validate = createValidateFromRules(validation)
@@ -75,11 +75,8 @@ const PaymentCard = ({
   verified,
   // copy-paste props
   canPaste,
-  category,
-  description,
-  onPaymentCopy,
   onPaymentPaste,
-  peer,
+  onPaymentCopyClick,
 }) => (
   <Paper type="card" className={cx(classes.root, className)}>
     <div className={classes.header}>
@@ -218,13 +215,7 @@ const PaymentCard = ({
               <MenuItem
                 icon={<CopyIcon />}
                 label="Copy payment info"
-                onSelect={() =>
-                  onPaymentCopy({
-                    category,
-                    description,
-                    peer,
-                  })
-                }
+                onSelect={onPaymentCopyClick}
               />
               {canPaste && (
                 <MenuItem
@@ -283,13 +274,6 @@ const PaymentCard = ({
     </div>
   </Paper>
 )
-
-const pickFormValues = ({ category, peer, description = '', verified }) => ({
-  categoryId: category && category.id,
-  peerName: (peer && peer.name) || '',
-  description,
-  verified,
-})
 
 export default compose(
   injectStyles(styles),
@@ -358,6 +342,9 @@ export default compose(
     },
     onUnpublishClick: props => () => {
       props.onPaymentUnpublish({ id: props.id })
+    },
+    onPaymentCopyClick: props => () => {
+      props.onPaymentCopy(props.form)
     },
   })
 )(PaymentCard)

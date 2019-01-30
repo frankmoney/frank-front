@@ -1,9 +1,15 @@
-import { blur, focus, isDirty } from 'redux-form/immutable'
+import {
+  blur,
+  focus,
+  initialize,
+  isDirty,
+  getFormValues,
+} from 'redux-form/immutable'
 import * as Rx from 'rxjs'
-import * as LEDGER_ACTIONS from 'containers/admin/Ledger/actions'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import QUERIES from './queries'
 import ACTIONS from './actions'
+import { getFormName } from './const'
 import * as SELECTORS from './selectors'
 
 export const triggerSaveOnPublish = action$ =>
@@ -85,12 +91,27 @@ export const autosave = (action$, store) => {
     )
 }
 
-export const pastePayment = (action$, store) =>
+export const copy = (action$, store) =>
+  action$.ofType(ACTIONS.copy).map(({ payload: form }) => {
+    const state = store.getState()
+    const { verified, ...formData } = getFormValues(form)(state).toJS()
+    return ACTIONS.copy.success(formData)
+  })
+
+export const paste = (action$, store) =>
   action$.ofType(ACTIONS.paste).map(({ payload: paymentId }) => {
     const state = store.getState()
+    const { verified, ...formData } = SELECTORS.paymentData(paymentId)(state)
     const clipboard = SELECTORS.clipboard(state)
-    return LEDGER_ACTIONS.pastePayment({
-      paymentId,
-      clipboard,
+    const data = {
+      ...formData,
+      ...clipboard,
+      verified,
+    }
+    const formName = getFormName(paymentId)
+    return initialize(formName, data, {
+      // recommended default options
+      keepSubmitSucceeded: true,
+      updateUnregisteredFields: true,
     })
   })
