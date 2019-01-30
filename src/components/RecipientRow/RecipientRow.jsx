@@ -1,14 +1,11 @@
 // @flow
 import React from 'react'
-import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
 import { createRouteUrl } from '@frankmoney/utils'
 import { TableCell, TableRow } from '@frankmoney/components'
-import CategoryLabel from 'components/CategoryLabel'
-import CurrencyDelta from 'components/CurrencyDelta'
-import CurrencyProvider from 'components/CurrencyProvider'
-import ListWithOverflow from 'components/ListWithOverflow'
+import CurrencyValue from 'components/CurrencyValue'
 import HighlightText from 'components/HighlightText'
+import PeerCategoryList from 'components/PeerCategoryList'
 import { ROUTES } from 'const'
 import { injectStyles } from 'utils/styles'
 
@@ -26,29 +23,36 @@ const styles = theme => ({
   },
   leftColumn: {
     position: 'relative',
-    width: '53%',
+    width: 520,
   },
   rightColumn: {
     position: 'relative',
-    width: '47%',
+    width: 270,
   },
   name: {
     ...theme.fontMedium(20, 26),
-    paddingBottom: 58,
+    paddingBottom: 68,
+  },
+  infos: {
+    position: 'absolute',
+    bottom: 27,
   },
   info: {
-    ...theme.fontRegular(16, 24),
-    position: 'absolute',
-    bottom: 0,
+    display: 'inline-block',
+    width: 125,
+    marginRight: 15,
+    borderRight: '1px solid rgba(37, 43, 67, 0.09)',
+  },
+  paymentCountInfo: {
+    display: 'inline-block',
   },
   infoLabel: {
+    paddingBottom: 8,
+    ...theme.fontRegular(16),
     color: 'rgba(37, 43, 67, 0.3)',
   },
-  totalSums: {
-    ...theme.fontRegular(20, 26),
-  },
-  totalSum: {
-    marginRight: 20,
+  infoValue: {
+    ...theme.fontRegular(18),
   },
   categories: {
     position: 'absolute',
@@ -58,30 +62,10 @@ const styles = theme => ({
   },
 })
 
-const formatDate = date => format(date, 'MMM D')
-
-const categoriesListComponent = injectStyles({
-  icon: {
-    height: 12,
-    width: 12,
-  },
-})(({ classes, ...category }) => (
-  <CategoryLabel iconClassName={classes.icon} {...category} />
-))
-
 const RecipientRow = ({
   classes,
   accountId,
-  data: {
-    id,
-    name,
-    paymentCount,
-    lastPaymentDate,
-    currencyCode,
-    revenue,
-    spending,
-    categories,
-  },
+  data: { id, name, paymentCount, total, revenue, spending, categories },
   searchText,
 }) => (
   <TableRow
@@ -94,37 +78,31 @@ const RecipientRow = ({
       <div className={classes.name}>
         <HighlightText text={name} textPattern={searchText} />
       </div>
-
-      <div className={classes.info}>
-        <div>
-          <span className={classes.infoLabel}>Payments</span> {paymentCount}
-        </div>
-        <div>
-          <span className={classes.infoLabel}>Last payment</span>{' '}
-          {formatDate(lastPaymentDate)}
-        </div>
-      </div>
     </TableCell>
     <TableCell name="right" className={classes.rightColumn}>
-      <div className={classes.totalSums}>
-        {spending !== 0 && (
-          <CurrencyProvider code={currencyCode}>
-            <CurrencyDelta className={classes.totalSum} value={spending} />
-          </CurrencyProvider>
-        )}
-        {revenue !== 0 && (
-          <CurrencyProvider code={currencyCode}>
-            <CurrencyDelta className={classes.totalSum} value={revenue} />
-          </CurrencyProvider>
-        )}
-      </div>
-      <ListWithOverflow
-        className={classes.categories}
-        list={categories}
-        listComponent={categoriesListComponent}
-        overflowComponentWidth={71}
-      />
+      <PeerCategoryList totalSum={total} categories={categories} />
     </TableCell>
+
+    <div className={classes.infos}>
+      {spending !== 0 && (
+        <div className={classes.info}>
+          <div className={classes.infoLabel}>Spending</div>
+          <CurrencyValue className={classes.infoValue} value={spending} />
+        </div>
+      )}
+
+      {revenue !== 0 && (
+        <div className={classes.info}>
+          <div className={classes.infoLabel}>Income</div>
+          <CurrencyValue className={classes.infoValue} value={revenue} />
+        </div>
+      )}
+
+      <div className={classes.paymentCountInfo}>
+        <div className={classes.infoLabel}>Payments</div>
+        <div className={classes.infoValue}>{paymentCount}</div>
+      </div>
+    </div>
   </TableRow>
 )
 

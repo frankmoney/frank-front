@@ -1,5 +1,3 @@
-import { createRouteUrl } from '@frankmoney/utils'
-
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
@@ -12,10 +10,12 @@ import {
 } from 'recompose'
 import Helmet from 'react-helmet'
 import SimilarIcon from 'material-ui-icons/FormatListBulleted'
+import { createRouteUrl } from '@frankmoney/utils'
 import AreaSpinner from 'components/AreaSpinner'
-import Button from 'components/kit/Button'
+import { TextButton } from 'components/kit/Button'
 import CurrencyProvider from 'components/CurrencyProvider'
 import NotFound from 'components/ErrorPage'
+import FrankLogo from 'components/AdminLayout/FrankLogo.svg'
 import PaymentCard from 'components/public/PaymentCard'
 import { type Account } from 'data/models/account'
 import {
@@ -92,18 +92,17 @@ const Payment = ({
         </CurrencyDelta.TextRender>
         <PaymentHeader />
         <div className={classes.container}>
-          <PaymentCard
-            className={classes.card}
-            {...paymentProps}
-            paperPadding={30}
-          />
+          <PaymentCard className={classes.card} {...paymentProps} />
+          <FrankLogo className={classes.logo} />
           {typeof similarCount === 'number' &&
             similarCount > 0 && (
               <>
-                <Button
+                <TextButton
                   className={classes.similarButton}
-                  icon={<SimilarIcon />}
+                  color="solidGray"
+                  icon={<SimilarIcon className={classes.similarIcon} />}
                   label={`${similarCount} similar payments`}
+                  larger
                   onClick={() => onOpenDrawer()}
                 />
                 <SimilarDrawer paymentId={paymentId} />

@@ -12,3 +12,15 @@ export const counters = {
 }
 
 export const getFormName = id => `payment-${id}`
+
+export const pickFormValues = ({
+  category,
+  peer,
+  description = '',
+  verified,
+}) => ({
+  categoryId: category && category.id,
+  peerName: (peer && peer.name) || '',
+  description,
+  verified,
+})

@@ -417,35 +417,71 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
-              label="Button"
+              label="faintGray"
               color="faintGray"
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
-              label="Button"
+              label="faintGray"
               color="faintGray"
               hover
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
-              label="Button"
+              label="faintGray"
               color="faintGray"
               active
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
-              label="Button"
+              label="faintGray"
               color="faintGray"
               disabled
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
-              label="Button"
+              label="faintGray"
               color="faintGray"
+              loading
+            />
+          </Row>
+          <Row>
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="solidGray"
+              color="solidGray"
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="solidGray"
+              color="solidGray"
+              hover
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="solidGray"
+              color="solidGray"
+              active
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="solidGray"
+              color="solidGray"
+              disabled
+            />
+            <TextButton
+              icon={hasIcon && <Public />}
+              larger={larger}
+              label="solidGray"
+              color="solidGray"
               loading
             />
           </Row>

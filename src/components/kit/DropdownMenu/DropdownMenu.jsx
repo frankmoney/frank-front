@@ -23,6 +23,7 @@ export type DropdownMenuProps = {|
   alignByArrow?: boolean,
   arrowAt?: 'start' | 'center' | 'end',
   distance?: number,
+  menuProps?: Object, // FIXME
 |}
 
 export type DropdownMenuChildrenRenderer = PopupRenderProps => React.Node
@@ -40,7 +41,6 @@ type Props = {|
   children?: DropdownMenuChildren,
   direction: DropdownMenuDirection,
   menu?: DropdownMenuChildren,
-  menuProps?: Object, // FIXME
   renderMenuContent?: DropdownMenuChildrenRenderer,
 |}
 

@@ -33,7 +33,7 @@ export default handleActions(
         },
       }
     ) => updateMeta(id, { saving: false, cascadeCount: cascade.length }, state),
-    [ACTIONS.copy]: (state, { payload: clipboard }) =>
+    [ACTIONS.copy.success]: (state, { payload: clipboard }) =>
       state.merge({
         clipboard,
       }),
