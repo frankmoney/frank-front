@@ -1,15 +1,37 @@
-import React from 'react'
+// @flow strict-local
+import * as React from 'react'
 import copyToClipboard from 'clipboard-copy'
 import SidebarSnack from 'components/SidebarSnack'
 
-class Copied extends React.Component {
+type CopyFn = string => void
+
+type ChildrenRenderer = {
+  onCopy: CopyFn,
+}
+
+type Props = {|
+  children?: React.StatelessFunctionalComponent<ChildrenRenderer>,
+  message?: string,
+  Snack: React.ComponentType<any>, // flowlint-line unclear-type:off
+|}
+
+type State = {|
+  snackShown: boolean,
+  onCopy: CopyFn,
+|}
+
+class Copied extends React.Component<Props, State> {
+  static defaultProps = {
+    Snack: SidebarSnack,
+  }
+
   state = {
     snackShown: false,
     onCopy: this.handleCopy,
   }
 
-  handleCopy = str => {
-    copyToClipboard(str).then(() => {
+  handleCopy = (data: string) => {
+    copyToClipboard(data).then(() => {
       this.setState({ snackShown: true })
     })
   }
@@ -19,11 +41,11 @@ class Copied extends React.Component {
   }
 
   render() {
-    const { children, message } = this.props
+    const { children, message, Snack } = this.props
     return (
       <>
-        {children({ onCopy: this.handleCopy })}
-        <SidebarSnack
+        {children && children({ onCopy: this.handleCopy })}
+        <Snack
           shown={this.state.snackShown}
           message={message}
           dismissByTimeout={5000}

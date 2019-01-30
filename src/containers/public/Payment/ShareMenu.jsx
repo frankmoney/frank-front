@@ -8,6 +8,7 @@ import { TextButton } from 'components/kit/Button'
 import Copied from 'components/Copied'
 import Modal from 'components/kit/Modal'
 import PopupBase from 'components/kit/PopupBase'
+import Snack from 'components/kit/Snack'
 import FacebookIcon from 'components/kit/Button/SocialButton/facebook.svg'
 import TwitterIcon from 'components/kit/Button/SocialButton/twitter.svg'
 import { MenuItem } from 'components/kit/Menu'
@@ -37,7 +38,7 @@ type Props = {|
 |}
 
 const ShareMenu = ({ classes, className, url }: Props) => (
-  <Copied message="Public link has been copied to clipboard">
+  <Copied message="Public link has been copied to clipboard" Snack={Snack}>
     {({ onCopy }) => (
       <PopupBase place="down" align="end" alignByArrow distance={15}>
         {({

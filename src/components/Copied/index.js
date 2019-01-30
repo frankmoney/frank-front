@@ -1,1 +1,2 @@
-export default from './Copied'
+// @flow
+export { default } from './Copied'
