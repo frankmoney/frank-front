@@ -65,7 +65,7 @@ const styles = theme => ({
 const RecipientRow = ({
   classes,
   accountId,
-  data: { id, name, paymentCount, total, revenue, spending, categories },
+  data: { id, name, paymentCount, revenue, spending, categories },
   searchText,
 }) => (
   <TableRow
@@ -80,7 +80,10 @@ const RecipientRow = ({
       </div>
     </TableCell>
     <TableCell name="right" className={classes.rightColumn}>
-      <PeerCategoryList totalSum={total} categories={categories} />
+      <PeerCategoryList
+        totalSum={categories.reduce((a, b) => a + Math.abs(b.sum), 0)}
+        categories={categories}
+      />
     </TableCell>
 
     <div className={classes.infos}>

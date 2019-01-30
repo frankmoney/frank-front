@@ -19,7 +19,6 @@ const RecipientCard = ({
   name,
   onEditName,
   paymentCount,
-  total,
   revenue,
   spending,
 }) => (
@@ -50,7 +49,10 @@ const RecipientCard = ({
       </div>
     </div>
     <div className={classes.rightColumn}>
-      <PeerCategoryList totalSum={total} categories={categories} />
+      <PeerCategoryList
+        totalSum={categories.reduce((a, b) => a + Math.abs(b.sum), 0)}
+        categories={categories}
+      />
       <div className={classes.lastDate}>
         <span className={classes.lastDateLabel}>Last payment</span>{' '}
         {formatDate(lastPaymentDate)}
