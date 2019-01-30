@@ -52,7 +52,7 @@ class ShareMenu extends React.Component<Props> {
   renderShareButton = popupState => (
     <TextButton
       className={this.props.className}
-      color="black"
+      color="solidGray"
       icon={<ShareIcon />}
       label="Share"
       larger

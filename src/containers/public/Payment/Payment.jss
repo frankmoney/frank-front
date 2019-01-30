@@ -27,13 +27,11 @@ export default {
   },
   similarButton: {
     position: 'absolute',
-    color: '#8F939F',
     bottom: 28,
     right: 29,
   },
   similarIcon: {
     width: 24,
     height: 24,
-    marginRight: 10,
   },
 }
