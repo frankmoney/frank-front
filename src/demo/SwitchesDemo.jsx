@@ -16,6 +16,7 @@ const SwitchesDemo = () => (
       <Checkbox defaultChecked />
       <Checkbox defaultChecked hover />
       <Checkbox disabled />
+      <Checkbox checked disabled />
     </Row>
     <Row centered>
       <Checkbox color="green" />
@@ -23,6 +24,7 @@ const SwitchesDemo = () => (
       <Checkbox color="green" defaultChecked />
       <Checkbox color="green" defaultChecked hover />
       <Checkbox color="green" disabled />
+      <Checkbox color="green" checked disabled />
     </Row>
     <Row centered>
       <Checkbox label="On" />
@@ -30,6 +32,7 @@ const SwitchesDemo = () => (
       <Checkbox label="On" defaultChecked />
       <Checkbox label="On" defaultChecked hover />
       <Checkbox label="On" disabled />
+      <Checkbox label="On" checked disabled />
     </Row>
     <Row centered>
       <Checkbox label="On" color="green" />
@@ -37,6 +40,7 @@ const SwitchesDemo = () => (
       <Checkbox label="On" color="green" defaultChecked />
       <Checkbox label="On" color="green" defaultChecked hover />
       <Checkbox label="On" color="green" disabled />
+      <Checkbox label="On" color="green" checked disabled />
     </Row>
     <h1>Switch</h1>
     <Row centered>

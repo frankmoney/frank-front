@@ -1,5 +1,6 @@
 export barsZoom from './barsZoom'
 export cleanUrlFiltersOnResetSearch from './cleanUrlFiltersOnResetSearch'
+export clearMultiSelectOnAnyUrlChangeExceptPage from './clearMultiSelectOnAnyUrlChangeExceptPage'
 export closeCardAfterPublish from './closeCardAfterPublish'
 export load from './load'
 export loadMoreSimilarPayments from './loadMoreSimilarPayments'

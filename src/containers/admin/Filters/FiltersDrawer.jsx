@@ -17,10 +17,10 @@ export default compose(
       aggregateSumMax: SELECTORS.aggregateSumMax,
     },
     {
-      onClose: ACTIONS.close,
+      onClose: () => ACTIONS.close(),
       onApply: ACTIONS.apply,
       onChange: ACTIONS.change,
-      onReset: ACTIONS.reset,
+      onReset: () => ACTIONS.reset(),
     }
   )
 )(PaymentsFilterDrawer)

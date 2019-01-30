@@ -10,14 +10,15 @@ export default theme => ({
     marginBottom: 35,
     ...theme.fontRegular(22),
   },
-  checkbox: {
-    marginRight: 20,
-  },
   createdAt: {
     flex: 1,
-    display: 'flex',
-    alignItems: 'baseline',
+    lineHeight: 36,
     color: 'rgba(37, 43, 67, 0.3)',
+  },
+  createdAtLabel: {
+    color: 'rgba(37, 43, 67, 0.3)',
+    marginLeft: 20,
+    ...theme.fontRegular(22, 36),
   },
   pendingText: {
     color: '#20284A',

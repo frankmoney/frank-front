@@ -7,7 +7,9 @@ const buildPath = path.join(__dirname, './build')
 const widgetScriptUrl =
   process.env.WIDGET_SCRIPT_URL || 'http://localhost:8082/assets/main.js'
 const publicPath = process.env.WEBAPP_ASSETS_PATH || '/assets/'
+const webappUrl = process.env.WEBAPP_URL || ''
 const nodeExternals = require('webpack-node-externals')
+const nodeEnv = process.env.NODE_ENV
 
 module.exports = {
   name: 'server',
@@ -77,12 +79,32 @@ module.exports = {
       '.jsx',
     ],
     alias: {
+      // somehow webpack bundles multiple react instances. specifiyng fixed path
+      react: path.join(
+        __dirname,
+        'node_modules',
+        'react',
+        'cjs',
+        nodeEnv === 'production'
+          ? 'react.production.min.js'
+          : 'react.development.js'
+      ),
+      'react-dom$': path.join(
+        __dirname,
+        'node_modules',
+        'react-dom',
+        'cjs',
+        nodeEnv === 'production'
+          ? 'react-dom.production.min.js'
+          : 'react-dom.development.js'
+      ),
       'redux-form': path.resolve(
         __dirname,
         'node_modules',
         'redux-form',
         'lib'
       ),
+      rxjs: path.resolve(__dirname, 'node_modules', 'rxjs'),
       constants: path.join(sourcePath, 'constants.js'),
     },
     modules: [path.resolve(__dirname, 'node_modules'), sourcePath],
@@ -101,6 +123,7 @@ module.exports = {
     new webpack.DefinePlugin({
       __PUBLIC_PATH: JSON.stringify(publicPath),
       __WIDGET_SCRIPT_URL: JSON.stringify(widgetScriptUrl),
+      __WEBAPP_BASE_URL: JSON.stringify(webappUrl),
     }),
   ],
 }

@@ -87,7 +87,7 @@ const Button = ({
   >
     {icon &&
       React.cloneElement(icon, {
-        className: cx(classes.icon, Mixins && Mixins.icon),
+        className: cx(classes.icon, icon.props.className, Mixins.icon),
       })}
     <div className={classes.label}>{label}</div>
     {typeof counter !== 'undefined' && (

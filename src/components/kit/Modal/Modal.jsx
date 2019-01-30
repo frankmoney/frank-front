@@ -77,8 +77,6 @@ class Modal extends React.Component<ModalProps> {
     return this.props.manager.isTopModal(this)
   }
 
-  mountNode = document.body
-
   handleBackdropClick = event => {
     if (event.target !== event.currentTarget) {
       return
@@ -216,7 +214,7 @@ class Modal extends React.Component<ModalProps> {
             </RootRef>
           </div>
         </>,
-        this.mountNode
+        document.body
       )
     )
   }

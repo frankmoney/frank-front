@@ -1,3 +1,5 @@
+import { createRouteUrl } from '@frankmoney/utils'
+
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
@@ -22,7 +24,8 @@ import {
 } from 'data/models/payment'
 import reconnect from 'utils/reconnect'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import { BASE_TITLE } from 'const'
+import { ROUTES } from 'const'
+import CurrencyDelta from 'components/CurrencyDelta'
 import PaymentHeader from './PaymentHeader'
 import {
   accountSelector,
@@ -48,18 +51,47 @@ type Props = {|
 const Payment = ({
   classes,
   className,
-  account,
+  account: { id: accountId, currencyCode },
   payment,
   paymentId,
   onOpenDrawer,
 }: Props) => {
   const { similarCount, ...paymentProps } = payment
   return (
-    <div className={cx(classes.paymentPage, className)}>
-      <Helmet title={BASE_TITLE} />
-      <PaymentHeader />
-      <div className={classes.container}>
-        <CurrencyProvider code={account.currencyCode}>
+    <CurrencyProvider code={currencyCode}>
+      <div className={cx(classes.paymentPage, className)}>
+        <CurrencyDelta.TextRender>
+          {formatAmount => (
+            <Helmet>
+              <meta
+                property="og:url"
+                content={
+                  __WEBAPP_BASE_URL +
+                  createRouteUrl(ROUTES.account.payment.idRoot, {
+                    accountId,
+                    paymentId,
+                  })
+                }
+              />
+              <meta property="og:type" content="website" />
+              <meta
+                property="og:title"
+                content={`${formatAmount(payment.amount)} payment ${
+                  payment.peer
+                    ? `from ${payment.peer.name}`
+                    : ' with no description yet'
+                }`}
+              />
+              {payment.description && (
+                <meta property="og:description" content={payment.description} />
+              )}
+              <meta property="og:site_name" content="Frank" />
+              <meta property="og:locale" content="en_US" />
+            </Helmet>
+          )}
+        </CurrencyDelta.TextRender>
+        <PaymentHeader />
+        <div className={classes.container}>
           <PaymentCard
             className={classes.card}
             {...paymentProps}
@@ -77,9 +109,9 @@ const Payment = ({
                 <SimilarDrawer paymentId={paymentId} />
               </>
             )}
-        </CurrencyProvider>
+        </div>
       </div>
-    </div>
+    </CurrencyProvider>
   )
 }
 

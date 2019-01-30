@@ -30,12 +30,8 @@ export const publishing = id => get('meta', id, 'publishing')
 export const paymentData = id =>
   createPlainObjectSelector(getFormValues(getFormName(id)))
 
-export const canSave = id =>
-  createSelector(
-    paymentData(id),
-    isInvalid(getFormName(id)),
-    (payment, invalid) => payment && (!payment.verified || !invalid)
-  )
+export const canAutoSave = id =>
+  createSelector(paymentData(id), payment => !!payment && !payment.verified)
 
 export const clipboard = createPlainObjectSelector(get('clipboard'))
 

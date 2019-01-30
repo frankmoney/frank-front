@@ -127,31 +127,36 @@ class Snack extends React.Component<Props> {
       opacity: Number(state.startsWith('enter')),
     })
 
-    return createPortal(
-      <Transition
-        in={shown}
-        timeout={100}
-        appear
-        unmountOnExit
-        // force reflow before enter state
-        onEnter={node => node.scrollTop}
-        onExited={this.handleDismissAnimationEnd}
-      >
-        {state => (
-          <SnackDumb
-            className={cx(classes.root, className)}
-            style={{
-              ...style,
-              bottom: viewportOffsetVertical,
-              left: viewportOffsetHorizontal,
-              ...transitionStyle(state),
-            }}
-            onCloseClick={() => this.handleDismiss('close-click')}
-            {...otherProps}
-          />
-        )}
-      </Transition>,
-      document.body
+    const isServer = typeof document === 'undefined'
+
+    return (
+      !isServer &&
+      createPortal(
+        <Transition
+          in={shown}
+          timeout={100}
+          appear
+          unmountOnExit
+          // force reflow before enter state
+          onEnter={node => node.scrollTop}
+          onExited={this.handleDismissAnimationEnd}
+        >
+          {state => (
+            <SnackDumb
+              className={cx(classes.root, className)}
+              style={{
+                ...style,
+                bottom: viewportOffsetVertical,
+                left: viewportOffsetHorizontal,
+                ...transitionStyle(state),
+              }}
+              onCloseClick={() => this.handleDismiss('close-click')}
+              {...otherProps}
+            />
+          )}
+        </Transition>,
+        document.body
+      )
     )
   }
 }

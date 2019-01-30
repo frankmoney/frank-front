@@ -68,7 +68,9 @@ export const autosave = (action$, store) => {
       const state = store.getState()
       const isPaymentForm = form.startsWith('payment-')
       const dirty = isDirty(form)(state)
-      const canSave = SELECTORS.canSave(getPaymentIdFromForm(form))(state)
+      const canAutoSave = SELECTORS.canAutoSave(getPaymentIdFromForm(form))(
+        state
+      )
       const isNotSavingState = !SELECTORS.saving(form.replace('payment-', ''))(
         state
       )
@@ -79,7 +81,7 @@ export const autosave = (action$, store) => {
       return (
         isPaymentForm &&
         dirty &&
-        canSave &&
+        canAutoSave &&
         isNotSavingState &&
         isNotPublishingState
       )

@@ -36,10 +36,13 @@ const Header = ({
   small,
 }: Props) => (
   <div className={cx(classes.root, { [classes.small]: small }, className)}>
-    {React.Children.map(children, headerItem =>
-      React.cloneElement(headerItem, {
-        small,
-      })
+    {React.Children.map(
+      children,
+      headerItem =>
+        headerItem &&
+        React.cloneElement(headerItem, {
+          small,
+        })
     )}
     {live &&
       !small && <LiveIndicator className={cx(classes.live, liveClassName)} />}

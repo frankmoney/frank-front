@@ -12,4 +12,5 @@ export default createServerRender({
   muiTheme,
   reducer: rootReducer,
   epic: rootEpic,
+  ssr: req => !req.user || (req.query && req.query.public === 'true'),
 })

@@ -13,6 +13,7 @@ const styles = {
     alignItems: 'center',
     cursor: 'pointer',
     outline: 'none',
+    userSelect: 'none',
   },
   value: {
     overflow: 'hidden',
