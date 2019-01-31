@@ -207,6 +207,8 @@ export const barChartClickableSelector = createSelector(
   )
 )
 
+export const barChartCategoryTypeSelector = get('barsCategoryType')
+
 export const barChartColorSelector = createSelector(
   currentCategorySelector,
   R.prop('color')

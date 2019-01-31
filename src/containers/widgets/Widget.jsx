@@ -11,6 +11,7 @@ import type {
   PieChartCategories,
 } from 'components/OverviewPieChart'
 import { formatBarDataPoints, type BarData } from 'data/models/barData'
+import { type CategoryType } from 'data/models/category'
 import { type Payment } from 'data/models/payment'
 import {
   forceValidPieTotal,
@@ -82,7 +83,8 @@ export type WidgetProps = {|
 export type WidgetDataProps = {|
   accountDescription: ?string,
   accountName: ?string,
-  barData: ?BarData,
+  barsCategoryType: ?CategoryType,
+  barsData: ?BarData,
   categoryCount: ?number,
   paymentCount: ?number,
   payments: Array<Payment>,
@@ -127,7 +129,8 @@ class Widget extends React.Component<Props, State> {
     // data
     accountDescription: null,
     accountName: null,
-    barData: null,
+    barsCategoryType: null,
+    barsData: null,
     categoryCount: null,
     loading: true,
     paymentCount: null,
@@ -173,8 +176,8 @@ class Widget extends React.Component<Props, State> {
       : null
   }
 
-  get barData(): ?BarData {
-    return this.state.barData
+  get barsData(): ?BarData {
+    return this.state.barsData
   }
 
   get period(): Period {
@@ -201,7 +204,8 @@ class Widget extends React.Component<Props, State> {
         graphql(...buildQuery(accountId, categoryId, loadCategories)).then(
           ({
             account: { name },
-            barChart,
+            barsCategoryType,
+            barsData,
             barsUnit,
             categories,
             description,
@@ -217,8 +221,9 @@ class Widget extends React.Component<Props, State> {
               //
               accountDescription: description,
               accountName: name,
-              barData: barChart
-                ? formatBarDataPoints(barChart, barsUnit)
+              barsCategoryType,
+              barsData: barsData
+                ? formatBarDataPoints(barsData, barsUnit)
                 : null,
               categoryCount: loadCategories
                 ? R.length(categories)
@@ -353,10 +358,11 @@ class Widget extends React.Component<Props, State> {
         onTabSwitch={this.handleTabSwitch}
         OverviewTab={overviewTab}
         PaymentListTab={
-          this.barData && (
+          this.barsData && (
             <PaymentListTab
               barChartClassName={barChartClassName}
-              barsData={this.barData}
+              barsCategoryType={this.state.barsCategoryType}
+              barsData={this.barsData}
               barsHeight={barsHeight}
               barsWidth={barsWidth}
               className={paymentsRootClassName}

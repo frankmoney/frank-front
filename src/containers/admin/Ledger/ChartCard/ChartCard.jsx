@@ -9,6 +9,7 @@ import OverviewPieChart, {
 import Paper from 'components/kit/Paper'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import TimelineChart from 'components/common/TimelineChart'
+import { type CategoryType } from 'data/models/category'
 import ExpandRow from './ExpandRow'
 import LedgerCategoryList from './LedgerCategoryList'
 import styles from './ChartCard.jss'
@@ -19,6 +20,7 @@ type Props = {|
   ...InjectStylesProps,
   //
   barsAreClickable: boolean,
+  barsCategoryType: ?CategoryType,
   barsColor?: string,
   barsData: BarData,
   barsOnly: boolean,
@@ -44,6 +46,7 @@ class ChartCard extends React.PureComponent<Props, State> {
   render() {
     const {
       barsAreClickable,
+      barsCategoryType,
       barsColor,
       barsData,
       barsOnly,
@@ -62,6 +65,7 @@ class ChartCard extends React.PureComponent<Props, State> {
     const handleBarsZoomIn = barsAreClickable ? onBarsZoomIn : null
 
     const barchartProps = {
+      barsCategoryType,
       barsColor,
       className: classes.barChart,
       data: barsData,

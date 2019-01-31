@@ -4,6 +4,8 @@ import cx from 'classnames'
 import Bar, { type BarData } from 'components/Charts/Bar'
 import Payments, { type PaymentsProps } from 'containers/widgets/Payments'
 import PeriodSelectComponent from 'containers/widgets/PeriodSelect'
+import { positiveBarValues, negativeBarValues } from 'data/models/barData'
+import { type CategoryType } from 'data/models/category'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { CategoryName, Header } from '../TabbedLayout/Header'
 
@@ -19,6 +21,7 @@ type Props = {|
   //
   currentCategoryColor: string,
   currentCategoryName: string,
+  barsCategoryType: ?CategoryType,
   barsData?: BarData,
   barsHeight: number,
   barsWidth: number,
@@ -41,6 +44,7 @@ type Props = {|
 
 const PaymentListTab = ({
   barChartClassName,
+  barsCategoryType,
   barsData,
   barsHeight,
   barsWidth,
@@ -59,40 +63,50 @@ const PaymentListTab = ({
   showCategories,
   small,
   PeriodSelect,
-}: Props) => (
-  <>
-    <Header live={false} small={small}>
-      <CategoryName
-        name={currentCategoryName}
-        onClick={onCancelCategoryClick}
-      />
-    </Header>
-    <div className={cx(classes.root, className)}>
-      {showBarChart && (
-        <>
-          {PeriodSelect}
-          <Bar
-            barColor={currentCategoryColor}
-            className={barChartClassName}
-            data={barsData}
-            footerPadding={footerPadding}
-            height={barsHeight}
-            hideBaseLine
-            labelKey="date"
-            width={barsWidth}
-          />
-        </>
-      )}
-      <Payments
-        blockClassName={paymentBlockClassName}
-        blockTitleClassName={paymentBlockTitleClassName}
-        className={paymentListClassName}
-        paymentClassName={paymentClassName}
-        paymentsData={paymentsData}
-        showCategories={showCategories}
-      />
-    </div>
-  </>
-)
+}: Props) => {
+  const showPositiveOnly = barsCategoryType === 'revenue'
+  const showNegativeOnly = barsCategoryType === 'spending'
+  const trimmedData = showPositiveOnly
+    ? positiveBarValues(barsData)
+    : showNegativeOnly
+      ? negativeBarValues(barsData)
+      : barsData // should never happen
+  return (
+    <>
+      <Header live={false} small={small}>
+        <CategoryName
+          name={currentCategoryName}
+          onClick={onCancelCategoryClick}
+        />
+      </Header>
+      <div className={cx(classes.root, className)}>
+        {showBarChart && (
+          <>
+            {PeriodSelect}
+            <Bar
+              barColor={currentCategoryColor}
+              className={barChartClassName}
+              data={trimmedData}
+              footerPadding={footerPadding}
+              forcedTooltipLabel={showNegativeOnly ? 'Spending' : null}
+              height={barsHeight}
+              hideBaseLine
+              labelKey="date"
+              width={barsWidth}
+            />
+          </>
+        )}
+        <Payments
+          blockClassName={paymentBlockClassName}
+          blockTitleClassName={paymentBlockTitleClassName}
+          className={paymentListClassName}
+          paymentClassName={paymentClassName}
+          paymentsData={paymentsData}
+          showCategories={showCategories}
+        />
+      </div>
+    </>
+  )
+}
 
 export default injectStyles(styles)(PaymentListTab)

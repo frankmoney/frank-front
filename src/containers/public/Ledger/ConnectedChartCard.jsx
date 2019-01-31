@@ -2,6 +2,7 @@
 import reconnect from 'utils/reconnect'
 import ChartCard from './ChartCard'
 import {
+  barChartCategoryTypeSelector,
   barChartClickableSelector,
   barChartColorSelector,
   barChartDataSelector,
@@ -18,6 +19,7 @@ import * as ACTIONS from './actions'
 export default reconnect(
   {
     barsAreClickable: barChartClickableSelector,
+    barsCategoryType: barChartCategoryTypeSelector,
     barsColor: barChartColorSelector,
     barsData: barChartDataSelector,
     barsOnly: barChartOnlySelector,

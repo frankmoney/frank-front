@@ -5,6 +5,7 @@ import * as ACTIONS from './actions'
 export const REDUCER_KEY = 'publicLedger'
 
 const defaultState = fromJS({
+  barsCategoryType: null,
   barsData: [],
   barsUnit: null,
   categories: [],
@@ -48,7 +49,8 @@ export default handleActions(
         payload: {
           account,
           allPeers,
-          barChart,
+          barsCategoryType,
+          barsData,
           barsUnit,
           categories,
           description,
@@ -65,7 +67,8 @@ export default handleActions(
       state.merge({
         account,
         allPeers: fromJS(allPeers),
-        barsData: fromJS(barChart || []),
+        barsCategoryType,
+        barsData: fromJS(barsData || []),
         barsUnit,
         categories: categories ? fromJS(categories) : state.get('categories'),
         description,

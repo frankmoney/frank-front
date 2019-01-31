@@ -14,7 +14,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import AxisLabel from './AxisLabel'
 import Grid from './Grid'
 import Tooltip from './Tooltip'
-import { EPSILON, type TooltipLineFormatter } from './TooltipLine'
+import { EPSILON, type TooltipLabelFormatter } from './TooltipLine'
 
 const BAR_CORNER_RADIUS = 3
 const BASE_LINE_OFFSET = 3
@@ -60,6 +60,7 @@ type Props = {|
   data: BarData,
   dual?: boolean,
   footerPadding: number,
+  forcedTooltipLabel?: string,
   height: number,
   hideBaseLine?: boolean,
   labelKey: string,
@@ -73,8 +74,11 @@ type Props = {|
 const negateWithEpsilon = x => (x === 0 ? -EPSILON : -x)
 const fixNegative = R.over(R.lensProp(NEGATIVE_VALUE_PROP), negateWithEpsilon)
 
-const tooltipLineFormatter: TooltipLineFormatter = payload =>
-  payload.dataKey === NEGATIVE_VALUE_PROP ? 'Spending' : 'Income'
+const tooltipLabelFormatter = (
+  forcedLabel: ?string
+): TooltipLabelFormatter => payload =>
+  forcedLabel ||
+  (payload.dataKey === NEGATIVE_VALUE_PROP ? 'Spending' : 'Income')
 
 class BarChart extends React.PureComponent<Props> {
   static defaultProps = {
@@ -106,6 +110,7 @@ class BarChart extends React.PureComponent<Props> {
       data,
       dual,
       footerPadding,
+      forcedTooltipLabel,
       height,
       hideBaseLine,
       labelKey,
@@ -155,7 +160,11 @@ class BarChart extends React.PureComponent<Props> {
           />
           {!mobile && (
             <ReTooltip
-              content={<Tooltip lineFormatter={tooltipLineFormatter} />}
+              content={
+                <Tooltip
+                  labelFormatter={tooltipLabelFormatter(forcedTooltipLabel)}
+                />
+              }
               isAnimationActive={false}
               cursor={false}
             />

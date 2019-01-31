@@ -255,6 +255,8 @@ export const barChartClickableSelector = createSelector(
   )
 )
 
+export const barChartCategoryTypeSelector = get('barsCategoryType')
+
 export const barChartDataSelector: Selector<BarData> = createSelector(
   createPlainObjectSelector(get('barsData')),
   barsUnitSelector,
