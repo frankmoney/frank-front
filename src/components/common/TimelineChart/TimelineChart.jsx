@@ -9,6 +9,8 @@ import Bar, {
   type BarData,
 } from 'components/Charts/Bar'
 import Checkbox from 'components/kit/Checkbox'
+import { positiveBarValues, negativeBarValues } from 'data/models/barData'
+import { type CategoryType } from 'data/models/category'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const MAX_ZEROES_TO_HIDE = 1
@@ -41,6 +43,7 @@ type CheckboxMixins = {|
 type Props = {|
   ...InjectStylesProps,
   //
+  barsCategoryType: ?CategoryType,
   barsColor?: string,
   CheckboxComponent: React.ComponentType<CheckboxProps>,
   data: BarData,
@@ -61,11 +64,6 @@ const countZeroes = prop =>
     R.prop('0'),
     R.defaultTo(0)
   )
-
-const makePositive = R.map(({ date, negativeValue }) => ({
-  date,
-  value: negativeValue,
-}))
 
 class TimelineChart extends React.PureComponent<Props, State> {
   static defaultProps = {
@@ -101,6 +99,7 @@ class TimelineChart extends React.PureComponent<Props, State> {
 
   render() {
     const {
+      barsCategoryType,
       barsColor,
       CheckboxComponent,
       classes,
@@ -109,12 +108,23 @@ class TimelineChart extends React.PureComponent<Props, State> {
       Mixins,
       ...barProps
     } = this.props
-    const { income, spending } = this.state
+    const income = barsCategoryType
+      ? barsCategoryType === 'revenue'
+      : this.state.income
+    const spending = barsCategoryType
+      ? barsCategoryType === 'spending'
+      : this.state.spending
 
-    const forcedSingle = typeof barsColor === 'string'
+    const forcedSingle = barsCategoryType && typeof barsColor === 'string'
 
-    const hide = !(income || spending)
-    const trimmedData = income && !forcedSingle ? data : makePositive(data)
+    const showBars = income || spending
+    const showPositiveOnly = (forcedSingle && income) || (income && !spending)
+    const showNegativeOnly = (forcedSingle && spending) || (!income && spending)
+    const trimmedData = showPositiveOnly
+      ? positiveBarValues(data)
+      : showNegativeOnly
+        ? negativeBarValues(data)
+        : data
 
     const barColor =
       barsColor ||
@@ -147,8 +157,9 @@ class TimelineChart extends React.PureComponent<Props, State> {
           className={classes.chart}
           data={trimmedData}
           dual={renderDual}
+          forcedTooltipLabel={showNegativeOnly ? 'Spending' : null}
           labelKey="date"
-          showBars={!hide}
+          showBars={showBars}
           {...barProps}
         />
       </div>

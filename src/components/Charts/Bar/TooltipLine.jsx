@@ -25,7 +25,7 @@ export type TooltipLinePayload = {
   dataKey: string,
 }
 
-export type TooltipLineFormatter = TooltipLinePayload => string
+export type TooltipLabelFormatter = TooltipLinePayload => string
 
 type Props = {|
   ...InjectStylesProps,
@@ -33,7 +33,7 @@ type Props = {|
   //
   color?: string,
   key?: string,
-  labelFormatter: TooltipLineFormatter,
+  labelFormatter: TooltipLabelFormatter,
   value: number,
 |}
 

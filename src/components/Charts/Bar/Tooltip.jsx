@@ -7,7 +7,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import type { FormattedBarLabels, JSONString } from 'data/models/barData'
 import TooltipLine, {
   type TooltipLinePayload,
-  type TooltipLineFormatter,
+  type TooltipLabelFormatter,
 } from './TooltipLine'
 
 const styles = theme => ({
@@ -29,18 +29,18 @@ type Props = {|
   ...InjectStylesProps,
   //
   label: JSONString,
-  lineFormatter: TooltipLineFormatter,
+  labelFormatter: TooltipLabelFormatter,
   payload: Array<TooltipLinePayload>,
   style?: Style,
 |}
 
-const Tooltip = ({ classes, label, lineFormatter, payload, style }: Props) => {
+const Tooltip = ({ classes, label, labelFormatter, payload, style }: Props) => {
   const labels: FormattedBarLabels = JSON.parse(label)
   return (
     <Paper className={classes.root} style={style}>
       <div className={classes.header}>{labels.tooltipLabel}</div>
       {R.addIndex(R.map)((item, index) => (
-        <TooltipLine labelFormatter={lineFormatter} key={index} {...item} />
+        <TooltipLine labelFormatter={labelFormatter} key={index} {...item} />
       ))(payload)}
     </Paper>
   )
