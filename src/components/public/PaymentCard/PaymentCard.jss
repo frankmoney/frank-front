@@ -4,29 +4,31 @@ export default theme => ({
     color: theme.colors.black,
   },
   head: {
-    marginBottom: 23,
+    marginBottom: 35,
   },
   peer: {
-    ...theme.fontMedium(20, 36),
-    '& + $description': {
-      marginTop: 6,
-    },
-    '& + $categoryItem': {
-      marginTop: 8,
-    },
+    ...theme.fontMedium(20, 26),
+  },
+  info: {
+    display: 'flex',
+    alignItems: 'center',
+    margin: [12, 0, 0, -1],
   },
   description: {
     ...theme.fontRegular(20, 26),
-    marginBottom: 18,
+    marginRight: 22,
   },
   categoryItem: {
     ...theme.fontMedium(20, 26),
   },
   categoryIcon: {
-    marginRight: 13,
+    margin: [-2, 10, 0, 0],
   },
   bank: {
     minHeight: 38,
     marginTop: 50,
+  },
+  bankLogo: {
+    borderRadius: 5,
   },
 })

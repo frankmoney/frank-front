@@ -1,25 +1,43 @@
 import * as R from 'ramda'
 import { SORT_BY_DEFAULT } from './constants'
 
-const mapCategory = ({ countPayments, ...category }) => ({
-  ...category,
-  value: countPayments,
-})
-
 const recipientDetails = `
     id: pid
     name
+    
+    peerAggregate: aggregatePayments(
+      verified: true
+    ) {
+      count
+      postedOnMax
+      totalSum
+    }
+    
+    peerRevenueAggregate: aggregatePayments(
+      verified: true
+      categoryType: revenue
+    ) {
+      totalSum
+    }
+    
+    peerSpendingAggregate: aggregatePayments(
+      verified: true
+      categoryType: spending
+    ) {
+      totalSum
+    }
+    
     categories {
       id: pid
       name
       color
-      countPayments
+      categoryAggregate: aggregatePayments(
+        verified: true
+      ) {
+        count
+        totalSum
+      }
     }
-    countPayments
-    countTotal
-    countRevenue
-    countSpending
-    lastPaymentOn
   `
 
 export default {
@@ -36,6 +54,10 @@ export default {
       ${includePayments ? '$skip: Int' : ''}
     ) {
       account(pid: $accountId) {
+        currency {
+          code
+        }
+      
         categories {
           id: pid
           name
@@ -47,6 +69,7 @@ export default {
           
           ${(includePayments &&
             `payments(
+              verified: true
               take: $first
               skip: $skip
               sortBy: ${
@@ -91,34 +114,43 @@ export default {
     `,
     ({
       account: {
+        currency,
         categories,
         peer: {
           id,
           name,
+          peerAggregate: {
+            count: peerCount,
+            postedOnMax: peerPostedOnMax,
+            totalSum: peerTotalSum,
+          },
+          peerRevenueAggregate: { totalSum: peerRevenueTotalSum },
+          peerSpendingAggregate: { totalSum: peerSpendingTotalSum },
           categories: peerCategories,
           payments,
-          countPayments,
-          countTotal,
-          countRevenue,
-          countSpending,
-          lastPaymentOn,
         },
       },
     }) => ({
+      currencyCode: currency && currency.code,
       categories,
       recipient: includeRecipientInfo
         ? {
             id,
             name,
-            categories: R.map(mapCategory, peerCategories),
-            total: countTotal,
-            revenue: countRevenue,
-            spending: -countSpending,
-            lastPaymentDate: lastPaymentOn,
+            lastPaymentDate: peerPostedOnMax,
+            total: peerTotalSum || 0,
+            revenue: peerRevenueTotalSum || 0,
+            spending: peerSpendingTotalSum || 0,
+            categories: peerCategories
+              .filter(x => x.categoryAggregate.count > 0)
+              .map(({ categoryAggregate, ...category }) => ({
+                ...category,
+                sum: categoryAggregate.totalSum,
+              })),
           }
         : null,
       payments,
-      paymentCount: includeRecipientInfo ? countPayments : null,
+      paymentCount: includeRecipientInfo ? peerCount : null,
     }),
   ],
   editPeerName: [

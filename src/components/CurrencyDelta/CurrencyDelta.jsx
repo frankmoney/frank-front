@@ -1,6 +1,5 @@
 // @flow strict-local
 import React from 'react'
-import * as R from 'ramda'
 import cx from 'classnames'
 import { defaultFormatter } from 'components/CurrencyProvider'
 import CurrencyContext, {

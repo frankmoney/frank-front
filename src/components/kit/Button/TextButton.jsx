@@ -6,7 +6,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import ButtonBase, { type ButtonBaseProps } from './ButtonBase'
 import styles from './TextButton.jss'
 
-type TextButtonColor = 'black' | 'blue' | 'gray' | 'faintGray'
+type TextButtonColor = 'black' | 'blue' | 'gray' | 'faintGray' | 'solidGray'
 
 type Props = {|
   ...ButtonBaseProps,

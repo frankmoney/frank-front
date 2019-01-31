@@ -9,6 +9,7 @@ const defaultState = Immutable.fromJS({
   loading: true,
   updating: false,
   loaded: false,
+  currencyCode: null,
   recipientsCount: 0,
   recipients: [],
 })
@@ -18,12 +19,16 @@ export default handleActions(
     [ACTIONS.searchTyping]: state => state.merge({ typing: true }),
     [ACTIONS.load]: (state, { payload: { update } }) =>
       state.merge(update ? { updating: true } : { loading: true }),
-    [ACTIONS.load.success]: (state, { payload: { recipients, totalCount } }) =>
+    [ACTIONS.load.success]: (
+      state,
+      { payload: { currencyCode, recipients, totalCount } }
+    ) =>
       state.merge({
         loading: false,
         typing: false,
         updating: false,
         loaded: true,
+        currencyCode,
         recipientsCount: totalCount,
         recipients: fromJS(recipients),
       }),

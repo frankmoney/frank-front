@@ -130,7 +130,7 @@ class PopupBase extends React.Component<Props, State> {
       getPopupProps: (props = {}) => ({
         ...props,
         ref: this.handlePopupRef,
-        style: { ...style, ...props.style },
+        style: props ? { ...style, ...props.style } : style,
       }),
     }
   }
