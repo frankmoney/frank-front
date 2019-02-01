@@ -45,14 +45,8 @@ export const openCategoryDialogSelector = get('openCategoryDialog')
 
 export const editingCategoryTypeSelector = get('editingCategoryType')
 
-export const editingCategorySelector = createSelector(
-  spendingCategoriesSelector,
-  incomeCategoriesSelector,
-  get('editingCategoryId'),
-  (spending, income, categoryId) =>
-    categoryId
-      ? R.find(R.propEq('id', categoryId), R.concat(spending, income))
-      : null
+export const editingCategorySelector = createPlainObjectSelector(
+  get('editingCategory')
 )
 
 export const accountCardFormValuesSelector = createSelector(
