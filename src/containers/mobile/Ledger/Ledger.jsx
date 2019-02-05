@@ -38,7 +38,7 @@ import OverviewPieChart, {
 } from 'components/OverviewPieChart'
 import CategoryList from 'widget/components/ButtonWidget/ButtonWidgetEmbed/ButtonWidgetCategoryList'
 import * as ACTIONS from 'containers/public/Ledger/actions'
-import Totals from 'containers/widgets/Totals'
+import Totals from 'components/widgets/Totals'
 import { type Account, type AccountId } from 'data/models/account'
 import { type Payment } from 'data/models/payment'
 import { type PieTotal } from 'data/models/pieData'

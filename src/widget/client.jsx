@@ -4,7 +4,8 @@ import ReactDOM from 'react-dom'
 import defaults from 'lodash/defaults'
 import assign from 'lodash/assign'
 import MobileDetect from 'mobile-detect'
-import Widget from './app'
+import App from './app'
+import ButtonWidget from './components/ButtonWidget/ButtonWidget'
 
 const CONTAINER_ID = 'frank-embed-container'
 if (!window.Frank) {
@@ -41,29 +42,9 @@ const parseQueryString = url => {
 
 const load = () => {
   const clientSettings = assign({}, Frank.settings)
-  const scripts = document.getElementsByTagName('script')
-  const SCRIPT_RE = new RegExp(__SCRIPT_BASE_URL, 'i')
   const QS_RE = /\?(\S+)$/
 
-  let found
-
-  const foundScripts = Array.prototype.slice.call(scripts).filter(script => {
-    const scriptSrc = script.src
-
-    if (!scriptSrc || !scriptSrc.match(SCRIPT_RE)) {
-      return
-    }
-
-    return true
-  })
-
-  if (foundScripts.length > 1) {
-    console.warn(
-      'There are more than one Frank widget script found, we will use the last one'
-    )
-  }
-
-  const script = foundScripts.slice(-1)[0]
+  const script = document.currentScript
   let scriptQueryMatch = script && script.src.match(QS_RE)
   scriptQueryMatch = scriptQueryMatch && scriptQueryMatch[1]
 
@@ -104,9 +85,11 @@ const load = () => {
       document.body.appendChild(container)
     }
 
-    console.log(container)
+    console.log('widgetOptions', scriptTagSettings, widgetOptions)
     Frank.widget = ReactDOM.render(
-      React.createElement(Widget, widgetOptions),
+      <App>
+        <ButtonWidget {...widgetOptions} />
+      </App>,
       container
     )
   } catch (err) {

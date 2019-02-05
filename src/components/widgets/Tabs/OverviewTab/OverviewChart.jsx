@@ -9,7 +9,7 @@ import type {
   OverviewPieChartProps,
   PieChartCategories,
 } from 'components/OverviewPieChart'
-import { between } from 'containers/widgets/utils'
+import { between } from 'components/widgets/utils'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import OverviewCategoryList from './OverviewCategoryList'
 

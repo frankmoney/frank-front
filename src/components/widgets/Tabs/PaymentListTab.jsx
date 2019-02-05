@@ -2,8 +2,8 @@
 import * as React from 'react'
 import cx from 'classnames'
 import Bar, { type BarData } from 'components/Charts/Bar'
-import Payments, { type PaymentsProps } from 'containers/widgets/Payments'
-import PeriodSelectComponent from 'containers/widgets/PeriodSelect'
+import Payments, { type PaymentsProps } from 'components/widgets/Payments'
+import PeriodSelectComponent from 'components/widgets/PeriodSelect'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { CategoryName, Header } from '../TabbedLayout/Header'
 

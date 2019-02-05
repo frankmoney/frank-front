@@ -36,7 +36,7 @@ import { buildQuery, remapPieData } from './utils'
 import ErrorScreen, { type ErrorCause } from './ErrorScreen'
 
 export type WidgetAPI = {|
-  accountId: number,
+  accountId: string | number,
 |}
 
 interface Category {

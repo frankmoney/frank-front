@@ -1,14 +1,14 @@
 // @flow strict-local
 import React from 'react'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import Totals from 'containers/widgets/Totals/index'
-import AboutTab from 'containers/widgets/Tabs/AboutTab'
+import Totals from 'components/widgets/Totals/index'
+import AboutTab from 'components/widgets/Tabs/AboutTab'
 import OverviewTab, {
   type WidgetWidth,
-} from 'containers/widgets/Tabs/OverviewTab'
+} from 'components/widgets/Tabs/OverviewTab'
 import PaymentsSummary from 'components/common/PaymentsSummary/index'
-import ErrorScreen from 'containers/widgets/ErrorScreen'
-import Widget, { type WidgetAPI } from 'containers/widgets/Widget'
+import ErrorScreen from 'components/widgets/ErrorScreen'
+import Widget, { type WidgetAPI } from 'components/widgets/Widget'
 import ButtonWidgetCategoryList from './ButtonWidgetCategoryList'
 
 const styles = {

@@ -9,9 +9,9 @@ import type {
   PieChartCategories,
 } from 'components/OverviewPieChart'
 import PaymentsSummaryComponent from 'components/common/PaymentsSummary'
-import PeriodSelectComponent from 'containers/widgets/PeriodSelect'
+import PeriodSelectComponent from 'components/widgets/PeriodSelect'
 import PieTotalSelect from 'components/OverviewPieChart/PieTotalSelect'
-import TotalsComponent from 'containers/widgets/Totals'
+import TotalsComponent from 'components/widgets/Totals'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import JustCategoryList from './JustCategoryList'
 import OverviewChart, { type WidgetWidth } from './OverviewChart'

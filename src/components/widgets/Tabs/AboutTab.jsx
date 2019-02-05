@@ -1,7 +1,7 @@
 // @flow strict-local
 import * as React from 'react'
 import cx from 'classnames'
-import TotalsComponent from 'containers/widgets/Totals'
+import TotalsComponent from 'components/widgets/Totals'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = theme => ({

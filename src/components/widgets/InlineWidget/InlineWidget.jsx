@@ -4,7 +4,7 @@ import React from 'react'
 import * as R from 'ramda'
 import cx from 'classnames'
 import PaymentsSummary from 'components/common/PaymentsSummary'
-import Totals from 'containers/widgets/Totals'
+import Totals from 'components/widgets/Totals'
 import { type AccountId } from 'data/models/account'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { between } from '../utils'
@@ -65,7 +65,11 @@ const styles = theme => ({
     flexDirection: 'column',
     position: 'relative',
     width: ({ width }) => clampedWidgetWidth(width),
-    height: ({ width }) => widgetHeight(width),
+    height: ({ width, height }) => height || widgetHeight(width),
+  },
+  disableOutline: {
+    borderRadius: 0,
+    border: 'none',
   },
   widget: {
     display: 'flex',
@@ -250,10 +254,12 @@ class InlineWidget extends React.Component<Props> {
   }
 
   render() {
-    const { accountId, classes } = this.props
+    const { accountId, classes, disableOutline } = this.props
     const light = this.clampedWidth < 500
     return (
-      <div className={classes.root}>
+      <div
+        className={cx(classes.root, disableOutline && classes.disableOutline)}
+      >
         <Widget
           accountId={accountId}
           barChartClassName={classes.barChart}

@@ -2,7 +2,7 @@
 import * as React from 'react'
 import cx from 'classnames'
 import CurrencyDelta from 'components/CurrencyDelta'
-import { type PaymentCbProps } from 'containers/widgets/Payments/Payment'
+import { type PaymentCbProps } from 'components/widgets/Payments/Payment'
 import { type Payment } from 'data/models/payment'
 import { formatShortDate } from 'utils/dates'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'

@@ -21,6 +21,8 @@ module.exports = {
   context: widgetSrc,
   entry: {
     main: [path.join(widgetSrc, 'client.jsx')],
+    iframe: [path.join(widgetSrc, 'iframeClient.jsx')],
+    embed: [path.join(widgetSrc, 'inlineClient.jsx')],
   },
   output: {
     path: buildPath,
