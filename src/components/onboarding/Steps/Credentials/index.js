@@ -1,1 +1,3 @@
-export default from './Credentials'
+import Credentials from './Credentials'
+
+export default Credentials

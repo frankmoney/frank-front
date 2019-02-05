@@ -79,6 +79,7 @@ StepLayout.defaultProps = {
   nextLabel: 'Continue',
   nextButtonProps: { width: 160 },
   backLabel: 'Back',
+  backButtonProps: {},
   centered: false,
 }
 

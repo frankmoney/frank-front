@@ -3,6 +3,7 @@ import React from 'react'
 import { compose, branch, renderComponent, lifecycle } from 'recompose'
 import AreaSpinner from 'components/AreaSpinner'
 import reconnect from 'utils/reconnect'
+import connectLayout from './connectLayout'
 import * as ACTIONS from './actions'
 import {
   currentStepSelector,
@@ -12,17 +13,17 @@ import {
 } from './selectors'
 import * as STEPS from './Steps'
 
-const Onboarding = ({ currentStep, ...props }) => {
-  const componentByStep = {
-    bank: STEPS.SelectBank,
-    account: STEPS.SelectAccount,
-    credentials: STEPS.Credentials,
-    mfa: STEPS.Verify,
-    accountInfo: STEPS.AccountInfo,
-    categories: STEPS.Categories,
-    team: STEPS.Team,
-  }
+const componentByStep = {
+  bank: connectLayout(STEPS.SelectBank),
+  account: connectLayout(STEPS.SelectAccount),
+  credentials: connectLayout(STEPS.Credentials),
+  mfa: connectLayout(STEPS.Verify),
+  accountInfo: connectLayout(STEPS.AccountInfo),
+  categories: connectLayout(STEPS.Categories),
+  team: connectLayout(STEPS.Team),
+}
 
+const Onboarding = ({ currentStep, ...props }) => {
   const StepComponent = componentByStep[currentStep]
 
   return <StepComponent {...props} />

@@ -35,6 +35,7 @@ import Directory from 'containers/admin/Directory'
 import Recipient from 'containers/admin/Recipient'
 import Settings from 'containers/admin/Settings'
 import Team from 'containers/admin/Team'
+import ReconnectSource from 'containers/admin/SourceReconnect'
 import Onboarding from 'containers/admin/Onboarding'
 import AdminLayout from 'components/AdminLayout'
 import PublicPayment from 'containers/public/Payment'
@@ -140,6 +141,10 @@ const routeMappers = {
     accountId: props.match.params.accountId,
     peerId: props.match.params.id,
   })),
+  source: withProps(props => ({
+    accountId: props.match.params.accountId,
+    sourceId: props.match.params.sourceId,
+  })),
 }
 
 const ComposedProtectedLedger = compose(
@@ -174,6 +179,14 @@ export default [
     exact: true,
   },
   // Account dependent
+  {
+    component: compose(
+      protectedRoute,
+      routeMappers.source
+    )(ReconnectSource),
+    path: ROUTES.account.source.reconnect,
+    exact: true,
+  },
   {
     component: compose(
       protectedRoute,

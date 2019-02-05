@@ -21,6 +21,9 @@ export default compose(
       editingCategory: editingCategorySelector,
       categoryType: categoryTypeSelector,
       empty: emptyCategoriesSelector,
+      categoryFormSubmissionSucceededAction: () =>
+        ACTIONS.submitEditCategory.toString(),
+      categoryFormSubmissionFailAction: () => 'never-fail',
     },
     {
       onAddCategory: noargs(ACTIONS.addNewCategory),

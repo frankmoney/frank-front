@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from 'utils/styles'
+import CleanLink from '../../../kit/CleanLink'
 import PrimaryText from './PrimaryText'
 import Context from './context'
 
@@ -13,7 +14,7 @@ const styles = theme => ({
     transition: theme.transition('background-color'),
     cursor: 'pointer',
     color: '#20284A',
-    textDecoration: 'none',
+    userSelect: 'none',
     '&:hover:not($selected)': {
       background: 'rgba(32, 40, 74, 0.1)',
     },
@@ -27,27 +28,38 @@ const styles = theme => ({
 
 const OptionsListItem = ({
   classes,
-  component: Root = 'div',
   selected,
   className,
   children,
   primaryText,
-  onClick,
   primaryTextIcon,
   ...otherProps
-}) => (
-  <Root
-    className={cx(classes.root, selected && classes.selected, className)}
-    onClick={onClick}
-    {...otherProps}
-  >
+}) => {
+  const cls = cx(classes.root, selected && classes.selected, className)
+  const content = (
     <Context.Provider value={{ selected }}>
       {primaryText && (
         <PrimaryText icon={primaryTextIcon}>{primaryText}</PrimaryText>
       )}
       {children}
     </Context.Provider>
-  </Root>
-)
+  )
+
+  if (otherProps.href) {
+    const { externalLink, ...linkProps } = otherProps
+
+    return (
+      <CleanLink className={cls} external={externalLink} {...linkProps}>
+        {content}
+      </CleanLink>
+    )
+  }
+
+  return (
+    <div className={cls} {...otherProps}>
+      {content}
+    </div>
+  )
+}
 
 export default injectStyles(styles)(OptionsListItem)

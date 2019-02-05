@@ -2,7 +2,8 @@
 // spellchecker:ignore mmaa
 import React from 'react'
 import cx from 'classnames'
-import { Link } from 'react-router-dom'
+import { createRouteUrl } from '@frankmoney/utils'
+import { ROUTES } from 'const'
 import { injectStyles } from 'utils/styles'
 import BankLogo from 'components/BankLogo'
 import CurrencyDelta from 'components/CurrencyDelta'
@@ -67,11 +68,13 @@ const styles = theme => ({
 const BankItem = ({
   classes,
   className,
+  accountId,
+  sourceId,
   name,
   bankLogo,
   bankLink,
   balance,
-  accountStatus,
+  sourceStatus,
   accountNextUpdate,
   accountLastUpdate,
 }) => (
@@ -85,11 +88,11 @@ const BankItem = ({
           </div>
           <div
             className={cx({
-              [classes.statusGreen]: accountStatus === 'active',
-              [classes.statusRed]: accountStatus !== 'active',
+              [classes.statusGreen]: sourceStatus === 'normal',
+              [classes.statusRed]: sourceStatus !== 'normal',
             })}
           >
-            {accountStatus === 'active' ? 'Connected' : 'Disconnected'}
+            {sourceStatus === 'normal' ? 'Connected' : 'Disconnected'}
           </div>
         </div>
         <div className={classes.rowRegular}>
@@ -99,14 +102,14 @@ const BankItem = ({
             )}
           </div>
           <div className={classes.date}>
-            {accountStatus === 'active' ? 'Updates' : 'Updated'}{' '}
+            {sourceStatus === 'normal' ? 'Updates' : 'Updated'}{' '}
             {formatShortDate(
-              accountStatus === 'active' ? accountNextUpdate : accountLastUpdate
+              sourceStatus === 'normal' ? accountNextUpdate : accountLastUpdate
             )}
           </div>
         </div>
       </div>
-      {accountStatus !== 'active' && (
+      {sourceStatus !== 'normal' && (
         <div className={classes.warning}>
           <div className={classes.warningText}>
             <span className={classes.warningAccent}>
@@ -117,12 +120,15 @@ const BankItem = ({
           </div>
           <br />
           <div className={classes.warningLinks}>
-            <Link className={classes.warningLink} to={'#'}>
-              <TextButton
-                label="Enter your new login information"
-                color="blue"
-              />
-            </Link>
+            <TextButton
+              renderAsLink
+              href={createRouteUrl(ROUTES.account.source.reconnect, {
+                accountId,
+                sourceId,
+              })}
+              label="Enter your new login information"
+              color="blue"
+            />
             <br />
             <a className={classes.warningLink} href={bankLink}>
               <TextButton

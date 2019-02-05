@@ -1,31 +1,14 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import {
-  branch,
-  compose,
-  lifecycle,
-  renderComponent,
-  withStateHandlers,
-} from 'recompose'
-import reconnect from 'utils/reconnect'
 import Button from 'components/kit/Button'
 import SearchBar from 'components/SearchCard'
 import { injectStyles } from 'utils/styles'
 import openIntercom from 'utils/openIntercom'
 import BankList from 'components/BankList'
-import StepLayout from 'containers/admin/Onboarding/StepLayout'
+import StepLayout from 'components/onboarding/StepLayout'
 import StepTitle from 'components/onboarding/StepTitle'
 import StepDescription from 'components/onboarding/StepDescription'
-import {
-  filteredBankListSelector,
-  bankSearchSelector,
-  banksLoadedSelector,
-  banksLoadingSelector,
-  selectedBankIdSelector,
-} from '../../selectors'
-import * as ACTIONS from '../../actions'
-import Terms from '../Terms'
 
 const styles = theme => ({
   root: {},
@@ -63,6 +46,7 @@ const banksSelectListProps =
 const SelectBank = ({
   className,
   classes,
+  layoutProps,
   selectedBankId,
   selectBank,
   search,
@@ -72,7 +56,7 @@ const SelectBank = ({
   loading,
   banks,
 }) => (
-  <StepLayout className={cx(classes.root, className)}>
+  <StepLayout {...layoutProps} className={cx(classes.root, className)}>
     <StepTitle>Select your bank</StepTitle>
     <StepDescription>
       Get started by selecting your bank in our database.
@@ -112,35 +96,4 @@ const SelectBank = ({
   </StepLayout>
 )
 
-export default compose(
-  reconnect(
-    {
-      loaded: banksLoadedSelector,
-      loading: banksLoadingSelector,
-      banks: filteredBankListSelector,
-      selectedBankId: selectedBankIdSelector,
-      search: bankSearchSelector,
-    },
-    {
-      selectBank: ACTIONS.bankSelect,
-      load: ACTIONS.loadBanks,
-      onSearch: ACTIONS.bankNameType,
-      onResetSearch: ACTIONS.banksResetSearch,
-    }
-  ),
-  withStateHandlers(
-    { termsAccepted: false },
-    {
-      onNext: () => () => ({ termsAccepted: true }),
-    }
-  ),
-  branch(props => !props.termsAccepted, renderComponent(Terms)),
-  lifecycle({
-    componentWillMount() {
-      if (!this.props.loaded) {
-        this.props.load()
-      }
-    },
-  }),
-  injectStyles(styles)
-)(SelectBank)
+export default injectStyles(styles)(SelectBank)

@@ -36,6 +36,9 @@ export const ROUTES = {
     settings: {
       root: '/accounts/:accountId/settings',
     },
+    source: {
+      reconnect: '/accounts/:accountId/sources/:sourceId/reconnect',
+    },
   },
   team: {
     root: '/team',

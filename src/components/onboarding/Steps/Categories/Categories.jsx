@@ -7,7 +7,7 @@ import { injectStyles } from 'utils/styles'
 import Button from 'components/kit/Button'
 import EditCategoryDialog from 'components/EditCategoryDialog'
 import { OnboardingCategoryList } from 'components/admin/CategoryList'
-import StepLayout from 'containers/admin/Onboarding/StepLayout'
+import StepLayout from 'components/onboarding/StepLayout'
 import StepTitle from 'components/onboarding/StepTitle'
 import StepDescription from 'components/onboarding/StepDescription'
 
@@ -31,6 +31,7 @@ const LIST_TITLE_BY_TYPE = {
 const Categories = ({
   className,
   classes,
+  layoutProps,
   categoryType,
   categories,
   empty,
@@ -47,6 +48,7 @@ const Categories = ({
   categoryFormSubmissionFailAction,
 }) => (
   <StepLayout
+    {...layoutProps}
     className={cx(classes.root, className)}
     backButtonProps={
       empty

@@ -1,19 +1,10 @@
-import * as R from 'ramda'
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
-import { branch, compose, renderComponent } from 'recompose'
-import StepLayout from 'containers/admin/Onboarding/StepLayout'
-import CredentialsFail from 'containers/admin/Onboarding/Steps/Credentials/CredentialsFail'
-import reconnect from 'utils/reconnect'
+import { injectStyles } from 'utils/styles'
+import StepLayout from 'components/onboarding/StepLayout'
 import StepTitle from 'components/onboarding/StepTitle'
 import StepForm from 'components/onboarding/StepForm'
 import StepBankLogo from 'components/onboarding/StepBankLogo'
-import {
-  credentialsFieldsSelector,
-  isCredentialsCheckingSelector,
-  isCredentialsErrorSelector,
-} from '../../selectors'
 
 const styles = {
   root: {},
@@ -22,20 +13,27 @@ const styles = {
   },
 }
 
-const Verify = ({ className, classes, fields, isChecking }) => (
-  <StepLayout className={cx(classes.root, className)}>
-    <StepBankLogo />
+const Verify = ({
+  className,
+  classes,
+  layoutProps,
+  formName,
+  onFormSubmit,
+  fields,
+  isChecking,
+  bankName,
+  bankLogoUrl,
+}) => (
+  <StepLayout {...layoutProps} className={cx(classes.root, className)}>
+    <StepBankLogo bankName={bankName} bankLogoUrl={bankLogoUrl} />
     <StepTitle>Verify your identity</StepTitle>
-    <StepForm fields={fields} isChecking={isChecking} />
+    <StepForm
+      fields={fields}
+      isChecking={isChecking}
+      form={formName}
+      onSubmit={onFormSubmit}
+    />
   </StepLayout>
 )
 
-export default compose(
-  reconnect({
-    fields: credentialsFieldsSelector,
-    isChecking: isCredentialsCheckingSelector,
-    isError: isCredentialsErrorSelector,
-  }),
-  branch(R.prop('isError'), renderComponent(CredentialsFail)),
-  injectStyles(styles)
-)(Verify)
+export default injectStyles(styles)(Verify)

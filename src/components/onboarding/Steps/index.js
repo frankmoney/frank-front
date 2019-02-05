@@ -1,6 +1,8 @@
 // @flow
 export { default as AccountInfo } from './AccountInfo'
 export { default as Credentials } from './Credentials'
+export { default as CredentialsFail } from './CredentialsFail'
+export { default as AccountLinked } from './AccountLinked'
 export { default as Verify } from './VerifyIdentity'
 export { default as Categories } from './Categories'
 export { default as SelectAccount } from './SelectAccount'

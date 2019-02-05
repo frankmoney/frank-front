@@ -1,20 +1,12 @@
 // @flow
 import React from 'react'
 import cx from 'classnames'
-import { compose } from 'recompose'
 import { BigButton } from 'components/kit/Button'
 import { injectStyles } from 'utils/styles'
-import reconnect from 'utils/reconnect'
 import StepTitle from 'components/onboarding/StepTitle'
 import StepDescription from 'components/onboarding/StepDescription'
-import StepLayout from 'containers/admin/Onboarding/StepLayout'
-import {
-  isInviteDrawerOpenSelector,
-  teamInvitesSelector,
-  teamMembersSelector,
-} from '../../selectors'
-import * as ACTIONS from '../../actions'
-import InviteDrawer from './InviteDrawer'
+import StepLayout from 'components/onboarding/StepLayout'
+import TeamInviteDrawer from 'components/drawers/TeamInviteDrawer'
 import Invites from './Invites'
 import Members from './Members'
 
@@ -41,13 +33,16 @@ const styles = theme => ({
 const Team = ({
   className,
   classes,
+  layoutProps,
   members,
   invites,
   drawerOpen,
   onAddMemberClick,
   onCloseDrawer,
+  onSubmitInvite,
 }) => (
   <StepLayout
+    {...layoutProps}
     className={cx(classes.root, className)}
     backLabel="Back to categories"
   >
@@ -70,22 +65,13 @@ const Team = ({
       {members.length > 0 && (
         <Members className={classes.list} members={members} />
       )}
-      <InviteDrawer open={drawerOpen} onClose={onCloseDrawer} />
+      <TeamInviteDrawer
+        open={drawerOpen}
+        onClose={onCloseDrawer}
+        onSubmit={onSubmitInvite}
+      />
     </div>
   </StepLayout>
 )
 
-export default compose(
-  reconnect(
-    {
-      invites: teamInvitesSelector,
-      members: teamMembersSelector,
-      drawerOpen: isInviteDrawerOpenSelector,
-    },
-    {
-      onAddMemberClick: () => ACTIONS.openInvite(),
-      onCloseDrawer: ACTIONS.closeInvite,
-    }
-  ),
-  injectStyles(styles)
-)(Team)
+export default injectStyles(styles)(Team)

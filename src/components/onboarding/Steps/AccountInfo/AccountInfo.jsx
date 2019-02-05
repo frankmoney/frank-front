@@ -7,7 +7,7 @@ import { injectStyles } from 'utils/styles'
 import TitleTextField from 'controls/forms/TitleField'
 import DescriptionTextField from 'controls/forms/DescriptionField'
 import StepTitle from 'components/onboarding/StepTitle'
-import StepLayout from 'containers/admin/Onboarding/StepLayout'
+import StepLayout from 'components/onboarding/StepLayout'
 import StepDescription, { Em } from 'components/onboarding/StepDescription'
 
 const styles = theme => ({
@@ -45,8 +45,15 @@ const validation = {
   name: [required],
 }
 
-const AccountInfo = ({ className, classes, bankName, bankImageUrl }) => (
+const AccountInfo = ({
+  className,
+  classes,
+  layoutProps,
+  bankName,
+  bankImageUrl,
+}) => (
   <StepLayout
+    {...layoutProps}
     className={cx(classes.root, className)}
     backLabel="Select another account"
   >

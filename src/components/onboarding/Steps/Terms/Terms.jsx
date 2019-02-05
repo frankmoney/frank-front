@@ -1,6 +1,6 @@
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
 import cx from 'classnames'
+import { injectStyles } from 'utils/styles'
 import StepLayout from 'components/onboarding/StepLayout'
 
 const CONTENT_WIDTH = 700
