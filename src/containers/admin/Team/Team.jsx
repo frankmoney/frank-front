@@ -8,7 +8,7 @@ import Dialog, { ConfirmDialog } from 'components/kit/Dialog'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import ListLayoutContent from 'components/ListLayoutContent'
-import SidebarSnack from 'components/SidebarSnack'
+import Snack from 'components/kit/Snack'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import ChangeTeamNamePopoverDialog from './ChangeTeamNamePopoverDialog'
@@ -105,7 +105,7 @@ const Team = ({
               icon={<Pencil className={classes.changeTeamNameButtonIcon} />}
             />
           </ChangeTeamNamePopoverDialog>
-          <SidebarSnack
+          <Snack
             color="dark"
             shown={changeTeamNameSnackShown}
             message="Your team's name was changed!"

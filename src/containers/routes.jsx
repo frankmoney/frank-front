@@ -43,6 +43,7 @@ import PublicStory from 'containers/public/Story'
 import PublicLedger from 'containers/public/Ledger'
 import { parseQueryStringBool } from 'utils/querystring'
 import UnexpectedErrorManager from 'components/UnexpectedErrorManager'
+import SnackContext from 'components/kit/Snack/SnackContext'
 
 // todo refactor
 
@@ -60,6 +61,20 @@ const withPublicLayout = Component => props => (
     <Component {...props} />
     <Helmet title={BASE_TITLE} />
     <UnexpectedErrorManager />
+  </>
+)
+
+const withOnboardingLayout = Component => props => (
+  <>
+    <SnackContext.Provider
+      value={{
+        viewportOffsetVertical: 100,
+      }}
+    >
+      <Component {...props} />
+      <Helmet title={BASE_TITLE} />
+      <UnexpectedErrorManager />
+    </SnackContext.Provider>
   </>
 )
 
@@ -169,7 +184,7 @@ const LedgerRouter = () => (
 
 export default [
   {
-    component: protectedRoute(Onboarding),
+    component: protectedRoute(withOnboardingLayout(Onboarding)),
     path: ROUTES.account.onboarding,
     exact: true,
   },
@@ -182,6 +197,7 @@ export default [
   {
     component: compose(
       protectedRoute,
+      withOnboardingLayout,
       routeMappers.source
     )(ReconnectSource),
     path: ROUTES.account.source.reconnect,

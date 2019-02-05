@@ -1,6 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import { injectStyles } from 'utils/styles'
+import SidebarSnackContextProvider from 'components/SidebarSnackContextProvider'
 import Sidebar from './Sidebar'
 
 const styles = theme => ({
@@ -14,12 +15,16 @@ const styles = theme => ({
   },
 })
 
-const AdminLayout = ({ classes, className, sidebarProps, ...props }) => (
-  <Sidebar
-    className={cx(classes.root, className)}
-    {...sidebarProps}
-    {...props}
-  />
+const AdminLayout = ({
+  classes,
+  className,
+  sidebarProps,
+  children,
+  ...props
+}) => (
+  <Sidebar className={cx(classes.root, className)} {...sidebarProps} {...props}>
+    <SidebarSnackContextProvider>{children}</SidebarSnackContextProvider>
+  </Sidebar>
 )
 
 export default injectStyles(styles)(AdminLayout)

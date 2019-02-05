@@ -1,7 +1,6 @@
 import { Edit as EditIcon, Public as PublicIcon } from 'material-ui-icons'
 import React from 'react'
 import Snack from 'components/kit/Snack'
-import SidebarSnack from 'components/SidebarSnack'
 import pluralize from 'utils/pluralize'
 import reconnect from 'utils/reconnect'
 import ACTIONS from './actions'
@@ -48,7 +47,7 @@ class MultiEditSelectionSnack extends React.Component {
     }
 
     return (
-      <SidebarSnack
+      <Snack
         shown={paymentsCount > 0}
         color="blue"
         message={`${pluralize('payment', paymentsCount)} selected`}

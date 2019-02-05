@@ -4,7 +4,7 @@ import cx from 'classnames'
 import LockIcon from 'material-ui-icons/Lock'
 import { compose, withHandlers } from 'recompose'
 import ToggleButton from 'components/kit/ToggleButton'
-import SidebarSnack from 'components/SidebarSnack'
+import Snack from 'components/kit/Snack'
 import UserPic from 'components/UserPic'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
@@ -55,7 +55,7 @@ const OwnProfile = ({
         <ToggleButton label="Change Password" icon={<LockIcon />} />
       </ChangePasswordPopupDialog>
     </div>
-    <SidebarSnack
+    <Snack
       color="dark"
       shown={changePasswordSnackShown}
       message="Your new password was saved!"
