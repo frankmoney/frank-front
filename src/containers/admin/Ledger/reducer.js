@@ -18,6 +18,7 @@ const similarPaymentsDefaultState = {
 }
 
 const defaultState = fromJS({
+  barsCategoryType: null,
   barsData: [],
   barsUnit: null,
   categories: [],
@@ -41,7 +42,8 @@ export default handleActions(
       state,
       {
         payload: {
-          barChart,
+          barsCategoryType,
+          barsData,
           barsUnit,
           categories,
           payments,
@@ -58,7 +60,8 @@ export default handleActions(
         updatingList: false,
         categories: categories ? fromJS(categories) : state.get('categories'),
         payments: fromJS(payments),
-        barsData: fromJS(barChart || []),
+        barsCategoryType,
+        barsData: fromJS(barsData || []),
         barsUnit,
         pieData: fromJS(pieChart),
         paymentsCount: totalCount,

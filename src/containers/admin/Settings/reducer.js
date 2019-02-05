@@ -1,4 +1,5 @@
 import Immutable, { fromJS } from 'immutable'
+import * as R from 'ramda'
 import { handleActions } from 'redux-actions'
 import ACTIONS from './actions'
 
@@ -12,6 +13,9 @@ const defaultState = Immutable.fromJS({
   loading: true,
   openCategoryDialog: false,
   updating: false,
+  editingCategoryType: null,
+  editingCategoryId: null,
+  editingCategory: null,
 })
 
 export default handleActions(
@@ -52,10 +56,24 @@ export default handleActions(
         openCategoryDialog: true,
         editingCategoryType: type,
         editingCategoryId: id,
+        editingCategory: fromJS(
+          (id &&
+            R.find(
+              R.propEq('id', id),
+              state
+                .get('categories')
+                .toJS()
+                .filter(x => !x.removed)
+            )) ||
+            {}
+        ),
       }),
     [ACTIONS.closeCategoryDialog]: state =>
       state.merge({
         openCategoryDialog: false,
+        editingCategoryType: null,
+        editingCategoryId: null,
+        editingCategory: null,
       }),
     [ACTIONS.submitAccountCard.success]: (
       state,

@@ -130,3 +130,13 @@ export const formatBarDataPoints: FormatItemsFn = (data, barsUnit) =>
         )
       }, [])
   )(data)
+
+export const positiveBarValues = R.map(({ date, value }: BarItem) => ({
+  date,
+  value,
+}))
+
+export const negativeBarValues = R.map(({ date, negativeValue }: BarItem) => ({
+  date,
+  value: negativeValue,
+}))

@@ -72,7 +72,7 @@ export default {
           }`) ||
           ''}
                  
-        ${categoryScoped ? 'category(pid: $categoryId) {' : ''}
+        ${categoryScoped ? 'category(pid: $categoryId) { type ' : ''}
         
         ${(includePayments &&
           `payments(
@@ -191,11 +191,16 @@ export default {
         categoryScoped ? category.payments : payments
       ),
       totalCount: categoryScoped ? category.countPayments : countPayments,
-      barChart: includeBars
+      barsData: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).bars
         : null,
       barsUnit: includeBars
         ? (categoryScoped ? category.ledgerBarChart : ledgerBarChart).barSize
+        : null,
+      barsCategoryType: includeBars
+        ? categoryScoped
+          ? category.type
+          : null
         : null,
       pieChart: includePie ? ledgerPieChart : null,
       stories:
