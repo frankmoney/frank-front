@@ -14,6 +14,10 @@ const WidgetSettings = ({
   position,
   codeText,
   changePosition,
+  widgetType,
+  size,
+  changeSize,
+  changeWidgetType,
   theme,
 }) => (
   <div className={className}>
@@ -21,6 +25,10 @@ const WidgetSettings = ({
       position={position}
       onChangePosition={changePosition}
       codeText={codeText}
+      currentTab={widgetType}
+      onChangeTab={changeWidgetType}
+      size={size}
+      onChangeSize={changeSize}
     />
     <ExternalWidget
       scriptSrc={scriptSrc}
@@ -35,11 +43,15 @@ export default compose(
     {
       accountId: SELECTORS.accountId,
       position: SELECTORS.position,
+      size: SELECTORS.size,
+      widgetType: SELECTORS.widgetType,
       scriptSrc: SELECTORS.scriptSrc,
       codeText: SELECTORS.widgetCodeText,
     },
     {
       changePosition: ACTIONS.changePosition,
+      changeWidgetType: ACTIONS.changeType,
+      changeSize: ACTIONS.changeSize,
     }
   ),
   withTheme

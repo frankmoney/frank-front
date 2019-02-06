@@ -10,8 +10,9 @@ const styles = theme => ({
     alignItems: 'center',
   },
   label: {
-    pointerEvents: 'none',
-    marginRight: 10,
+    color: 'rgba(37, 43, 67, 0.3)',
+    ...theme.fontMedium(20, 26),
+    marginRight: 14,
   },
   icon: {
     color: 'rgba(37,43,67,0.3)',
@@ -37,12 +38,7 @@ const styles = theme => ({
 
 const WidgetPosition = ({ classes, className, position, onChange }) => (
   <div className={cx(classes.root, className)}>
-    <TextButton
-      larger
-      color="gray"
-      className={classes.label}
-      label="Position"
-    />
+    <div className={classes.label}>Position</div>
     <IconPosition
       className={cx(classes.iconLeft, {
         [classes.iconActive]: position === 'left',

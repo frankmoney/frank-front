@@ -16,9 +16,6 @@ const styles = {
   body: {
     marginBottom: 30,
   },
-  changePasswordPopupField: {
-    paddingBottom: 30,
-  },
 }
 
 const PopoverDialog = ({

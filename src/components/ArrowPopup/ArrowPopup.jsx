@@ -11,6 +11,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {
   paper: {
+    // ?
     padding: 29,
   },
 }
@@ -44,9 +45,11 @@ const ArrowPopup = ({
   classes,
   className,
   onClose,
+  open,
   onChangeOpen,
 }: Props) => (
   <Popup
+    open={open}
     place={place}
     align={align}
     distance={15}

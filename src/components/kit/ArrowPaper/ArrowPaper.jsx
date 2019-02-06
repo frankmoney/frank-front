@@ -28,10 +28,7 @@ const styles = {
     position: 'relative',
     overflow: 'unset',
   },
-  content: {
-    overflow: 'auto',
-    borderRadius: 8,
-  },
+  content: {},
   arrow: {
     position: 'absolute',
     width: ARROW_WIDTH,

@@ -1,5 +1,6 @@
 // @flow strict-local
 import qs from 'querystring'
+import { createPlainObjectSelector } from '@frankmoney/utils'
 import { createSelector } from 'reselect'
 import type { ReduxState } from 'flow/redux'
 import { currentAccountIdSelector } from 'redux/selectors/user'
@@ -9,6 +10,8 @@ const get = (...prop) => (state: ReduxState) =>
   state.getIn([REDUCER_KEY, ...prop])
 
 export const position = get('position')
+export const widgetType = get('widgetType')
+export const size = createPlainObjectSelector(get('size'))
 export const scriptSrc = get('scriptSrc')
 
 export const accountId = currentAccountIdSelector

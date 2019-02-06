@@ -31,6 +31,7 @@ const styles = {
 const PlainButtonsState = toRenderProps(
   compose(
     withState('larger', 'toggleLarger', false),
+    withState('larger2', 'toggleLarger2', false),
     withState('hasIcon', 'toggleIcon', false)
   )
 )
@@ -293,7 +294,14 @@ const ButtonsDemo = ({ classes }) => (
       <ToggleButton.Icon defaultOn colorOn="lightGreen" icon={<MoreHoriz />} />
     </Row>
     <PlainButtonsState>
-      {({ larger, toggleLarger, hasIcon, toggleIcon }) => (
+      {({
+        larger,
+        toggleLarger,
+        larger2,
+        toggleLarger2,
+        hasIcon,
+        toggleIcon,
+      }) => (
         <>
           <h2>TextButton</h2>
           <Row centered>
@@ -301,6 +309,12 @@ const ButtonsDemo = ({ classes }) => (
               checked={larger}
               onChange={toggleLarger}
               label="Larger"
+              color="green"
+            />
+            <Checkbox
+              checked={larger2}
+              onChange={toggleLarger2}
+              label="Larger2"
               color="green"
             />
             <Checkbox
@@ -314,29 +328,34 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               hover
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               active
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               disabled
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               loading
             />
@@ -345,12 +364,14 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               color="blue"
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               color="blue"
               hover
@@ -358,6 +379,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               color="blue"
               active
@@ -365,6 +387,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               color="blue"
               disabled
@@ -372,6 +395,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               color="blue"
               loading
@@ -381,12 +405,14 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               color="gray"
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               color="gray"
               hover
@@ -394,6 +420,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               color="gray"
               active
@@ -401,6 +428,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               color="gray"
               disabled
@@ -408,6 +436,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="Button"
               color="gray"
               loading
@@ -417,12 +446,14 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="faintGray"
               color="faintGray"
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="faintGray"
               color="faintGray"
               hover
@@ -430,6 +461,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="faintGray"
               color="faintGray"
               active
@@ -437,6 +469,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="faintGray"
               color="faintGray"
               disabled
@@ -444,6 +477,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="faintGray"
               color="faintGray"
               loading
@@ -453,12 +487,14 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="solidGray"
               color="solidGray"
             />
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="solidGray"
               color="solidGray"
               hover
@@ -466,6 +502,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="solidGray"
               color="solidGray"
               active
@@ -473,6 +510,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="solidGray"
               color="solidGray"
               disabled
@@ -480,6 +518,7 @@ const ButtonsDemo = ({ classes }) => (
             <TextButton
               icon={hasIcon && <Public />}
               larger={larger}
+              larger2={larger2}
               label="solidGray"
               color="solidGray"
               loading
