@@ -218,6 +218,19 @@ const ButtonsDemo = ({ classes }) => (
         compactHeight
       />
     </Row>
+    <h2>Larger text</h2>
+    <Row>
+      <Button
+        className={classes.button}
+        label="Submit"
+        larger
+        icon={<CheckCircle />}
+      />
+      <Button className={classes.button} label="Submit" larger hover />
+      <Button className={classes.button} label="Submit" larger active />
+      <Button className={classes.button} label="Submit" larger disabled />
+      <Button className={classes.button} label="Submit" larger loading />
+    </Row>
     <h2>IconButton</h2>
     <Row centered>
       <IconButton icon={<MoreHoriz />} />

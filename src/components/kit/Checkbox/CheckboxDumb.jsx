@@ -19,7 +19,7 @@ export type CheckboxProps = {|
   label?: string,
   name?: string,
   hitzoneLeftCompensation?: boolean,
-  disableExtendedHitZone: boolean,
+  disableExtendedHitZone?: boolean,
   onChange?: OnChangeCb,
 |}
 

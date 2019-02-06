@@ -9,11 +9,13 @@ import {
   renderNothing,
   lifecycle,
 } from 'recompose'
-import { Page404 as NotFound } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
 import FiltersDrawer from 'containers/admin/Filters/FiltersDrawer'
 import AreaSpinner from 'components/AreaSpinner'
+import { type CurrencyCode } from 'contexts/CurrencyContext'
 import CurrencyProvider from 'components/CurrencyProvider'
+import NotFound from 'components/ErrorPage'
+import { type AccountId } from 'data/models/account'
 import reconnect from 'utils/reconnect'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import { ROUTES } from 'const'
@@ -44,6 +46,9 @@ type CurrentTab = 'ledger' | 'stories'
 type Props = {|
   ...InjectStylesProps,
   //
+  accountId: AccountId,
+  accountName: string,
+  currencyCode: CurrencyCode,
   currentTab: CurrentTab,
 |}
 

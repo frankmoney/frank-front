@@ -42,7 +42,9 @@ const LOCAL_UNCATEGORIZED_CATEGORY = {
 const get = (...prop) => (state: ReduxState) =>
   state.getIn([REDUCER_KEY, ...prop])
 
+export const isLoadFailedSelector = get('isLoadFailed')
 export const isLoadingSelector = get('loading')
+export const isNotFoundSelector = get('isNotFound')
 export const loadedSelector = get('loaded')
 export const listIsUpdatingSelector = get('updatingList')
 export const isTypingSelector = get('typing')

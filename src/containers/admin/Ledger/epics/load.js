@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+import { handleError } from 'utils/epics'
 import { formatDate } from 'utils/dates'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import * as ACTIONS from '../actions'
@@ -64,3 +65,4 @@ export default (action$, store, { graphql }) =>
       )
     })
     .map(ACTIONS.load.success)
+    .catch(handleError(ACTIONS.load.error))

@@ -1,6 +1,7 @@
 import { applyColors } from './styles.jss'
 
 const PADDING = 15
+const PADDING_LARGE = 33
 
 export default theme => ({
   root: {
@@ -38,6 +39,7 @@ export default theme => ({
   label: {
     textAlign: 'center',
     flexGrow: 1,
+    whiteSpace: 'nowrap',
   },
 
   icon: {
@@ -72,5 +74,11 @@ export default theme => ({
     display: 'flex',
     flexGrow: 1,
     width: '100%',
+  },
+
+  larger: {
+    ...theme.fontMedium(18, 28),
+    padding: [0, PADDING_LARGE, 2],
+    paddingLeft: props => (props.icon ? 70 : PADDING_LARGE),
   },
 })

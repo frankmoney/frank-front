@@ -9,10 +9,10 @@ import {
   renderNothing,
 } from 'recompose'
 import Helmet from 'react-helmet'
-import { Page404 as NotFound } from '@frankmoney/components'
 import { createRouteUrl } from '@frankmoney/utils'
 import AreaSpinner from 'components/AreaSpinner'
 import CurrencyProvider from 'components/CurrencyProvider'
+import NotFound from 'components/ErrorPage'
 import StoryPayments from 'components/StoryPayments'
 import StoryPaymentsStats from 'components/StoryPaymentsStats'
 import reconnect from 'utils/reconnect'

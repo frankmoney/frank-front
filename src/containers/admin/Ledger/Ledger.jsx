@@ -2,11 +2,19 @@
 import qs from 'querystring'
 import React from 'react'
 import cx from 'classnames'
-import { compose, branch, renderComponent, lifecycle } from 'recompose'
+import {
+  branch,
+  compose,
+  lifecycle,
+  renderComponent,
+  renderNothing,
+  withProps,
+} from 'recompose'
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import CurrencyProvider from 'components/CurrencyProvider'
+import NotFound from 'components/ErrorPage'
 import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
@@ -19,15 +27,17 @@ import LedgerSearch from './LedgerSearch'
 import LedgerTable from './LedgerTable'
 import styles from './Ledger.jss'
 import {
+  cascadeSnackbarShown,
+  categoriesSelector,
+  chartsVisibleSelector,
   currentCategoryNameSelector,
   hasNoResultsSelector,
   isEmptyAccountSelector,
+  isLoadFailedSelector,
   isLoadingSelector,
-  listDisabledSelector,
-  cascadeSnackbarShown,
+  isNotFoundSelector,
   lastCascadeCountSelector,
-  chartsVisibleSelector,
-  categoriesSelector,
+  listDisabledSelector,
   loadedSelector,
 } from './selectors'
 import LedgerFilter from './LedgerFilter'
@@ -110,13 +120,15 @@ const Ledger = ({
 export default compose(
   reconnect(
     {
+      chartShown: chartsVisibleSelector,
       currentCategory: currentCategoryNameSelector,
       isEmptyAccount: isEmptyAccountSelector,
+      isLoadFailed: isLoadFailedSelector,
+      isPrivateOrNotFound: isNotFoundSelector,
       listDisabled: listDisabledSelector,
       loading: isLoadingSelector,
       loaded: loadedSelector,
       noResults: hasNoResultsSelector,
-      chartShown: chartsVisibleSelector,
     },
     {
       load: ACTIONS.load,
@@ -147,6 +159,11 @@ export default compose(
       this.props.leave()
     },
   }),
+  branch(props => props.isLoadFailed, renderNothing),
+  branch(
+    props => props.isPrivateOrNotFound,
+    renderComponent(withProps({ hideLogo: true })(NotFound))
+  ),
   branch(props => props.loading, renderComponent(AreaSpinner)),
   injectStyles(styles)
 )(Ledger)
