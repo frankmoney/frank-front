@@ -30,7 +30,7 @@ const ButtonBase = ({ children, style, width, ...otherProps }: Props) => {
   }
 
   if (otherProps.href) {
-    const { externalLink, ...linkProps } = otherProps
+    const { type, externalLink, ...linkProps } = otherProps
 
     return (
       <CleanLink style={computedStyle} external={externalLink} {...linkProps}>
