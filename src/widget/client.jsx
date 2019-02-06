@@ -4,8 +4,7 @@ import ReactDOM from 'react-dom'
 import defaults from 'lodash/defaults'
 import assign from 'lodash/assign'
 import MobileDetect from 'mobile-detect'
-import App from './app'
-import ButtonWidget from './components/ButtonWidget/ButtonWidget'
+import ButtonWidgetApp from './ButtonWidgetApp'
 
 const CONTAINER_ID = 'frank-embed-container'
 if (!window.Frank) {
@@ -85,11 +84,8 @@ const load = () => {
       document.body.appendChild(container)
     }
 
-    console.log('widgetOptions', scriptTagSettings, widgetOptions)
     Frank.widget = ReactDOM.render(
-      <App>
-        <ButtonWidget {...widgetOptions} />
-      </App>,
+      <ButtonWidgetApp {...widgetOptions} />,
       container
     )
   } catch (err) {
