@@ -52,7 +52,7 @@ const StepLayout = ({
             icon={<ArrowBack />}
             loading={loadingBack}
             disabled={loadingNext}
-            onClick={() => onBack()}
+            onClick={typeof onBack === 'function' ? () => onBack() : null}
             {...backButtonProps}
           />
         ) : (
@@ -68,7 +68,7 @@ const StepLayout = ({
           {...nextButtonProps}
           disabled={!canGoNext || loadingBack}
           loading={loadingNext}
-          onClick={() => onNext()}
+          onClick={typeof onNext === 'function' ? () => onNext() : null}
         />
       </div>
     )}
