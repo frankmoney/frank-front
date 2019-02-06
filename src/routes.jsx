@@ -1,16 +1,15 @@
-import { Page404 as NotFound } from '@frankmoney/components'
+// @flow
 import { withProps } from 'recompose'
 import { Redirect } from 'react-router-dom'
+import NotFound from 'components/ErrorPage'
 import SignIn from 'containers/auth/SignIn'
 import SignUp from 'containers/auth/SignUp'
 import AcceptInvitation from 'containers/auth/AcceptInvitation'
-import RecoverPassword, {
-  RecoverPasswordSuccess,
-} from 'containers/auth/RecoverPassword'
+import RecoverPassword from 'containers/auth/RecoverPassword'
 import ResetPassword, {
   ResetPasswordSuccess,
 } from 'containers/auth/ResetPassword'
-import appRoutes from 'containers/routes'
+import appRoutes, { withMobile } from 'containers/routes'
 import demoRoutes from 'demo/routes'
 import { ROUTES } from './const'
 
@@ -53,6 +52,6 @@ export default [
   ...appRoutes,
   ...demoRoutes,
   {
-    component: NotFound,
+    component: withMobile(NotFound),
   },
 ]
