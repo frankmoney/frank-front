@@ -6,6 +6,7 @@ export const STEPS = [
   'accountInfo',
   'categories',
   'team',
+  'success',
 ]
 
 export const STEP_FORM = 'onboarding-dynamic-form'

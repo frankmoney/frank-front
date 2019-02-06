@@ -106,6 +106,13 @@ const getStepData = session => {
         team: session.team,
       },
     }
+  } else if (step === 'success') {
+    return {
+      currentStep: 'success',
+      stepData: {
+        account,
+      },
+    }
   }
 }
 

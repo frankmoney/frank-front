@@ -10,6 +10,7 @@ import {
   credentialsFormSelector,
   currentStepSelector,
   selectedAccountIdSelector,
+  linkedAccountIdSelector,
   selectedBankIdSelector,
   categoriesSelector,
   teamMembersSelector,
@@ -55,6 +56,7 @@ export const nextStepEpic = (action$, store, { graphql }) =>
   action$.ofType(ACTIONS.goNext).mergeMapFromPromise(async () => {
     const state = store.getState()
     const step = currentStepSelector(state)
+
     if (step === 'bank') {
       const bankId = selectedBankIdSelector(state)
       const session = await graphql(QUERIES.selectBank, { id: bankId })
@@ -127,10 +129,12 @@ export const nextStepEpic = (action$, store, { graphql }) =>
 
       return [
         USER_ACTIONS.addAccount(account),
-        pushRoute(
-          createRouteUrl(ROUTES.account.idRoot, { accountId: account.id })
-        ),
+        ACTIONS.goNext.success({ step: 'success', account }),
       ]
+    } else if (step === 'success') {
+      const accountId = linkedAccountIdSelector(state)
+
+      return [pushRoute(createRouteUrl(ROUTES.account.idRoot, { accountId }))]
     }
   })
 

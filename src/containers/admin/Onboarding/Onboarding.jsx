@@ -21,6 +21,7 @@ const componentByStep = {
   accountInfo: connectLayout(STEPS.AccountInfo),
   categories: connectLayout(STEPS.Categories),
   team: connectLayout(STEPS.Team),
+  success: connectLayout(STEPS.Success),
 }
 
 const Onboarding = ({ currentStep, ...props }) => {
