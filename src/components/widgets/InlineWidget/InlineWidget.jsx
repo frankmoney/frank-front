@@ -87,7 +87,7 @@ const styles = theme => ({
     overflow: 'hidden',
   },
   scrollable: {
-    overflowY: 'scroll',
+    overflowY: 'auto',
   },
   barChart: {
     margin: [10, 'auto', 0],
@@ -283,9 +283,7 @@ class InlineWidget extends React.Component<Props> {
             [classes.smallPayments]: this.isSmall,
             [classes.paymentsCapped]: this.isLarge,
           })}
-          paymentsRootClassName={cx(classes.content, {
-            [classes.scrollable]: light,
-          })}
+          paymentsRootClassName={cx(classes.content, classes.scrollable)}
           PaymentsSummary={
             <PaymentsSummary
               className={cx({
