@@ -32,10 +32,10 @@ export const widgetCodeText = createSelector(
             buttonColor: color,
             position,
           }
-        )}" />`
+        )}" ></script>`
       : `<div class=“frank-embed” data-account-id=“${accountId}" data-width=“${
           size.width
         }” data-height=“${
           size.height
-        }"></div><script type="text/javascript" src="${src}/embed.js" />`
+        }"></div><script type="text/javascript" src="${src}/embed.js" ></script>`
 )
