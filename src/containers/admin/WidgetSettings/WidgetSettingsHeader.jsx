@@ -5,6 +5,7 @@ import Tabs from 'components/Tabs'
 import { injectStyles } from 'utils/styles'
 import GetCodeButton from './GetCodeButton'
 import WidgetPosition from './WidgetPosition'
+import WidgetColor from './WidgetColor'
 import WidgetSize from './WidgetSize'
 
 const styles = {
@@ -26,6 +27,9 @@ const styles = {
     display: 'flex',
     alignItems: 'inherit',
   },
+  position: {
+    marginLeft: 30,
+  },
   codeButton: {
     marginLeft: 30,
   },
@@ -38,6 +42,8 @@ const WidgetSettingsHeader = ({
   onChangePosition,
   size,
   onChangeSize,
+  color,
+  onChangeColor,
   codeText,
   currentTab,
   onChangeTab,
@@ -55,7 +61,14 @@ const WidgetSettingsHeader = ({
     </div>
     <div className={classes.right}>
       {currentTab === 'button' && (
-        <WidgetPosition position={position} onChange={onChangePosition} />
+        <WidgetColor color={color} onChange={onChangeColor} />
+      )}
+      {currentTab === 'button' && (
+        <WidgetPosition
+          className={classes.position}
+          position={position}
+          onChange={onChangePosition}
+        />
       )}
       {currentTab === 'inline' && (
         <WidgetSize

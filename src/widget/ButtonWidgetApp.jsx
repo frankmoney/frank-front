@@ -3,6 +3,10 @@ import ButtonWidget from './components/ButtonWidget'
 import App from './app'
 
 class ButtonWidgetApp extends React.Component {
+  static defaultProps = {
+    defaultOpen: false,
+  }
+
   state = {
     position: this.props.position,
     open: this.props.defaultOpen,

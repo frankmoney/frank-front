@@ -2,7 +2,6 @@ import React from 'react'
 import cx from 'classnames'
 import { BrandingWatermark as IconPosition } from 'material-ui-icons'
 import { injectStyles } from 'utils/styles'
-import { TextButton } from 'components/kit/Button'
 
 const styles = theme => ({
   root: {
