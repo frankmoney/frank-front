@@ -93,7 +93,6 @@ class PopupBase extends React.Component<Props, State> {
 
   // flowlint-next-line unsafe-getters-setters:off
   get isControlled() {
-    console.log('controlled', this.props.open);
     return typeof this.props.open !== 'undefined'
   }
 

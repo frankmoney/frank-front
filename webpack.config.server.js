@@ -5,7 +5,7 @@ const WriteFilePlugin = require('write-file-webpack-plugin') // here so you can 
 const sourcePath = path.join(__dirname, './src')
 const buildPath = path.join(__dirname, './build')
 const widgetScriptUrl =
-  process.env.WIDGET_SCRIPT_URL || 'http://localhost:8082/assets/main.js'
+  process.env.WIDGET_SCRIPT_URL || 'http://localhost:8082/assets/widget.js'
 const publicPath = process.env.WEBAPP_ASSETS_PATH || '/assets/'
 const webappUrl = process.env.WEBAPP_URL || ''
 const nodeExternals = require('webpack-node-externals')
