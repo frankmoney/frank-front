@@ -1,7 +1,7 @@
 import React from 'react'
-import { injectStyles } from '@frankmoney/ui'
 import getScrollbarSize from 'dom-helpers/util/scrollbarSize'
 import css from 'dom-helpers/style'
+import { injectStyles } from 'utils/styles'
 
 function getPaddingRight(node) {
   return parseInt(css(node, 'paddingRight') || 0, 10)

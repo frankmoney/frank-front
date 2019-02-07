@@ -1,5 +1,5 @@
 import React from 'react'
-import ButtonWidget from './components/ButtonWidget'
+import ButtonWidget from 'components/widgets/ButtonWidget'
 import App from './app'
 
 class ButtonWidgetApp extends React.Component {

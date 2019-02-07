@@ -6,6 +6,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const common = require('./webpack.config.widget.common')
 
 module.exports = merge(common, {
+  devtool: 'nosources-source-map',
   plugins: [
     new CleanWebpackPlugin([common.output.path]),
     // use special module ids for caching

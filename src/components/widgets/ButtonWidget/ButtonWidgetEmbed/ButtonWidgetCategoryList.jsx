@@ -4,7 +4,7 @@ import cx from 'classnames'
 import {
   CategoryList,
   type CategoryListProps,
-} from 'components/OverviewPieChart/index'
+} from 'components/OverviewPieChart'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = theme => ({

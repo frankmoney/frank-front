@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=\"production\" SSR=true node .",
-    "dev": "cross-env ASSETS_PATH=/assets/ WIDGET_SCRIPT_URL=https://assets.frank.ly/widget.js node .",
+    "dev": "cross-env ASSETS_PATH=/assets/ WIDGET_SCRIPT_URL=https://assets.frank.ly node .",
     "dev-widget": "cross-env ASSETS_PATH=/assets/ API_URL=http://back.frank-dev1.frank.ly WEBAPP_URL=https://frank-dev1.frank.ly webpack-dev-server --config ./webpack.config.widget.dev.js",
     "dev-ssr": "cross-env SSR=true npm run dev",
     "test": "jest",

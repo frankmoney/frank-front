@@ -10,10 +10,15 @@ document
     iframe.height = `${height}px`
     el.appendChild(iframe)
     const frameDoc = iframe.contentWindow.document
+    // strip filename
+    const currentScriptBaseSrc = document.currentScript.src.replace(
+      /\/[^/]+$/,
+      ''
+    )
 
     const script = document.createElement('script')
     script.type = 'text/javascript'
-    script.src = `http://0.0.0.0:8082/assets/iframe.js?accountId=${accountId}&width=${width}&height=${height}`
+    script.src = `${currentScriptBaseSrc}/iframe.js?accountId=${accountId}&width=${width}&height=${height}`
     frameDoc.body.appendChild(script)
     el.classList.add('frank-embed-rendered')
   })

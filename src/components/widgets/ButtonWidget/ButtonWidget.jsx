@@ -4,9 +4,9 @@ import cx from 'classnames'
 import { compose, defaultProps } from 'recompose'
 import { type AccountId } from 'data/models/account'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import BodyFixer from 'widget/components/utility/BodyFixer'
-import BodyPreventScrolling from 'widget/components/utility/BodyPreventScrolling'
-import calcScreenSize from 'widget/components/utility/calcScreenSize'
+import BodyFixer from 'components/widgets/utility/BodyFixer'
+import BodyPreventScrolling from 'components/widgets/utility/BodyPreventScrolling'
+import calcScreenSize from 'components/widgets/utility/calcScreenSize'
 import { type WidgetWidth } from 'components/widgets/Tabs/OverviewTab'
 import ButtonWidgetEmbed from './ButtonWidgetEmbed'
 import ButtonWidgetToggle from './ButtonWidgetToggle'
@@ -41,9 +41,9 @@ type Props = {|
   accountId?: AccountId,
   buttonColor?: ButtonWidgetColor,
   buttonHoverColor?: ButtonWidgetColor,
-  onChangeOpen: boolean => void,
+  onChangeOpen?: boolean => void,
   mobile?: boolean,
-  open: boolean,
+  open?: boolean,
   openImmediately?: boolean,
   openImmediatelyTimeout: number,
   screenWidth: number,
@@ -58,14 +58,23 @@ type State = {|
 class ButtonWidget extends React.Component<Props, State> {
   state = {
     hover: false,
+    open: false,
     // lazy load widget component
     wasOpened: this.props.open,
+  }
+
+  get isControlledOpen() {
+    return typeof this.props.open !== 'undefined'
+  }
+
+  get open() {
+    return this.isControlledOpen ? this.props.open : this.state.open
   }
 
   componentDidMount() {
     if (this.props.openImmediately) {
       setTimeout(() => {
-        this.props.onChangeOpen(true)
+        this.handleChangeOpen(true)
       }, this.props.openImmediatelyTimeout)
     }
   }
@@ -77,7 +86,7 @@ class ButtonWidget extends React.Component<Props, State> {
   }
 
   handleButtonClick = () => {
-    this.props.onChangeOpen(!this.props.open)
+    this.handleChangeOpen(!this.open)
   }
 
   handleMouseEnter = () => {
@@ -92,6 +101,21 @@ class ButtonWidget extends React.Component<Props, State> {
     }
   }
 
+  handleChangeOpen = open => {
+    if (this.isControlledOpen) {
+      if (typeof this.props.onChangeOpen === 'function') {
+        this.props.onChangeOpen(open)
+      }
+    } else if (this.state.open !== open) {
+      const wasOpened = this.state.wasOpened || open
+      this.setState({ open, wasOpened }, () => {
+        if (typeof this.props.onChangeOpen === 'function') {
+          this.props.onChangeOpen(this.state.open)
+        }
+      })
+    }
+  }
+
   render() {
     const {
       classes,
@@ -99,13 +123,14 @@ class ButtonWidget extends React.Component<Props, State> {
       buttonColor,
       buttonHoverColor,
       accountId,
-      open,
+      open: openProp,
       screenWidth,
       width,
     } = this.props
     const { wasOpened, hover } = this.state
 
     const actualWidth = mobile ? screenWidth : width
+    const open = this.open
 
     return (
       <div

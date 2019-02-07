@@ -32,7 +32,7 @@ module.exports = {
     filename: '[name].js',
     chunkFilename: '[name].js',
   },
-  devtool: 'source-map',
+  devtool: 'cheap-eval-source-map',
   module: {
     rules: [
       {
@@ -83,7 +83,6 @@ module.exports = {
       __WEBAPP_BASE_URL: JSON.stringify(webappUrl),
       __API_URL: JSON.stringify(url.resolve(apiUrl, 'http')),
       __GRAPHQL_URL: JSON.stringify(apiUrl),
-      __SCRIPT_BASE_URL: JSON.stringify(url.resolve(publicPath, 'widget.js')),
       'process.env': {
         NODE_ENV: JSON.stringify(nodeEnv),
       },

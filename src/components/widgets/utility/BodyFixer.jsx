@@ -1,4 +1,4 @@
-import { injectStyles } from '@frankmoney/ui'
+import { injectStyles } from 'utils/styles'
 
 const styles = {
   '@global body': {
