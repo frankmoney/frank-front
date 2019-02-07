@@ -1,6 +1,6 @@
 import React from 'react'
 import cx from 'classnames'
-import { compose } from 'recompose'
+import { compose, lifecycle } from 'recompose'
 import { withTheme, injectStyles } from 'utils/styles'
 import InlineWidget from 'components/widgets/InlineWidget'
 import reconnect from 'utils/reconnect'
@@ -27,7 +27,6 @@ const styles = theme => ({
 const WidgetSettings = ({
   classes,
   className,
-  scriptSrc,
   accountId,
   position,
   codeText,
@@ -86,7 +85,6 @@ export default compose(
       size: SELECTORS.size,
       color: SELECTORS.color,
       widgetType: SELECTORS.widgetType,
-      scriptSrc: SELECTORS.scriptSrc,
       codeText: SELECTORS.widgetCodeText,
     },
     {
@@ -94,6 +92,12 @@ export default compose(
       changeWidgetType: ACTIONS.changeType,
       changeSize: ACTIONS.changeSize,
       changeColor: ACTIONS.changeColor,
+      leave: ACTIONS.leave,
     }
-  )
+  ),
+  lifecycle({
+    componentWillUnmount() {
+      this.props.leave()
+    },
+  })
 )(WidgetSettings)
