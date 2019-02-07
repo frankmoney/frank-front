@@ -50,7 +50,6 @@ const styles = theme => ({
     outline: 'none',
     userSelect: 'none',
     cursor: 'pointer',
-    width: '100%',
   },
   label: {
     ...theme.fontMedium(18, 26),

@@ -12,6 +12,7 @@ type Props = {|
   //
   align: PopupAlign,
   arrowProps: Object,
+  enableContentOverflow?: boolean,
   children?: React.Node,
   direction: PopupPosition,
 |}
@@ -29,6 +30,10 @@ const styles = {
     overflow: 'unset',
   },
   content: {},
+  contentWithOverflow: {
+    borderRadius: 8,
+    overflow: 'auto',
+  },
   arrow: {
     position: 'absolute',
     width: ARROW_WIDTH,
@@ -97,6 +102,7 @@ const ArrowPaper = ({
   align,
   arrowProps,
   className,
+  enableContentOverflow,
   theme,
   ...otherProps
 }: Props) => (
@@ -105,7 +111,14 @@ const ArrowPaper = ({
     className={cx(classes.root, classes[direction], classes[align], className)}
     {...otherProps}
   >
-    <div className={classes.content}>{children}</div>
+    <div
+      className={cx(
+        classes.content,
+        enableContentOverflow && classes.contentWithOverflow
+      )}
+    >
+      {children}
+    </div>
     <Arrow className={classes.arrow} {...arrowProps} />
   </Paper>
 )

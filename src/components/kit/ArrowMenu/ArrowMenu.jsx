@@ -88,6 +88,7 @@ class ArrowMenu extends React.Component<Props, State> {
     return (
       <Menu
         component={ArrowPaper}
+        enableContentOverflow
         onActiveElementChange={this.handleChangeActiveItem}
         arrowProps={mergedArrowProps}
         direction={direction}

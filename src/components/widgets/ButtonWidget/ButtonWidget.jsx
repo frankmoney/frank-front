@@ -189,7 +189,6 @@ export default compose(
     shrinkWidth: 215,
     width: 375,
     buttonColor: 'dark',
-    zIndex: 1000000,
   }),
   calcScreenSize({ debounce: 100 }),
   injectStyles(styles)
