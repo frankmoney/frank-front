@@ -11,6 +11,8 @@ import styles from './ButtonWidgetToggle.jss'
 
 type EmptyCb = () => void
 
+type CSSColor = string
+
 type Props = {|
   ...InjectStylesProps,
   //
@@ -19,7 +21,8 @@ type Props = {|
   open: boolean,
   subtitle?: React.Node,
   title?: string,
-  color?: string,
+  color?: CSSColor,
+  colorHover?: CSSColor,
 |}
 
 const ButtonWidgetToggle = ({

@@ -1,10 +1,13 @@
 import { BUTTON_HEIGHT } from '../constants'
 
+const getLightenColor = color =>
+  `linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)), ${color}`
+
 const styles = theme => ({
   root: {
     boxSizing: 'border-box',
     alignItems: 'center',
-    backgroundColor: props => props.color,
+    background: props => props.color,
     borderRadius: 8,
     bottom: -1,
     display: 'flex',
@@ -16,7 +19,7 @@ const styles = theme => ({
     userSelect: 'none',
     transition: 'background-color .2s',
     '&:hover': {
-      backgroundColor: '#2C365C',
+      background: props => props.colorHover || getLightenColor(props.color),
       '&:not($expanded) $chartIcon': {
         transform: 'scale(0)',
         opacity: 0,
@@ -33,7 +36,7 @@ const styles = theme => ({
   },
   subtitle: {
     ...theme.fontRegular(14, 20),
-    color: '#9295A1',
+    color: 'rgba(255,255,255,0.5)',
     '& strong': {
       fontWeight: 500,
     },

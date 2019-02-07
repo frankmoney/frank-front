@@ -11,6 +11,7 @@ const get = (...prop) => (state: ReduxState) =>
 
 export const position = get('position')
 export const widgetType = get('widgetType')
+export const color = get('color')
 export const size = createPlainObjectSelector(get('size'))
 export const scriptSrc = get('scriptSrc')
 
@@ -19,10 +20,12 @@ export const accountId = currentAccountIdSelector
 export const widgetCodeText = createSelector(
   scriptSrc,
   position,
+  color,
   accountId,
-  (src, position, accountId) =>
+  (src, position, color, accountId) =>
     `<script async type="text/javascript" src="${src}?${qs.stringify({
       accountId,
+      buttonColor: color,
       position,
     })}" />`
 )

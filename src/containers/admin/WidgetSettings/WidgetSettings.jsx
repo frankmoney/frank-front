@@ -17,6 +17,8 @@ const WidgetSettings = ({
   widgetType,
   size,
   changeSize,
+  color,
+  changeColor,
   changeWidgetType,
   theme,
 }) => (
@@ -29,11 +31,18 @@ const WidgetSettings = ({
       onChangeTab={changeWidgetType}
       size={size}
       onChangeSize={changeSize}
+      color={color}
+      onChangeColor={changeColor}
     />
     <ExternalWidget
       scriptSrc={scriptSrc}
       // widget should be behind sidebar
-      widgetOptions={{ accountId, position, zIndex: theme.zIndex.sidebar - 1 }}
+      widgetOptions={{
+        accountId,
+        position,
+        buttonColor: color,
+        zIndex: theme.zIndex.sidebar - 1,
+      }}
     />
   </div>
 )
@@ -44,6 +53,7 @@ export default compose(
       accountId: SELECTORS.accountId,
       position: SELECTORS.position,
       size: SELECTORS.size,
+      color: SELECTORS.color,
       widgetType: SELECTORS.widgetType,
       scriptSrc: SELECTORS.scriptSrc,
       codeText: SELECTORS.widgetCodeText,
@@ -52,6 +62,7 @@ export default compose(
       changePosition: ACTIONS.changePosition,
       changeWidgetType: ACTIONS.changeType,
       changeSize: ACTIONS.changeSize,
+      changeColor: ACTIONS.changeColor,
     }
   ),
   withTheme

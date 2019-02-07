@@ -1,7 +1,7 @@
 // @flow strict-local
 import React from 'react'
 import cx from 'classnames'
-import { withState, compose, defaultProps } from 'recompose'
+import { compose, defaultProps } from 'recompose'
 import { type AccountId } from 'data/models/account'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import BodyFixer from 'widget/components/utility/BodyFixer'
@@ -15,12 +15,33 @@ import styles from './ButtonWidget.jss'
 
 const MAX_FRAME_HEIGHT = 667
 
+type ButtonWidgetColor = 'blue' | 'dark' | string
+
+const mapWidgetColor = color => {
+  const MAP = {
+    dark: '#252B43',
+    blue: '#4C51F3',
+  }
+
+  return MAP[color] || color
+}
+
+const mapWidgetHoverColor = color => {
+  const MAP = {
+    dark: 'rgb(48,54,76)',
+    blue: 'rgb(68,73,219)',
+  }
+
+  return MAP[color] || color
+}
+
 type Props = {|
   ...InjectStylesProps,
   //
   accountId?: AccountId,
-  buttonColor?: string,
-  changeOpen: boolean => void,
+  buttonColor?: ButtonWidgetColor,
+  buttonHoverColor?: ButtonWidgetColor,
+  onChangeOpen: boolean => void,
   mobile?: boolean,
   open: boolean,
   openImmediately?: boolean,
@@ -76,6 +97,7 @@ class ButtonWidget extends React.Component<Props, State> {
       classes,
       mobile,
       buttonColor,
+      buttonHoverColor,
       accountId,
       open,
       screenWidth,
@@ -109,7 +131,8 @@ class ButtonWidget extends React.Component<Props, State> {
           className={classes.expander}
           title={open ? 'Real-time report' : 'We’re transparent'}
           open={open}
-          color={buttonColor}
+          color={mapWidgetColor(buttonColor)}
+          colorHover={buttonHoverColor || mapWidgetHoverColor(buttonColor)}
           subtitle={
             open ? (
               <>
@@ -140,6 +163,7 @@ export default compose(
     maxHeight: MAX_FRAME_HEIGHT + BUTTON_HEIGHT,
     shrinkWidth: 215,
     width: 375,
+    buttonColor: 'dark',
     zIndex: 1000000,
   }),
   calcScreenSize({ debounce: 100 }),
