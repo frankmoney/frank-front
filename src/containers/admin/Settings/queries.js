@@ -21,7 +21,7 @@ export default {
         isPublic: public
         isDemo: demo
         sources {
-          pid
+          id:pid
           data
           name
           status

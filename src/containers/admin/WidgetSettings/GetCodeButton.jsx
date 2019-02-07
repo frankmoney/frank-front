@@ -33,7 +33,7 @@ class GetCodeButton extends React.Component {
   }
 
   render() {
-    const { classes, codeText } = this.props
+    const { classes, className, codeText } = this.props
     const { copied } = this.state
 
     return (
@@ -46,7 +46,12 @@ class GetCodeButton extends React.Component {
         onClose={this.handleClose}
         disableCloseOnConfirm
         button={
-          <ToggleButton.Text larger label="Get the code" icon={<IconCode />} />
+          <ToggleButton.Text
+            className={className}
+            larger2
+            label="Get the code"
+            icon={<IconCode />}
+          />
         }
       >
         <div className={classes.header}>

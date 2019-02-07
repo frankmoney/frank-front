@@ -20,7 +20,9 @@ module.exports = {
   target: 'web',
   context: widgetSrc,
   entry: {
-    main: [path.join(widgetSrc, 'client.jsx')],
+    widget: [path.join(widgetSrc, 'client.jsx')],
+    iframe: [path.join(widgetSrc, 'iframeClient.jsx')],
+    embed: [path.join(widgetSrc, 'inlineClient.jsx')],
   },
   output: {
     path: buildPath,
@@ -81,7 +83,7 @@ module.exports = {
       __WEBAPP_BASE_URL: JSON.stringify(webappUrl),
       __API_URL: JSON.stringify(url.resolve(apiUrl, 'http')),
       __GRAPHQL_URL: JSON.stringify(apiUrl),
-      __SCRIPT_BASE_URL: JSON.stringify(url.resolve(publicPath, 'main.js')),
+      __SCRIPT_BASE_URL: JSON.stringify(url.resolve(publicPath, 'widget.js')),
       'process.env': {
         NODE_ENV: JSON.stringify(nodeEnv),
       },

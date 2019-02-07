@@ -15,7 +15,8 @@ export const ROUTES = {
     root: '/accounts',
     onboarding: '/accounts/new',
     widget: '/accounts/:accountId/widget',
-    idRoot: '/accounts/:accountId?',
+    // \d+ to prevent collisions with /accounts/new
+    idRoot: '/accounts/:accountId(\\d+)',
     idRootTab: '/accounts/:accountId/:tab(stories)?',
     stories: {
       root: '/accounts/:accountId?/stories',
@@ -35,6 +36,9 @@ export const ROUTES = {
     },
     settings: {
       root: '/accounts/:accountId/settings',
+    },
+    source: {
+      reconnect: '/accounts/:accountId/sources/:sourceId/reconnect',
     },
   },
   team: {

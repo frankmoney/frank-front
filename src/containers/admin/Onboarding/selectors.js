@@ -21,7 +21,7 @@ export const canGoBackSelector = createSelector(
   currentStepSelector,
   R.pipe(
     R.indexOf(R.__, STEPS),
-    R.gt(R.__, 0)
+    R.allPass([R.gt(R.__, 0), R.complement(R.equals(STEPS.length - 1))])
   )
 )
 
@@ -153,5 +153,9 @@ export const canGoNextSelector = createSelector(
     (step === 'account' && accountId) ||
     (step === 'accountInfo' && isAccountInfoValid) ||
     step === 'categories' ||
-    step === 'team'
+    step === 'team' ||
+    step === 'success'
 )
+
+// Step: Success
+export const linkedAccountIdSelector = get('stepData', 'account', 'id')

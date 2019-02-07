@@ -1,6 +1,6 @@
 // @flow strict-local
 import * as React from 'react'
-import Payments, { type PaymentsProps } from 'containers/widgets/Payments'
+import Payments, { type PaymentsProps } from 'components/widgets/Payments'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 
 const styles = {

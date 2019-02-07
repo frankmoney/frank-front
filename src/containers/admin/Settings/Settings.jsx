@@ -6,7 +6,7 @@ import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
 import EditCategoryDialog from 'components/EditCategoryDialog'
-import SidebarSnack from 'components/SidebarSnack'
+import Snack from 'components/kit/Snack'
 import { injectStyles } from 'utils/styles'
 import reconnect from 'utils/reconnect'
 import ACTIONS from './actions'
@@ -64,7 +64,7 @@ const Settings = ({
         }
         onSubmitForm={editingCategory ? updateCategory : createCategory}
       />
-      <SidebarSnack
+      <Snack
         color="red"
         shown={canNotDeleteNonEmptyCategorySnackShown}
         message="Only a category with no payments can be removed"

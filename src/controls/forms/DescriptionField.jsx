@@ -6,10 +6,11 @@ import Editor from 'components/Editor'
 import { FieldWithIcon as FieldContainer } from 'components/Field'
 import ReduxFormControl from 'components/kit/ReduxFormControl'
 import FieldIcon from 'components/FieldIcon'
+import TextBox from 'components/forms/TextBoxField'
 
 const styles = theme => ({
   description: {},
-  descriptionTextBox: {
+  descriptionRichTextBox: {
     ...theme.fontRegular(20, 32),
     width: 770,
     flexShrink: 0,
@@ -18,18 +19,32 @@ const styles = theme => ({
     // pixel perfect
     marginLeft: -2,
   },
+  descriptionPlainTextBox: {
+    ...theme.fontRegular(20, 32),
+    flexShrink: 0,
+    padding: [10, 0, 4, 0],
+  },
 })
 
-const DescriptionField = ({ classes, className, ...props }) => (
+const DescriptionField = ({ classes, className, richEditor, ...props }) => (
   <FieldContainer
     label={<FieldIcon iconComponent={DescriptionIcon} />}
     className={cx(classes.description, className)}
   >
-    <ReduxFormControl.Editor
-      component={Editor}
-      className={classes.descriptionTextBox}
-      {...props}
-    />
+    {richEditor ? (
+      <ReduxFormControl.Editor
+        component={Editor}
+        className={classes.descriptionRichTextBox}
+        {...props}
+      />
+    ) : (
+      <TextBox
+        className={classes.descriptionPlainTextBox}
+        expand="vertically"
+        disableUnderline
+        {...props}
+      />
+    )}
   </FieldContainer>
 )
 

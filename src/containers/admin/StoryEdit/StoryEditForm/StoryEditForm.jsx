@@ -110,6 +110,7 @@ const StoryEditForm = ({
       <DescriptionField
         name="description"
         className={classes.description}
+        richEditor
         placeholder="Your story..."
         iconProps={{
           invalid: !!(formAsyncErrors && formAsyncErrors.get('description')),

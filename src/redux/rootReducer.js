@@ -60,6 +60,9 @@ import adminWidgetReducer, {
 import multiEditReducer, {
   REDUCER_KEY as multiEditKey,
 } from 'containers/admin/MultiEditSnack/reducer'
+import sourceReconnectReducer, {
+  REDUCER_KEY as sourceReconnectKey,
+} from 'containers/admin/SourceReconnect/reducer'
 
 export default createReducer({
   [adminLedgerKey]: adminLedgerReducer,
@@ -83,4 +86,5 @@ export default createReducer({
   [authResetPasswordKey]: authResetPasswordReducer,
   [adminWidgetKey]: adminWidgetReducer,
   [multiEditKey]: multiEditReducer,
+  [sourceReconnectKey]: sourceReconnectReducer,
 })

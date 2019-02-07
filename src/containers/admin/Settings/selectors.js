@@ -18,16 +18,19 @@ export const isPublicSelector = get('isPublic')
 export const isDemoSelector = get('isDemo')
 
 export const accountsSelector = createSelector(
+  pidSelector,
   createPlainObjectSelector(get('sources')),
-  sources =>
+  (accountId, sources) =>
     sources.map(source => ({
       name: source.name,
       bankLogo: source.bankLogo,
       bankName: source.bankName,
       balance: source.balance,
+      accountId,
+      sourceId: source.id,
       accountLastUpdate: '20180908',
       accountNextUpdate: '20190908',
-      accountStatus: source.status,
+      sourceStatus: source.status,
     }))
 )
 

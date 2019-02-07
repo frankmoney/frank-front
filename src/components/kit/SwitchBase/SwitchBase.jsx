@@ -71,7 +71,7 @@ export default class SwitchBase extends React.Component<Props, State> {
   }
 
   focusIn = event => {
-    if (!this.isControlled) {
+    if (!this.isControlledFocus) {
       this.setState({ focus: true }, () => {
         if (typeof this.props.onFocus === 'function') {
           this.props.onFocus()
@@ -83,7 +83,7 @@ export default class SwitchBase extends React.Component<Props, State> {
   }
 
   focusOut = event => {
-    if (!this.isControlled) {
+    if (!this.isControlledFocus) {
       this.setState({ focus: false }, () => {
         if (typeof this.props.onBlur === 'function') {
           this.props.onBlur()

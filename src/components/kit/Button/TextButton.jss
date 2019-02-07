@@ -17,6 +17,9 @@ export default theme => ({
   larger: {
     ...theme.fontMedium(18),
   },
+  larger2: {
+    ...theme.fontMedium(20),
+  },
   hover: {},
   active: {},
 

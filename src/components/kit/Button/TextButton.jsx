@@ -19,6 +19,7 @@ type Props = {|
   icon?: React.Element<any>, // flowlint-line unclear-type:off
   label: string,
   larger?: boolean,
+  larger2?: boolean,
   loading?: boolean,
 |}
 
@@ -33,6 +34,7 @@ const TextButton = ({
   color,
   label,
   larger,
+  larger2,
   loading,
   icon,
   ...baseButtonProps
@@ -42,6 +44,7 @@ const TextButton = ({
       classes.root,
       {
         [classes.larger]: larger,
+        [classes.larger2]: larger2,
         [classes.black]: color === 'black',
         [classes.blue]: color === 'blue',
         [classes.faintGray]: color === 'faintGray',

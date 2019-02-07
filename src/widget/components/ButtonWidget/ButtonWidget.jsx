@@ -7,7 +7,7 @@ import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import BodyFixer from 'widget/components/utility/BodyFixer'
 import BodyPreventScrolling from 'widget/components/utility/BodyPreventScrolling'
 import calcScreenSize from 'widget/components/utility/calcScreenSize'
-import { type WidgetWidth } from 'containers/widgets/Tabs/OverviewTab'
+import { type WidgetWidth } from 'components/widgets/Tabs/OverviewTab'
 import ButtonWidgetEmbed from './ButtonWidgetEmbed'
 import ButtonWidgetToggle from './ButtonWidgetToggle'
 import { BUTTON_HEIGHT } from './constants'
@@ -44,7 +44,7 @@ class ButtonWidget extends React.Component<Props, State> {
   componentDidMount() {
     if (this.props.openImmediately) {
       setTimeout(() => {
-        this.props.changeOpen(true)
+        this.props.onChangeOpen(true)
       }, this.props.openImmediatelyTimeout)
     }
   }
@@ -56,7 +56,7 @@ class ButtonWidget extends React.Component<Props, State> {
   }
 
   handleButtonClick = () => {
-    this.props.changeOpen(!this.props.open)
+    this.props.onChangeOpen(!this.props.open)
   }
 
   handleMouseEnter = () => {
@@ -141,9 +141,7 @@ export default compose(
     shrinkWidth: 215,
     width: 375,
     zIndex: 1000000,
-    defaultOpen: false,
   }),
-  withState('open', 'changeOpen', props => props.defaultOpen),
   calcScreenSize({ debounce: 100 }),
   injectStyles(styles)
 )(ButtonWidget)

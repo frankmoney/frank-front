@@ -4,7 +4,9 @@ import { createPortal } from 'react-dom'
 import cx from 'classnames'
 import Transition from 'react-transition-group/Transition'
 import { injectStyles } from 'utils/styles'
+import mapContextToProps from 'utils/mapContextToProps'
 import SnackManager from './SnackManager'
+import SnackContext from './SnackContext'
 import styles from './Snack.jss'
 import { SNACK_HEIGHT } from './SnackDumb.jss'
 import SnackDumb, { type SnackDumbProps } from './SnackDumb'
@@ -161,4 +163,4 @@ class Snack extends React.Component<Props> {
   }
 }
 
-export default injectStyles(styles)(Snack)
+export default mapContextToProps(SnackContext)(injectStyles(styles)(Snack))

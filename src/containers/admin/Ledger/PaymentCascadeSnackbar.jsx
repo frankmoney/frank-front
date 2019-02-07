@@ -1,9 +1,9 @@
 import React from 'react'
-import SidebarSnack from 'components/SidebarSnack'
+import Snack from 'components/kit/Snack'
 import pluralize from 'utils/pluralize'
 
 const PaymentCascadeSnackBar = ({ count, ...props }) => (
-  <SidebarSnack
+  <Snack
     message={`${pluralize('unpublished payment', count)} updated`}
     dismissByTimeout={5000}
     color="blue"

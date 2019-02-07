@@ -1,7 +1,7 @@
 // @flow strict-local
 import * as React from 'react'
 import copyToClipboard from 'clipboard-copy'
-import SidebarSnack from 'components/SidebarSnack'
+import Snack from 'components/kit/Snack'
 
 type CopyFn = string => void
 
@@ -42,7 +42,7 @@ class Copied extends React.Component<Props, State> {
     return (
       <>
         {children && children({ onCopy: this.handleCopy })}
-        <SidebarSnack
+        <Snack
           shown={this.state.snackShown}
           message={message}
           dismissByTimeout={5000}

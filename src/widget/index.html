@@ -2,8 +2,7 @@
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
       <meta charset="utf-8"/>
-      <script type="application/javascript" src="http://0.0.0.0:8082/assets/main.js?accountId=4&debug=info&position=left" async></script>
-
+      <script type="application/javascript" src="http://0.0.0.0:8082/assets/widget.js?accountId=18&debug=info&position=right" async></script>
       <script type="text/javascript">
         window.Frank = {
             settings: {
@@ -21,6 +20,7 @@
         function handleRight() {
           Frank.widget.setPosition('right')
         }
+
 
       </script>
         <!--<script type="application/javascript" src="//assets.frank.ly/embed/widget.js?accountId=1&debug=info" async></script>-->
@@ -41,11 +41,17 @@
         </style>
     </head>
     <body>
-        <!--<a href="https://google.com">Google</a>-->
-        <!--<button onclick="window.handleShowWidget()">Show me Frank widget!</button>-->
-        <!--<button onclick="window.handleLeft()">Left</button>-->
-        <!--<button onclick="window.handleRight()">Right</button>-->
-        <div id="red"></div>
-        <div id="blue"></div>
+    <div class="frank-embed" data-account-id="18" data-width="300" data-height="350">
+    </div>
+    <script type="application/javascript" src="http://0.0.0.0:8082/assets/inline.js"></script>
+    <div class="frank-embed" data-account-id="4" data-width="500" data-height="550">
+    </div>
+    <script type="application/javascript" src="http://0.0.0.0:8082/assets/inline.js"></script>
+      <!--<a href="https://google.com">Google</a>-->
+        <button onclick="window.handleShowWidget()">Show me Frank widget!</button>
+        <button onclick="window.handleLeft()">Left</button>
+        <button onclick="window.handleRight()">Right</button>
+        <!--<div id="red"></div>-->
+        <!--<div id="blue"></div>-->
     </body>
 </html>

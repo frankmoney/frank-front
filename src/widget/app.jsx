@@ -1,7 +1,5 @@
-import React from 'react'
 import { createGraphqlClient, createHttpClient } from '@frankmoney/utils'
 import createTheme from 'styles/createTheme'
-import ButtonWidget from './components/ButtonWidget/ButtonWidget'
 import createApp from './createApp'
 
 const { frankTheme, muiTheme } = createTheme()
@@ -22,8 +20,4 @@ const App = createApp({
   baseUri: __WEBAPP_BASE_URL,
 })
 
-export default props => (
-  <App>
-    <ButtonWidget {...props} />
-  </App>
-)
+export default App
