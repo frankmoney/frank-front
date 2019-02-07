@@ -1,6 +1,6 @@
 // @flow strict-local
 import React from 'react'
-import ButtonWidget from 'widget/components/ButtonWidget'
+import ButtonWidget from 'components/widgets/ButtonWidget'
 import InlineWidget from 'components/widgets/InlineWidget'
 import Demo, { Row } from 'demo/Demo'
 import { injectStyles } from 'utils/styles'

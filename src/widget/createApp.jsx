@@ -8,7 +8,7 @@ import {
   createJss,
 } from '@frankmoney/webapp'
 import createGenerateClassName from 'material-ui/styles/createGenerateClassName'
-import BaseUriContext from './BaseUriContext'
+import BaseUriContext from 'components/widgets/utility/BaseUriContext'
 
 export default ({ frankTheme, httpClient, graphqlClient, baseUri }) => {
   const jss = createJss()

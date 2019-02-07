@@ -4,9 +4,9 @@ import cx from 'classnames'
 import { compose, defaultProps } from 'recompose'
 import { type AccountId } from 'data/models/account'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
-import BodyFixer from 'widget/components/utility/BodyFixer'
-import BodyPreventScrolling from 'widget/components/utility/BodyPreventScrolling'
-import calcScreenSize from 'widget/components/utility/calcScreenSize'
+import BodyFixer from 'components/widgets/utility/BodyFixer'
+import BodyPreventScrolling from 'components/widgets/utility/BodyPreventScrolling'
+import calcScreenSize from 'components/widgets/utility/calcScreenSize'
 import { type WidgetWidth } from 'components/widgets/Tabs/OverviewTab'
 import ButtonWidgetEmbed from './ButtonWidgetEmbed'
 import ButtonWidgetToggle from './ButtonWidgetToggle'
@@ -41,9 +41,9 @@ type Props = {|
   accountId?: AccountId,
   buttonColor?: ButtonWidgetColor,
   buttonHoverColor?: ButtonWidgetColor,
-  onChangeOpen: boolean => void,
+  onChangeOpen?: boolean => void,
   mobile?: boolean,
-  open: boolean,
+  open?: boolean,
   openImmediately?: boolean,
   openImmediatelyTimeout: number,
   screenWidth: number,
@@ -104,7 +104,7 @@ class ButtonWidget extends React.Component<Props, State> {
   handleChangeOpen = open => {
     if (this.isControlledOpen) {
       if (typeof this.props.onChangeOpen === 'function') {
-        this.props.onChangeOpen(true)
+        this.props.onChangeOpen(open)
       }
     } else if (this.state.open !== open) {
       const wasOpened = this.state.wasOpened || open

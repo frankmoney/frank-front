@@ -1,6 +1,6 @@
 import React from 'react'
 import { SideBarContext } from '@frankmoney/components'
-import ButtonWidget from 'widget/components/ButtonWidget'
+import ButtonWidget from 'components/widgets/ButtonWidget'
 
 const SidebarButtonWidget = props => (
   <SideBarContext.Consumer>
