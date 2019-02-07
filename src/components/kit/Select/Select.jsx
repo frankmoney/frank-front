@@ -241,7 +241,6 @@ class Select extends React.Component<Props, State> {
     const hasArrow = !!arrowAt
     const MenuComponent = hasArrow ? ArrowMenu : Menu
     const defaultDistance = hasArrow ? 15 : 8
-
     return (
       <PopupBase
         open={this.state.open}

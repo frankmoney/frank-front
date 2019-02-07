@@ -229,7 +229,7 @@ class Field extends React.Component<Props, State> {
               ? null
               : loading
                 ? loadingText
-                : placeholder,
+                : control.props.placeholder || placeholder,
             controlRef,
             ref: this.handleControlRef,
             onFocus: chainCallbacks(this.handleFocus, control.props.onFocus),

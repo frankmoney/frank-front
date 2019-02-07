@@ -60,6 +60,7 @@ class SelectFieldControl extends React.Component<Props> {
       disableArrowHover,
       arrowUp,
       placeholder,
+      renderPlaceholder,
       ...otherProps
     } = this.props
 
@@ -81,7 +82,9 @@ class SelectFieldControl extends React.Component<Props> {
         {...otherProps}
       >
         <div className={classes.value}>
-          {value || (placeholder && <Placeholder>{placeholder}</Placeholder>)}
+          {value ||
+            (placeholder && <Placeholder>{placeholder}</Placeholder>) ||
+            (typeof renderPlaceholder === 'function' && renderPlaceholder())}
         </div>
         <ArrowDropDown className={classes.arrow} />
       </div>

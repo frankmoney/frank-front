@@ -143,6 +143,8 @@ class MonthSelect extends React.Component<Props, State> {
       yearClassName,
       yearPlaceholder,
       menuProps,
+      monthSelectProps,
+      yearSelectProps,
     } = this.props
 
     const { month, year } = this.state
@@ -158,6 +160,7 @@ class MonthSelect extends React.Component<Props, State> {
           formatValue={formatMonth(monthFormat)}
           value={month}
           menuProps={menuProps}
+          {...monthSelectProps}
         >
           {R.map(
             m => (
@@ -177,6 +180,7 @@ class MonthSelect extends React.Component<Props, State> {
           placeholder={yearPlaceholder}
           value={year}
           menuProps={menuProps}
+          {...yearSelectProps}
         >
           {R.map(
             y => <MenuItem value={y} label={y} key={`year-${y}`} />,

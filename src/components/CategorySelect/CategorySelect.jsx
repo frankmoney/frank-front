@@ -39,17 +39,19 @@ const CategorySelect = ({
 }: Props) => {
   const formatValue = id => {
     const item = findById(categories, id)
-    const placeholderItem = {
-      name: placeholder,
-      color: 'rgba(37, 43, 67, 0.2)',
-    }
-    return <CategorySelectValue {...item || placeholderItem} />
+
+    return item ? <CategorySelectValue {...item} /> : null
   }
+
+  const renderPlaceholder = () => (
+    <CategorySelectValue name={placeholder} color="rgba(37, 43, 67, 0.2)" />
+  )
 
   return (
     <SelectField
       value={value}
       formatValue={formatValue}
+      renderPlaceholder={renderPlaceholder}
       disableArrowHover
       disableStretchDropdown
       noUnderline

@@ -168,6 +168,7 @@ const DateRangeField = ({
             yearClassName={classes.customDateYear}
             label="To"
             value={to}
+            yearSelectProps={{ align: 'end' }}
             onChange={value =>
               onChange({ from, to: value && D.lastDayOfMonth(value) })
             }

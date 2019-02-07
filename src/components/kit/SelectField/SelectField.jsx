@@ -6,7 +6,7 @@ import SelectFieldControl from './SelectFieldControl'
 
 const renderFieldControl = (
   { valueFormatted, active, place, getInputProps, getAnchorProps },
-  { stretch, disableArrowHover, ...otherProps }
+  { stretch, disableArrowHover, placeholder, renderPlaceholder, ...otherProps }
 ) => (
   <Field
     {...getAnchorProps(otherProps)}
@@ -19,6 +19,9 @@ const renderFieldControl = (
       active={active}
       disableArrowHover={disableArrowHover}
       arrowUp={place === 'up'}
+      // set SelectField responsible for a placeholder, not Field
+      placeholder={placeholder}
+      renderPlaceholder={renderPlaceholder}
       {...getInputProps()}
     />
   </Field>
