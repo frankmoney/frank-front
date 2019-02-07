@@ -3,6 +3,8 @@ const merge = require('webpack-merge')
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WriteFilePlugin = require('write-file-webpack-plugin')
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+//   .BundleAnalyzerPlugin
 const common = require('./webpack.config.widget.common')
 
 module.exports = merge(common, {
@@ -15,14 +17,14 @@ module.exports = merge(common, {
         to: common.output.path,
       },
     ]),
-    // new BundleAnalyzerPlugin({ disabled: true, openAnalyzer: false }),
+    // new BundleAnalyzerPlugin({ disabled: false, openAnalyzer: true }),
   ],
   devServer: {
     contentBase: common.output.path,
     historyApiFallback: true,
     port: 8082,
     compress: false,
-    inline: true,
+    inline: false,
     hot: false,
     host: '0.0.0.0',
     disableHostCheck: true,

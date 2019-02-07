@@ -18,14 +18,24 @@ export const scriptSrc = get('scriptSrc')
 export const accountId = currentAccountIdSelector
 
 export const widgetCodeText = createSelector(
+  widgetType,
+  size,
   scriptSrc,
   position,
   color,
   accountId,
-  (src, position, color, accountId) =>
-    `<script async type="text/javascript" src="${src}?${qs.stringify({
-      accountId,
-      buttonColor: color,
-      position,
-    })}" />`
+  (widgetType, size, src, position, color, accountId) =>
+    widgetType === 'button'
+      ? `<script async type="text/javascript" src="${src}/widget.js?${qs.stringify(
+          {
+            accountId,
+            buttonColor: color,
+            position,
+          }
+        )}" />`
+      : `<div class=“frank-embed” data-account-id=“${accountId}" data-width=“${
+          size.width
+        }” data-height=“${
+          size.height
+        }"></div><script type="text/javascript" src="${src}/embed.js" />`
 )
