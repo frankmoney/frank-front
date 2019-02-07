@@ -22,12 +22,15 @@ const styles = {
     '&:not($mobile)': {
       boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.07)',
       transition: 'all 0.2s',
-      width: props => (props.open ? props.width : props.shrinkWidth),
+      width: props => props.shrinkWidth,
       left: props =>
         props.position === 'left' ? props.horizontalOffset : 'auto',
       right: props =>
         props.position === 'right' ? props.horizontalOffset : 'auto',
       bottom: props => props.verticalOffset,
+      '&$open': {
+        width: props => props.width,
+      },
     },
     ...normalizeFonts,
     '& *': {

@@ -1,13 +1,31 @@
 import React from 'react'
+import cx from 'classnames'
 import { compose } from 'recompose'
-import { withTheme } from 'utils/styles'
-import ExternalWidget from 'components/ExternalWidget'
+import { withTheme, injectStyles } from 'utils/styles'
+import InlineWidget from 'components/widgets/InlineWidget'
 import reconnect from 'utils/reconnect'
+import SidebarButtonWidget from './SidebarButtonWidget'
 import WidgetSettingsHeader from './WidgetSettingsHeader'
 import * as SELECTORS from './selectors'
 import * as ACTIONS from './actions'
 
+const styles = theme => ({
+  root: {
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  placeholder: {
+    ...theme.fontMedium(100),
+    textAlign: 'center',
+    color: 'rgba(0,0,0,0.07)',
+    userSelect: 'none',
+  },
+})
+
 const WidgetSettings = ({
+  classes,
   className,
   scriptSrc,
   accountId,
@@ -22,7 +40,7 @@ const WidgetSettings = ({
   changeWidgetType,
   theme,
 }) => (
-  <div className={className}>
+  <div className={cx(classes.root, className)}>
     <WidgetSettingsHeader
       position={position}
       onChangePosition={changePosition}
@@ -34,20 +52,33 @@ const WidgetSettings = ({
       color={color}
       onChangeColor={changeColor}
     />
-    <ExternalWidget
-      scriptSrc={scriptSrc}
-      // widget should be behind sidebar
-      widgetOptions={{
-        accountId,
-        position,
-        buttonColor: color,
-        zIndex: theme.zIndex.sidebar - 1,
-      }}
-    />
+    {widgetType === 'button' && (
+      <div className={classes.placeholder}>Your Website</div>
+    )}
+    {widgetType === 'button' && (
+      <SidebarButtonWidget
+        {...{
+          accountId,
+          position,
+          buttonColor: color,
+          // widget should be behind sidebar
+          zIndex: theme.zIndex.sidebar - 1,
+        }}
+      />
+    )}
+    {widgetType === 'inline' && (
+      <InlineWidget
+        accountId={accountId}
+        width={size.width}
+        height={size.height}
+      />
+    )}
   </div>
 )
 
 export default compose(
+  injectStyles(styles),
+  withTheme,
   reconnect(
     {
       accountId: SELECTORS.accountId,
@@ -64,6 +95,5 @@ export default compose(
       changeSize: ACTIONS.changeSize,
       changeColor: ACTIONS.changeColor,
     }
-  ),
-  withTheme
+  )
 )(WidgetSettings)
