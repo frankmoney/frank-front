@@ -1,13 +1,16 @@
 const path = require('path')
+const assert = require('assert')
 const webpack = require('webpack')
 const WriteFilePlugin = require('write-file-webpack-plugin') // here so you can see what chunks are built
 
 const sourcePath = path.join(__dirname, './src')
 const buildPath = path.join(__dirname, './build')
-const widgetScriptUrl =
-  process.env.WIDGET_SCRIPT_URL || 'http://localhost:8082/assets/widget.js'
-const publicPath = process.env.WEBAPP_ASSETS_PATH || '/assets/'
+const publicPath = process.env.ASSETS_PATH
+const widgetScriptUrl = process.env.WIDGET_SCRIPT_URL
 const webappUrl = process.env.WEBAPP_URL || ''
+assert(publicPath, 'env ASSETS_PATH required')
+assert(widgetScriptUrl, 'env WIDGET_SCRIPT_URL required')
+
 const nodeExternals = require('webpack-node-externals')
 const nodeEnv = process.env.NODE_ENV
 
