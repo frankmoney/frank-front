@@ -89,6 +89,7 @@ const styles = {
       transform: 'translate3d(0, 0, 0)',
     },
     '$mobile &': {
+      borderRadius: 8,
       width: '100%',
       height: '100%',
     },
