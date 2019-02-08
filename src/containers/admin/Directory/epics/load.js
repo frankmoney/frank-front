@@ -6,8 +6,7 @@ import QUERIES from '../queries'
 import {
   searchTextSelector,
   currentPageSelector,
-  includeRecipientsFilterSelector,
-  includeDonorsFilterSelector,
+  peerTypeFilterSelector,
   sortByFilterSelector,
 } from '../selectors'
 
@@ -18,8 +17,7 @@ export default (action$, store, { graphql }) =>
       const state = store.getState()
       const search = searchTextSelector(state)
       const page = currentPageSelector(state)
-      const recipients = includeRecipientsFilterSelector(state)
-      const donors = includeDonorsFilterSelector(state)
+      const peerFilter = peerTypeFilterSelector(state)
       const sortBy = R.pipe(
         R.find(R.propEq('query', sortByFilterSelector(state))),
         R.prop('graph')
@@ -30,8 +28,8 @@ export default (action$, store, { graphql }) =>
         first: PAGE_SIZE,
         skip: (page - 1) * PAGE_SIZE,
         search,
-        recipients,
-        donors,
+        recipients: peerFilter === 'all' || peerFilter === 'recipients',
+        donors: peerFilter === 'all' || peerFilter === 'donors',
         sortBy,
       })
     })

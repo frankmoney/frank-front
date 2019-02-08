@@ -1,28 +1,28 @@
 import React from 'react'
 import cx from 'classnames'
-import { injectStyles } from '@frankmoney/ui'
 import { ArrowDropDown } from 'material-ui-icons'
+import { injectStyles } from 'utils/styles'
 
 const styles = theme => ({
   root: {
-    color: '#20284A',
-    display: props => (props.stretch ? 'flex' : 'inline-flex'),
-    justifyContent: 'space-between',
+    color: 'rgba(37, 43, 67, 0.4)',
+    display: 'inline-flex',
     alignItems: 'center',
     cursor: 'pointer',
     outline: 'none',
+    transition: theme.transition('color'),
+    '&:hover, $hovered': {
+      color: 'rgba(37, 43, 67, 0.7)',
+    },
   },
   value: {
-    ...theme.fontRegular(18, 26),
+    ...theme.fontMedium(18, 26),
   },
   arrow: {
     marginLeft: 5,
-    color: 'rgba(37, 43, 67, 0.2)',
   },
   active: {
-    '& $arrow': {
-      color: '#4C51F3',
-    },
+    color: 'rgba(37, 43, 67, 0.7)',
   },
 })
 
@@ -31,6 +31,7 @@ class SelectValue extends React.Component {
     const {
       classes,
       className,
+      theme,
       value,
       stretch,
       controlRef,

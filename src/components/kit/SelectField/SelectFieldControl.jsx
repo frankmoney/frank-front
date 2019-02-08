@@ -84,7 +84,7 @@ class SelectFieldControl extends React.Component<Props> {
         <div className={classes.value}>
           {value ||
             (placeholder && <Placeholder>{placeholder}</Placeholder>) ||
-            (typeof renderPlaceholder === 'function' && renderPlaceholder())}
+            (typeof renderPlaceholder === 'function' && renderPlaceholder({active}))}
         </div>
         <ArrowDropDown className={classes.arrow} />
       </div>

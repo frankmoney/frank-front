@@ -5,7 +5,7 @@ import { MoreHoriz } from 'material-ui-icons'
 import CategorySelect from 'components/CategorySelect'
 import PieTotalSelect from 'components/OverviewPieChart/PieTotalSelect'
 import ButtonMenu from 'components/kit/ButtonMenu'
-import FilterSelect from 'components/kit/FilterSelect'
+import Select from 'components/kit/Select'
 import MenuItem from 'components/kit/Menu/MenuItem'
 import SelectField from 'components/kit/SelectField'
 import ToggleButton from 'components/kit/ToggleButton'
@@ -56,6 +56,18 @@ const SelectsDemo = () => (
       </ButtonMenu>
     </Row>
     <h1>Select</h1>
+    <Row centered>
+      <Select
+        defaultValue="date"
+        dropdownWidth={220}
+        formatValue={value => `By ${value}`}
+      >
+        <MenuItem value="date" label="Date" />
+        <MenuItem value="name" label="Name" />
+        <MenuItem value="total" label="Total" />
+      </Select>
+    </Row>
+    <h1>SelectField</h1>
     <Row>
       <SelectField
         stretchDropdown
@@ -79,14 +91,6 @@ const SelectsDemo = () => (
         <MenuItem value="manager" label="Manager" />
         <MenuItem value="observer" label="Observer" />
       </SelectField>
-    </Row>
-    <h1>Filter Select</h1>
-    <Row centered>
-      <FilterSelect defaultValue="date" dropdownWidth={220}>
-        <MenuItem value="date" label="Date" />
-        <MenuItem value="name" label="Name" />
-        <MenuItem value="total" label="Total" />
-      </FilterSelect>
     </Row>
     <h1>Category Select</h1>
     <h2>Placeholder</h2>

@@ -13,6 +13,7 @@ import PopupBase, {
 } from 'components/kit/PopupBase'
 import unsafeFindDOMNode from 'utils/dom/unsafeFindDOMNode'
 import chainCallbacks from 'utils/dom/chainCallbacks'
+import SelectValue from './SelectValue'
 
 type Direction = PopupPosition
 
@@ -90,12 +91,26 @@ type State = {|
 const memoizeRefCallback = ref =>
   memoize(handler => chainCallbacks(ref, handler))
 
+const defaultRenderControl = ({
+  getInputProps,
+  getAnchorProps,
+  valueFormatted,
+  active,
+}) => (
+  <SelectValue
+    {...getAnchorProps(getInputProps())}
+    value={valueFormatted}
+    active={active}
+  />
+)
+
 class Select extends React.Component<Props, State> {
   static defaultProps = {
     direction: 'down',
-    align: 'start',
+    align: 'center',
     alignByArrow: false,
     dropdownWidth: null,
+    renderControl: defaultRenderControl,
   }
 
   state = {

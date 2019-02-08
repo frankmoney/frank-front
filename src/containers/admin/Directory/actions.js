@@ -10,10 +10,7 @@ export const resetSearch = createDeferredAction('admin/directory/resetSearch')
 export const searchTyping = createAction('admin/directory/search')
 export const selectPage = createAction('admin/directory/select-page')
 
-export const toggleRecipients = createAction(
-  'admin/directory/toggle-recipients'
-)
-export const toggleDonors = createAction('admin/directory/toggle-donors')
+export const changePeerFilter = createAction('admin/directory/filter-peer')
 export const changeSorting = createAction('admin/directory/change-sorting')
 
 export const leave = createAction('admin/directory/leave')

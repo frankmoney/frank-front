@@ -46,14 +46,9 @@ export const listDisabledSelector = createSelector(
   (updating, typing) => updating || typing
 )
 
-export const includeRecipientsFilterSelector = createSelector(
-  queryParamSelector('recipients'),
-  query => (R.isNil(query) ? true : parseQueryStringBool(query))
-)
-
-export const includeDonorsFilterSelector = createSelector(
-  queryParamSelector('donors'),
-  query => (R.isNil(query) ? true : parseQueryStringBool(query))
+export const peerTypeFilterSelector = createSelector(
+  queryParamSelector('peer'),
+  peer => peer || 'all'
 )
 
 export const sortByFilterSelector = createSelector(
@@ -61,45 +56,18 @@ export const sortByFilterSelector = createSelector(
   query => (R.isNil(query) ? SORT_BY_DEFAULT : query)
 )
 
-export const filterPeerTypeSelectedValueSelector = createSelector(
-  includeDonorsFilterSelector,
-  includeRecipientsFilterSelector,
-  (includeDonors, includeRecipients) => {
-    if (includeDonors && includeRecipients) {
-      return 'Donors & Recipients'
-    } else if (includeDonors) {
-      return 'Donors'
-    } else if (includeRecipients) {
-      return 'Recipients'
-    }
-    return 'Donors & Recipients'
-  }
-)
-
 export const noResultsTextSelector = createSelector(
-  includeDonorsFilterSelector,
-  includeRecipientsFilterSelector,
-  (includeDonors, includeRecipients) => {
-    if (includeDonors && includeRecipients) {
+  peerTypeFilterSelector,
+  peerType => {
+    if (peerType === 'all') {
       return 'donors or recipients'
-    } else if (includeDonors) {
+    } else if (peerType === 'donors') {
       return 'donors'
-    } else if (includeRecipients) {
+    } else if (peerType === 'recipients') {
       return 'recipients'
     }
     return 'donors or recipients'
   }
-)
-
-export const filterSortBySelectedValueSelector = createSelector(
-  sortByFilterSelector,
-  value =>
-    R.pipe(
-      R.find(R.propEq('query', value)),
-      R.prop('name'),
-      R.toLower,
-      R.concat('By ')
-    )(SORT_BY)
 )
 
 // Table

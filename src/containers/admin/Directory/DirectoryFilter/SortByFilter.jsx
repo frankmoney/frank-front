@@ -1,49 +1,33 @@
 import React from 'react'
-import * as R from 'ramda'
-import { compose } from 'recompose'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
-import { CheckedMenuList, CheckedMenuItem } from '@frankmoney/components'
-import HeaderFilterWithHint from 'components/HeaderFilterWithHint'
-import {
-  filterSortBySelectedValueSelector,
-  sortByFilterSelector,
-} from '../selectors'
+import reconnect from 'utils/reconnect'
+import Select from 'components/kit/Select'
+import MenuItem from 'components/kit/Menu/MenuItem'
+import { sortByFilterSelector } from '../selectors'
 import * as ACTIONS from '../actions'
 import { SORT_BY } from '../constants'
 
-const SortByFilter = ({ value, selectedValue, onChange }) => (
-  <HeaderFilterWithHint selectedValue={selectedValue} hint="Sort by">
-    <CheckedMenuList>
-      {SORT_BY.map(({ name, query }) => (
-        <CheckedMenuItem
-          key={query}
-          value={query}
-          selected={value === query}
-          onClick={() => onChange(query)}
-        >
-          {name}
-        </CheckedMenuItem>
-      ))}
-    </CheckedMenuList>
-  </HeaderFilterWithHint>
+const formatValue = value => `By ${value}`
+
+const SortByFilter = ({ value, onChange }) => (
+  <Select
+    align="end"
+    value={value}
+    dropdownWidth={200}
+    formatValue={formatValue}
+    onChange={onChange}
+    menuProps={{ title: 'Sort by ...' }}
+  >
+    {SORT_BY.map(({ name, query }) => (
+      <MenuItem key={name} value={query} label={name} />
+    ))}
+  </Select>
 )
 
-const mapStateToProps = createStructuredSelector({
-  selectedValue: filterSortBySelectedValueSelector,
-  value: sortByFilterSelector,
-})
-
-const mapDispatchToProps = R.partial(bindActionCreators, [
+export default reconnect(
+  {
+    value: sortByFilterSelector,
+  },
   {
     onChange: ACTIONS.changeSorting,
-  },
-])
-
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  }
 )(SortByFilter)
