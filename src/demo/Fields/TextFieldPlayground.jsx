@@ -121,7 +121,7 @@ const TextFieldPlayground = ({
           <Opt
             label="Value"
             on={!!value}
-            onToggle={() => onChange(value ? '' : 'Tom')}
+            onToggle={() => onChange({ target: { value: value ? '' : 'Tom' } })}
           />
           <Opt label="Hint" on={hint} onToggle={toggleHint} />
           <Opt
@@ -177,7 +177,7 @@ export default compose(
       toggleFloating: props => () => ({ floatingLabel: !props.floatingLabel }),
       toggleLarger: props => () => ({ larger: !props.larger }),
       toggleMultiline: props => () => ({ multiline: !props.multiline }),
-      onChange: () => value => ({ value }),
+      onChange: () => ({ target: { value } }) => ({ value }),
       changeInputType: () => value => ({ inputType: value }),
     }
   )
