@@ -28,3 +28,4 @@ steps:
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['set', 'image', 'deployment/$_DEPLOYMENT', 'frank-front=gcr.io/$PROJECT_ID/frank-front:$BRANCH_NAME-$SHORT_SHA']
   env: ['CLOUDSDK_CONTAINER_CLUSTER=$_CLUSTER', 'CLOUDSDK_COMPUTE_ZONE=$_ZONE']
+timeout: 900s
