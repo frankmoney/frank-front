@@ -21,6 +21,7 @@ import { injectStyles } from 'utils/styles'
 import { ROUTES } from 'const'
 import { BigButton } from 'components/kit/Button'
 import ListLayoutContentBlock from 'components/ListLayoutContentBlock/ListLayoutContentBlock'
+import TopicCards from 'components/guidies/Cards'
 import StoryPublishedDialog from './StoryPublishedDialog'
 import {
   isLoadingSelector,
@@ -53,6 +54,7 @@ const Stories = ({
         </Breadcrumbs>
       </FixedHeader>
       <div className={classes.container}>
+        <TopicCards.Stories />
         <ListLayoutContentBlock>
           <BigButton
             label="New story"

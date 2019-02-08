@@ -20,6 +20,7 @@ import { Redirect, Switch, Route } from 'react-router-dom'
 import Helmet from 'react-helmet'
 import reconnect from 'utils/reconnect'
 import { withMobileLayout } from 'containers/mobile/Layout'
+import HowItWorks from 'components/guidies/HowItWorks'
 import MobileLedger from 'containers/mobile/Ledger'
 import MobilePayment from 'containers/mobile/Payment'
 import MobileStory from 'containers/mobile/Story'
@@ -191,6 +192,11 @@ export default [
   {
     component: protectedRoute(withAdminLayout(Team)),
     path: ROUTES.team.root,
+    exact: true,
+  },
+  {
+    component: protectedRoute(withAdminLayout(HowItWorks)),
+    path: ROUTES.howItWorks,
     exact: true,
   },
   // Account dependent

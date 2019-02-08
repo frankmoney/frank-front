@@ -9,6 +9,7 @@ import AreaSpinner from 'components/AreaSpinner/AreaSpinner'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
 import MultiEditSnack from 'containers/admin/MultiEditSnack'
+import TopicCards from 'components/guidies/Cards'
 import InboxFilter from './InboxFilter'
 import InboxList from './InboxList'
 import NoResultsPlaceholder from './NoResultsPlaceholder'
@@ -51,6 +52,7 @@ const Inbox = ({ classes, emptyAccount, noResults }) => {
       {emptyAccount && <EmptyAccountPlaceholder text="Empty!" />}
       {showContent && (
         <div className={classes.container}>
+          <TopicCards.New />
           <InboxList />
         </div>
       )}

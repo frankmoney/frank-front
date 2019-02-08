@@ -11,6 +11,7 @@ import ListLayoutContent from 'components/ListLayoutContent'
 import Snack from 'components/kit/Snack'
 import reconnect from 'utils/reconnect'
 import { injectStyles } from 'utils/styles'
+import TopicCards from 'components/guidies/Cards'
 import ChangeTeamNamePopoverDialog from './ChangeTeamNamePopoverDialog'
 import InviteButton from './InviteButton'
 import InviteDrawer from './InviteDrawer'
@@ -117,6 +118,7 @@ const Team = ({
     </FixedHeader>
 
     <ListLayoutContent>
+      <TopicCards.Team />
       {canInvite && <InviteButton />}
       <OwnProfile profile={ownProfile} />
       <ProfileList profiles={otherProfiles} invites={invites} />

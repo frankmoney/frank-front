@@ -1,7 +1,7 @@
 // @flow strict-local
 import * as React from 'react'
 import { IconPlainButton } from 'components/kit/Button'
-import CloseIcon from 'components/kit/Drawer/CloseIcon.svg'
+import CloseIcon from 'components/icons/CloseIcon.svg'
 import Modal, { type ModalProps } from 'components/kit/Modal'
 import { injectStyles, type InjectStylesProps } from 'utils/styles'
 import DialogPaper from './DialogPaper'

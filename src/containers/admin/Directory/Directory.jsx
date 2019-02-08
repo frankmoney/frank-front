@@ -12,6 +12,7 @@ import Breadcrumbs from 'components/Breadcrumbs'
 import CurrencyProvider from 'components/CurrencyProvider'
 import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
 import { injectStyles } from 'utils/styles'
+import TopicCards from 'components/guidies/Cards'
 import {
   currencyCodeSelector,
   hasNoResultsSelector,
@@ -45,6 +46,7 @@ const Directory = ({
         <DirectoryFilter />
       </FixedHeader>
       <div className={classes.container}>
+        <TopicCards.Directory />
         <DirectorySearch
           placeholder="Start typing recipient or donor name…"
           className={classes.searchCard}

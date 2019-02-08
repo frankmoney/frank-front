@@ -13,6 +13,7 @@ import {
 import { FixedHeader, BreadcrumbsItem } from '@frankmoney/components'
 import AreaSpinner from 'components/AreaSpinner'
 import Breadcrumbs from 'components/Breadcrumbs'
+import TopicCards from 'components/guidies/Cards'
 import CurrencyProvider from 'components/CurrencyProvider'
 import NotFound from 'components/ErrorPage'
 import TableEmptyPlaceholder from 'components/TableEmptyPlaceholder'
@@ -85,6 +86,7 @@ const Ledger = ({
       {isEmptyAccount && <EmptyAccountPlaceholder text="No payments yet" />}
       {!isEmptyAccount && (
         <div className={classes.container}>
+          <TopicCards.Ledger />
           <LedgerSearch
             placeholder="Start typing a category, recipient or part of a description..."
             className={classes.searchCard}

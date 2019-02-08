@@ -1,4 +1,3 @@
-import { createRouteUrl } from '@frankmoney/utils'
 import { ReduxNavLink } from '@frankmoney/webapp'
 import { responsiveSidebar } from '@frankmoney/components'
 import { Help as HelpIcon, RecentActors as TeamIcon } from 'material-ui-icons'
@@ -20,7 +19,7 @@ const AppSidebar = compose(
       <>
         <SidebarMenuItem
           navLinkComponent={ReduxNavLink}
-          href={createRouteUrl(ROUTES.team.root)}
+          href={ROUTES.team.root}
           primaryText="Team"
           leftIcon={TeamIcon}
         />
@@ -28,7 +27,7 @@ const AppSidebar = compose(
           navLinkComponent={ReduxNavLink}
           primaryText="How it works"
           leftIcon={HelpIcon}
-          disabled
+          href={ROUTES.howItWorks}
         />
       </>
     ),

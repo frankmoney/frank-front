@@ -41,6 +41,7 @@ export const ROUTES = {
       reconnect: '/accounts/:accountId/sources/:sourceId/reconnect',
     },
   },
+  howItWorks: '/how-it-works',
   team: {
     root: '/team',
   },
