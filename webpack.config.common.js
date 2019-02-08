@@ -5,11 +5,14 @@ const AssetsPlugin = require('assets-webpack-plugin')
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
 
 const nodeEnv = process.env.NODE_ENV || 'development'
-const publicPath = process.env.ASSETS_PATH
+const isProd = nodeEnv === 'production'
+let publicPath = process.env.ASSETS_PATH
 const widgetScriptUrl = process.env.WIDGET_SCRIPT_URL
 const webappUrl = process.env.WEBAPP_URL || ''
 assert(publicPath, 'env ASSETS_PATH required')
 assert(widgetScriptUrl, 'env WIDGET_SCRIPT_URL required')
+// public path should have trailing slash!
+publicPath = publicPath.endsWith('/') ? publicPath : `${publicPath}/`
 
 const sourcePath = path.join(__dirname, './src')
 const buildPath = path.join(__dirname, 'build', 'client')
@@ -53,7 +56,8 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: './fonts/[name].[ext]',
+              name: isProd ? '[hash].[ext]' : '[name].[ext]',
+              outputPath: 'fonts',
             },
           },
         ],
@@ -65,7 +69,8 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: './img/[name].[ext]',
+              name: isProd ? '[hash].[ext]' : '[name].[ext]',
+              outputPath: 'img',
             },
           },
         ],
@@ -126,18 +131,14 @@ module.exports = {
         'node_modules',
         'react',
         'cjs',
-        nodeEnv === 'production'
-          ? 'react.production.min.js'
-          : 'react.development.js'
+        isProd ? 'react.production.min.js' : 'react.development.js'
       ),
       'react-dom$': path.join(
         __dirname,
         'node_modules',
         'react-dom',
         'cjs',
-        nodeEnv === 'production'
-          ? 'react-dom.production.min.js'
-          : 'react-dom.development.js'
+        isProd ? 'react-dom.production.min.js' : 'react-dom.development.js'
       ),
       'redux-form-actions/immutable$': path.join(
         __dirname,
