@@ -62,7 +62,7 @@ const styles = {
     },
   },
   expander: {
-    transform: 'translate3d(0, 0, 0)',
+    // transform: 'translate3d(0, 0, 0)',
     position: 'fixed',
     bottom: 0,
     right: 0,
