@@ -27,6 +27,7 @@ const styles = {
     margin: [0, -15],
     overflowY: 'scroll',
     padding: [0, 15],
+    height: '100%',
   },
   pieChart: {
     margin: [15, 'auto'],
