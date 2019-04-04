@@ -1,5 +1,6 @@
 import { querySelector } from '@frankmoney/webapp'
 import { identity } from 'ramda'
+import { ROUTES } from 'const'
 import ACTIONS from './actions'
 
 export const onSubmitEpic = (action$, store, { http }) =>
@@ -14,7 +15,7 @@ export const onSubmitEpic = (action$, store, { http }) =>
 
         if (code === 'signed_in') {
           const query = querySelector(store.getState())
-          window.location = (query && query.r) || '/'
+          window.location = (query && query.r) || ROUTES.account.root
           return [
             // ACTIONS.submit.success(),
           ]
