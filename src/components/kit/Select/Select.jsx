@@ -220,14 +220,20 @@ class Select extends React.Component<Props, State> {
   }
 
   handleKeyDown = (event: KeyboardEvent) => {
+    const isListOpen = this.state.open
+    const openIfNeeded = cb =>
+      isListOpen
+        ? typeof cb === 'function' && cb()
+        : this.setState({ open: true }, cb)
+
     if (event.key === 'ArrowDown') {
       event.preventDefault() // prevent move caret to end
-      this.list.setNextActiveElement()
+      openIfNeeded(() => this.list.setNextActiveElement())
     } else if (event.key === 'ArrowUp') {
       event.preventDefault() // prevent move caret to start
-      this.list.setPrevActiveElement()
+      openIfNeeded(() => this.list.setPrevActiveElement())
     } else if (event.key === 'Enter') {
-      this.setState({ open: true })
+      openIfNeeded()
     }
   }
 
