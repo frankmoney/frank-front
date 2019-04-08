@@ -159,6 +159,7 @@ class MonthSelect extends React.Component<Props, State> {
           placeholder={monthPlaceholder}
           formatValue={formatMonth(monthFormat)}
           value={month}
+          align="start"
           menuProps={menuProps}
           {...monthSelectProps}
         >
@@ -179,6 +180,7 @@ class MonthSelect extends React.Component<Props, State> {
           onChange={this.handleYearChange}
           placeholder={yearPlaceholder}
           value={year}
+          align="start"
           menuProps={menuProps}
           {...yearSelectProps}
         >
