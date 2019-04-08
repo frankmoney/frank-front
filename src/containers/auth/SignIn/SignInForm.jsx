@@ -47,12 +47,12 @@ const SignInForm = ({
   className,
   invalid,
   submitting,
-  submit,
+  handleSubmit,
   // eslint-disable-next-line no-shadow
   clearSubmitErrors,
 }) => (
   <>
-    <div className={cx(classes.root, className)}>
+    <form onSubmit={handleSubmit} className={cx(classes.root, className)}>
       <ReduxFormControl.Field
         name="email"
         validate={validation.email}
@@ -83,7 +83,6 @@ const SignInForm = ({
         stretch
         disabled={invalid}
         loading={submitting}
-        onClick={submit}
       />
       <Link
         className={classes.forgotPasswordLink}
@@ -91,7 +90,7 @@ const SignInForm = ({
       >
         Forgot password?
       </Link>
-    </div>
+    </form>
   </>
 )
 
