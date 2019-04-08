@@ -11,7 +11,10 @@ import ResetPassword, {
 } from 'containers/auth/ResetPassword'
 import appRoutes, { withMobile } from 'containers/routes'
 import demoRoutes from 'demo/routes'
+import { redirectIfLoggedIn } from 'utils/auth'
 import { ROUTES } from './const'
+
+const redirectToRootIfLoggedIn = redirectIfLoggedIn(ROUTES.account.root)
 
 export default [
   {
@@ -20,12 +23,12 @@ export default [
     exact: true,
   },
   {
-    component: SignIn,
+    component: redirectToRootIfLoggedIn(SignIn),
     path: ROUTES.auth.login,
     exact: true,
   },
   {
-    component: SignUp,
+    component: redirectToRootIfLoggedIn(SignUp),
     path: ROUTES.auth.register,
     exact: true,
   },

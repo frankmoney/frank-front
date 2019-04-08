@@ -5,19 +5,13 @@ import { createRouteUrl } from '@frankmoney/utils'
 import { createSelector } from 'reselect'
 import {
   currentUserSelector,
-  locationSelector,
   queryParamSelector,
   mediaTypeSelector,
 } from '@frankmoney/webapp'
-import {
-  compose,
-  withProps,
-  withPropsOnChange,
-  branch,
-  renderComponent,
-} from 'recompose'
+import { compose, withProps, branch, renderComponent } from 'recompose'
 import { Redirect, Switch, Route } from 'react-router-dom'
 import Helmet from 'react-helmet'
+import { protectedRoute } from 'utils/auth'
 import reconnect from 'utils/reconnect'
 import { withMobileLayout } from 'containers/mobile/Layout'
 import HowItWorks from 'components/guidies/HowItWorks'
@@ -79,17 +73,6 @@ const withOnboardingLayout = Component => props => (
   </>
 )
 
-const RedirectToLogin = compose(
-  connect(state => ({
-    location: locationSelector(state),
-  })),
-  withPropsOnChange(['location'], ({ location }) => ({
-    to: createRouteUrl(ROUTES.auth.login, null, {
-      r: `${location.pathname || ''}${location.search || ''}`,
-    }),
-  }))
-)(Redirect)
-
 const RedirectToDefaultAccount = compose(
   connect(state => ({
     accounts: userAccountsSelector(state),
@@ -100,13 +83,6 @@ const RedirectToDefaultAccount = compose(
     }),
   }))
 )(Redirect)
-
-const protectedRoute = compose(
-  connect(state => ({
-    user: currentUserSelector(state),
-  })),
-  branch(props => !props.user, renderComponent(RedirectToLogin))
-)
 
 export const withMobile = connect(state => {
   const media = mediaTypeSelector(state)
