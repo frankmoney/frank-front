@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import throttle from 'lodash/throttle'
 import EventListener from 'react-event-listener'
 import GeneralErrorSnack from './GeneralErrorSnack'
 
@@ -22,9 +23,13 @@ class UnexpectedErrorManager extends React.Component<Props> {
     errors: [],
   }
 
-  handleError = err => {
-    this.setState(state => ({ errors: [...state.errors, err] }))
-  }
+  handleError = throttle(
+    err => {
+      this.setState(state => ({ errors: [...state.errors, err] }))
+    },
+    1000,
+    { leading: true, trailing: false }
+  )
 
   handleDismissError = err => {
     if (this.state.errors.includes(err)) {
