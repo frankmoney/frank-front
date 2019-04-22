@@ -1,4 +1,4 @@
-const backendUrl = process.env.BACKEND_URL || 'http://back.frank-dev1.frank.ly'
+const backendUrl = process.env.BACKEND_URL || 'http://back.frank.ly'
 
 module.exports = {
   host: process.env.HOST || '0.0.0.0',
