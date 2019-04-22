@@ -1,5 +1,6 @@
 * text eol=lf
 
 *.png binary
+*.eot binary *.otf binary *.ttf binary *.woff binary *.woff2 binary
 
 yarn.lock eol=crlf
