@@ -78,9 +78,12 @@ const RedirectToDefaultAccount = compose(
     accounts: userAccountsSelector(state),
   })),
   withProps(props => ({
-    to: createRouteUrl(ROUTES.account.idRoot, {
-      accountId: props.accounts.length > 0 ? props.accounts[0].id : 'new',
-    }),
+    to:
+      props.accounts.length > 0
+        ? createRouteUrl(ROUTES.account.idRoot, {
+            accountId: props.accounts[0].id,
+          })
+        : ROUTES.account.onboarding,
   }))
 )(Redirect)
 
