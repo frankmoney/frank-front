@@ -88,11 +88,11 @@ const BankItem = ({
           </div>
           <div
             className={cx({
-              [classes.statusGreen]: sourceStatus === 'normal',
-              [classes.statusRed]: sourceStatus !== 'normal',
+              [classes.statusGreen]: sourceStatus === 'active',
+              [classes.statusRed]: sourceStatus !== 'active',
             })}
           >
-            {sourceStatus === 'normal' ? 'Connected' : 'Disconnected'}
+            {sourceStatus === 'active' ? 'Connected' : 'Disconnected'}
           </div>
         </div>
         <div className={classes.rowRegular}>
@@ -102,14 +102,14 @@ const BankItem = ({
             )}
           </div>
           <div className={classes.date}>
-            {sourceStatus === 'normal' ? 'Updates' : 'Updated'}{' '}
+            {sourceStatus === 'active' ? 'Updates' : 'Updated'}{' '}
             {formatShortDate(
-              sourceStatus === 'normal' ? accountNextUpdate : accountLastUpdate
+              sourceStatus === 'active' ? accountNextUpdate : accountLastUpdate
             )}
           </div>
         </div>
       </div>
-      {sourceStatus !== 'normal' && (
+      {sourceStatus !== 'active' && (
         <div className={classes.warning}>
           <div className={classes.warningText}>
             <span className={classes.warningAccent}>
