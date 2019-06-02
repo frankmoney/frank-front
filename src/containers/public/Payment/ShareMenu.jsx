@@ -100,7 +100,7 @@ class ShareMenu extends React.Component<Props> {
               <MenuItem
                 label="Copy link"
                 icon={<LinkIcon />}
-                onSelect={() => onCopy(url)}
+                onSelect={() => onCopy(window.location.origin + url)}
               />
             </ButtonMenu>
           )}

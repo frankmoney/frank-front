@@ -62,29 +62,27 @@ const PaymentHeader = ({
   classes,
   className,
   paymentId,
-}: Props) => {
-  const publicUrl =
-    window.location.origin +
-    createRouteUrl(ROUTES.account.payment.idRoot, {
-      accountId,
-      paymentId,
-    })
-  return (
-    <Header>
-      <div className={cx(classes.container, className)}>
-        <Link
-          className={classes.back}
-          to={createRouteUrl(ROUTES.account.idRoot, { accountId })}
-        >
-          <BackIcon className={classes.backIcon} />
-          <div>All payments</div>
-        </Link>
-        <div className={classes.title}>{name}</div>
-        <ShareMenu className={classes.share} url={publicUrl} />
-      </div>
-    </Header>
-  )
-}
+}: Props) => (
+  <Header>
+    <div className={cx(classes.container, className)}>
+      <Link
+        className={classes.back}
+        to={createRouteUrl(ROUTES.account.idRoot, { accountId })}
+      >
+        <BackIcon className={classes.backIcon} />
+        <div>All payments</div>
+      </Link>
+      <div className={classes.title}>{name}</div>
+      <ShareMenu
+        className={classes.share}
+        url={createRouteUrl(ROUTES.account.payment.idRoot, {
+          accountId,
+          paymentId,
+        })}
+      />
+    </div>
+  </Header>
+)
 
 export default compose(
   reconnect(
