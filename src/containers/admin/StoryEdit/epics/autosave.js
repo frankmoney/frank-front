@@ -34,5 +34,6 @@ export default (action$, store) =>
       ACTIONS.createOrUpdate({
         mode: SAVE_MODE.createOrUpdate,
         published: false,
+        autosave: true,
       })
     )

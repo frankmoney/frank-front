@@ -50,8 +50,16 @@ export default handleActions(
       }),
     [ACTIONS.createOrUpdate.success]: (
       state,
-      { payload: { accountId, story } }
+      { payload: { accountId, story, autosave } }
     ) => {
+      if (autosave) {
+        // do not update local story state on autosave to prevent local state side-effects
+        return state.merge({
+          saving: 0,
+          publishOrUnpublishConfirmDialogShown: false,
+        })
+      }
+
       return state.merge({
         saving: 0,
         story: fromJS(story),

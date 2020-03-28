@@ -4,7 +4,7 @@ import { createRouteUrl } from '@frankmoney/utils'
 import storage from 'local-storage-fallback'
 import { push } from 'react-router-redux'
 import { stopAsyncValidation } from 'redux-form/immutable'
-import { convertToRaw } from 'draft-js'
+import { ContentState, convertToRaw } from 'draft-js'
 import createFilesApi from 'data/api/files'
 import { currentAccountIdSelector } from 'redux/selectors/user'
 import type { ReduxStore } from 'flow/redux'
@@ -63,7 +63,7 @@ export default (
 ) =>
   action$
     .ofType(ACTIONS.createOrUpdate)
-    .switchMapFromPromise(async ({ payload: { published } }) => {
+    .switchMapFromPromise(async ({ payload: { published, autosave } }) => {
       const state = store.getState()
       const accountId = currentAccountIdSelector(state)
       let story = storySelector(state)
@@ -86,12 +86,15 @@ export default (
 
       const { title, cover, coverCrop, payments } = formValues.toJS()
 
-      const body =
-        descriptionContentState && descriptionContentState.hasText()
-          ? JSON.stringify({
-              draftjs: JSON.stringify(convertToRaw(descriptionContentState)),
-            })
-          : null
+      const body = descriptionContentState
+        ? JSON.stringify({
+            draftjs: JSON.stringify(convertToRaw(descriptionContentState)),
+          })
+        : JSON.stringify({
+            draftjs: JSON.stringify(
+              convertToRaw(ContentState.createFromText(''))
+            ),
+          })
 
       const serializeImage = R.omit(['loading'])
       const croppedCover =
@@ -126,7 +129,7 @@ export default (
         })
       }
 
-      const successAction = ACTIONS.createOrUpdate.success({ accountId, story })
+      const successAction = ACTIONS.createOrUpdate.success({ accountId, story, autosave })
 
       if (story.publishedAt) {
         if (!wasPublished) {
