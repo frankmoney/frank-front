@@ -51,23 +51,24 @@ export default handleActions(
         loading: false,
         typing: false,
       }),
-    [ACTIONS.openCategoryDialog]: (state, { payload: { type, id } }) =>
-      state.merge({
+    [ACTIONS.openCategoryDialog]: (state, { payload: { type, id } }) => {
+      const foundCategory =
+        id &&
+        R.find(
+          R.propEq('id', id),
+          state
+            .get('categories')
+            .toJS()
+            .filter(x => !x.removed)
+        )
+
+      return state.merge({
         openCategoryDialog: true,
         editingCategoryType: type,
         editingCategoryId: id,
-        editingCategory: fromJS(
-          (id &&
-            R.find(
-              R.propEq('id', id),
-              state
-                .get('categories')
-                .toJS()
-                .filter(x => !x.removed)
-            )) ||
-            {}
-        ),
-      }),
+        editingCategory: foundCategory ? fromJS(foundCategory) : null,
+      })
+    },
     [ACTIONS.closeCategoryDialog]: state =>
       state.merge({
         openCategoryDialog: false,
