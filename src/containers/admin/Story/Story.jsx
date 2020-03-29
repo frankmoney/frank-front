@@ -90,7 +90,7 @@ const Story = ({
       <div className={classes.textContainer}>
         {title && <div className={classes.title}>{title}</div>}
         {// flowlint-next-line sketchy-number-and:off
-        paymentsCount && (
+        paymentsCount > 0 && (
           <StoryPaymentsStats
             className={classes.stats}
             paymentsCount={paymentsCount}
@@ -101,7 +101,7 @@ const Story = ({
           <Editor className={classes.text} editorState={editorState} readOnly />
         )}
         {// flowlint-next-line sketchy-number-and:off
-        paymentsCount && <StoryPayments payments={payments} readOnly />}
+        paymentsCount > 0 && <StoryPayments payments={payments} readOnly />}
       </div>
     </div>
   </div>
