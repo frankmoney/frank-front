@@ -1,7 +1,6 @@
 // @flow strict
 export const ROUTES = {
   root: '/',
-  protectedArea: '/app',
   auth: {
     login: '/sign-in',
     register: '/sign-up',

@@ -1,4 +1,5 @@
 import { identity } from 'ramda'
+import { ROUTES } from 'const'
 import ACTIONS from './actions'
 
 export const onSubmitEpic = (action$, store, { http }) =>
@@ -34,7 +35,7 @@ export const onSubmitEpic = (action$, store, { http }) =>
           })
 
           if (code === 'signed_in') {
-            window.location = '/'
+            window.location = ROUTES.account.root
             return [
               // ACTIONS.submit.success(),
             ]
