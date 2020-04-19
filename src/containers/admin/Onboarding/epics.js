@@ -69,9 +69,6 @@ export const nextStepEpic = (action$, store, { graphql }) =>
           value,
         })),
       })
-      if (session.account) {
-        session.step = 'accountInfo'
-      }
       return [ACTIONS.goNext.success(session)]
     } else if (step === 'mfa') {
       const formData = credentialsFormSelector(state)
