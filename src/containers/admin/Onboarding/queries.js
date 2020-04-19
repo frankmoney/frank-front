@@ -44,6 +44,7 @@ export default {
         institution
         credentials
         accounts
+        account
         mfa
       }
     }`,
