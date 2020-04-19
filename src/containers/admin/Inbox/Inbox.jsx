@@ -48,8 +48,11 @@ const Inbox = ({ classes, emptyAccount, noResults }) => {
         </Breadcrumbs>
         {showContent && <InboxFilter />}
       </FixedHeader>
-      {noResults && <NoResultsPlaceholder />}
-      {emptyAccount && <EmptyAccountPlaceholder text="Empty!" />}
+      {emptyAccount ? (
+        <EmptyAccountPlaceholder text="Empty!" />
+      ) : (
+        noResults && <NoResultsPlaceholder />
+      )}
       {showContent && (
         <div className={classes.container}>
           <TopicCards.New />
