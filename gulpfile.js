@@ -32,7 +32,7 @@ const putDirectoryToGCloud = (localDir, metadata) => () => {
 
 gulp.task(
   'gcloud-webapp',
-  putDirectoryToGCloud('build/client/**', {
+  putDirectoryToGCloud(['build/client/**', 'public/**'], {
     cacheControl: 'public, max-age=31530000',
     cacheControlHeader: 'public, max-age=31530000',
   })
