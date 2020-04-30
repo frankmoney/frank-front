@@ -28,8 +28,10 @@ export const accountsSelector = createSelector(
       balance: source.balance,
       accountId,
       sourceId: source.id,
-      accountLastUpdate: '20180908',
-      accountNextUpdate: '20190908',
+      accountLastUpdate:
+        source.data &&
+        source.data.lastUpdateDate &&
+        new Date(source.data.lastUpdateDate),
       sourceStatus: source.status,
     }))
 )

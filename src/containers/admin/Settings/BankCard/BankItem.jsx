@@ -75,7 +75,6 @@ const BankItem = ({
   bankLink,
   balance,
   sourceStatus,
-  accountNextUpdate,
   accountLastUpdate,
 }) => (
   <div className={cx(classes.root, className)}>
@@ -101,12 +100,11 @@ const BankItem = ({
               <CurrencyDelta className={classes.totalSum} value={balance} />
             )}
           </div>
-          <div className={classes.date}>
-            {sourceStatus === 'active' ? 'Updates' : 'Updated'}{' '}
-            {formatShortDate(
-              sourceStatus === 'active' ? accountNextUpdate : accountLastUpdate
-            )}
-          </div>
+          {accountLastUpdate && (
+            <div className={classes.date}>
+              Updated {formatShortDate(accountLastUpdate)}
+            </div>
+          )}
         </div>
       </div>
       {sourceStatus !== 'active' && (
