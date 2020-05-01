@@ -34,6 +34,7 @@ const BankCard = ({ accounts, classes, className }) => (
         To merge several bank accounts into one frank account,<br />please
       </span>
       <TextButton
+        external
         href="mailto:support@frank.ly"
         label="contact our support team."
         color="blue"
