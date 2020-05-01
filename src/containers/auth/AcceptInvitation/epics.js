@@ -50,7 +50,7 @@ export const createUserEpic = (action$, store, { http }) =>
         })
 
         if (code === 'signed_in') {
-          window.location = '/'
+          window.location = '/team'
           return [
             // ACTIONS.submit.success(),
           ]
