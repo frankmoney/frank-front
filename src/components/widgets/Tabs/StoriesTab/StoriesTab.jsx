@@ -38,7 +38,6 @@ type Props = {|
 |}
 
 const StoriesTab = ({
-  accountId,
   classes,
   className,
   stories,
@@ -53,7 +52,7 @@ const StoriesTab = ({
   <div className={cx(classes.root, className)}>
     <BaseUriContext.Consumer>
       {(baseUri: string) => {
-        const storyUrl = storyId =>
+        const storyUrl = ({ accountId, storyId }) =>
           // TODO Be aware of correct url concatenation
           baseUri +
           createRouteUrl(ROUTES.account.stories.idRoot, {
@@ -62,14 +61,14 @@ const StoriesTab = ({
           })
         return (
           <CurrencyProvider code={currencyCode}>
-            {stories.map(({ id, ...story }) => (
+            {stories.map(({ id, accountId, ...story }) => (
               <Story
                 className={storyClassName}
                 imageBorderRadius={storyImageBorderRadius}
                 imageClassName={storyImageClassName}
                 component={'a'}
                 key={id}
-                href={storyUrl(id)}
+                href={storyUrl({ accountId, storyId: id })}
                 statsClassName={storyStatsClassName}
                 symbolClassName={storySymbolClassName}
                 target="blank"

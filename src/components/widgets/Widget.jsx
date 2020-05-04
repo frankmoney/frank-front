@@ -231,7 +231,10 @@ class Widget extends React.Component<Props, State> {
               paymentCount: totalCount,
               payments,
               pieChart,
-              stories,
+              stories: stories.map(s => ({
+                accountId,
+                ...s,
+              })),
               totals: {
                 income: revenue,
                 spending,
