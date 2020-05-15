@@ -16,6 +16,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     flexGrow: 1,
+    height: '100%',
   },
   period: {
     display: 'flex',
@@ -28,6 +29,7 @@ const styles = {
     overflowY: 'scroll',
     padding: [0, 15],
     height: '100%',
+    paddingTop: 10,
   },
   pieChart: {
     margin: [15, 'auto'],

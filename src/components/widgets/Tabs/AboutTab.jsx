@@ -10,6 +10,7 @@ const styles = theme => ({
     flexDirection: 'column',
     flexGrow: 1,
     margin: [0, 'auto'],
+    paddingTop: 22,
     width: '100%',
     overflowY: 'scroll',
   },

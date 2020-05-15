@@ -17,10 +17,7 @@ const maxLines = (lineCount, lineHeight) => ({
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flex: [1, 0, 'auto'],
-    flexDirection: 'column',
-    marginBottom: 28,
+    marginBottom: 35,
     textDecoration: 'none',
   },
   imageContainer: {

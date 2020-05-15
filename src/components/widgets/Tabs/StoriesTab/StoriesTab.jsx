@@ -17,7 +17,7 @@ const styles = {
     flex: 1,
     flexDirection: 'column',
     height: '100%',
-    padding: [9, 15, 0, 17],
+    padding: [22, 15, 0, 17],
     margin: [0, -15],
     overflowY: 'scroll',
   },

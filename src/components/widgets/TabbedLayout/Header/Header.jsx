@@ -8,7 +8,7 @@ const styles = {
   root: {
     borderBottom: '1px solid #E9EAEC',
     display: 'flex',
-    margin: [0, 2, 11],
+    margin: [0, 2],
     minHeight: 65,
     position: 'relative',
   },

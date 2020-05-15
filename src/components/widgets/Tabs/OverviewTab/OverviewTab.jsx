@@ -17,6 +17,7 @@ import JustCategoryList from './JustCategoryList'
 import OverviewChart, { type WidgetWidth } from './OverviewChart'
 
 const styles = {
+  root: {},
   selects: {
     display: 'flex',
     flexShrink: 0,
@@ -97,7 +98,7 @@ const OverviewTab = ({
   Totals,
   widgetWidth,
 }: Props) => (
-  <div className={className}>
+  <div className={cx(classes.root, className)}>
     {showTotals && Totals}
     {showPieChart ? (
       <OverviewChart
