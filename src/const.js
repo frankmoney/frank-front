@@ -3,7 +3,7 @@ export const ROUTES = {
   root: '/',
   auth: {
     login: '/sign-in',
-    register: '/sign-up',
+    register: '/sign-up/iciiwycrhcaczlxjokjb',
     acceptInvitation: '/accept-invitation/:token',
     recoverPassword: '/recover-password',
     resetPassword: '/reset-password/:token',

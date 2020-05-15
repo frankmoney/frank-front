@@ -18,12 +18,12 @@ const styles = {
 const SignIn = ({ classes }) => (
   <PageForm title="Sign In" centered>
     <div className={classes.signUp}>
-      <TextButton
-        color="solidGray"
-        larger
-        label="Sign Up"
-        href={createRouteUrl(ROUTES.auth.register)}
-      />
+      {/* <TextButton */}
+      {/*  color="solidGray" */}
+      {/*  larger */}
+      {/*  label="Sign Up" */}
+      {/*  href={createRouteUrl(ROUTES.auth.register)} */}
+      {/* /> */}
     </div>
     <SignInForm />
   </PageForm>
