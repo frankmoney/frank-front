@@ -111,8 +111,15 @@ export const nextStepEpic = (action$, store, { graphql }) =>
       )
 
       if (session.step === 'team') {
-        const team = await graphql(QUERIES.getTeam)
-        session.team = team
+        const account = await graphql(QUERIES.finish)
+
+        return [
+          USER_ACTIONS.addAccount(account),
+          ACTIONS.goNext.success({ step: 'success', account }),
+        ]
+
+        // const team = await graphql(QUERIES.getTeam)
+        // session.team = team
       }
 
       return [ACTIONS.goNext.success(session)]
